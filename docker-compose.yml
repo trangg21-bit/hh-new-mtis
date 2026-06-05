@@ -1,0 +1,14 @@
+services:
+  # Services will be added here by /new-project
+  # Example:
+  # api:
+  #   build:
+  #     context: .
+  #     dockerfile: src/services/api/Dockerfile
+  #   ports: ["${API_PORT:-3000}:${API_PORT:-3000}"]
+  #   env_file: .env
+  #   restart: unless-stopped
+
+volumes:
+  db_data:
+  cache_data:

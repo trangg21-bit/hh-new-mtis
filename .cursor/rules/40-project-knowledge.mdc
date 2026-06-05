@@ -1,0 +1,31 @@
+---
+description: Project knowledge for HH.New. PM reads once per pipeline, injects per agent. Not alwaysApply.
+globs: []
+alwaysApply: false
+---
+# Project Knowledge: HH.New
+
+## Domain Conventions
+_No entries yet._
+
+## Architectural Decisions (Standing)
+_No entries yet._
+
+## Coding Conventions & Anti-Patterns
+_No entries yet._
+
+## Known Failure Modes
+_No entries yet._
+
+## DevOps / Deployment Patterns
+_No entries yet._
+
+## Knowledge Injection Guide for PM
+| Agent | Sections |
+|---|---|
+| ba, domain-analyst | Domain Conventions |
+| sa | Domain Conventions, Architectural Decisions |
+| tech-lead, dev | Architectural Decisions, Coding Conventions |
+| qa, reviewer | Coding Conventions, Known Failure Modes |
+| security | Known Failure Modes |
+| devops, release-manager | DevOps / Deployment Patterns |

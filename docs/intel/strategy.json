@@ -1,0 +1,16 @@
+{
+  "$schema": "https://ai-studio.etc.vn/schemas/strategy.json",
+  "docId": "VMD-MTIS-TKCT-vFinal",
+  "mode": "LARGE",
+  "sizing": "Map-Reduce with 11 MAP workers",
+  "sourcePageEstimate": 250,
+  "moduleCount": 11,
+  "fellBack": false,
+  "fallbackReason": null,
+  "structureMap": "docs/intel/structure-map.json",
+  "phases": {
+    "A": {"status": "done", "artifact": "structure-map.json"},
+    "B": {"status": "done", "moduleCount": 11, "completedModules": ["M01","M02","M03","M04","M05","M06","M07","M08","M09","M10","M11"], "failedModules": [], "blockedModules": []},
+    "C": {"status": "done", "artifact": "doc-brief.md"}
+  }
+}

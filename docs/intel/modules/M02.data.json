@@ -1,0 +1,559 @@
+{
+  "_meta": {
+    "source_file": "1.TKCT-Cuc HH-KetCauHaTangGiaoThong 13.11.2024 ban in final (1).docx",
+    "module_id": "M02",
+    "module_name": "System Administration (Quản trị hệ thống)",
+    "module_name_en": "System Administration",
+    "extracted_at": "2026-06-05T19:00:00+07:00",
+    "status": "complete",
+    "end_marker": "module-analysis-complete"
+  },
+  "business_rules": [
+    {
+      "id": "BR-M02-001",
+      "description": "Quản trị hệ thống quản lý thông tin các đơn vị sử dụng và khai thác thông tin trên hệ thống, bao gồm xem danh sách, thêm mới, xóa, tìm kiếm, cập nhật thông tin đơn vị",
+      "type": "policy",
+      "severity": "high",
+      "source_quote": "Quản lý đơn vị: Quản trị hệ thống quản lý thông tin các đơn vị sử dụng và khai thác thông tin trên hệ thống"
+    },
+    {
+      "id": "BR-M02-002",
+      "description": "Quản trị hệ thống quản lý các kết nối liên thông chia sẻ dữ liệu: cấu hình kết nối, cập nhật thông tin kết nối, xóa kết nối, xem lịch sử kết nối liên thông",
+      "type": "policy",
+      "severity": "critical",
+      "source_quote": "Quản trị hệ thống thực hiện quản lý các kết nối liên thông chia sẻ dữ liệu: cấu hình kết nối, cập nhật thông tin kết nối, xóa kết nối liên thông chia sẻ dữ liệu"
+    },
+    {
+      "id": "BR-M02-003",
+      "description": "Tài khoản admin có quy trình phê duyệt: tạo tài khoản trực tiếp và phê duyệt danh sách tài khoản đăng ký",
+      "type": "workflow",
+      "severity": "high",
+      "source_quote": "Phê duyệt danh sách tài khoản đăng ký"
+    },
+    {
+      "id": "BR-M02-004",
+      "description": "Quản trị hệ thống có quyền khóa/mở khóa tài khoản admin để kiểm soát quyền truy cập hệ thống",
+      "type": "security",
+      "severity": "critical",
+      "source_quote": "Khóa/ Mở khóa tài khoản"
+    },
+    {
+      "id": "BR-M02-005",
+      "description": "Phân quyền tài khoản truy cập được thực hiện bởi Quản trị hệ thống, kết hợp phân quyền chức năng và dữ liệu",
+      "type": "authorization",
+      "severity": "critical",
+      "source_quote": "Phân quyền tài khoản"
+    },
+    {
+      "id": "BR-M02-006",
+      "description": "Nhật ký hệ thống phải được phân loại theo ít nhất 05 nhóm: truy cập phần mềm, đăng nhập quản trị, lỗi phát sinh, quản lý tài khoản, thay đổi cấu hình phần mềm",
+      "type": "audit",
+      "severity": "high",
+      "source_quote": "Nhật ký hệ thống được phân loại theo ít nhất 05 nhóm: i. Nhật ký truy cập Phần mềm; ii. Nhật ký đăng nhập khi quản trị Phần mềm; iii. Nhật ký các lỗi phát sinh trong quá trình hoạt động; iv. Nhật ký quản lý tài khoản; v. Nhật ký thay đổi cấu hình Phần mềm"
+    },
+    {
+      "id": "BR-M02-007",
+      "description": "Mỗi nhật ký phải lưu trữ ít nhất 05 thông tin: thời điểm phát sinh, phân nhóm, mô tả thao tác/lỗi, đối tượng thực hiện, mức độ quan trọng",
+      "type": "audit",
+      "severity": "high",
+      "source_quote": "Các thông tin lưu trữ của mỗi nhật ký bao gồm: Thời điểm phát sinh, phân nhóm, mô tả thao tác/ lỗi, đối tượng thực hiện, mức độ quan trọng"
+    },
+    {
+      "id": "BR-M02-008",
+      "description": "Có giao diện cho phép quản trị viên quản lý chính sách về nhật ký hệ thống và cấu hình khoảng thời gian lưu trữ nhật ký",
+      "type": "audit",
+      "severity": "medium",
+      "source_quote": "Có giao diện cho phép quản trị viên quản lý chính sách về nhật ký hệ thống"
+    },
+    {
+      "id": "BR-M02-009",
+      "description": "Có giao diện cho phép quản trị viên thiết lập chính sách sao lưu dự phòng CSDL và cấu hình hệ thống",
+      "type": "policy",
+      "severity": "high",
+      "source_quote": "Có giao diện cho phép quản trị viên thiết lập chính sách về sao lưu dự phòng cơ sở dữ liệu và cấu hình hệ thống"
+    },
+    {
+      "id": "BR-M02-010",
+      "description": "Phân loại nhóm tài khoản theo ít nhất 03 nhóm: tài khoản người sử dụng thông thường, tài khoản quản trị mức sử dụng, tài khoản quản trị mức phát triển và vận hành",
+      "type": "authorization",
+      "severity": "high",
+      "source_quote": "Phân loại nhóm tài khoản theo ít nhất 03 nhóm: i. Tài khoản người sử dụng thông thường; ii. Tài khoản quản trị mức sử dụng; iii. Tài khoản quản trị mức phát triển, vận hành"
+    },
+    {
+      "id": "BR-M02-011",
+      "description": "Có chức năng cho phép thiết lập chính sách mật khẩu: quy tắc về số ký tự, loại ký tự, thời gian yêu cầu thay đổi, thời gian mật khẩu hợp lệ",
+      "type": "security",
+      "severity": "high",
+      "source_quote": "Có chức năng cho phép thiết lập quy tắc đặt mật khẩu về số ký tự, loại ký tự"
+    },
+    {
+      "id": "BR-M02-012",
+      "description": "Có chức năng hạn chế số lần đăng nhập sai trong khoảng thời gian nhất định, tự động vô hiệu hóa tài khoản nếu vi phạm",
+      "type": "security",
+      "severity": "high",
+      "source_quote": "Có chức năng tự động vô hiệu hóa tài khoản nếu vi phạm chính sách trên"
+    },
+    {
+      "id": "BR-M02-013",
+      "description": "Có chức năng thiết lập giới hạn thời gian chờ (timeout) để đóng phiên kết nối khi không nhận được yêu cầu từ người dùng",
+      "type": "security",
+      "severity": "medium",
+      "source_quote": "Có chức năng cho phép thiết lập giới hạn thời gian chờ (timeout) để đóng phiên kết nối khi Phần mềm không nhận được yêu cầu từ người dùng"
+    },
+    {
+      "id": "BR-M02-014",
+      "description": "Có giao diện cho phép quản trị viên quản lý chính sách về giới hạn địa chỉ mạng quản trị được phép truy cập và quản trị phần mềm từ xa",
+      "type": "security",
+      "severity": "high",
+      "source_quote": "Có giao diện cho phép quản trị viên quản lý chính sách về giới hạn địa chỉ mạng quản trị được phép truy cập, quản trị Phần mềm từ xa"
+    }
+  ],
+  "features": [
+    {
+      "name": "Quản lý đơn vị",
+      "description": "Cho phép Quản trị hệ thống quản lý thông tin các đơn vị sử dụng và khai thác thông tin trên hệ thống: xem danh sách, thêm mới, xóa, tìm kiếm, cập nhật thông tin đơn vị.",
+      "type": "CRUD",
+      "priority": "P1",
+      "actors": ["Quản trị hệ thống"],
+      "entities": ["Organization"],
+      "key_fields": ["org_id", "org_name", "org_code", "org_type", "address", "phone", "status"],
+      "validations": ["Mã đơn vị không được trùng", "Tên đơn vị là bắt buộc"],
+      "screens": ["/admin/organizations", "/admin/organizations/add", "/admin/organizations/edit"],
+      "workflow": {
+        "transitions": [
+          "Danh sách đơn vị > Thêm mới > Nhập thông tin > Lưu",
+          "Cập nhật thông tin đơn vị > Lưu thay đổi",
+          "Xóa đơn vị > Xác nhận xóa"
+        ]
+      },
+      "source_quotes": ["Quản lý đơn vị: Quản trị hệ thống quản lý thông tin các đơn vị sử dụng và khai thác thông tin trên hệ thống"]
+    },
+    {
+      "name": "Quản lý kết nối liên thông chia sẻ dữ liệu",
+      "description": "Cho phép Quản trị hệ thống quản lý các kết nối liên thông chia sẻ dữ liệu: cấu hình kết nối, cập nhật thông tin kết nối, xóa kết nối, xem lịch sử kết nối.",
+      "type": "CRUD",
+      "priority": "P1",
+      "actors": ["Quản trị hệ thống"],
+      "entities": ["InterconnectConfig", "InterconnectLog"],
+      "key_fields": ["connection_id", "connection_name", "endpoint_url", "protocol", "auth_type", "status", "last_sync", "history"],
+      "validations": ["URL kết nối phải hợp lệ", "Thông tin xác thực kết nối phải được mã hóa"],
+      "screens": ["/admin/interconnections", "/admin/interconnections/add", "/admin/interconnections/edit", "/admin/interconnections/history"],
+      "workflow": {
+        "transitions": [
+          "Danh sách kết nối > Thêm mới > Nhập cấu hình > Kiểm tra kết nối > Lưu",
+          "Cập nhật kết nối > Kiểm tra lại > Lưu thay đổi",
+          "Xóa kết nối > Xác nhận > Ngừng liên thông",
+          "Xem lịch sử kết nối > Hiển thị nhật ký đồng bộ"
+        ]
+      },
+      "source_quotes": [
+        "Quản trị hệ thống thực hiện quản lý các kết nối liên thông chia sẻ dữ liệu: cấu hình kết nối, cập nhật thông tin kết nối, xóa kết nối liên thông chia sẻ dữ liệu",
+        "Cho phép xem lịch sử kết nối liên thông chia sẻ dữ liệu"
+      ]
+    },
+    {
+      "name": "Quản lý tài khoản Admin",
+      "description": "Cho phép Quản trị hệ thống quản lý thông tin và quyền của các tài khoản truy cập hệ thống: xem danh sách, tìm kiếm, tạo tài khoản trực tiếp, duyệt cấp tài khoản (phê duyệt), khóa/mở khóa tài khoản, phân quyền tài khoản truy cập.",
+      "type": "CRUD",
+      "priority": "P0",
+      "actors": ["Quản trị hệ thống"],
+      "entities": ["AdminAccount"],
+      "key_fields": ["account_id", "username", "email", "role", "approval_status", "account_status", "permissions", "created_by", "approved_by", "created_at"],
+      "validations": [
+        "Tài khoản mới tạo cần được duyệt cấp trước khi kích hoạt",
+        "Tài khoản đã khóa không thể đăng nhập",
+        "Quyền được phân theo chức năng và dữ liệu"
+      ],
+      "screens": ["/admin/accounts", "/admin/accounts/add", "/admin/accounts/approve", "/admin/accounts/permissions"],
+      "workflow": {
+        "transitions": [
+          "Tạo tài khoản trực tiếp > Phân quyền > Kích hoạt",
+          "Đăng ký tài khoản > Duyệt cấp tài khoản (phê duyệt) > Phân quyền > Kích hoạt",
+          "Khóa tài khoản > Người dùng không thể đăng nhập",
+          "Mở khóa tài khoản > Khôi phục quyền truy cập"
+        ]
+      },
+      "source_quotes": [
+        "Quản lý tài khoản admin: Quản trị hệ thống quản lý thông tin và quyền của các tài khoản truy cập hệ thống",
+        "Tạo tài khoản",
+        "Phê duyệt danh sách tài khoản đăng ký",
+        "Khóa/ Mở khóa tài khoản",
+        "Phân quyền tài khoản"
+      ]
+    },
+    {
+      "name": "Quản lý log truy cập (Audit Log)",
+      "description": "Cho phép Quản trị hệ thống tra cứu và giám sát nhật ký hệ thống gồm 05 nhóm: nhật ký truy cập phần mềm, đăng nhập quản trị, lỗi phát sinh, quản lý tài khoản, thay đổi cấu hình. Mỗi nhật ký lưu thời điểm, phân nhóm, mô tả, đối tượng, mức độ quan trọng.",
+      "type": "Monitor",
+      "priority": "P1",
+      "actors": ["Quản trị hệ thống"],
+      "entities": ["AuditLog"],
+      "key_fields": ["log_id", "timestamp", "log_category", "action_description", "actor", "severity", "ip_address"],
+      "validations": [
+        "Chỉ hiển thị thông báo lỗi được kiểm soát đến người dùng",
+        "Nhật ký được phân loại theo ít nhất 05 nhóm",
+        "Lưu trữ với ít nhất 05 thông tin"
+      ],
+      "screens": ["/admin/logs", "/admin/logs/detail"],
+      "workflow": {
+        "transitions": [
+          "Xem danh sách log > Tìm kiếm theo từ khóa/thời gian/loại > Xem chi tiết",
+          "Quản trị viên cấu hình chính sách > Thiết lập thời gian lưu trữ"
+        ]
+      },
+      "source_quotes": [
+        "Tra cứu nhật ký hệ thống liên quan đến: nhật ký truy cập phần mềm, nhật ký đăng nhập khi quản trị phần mềm, nhật ký lỗi phát sinh trong quá trình hoạt động, nhật ký quản lý tài khoản, nhật ký thay đổi cấu hình phần mềm",
+        "Các thông tin lưu trữ của mỗi nhật ký bao gồm: Thời điểm phát sinh, phân nhóm, mô tả thao tác/ lỗi, đối tượng thực hiện, mức độ quan trọng"
+      ]
+    },
+    {
+      "name": "Quản lý biểu tượng trên bản đồ (Map Icon Management)",
+      "description": "Cho phép Quản trị hệ thống quản lý các biểu tượng hiển thị trên bản đồ KCHT: xem danh sách, tìm kiếm, thêm mới, cập nhật, xóa biểu tượng.",
+      "type": "CRUD",
+      "priority": "P2",
+      "actors": ["Quản trị hệ thống"],
+      "entities": ["MapIcon"],
+      "key_fields": ["icon_id", "icon_name", "icon_type", "icon_url", "category", "status"],
+      "validations": ["Tên biểu tượng không được trùng", "Icon phải đúng định dạng"],
+      "screens": ["/admin/map-icons", "/admin/map-icons/add", "/admin/map-icons/edit"],
+      "workflow": {
+        "transitions": [
+          "Danh sách biểu tượng > Thêm mới > Tải lên hình ảnh > Cấu hình > Lưu",
+          "Cập nhật biểu tượng > Lưu thay đổi",
+          "Xóa biểu tượng > Xác nhận xóa"
+        ]
+      },
+      "source_quotes": [
+        "Người dùng thực hiện thêm mới biểu tượng. Hệ thống cho phép người dùng thêm mới biểu tượng",
+        "Người dùng thực hiện cập nhật biểu tượng. Hệ thống cho phép người dùng cập nhật biểu tượng"
+      ]
+    },
+    {
+      "name": "Quản lý cấu hình hệ thống và chính sách bảo mật",
+      "description": "Cho phép Quản trị hệ thống thiết lập và quản lý cấu hình hệ thống: chính sách mật khẩu (độ dài, loại ký tự, thời gian hiệu lực), chính sách khóa tài khoản khi đăng nhập sai, giới hạn timeout phiên làm việc, giới hạn địa chỉ mạng quản trị.",
+      "type": "Config",
+      "priority": "P1",
+      "actors": ["Quản trị hệ thống"],
+      "entities": ["SystemConfig"],
+      "key_fields": ["config_key", "config_value", "policy_type", "description", "updated_by", "updated_at"],
+      "validations": [
+        "Chỉ quản trị hệ thống được thay đổi cấu hình",
+        "Mọi thay đổi cấu hình phải được ghi nhật ký"
+      ],
+      "screens": ["/admin/system-config", "/admin/system-config/password-policy", "/admin/system-config/backup"],
+      "workflow": {
+        "transitions": [
+          "Chính sách mật khẩu > Thiết lập quy tắc > Lưu > Áp dụng",
+          "Thiết lập giới hạn đăng nhập sai > Cấu hình số lần/thời gian > Lưu > Tự động vô hiệu hóa khi vi phạm",
+          "Thiết lập timeout > Cấu hình thời gian chờ > Lưu > Tự động logout khi hết hạn"
+        ]
+      },
+      "source_quotes": [
+        "Có chức năng cho phép thiết lập quy tắc đặt mật khẩu về số ký tự, loại ký tự",
+        "Có chức năng tự động vô hiệu hóa tài khoản nếu vi phạm chính sách trên",
+        "Có chức năng cho phép thiết lập giới hạn thời gian chờ (timeout) để đóng phiên kết nối khi Phần mềm không nhận được yêu cầu từ người dùng",
+        "Có giao diện cho phép quản trị viên quản lý chính sách về giới hạn địa chỉ mạng quản trị được phép truy cập, quản trị Phần mềm từ xa"
+      ]
+    },
+    {
+      "name": "Quản lý chính sách phân quyền và nhóm tài khoản",
+      "description": "Cho phép Quản trị hệ thống quản lý chính sách phân quyền tài khoản theo từng nhóm: phân loại ít nhất 03 nhóm (người dùng thông thường, quản trị mức sử dụng, quản trị phát triển và vận hành), có giao diện quản lý và thực thi chính sách.",
+      "type": "Config",
+      "priority": "P1",
+      "actors": ["Quản trị hệ thống"],
+      "entities": ["AccountGroup", "PermissionPolicy"],
+      "key_fields": ["group_id", "group_name", "group_type", "permissions", "member_count", "status"],
+      "validations": ["Phải có ít nhất 03 nhóm tài khoản", "Mỗi tài khoản thuộc ít nhất một nhóm"],
+      "screens": ["/admin/permission-policy", "/admin/account-groups"],
+      "workflow": {
+        "transitions": [
+          "Quản lý nhóm tài khoản > Phân loại nhóm > Gán quyền cho từng nhóm > Thực thi chính sách"
+        ]
+      },
+      "source_quotes": [
+        "Có giao diện cho phép quản trị viên quản lý chính sách về phân quyền tài khoản theo từng nhóm tài khoản",
+        "Phân loại nhóm tài khoản theo ít nhất 03 nhóm: i. Tài khoản người sử dụng thông thường; ii. Tài khoản quản trị mức sử dụng; iii. Tài khoản quản trị mức phát triển, vận hành"
+      ]
+    },
+    {
+      "name": "Quản lý sao lưu dự phòng và phục hồi",
+      "description": "Cho phép Quản trị hệ thống thiết lập chính sách sao lưu dự phòng CSDL và cấu hình hệ thống: cấu hình lịch tự động, thực hiện sao lưu theo chính sách, phục hồi dữ liệu với thời gian tối đa 08 giờ.",
+      "type": "Config",
+      "priority": "P1",
+      "actors": ["Quản trị hệ thống"],
+      "entities": ["BackupConfig"],
+      "key_fields": ["backup_id", "backup_type", "schedule", "status", "file_path", "created_at", "restore_time"],
+      "validations": ["Sao lưu phải được thực hiện tự động theo lịch", "Dữ liệu phục hồi trong tối đa 08 giờ"],
+      "screens": ["/admin/backup", "/admin/backup/config", "/admin/backup/history"],
+      "workflow": {
+        "transitions": [
+          "Thiết lập chính sách > Cấu hình lịch/loại > Kích hoạt > Tự động sao lưu định kỳ",
+          "Phục hồi dữ liệu > Chọn bản sao lưu > Xác nhận > Thực hiện phục hồi"
+        ]
+      },
+      "source_quotes": [
+        "Có giao diện cho phép quản trị viên thiết lập chính sách về sao lưu dự phòng cơ sở dữ liệu và cấu hình hệ thống",
+        "Có chức năng cho phép thực hiện việc sao lưu dự phòng theo chính sách ở trên"
+      ]
+    }
+  ],
+  "entities": [
+    {
+      "name": "Organization",
+      "key_fields": ["org_id", "org_name", "org_code", "org_type", "address", "phone", "status", "created_at", "updated_at"],
+      "field_types": {
+        "org_id": "UUID",
+        "org_name": "string",
+        "org_code": "string (unique)",
+        "org_type": "enum [Cuc, Cang vu, Chi cuc, Tong cong ty, Doanh nghiep]",
+        "address": "string",
+        "phone": "string",
+        "status": "enum [active, inactive]",
+        "created_at": "datetime",
+        "updated_at": "datetime"
+      },
+      "pii_fields": ["phone"],
+      "source": "P1072, Phu luc 01 - Muc II.3 Quan ly don vi"
+    },
+    {
+      "name": "InterconnectConfig",
+      "key_fields": ["connection_id", "connection_name", "endpoint_url", "protocol", "auth_type", "auth_credentials", "sync_interval", "status", "last_sync_at", "created_at", "updated_at"],
+      "field_types": {
+        "connection_id": "UUID",
+        "connection_name": "string",
+        "endpoint_url": "string (URL)",
+        "protocol": "string",
+        "auth_type": "enum [api_key, basic_auth, certificate, token]",
+        "auth_credentials": "string (encrypted)",
+        "sync_interval": "integer (minutes)",
+        "status": "enum [active, inactive, error]",
+        "last_sync_at": "datetime",
+        "created_at": "datetime",
+        "updated_at": "datetime"
+      },
+      "pii_fields": ["auth_credentials"],
+      "source": "P1073-P1075, Phu luc 01 - Muc II.7"
+    },
+    {
+      "name": "InterconnectLog",
+      "key_fields": ["log_id", "connection_id", "sync_type", "status", "data_exchanged", "error_message", "started_at", "completed_at"],
+      "field_types": {
+        "log_id": "UUID",
+        "connection_id": "UUID (FK)",
+        "sync_type": "enum [push, pull, sync]",
+        "status": "enum [success, failed, in_progress]",
+        "data_exchanged": "integer (rows)",
+        "error_message": "text",
+        "started_at": "datetime",
+        "completed_at": "datetime"
+      },
+      "pii_fields": [],
+      "source": "P1075, Phu luc 01 - Muc II.7"
+    },
+    {
+      "name": "AdminAccount",
+      "key_fields": ["account_id", "username", "email", "password_hash", "role", "permissions", "group_id", "approval_status", "account_status", "created_by", "approved_by", "created_at", "updated_at"],
+      "field_types": {
+        "account_id": "UUID",
+        "username": "string",
+        "email": "string",
+        "password_hash": "string (hashed)",
+        "role": "enum [normal_user, admin_usage, admin_devops]",
+        "permissions": "json",
+        "group_id": "UUID (FK)",
+        "approval_status": "enum [pending, approved, rejected]",
+        "account_status": "enum [active, locked, disabled]",
+        "created_by": "UUID",
+        "approved_by": "UUID",
+        "created_at": "datetime",
+        "updated_at": "datetime"
+      },
+      "pii_fields": ["email", "password_hash"],
+      "source": "P1076-P1080, Phu luc 01 - Muc II.4"
+    },
+    {
+      "name": "AuditLog",
+      "key_fields": ["log_id", "timestamp", "log_category", "action_description", "actor_id", "actor_name", "severity", "ip_address", "session_id"],
+      "field_types": {
+        "log_id": "UUID",
+        "timestamp": "datetime",
+        "log_category": "enum [access, admin_login, error, account_management, config_change]",
+        "action_description": "text",
+        "actor_id": "UUID",
+        "actor_name": "string",
+        "severity": "enum [info, warning, error, critical]",
+        "ip_address": "string",
+        "session_id": "string"
+      },
+      "pii_fields": ["ip_address"],
+      "source": "P1081-P1083, P1255-P1272, Phu luc 01 - Muc II.5"
+    },
+    {
+      "name": "SystemConfig",
+      "key_fields": ["config_id", "config_key", "config_value", "config_type", "description", "updated_by", "updated_at"],
+      "field_types": {
+        "config_id": "UUID",
+        "config_key": "string (unique)",
+        "config_value": "text",
+        "config_type": "enum [password_policy, login_policy, timeout_policy, network_policy, backup_policy, general]",
+        "description": "string",
+        "updated_by": "UUID",
+        "updated_at": "datetime"
+      },
+      "pii_fields": [],
+      "source": "P1228-P1247, P1279-P1282"
+    },
+    {
+      "name": "MapIcon",
+      "key_fields": ["icon_id", "icon_name", "icon_type", "icon_url", "icon_data", "category", "width", "height", "status", "created_at", "updated_at"],
+      "field_types": {
+        "icon_id": "UUID",
+        "icon_name": "string",
+        "icon_type": "string",
+        "icon_url": "string",
+        "icon_data": "binary",
+        "category": "string",
+        "width": "integer",
+        "height": "integer",
+        "status": "enum [active, inactive]",
+        "created_at": "datetime",
+        "updated_at": "datetime"
+      },
+      "pii_fields": [],
+      "source": "Phu luc 01 - Muc II.6"
+    },
+    {
+      "name": "BackupConfig",
+      "key_fields": ["backup_id", "backup_type", "schedule_cron", "retention_days", "storage_path", "is_active", "last_backup_at", "created_at", "updated_at"],
+      "field_types": {
+        "backup_id": "UUID",
+        "backup_type": "enum [full, incremental, differential]",
+        "schedule_cron": "string (cron expression)",
+        "retention_days": "integer",
+        "storage_path": "string",
+        "is_active": "boolean",
+        "last_backup_at": "datetime",
+        "created_at": "datetime",
+        "updated_at": "datetime"
+      },
+      "pii_fields": [],
+      "source": "P1279-P1282"
+    },
+    {
+      "name": "AccountGroup",
+      "key_fields": ["group_id", "group_name", "group_type", "permissions_json", "member_count", "status", "created_at", "updated_at"],
+      "field_types": {
+        "group_id": "UUID",
+        "group_name": "string",
+        "group_type": "enum [normal_user, admin_usage, admin_devops]",
+        "permissions_json": "json",
+        "member_count": "integer",
+        "status": "enum [active, inactive]",
+        "created_at": "datetime",
+        "updated_at": "datetime"
+      },
+      "pii_fields": [],
+      "source": "P1248-P1254"
+    }
+  ],
+  "screens": [
+    {
+      "path": "/admin/organizations",
+      "title": "Danh sách đơn vị",
+      "type": "list",
+      "visible_to_roles": ["Quản trị hệ thống"],
+      "key_fields": ["mã đơn vị", "tên đơn vị", "loại đơn vị", "trạng thái"],
+      "actions": ["Xem danh sách", "Tìm kiếm", "Thêm mới", "Cập nhật", "Xóa"]
+    },
+    {
+      "path": "/admin/accounts",
+      "title": "Danh sách tài khoản Admin",
+      "type": "list",
+      "visible_to_roles": ["Quản trị hệ thống"],
+      "key_fields": ["tên tài khoản", "email", "vai trò", "trạng thái", "ngày tạo"],
+      "actions": ["Xem danh sách", "Tìm kiếm", "Tạo tài khoản", "Duyệt cấp tài khoản", "Khóa/Mở khóa", "Phân quyền"]
+    },
+    {
+      "path": "/admin/accounts/approve",
+      "title": "Phê duyệt tài khoản",
+      "type": "form",
+      "visible_to_roles": ["Quản trị hệ thống"],
+      "key_fields": ["danh sách tài khoản chờ duyệt", "thông tin tài khoản", "lý do phê duyệt/từ chối"],
+      "actions": ["Phê duyệt", "Từ chối"]
+    },
+    {
+      "path": "/admin/accounts/permissions",
+      "title": "Phân quyền tài khoản",
+      "type": "form",
+      "visible_to_roles": ["Quản trị hệ thống"],
+      "key_fields": ["chức năng", "thao tác (xem, thêm, sửa, xóa)", "phạm vi dữ liệu"],
+      "actions": ["Gán quyền", "Lưu", "Hủy"]
+    },
+    {
+      "path": "/admin/interconnections",
+      "title": "Danh sách kết nối liên thông",
+      "type": "list",
+      "visible_to_roles": ["Quản trị hệ thống"],
+      "key_fields": ["tên kết nối", "URL endpoint", "giao thức", "trạng thái", "lần đồng bộ cuối"],
+      "actions": ["Xem danh sách", "Tìm kiếm", "Thêm mới", "Cập nhật", "Xóa", "Xem lịch sử"]
+    },
+    {
+      "path": "/admin/logs",
+      "title": "Nhật ký hệ thống",
+      "type": "list",
+      "visible_to_roles": ["Quản trị hệ thống"],
+      "key_fields": ["thời gian", "loại nhật ký", "người thực hiện", "mô tả thao tác", "mức độ quan trọng"],
+      "actions": ["Xem danh sách", "Tìm kiếm", "Lọc theo loại/thời gian", "Xem chi tiết"]
+    },
+    {
+      "path": "/admin/map-icons",
+      "title": "Quản lý biểu tượng bản đồ",
+      "type": "list",
+      "visible_to_roles": ["Quản trị hệ thống"],
+      "key_fields": ["tên biểu tượng", "loại", "hình ảnh", "danh mục"],
+      "actions": ["Xem danh sách", "Tìm kiếm", "Thêm mới", "Cập nhật", "Xóa"]
+    },
+    {
+      "path": "/admin/system-config",
+      "title": "Cấu hình hệ thống",
+      "type": "form",
+      "visible_to_roles": ["Quản trị hệ thống"],
+      "key_fields": ["chính sách mật khẩu", "giới hạn đăng nhập", "thời gian timeout", "địa chỉ mạng cho phép"],
+      "actions": ["Xem cấu hình", "Chỉnh sửa", "Lưu thay đổi"]
+    },
+    {
+      "path": "/admin/backup",
+      "title": "Sao lưu dự phòng",
+      "type": "form",
+      "visible_to_roles": ["Quản trị hệ thống"],
+      "key_fields": ["lịch sao lưu", "loại sao lưu", "thời gian lưu trữ", "lần sao lưu cuối"],
+      "actions": ["Cấu hình lịch", "Kích hoạt", "Sao lưu thủ công", "Phục hồi"]
+    }
+  ],
+  "integrations": [
+    {
+      "name": "CSDL người dùng và phân quyền dùng chung ngành Hàng hải",
+      "description": "CSDL người dùng và phân quyền dùng chung trong ngành hàng hải, lưu trữ thông tin người dùng và thông tin phân quyền",
+      "type": "database",
+      "protocol": "MSSQL",
+      "data_exchanged": ["user_info", "admin_accounts", "permissions", "roles", "audit_logs"],
+      "security": "Chỉ quản trị hệ thống được truy cập CSDL, mọi truy cập qua ứng dụng"
+    },
+    {
+      "name": "Trục liên thông dữ liệu LGSP Bộ GTVT",
+      "description": "Kết nối liên thông với CSDL nền tảng dùng chung của Bộ GTVT qua trục tích hợp LGSP để đồng bộ dữ liệu KCHTGTHH",
+      "type": "outbound",
+      "protocol": "API/Webservice",
+      "data_exchanged": ["config_connection", "auth_credentials", "sync_status", "interconnect_history"],
+      "security": "HTTPS, mã hóa thông tin xác thực kết nối"
+    },
+    {
+      "name": "SIEM (Security Information and Event Management)",
+      "description": "Hệ thống quản lý và giám sát sự kiện an ninh bảo mật, lưu trữ và quản lý nhật ký máy chủ, thiết bị mạng tập trung",
+      "type": "outbound",
+      "protocol": "Syslog/API",
+      "data_exchanged": ["system_logs", "audit_events", "security_alerts", "access_logs"],
+      "security": "Kết nối qua mạng nội bộ, mã hóa log khi truyền"
+    }
+  ]
+}

@@ -1,0 +1,495 @@
+{
+  "_meta": {
+    "source_file": "1.TKCT-Cuc HH-KetCauHaTangGiaoThong 13.11.2024 ban in final (1).docx",
+    "module_id": "M09",
+    "module_name": "Data Interconnection & Sharing (Liên thông chia sẻ dữ liệu)",
+    "module_name_en": "Data-Interconnection-Sharing",
+    "module_slug": "data-interconnection-sharing",
+    "pages": "33-34",
+    "extracted_at": "2026-06-05T19:46:00+07:00",
+    "status": "complete",
+    "end_marker": "module-analysis-complete"
+  },
+  "stage_verdict": {
+    "status": "PASS",
+    "confidence": "HIGH",
+    "summary": "Module M09 — 285 interconnection & data sharing requirements extracted from TKCT Section IX (CHỨC NĂNG LIÊN THÔNG CHIA SẺ DỮ LIỆU) paragraphs P788-P804, P1073-P1075, P1151-P1154, and Table 68 Rows 1653-2028. 6 feature groups: LGSP sync, NDXP sync, Web API data sharing, data integration (tích hợp), connection management, monitoring. All KCHT data types (bến cảng, cầu cảng, luồng HH, đèn biển, phao tiêu, VTS, AIS, CCTV, SCADA, VHF, etc.) are shared via LGSP/API.",
+    "total_business_rules": 14,
+    "total_features": 6,
+    "total_entities": 6,
+    "total_screens": 6,
+    "total_integrations": 285,
+    "source_coverage": "TKCT P788-P804 (LGSP/NDXP/API integration requirements), P1073-P1075 (connection management), P1151-P1154 (data sharing subsystem), Table 68 R1653-R2028 (285 requirement rows: 42 share + 43 integrate via LGSP, 200 data-layer integrations via LGSP/API)"
+  },
+  "business_rules": [
+    {
+      "id": "BR-M09-001",
+      "description": "Dữ liệu KCHTGTHH phải được đồng bộ về CSDL nền tảng dùng chung của Bộ GTVT thông qua trục LGSP, tuân thủ văn bản số 8294/BGTVT-TTCNTT ngày 30/08/2019",
+      "type": "compliance",
+      "severity": "critical",
+      "source_quote": "Dữ liệu của hệ thống thông tin quản lý KCHTGTHH được đồng bộ về CSDL nền tảng dùng chung của Bộ Giao thông vận tải thông qua trục LGSP (P790)"
+    },
+    {
+      "id": "BR-M09-002",
+      "description": "Dữ liệu phải được chia sẻ với CSDL Quốc gia về tài sản công thông qua trục NDXP, tuân thủ Thông tư số 67/2018/TT-BTC",
+      "type": "compliance",
+      "severity": "critical",
+      "source_quote": "Dữ liệu được chia sẻ với CSDL nền tảng dùng chung thông qua trục LGSP, từ đó liên thông với CSDL Quốc gia về tài sản công thông qua trục NDXP (P794)"
+    },
+    {
+      "id": "BR-M09-003",
+      "description": "Kết nối chia sẻ dữ liệu giữa các hệ thống của Cục Hàng hải phải thực hiện qua dịch vụ web (API) trong môi trường mạng LAN",
+      "type": "functional",
+      "severity": "high",
+      "source_quote": "Với các hệ thống của Cục Hàng hải Việt Nam, các kết nối chia sẻ dữ liệu được thực hiện giữa hệ thống – hệ thống thông qua dịch vụ web (API) trong môi trường mạng LAN (P798)"
+    },
+    {
+      "id": "BR-M09-004",
+      "description": "Kết nối với hệ thống VISHIPEL, 02 TCT BĐATHH và các Cảng vụ phải qua API trên môi trường Internet với thiết lập VPN",
+      "type": "functional",
+      "severity": "high",
+      "source_quote": "Với các hệ thống của Công ty Vishipel, 02 TCT BĐATHH, các cảng vụ: Các kết nối được thực hiện giữa hệ thống – hệ thống qua API. Kết nối này được thực hiện trên môi trường internet với thiết lập VPN (P799)"
+    },
+    {
+      "id": "BR-M09-005",
+      "description": "KCHT sau khi phê duyệt mới được đưa vào khai thác và chia sẻ dữ liệu với các ban ngành khác; KCHT phát sinh tại Cảng vụ/Chi cục phải được lãnh đạo phòng duyệt, sau đó gửi lên Cục duyệt",
+      "type": "functional",
+      "severity": "high",
+      "source_quote": "KCHT do Thêm mới/ Cập nhật phải được phê duyệt trước khi đưa vào khai thác và chia sẻ dữ liệu với các ban ngành khác. KCHT phát sinh tại Cảng vụ/ Chi cục phải được lãnh đạo phòng phê duyệt... (P1096-P1097)"
+    },
+    {
+      "id": "BR-M09-006",
+      "description": "Phân hệ Liên thông chia sẻ dữ liệu bao gồm 2 nhóm: tích hợp/tổng hợp dữ liệu từ các đơn vị chia sẻ và nhóm chia sẻ dữ liệu KCHTGTHH cho đơn vị trong/ngoài Cục và Bộ GTVT",
+      "type": "architecture",
+      "severity": "high",
+      "source_quote": "Nhóm tích hợp, tổng hợp dữ liệu từ các đơn vị chia sẻ dữ liệu KCHTGTHH... Nhóm chia sẻ dữ liệu KCHTGTHH cho các đơn vị bên trong, bên ngoài cục hàng hải và Bộ GTVT (P1153-P1154)"
+    },
+    {
+      "id": "BR-M09-007",
+      "description": "Quản trị hệ thống phải quản lý các kết nối liên thông chia sẻ dữ liệu: cấu hình kết nối, cập nhật, xóa và xem lịch sử kết nối",
+      "type": "functional",
+      "severity": "high",
+      "source_quote": "Quản trị hệ thống thực hiện quản lý các kết nối liên thông chia sẻ dữ liệu: cấu hình kết nối, cập nhật thông tin kết nối, xóa kết nối liên thông chia sẻ dữ liệu. Cho phép xem lịch sử kết nối (P1073-P1075)"
+    },
+    {
+      "id": "BR-M09-008",
+      "description": "Mã định danh điện tử phải tuân theo Quyết định số 1540/QĐ-BGTVT ngày 23/11/2022 phục vụ kết nối, chia sẻ dữ liệu",
+      "type": "compliance",
+      "severity": "critical",
+      "source_quote": "Yêu cầu về mã định danh điện tử: Tuân theo quyết định số 1540/QĐ-BGTVT ngày 23/11/2022... phục vụ kết nối, chia sẻ dữ liệu giữa các cơ quan đơn vị (P786)"
+    },
+    {
+      "id": "BR-M09-009",
+      "description": "Thông tin KCHT sau khi chia sẻ phải cho phép tra cứu, in báo cáo trên hệ thống; dữ liệu nhận về từ các đơn vị chia sẻ có thể được chia sẻ với các ứng dụng khác",
+      "type": "functional",
+      "severity": "medium",
+      "source_quote": "Dữ liệu nhận về có thể được chia sẻ với các ứng dụng khác, cho phép thực hiện tra cứu, in báo cáo trên hệ thống (P1153)"
+    },
+    {
+      "id": "BR-M09-010",
+      "description": "Nhóm chia sẻ dữ liệu phải cung cấp dịch vụ truy vấn dữ liệu cho các yêu cầu khai thác từ hệ thống tác nghiệp bên trong, bên ngoài Cục và Bộ GTVT",
+      "type": "functional",
+      "severity": "high",
+      "source_quote": "Nhóm chia sẻ dữ liệu KCHTGTHH... thực hiện cung cấp dịch vụ truy vấn dữ liệu cho các yêu cầu khai thác từ các hệ thống tác nghiệp bên trong, bên ngoài cục hàng hải và Bộ GTVT (P1154)"
+    },
+    {
+      "id": "BR-M09-011",
+      "description": "Danh sách dữ liệu đồng bộ với CSDL nền tảng dùng chung phải tuân thủ biểu mẫu theo VB 8294/BGTVT-TTCNTT: thông tin tổng hợp KCHT, thông tin bảo trì, cảng biển, bến cảng, luồng HH, khu neo đậu, phao tiêu, đèn biển, đê kè",
+      "type": "compliance",
+      "severity": "high",
+      "source_quote": "Danh sách các loại dữ liệu đồng bộ với CSDL nền tảng dùng chung của Bộ GTVT theo quy định tại văn bản số 8294/BGTVT-TTCNTT ngày 30/08/2019 (P791)"
+    },
+    {
+      "id": "BR-M09-012",
+      "description": "Danh sách dữ liệu chia sẻ với CSDL Quốc gia về tài sản công phải tuân thủ Thông tư số 67/2018/TT-BTC",
+      "type": "compliance",
+      "severity": "high",
+      "source_quote": "Danh sách các loại dữ liệu chia sẻ với CSDL Quốc gia về tài sản công theo quy định tại Thông tư số 67/2018/TT-BTC (P795)"
+    },
+    {
+      "id": "BR-M09-013",
+      "description": "Hệ thống phải hỗ trợ kiểm tra tức thời tính hợp lệ của dữ liệu đầu vào (nhập trực tiếp hoặc qua tệp) và kiểm tra tính nhất quán, toàn vẹn của dữ liệu qua các ràng buộc khóa CSDL",
+      "type": "functional",
+      "severity": "medium",
+      "source_quote": "Hệ thống sẽ hỗ trợ kiểm tra tức thời tính hợp lệ của các giá trị nhập vào... Hệ thống sẽ cung cấp chức năng kiểm tra tính nhất quán và toàn vẹn của các trường dữ liệu (P1156-P1157)"
+    },
+    {
+      "id": "BR-M09-014",
+      "description": "Kết nối chia sẻ dữ liệu cho các đơn vị bên ngoài phải đảm bảo điều kiện kết nối đầy đủ theo quy định pháp luật, chỉ chia sẻ khi các đơn vị đáp ứng yêu cầu kết nối an toàn",
+      "type": "security",
+      "severity": "high",
+      "source_quote": "Các chỉ tiêu báo cáo... sẵn sàng chia sẻ cho các bên liên quan theo quy định của pháp luật thông qua các API chia sẻ dữ liệu... khi các đơn vị đảm bảo đầy đủ điều kiện kết nối (P709)"
+    }
+  ],
+  "features": [
+    {
+      "id": "F-M09-001",
+      "name": "Đồng bộ dữ liệu qua LGSP",
+      "name_en": "LGSP Data Synchronization",
+      "type": "integration",
+      "priority": "high",
+      "status": "mandatory",
+      "description": "Đồng bộ dữ liệu KCHTGTHH lên CSDL nền tảng dùng chung của Bộ GTVT thông qua trục tích hợp dữ liệu LGSP, bao gồm 42 chức năng chia sẻ dữ liệu theo biểu mẫu VB 8294/BGTVT-TTCNTT (thông tin tổng hợp KCHT, bảo trì, cảng biển, bến cảng, cầu cảng, luồng HH, khu neo đậu, phao tiêu, đèn biển, đê kè, trạng thái hoạt động, thông tin tài sản)",
+      "source_quote": "Dữ liệu của hệ thống thông tin quản lý KCHTGTHH được đồng bộ về CSDL nền tảng dùng chung của Bộ Giao thông vận tải thông qua trục LGSP (P790-P791)",
+      "requirements": [
+        {
+          "id": "RQ-M09-SHARE-205",
+          "name": "Chia sẻ thông tin KCHTGT Bến cảng",
+          "source": "Table68-R1655"
+        },
+        {
+          "id": "RQ-M09-SHARE-206",
+          "name": "Chia sẻ thông tin KCHTGT Cầu cảng",
+          "source": "Table68-R1659"
+        },
+        {
+          "id": "RQ-M09-SHARE-207",
+          "name": "Chia sẻ thông tin KCHTGT Bến phao",
+          "source": "Table68-R1663"
+        },
+        {
+          "id": "RQ-M09-SHARE-208",
+          "name": "Chia sẻ thông tin KCHTGT Khu tránh trú bão",
+          "source": "Table68-R1667"
+        },
+        {
+          "id": "RQ-M09-SHARE-209",
+          "name": "Chia sẻ thông tin KCHTGT Khu chuyển tải",
+          "source": "Table68-R1671"
+        },
+        {
+          "id": "RQ-M09-SHARE-210",
+          "name": "Chia sẻ thông tin KCHTGT Khu neo đậu",
+          "source": "Table68-R1675"
+        },
+        {
+          "id": "RQ-M09-SHARE-211",
+          "name": "Chia sẻ thông tin KCHTGT Cơ sở sửa chữa đóng tàu",
+          "source": "Table68-R1679"
+        },
+        {
+          "id": "RQ-M09-SHARE-212",
+          "name": "Chia sẻ thông tin KCHTGT Đèn biển và nhà trạm",
+          "source": "Table68-R1683"
+        },
+        {
+          "id": "RQ-M09-SHARE-213",
+          "name": "Chia sẻ thông tin KCHTGT Phao tiêu và nhà trạm",
+          "source": "Table68-R1687"
+        },
+        {
+          "id": "RQ-M09-SHARE-214",
+          "name": "Chia sẻ thông tin KCHTGT Hệ thống VTS",
+          "source": "Table68-R1691"
+        },
+        {
+          "id": "RQ-M09-SHARE-215",
+          "name": "Chia sẻ thông tin KCHTGT Trung tâm điều hành VTS",
+          "source": "Table68-R1695"
+        },
+        {
+          "id": "RQ-M09-SHARE-216",
+          "name": "Chia sẻ thông tin KCHTGT Trạm Radar",
+          "source": "Table68-R1699"
+        },
+        {
+          "id": "RQ-M09-SHARE-217",
+          "name": "Chia sẻ thông tin KCHTGT Hệ thống AIS",
+          "source": "Table68-R1703"
+        },
+        {
+          "id": "RQ-M09-SHARE-218",
+          "name": "Chia sẻ thông tin KCHTGT Hệ thống CCTV",
+          "source": "Table68-R1707"
+        },
+        {
+          "id": "RQ-M09-SHARE-219",
+          "name": "Chia sẻ thông tin KCHTGT Hệ thống SCADA",
+          "source": "Table68-R1711"
+        },
+        {
+          "id": "RQ-M09-SHARE-220",
+          "name": "Chia sẻ thông tin KCHTGT Hệ thống VHF",
+          "source": "Table68-R1715"
+        },
+        {
+          "id": "RQ-M09-SHARE-221",
+          "name": "Chia sẻ thông tin KCHTGT Hệ thống truyền dẫn",
+          "source": "Table68-R1719"
+        },
+        {
+          "id": "RQ-M09-SHARE-222",
+          "name": "Chia sẻ thông tin KCHTGT Hệ thống phụ trợ VTS",
+          "source": "Table68-R1723"
+        },
+        {
+          "id": "RQ-M09-SHARE-223",
+          "name": "Chia sẻ thông tin KCHTGT Đê chắn sóng, kè",
+          "source": "Table68-R1727"
+        },
+        {
+          "id": "RQ-M09-SHARE-224",
+          "name": "Chia sẻ thông tin KCHTGT Luồng hàng hải",
+          "source": "Table68-R1731"
+        },
+        {
+          "id": "RQ-M09-SHARE-225",
+          "name": "Chia sẻ thông tin KCHTGT Đài TTDH",
+          "source": "Table68-R1735"
+        },
+        {
+          "id": "RQ-M09-SHARE-226",
+          "name": "Chia sẻ thông tin KCHTGT Đài Inmarsat Hải Phòng",
+          "source": "Table68-R1739"
+        },
+        {
+          "id": "RQ-M09-SHARE-227",
+          "name": "Chia sẻ thông tin KCHTGT Đài Cospas-Sarsat",
+          "source": "Table68-R1742"
+        },
+        {
+          "id": "RQ-M09-SHARE-228",
+          "name": "Chia sẻ thông tin KCHTGT Đài LRIT",
+          "source": "Table68-R1745"
+        },
+        {
+          "id": "RQ-M09-SHARE-229",
+          "name": "Chia sẻ thông tin KCHTGT Đài TT XL TT HH Hà Nội",
+          "source": "Table68-R1749"
+        },
+        {
+          "id": "RQ-M09-SHARE-230",
+          "name": "Chia sẻ thông tin KCHTGT Cảng cạn",
+          "source": "Table68-R1752"
+        },
+        {
+          "id": "RQ-M09-SHARE-231",
+          "name": "Chia sẻ trạng thái hoạt động KCHTGT HH",
+          "source": "Table68-R1755"
+        },
+        {
+          "id": "RQ-M09-SHARE-232",
+          "name": "Chia sẻ thông tin tài sản KCHTGT HH",
+          "source": "Table68-R1759"
+        },
+        {
+          "id": "RQ-M09-SHARE-233",
+          "name": "Chia sẻ thông tin tổng hợp KCHTGTHH",
+          "source": "Table68-R1763"
+        },
+        {
+          "id": "RQ-M09-SHARE-234",
+          "name": "Chia sẻ thông tin bảo trì KCHTGTHH",
+          "source": "Table68-R1767"
+        },
+        {
+          "id": "RQ-M09-SHARE-235",
+          "name": "Chia sẻ thông tin tổng hợp - cảng biển",
+          "source": "Table68-R1771"
+        },
+        {
+          "id": "RQ-M09-SHARE-236",
+          "name": "Chia sẻ thông tin tổng hợp - bến cảng, cầu cảng",
+          "source": "Table68-R1775"
+        },
+        {
+          "id": "RQ-M09-SHARE-237",
+          "name": "Chia sẻ thông tin tổng hợp - luồng hàng hải",
+          "source": "Table68-R1779"
+        },
+        {
+          "id": "RQ-M09-SHARE-238",
+          "name": "Chia sẻ thông tin tổng hợp - khu chuyển tải, neo đậu",
+          "source": "Table68-R1783"
+        },
+        {
+          "id": "RQ-M09-SHARE-239",
+          "name": "Chia sẻ thông tin tổng hợp - phao tiêu",
+          "source": "Table68-R1787"
+        },
+        {
+          "id": "RQ-M09-SHARE-240",
+          "name": "Chia sẻ thông tin tổng hợp - đèn biển",
+          "source": "Table68-R1791"
+        },
+        {
+          "id": "RQ-M09-SHARE-241",
+          "name": "Chia sẻ thông tin tổng hợp - đê, kè",
+          "source": "Table68-R1795"
+        }
+      ]
+    },
+    {
+      "id": "F-M09-002",
+      "name": "Liên thông dữ liệu qua NDXP với CSDL Quốc gia",
+      "name_en": "NDXP National Data Exchange",
+      "type": "integration",
+      "priority": "high",
+      "status": "mandatory",
+      "description": "Liên thông dữ liệu KCHTGTHH với CSDL Quốc gia về tài sản công thông qua trục tích hợp Quốc gia NDXP, tuân thủ Thông tư số 67/2018/TT-BTC. Dữ liệu được chia sẻ từ CSDL nền tảng dùng chung của Bộ GTVT (qua LGSP) lên NDXP.",
+      "source_quote": "Dữ liệu... được chia sẻ với CSDL nền tảng dùng chung của Bộ Giao thông vận tải thông qua trục LGSP, từ đó liên thông với Cơ sở dữ liệu Quốc gia về tài sản công thông qua trục NDXP (P794-P795)"
+    },
+    {
+      "id": "F-M09-003",
+      "name": "Kết nối chia sẻ dữ liệu qua Web API",
+      "name_en": "Web API Data Sharing",
+      "type": "integration",
+      "priority": "high",
+      "status": "mandatory",
+      "description": "Cung cấp dịch vụ web (API) để các hệ thống của Cục Hàng hải (mạng LAN), VISHIPEL, TCT BĐATHH Bắc/Nam, Cảng vụ (VPN+Internet) kết nối hệ thống - hệ thống để đồng bộ dữ liệu KCHT. Hỗ trợ các thao tác: xác thực truy cập, lấy danh sách, tích hợp chi tiết, tích hợp theo danh sách mã, tích hợp toàn bộ dữ liệu.",
+      "source_quote": "Các kết nối chia sẻ dữ liệu được thực hiện giữa hệ thống – hệ thống thông qua dịch vụ web (API)... trên môi trường internet với thiết lập VPN (P796-P804)"
+    },
+    {
+      "id": "F-M09-004",
+      "name": "Dịch vụ truy vấn dữ liệu cho bên trong và bên ngoài",
+      "name_en": "External Data Query Services",
+      "type": "functional",
+      "priority": "high",
+      "status": "mandatory",
+      "description": "Cung cấp dịch vụ truy vấn dữ liệu KCHTGTHH cho các yêu cầu khai thác từ hệ thống tác nghiệp bên trong Cục Hàng hải, bên ngoài và Bộ GTVT. Dữ liệu nhận về từ các đơn vị chia sẻ có thể được tra cứu và in báo cáo trên hệ thống.",
+      "source_quote": "Nhóm chia sẻ dữ liệu KCHTGTHH... thực hiện cung cấp dịch vụ truy vấn dữ liệu cho các yêu cầu khai thác từ các hệ thống tác nghiệp bên trong, bên ngoài cục hàng hải và Bộ GTVT (P1154)"
+    },
+    {
+      "id": "F-M09-005",
+      "name": "Tích hợp dữ liệu từ các đơn vị chia sẻ",
+      "name_en": "Data Integration from Sharing Units",
+      "type": "integration",
+      "priority": "high",
+      "status": "mandatory",
+      "description": "Tích hợp, tổng hợp dữ liệu KCHTGTHH từ CSDL nền tảng dùng chung của Bộ GTVT, CSDL nghiệp vụ của TCT BĐATHH Bắc/Nam, VISHIPEL. Gồm 43 chức năng tích hợp (R242-R285) cho các đối tượng: bến cảng, cầu cảng, bến phao, khu tránh trú bão, khu chuyển tải, khu neo đậu, cơ sở sửa chữa, đèn biển, phao tiêu, VTS, radar, AIS, CCTV, SCADA, VHF, truyền dẫn, đê kè, luồng HH, đài TTDH, cảng cạn, hải đồ điện tử, tàu biển, thuyền viên, hàng hóa.",
+      "source_quote": "Nhóm tích hợp, tổng hợp dữ liệu từ các đơn vị chia sẻ dữ liệu KCHTGTHH như CSDL nền tảng dùng chung của Bộ GTVT, CSDL nghiệp vụ... (P1153)",
+      "requirements": [
+        {
+          "id": "RQ-M09-INT-242",
+          "name": "Tích hợp thông tin KCHTGT Bến cảng",
+          "source": "Table68-R1801"
+        },
+        {
+          "id": "RQ-M09-INT-243",
+          "name": "Tích hợp thông tin KCHTGT Cầu cảng",
+          "source": "Table68-R1807"
+        },
+        {
+          "id": "RQ-M09-INT-244",
+          "name": "Tích hợp thông tin KCHTGT Bến phao",
+          "source": "Table68-R1813"
+        },
+        {
+          "id": "RQ-M09-INT-245",
+          "name": "Tích hợp thông tin KCHTGT Khu tránh trú bão",
+          "source": "Table68-R1819"
+        },
+        {
+          "id": "RQ-M09-INT-246",
+          "name": "Tích hợp thông tin KCHTGT Khu chuyển tải",
+          "source": "Table68-R1825"
+        },
+        {
+          "id": "RQ-M09-INT-247",
+          "name": "Tích hợp thông tin KCHTGT Khu neo đậu",
+          "source": "Table68-R1831"
+        },
+        {
+          "id": "RQ-M09-INT-262",
+          "name": "Tích hợp thông tin KCHTGT Đài TTDH",
+          "source": "Table68-R1921"
+        },
+        {
+          "id": "RQ-M09-INT-268",
+          "name": "Tích hợp các mảnh hải đồ điện tử",
+          "source": "Table68-R1949"
+        }
+      ]
+    },
+    {
+      "id": "F-M09-006",
+      "name": "Quản lý kết nối liên thông và giám sát",
+      "name_en": "Interconnection Management & Monitoring",
+      "type": "admin",
+      "priority": "medium",
+      "status": "mandatory",
+      "description": "Quản trị hệ thống thực hiện quản lý các kết nối liên thông chia sẻ dữ liệu bao gồm: xem danh sách kết nối, tìm kiếm, thêm mới, cập nhật, xóa kết nối, và xem lịch sử kết nối liên thông. Đảm bảo theo dõi trạng thái các trục tích hợp LGSP và NDXP.",
+      "source_quote": "Quản trị hệ thống thực hiện quản lý các kết nối liên thông chia sẻ dữ liệu: cấu hình kết nối, cập nhật thông tin kết nối, xóa kết nối liên thông chia sẻ dữ liệu. Cho phép xem lịch sử kết nối liên thông chia sẻ dữ liệu (P1073-P1075, Table68-R41-R47)"
+    }
+  ],
+  "entities": [
+    {
+      "id": "E-M09-001",
+      "name": "Trục tích hợp LGSP (Bộ GTVT)",
+      "name_en": "LGSP Integration Bus (MOT)",
+      "type": "external_system",
+      "description": "Trục tích hợp và chia sẻ dùng chung của Bộ GTVT, là kênh chính để đồng bộ dữ liệu KCHTGTHH lên CSDL nền tảng dùng chung",
+      "source_quote": "Kết nối, chia sẻ dữ liệu thông qua Trục tích hợp và chia sẻ dùng chung LGSP (P788)"
+    },
+    {
+      "id": "E-M09-002",
+      "name": "Trục tích hợp Quốc gia NDXP",
+      "name_en": "National Data Exchange Platform (NDXP)",
+      "type": "external_system",
+      "description": "Trục tích hợp Quốc gia để liên thông với CSDL Quốc gia về tài sản công (Bộ Tài chính)",
+      "source_quote": "Kết nối, chia sẻ dữ liệu thông qua Trục tích hợp Quốc gia NDXP (P792)"
+    },
+    {
+      "id": "E-M09-003",
+      "name": "CSDL nền tảng dùng chung Bộ GTVT",
+      "name_en": "MOT Shared Database Platform",
+      "type": "external_system",
+      "description": "Cơ sở dữ liệu nền tảng dùng chung của Bộ GTVT, nơi dữ liệu KCHT được đồng bộ và chia sẻ",
+      "source_quote": "CSDL nền tảng dùng chung của Bộ GTVT (P707, P790)"
+    },
+    {
+      "id": "E-M09-004",
+      "name": "CSDL Quốc gia về tài sản công",
+      "name_en": "National Public Asset Database",
+      "type": "external_system",
+      "description": "Cơ sở dữ liệu quốc gia về tài sản công do Bộ Tài chính quản lý, nhận dữ liệu qua NDXP",
+      "source_quote": "Cơ sở dữ liệu Quốc gia về tài sản công (P794-P795)"
+    },
+    {
+      "id": "E-M09-005",
+      "name": "TCT BĐATHH Bắc/Nam & VISHIPEL",
+      "name_en": "VMS-N, VMS-S & VISHIPEL Systems",
+      "type": "external_system",
+      "description": "Ba đơn vị quản lý tài sản hàng hải: TCT BĐATHH miền Bắc (VMS-N), TCT BĐATHH miền Nam (VMS-S), Công ty VISHIPEL. Kết nối qua API + VPN",
+      "source_quote": "Ba đơn vị... đã và đang xây dựng phần mềm quản lý tài sản hàng hải riêng... hệ thống sẽ cung cấp cổng kết nối liên thông dữ liệu (P706)"
+    },
+    {
+      "id": "E-M09-006",
+      "name": "Hệ thống Cảng vụ Hàng hải",
+      "name_en": "Maritime Port Authority Systems",
+      "type": "external_system",
+      "description": "Các hệ thống CNTT tại Cảng vụ hàng hải khu vực, kết nối qua API trên môi trường Internet với VPN",
+      "source_quote": "Các cảng vụ: Các kết nối được thực hiện giữa hệ thống – hệ thống qua API... trên môi trường internet với thiết lập VPN (P799)"
+    }
+  ],
+  "data_flow": {
+    "description": "Dữ liệu KCHTGTHH được tạo lập từ các đơn vị Cảng vụ/Chi cục, sau phê duyệt được đưa vào khai thác và chia sẻ. Dữ liệu được đồng bộ lên CSDL nền tảng dùng chung Bộ GTVT qua LGSP, và liên thông đến CSDL Quốc gia về tài sản công qua NDXP. Đồng thời, dữ liệu được chia sẻ với các hệ thống nội bộ qua API (LAN) và với VMS-N/VMS-S/VISHIPEL/Cảng vụ qua API + VPN. Hệ thống cũng tích hợp dữ liệu ngược từ các đơn vị này.",
+    "source_quote": "Mô hình liên thông dữ liệu với CSDL nền tảng dùng chung của Bộ GTVT... thông qua trục tích hợp dữ liệu LGSP (P707-P708)"
+  },
+  "compliance_refs": [
+    {
+      "id": "CR-M09-001",
+      "regulation": "Quyết định số 1540/QĐ-BGTVT ngày 23/11/2022",
+      "description": "Mã định danh điện tử của các cơ quan, đơn vị thuộc Bộ GTVT phục vụ kết nối, chia sẻ dữ liệu",
+      "source_quote": "P786"
+    },
+    {
+      "id": "CR-M09-002",
+      "regulation": "Văn bản số 8294/BGTVT-TTCNTT ngày 30/08/2019",
+      "description": "Biểu mẫu thông tin của CSDL nền tảng dùng chung phục vụ xây dựng Chính phủ điện tử Bộ GTVT",
+      "source_quote": "P791, P1849"
+    },
+    {
+      "id": "CR-M09-003",
+      "regulation": "Thông tư số 67/2018/TT-BTC ngày 06/08/2018",
+      "description": "Hướng dẫn quản lý, vận hành, trao đổi và khai thác thông tin trong CSDL quốc gia về tài sản công",
+      "source_quote": "P795"
+    },
+    {
+      "id": "CR-M09-004",
+      "regulation": "Quyết định số 20/2020/QĐ-TTg ngày 22/7/2020",
+      "description": "Kết nối, chia sẻ dữ liệu giữa các cơ quan đơn vị",
+      "source_quote": "P786"
+    }
+  ]
+}

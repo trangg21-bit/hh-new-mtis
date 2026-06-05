@@ -1,0 +1,7 @@
+{
+  "$schema": "https://ai-studio.etc.vn/schemas/intel-meta.json",
+  "name": "HH.New",
+  "workspacePath": "/Users/thuytrang/workspace/HH.New",
+  "type": "mono",
+  "services": []
+}

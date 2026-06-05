@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Phân hệ Quản lý quy hoạch KCHTGTHH — M05</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #eef2f7; color: #1a1a2e; }
+  .gov-header { background: linear-gradient(135deg, #002b5e 0%, #004a8f 100%); color: #fff; padding: 18px 40px; display: flex; align-items: center; justify-content: space-between; }
+  .gov-header .title { font-size: 18px; font-weight: 700; letter-spacing: 0.5px; }
+  .gov-header .sub-title { font-size: 13px; opacity: .75; margin-top: 2px; }
+  .gov-header .badge { background: #ffc107; color: #1a1a2e; border-radius: 20px; padding: 4px 14px; font-size: 13px; font-weight: 600; }
+  .gov-footer { background: #002b5e; color: #ccc; text-align: center; padding: 14px 20px; font-size: 13px; margin-top: 30px; }
+  .gov-footer strong { color: #fff; }
+  .page-wrap { max-width: 1360px; margin: 0 auto; padding: 20px 24px 10px; }
+  .breadcrumb { background: #fff; border-radius: 8px; padding: 10px 20px; margin-bottom: 18px; box-shadow: 0 1px 3px rgba(0,0,0,.08); font-size: 13px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .breadcrumb a { color: #004a8f; text-decoration: none; }
+  .breadcrumb a:hover { text-decoration: underline; }
+  .breadcrumb .sep { color: #999; }
+  .breadcrumb .current { color: #333; font-weight: 600; }
+  .breadcrumb .module-tag { background: #003366; color: #fff; font-size: 11px; padding: 2px 10px; border-radius: 12px; margin-left: 6px; }
+  .section { background: #fff; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,.07); margin-bottom: 28px; overflow: hidden; }
+  .section-header { background: #f5f8fc; padding: 16px 24px; border-bottom: 2px solid #004a8f; display: flex; align-items: center; justify-content: space-between; }
+  .section-header h2 { font-size: 17px; font-weight: 700; color: #002b5e; }
+  .section-header .feature-id { background: #004a8f; color: #fff; font-size: 12px; padding: 3px 12px; border-radius: 14px; font-weight: 600; }
+  .section-body { padding: 20px 24px 24px; }
+  .comp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .comp-grid.full { grid-template-columns: 1fr; }
+  .comp-card { border: 1px solid #dde4ec; border-radius: 8px; background: #fafcfe; overflow: hidden; }
+  .comp-card h3 { font-size: 14px; font-weight: 700; color: #003366; padding: 10px 14px; background: #eaf1fa; border-bottom: 1px solid #dde4ec; display: flex; align-items: center; gap: 8px; }
+  .comp-card h3 .badge-screen { background: #6c757d; color: #fff; font-size: 10px; padding: 1px 8px; border-radius: 10px; font-weight: 400; }
+  .comp-card .card-body { padding: 12px 14px; }
+  .table-wrap { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  table thead th { background: #eaf1fa; color: #002b5e; font-weight: 600; padding: 8px 10px; text-align: left; border-bottom: 2px solid #b8c9e0; white-space: nowrap; }
+  table tbody td { padding: 7px 10px; border-bottom: 1px solid #e6ecf3; }
+  table tbody tr:hover { background: #f0f5fb; }
+  .status-badge { display: inline-block; padding: 2px 10px; border-radius: 12px; font-size: 11px; font-weight: 600; }
+  .status-draft { background: #fff3cd; color: #856404; }
+  .status-planned { background: #cce5ff; color: #004085; }
+  .status-approved { background: #d4edda; color: #155724; }
+  .status-cancelled { background: #f8d7da; color: #721c24; }
+  .status-completed { background: #d1e7dd; color: #0f5132; }
+  .status-in-progress { background: #cce5ff; color: #004085; }
+  .filter-bar { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-bottom: 14px; }
+  .filter-bar input, .filter-bar select { padding: 6px 12px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 13px; background: #fff; min-width: 140px; }
+  .filter-bar input:focus, .filter-bar select:focus { outline: none; border-color: #004a8f; box-shadow: 0 0 0 2px rgba(0,74,143,.15); }
+  .filter-bar .btn { padding: 6px 16px; border: none; border-radius: 6px; cursor: default; font-size: 13px; font-weight: 600; }
+  .btn-primary { background: #004a8f; color: #fff; }
+  .btn-success { background: #1a7a3a; color: #fff; }
+  .btn-warning { background: #e6a700; color: #1a1a2e; }
+  .btn-outline { background: #fff; color: #004a8f; border: 1px solid #004a8f; }
+  .btn-danger { background: #b33; color: #fff; }
+  .btn-sm { padding: 4px 10px; font-size: 12px; border-radius: 4px; }
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 20px; }
+  .form-grid.col3 { grid-template-columns: 1fr 1fr 1fr; }
+  .form-group { display: flex; flex-direction: column; gap: 3px; }
+  .form-group label { font-size: 12px; font-weight: 600; color: #333; }
+  .form-group .field { padding: 6px 10px; border: 1px solid #cbd5e1; border-radius: 5px; font-size: 13px; background: #fff; min-height: 34px; display: flex; align-items: center; }
+  .form-group .field.readonly { background: #f3f6fa; color: #555; }
+  .form-group .field.highlight { background: #fffbe6; border-color: #e6a700; }
+  .form-actions { display: flex; gap: 10px; margin-top: 14px; justify-content: flex-end; }
+  .import-box { border: 2px dashed #b8c9e0; border-radius: 8px; padding: 20px; text-align: center; background: #f8faff; }
+  .import-box .icon { font-size: 28px; color: #004a8f; }
+  .import-box p { margin: 6px 0; font-size: 13px; color: #555; }
+  .import-box .btn { margin-top: 8px; }
+  .workflow-bar { display: flex; align-items: center; justify-content: center; gap: 0; margin: 10px 0 16px; flex-wrap: wrap; }
+  .wf-step { display: flex; align-items: center; gap: 8px; background: #f0f5fb; padding: 8px 18px; border-radius: 6px; font-size: 12px; color: #555; }
+  .wf-step.active { background: #004a8f; color: #fff; font-weight: 600; }
+  .wf-step.done { background: #d4edda; color: #155724; font-weight: 600; }
+  .wf-step .role { font-size: 11px; opacity: .8; }
+  .wf-arrow { font-size: 20px; color: #999; margin: 0 4px; }
+  .legend { display: flex; flex-wrap: wrap; gap: 18px; margin-bottom: 12px; font-size: 12px; color: #555; }
+  .legend-item { display: flex; align-items: center; gap: 6px; }
+  .screen-divider { height: 1px; background: #dde4ec; margin: 16px 0; }
+  .mt-2 { margin-top: 8px; }
+  .mb-2 { margin-bottom: 8px; }
+  .text-muted { color: #777; font-size: 12px; }
+  .text-danger { color: #b33; }
+  .approval-track { display: flex; align-items: center; gap: 14px; background: #f8faff; border: 1px solid #dde4ec; border-radius: 8px; padding: 12px 18px; margin-top: 12px; flex-wrap: wrap; }
+  .app-step { display: flex; align-items: center; gap: 6px; font-size: 12px; }
+  .app-step .circle { width: 18px; height: 18px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; }
+  .circle-pending { background: #e6ecf3; color: #999; }
+  .circle-done { background: #1a7a3a; color: #fff; }
+  .circle-current { background: #004a8f; color: #fff; }
+  .app-arrow { color: #ccc; font-size: 16px; }
+  @media (max-width: 900px) {
+    .comp-grid { grid-template-columns: 1fr; }
+    .form-grid, .form-grid.col3 { grid-template-columns: 1fr; }
+    .gov-header { flex-direction: column; align-items: flex-start; gap: 6px; }
+    .filter-bar { flex-direction: column; align-items: stretch; }
+  }
+  .role-tag { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 10px; font-weight: 600; margin-right: 4px; }
+  .role-officer { background: #e8f0fe; color: #004a8f; }
+  .role-leader { background: #fef7e0; color: #8a6d00; }
+  .role-director { background: #fce8e6; color: #a50e0e; }
+</style>
+</head>
+<body>
+<header class="gov-header">
+  <div>
+    <div class="title">DỰ ÁN: Xây dựng Hệ thống thông tin quản lý KCHT Giao thông Hàng hải</div>
+    <div class="sub-title">Hệ thống MTIS — Maritime Transport Infrastructure Management Information System</div>
+  </div>
+  <div class="badge">M05 — Quản lý quy hoạch KCHTGTHH</div>
+</header>
+<div class="page-wrap">
+  <div class="breadcrumb">
+    <a href="#">Trang chủ</a><span class="sep">›</span>
+    <a href="#">Quy hoạch</a><span class="sep">›</span>
+    <span class="current">Danh sách quy hoạch bến cảng</span>
+    <span class="module-tag">M05</span>
+  </div>
+  <div class="section">
+    <div class="section-header">
+      <h2>Tổng quan phân hệ — Quản lý quy hoạch KCHTGTHH</h2>
+      <span class="feature-id">M05</span>
+    </div>
+    <div class="section-body">
+      <div class="legend">
+        <span class="legend-item"><strong>P0</strong> — Bắt buộc</span>
+        <span class="legend-item"><strong>P1</strong> — Cần thiết</span>
+        <span class="legend-item"><strong>P2</strong> — Bổ sung</span>
+        <span class="legend-item"><span class="role-tag role-officer">Chuyên viên</span> Tạo/Nhập/Cập nhật</span>
+        <span class="legend-item"><span class="role-tag role-leader">Lãnh đạo Cảng vụ</span> Phê duyệt cấp 2</span>
+        <span class="legend-item"><span class="role-tag role-director">Lãnh đạo Cục</span> Phê duyệt cấp 3</span>
+      </div>
+      <div class="workflow-bar">
+        <div class="wf-step done">Soạn thảo <span class="role">(Chuyên viên)</span></div>
+        <span class="wf-arrow">→</span>
+        <div class="wf-step">Phê duyệt cấp 2 <span class="role">(Lãnh đạo Cảng vụ)</span></div>
+        <span class="wf-arrow">→</span>
+        <div class="wf-step">Phê duyệt cấp 3 <span class="role">(Lãnh đạo Cục)</span></div>
+        <span class="wf-arrow">→</span>
+        <div class="wf-step">Hoàn thành</div>
+      </div>
+      <p class="text-muted" style="margin-top:6px;"><strong>Thực thể chính:</strong> PlanningBerth (bến cảng quy hoạch) · PlanningSchedule (kế hoạch quy hoạch) · 3 tính năng · 13 yêu cầu</p>
+    </div>
+  </div>
+  <div class="section">
+    <div class="section-header">
+      <h2>1. Quản lý danh sách thông tin quy hoạch bến cảng</h2>
+      <span class="feature-id">F-M05-001 · P0 · CRUD</span>
+    </div>
+    <div class="section-body">
+      <div class="comp-card">
+        <h3>Danh sách quy hoạch bến cảng <span class="badge-screen">/planning/berths</span></h3>
+        <div class="card-body">
+          <div class="filter-bar">
+            <input type="text" placeholder="Tìm theo tên bến cảng..." value="Bến số 1">
+            <select><option>Tất cả cảng biển</option><option>Cảng Hải Phòng</option><option selected>Cảng Đà Nẵng</option><option>Cảng Sài Gòn</option></select>
+            <select><option>Tất cả trạng thái</option><option>Dự thảo</option><option selected>Đã phê duyệt</option><option>Đã hủy</option></select>
+            <button class="btn btn-primary">Tìm kiếm</button>
+            <button class="btn btn-success">+ Thêm mới</button>
+            <button class="btn btn-warning">Import Excel</button>
+            <button class="btn btn-outline">Xuat Excel</button>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr><th><input type="checkbox"></th><th>STT</th><th>Tên bến cảng</th><th>Cảng biển</th><th>Địa điểm</th><th>Năng lực QH (tấn/năm)</th><th>Cỡ tàu (DWT)</th><th>Giai đoạn đầu tư</th><th>Trạng thái</th><th>Thao tác</th></tr>
+              </thead>
+              <tbody>
+                <tr><td><input type="checkbox"></td><td>1</td><td><a href="#" style="color:#004a8f;">Bến số 1</a></td><td>Cảng Đà Nẵng</td><td>Q. Liên Chiểu, Đà Nẵng</td><td>3.000.000</td><td>50.000</td><td>Giai đoạn 1 (2024-2026)</td><td><span class="status-badge status-approved">Đã phê duyệt</span></td><td><button class="btn btn-sm btn-primary">S</button> <button class="btn btn-sm btn-outline">X</button> <button class="btn btn-sm btn-danger">D</button></td></tr>
+                <tr><td><input type="checkbox"></td><td>2</td><td><a href="#" style="color:#004a8f;">Bến container số 2</a></td><td>Cảng Hải Phòng</td><td>H. Thủy Nguyên, Hải Phòng</td><td>5.000.000</td><td>80.000</td><td>Giai đoạn 2 (2027-2029)</td><td><span class="status-badge status-planned">Đang quy hoạch</span></td><td><button class="btn btn-sm btn-primary">S</button> <button class="btn btn-sm btn-outline">X</button> <button class="btn btn-sm btn-danger">D</button></td></tr>
+                <tr><td><input type="checkbox"></td><td>3</td><td><a href="#" style="color:#004a8f;">Bến tổng hợp số 3</a></td><td>Cảng Sài Gòn</td><td>Q. 2, TP. Hồ Chí Minh</td><td>2.500.000</td><td>30.000</td><td>Giai đoạn 1 (2024-2026)</td><td><span class="status-badge status-draft">Dự thảo</span></td><td><button class="btn btn-sm btn-primary">S</button> <button class="btn btn-sm btn-outline">X</button> <button class="btn btn-sm btn-danger">D</button></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="text-muted mt-2">Hiển thị 3 / 12 bản ghi &middot; Trang 1 / 4</div>
+        </div>
+      </div>
+      <div class="screen-divider"></div>
+      <div class="comp-grid">
+        <div class="comp-card">
+          <h3>Thêm mới bến cảng quy hoạch <span class="badge-screen">/planning/berths/add</span></h3>
+          <div class="card-body">
+            <div class="form-grid">
+              <div class="form-group"><label>Tên bến cảng *</label><div class="field">Bến hàng lỏng số 4</div></div>
+              <div class="form-group"><label>Cảng biển *</label><div class="field"><select style="width:100%;border:none;padding:0;font-size:13px;"><option>Cảng Hải Phòng</option><option selected>Cảng Đà Nẵng</option></select></div></div>
+              <div class="form-group"><label>Địa điểm *</label><div class="field">Khu bến Liên Chiểu, Đà Nẵng</div></div>
+              <div class="form-group"><label>Loại bến</label><div class="field"><select style="width:100%;border:none;padding:0;font-size:13px;"><option>Loại I</option><option>Loại II</option><option>Loại III</option></select></div></div>
+              <div class="form-group"><label>Năng lực QH (tấn/năm) *</label><div class="field">4.000.000</div></div>
+              <div class="form-group"><label>Cỡ tàu lớn nhất (DWT) *</label><div class="field">70.000</div></div>
+              <div class="form-group"><label>Giai đoạn đầu tư</label><div class="field">Giai đoạn 1 (2024-2026)</div></div>
+              <div class="form-group"><label>Ghi chú</label><div class="field">Bến hàng lỏng phục vụ nhà máy lọc dầu</div></div>
+            </div>
+            <div class="form-actions"><button class="btn btn-primary">Lưu</button><button class="btn btn-outline">Hủy</button></div>
+          </div>
+        </div>
+        <div class="comp-card">
+          <h3>Import từ Excel <span class="badge-screen">/planning/berths/import</span></h3>
+          <div class="card-body">
+            <div class="import-box">
+              <div class="icon">+</div>
+              <p><strong>Kéo thả hoặc chọn file Excel (.xlsx, .xls)</strong></p>
+              <p class="text-muted">Dữ liệu: Tên bến, Cảng biển, Năng lực (tấn/năm), Cỡ tàu (DWT)</p>
+              <button class="btn btn-outline">Tải file mẫu</button>
+              <button class="btn btn-primary">Chọn file</button>
+            </div>
+            <div style="margin-top:12px;background:#eaf1fa;border-radius:6px;padding:10px;font-size:13px;">
+              <strong>File đã chọn:</strong> danh_sach_quy_hoach_2026.xlsx &nbsp;|&nbsp; <span style="color:#1a7a3a;">15 bản ghi hợp lệ</span> &nbsp;|&nbsp; <span style="color:#b33;">2 lỗi</span>
+            </div>
+            <div class="form-actions"><button class="btn btn-warning">Xem trước</button><button class="btn btn-success">Xác nhận import</button></div>
+          </div>
+        </div>
+      </div>
+      <div class="screen-divider"></div>
+      <div class="comp-card">
+        <h3>Kế hoạch quy hoạch bến cảng <span class="badge-screen">/planning/berths/plan</span></h3>
+        <div class="card-body">
+          <div class="filter-bar">
+            <strong style="font-size:13px;">Bến cảng:</strong> Bến số 1 &mdash; Cảng Đà Nẵng
+            <button class="btn btn-sm btn-success">+ Thêm kế hoạch</button>
+            <button class="btn btn-sm btn-warning">Import Excel</button>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Giai đoạn</th><th>Ngày bắt đầu</th><th>Ngày kết thúc</th><th>Năng lực (tấn/năm)</th><th>Kinh phí (VNĐ)</th><th>Nguồn vốn</th><th>Trạng thái</th><th>Thao tác</th></tr></thead>
+              <tbody>
+                <tr><td>Giai đoạn 1</td><td>01/01/2024</td><td>31/12/2026</td><td>3.000.000</td><td>500.000.000.000</td><td>Ngân sách TW</td><td><span class="status-badge status-in-progress">Đang thực hiện</span></td><td><button class="btn btn-sm btn-primary">S</button> <button class="btn btn-sm btn-danger">D</button></td></tr>
+                <tr><td>Giai đoạn 2</td><td>01/01/2027</td><td>31/12/2029</td><td>5.000.000</td><td>800.000.000.000</td><td>PPP + Ngân sách</td><td><span class="status-badge status-planned">Lên kế hoạch</span></td><td><button class="btn btn-sm btn-primary">S</button> <button class="btn btn-sm btn-danger">D</button></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="section">
+    <div class="section-header">
+      <h2>2. Tra cứu thông tin quy hoạch bến cảng</h2>
+      <span class="feature-id">F-M05-002 &middot; P1 &middot; Read</span>
+    </div>
+    <div class="section-body">
+      <div class="comp-card">
+        <h3>Tra cứu quy hoạch <span class="badge-screen">/planning/berths</span></h3>
+        <div class="card-body">
+          <div class="form-grid col3">
+            <div class="form-group"><label>Tên bến cảng</label><div class="field">Container số 2</div></div>
+            <div class="form-group"><label>Cảng biển</label><div class="field"><select style="width:100%;border:none;padding:0;font-size:13px;"><option>Tất cả</option><option selected>Cảng Hải Phòng</option><option>Cảng Đà Nẵng</option><option>Cảng Sài Gòn</option></select></div></div>
+            <div class="form-group"><label>Loại bến</label><div class="field"><select style="width:100%;border:none;padding:0;font-size:13px;"><option selected>Tất cả</option><option>Loại I</option><option>Loại II</option></select></div></div>
+            <div class="form-group"><label>Giai đoạn quy hoạch</label><div class="field"><select style="width:100%;border:none;padding:0;font-size:13px;"><option selected>Tất cả</option><option>Giai đoạn 1</option><option>Giai đoạn 2</option></select></div></div>
+            <div class="form-group"><label>Trạng thái</label><div class="field"><select style="width:100%;border:none;padding:0;font-size:13px;"><option selected>Tất cả</option><option>Dự thảo</option><option>Đã phê duyệt</option></select></div></div>
+            <div class="form-group"><label>Năng lực (tấn/năm)</label><div class="field"><input type="text" placeholder="Từ" style="width:80px;border:none;padding:4px;font-size:13px;"> &mdash; <input type="text" placeholder="Đến" style="width:80px;border:none;padding:4px;font-size:13px;"></div></div>
+          </div>
+          <div class="form-actions"><button class="btn btn-primary">Tra cứu</button><button class="btn btn-outline">Xóa bộ lọc</button><button class="btn btn-outline">Xuất Excel</button></div>
+        </div>
+      </div>
+      <div class="screen-divider"></div>
+      <div class="comp-card">
+        <h3>Kết quả tra cứu <span class="badge-screen">Read-only</span></h3>
+        <div class="card-body">
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>STT</th><th>Tên bến cảng</th><th>Cảng biển</th><th>Địa điểm</th><th>Năng lực QH (tấn/năm)</th><th>Cỡ tàu (DWT)</th><th>Giai đoạn QH</th><th>Trạng thái</th><th>Chi tiết</th></tr></thead>
+              <tbody>
+                <tr><td>1</td><td>Bến container số 2</td><td>Cảng Hải Phòng</td><td>H. Thủy Nguyên, Hải Phòng</td><td>5.000.000</td><td>80.000</td><td>Giai đoạn 2</td><td><span class="status-badge status-planned">Đang quy hoạch</span></td><td><button class="btn btn-sm btn-outline">Xem</button></td></tr>
+                <tr><td>2</td><td>Bến container số 5</td><td>Cảng Hải Phòng</td><td>Khu bến Lạch Huyện</td><td>7.000.000</td><td>100.000</td><td>Giai đoạn 1</td><td><span class="status-badge status-approved">Đã phê duyệt</span></td><td><button class="btn btn-sm btn-outline">Xem</button></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="text-muted mt-2">Tìm thấy 2 / 12 bản ghi &middot; Chế độ chỉ xem</div>
+        </div>
+      </div>
+      <div class="screen-divider"></div>
+      <div class="comp-card">
+        <h3>Chi tiết thông tin quy hoạch <span class="badge-screen">/planning/berths/detail &middot; Read-only</span></h3>
+        <div class="card-body">
+          <div class="form-grid">
+            <div class="form-group"><label>ID quy hoạch</label><div class="field readonly">QH-2026-001</div></div>
+            <div class="form-group"><label>Tên bến cảng</label><div class="field readonly">Bến container số 2</div></div>
+            <div class="form-group"><label>Cảng biển</label><div class="field readonly">Cảng Hải Phòng</div></div>
+            <div class="form-group"><label>Địa điểm</label><div class="field readonly">H. Thủy Nguyên, Hải Phòng</div></div>
+            <div class="form-group"><label>Loại bến</label><div class="field readonly">Loại I</div></div>
+            <div class="form-group"><label>Năng lực QH (tấn/năm)</label><div class="field readonly">5.000.000</div></div>
+            <div class="form-group"><label>Cỡ tàu lớn nhất (DWT)</label><div class="field readonly">80.000</div></div>
+            <div class="form-group"><label>Giai đoạn đầu tư</label><div class="field readonly">Giai đoạn 2 (2027-2029)</div></div>
+            <div class="form-group"><label>Trạng thái</label><div class="field readonly"><span class="status-badge status-planned">Đang quy hoạch</span></div></div>
+            <div class="form-group"><label>Người tạo</label><div class="field readonly">Nguyễn Văn An (Chuyên viên)</div></div>
+            <div class="form-group"><label>Ngày tạo</label><div class="field readonly">15/03/2025</div></div>
+            <div class="form-group"><label>Cập nhật lần cuối</label><div class="field readonly">28/11/2025 bởi Nguyễn Văn An</div></div>
+          </div>
+          <div class="form-actions"><button class="btn btn-outline">Quay lại danh sách</button></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="section">
+    <div class="section-header">
+      <h2>3. Cập nhật thông tin quy hoạch bến cảng</h2>
+      <span class="feature-id">F-M05-003 &middot; P0 &middot; CRUD</span>
+    </div>
+    <div class="section-body">
+      <div class="approval-track">
+        <span style="font-weight:600;font-size:13px;">Trạng thái phê duyệt:</span>
+        <div class="app-step"><span class="circle circle-done">V</span> Chuyên viên soạn thảo</div>
+        <span class="app-arrow">&rarr;</span>
+        <div class="app-step"><span class="circle circle-current">2</span> Lãnh đạo Cảng vụ phê duyệt</div>
+        <span class="app-arrow">&rarr;</span>
+        <div class="app-step"><span class="circle circle-pending">3</span> Lãnh đạo Cục phê duyệt</div>
+        <span class="app-arrow">&rarr;</span>
+        <div class="app-step"><span class="circle circle-pending">V</span> Hoàn thành</div>
+      </div>
+      <div class="screen-divider"></div>
+      <div class="comp-grid">
+        <div class="comp-card">
+          <h3>Cập nhật thông tin quy hoạch <span class="badge-screen">/planning/berths/edit</span></h3>
+          <div class="card-body">
+            <div class="form-grid">
+              <div class="form-group"><label>ID quy hoạch</label><div class="field readonly">QH-2026-001</div></div>
+              <div class="form-group"><label>Tên bến cảng</label><div class="field readonly">Bến container số 2</div></div>
+              <div class="form-group"><label>Cảng biển</label><div class="field readonly">Cảng Hải Phòng</div></div>
+              <div class="form-group"><label>Địa điểm</label><div class="field readonly">H. Thủy Nguyên, Hải Phòng</div></div>
+              <div class="form-group"><label>Năng lực QH (tấn/năm) *</label><div class="field highlight">6.000.000</div></div>
+              <div class="form-group"><label>Cỡ tàu lớn nhất (DWT) *</label><div class="field highlight">90.000</div></div>
+              <div class="form-group"><label>Giai đoạn đầu tư</label><div class="field"><select style="width:100%;border:none;padding:0;font-size:13px;"><option>Giai đoạn 1 (2024-2026)</option><option selected>Giai đoạn 2 (2027-2029)</option></select></div></div>
+              <div class="form-group"><label>Ngày bắt đầu</label><div class="field"><input type="date" value="2027-01-01" style="border:none;padding:4px;font-size:13px;"></div></div>
+              <div class="form-group"><label>Ngày kết thúc</label><div class="field"><input type="date" value="2029-12-31" style="border:none;padding:4px;font-size:13px;"></div></div>
+              <div class="form-group"><label>Ghi chú</label><div class="field">Điều chỉnh năng lực theo QH mới</div></div>
+            </div>
+            <div class="form-actions"><button class="btn btn-primary">Cập nhật</button><button class="btn btn-warning">Cập nhật từ Excel</button><button class="btn btn-outline">Hủy</button></div>
+          </div>
+        </div>
+        <div class="comp-card">
+          <h3>Lịch sử cập nhật</h3>
+          <div class="card-body" style="max-height:340px;overflow-y:auto;">
+            <table>
+              <thead><tr><th>Thời gian</th><th>Người cập nhật</th><th>Thay đổi</th></tr></thead>
+              <tbody>
+                <tr><td>28/11/2025 14:30</td><td>Nguyễn Văn An</td><td>Tăng NL từ 5 &rarr; 6 tr tấn</td></tr>
+                <tr><td>15/09/2025 09:15</td><td>Trần Thị Bình</td><td>Đổi giai đoạn đầu tư</td></tr>
+                <tr><td>20/06/2025 16:40</td><td>Nguyễn Văn An</td><td>Cập nhật DWT 80K &rarr; 90K</td></tr>
+                <tr><td>15/03/2025 10:00</td><td>Nguyễn Văn An</td><td>Tạo mới bản ghi</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="screen-divider"></div>
+      <div class="comp-card">
+        <h3>Cập nhật hàng loạt từ Excel</h3>
+        <div class="card-body">
+          <div class="comp-grid">
+            <div class="import-box" style="border-color:#e6a700;">
+              <div class="icon">+</div>
+              <p><strong>Chọn file Excel để cập nhật thông tin quy hoạch</strong></p>
+              <p class="text-muted">Hệ thống sẽ ghi đè hoặc bổ sung dữ liệu theo lựa chọn</p>
+              <button class="btn btn-outline">Tải mẫu Excel</button>
+              <button class="btn btn-warning">Chọn file</button>
+            </div>
+            <div style="background:#f8faff;border-radius:8px;padding:14px;border:1px solid #dde4ec;">
+              <p style="font-weight:600;font-size:13px;margin-bottom:8px;">Tùy chọn nhập:</p>
+              <label style="display:flex;align-items:center;gap:6px;font-size:13px;margin-bottom:4px;"><input type="radio" name="importMode" checked> Ghi đè dữ liệu hiện tại</label>
+              <label style="display:flex;align-items:center;gap:6px;font-size:13px;margin-bottom:4px;"><input type="radio" name="importMode"> Bổ sung dữ liệu mới</label>
+              <label style="display:flex;align-items:center;gap:6px;font-size:13px;"><input type="radio" name="importMode"> Chỉ cập nhật các trường trống</label>
+              <div class="form-actions" style="margin-top:12px;"><button class="btn btn-success">Cập nhật</button></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<footer class="gov-footer">
+  <strong>Cục Hàng hải Việt Nam</strong> &mdash; Phân hệ Quản lý quy hoạch KCHTGTHH<br>
+  <span style="font-size:11px;">Hệ thống MTIS &middot; Phiên bản 1.0 &middot; M05 &mdash; Planning Management</span>
+</footer>
+</body>
+</html>

@@ -1,0 +1,17 @@
+{
+  "name": "hh-new",
+  "private": true,
+  "scripts": {
+    "dev": "turbo dev",
+    "build": "turbo build",
+    "test": "turbo test",
+    "lint": "turbo lint",
+    "typecheck": "turbo typecheck"
+  },
+  "devDependencies": {
+    "turbo": "latest",
+    "typescript": "^5",
+    "@biomejs/biome": "latest"
+  },
+  "packageManager": "pnpm@10.33.4"
+}

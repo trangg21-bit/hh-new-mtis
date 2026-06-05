@@ -1,0 +1,822 @@
+{
+  "_meta": {
+    "producer": "consulting-intelligence-extractor",
+    "mode": "from-doc",
+    "total_modules": 11,
+    "total_features": 105
+  },
+  "modules": [
+    {
+      "id": "M01",
+      "name": "User Management",
+      "name_vn": "Quản lý người dùng",
+      "features": [
+        {
+          "id": "F-M01-001",
+          "name": "User Registration",
+          "description": "Đăng ký tài khoản người dùng mới",
+          "type": "Workflow",
+          "priority": "P0"
+        },
+        {
+          "id": "F-M01-002",
+          "name": "User Login",
+          "description": "Đăng nhập hệ thống với xác thực",
+          "type": "CRUD",
+          "priority": "P0"
+        },
+        {
+          "id": "F-M01-003",
+          "name": "Password Management",
+          "description": "Đổi mật khẩu, quên mật khẩu, reset",
+          "type": "CRUD",
+          "priority": "P0"
+        },
+        {
+          "id": "F-M01-004",
+          "name": "User Group Management",
+          "description": "Quản lý nhóm người dùng và phân quyền",
+          "type": "CRUD",
+          "priority": "P1"
+        },
+        {
+          "id": "F-M01-005",
+          "name": "Permission Role Management",
+          "description": "Gán quyền cho nhóm người dùng",
+          "type": "Config",
+          "priority": "P1"
+        },
+        {
+          "id": "F-M01-006",
+          "name": "Audit User Logins",
+          "description": "Nhật ký đăng nhập và hoạt động người dùng",
+          "type": "Monitor",
+          "priority": "P1"
+        },
+        {
+          "id": "F-M01-007",
+          "name": "Organization Management",
+          "description": "Quản lý đơn vị trong hệ thống",
+          "type": "CRUD",
+          "priority": "P1"
+        },
+        {
+          "id": "F-M01-008",
+          "name": "Account Lock/Unlock",
+          "description": "Khóa/mở khóa tài khoản người dùng",
+          "type": "Config",
+          "priority": "P1"
+        },
+        {
+          "id": "F-M01-009",
+          "name": "TOTP Two-Factor Auth",
+          "description": "Xác thực 2 yếu tố qua TOTP",
+          "type": "Config",
+          "priority": "P2"
+        },
+        {
+          "id": "F-M01-010",
+          "name": "Multi-Session Management",
+          "description": "Quản lý nhiều phiên đăng nhập",
+          "type": "Monitor",
+          "priority": "P2"
+        }
+      ]
+    },
+    {
+      "id": "M02",
+      "name": "System Administration",
+      "name_vn": "Quản trị hệ thống",
+      "features": [
+        {
+          "id": "F-M02-001",
+          "name": "Unit Management",
+          "description": "Quản lý danh mục đơn vị trực thuộc",
+          "type": "CRUD",
+          "priority": "P0"
+        },
+        {
+          "id": "F-M02-002",
+          "name": "Interconnect Configuration",
+          "description": "Cấu hình kết nối liên thông các đơn vị",
+          "type": "Config",
+          "priority": "P1"
+        },
+        {
+          "id": "F-M02-003",
+          "name": "Admin Account Management",
+          "description": "Quản lý tài khoản quản trị",
+          "type": "CRUD",
+          "priority": "P0"
+        },
+        {
+          "id": "F-M02-004",
+          "name": "Approval Management",
+          "description": "Quản lý quy trình phê duyệt dữ liệu",
+          "type": "Workflow",
+          "priority": "P0"
+        },
+        {
+          "id": "F-M02-005",
+          "name": "Audit Log Viewer",
+          "description": "Tra cứu nhật ký hoạt động hệ thống",
+          "type": "Monitor",
+          "priority": "P1"
+        },
+        {
+          "id": "F-M02-006",
+          "name": "System Configuration",
+          "description": "Cấu hình tham số hệ thống",
+          "type": "Config",
+          "priority": "P1"
+        },
+        {
+          "id": "F-M02-007",
+          "name": "Permission Policy",
+          "description": "Thiết lập chính sách phân quyền",
+          "type": "Config",
+          "priority": "P0"
+        },
+        {
+          "id": "F-M02-008",
+          "name": "Backup & Restore",
+          "description": "Sao lưu và phục hồi dữ liệu",
+          "type": "Config",
+          "priority": "P1"
+        }
+      ]
+    },
+    {
+      "id": "M03",
+      "name": "Technical Parameters Management",
+      "name_vn": "Quản lý thông số kỹ thuật KCHTGTHH",
+      "features": [
+        {
+          "id": "F-M03-001",
+          "name": "Dashboard",
+          "description": "Trang tổng quan thông số kỹ thuật",
+          "type": "Monitor",
+          "priority": "P0"
+        },
+        {
+          "id": "F-M03-002",
+          "name": "Port Management",
+          "description": "Quản lý danh mục cảng biển",
+          "type": "CRUD",
+          "priority": "P0"
+        },
+        {
+          "id": "F-M03-003",
+          "name": "Berth Management",
+          "description": "Quản lý bến cảng",
+          "type": "CRUD",
+          "priority": "P0"
+        },
+        {
+          "id": "F-M03-004",
+          "name": "Channel Management",
+          "description": "Quản lý luồng hàng hải",
+          "type": "CRUD",
+          "priority": "P0"
+        },
+        {
+          "id": "F-M03-005",
+          "name": "Anchorage Management",
+          "description": "Quản lý khu neo đậu",
+          "type": "CRUD",
+          "priority": "P0"
+        },
+        {
+          "id": "F-M03-006",
+          "name": "Buoy Management",
+          "description": "Quản lý phao tiêu báo hiệu",
+          "type": "CRUD",
+          "priority": "P0"
+        },
+        {
+          "id": "F-M03-007",
+          "name": "Lighthouse Management",
+          "description": "Quản lý đèn biển, đèn báo hiệu",
+          "type": "CRUD",
+          "priority": "P0"
+        },
+        {
+          "id": "F-M03-008",
+          "name": "Dike/Breakwater Management",
+          "description": "Quản lý đê, kè chắn sóng",
+          "type": "CRUD",
+          "priority": "P0"
+        },
+        {
+          "id": "F-M03-009",
+          "name": "Port Water Area Management",
+          "description": "Quản lý vùng nước cảng biển",
+          "type": "CRUD",
+          "priority": "P0"
+        },
+        {
+          "id": "F-M03-010",
+          "name": "VTS/AIS Station Management",
+          "description": "Quản lý trạm VTS, AIS",
+          "type": "CRUD",
+          "priority": "P1"
+        },
+        {
+          "id": "F-M03-011",
+          "name": "CCTV/SCADA Management",
+          "description": "Quản lý thiết bị giám sát CCTV, SCADA",
+          "type": "CRUD",
+          "priority": "P1"
+        },
+        {
+          "id": "F-M03-012",
+          "name": "Data Approval Workflow",
+          "description": "Quy trình phê duyệt dữ liệu 3 cấp",
+          "type": "Workflow",
+          "priority": "P0"
+        },
+        {
+          "id": "F-M03-013",
+          "name": "Historical Data Tracking",
+          "description": "Theo dõi lịch sử thay đổi dữ liệu",
+          "type": "Monitor",
+          "priority": "P1"
+        },
+        {
+          "id": "F-M03-014",
+          "name": "Document Attachment",
+          "description": "Đính kèm tài liệu vào hồ sơ KCHT",
+          "type": "CRUD",
+          "priority": "P1"
+        },
+        {
+          "id": "F-M03-015",
+          "name": "Map Preview Integration",
+          "description": "Xem trước dữ liệu KCHT trên bản đồ",
+          "type": "Integration",
+          "priority": "P2"
+        },
+        {
+          "id": "F-M03-016",
+          "name": "Traffic Separation Scheme Mgmt",
+          "description": "Quản lý luồng tàu, phân luồng giao thông",
+          "type": "CRUD",
+          "priority": "P1"
+        },
+        {
+          "id": "F-M03-017",
+          "name": "Meteorological Station Mgmt",
+          "description": "Quản lý trạm khí tượng thủy văn",
+          "type": "CRUD",
+          "priority": "P1"
+        },
+        {
+          "id": "F-M03-018",
+          "name": "Electronic Fence Mgmt",
+          "description": "Quản lý hàng rào điện tử",
+          "type": "CRUD",
+          "priority": "P2"
+        },
+        {
+          "id": "F-M03-019",
+          "name": "Data Import/Export",
+          "description": "Nhập/xuất dữ liệu KCHT (Excel, XML)",
+          "type": "CRUD",
+          "priority": "P1"
+        },
+        {
+          "id": "F-M03-020",
+          "name": "Search & Filter",
+          "description": "Tra cứu, lọc thông số kỹ thuật",
+          "type": "CRUD",
+          "priority": "P0"
+        },
+        {
+          "id": "F-M03-021",
+          "name": "VTS Sensor Data Feed",
+          "description": "Tiếp nhận dữ liệu cảm biến VTS",
+          "type": "Integration",
+          "priority": "P1"
+        },
+        {
+          "id": "F-M03-022",
+          "name": "Signal Station Management",
+          "description": "Quản lý đèn tín hiệu hàng hải",
+          "type": "CRUD",
+          "priority": "P2"
+        },
+        {
+          "id": "F-M03-023",
+          "name": "Pilot Boarding Station Mgmt",
+          "description": "Quản lý điểm đón trả hoa tiêu",
+          "type": "CRUD",
+          "priority": "P2"
+        },
+        {
+          "id": "F-M03-024",
+          "name": "Maritime Security Monitoring",
+          "description": "Quản lý thiết bị an ninh hàng hải",
+          "type": "CRUD",
+          "priority": "P1"
+        },
+        {
+          "id": "F-M03-025",
+          "name": "Data Validation Rule Engine",
+          "description": "Công cụ kiểm tra dữ liệu đầu vào",
+          "type": "Config",
+          "priority": "P2"
+        },
+        {
+          "id": "F-M03-026",
+          "name": "GPS Buoy Tracking",
+          "description": "Theo dõi vị trí phao GPS",
+          "type": "Integration",
+          "priority": "P1"
+        }
+      ]
+    },
+    {
+      "id": "M04",
+      "name": "Operations & Maintenance",
+      "name_vn": "Quản lý vận hành khai thác, bảo trì",
+      "features": [
+        {
+          "id": "F-M04-001",
+          "name": "Operational Plan Update",
+          "description": "Cập nhật kế hoạch vận hành khai thác",
+          "type": "CRUD",
+          "priority": "P0"
+        },
+        {
+          "id": "F-M04-002",
+          "name": "Maintenance Plan Update",
+          "description": "Cập nhật kế hoạch bảo trì",
+          "type": "CRUD",
+          "priority": "P0"
+        },
+        {
+          "id": "F-M04-003",
+          "name": "Incident Management",
+          "description": "Quản lý sự cố KCHT",
+          "type": "Workflow",
+          "priority": "P0"
+        },
+        {
+          "id": "F-M04-004",
+          "name": "Operational Info Lookup",
+          "description": "Tra cứu thông tin vận hành khai thác",
+          "type": "CRUD",
+          "priority": "P2"
+        },
+        {
+          "id": "F-M04-005",
+          "name": "Maintenance Info Lookup",
+          "description": "Tra cứu thông tin bảo trì",
+          "type": "CRUD",
+          "priority": "P2"
+        },
+        {
+          "id": "F-M04-006",
+          "name": "Incident Lookup",
+          "description": "Tra cứu sự cố KCHT",
+          "type": "CRUD",
+          "priority": "P2"
+        },
+        {
+          "id": "F-M04-007",
+          "name": "History Tracking",
+          "description": "Xem lịch sử vận hành, bảo trì và sự cố",
+          "type": "Monitor",
+          "priority": "P1"
+        },
+        {
+          "id": "F-M04-008",
+          "name": "Ops/Maintenance Reports",
+          "description": "Báo cáo thống kê vận hành, bảo trì, sự cố",
+          "type": "Report",
+          "priority": "P1"
+        }
+      ]
+    },
+    {
+      "id": "M05",
+      "name": "Planning Management",
+      "name_vn": "Quản lý quy hoạch KCHTGTHH",
+      "features": [
+        {
+          "id": "F-M05-001",
+          "name": "Planning List Management",
+          "description": "Quản lý danh sách thông tin quy hoạch bến cảng",
+          "type": "CRUD",
+          "priority": "P0"
+        },
+        {
+          "id": "F-M05-002",
+          "name": "Planning Info Lookup",
+          "description": "Tra cứu thông tin quy hoạch bến cảng",
+          "type": "CRUD",
+          "priority": "P1"
+        },
+        {
+          "id": "F-M05-003",
+          "name": "Planning Update",
+          "description": "Cập nhật năng lực thông qua, cỡ tàu, giai đoạn đầu tư",
+          "type": "CRUD",
+          "priority": "P0"
+        }
+      ]
+    },
+    {
+      "id": "M06",
+      "name": "Asset Management",
+      "name_vn": "Quản lý tài sản KCHTGTHH",
+      "features": [
+        {
+          "id": "F-M06-001",
+          "name": "Infrastructure Asset Records",
+          "description": "Hồ sơ tài sản kết cấu hạ tầng (từng đối tượng)",
+          "type": "CRUD",
+          "priority": "P0"
+        },
+        {
+          "id": "F-M06-002",
+          "name": "Asset Classification",
+          "description": "Phân loại tài sản KCHT theo nhóm",
+          "type": "Config",
+          "priority": "P1"
+        },
+        {
+          "id": "F-M06-003",
+          "name": "Asset Addition",
+          "description": "Ghi tăng tài sản cố định KCHT",
+          "type": "CRUD",
+          "priority": "P0"
+        },
+        {
+          "id": "F-M06-004",
+          "name": "Asset Depreciation",
+          "description": "Tính hao mòn/khấu hao tài sản",
+          "type": "CRUD",
+          "priority": "P0"
+        },
+        {
+          "id": "F-M06-005",
+          "name": "Asset Revaluation",
+          "description": "Đánh giá lại giá trị tài sản",
+          "type": "Workflow",
+          "priority": "P1"
+        },
+        {
+          "id": "F-M06-006",
+          "name": "Asset Disposal/Liquidation",
+          "description": "Thanh lý tài sản",
+          "type": "Workflow",
+          "priority": "P1"
+        },
+        {
+          "id": "F-M06-007",
+          "name": "Asset Inventory",
+          "description": "Kiểm kê tài sản KCHT",
+          "type": "Workflow",
+          "priority": "P0"
+        },
+        {
+          "id": "F-M06-008",
+          "name": "Asset Exploitation",
+          "description": "Quản lý khai thác sử dụng tài sản",
+          "type": "CRUD",
+          "priority": "P1"
+        },
+        {
+          "id": "F-M06-009",
+          "name": "Asset Fluctuation Tracking",
+          "description": "Theo dõi biến động tài sản",
+          "type": "Monitor",
+          "priority": "P1"
+        },
+        {
+          "id": "F-M06-010",
+          "name": "Asset Depreciation Report",
+          "description": "Báo cáo hao mòn, khấu hao tài sản",
+          "type": "Report",
+          "priority": "P0"
+        },
+        {
+          "id": "F-M06-011",
+          "name": "Asset Inventory Report",
+          "description": "Báo cáo kiểm kê tài sản",
+          "type": "Report",
+          "priority": "P0"
+        },
+        {
+          "id": "F-M06-012",
+          "name": "Asset History",
+          "description": "Xem lịch sử biến động tài sản",
+          "type": "Monitor",
+          "priority": "P2"
+        },
+        {
+          "id": "F-M06-013",
+          "name": "Asset Data Import/Export",
+          "description": "Nhập/xuất dữ liệu tài sản (Excel)",
+          "type": "CRUD",
+          "priority": "P1"
+        },
+        {
+          "id": "F-M06-014",
+          "name": "Asset GIS Map View",
+          "description": "Xem tài sản trên nền bản đồ GIS",
+          "type": "Integration",
+          "priority": "P2"
+        }
+      ]
+    },
+    {
+      "id": "M07",
+      "name": "GIS/Map Infrastructure Management",
+      "name_vn": "Quản lý KCHT trên nền bản đồ GIS",
+      "features": [
+        {
+          "id": "F-M07-001",
+          "name": "Point Object CRUD",
+          "description": "Quản lý đối tượng điểm trên bản đồ",
+          "type": "CRUD",
+          "priority": "P0"
+        },
+        {
+          "id": "F-M07-002",
+          "name": "Line Object CRUD",
+          "description": "Quản lý đối tượng đường trên bản đồ",
+          "type": "CRUD",
+          "priority": "P0"
+        },
+        {
+          "id": "F-M07-003",
+          "name": "Polygon Object CRUD",
+          "description": "Quản lý đối tượng vùng trên bản đồ",
+          "type": "CRUD",
+          "priority": "P0"
+        },
+        {
+          "id": "F-M07-004",
+          "name": "Map Viewer",
+          "description": "Xem bản đồ KCHT với các lớp đối tượng",
+          "type": "Monitor",
+          "priority": "P0"
+        },
+        {
+          "id": "F-M07-005",
+          "name": "Map Search",
+          "description": "Tra cứu dữ liệu KCHT trên bản đồ",
+          "type": "CRUD",
+          "priority": "P1"
+        },
+        {
+          "id": "F-M07-006",
+          "name": "Symbol Management",
+          "description": "Quản lý biểu tượng bản đồ",
+          "type": "Config",
+          "priority": "P2"
+        },
+        {
+          "id": "F-M07-007",
+          "name": "ENC Chart Integration",
+          "description": "Tích hợp hải đồ điện tử ENC",
+          "type": "Integration",
+          "priority": "P0"
+        },
+        {
+          "id": "F-M07-008",
+          "name": "Layer Management",
+          "description": "Quản lý lớp bản đồ",
+          "type": "Config",
+          "priority": "P1"
+        }
+      ]
+    },
+    {
+      "id": "M08",
+      "name": "Reporting & Statistics",
+      "name_vn": "Báo cáo thống kê",
+      "features": [
+        {
+          "id": "F-M08-001",
+          "name": "Asset Reports",
+          "description": "Báo cáo tài sản kết cấu hạ tầng",
+          "type": "Report",
+          "priority": "P0"
+        },
+        {
+          "id": "F-M08-002",
+          "name": "Infrastructure Reports",
+          "description": "Báo cáo thông số kỹ thuật KCHT",
+          "type": "Report",
+          "priority": "P0"
+        },
+        {
+          "id": "F-M08-003",
+          "name": "Port Throughput Reports",
+          "description": "Báo cáo sản lượng cảng biển",
+          "type": "Report",
+          "priority": "P0"
+        },
+        {
+          "id": "F-M08-004",
+          "name": "Safety Reports",
+          "description": "Báo cáo an toàn hàng hải",
+          "type": "Report",
+          "priority": "P1"
+        },
+        {
+          "id": "F-M08-005",
+          "name": "Crew/Employee Reports",
+          "description": "Báo cáo thuyền viên",
+          "type": "Report",
+          "priority": "P1"
+        },
+        {
+          "id": "F-M08-006",
+          "name": "Circular 48 Reports",
+          "description": "Báo cáo theo TT 48/2019/TT-BGTVT",
+          "type": "Report",
+          "priority": "P1"
+        },
+        {
+          "id": "F-M08-007",
+          "name": "Multi-condition Filter",
+          "description": "Bộ lọc đa điều kiện cho báo cáo",
+          "type": "CRUD",
+          "priority": "P1"
+        },
+        {
+          "id": "F-M08-008",
+          "name": "PDF/Excel Export",
+          "description": "Xuất báo cáo PDF, Excel",
+          "type": "CRUD",
+          "priority": "P0"
+        }
+      ]
+    },
+    {
+      "id": "M09",
+      "name": "Data Interconnection & Sharing",
+      "name_vn": "Liên thông chia sẻ dữ liệu",
+      "features": [
+        {
+          "id": "F-M09-001",
+          "name": "LGSP Sync",
+          "description": "Đồng bộ dữ liệu qua LGSP Bộ GTVT",
+          "type": "Integration",
+          "priority": "P0"
+        },
+        {
+          "id": "F-M09-002",
+          "name": "NDXP Integration",
+          "description": "Tích hợp Nền tảng Chia sẻ dữ liệu Quốc gia",
+          "type": "Integration",
+          "priority": "P0"
+        },
+        {
+          "id": "F-M09-003",
+          "name": "Web API Gateway",
+          "description": "Cổng dịch vụ Web API cho hệ thống ngoài",
+          "type": "Integration",
+          "priority": "P0"
+        },
+        {
+          "id": "F-M09-004",
+          "name": "Bộ GTVT Shared DB Sync",
+          "description": "Đồng bộ CSDL dùng chung Bộ GTVT",
+          "type": "Integration",
+          "priority": "P1"
+        },
+        {
+          "id": "F-M09-005",
+          "name": "External Query Service",
+          "description": "Dịch vụ tra cứu dữ liệu KCHT từ bên ngoài",
+          "type": "Integration",
+          "priority": "P1"
+        },
+        {
+          "id": "F-M09-006",
+          "name": "Connection Monitoring",
+          "description": "Giám sát kết nối liên thông",
+          "type": "Monitor",
+          "priority": "P1"
+        }
+      ]
+    },
+    {
+      "id": "M10",
+      "name": "Nautical Chart Editing",
+      "name_vn": "Biên tập hải đồ điện tử",
+      "features": [
+        {
+          "id": "F-M10-001",
+          "name": "ENC Chart Import",
+          "description": "Import các mảnh hải đồ điện tử (S-57/S-63)",
+          "type": "CRUD",
+          "priority": "P0"
+        },
+        {
+          "id": "F-M10-002",
+          "name": "Chart Editing UI",
+          "description": "Giao diện biên tập hải đồ điện tử",
+          "type": "CRUD",
+          "priority": "P0"
+        },
+        {
+          "id": "F-M10-003",
+          "name": "S-57/S-100 Compliance",
+          "description": "Tuân thủ tiêu chuẩn S-57/S-100",
+          "type": "Config",
+          "priority": "P0"
+        },
+        {
+          "id": "F-M10-004",
+          "name": "Data Conversion Pipeline",
+          "description": "Chuyển đổi dữ liệu S-57 sang Shapefile/GeoPackage",
+          "type": "Integration",
+          "priority": "P1"
+        },
+        {
+          "id": "F-M10-005",
+          "name": "ENC Catalog Management",
+          "description": "Quản lý danh mục 108 mảnh hải đồ",
+          "type": "CRUD",
+          "priority": "P1"
+        },
+        {
+          "id": "F-M10-006",
+          "name": "Chart Version History",
+          "description": "Lịch sử phiên bản hải đồ",
+          "type": "Monitor",
+          "priority": "P2"
+        },
+        {
+          "id": "F-M10-007",
+          "name": "Chart Validation",
+          "description": "Kiểm tra tính hợp lệ của hải đồ (S-58)",
+          "type": "Config",
+          "priority": "P1"
+        },
+        {
+          "id": "F-M10-008",
+          "name": "Chart Export/Publication",
+          "description": "Xuất bản hải đồ",
+          "type": "CRUD",
+          "priority": "P1"
+        },
+        {
+          "id": "F-M10-009",
+          "name": "Spatial DB Sync",
+          "description": "Đồng bộ dữ liệu với CSDL không gian",
+          "type": "Integration",
+          "priority": "P1"
+        },
+        {
+          "id": "F-M10-010",
+          "name": "Chart Annotations",
+          "description": "Ghi chú, annotation trên hải đồ",
+          "type": "CRUD",
+          "priority": "P2"
+        }
+      ]
+    },
+    {
+      "id": "M11",
+      "name": "Infrastructure Database Creation",
+      "name_vn": "Tạo lập CSDL KCHTGTHH",
+      "features": [
+        {
+          "id": "F-M11-001",
+          "name": "Document Digitization",
+          "description": "Số hóa và nhập liệu hồ sơ KCHTGTHH",
+          "type": "CRUD",
+          "priority": "P0"
+        },
+        {
+          "id": "F-M11-002",
+          "name": "Data Validation",
+          "description": "Kiểm tra và xác thực dữ liệu sau tạo lập",
+          "type": "Config",
+          "priority": "P1"
+        },
+        {
+          "id": "F-M11-003",
+          "name": "Data Import to MTIS DB",
+          "description": "Nhập dữ liệu vào CSDL MTIS và đồng bộ liên thông",
+          "type": "Integration",
+          "priority": "P0"
+        },
+        {
+          "id": "F-M11-004",
+          "name": "Data Version Management",
+          "description": "Quản lý phiên bản dữ liệu KCHT",
+          "type": "Config",
+          "priority": "P2"
+        }
+      ]
+    }
+  ]
+}

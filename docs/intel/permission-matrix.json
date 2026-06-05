@@ -1,0 +1,261 @@
+{
+  "_meta": {
+    "producer": "consulting-intelligence-extractor",
+    "mode": "from-doc",
+    "rbac_mode": "role-based"
+  },
+  "permissions": [
+    {
+      "role": "system-admin",
+      "permission": "FULL_ACCESS",
+      "scope": "system",
+      "module": "*"
+    },
+    {
+      "role": "director",
+      "permission": "APPROVE_LEVEL_3",
+      "scope": "system",
+      "module": "*"
+    },
+    {
+      "role": "director",
+      "permission": "VIEW_ALL",
+      "scope": "system",
+      "module": "*"
+    },
+    {
+      "role": "director",
+      "permission": "REPORT_ALL",
+      "scope": "system",
+      "module": "*"
+    },
+    {
+      "role": "senior-leader",
+      "permission": "VIEW_ALL",
+      "scope": "system",
+      "module": "*"
+    },
+    {
+      "role": "senior-leader",
+      "permission": "REPORT_ALL",
+      "scope": "system",
+      "module": "*"
+    },
+    {
+      "role": "senior-leader",
+      "permission": "APPROVE_LEVEL_3",
+      "scope": "system",
+      "module": "*"
+    },
+    {
+      "role": "port-authority-leader",
+      "permission": "APPROVE_LEVEL_2",
+      "scope": "system",
+      "module": "*"
+    },
+    {
+      "role": "port-authority-leader",
+      "permission": "VIEW_LOCAL",
+      "scope": "system",
+      "module": "*"
+    },
+    {
+      "role": "port-authority-leader",
+      "permission": "MANAGE_STAFF",
+      "scope": "system",
+      "module": "*"
+    },
+    {
+      "role": "infrastructure-officer",
+      "permission": "CRUD_INFRASTRUCTURE",
+      "scope": "system",
+      "module": "*"
+    },
+    {
+      "role": "infrastructure-officer",
+      "permission": "VIEW_MAP",
+      "scope": "system",
+      "module": "*"
+    },
+    {
+      "role": "infrastructure-officer",
+      "permission": "MANAGE_DOCUMENTS",
+      "scope": "system",
+      "module": "*"
+    },
+    {
+      "role": "infrastructure-officer",
+      "permission": "SUBMIT_FOR_APPROVAL",
+      "scope": "system",
+      "module": "*"
+    },
+    {
+      "role": "asset-officer",
+      "permission": "CRUD_ASSET",
+      "scope": "system",
+      "module": "*"
+    },
+    {
+      "role": "asset-officer",
+      "permission": "RUN_INVENTORY",
+      "scope": "system",
+      "module": "*"
+    },
+    {
+      "role": "asset-officer",
+      "permission": "GENERATE_ASSET_REPORT",
+      "scope": "system",
+      "module": "*"
+    },
+    {
+      "role": "maintenance-officer",
+      "permission": "CRUD_MAINTENANCE",
+      "scope": "system",
+      "module": "*"
+    },
+    {
+      "role": "maintenance-officer",
+      "permission": "CRUD_INCIDENT",
+      "scope": "system",
+      "module": "*"
+    },
+    {
+      "role": "maintenance-officer",
+      "permission": "VIEW_OPERATIONS",
+      "scope": "system",
+      "module": "*"
+    },
+    {
+      "role": "gis-officer",
+      "permission": "CRUD_SPATIAL",
+      "scope": "system",
+      "module": "*"
+    },
+    {
+      "role": "gis-officer",
+      "permission": "MANAGE_LAYERS",
+      "scope": "system",
+      "module": "*"
+    },
+    {
+      "role": "gis-officer",
+      "permission": "MANAGE_SYMBOLS",
+      "scope": "system",
+      "module": "*"
+    },
+    {
+      "role": "gis-officer",
+      "permission": "INTEGRATE_ENC",
+      "scope": "system",
+      "module": "*"
+    },
+    {
+      "role": "chart-officer",
+      "permission": "CRUD_CHART",
+      "scope": "system",
+      "module": "*"
+    },
+    {
+      "role": "chart-officer",
+      "permission": "IMPORT_ENC",
+      "scope": "system",
+      "module": "*"
+    },
+    {
+      "role": "chart-officer",
+      "permission": "EXPORT_CHART",
+      "scope": "system",
+      "module": "*"
+    },
+    {
+      "role": "chart-officer",
+      "permission": "VALIDATE_CHART",
+      "scope": "system",
+      "module": "*"
+    },
+    {
+      "role": "reporting-officer",
+      "permission": "GENERATE_REPORT",
+      "scope": "system",
+      "module": "*"
+    },
+    {
+      "role": "reporting-officer",
+      "permission": "EXPORT_PDF_EXCEL",
+      "scope": "system",
+      "module": "*"
+    },
+    {
+      "role": "reporting-officer",
+      "permission": "VIEW_STATISTICS",
+      "scope": "system",
+      "module": "*"
+    },
+    {
+      "role": "integration-officer",
+      "permission": "MANAGE_LGSP",
+      "scope": "system",
+      "module": "*"
+    },
+    {
+      "role": "integration-officer",
+      "permission": "MANAGE_NDXP",
+      "scope": "system",
+      "module": "*"
+    },
+    {
+      "role": "integration-officer",
+      "permission": "MANAGE_API",
+      "scope": "system",
+      "module": "*"
+    },
+    {
+      "role": "integration-officer",
+      "permission": "MONITOR_CONNECTIONS",
+      "scope": "system",
+      "module": "*"
+    },
+    {
+      "role": "business-officer",
+      "permission": "VIEW_INFRASTRUCTURE",
+      "scope": "system",
+      "module": "*"
+    },
+    {
+      "role": "business-officer",
+      "permission": "VIEW_REPORTS",
+      "scope": "system",
+      "module": "*"
+    },
+    {
+      "role": "business-officer",
+      "permission": "SEARCH_DATA",
+      "scope": "system",
+      "module": "*"
+    },
+    {
+      "role": "external-user",
+      "permission": "API_READ_ONLY",
+      "scope": "system",
+      "module": "*"
+    },
+    {
+      "role": "system",
+      "permission": "AUTO_SYNC",
+      "scope": "system",
+      "module": "*"
+    },
+    {
+      "role": "system",
+      "permission": "AUTO_BACKUP",
+      "scope": "system",
+      "module": "*"
+    },
+    {
+      "role": "system",
+      "permission": "AUTO_NOTIFY",
+      "scope": "system",
+      "module": "*"
+    }
+  ]
+}

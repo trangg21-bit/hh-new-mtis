@@ -1,0 +1,16 @@
+---
+description: Monorepo conventions for HH.New. Supplements global rules.
+alwaysApply: false
+---
+# Conventions: HH.New (Monorepo)
+## Import Rules
+- Apps/services import from `src/shared/` only — never from each other directly.
+- Cross-service data: API calls only — never direct package import between services.
+- Internal shared packages declared as workspace deps: `"@hh-new/types": "workspace:*"`.
+- No circular dependencies between shared packages.
+## Docs-Path Rules
+- Cross-cutting feature: `docs/features/{feature-id}/`
+- App-scoped: `src/apps/{app}/docs/features/{feature-id}/`
+- Service-scoped: `src/services/{svc}/docs/features/{feature-id}/`
+## Commands
+Run `--filter {app}` to scope to one app: `pnpm --filter {app} dev`

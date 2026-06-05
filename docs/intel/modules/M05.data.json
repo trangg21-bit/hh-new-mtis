@@ -1,0 +1,244 @@
+{
+  "_meta": {
+    "source_file": "1.TKCT-Cuc HH-KetCauHaTangGiaoThong 13.11.2024 ban in final (1).docx",
+    "module_id": "M05",
+    "module_name": "Planning Management (Quản lý quy hoạch KCHTGTHH)",
+    "module_name_en": "Planning-Management",
+    "extracted_at": "2026-06-05T22:00:00+07:00",
+    "status": "complete",
+    "end_marker": "module-analysis-complete",
+    "total_requirements": 13,
+    "note": "M05 covers port terminal planning: CRUD planning berth entries, planning schedule updates, planning info updates, lookup. Para range 1118-1122 (Part II Section II), Appendix 01 'QUAN LY QUY HOACH KCHTGTHH' section (requirements 93-95, 13 sub-requirements). Pages 32-33, screenshots img-51..img-56."
+  },
+  "business_rules": [
+    {
+      "id": "BR-M05-001",
+      "description": "Ben cang quy hoach phai co day du thong tin: ten ben cang, dia diem, quy hoach nang luc thong qua (tan/nam), co tau tiep nhan lon nhat theo quy hoach (DWT), ke hoach quy hoach",
+      "type": "data",
+      "severity": "critical",
+      "source_quote": "Quy hoach nang luc thong qua (tan/nam), Co tau tiep nhan lon nhat theo quy hoach (don vi: DWT)"
+    },
+    {
+      "id": "BR-M05-002",
+      "description": "Thong tin quy hoach ben cang phai ho tro nhap lieu tu file Excel (import) va xuat ra file Excel (export) de phuc vu cong tac tong hop bao cao",
+      "type": "functional",
+      "severity": "high",
+      "source_quote": "Nguoi dung thuc hien them moi ben cang vao danh sach thong tin quy hoach tu file excel"
+    },
+    {
+      "id": "BR-M05-003",
+      "description": "Ben cang trong danh sach quy hoach phai ho tro xoa va cap nhat thong tin quy hoach",
+      "type": "functional",
+      "severity": "high",
+      "source_quote": "Nguoi dung thuc hien xoa ben cang trong danh sach thong tin quy hoach. He thong cho phep nguoi dung xoa ben cang trong danh sach thong tin quy hoach"
+    },
+    {
+      "id": "BR-M05-004",
+      "description": "Ke hoach quy hoach ben cang phai ho tro them moi ke hoach quy hoach va nhap tu file Excel",
+      "type": "functional",
+      "severity": "high",
+      "source_quote": "Nguoi dung thuc hien them moi ke hoach thong tin quy hoach ben cang. Nguoi dung thuc hien them moi ke hoach thong tin quy hoach ben cang tu file excel"
+    },
+    {
+      "id": "BR-M05-005",
+      "description": "Chuc nang cap nhat thong tin quy hoach phai ghi nhan cac thay doi va luu lich su cap nhat",
+      "type": "audit",
+      "severity": "medium",
+      "source_quote": "Nguoi dung thuc hien cap nhat thong tin quy hoach. He thong cho phep nguoi dung cap nhat thong tin quy hoach"
+    }
+  ],
+  "features": [
+    {
+      "name": "Quản lý danh sách thông tin quy hoạch bến cảng hàng hải",
+      "description": "Cho phép Chuyên viên quản lý toàn bộ danh sách bến cảng nằm trong quy hoạch hàng hải: xem danh sách, xem chi tiết, tìm kiếm thông tin quy hoạch. Thêm mới bến cảng vào danh sách (thủ công hoặc import từ file Excel), xóa bến cảng khỏi danh sách quy hoạch. Thêm mới kế hoạch quy hoạch cho bến cảng (thủ công hoặc import Excel). Cập nhật thông tin quy hoạch (trực tiếp hoặc từ file Excel).",
+      "type": "CRUD",
+      "priority": "P1",
+      "actors": ["Chuyên viên"],
+      "entities": ["PlanningBerth", "PlanningSchedule"],
+      "key_fields": ["planning_id", "berth_name", "port_name", "location", "planned_capacity_tpy", "max_vessel_dwt", "plan_start_date", "plan_end_date", "investment_phase", "plan_status", "remarks"],
+      "validations": [
+        "Thông tin bến cảng quy hoạch phải bao gồm năng lực thông qua (tấn/năm) và cỡ tàu tiếp nhận lớn nhất (DWT)",
+        "Cho phép nhập liệu đồng loạt từ file Excel",
+        "Cap nhat thong tin tu file Excel phai ghi de du lieu hien tai hoac bo sung tuy chon"
+      ],
+      "screens": ["/planning/berths", "/planning/berths/add", "/planning/berths/plan", "/planning/berths/import", "/planning/berths/plan/import"],
+      "workflow": {
+        "transitions": [
+          "Xem danh sach quy hoach > Tim kiem > Xem chi tiet ben cang",
+          "Them moi ben cang > Nhap thong tin quy hoach > Luu",
+          "Import Excel > Chon file > Doc du lieu > Xac nhan > Luu hang loat",
+          "Xoa ben cang > Xac nhan xoa > Cap nhat danh sach",
+          "Them ke hoach quy hoach (thu cong/Excel) > Nhap thong tin ke hoach > Luu"
+        ]
+      },
+      "source_quotes": [
+        "Quan ly danh sach thong tin quy hoach ben cang hang hai",
+        "Them/ Sua/ Xoa moi ben cang can quy hoach",
+        "Cap nhat ke hoach quy hoach ben cang"
+      ]
+    },
+    {
+      "name": "Tra cứu thông tin quy hoạch bến cảng hàng hải",
+      "description": "Cho phep nguoi dung (Chuyen vien) tra cuu thong tin quy hoach ben cang hang hai: xem danh sach thong tin quy hoach, tim kiem theo cac tieu chi (ten ben cang, cang bien, giai doan quy hoach, nang luc), xem chi tiet thong tin quy hoach.",
+      "type": "Read",
+      "priority": "P2",
+      "actors": ["Chuyên viên"],
+      "entities": ["PlanningBerth"],
+      "key_fields": ["berth_name", "port_name", "location", "planned_capacity", "max_vessel_dwt", "plan_status"],
+      "validations": [],
+      "screens": ["/planning/berths", "/planning/berths/detail"],
+      "workflow": {
+        "transitions": [
+          "Xem danh sach quy hoach > Tim kiem/loc > Xem chi tiet thong tin quy hoach ben cang"
+        ]
+      },
+      "source_quotes": [
+        "Tra cuu thong tin quy hoach ben cang hang hai"
+      ]
+    },
+    {
+      "name": "Cập nhật thông tin quy hoạch bến cảng hàng hải",
+      "description": "Cho phep Chuyen vien cap nhat thong tin quy hoach ben cang hang hai: xem danh sach thong tin quy hoach ben cang, chon ben cang va cap nhat cac thong tin quy hoach nhu nang luc thong qua, co tau, giai doan quy hoach, ke hoach dau tu.",
+      "type": "CRUD",
+      "priority": "P1",
+      "actors": ["Chuyên viên"],
+      "entities": ["PlanningBerth"],
+      "key_fields": ["planning_id", "planned_capacity_tpy", "max_vessel_dwt", "investment_phase", "plan_start_date", "plan_end_date", "plan_status", "updated_by", "updated_at"],
+      "validations": [
+        "Nang luc thong qua quy hoach phai la so duong",
+        "Co tau tiep nhan lon nhat (DWT) phai phu hop voi loai ben cang",
+        "Ngay ket thuc ke hoach phai sau ngay bat dau"
+      ],
+      "screens": ["/planning/berths", "/planning/berths/edit"],
+      "workflow": {
+        "transitions": [
+          "Xem danh sach > Chon ben cang > Cap nhat thong tin quy hoach > Luu thay doi > Ghi nhat ky cap nhat"
+        ]
+      },
+      "source_quotes": [
+        "Cap nhat thong tin quy hoach ben cang hang hai",
+        "Cap nhat thong tin quy hoach ben cang"
+      ]
+    }
+  ],
+  "entities": [
+    {
+      "name": "PlanningBerth",
+      "display_name": "Ben cang quy hoach",
+      "description": "Ben cang trong danh sach quy hoach hang hai, bao gom thong tin ve nang luc thong qua, co tau, giai doan quy hoach",
+      "key_fields": ["planning_id", "berth_name", "port_name", "port_type", "location", "planned_capacity_tpy", "max_vessel_dwt", "investment_phase", "plan_start_date", "plan_end_date", "plan_status", "remarks", "created_by", "created_at", "updated_by", "updated_at"],
+      "field_types": {
+        "planning_id": "UUID",
+        "berth_name": "string",
+        "port_name": "string",
+        "port_type": "enum [loai_I, loai_II, loai_III]",
+        "location": "string",
+        "planned_capacity_tpy": "integer (tan/nam)",
+        "max_vessel_dwt": "integer (DWT)",
+        "investment_phase": "string",
+        "plan_start_date": "date",
+        "plan_end_date": "date",
+        "plan_status": "enum [draft, planning, approved, cancelled, completed]",
+        "remarks": "text",
+        "created_by": "UUID",
+        "created_at": "datetime",
+        "updated_by": "UUID",
+        "updated_at": "datetime"
+      },
+      "pii_fields": [],
+      "source": "TKCT Part II Sec II - P1118-P1122, Phu luc 01 - Muc V (93-95), Bang 70"
+    },
+    {
+      "name": "PlanningSchedule",
+      "display_name": "Ke hoach quy hoach ben cang",
+      "description": "Ke hoach quy hoach chi tiet cho tung ben cang, bao gom cac giai doan dau tu va thoi gian thuc hien",
+      "key_fields": ["schedule_id", "planning_id", "phase_name", "phase_order", "start_date", "end_date", "planned_capacity_tpy", "investment_amount", "investment_source", "notes", "status", "created_by", "created_at", "updated_at"],
+      "field_types": {
+        "schedule_id": "UUID",
+        "planning_id": "UUID (FK -> PlanningBerth)",
+        "phase_name": "string",
+        "phase_order": "integer",
+        "start_date": "date",
+        "end_date": "date",
+        "planned_capacity_tpy": "integer",
+        "investment_amount": "float (VND)",
+        "investment_source": "string",
+        "notes": "text",
+        "status": "enum [draft, approved, in_progress, completed, cancelled]",
+        "created_by": "UUID",
+        "created_at": "datetime",
+        "updated_at": "datetime"
+      },
+      "pii_fields": [],
+      "source": "TKCT Part II Sec II - P1118-P1122, Phu luc 01 - Muc V (93, 95)"
+    }
+  ],
+  "screens": [
+    {
+      "path": "/planning/berths",
+      "title": "Danh sach quy hoach ben cang hang hai",
+      "type": "list",
+      "visible_to_roles": ["Chuyen vien"],
+      "key_fields": ["ten ben cang", "cang bien", "dia diem", "nang luc quy hoach (tan/nam)", "co tau (DWT)", "ke hoach quy hoach", "trang thai"],
+      "actions": ["Xem danh sach", "Tim kiem", "Them moi", "Import Excel", "Xuat Excel", "Xoa", "Xem chi tiet", "Sua thong tin quy hoach"]
+    },
+    {
+      "path": "/planning/berths/detail",
+      "title": "Chi tiet thong tin quy hoach ben cang",
+      "type": "form",
+      "visible_to_roles": ["Chuyen vien"],
+      "key_fields": ["thong tin ben cang", "nang luc thong qua quy hoach", "co tau lon nhat", "ke hoach quy hoach", "giai doan dau tu"],
+      "actions": ["Xem chi tiet", "Sua thong tin quy hoach", "Quay lai danh sach"]
+    },
+    {
+      "path": "/planning/berths/add",
+      "title": "Them moi ben cang quy hoach",
+      "type": "form",
+      "visible_to_roles": ["Chuyen vien"],
+      "key_fields": ["ten ben cang", "cang bien", "dia diem", "nang luc quy hoach (tan/nam)", "co tau (DWT)", "ke hoach", "ghi chu"],
+      "actions": ["Luu", "Huy"]
+    },
+    {
+      "path": "/planning/berths/edit",
+      "title": "Cap nhat thong tin quy hoach ben cang",
+      "type": "form",
+      "visible_to_roles": ["Chuyen vien"],
+      "key_fields": ["nang luc quy hoach (tan/nam)", "co tau (DWT)", "giai doan quy hoach", "ke hoach", "ghi chu"],
+      "actions": ["Cap nhat", "Huy"]
+    },
+    {
+      "path": "/planning/berths/plan",
+      "title": "Ke hoach quy hoach ben cang",
+      "type": "list",
+      "visible_to_roles": ["Chuyen vien"],
+      "key_fields": ["ben cang", "giai doan", "ngay bat dau", "ngay ket thuc", "nang luc", "trang thai"],
+      "actions": ["Xem danh sach", "Them moi ke hoach", "Import Excel", "Sua", "Xoa"]
+    },
+    {
+      "path": "/planning/berths/import",
+      "title": "Import danh sach quy hoach tu file Excel",
+      "type": "form",
+      "visible_to_roles": ["Chuyen vien"],
+      "key_fields": ["file Excel", "dinh dang mau"],
+      "actions": ["Tai mau Excel", "Chon file", "Xem truoc", "Xac nhan import"]
+    }
+  ],
+  "integrations": [
+    {
+      "name": "CSDL nen tang dung chung Bo GTVT (LGSP)",
+      "description": "Dong bo du lieu quy hoach ben cang hang hai len CSDL nen tang dung chung cua Bo GTVT qua truc LGSP",
+      "type": "outbound",
+      "protocol": "RESTful API/JSON qua LGSP, HTTPS, JWT",
+      "data_exchanged": ["thong_tin_quy_hoach_ben_cang", "nang_luc_thong_qua_quy_hoach", "co_tau_tiep_nhan"],
+      "security": "HTTPS, TLS, JWT, IP whitelist"
+    },
+    {
+      "name": "Import/Export Excel",
+      "description": "Nhap xuat du lieu quy hoach ben cang tu/tep Excel de phuc vu nhap lieu hang loat va bao cao tong hop",
+      "type": "file",
+      "protocol": ".xlsx/.xls file format",
+      "data_exchanged": ["danh_sach_ben_cang_quy_hoach", "ke_hoach_quy_hoach"],
+      "security": "Kiem tra dinh dang file, validate du lieu truoc khi nhap"
+    }
+  ]
+}

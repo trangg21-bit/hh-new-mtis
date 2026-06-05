@@ -1,0 +1,1674 @@
+{
+  "_meta": {
+    "source_file": "1.TKCT-Cuc HH-KetCauHaTangGiaoThong 13.11.2024 ban in final (1).docx",
+    "module_id": "M03",
+    "module_name": "Technical Parameters Management (Quản lý thông số kỹ thuật KCHTGTHH)",
+    "module_name_en": "Technical Parameters Management",
+    "extracted_at": "2026-06-05T18:47:03+07:00",
+    "status": "complete",
+    "end_marker": "module-analysis-complete",
+    "total_requirements": 688,
+    "note": "Largest module. ~688 functional requirements covering all maritime infrastructure entity types (ports, berths, channels, anchorages, buoys, lighthouses, dikes, VTS, AIS, radar, etc.) with CRUD, 3-level approval workflow, map preview, document attachment, and history tracking."
+  },
+  "business_rules": [
+    {
+      "id": "BR-M03-001",
+      "description": "KCHT do Thêm mới/Cập nhật phải được phê duyệt trước khi đưa vào khai thác và chia sẻ dữ liệu với các ban ngành khác",
+      "type": "workflow",
+      "severity": "critical",
+      "source_quote": "KCHT do Thêm mới/ Cập nhật phải được phê duyệt trước khi đưa vào khai thác và chia sẻ dữ liệu với các ban ngành khác"
+    },
+    {
+      "id": "BR-M03-002",
+      "description": "KCHT phát sinh tại Cảng vụ/Chi cục phải trải qua 3 cấp phê duyệt: Chuyên viên gửi duyệt > Lãnh đạo phòng Cảng vụ/Chi cục phê duyệt > Lãnh đạo Cục phê duyệt trước khi đưa vào khai thác",
+      "type": "workflow",
+      "severity": "critical",
+      "source_quote": "KCHT phát sinh tại Cảng vụ/ Chi cục phải được lãnh đạo phòng phê duyệt. Sau khi lãnh đạo phòng duyệt thì gửi dữ liệu lên cục để phê duyệt trước khi đưa vào khai thác và chia sẻ dữ liệu"
+    },
+    {
+      "id": "BR-M03-003",
+      "description": "Chuyên viên có thể chọn Lưu tạm (Draft) để chỉnh sửa thông tin trước khi gửi duyệt lãnh đạo",
+      "type": "workflow",
+      "severity": "medium",
+      "source_quote": "Chuyên viên có thể chọn Lưu tạm để thực hiện Lưu và chỉnh sửa thông tin trước khi gửi duyệt lãnh đạo"
+    },
+    {
+      "id": "BR-M03-004",
+      "description": "Cho phép chọn một hoặc nhiều KCHT ở trạng thái Lưu tạm để gửi duyệt lãnh đạo (batch submit)",
+      "type": "workflow",
+      "severity": "medium",
+      "source_quote": "Cho phép chọn một hoặc nhiều KCHT lưu tạm để gửi duyệt lãnh đạo"
+    },
+    {
+      "id": "BR-M03-005",
+      "description": "Lãnh đạo Cảng vụ/Chi cục có quyền phê duyệt hoặc từ chối kèm lý do từ chối đối với thông tin KCHT",
+      "type": "workflow",
+      "severity": "high",
+      "source_quote": "Lãnh đạo Cảng vụ/ Chi cục thực hiện từ chối và nhập lý do từ chối thông tin"
+    },
+    {
+      "id": "BR-M03-006",
+      "description": "Lãnh đạo Cục có quyền phê duyệt hoặc từ chối kèm lý do từ chối sau khi Lãnh đạo Cảng vụ/Chi cục đã duyệt",
+      "type": "workflow",
+      "severity": "critical",
+      "source_quote": "Lãnh đạo Cục thực hiện phê duyệt chấp nhận hoặc từ chối và nhập lý do từ chối thông tin"
+    },
+    {
+      "id": "BR-M03-007",
+      "description": "Người dùng có thể xem trước vị trí KCHT trên bản đồ trước khi lưu thông tin",
+      "type": "functional",
+      "severity": "medium",
+      "source_quote": "Xem trước vị trí KCHT trên bản đồ trước khi lưu thông tin"
+    },
+    {
+      "id": "BR-M03-008",
+      "description": "Mỗi KCHT phải lưu trữ lịch sử hình thành và các thay đổi (history tracking)",
+      "type": "audit",
+      "severity": "high",
+      "source_quote": "Xem lịch sử hình thành KCHT"
+    },
+    {
+      "id": "BR-M03-009",
+      "description": "Người dùng có thể đính kèm tài liệu (văn bản pháp lý) vào hồ sơ KCHT và xoá đính kèm",
+      "type": "functional",
+      "severity": "medium",
+      "source_quote": "Đính kèm tài liệu / Xoá đính kèm tài liệu"
+    },
+    {
+      "id": "BR-M03-010",
+      "description": "Người dùng có thể xem nội dung văn bản đính kèm trực tiếp trên hệ thống, tải về máy và in ấn",
+      "type": "functional",
+      "severity": "low",
+      "source_quote": "Xem nội dung văn bản đính kèm, tải văn bản đính kèm về máy tính, in nội dung văn bản đính kèm"
+    },
+    {
+      "id": "BR-M03-011",
+      "description": "Trang chủ Dashboard hiển thị tổng quan thông tin KCHT dạng biểu đồ và dạng bảng để theo dõi nhanh",
+      "type": "functional",
+      "severity": "medium",
+      "source_quote": "Trang chủ: Hiển thị tổng quan thông tin KCHT dạng biểu đồ, dạng bảng để người dùng theo dõi nhanh thông tin KCHT trên hệ thống"
+    },
+    {
+      "id": "BR-M03-012",
+      "description": "Tra cứu thông số kỹ thuật KCHT cho phép xem danh sách, tìm kiếm, xem chi tiết, xem văn bản đính kèm, tải về, in ấn, xem lịch sử",
+      "type": "functional",
+      "severity": "high",
+      "source_quote": "Nhóm chức năng Tra cứu thông số kỹ thuật KCHTGTHH"
+    },
+    {
+      "id": "BR-M03-013",
+      "description": "Quản lý vận hành khai thác cho phép cập nhật kế hoạch vận hành, thông tin vận hành và xem lịch sử vận hành của KCHT",
+      "type": "functional",
+      "severity": "high",
+      "source_quote": "Cập nhật kế hoạch vận hành khai thác, Cập nhật thông tin vận hành khai thác, Xem lịch sử vận hành khai thác của KCHT"
+    },
+    {
+      "id": "BR-M03-014",
+      "description": "Quản lý bảo trì cho phép cập nhật kế hoạch bảo trì, thông tin bảo trì và xem lịch sử bảo trì của KCHT",
+      "type": "functional",
+      "severity": "high",
+      "source_quote": "Cập nhật kế hoạch bảo trì, Cập nhật thông tin bảo trì, Xem lịch sử bảo trì của KCHT"
+    },
+    {
+      "id": "BR-M03-015",
+      "description": "Quản lý sự cố cho phép đính kèm biên bản sự cố, văn bản chỉ đạo xử lý, cập nhật kết quả xử lý và xem lịch sử sự cố",
+      "type": "functional",
+      "severity": "high",
+      "source_quote": "Đính kèm biên bản sự cố KCHTGTHH, Đính kèm văn bản chỉ đạo xử lý sự cố, Cập nhật kết quả xử lý sự cố, Xem lịch sử sự cố của KCHTGTHH"
+    },
+    {
+      "id": "BR-M03-016",
+      "description": "Quản lý tài sản KCHT bao gồm: tăng tài sản, tăng/giảm nguyên giá, xử lý tài sản, cập nhật biến động, tự động tính hao mòn lũy kế và giá trị còn lại",
+      "type": "functional",
+      "severity": "high",
+      "source_quote": "Tăng tài sản khi có tài sản phát sinh mới, Tăng nguyên giá tài sản, Giảm nguyên giá tài sản, Xử lý tài sản, Hỗ trợ tự động cập nhật thông tin Hao mòn lũy kế, Giá trị còn lại"
+    },
+    {
+      "id": "BR-M03-017",
+      "description": "Quản lý tài sản cho phép Lưu tạm hoặc Chuyển lãnh đạo duyệt khi Thêm/Cập nhật thông tin tài sản",
+      "type": "workflow",
+      "severity": "medium",
+      "source_quote": "Cho phép chuyên viên lựa chọn Lưu tạm hoặc Chuyển lãnh đạo khi Thêm/ Cập nhật thông tin tài sản"
+    },
+    {
+      "id": "BR-M03-018",
+      "description": "Quản lý quy hoạch bến cảng cho phép thêm/sửa/xóa bến cảng quy hoạch, cập nhật kế hoạch và thông tin quy hoạch",
+      "type": "functional",
+      "severity": "medium",
+      "source_quote": "Thêm/ Sửa/ Xóa mới bến cảng cần quy hoạch, Cập nhật kế hoạch quy hoạch bến cảng"
+    },
+    {
+      "id": "BR-M03-019",
+      "description": "Quản lý KCHT trên nền bản đồ GIS cho phép quản lý đối tượng điểm/đường/vùng, thêm mới, xóa, cập nhật và xem thông tin KCHT trên bản đồ",
+      "type": "functional",
+      "severity": "high",
+      "source_quote": "Phân hệ Quản lý thông tin KCHT trên nền bản đồ cho phép chuyên viên quản lý danh mục đối tượng điểm, đối tượng đường, đối tượng vùng được thể hiện trên nền bản đồ"
+    },
+    {
+      "id": "BR-M03-020",
+      "description": "Báo cáo thống kê hỗ trợ tổng hợp theo nhiều điều kiện tìm kiếm, xem chi tiết và kết xuất PDF/Excel",
+      "type": "functional",
+      "severity": "medium",
+      "source_quote": "Tổng hợp thông tin báo cáo theo nhiều điều kiện tìm kiếm khác nhau, Kết xuất báo cáo theo định dạng PDF/ Excel"
+    },
+    {
+      "id": "BR-M03-021",
+      "description": "Liên thông chia sẻ dữ liệu với CSDL nền tảng dùng chung Bộ GTVT, CSDL Vishipel, 02 TCT BĐATHH qua API",
+      "type": "integration",
+      "severity": "critical",
+      "source_quote": "Nhóm tích hợp, tổng hợp dữ liệu từ các đơn vị chia sẻ dữ liệu KCHTGTHH như CSDL nền tảng dùng chung của Bộ GTVT, CSDL nghiệp vụ của Tổng công ty bảo đảm an toàn miền bắc, Vishipel"
+    },
+    {
+      "id": "BR-M03-022",
+      "description": "Dữ liệu KCHT được đồng bộ liên thông lên CSDL nền tảng dùng chung Bộ GTVT qua trục LGSP",
+      "type": "integration",
+      "severity": "critical",
+      "source_quote": "Dữ liệu kết cấu hạ tầng giao thông hàng hải sẽ được đồng bộ liên thông lên hệ thống CSDL nền tảng dùng chung của của Bộ GTVT"
+    },
+    {
+      "id": "BR-M03-023",
+      "description": "Xem thông tin lịch sử (history tracking) có sẵn cho tất cả các loại KCHT (tra cứu và quản lý)",
+      "type": "audit",
+      "severity": "medium",
+      "source_quote": "Xem thông tin lịch sử KCHT"
+    },
+    {
+      "id": "BR-M03-024",
+      "description": "Quản lý tài sản KCHT hỗ trợ kiểm kê tài sản và xem lịch sử biến động tài sản",
+      "type": "functional",
+      "severity": "high",
+      "source_quote": "Kiểm kê tài sản, Xem lịch sự biến động tài sản"
+    }
+  ],
+  "entities": [
+    {
+      "name": "Seaport",
+      "display_name": "Cảng biển",
+      "description": "Thông tin cảng biển - entity type quản lý thông số kỹ thuật của cảng biển",
+      "key_fields": [
+        "ma_cang_bien",
+        "ten_cang_bien",
+        "loai_cang",
+        "dia_chi",
+        "toa_do",
+        "dien_tich",
+        "cong_suat",
+        "tinh_trang",
+        "don_vi_quan_ly"
+      ],
+      "field_types": {
+        "ma_cang_bien": "string (unique)",
+        "ten_cang_bien": "string",
+        "loai_cang": "enum [cang_bien_tong_hop, cang_bien_chuyen_dung]",
+        "dia_chi": "string",
+        "toa_do": "geography (point)",
+        "dien_tich": "float",
+        "cong_suat": "float",
+        "tinh_trang": "enum [dang_hoat_dong, ngung_hoat_dong]",
+        "don_vi_quan_ly": "string"
+      },
+      "pii_fields": [],
+      "source": "Phụ lục 01, mục 10 (Tra cứu cảng biển), mục 37 (Quản lý cảng biển)"
+    },
+    {
+      "name": "Berth",
+      "display_name": "Bến cảng",
+      "description": "Thông tin bến cảng - entity type chính trong quản lý KCHT",
+      "key_fields": [
+        "ma_ben_cang",
+        "ten_ben_cang",
+        "cang_bien_id",
+        "chieu_dai",
+        "do_sau",
+        "suc_chua",
+        "loai_hang",
+        "toa_do",
+        "tinh_trang"
+      ],
+      "field_types": {
+        "ma_ben_cang": "string (unique)",
+        "ten_ben_cang": "string",
+        "cang_bien_id": "UUID (FK -> Seaport)",
+        "chieu_dai": "float (m)",
+        "do_sau": "float (m)",
+        "suc_chua": "float (DWT)",
+        "loai_hang": "string",
+        "toa_do": "geography (point)",
+        "tinh_trang": "enum [dang_hoat_dong, ngung_hoat_dong]"
+      },
+      "pii_fields": [],
+      "source": "Phụ lục 01, mục 11 (Tra cứu bến cảng), mục 38 (Quản lý bến cảng), mục 39 (Duyệt thông tin bến cảng)"
+    },
+    {
+      "name": "Wharf",
+      "display_name": "Cầu cảng",
+      "description": "Thông tin cầu cảng",
+      "key_fields": [
+        "ma_cau_cang",
+        "ten_cau_cang",
+        "ben_cang_id",
+        "chieu_dai",
+        "chieu_rong",
+        "tai_trong",
+        "ket_cau",
+        "toa_do"
+      ],
+      "field_types": {
+        "ma_cau_cang": "string (unique)",
+        "ten_cau_cang": "string",
+        "ben_cang_id": "UUID (FK -> Berth)",
+        "chieu_dai": "float (m)",
+        "chieu_rong": "float (m)",
+        "tai_trong": "float (T)",
+        "ket_cau": "string",
+        "toa_do": "geography (point)"
+      },
+      "pii_fields": [],
+      "source": "Phụ lục 01, mục 12 (Tra cứu cầu cảng), mục 40 (Quản lý cầu cảng), mục 41 (Duyệt thông tin cầu cảng)"
+    },
+    {
+      "name": "NavigationChannel",
+      "display_name": "Luồng hàng hải",
+      "description": "Thông tin luồng hàng hải - tuyến đường thủy cho tàu thuyền di chuyển",
+      "key_fields": [
+        "ma_luong",
+        "ten_luong",
+        "chieu_dai",
+        "do_sau_toi_thieu",
+        "chieu_rong",
+        "diem_dau",
+        "diem_cuoi",
+        "cap_luong",
+        "trang_thai"
+      ],
+      "field_types": {
+        "ma_luong": "string (unique)",
+        "ten_luong": "string",
+        "chieu_dai": "float (m)",
+        "do_sau_toi_thieu": "float (m)",
+        "chieu_rong": "float (m)",
+        "diem_dau": "geography (point)",
+        "diem_cuoi": "geography (point)",
+        "cap_luong": "string",
+        "trang_thai": "enum [dang_hoat_dong, dang_nang_cap, ngung_hoat_dong]"
+      },
+      "pii_fields": [],
+      "source": "Phụ lục 01, mục 30 (Tra cứu luồng hàng hải), mục 76 (Quản lý luồng hàng hải), mục 77 (Duyệt thông tin luồng hàng hải)"
+    },
+    {
+      "name": "BerthBuoy",
+      "display_name": "Bến phao",
+      "description": "Thông tin bến phao - phao neo tàu",
+      "key_fields": [
+        "ma_ben_phao",
+        "ten_ben_phao",
+        "vi_tri",
+        "suc_neo",
+        "do_sau",
+        "trang_thai"
+      ],
+      "pii_fields": [],
+      "source": "Phụ lục 01, mục 13 (Tra cứu bến phao), mục 42 (Quản lý bến phao), mục 43 (Duyệt thông tin bến phao)"
+    },
+    {
+      "name": "AnchorageArea",
+      "display_name": "Khu neo đậu",
+      "description": "Khu vực neo đậu tàu thuyền",
+      "key_fields": [
+        "ma_khu",
+        "ten_khu",
+        "dien_tich",
+        "suc_chua",
+        "do_sau",
+        "toa_do",
+        "trang_thai"
+      ],
+      "pii_fields": [],
+      "source": "Phụ lục 01, mục 16 (Tra cứu khu neo đậu), mục 48 (Quản lý khu neo đậu), mục 49 (Duyệt thông tin khu neo đậu)"
+    },
+    {
+      "name": "Lighthouse",
+      "display_name": "Đèn biển và nhà trạm gắn liền",
+      "description": "Thông tin đèn biển và nhà trạm quản lý vận hành",
+      "key_fields": [
+        "ma_den_bien",
+        "ten_den_bien",
+        "vi_tri",
+        "cap_bao_hiem",
+        "tam_nhin",
+        "nguon_sang",
+        "toa_do",
+        "trang_thai"
+      ],
+      "pii_fields": [],
+      "source": "Phụ lục 01, mục 18 (Tra cứu đèn biển), mục 52 (Quản lý đèn biển và nhà trạm), mục 53 (Duyệt thông tin)"
+    },
+    {
+      "name": "BuoyBeacon",
+      "display_name": "Phao, tiêu và nhà trạm quản lý vận hành phao tiêu",
+      "description": "Hệ thống phao tiêu báo hiệu trên luồng",
+      "key_fields": [
+        "ma_phao_tieu",
+        "ten_phao_tieu",
+        "loai",
+        "vi_tri",
+        "tinh_trang_ky_thuat",
+        "toa_do",
+        "trang_thai"
+      ],
+      "pii_fields": [],
+      "source": "Phụ lục 01, mục 19 (Tra cứu phao tiêu), mục 54 (Quản lý phao tiêu), mục 55 (Duyệt thông tin)"
+    },
+    {
+      "name": "BreakwaterDike",
+      "display_name": "Đê chắn sóng, đê chắn cát, kè hướng dòng, kè bảo vệ bờ",
+      "description": "Công trình đê kè bảo vệ bờ biển",
+      "key_fields": [
+        "ma_de_ke",
+        "ten_de_ke",
+        "loai_de_ke",
+        "chieu_dai",
+        "cao_trinh_dinh",
+        "ket_cau",
+        "toa_do",
+        "trang_thai"
+      ],
+      "pii_fields": [],
+      "source": "Phụ lục 01, mục 29 (Tra cứu đê chắn sóng), mục 74 (Quản lý đê kè), mục 75 (Duyệt thông tin)"
+    },
+    {
+      "name": "VTS_System",
+      "display_name": "Hệ thống VTS",
+      "description": "Vessel Traffic Service - Hệ thống giám sát giao thông tàu thuyền",
+      "key_fields": [
+        "ma_vts",
+        "ten_vts",
+        "vi_tri",
+        "pham_vi_bao_phu",
+        "trang_thai"
+      ],
+      "pii_fields": [],
+      "source": "Phụ lục 01, mục 20 (Tra cứu VTS), mục 56 (Quản lý VTS), mục 57 (Duyệt thông tin)"
+    },
+    {
+      "name": "RadarStation",
+      "display_name": "Trạm Radar",
+      "description": "Trạm radar hàng hải",
+      "key_fields": [
+        "ma_radar",
+        "ten_radar",
+        "vi_tri",
+        "tam_quet",
+        "tan_so",
+        "trang_thai"
+      ],
+      "pii_fields": [],
+      "source": "Phụ lục 01, mục 22 (Tra cứu trạm radar), mục 60 (Quản lý trạm radar), mục 61 (Duyệt thông tin)"
+    },
+    {
+      "name": "AIS_System",
+      "display_name": "Hệ thống AIS",
+      "description": "Automatic Identification System",
+      "key_fields": [
+        "ma_ais",
+        "ten_ais",
+        "vi_tri",
+        "kenh",
+        "trang_thai"
+      ],
+      "pii_fields": [],
+      "source": "Phụ lục 01, mục 23 (Tra cứu AIS), mục 62 (Quản lý AIS), mục 63 (Duyệt thông tin)"
+    },
+    {
+      "name": "CCTV_System",
+      "display_name": "Hệ thống CCTV",
+      "description": "Camera giám sát hàng hải",
+      "key_fields": [
+        "ma_cctv",
+        "ten_cctv",
+        "vi_tri",
+        "so_luong_camera",
+        "trang_thai"
+      ],
+      "pii_fields": [],
+      "source": "Phụ lục 01, mục 24 (Tra cứu CCTV), mục 64 (Quản lý CCTV), mục 65 (Duyệt thông tin)"
+    },
+    {
+      "name": "Asset",
+      "display_name": "Tài sản KCHTGTHH",
+      "description": "Thông tin tài sản kết cấu hạ tầng giao thông hàng hải (theo Nghị định 43/2018/NĐ-CP, TT 67/2018/TT-BTC)",
+      "key_fields": [
+        "ma_tai_san",
+        "ten_tai_san",
+        "loai_kcht",
+        "ma_kcht",
+        "don_vi_quan_ly",
+        "don_vi_su_dung",
+        "tinh_trang",
+        "nguyen_gia",
+        "gia_tri_con_lai",
+        "hao_mon_luy_ke",
+        "nam_su_dung"
+      ],
+      "field_types": {
+        "ma_tai_san": "string (unique)",
+        "ten_tai_san": "string",
+        "barcode": "string",
+        "loai_tai_san": "enum [cang_bien, ben_cang, luong_hang_hai, phao_tieu, den_bien, de_ke, vts, ais, radar, khac]",
+        "don_vi_quan_ly": "string",
+        "don_vi_su_dung": "string",
+        "tinh_trang": "enum [dang_su_dung, hong_khong_su_dung]",
+        "hien_trang_su_dung": "string",
+        "nhom_tai_san": "string",
+        "pham_nhom_tai_san": "string",
+        "dia_chi": "string",
+        "vi_tri": "string",
+        "nguon_goc": "string",
+        "model": "string",
+        "serial": "string",
+        "xuat_xu": "string",
+        "hang_san_xuat": "string",
+        "nam_xay_dung": "integer",
+        "ngay_su_dung": "date",
+        "dien_tich_dat": "float (m2)",
+        "dien_tich_san": "float (m2)",
+        "ho_so_tai_san": "string (file attachment)",
+        "ngay_ke_khai": "date",
+        "nguyen_gia_ns": "float (VNĐ)",
+        "nguyen_gia_khac": "float (VNĐ)",
+        "ty_le_hao_mon": "float (%)",
+        "gia_tri_con_lai": "float (VNĐ)",
+        "so_quyet_dinh_giao": "string",
+        "ngay_tinh_khau_hao": "date",
+        "so_thang_khau_hao": "integer",
+        "ngay_het_khau_hao": "date",
+        "khau_hao_luy_ke": "float (VNĐ)",
+        "khau_hao_thang": "float (VNĐ)",
+        "hinh_thuc_xu_ly": "enum [su_dung, thanh_ly, ban, dieu_chuyen]"
+      },
+      "pii_fields": [],
+      "source": "Phụ lục 06 - Các trường thông tin phục vụ quản lý tài sản KCHTGTHH"
+    },
+    {
+      "name": "LegalDocument",
+      "display_name": "Văn bản pháp lý",
+      "description": "Văn bản pháp lý liên quan đến KCHTGTHH",
+      "key_fields": [
+        "ma_vb",
+        "ten_vb",
+        "loai_vb",
+        "ngay_ban_hanh",
+        "co_quan_ban_hanh",
+        "file_dinh_kem"
+      ],
+      "pii_fields": [],
+      "source": "Phụ lục 01, mục 9 (Tra cứu văn bản pháp lý)"
+    }
+  ],
+  "business_process": {
+    "approval_workflow": {
+      "name": "3-Level Approval Workflow for KCHT",
+      "levels": [
+        {
+          "level": 1,
+          "role": "Chuyên viên (Specialist)",
+          "action": "Tạo/Cập nhật thông tin KCHT, có thể Lưu tạm hoặc gửi duyệt",
+          "next_level_condition": "Chuyên viên chuyển Lãnh đạo duyệt"
+        },
+        {
+          "level": 2,
+          "role": "Lãnh đạo phòng Cảng vụ/Chi cục (Port Authority/Department Lead)",
+          "action": "Phê duyệt hoặc Từ chối (kèm lý do). Nếu từ chối, trả về Chuyên viên chỉnh sửa.",
+          "next_level_condition": "Sau khi Lãnh đạo phòng duyệt, gửi dữ liệu lên Cục"
+        },
+        {
+          "level": 3,
+          "role": "Lãnh đạo Cục (Maritime Administration Director)",
+          "action": "Phê duyệt lần cuối hoặc Từ chối (kèm lý do). Nếu từ chối, trả về.",
+          "next_level_condition": "Sau khi được phê duyệt, KCHT được đưa vào khai thác và chia sẻ dữ liệu"
+        }
+      ],
+      "transition": "Chuyên viên tạo/Lưu tạm > Gửi duyệt > Lãnh đạo Cảng vụ/Chi cục phê duyệt > Lãnh đạo Cục phê duyệt > Đưa vào khai thác",
+      "rejection_flow": "Bất kỳ cấp nào từ chối > Nhập lý do > Trả về Chuyên viên chỉnh sửa > Gửi lại duyệt"
+    }
+  },
+  "features": [
+    {
+      "name": "Dashboard - Trang chủ tổng quan KCHT",
+      "description": "Hiển thị tổng quan thông tin KCHT dạng biểu đồ và dạng bảng giúp người dùng theo dõi nhanh thông tin KCHT trên hệ thống",
+      "type": "Dashboard",
+      "priority": "P0",
+      "actors": [
+        "Quản trị hệ thống",
+        "Lãnh đạo",
+        "Chuyên viên",
+        "Người dùng tại Cảng"
+      ],
+      "entities": [
+        "Seaport",
+        "Berth",
+        "NavigationChannel",
+        "AnchorageArea"
+      ],
+      "key_fields": [
+        "so_luong_cang_bien",
+        "so_luong_ben_cang",
+        "so_luong_luong",
+        "tinh_trang_hoat_dong"
+      ],
+      "validations": [],
+      "screens": [
+        "/dashboard"
+      ],
+      "workflow": {
+        "transitions": [
+          "Truy cập trang chủ > Hệ thống hiển thị tổng quan biểu đồ và bảng thông tin KCHT"
+        ]
+      },
+      "source_quotes": [
+        "Trang chủ: Hiển thị tổng quan thông tin KCHT dạng biểu đồ, dạng bảng để người dùng theo dõi nhanh thông tin KCHT trên hệ thống"
+      ],
+      "uc_ids": [
+        8
+      ]
+    },
+    {
+      "name": "Tra cứu văn bản pháp lý",
+      "description": "Tra cứu văn bản pháp lý liên quan tới KCHTGTHH: xem danh sách, tìm kiếm, xem chi tiết nội dung, tải văn bản, in nội dung",
+      "type": "Read",
+      "priority": "P1",
+      "actors": [
+        "Quản trị hệ thống",
+        "Lãnh đạo",
+        "Chuyên viên",
+        "Cá nhân/tổ chức bên ngoài",
+        "Người dùng tại Cảng"
+      ],
+      "entities": [
+        "LegalDocument"
+      ],
+      "key_fields": [
+        "ma_vb",
+        "ten_vb",
+        "loai_vb",
+        "ngay_ban_hanh",
+        "file_dinh_kem"
+      ],
+      "validations": [],
+      "screens": [
+        "/legal-documents",
+        "/legal-documents/detail"
+      ],
+      "workflow": {
+        "transitions": [
+          "Xem danh sách VB > Tìm kiếm > Xem chi tiết > Tải về / In ấn"
+        ]
+      },
+      "source_quotes": [
+        "Người dùng thực hiện xem danh sách văn bản. Hệ thống hiển thị danh sách văn bản."
+      ],
+      "uc_ids": [
+        9
+      ]
+    },
+    {
+      "name": "Tra cứu thông số kỹ thuật Cảng biển",
+      "description": "Tra cứu thông tin cảng biển: xem danh sách, tìm kiếm, xem chi tiết, xem văn bản đính kèm, tải về, in ấn",
+      "type": "Read",
+      "priority": "P0",
+      "actors": [
+        "Quản trị hệ thống",
+        "Lãnh đạo",
+        "Chuyên viên",
+        "Cá nhân/tổ chức bên ngoài",
+        "Người dùng tại Cảng"
+      ],
+      "entities": [
+        "Seaport"
+      ],
+      "key_fields": [
+        "ma_cang_bien",
+        "ten_cang_bien",
+        "loai_cang",
+        "tinh_trang"
+      ],
+      "validations": [],
+      "screens": [
+        "/seaports",
+        "/seaports/detail"
+      ],
+      "workflow": {
+        "transitions": [
+          "Xem danh sách > Tìm kiếm > Xem chi tiết > Xem văn bản đính kèm > Tải/In"
+        ]
+      },
+      "source_quotes": [
+        "Người dùng thực hiện tra cứu thông số kỹ thuật KCHT"
+      ],
+      "uc_ids": [
+        10
+      ]
+    },
+    {
+      "name": "Tra cứu thông số kỹ thuật Bến cảng",
+      "description": "Tra cứu bến cảng: xem danh sách, tìm kiếm, xem chi tiết, xem/tải/in văn bản đính kèm, xem lịch sử",
+      "type": "Read",
+      "priority": "P0",
+      "entities": [
+        "Berth"
+      ],
+      "actors": [
+        "Quản trị hệ thống",
+        "Lãnh đạo",
+        "Chuyên viên",
+        "Cá nhân/tổ chức bên ngoài",
+        "Người dùng tại Cảng"
+      ],
+      "key_fields": [
+        "ma_ben_cang",
+        "ten_ben_cang",
+        "cang_bien",
+        "do_sau",
+        "suc_chua"
+      ],
+      "validations": [],
+      "screens": [
+        "/berths",
+        "/berths/detail"
+      ],
+      "workflow": {
+        "transitions": [
+          "Xem danh sách > Tìm kiếm > Xem chi tiết > Xem lịch sử > Xem/Tải/In văn bản đính kèm"
+        ]
+      },
+      "uc_ids": [
+        11
+      ]
+    },
+    {
+      "name": "Tra cứu thông số kỹ thuật Luồng hàng hải",
+      "description": "Tra cứu luồng hàng hải: xem danh sách, tìm kiếm, xem chi tiết, xem/tải/in văn bản đính kèm, xem lịch sử",
+      "type": "Read",
+      "priority": "P0",
+      "entities": [
+        "NavigationChannel"
+      ],
+      "actors": [
+        "Quản trị hệ thống",
+        "Lãnh đạo",
+        "Chuyên viên",
+        "Cá nhân/tổ chức bên ngoài",
+        "Người dùng tại Cảng"
+      ],
+      "key_fields": [
+        "ma_luong",
+        "ten_luong",
+        "chieu_dai",
+        "do_sau",
+        "cap_luong"
+      ],
+      "validations": [],
+      "screens": [
+        "/channels",
+        "/channels/detail"
+      ],
+      "workflow": {
+        "transitions": [
+          "Xem danh sách > Tìm kiếm > Xem chi tiết > Xem lịch sử > Xem/Tải/In văn bản đính kèm"
+        ]
+      },
+      "uc_ids": [
+        30
+      ]
+    },
+    {
+      "name": "Tra cứu thông số kỹ thuật Khu neo đậu",
+      "description": "Tra cứu khu neo đậu: xem danh sách, tìm kiếm, xem chi tiết, xem/tải/in văn bản đính kèm, xem lịch sử",
+      "type": "Read",
+      "priority": "P1",
+      "entities": [
+        "AnchorageArea"
+      ],
+      "actors": [
+        "Quản trị hệ thống",
+        "Lãnh đạo",
+        "Chuyên viên",
+        "Người dùng tại Cảng"
+      ],
+      "validations": [],
+      "screens": [
+        "/anchorages",
+        "/anchorages/detail"
+      ],
+      "uc_ids": [
+        16
+      ]
+    },
+    {
+      "name": "Tra cứu thông số kỹ thuật Đèn biển và nhà trạm",
+      "description": "Tra cứu đèn biển và nhà trạm gắn liền: xem danh sách, tìm kiếm, chi tiết, văn bản đính kèm, lịch sử",
+      "type": "Read",
+      "priority": "P1",
+      "entities": [
+        "Lighthouse"
+      ],
+      "actors": [
+        "Quản trị hệ thống",
+        "Lãnh đạo",
+        "Chuyên viên",
+        "Người dùng tại Cảng"
+      ],
+      "validations": [],
+      "screens": [
+        "/lighthouses",
+        "/lighthouses/detail"
+      ],
+      "uc_ids": [
+        18
+      ]
+    },
+    {
+      "name": "Tra cứu Phao, tiêu và nhà trạm quản lý vận hành",
+      "description": "Tra cứu hệ thống phao tiêu báo hiệu: xem danh sách, tìm kiếm, chi tiết, xem/tải/in văn bản, lịch sử",
+      "type": "Read",
+      "priority": "P1",
+      "entities": [
+        "BuoyBeacon"
+      ],
+      "actors": [
+        "Quản trị hệ thống",
+        "Lãnh đạo",
+        "Chuyên viên",
+        "Người dùng tại Cảng"
+      ],
+      "validations": [],
+      "screens": [
+        "/buoys",
+        "/buoys/detail"
+      ],
+      "uc_ids": [
+        19
+      ]
+    },
+    {
+      "name": "Tra cứu Đê chắn sóng, kè bảo vệ bờ",
+      "description": "Tra cứu công trình đê chắn sóng, đê chắn cát, kè hướng dòng, kè bảo vệ bờ",
+      "type": "Read",
+      "priority": "P1",
+      "entities": [
+        "BreakwaterDike"
+      ],
+      "actors": [
+        "Quản trị hệ thống",
+        "Lãnh đạo",
+        "Chuyên viên",
+        "Người dùng tại Cảng"
+      ],
+      "validations": [],
+      "screens": [
+        "/dikes",
+        "/dikes/detail"
+      ],
+      "uc_ids": [
+        29
+      ]
+    },
+    {
+      "name": "Tra cứu VTS, Radar, AIS, CCTV, SCADA",
+      "description": "Tra cứu các hệ thống giám sát hàng hải: VTS, AIS, CCTV, SCADA, Radar, trạm thông tin liên lạc VHF, hệ thống truyền dẫn, hệ thống phụ trợ VTS",
+      "type": "Read",
+      "priority": "P2",
+      "entities": [
+        "VTS_System",
+        "RadarStation",
+        "AIS_System",
+        "CCTV_System"
+      ],
+      "actors": [
+        "Quản trị hệ thống",
+        "Lãnh đạo",
+        "Chuyên viên",
+        "Người dùng tại Cảng"
+      ],
+      "validations": [],
+      "screens": [
+        "/vts",
+        "/radar",
+        "/ais",
+        "/cctv"
+      ],
+      "source_quotes": [
+        "Người dùng thực hiện tra cứu hệ thống VTS/AIS/CCTV/Radar"
+      ],
+      "uc_ids": [
+        20,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28
+      ]
+    },
+    {
+      "name": "Quản lý thông số kỹ thuật Cảng biển (CRUD + Approval)",
+      "description": "Quản lý thông tin cảng biển: xem danh sách, tìm kiếm, thêm mới, cập nhật, xoá, đính kèm/xoá tài liệu, lưu tạm, xem trước vị trí trên bản đồ, chuyển lãnh đạo duyệt, xem lịch sử hình thành",
+      "type": "CRUD",
+      "priority": "P0",
+      "actors": [
+        "Chuyên viên"
+      ],
+      "entities": [
+        "Seaport"
+      ],
+      "validations": [
+        "KCHT do Thêm mới/Cập nhật phải được phê duyệt trước khi đưa vào khai thác"
+      ],
+      "screens": [
+        "/admin/seaports",
+        "/admin/seaports/add",
+        "/admin/seaports/edit",
+        "/admin/seaports/approve"
+      ],
+      "workflow": {
+        "transitions": [
+          "Thêm mới/Cập nhật > Lưu tạm hoặc Gửi duyệt > Lãnh đạo Cảng vụ/Chi cục duyệt > Lãnh đạo Cục duyệt > Đưa vào khai thác"
+        ]
+      },
+      "source_quotes": [
+        "Tra cứu và xem danh sách KCHT, Thêm/ Cập nhật/ Xóa thông tin KCHT"
+      ],
+      "uc_ids": [
+        37
+      ]
+    },
+    {
+      "name": "Quản lý thông số kỹ thuật Bến cảng (CRUD + Approval)",
+      "description": "Quản lý bến cảng đầy đủ CRUD + approval workflow 3 cấp + map preview + document attachment + history",
+      "type": "CRUD",
+      "priority": "P0",
+      "actors": [
+        "Chuyên viên"
+      ],
+      "entities": [
+        "Berth"
+      ],
+      "validations": [
+        "Bến cảng phải được phê duyệt bởi Lãnh đạo Cảng vụ và Lãnh đạo Cục trước khi đưa vào khai thác"
+      ],
+      "screens": [
+        "/admin/berths",
+        "/admin/berths/add",
+        "/admin/berths/edit",
+        "/admin/berths/approve"
+      ],
+      "workflow": {
+        "transitions": [
+          "Thêm mới > Nhập thông tin > Lưu tạm > Gửi duyệt > Lãnh đạo Cảng vụ duyệt > Lãnh đạo Cục duyệt > Khai thác"
+        ]
+      },
+      "source_quotes": [
+        "Người dùng thực hiện thêm mới bến cảng, cập nhật, xoá, lưu tạm, chuyển lãnh đạo duyệt, xem trước vị trí bến cảng trên bản đồ"
+      ],
+      "uc_ids": [
+        38,
+        39
+      ]
+    },
+    {
+      "name": "Quản lý thông số kỹ thuật Luồng hàng hải (CRUD + Approval)",
+      "description": "Quản lý luồng hàng hải: CRUD, attachment, map preview, batch submit, 3-level approval, history",
+      "type": "CRUD",
+      "priority": "P0",
+      "actors": [
+        "Chuyên viên"
+      ],
+      "entities": [
+        "NavigationChannel"
+      ],
+      "validations": [],
+      "screens": [
+        "/admin/channels",
+        "/admin/channels/add",
+        "/admin/channels/edit",
+        "/admin/channels/approve"
+      ],
+      "workflow": {
+        "transitions": [
+          "Quản lý > Thêm mới > Map preview > Lưu tạm/Gửi duyệt > Lãnh đạo Cảng vụ duyệt > Lãnh đạo Cục duyệt"
+        ]
+      },
+      "uc_ids": [
+        76,
+        77
+      ]
+    },
+    {
+      "name": "Quản lý Đê chắn sóng, kè (CRUD + Approval)",
+      "description": "Quản lý công trình đê chắn sóng, đê chắn cát, kè hướng dòng, kè bảo vệ bờ với CRUD + approval workflow",
+      "type": "CRUD",
+      "priority": "P1",
+      "actors": [
+        "Chuyên viên"
+      ],
+      "entities": [
+        "BreakwaterDike"
+      ],
+      "validations": [],
+      "screens": [
+        "/admin/dikes",
+        "/admin/dikes/add",
+        "/admin/dikes/approve"
+      ],
+      "uc_ids": [
+        74,
+        75
+      ]
+    },
+    {
+      "name": "Quản lý Phao, tiêu và nhà trạm (CRUD + Approval)",
+      "description": "Quản lý phao tiêu báo hiệu và nhà trạm quản lý vận hành phao tiêu",
+      "type": "CRUD",
+      "priority": "P1",
+      "actors": [
+        "Chuyên viên"
+      ],
+      "entities": [
+        "BuoyBeacon"
+      ],
+      "validations": [],
+      "screens": [
+        "/admin/buoys",
+        "/admin/buoys/add",
+        "/admin/buoys/approve"
+      ],
+      "uc_ids": [
+        54,
+        55
+      ]
+    },
+    {
+      "name": "Quản lý Đèn biển và nhà trạm (CRUD + Approval)",
+      "description": "Quản lý đèn biển và nhà trạm gắn liền với đèn biển",
+      "type": "CRUD",
+      "priority": "P1",
+      "actors": [
+        "Chuyên viên"
+      ],
+      "entities": [
+        "Lighthouse"
+      ],
+      "validations": [],
+      "screens": [
+        "/admin/lighthouses",
+        "/admin/lighthouses/add",
+        "/admin/lighthouses/approve"
+      ],
+      "uc_ids": [
+        52,
+        53
+      ]
+    },
+    {
+      "name": "Quản lý Khu neo đậu (CRUD + Approval)",
+      "description": "Quản lý khu neo đậu với CRUD, document attachment, map preview, approval workflow",
+      "type": "CRUD",
+      "priority": "P1",
+      "actors": [
+        "Chuyên viên"
+      ],
+      "entities": [
+        "AnchorageArea"
+      ],
+      "validations": [],
+      "screens": [
+        "/admin/anchorages",
+        "/admin/anchorages/approve"
+      ],
+      "uc_ids": [
+        48,
+        49
+      ]
+    },
+    {
+      "name": "Phê duyệt thông tin KCHT (Approval Workflow)",
+      "description": "Lãnh đạo các cấp thực hiện phê duyệt KCHT. Xem danh sách cần duyệt, xem chi tiết, xem vị trí trên bản đồ, xem nội dung file đính kèm, phê duyệt hoặc từ chối kèm lý do",
+      "type": "Workflow",
+      "priority": "P0",
+      "actors": [
+        "Lãnh đạo Cảng vụ/Chi cục",
+        "Lãnh đạo Cục"
+      ],
+      "entities": [
+        "Berth",
+        "NavigationChannel",
+        "Seaport",
+        "Lighthouse",
+        "BuoyBeacon",
+        "BreakwaterDike"
+      ],
+      "validations": [
+        "Từ chối phải nhập lý do",
+        "KCHT chỉ được đưa vào khai thác sau khi Lãnh đạo Cục phê duyệt"
+      ],
+      "screens": [
+        "/approval/list",
+        "/approval/detail",
+        "/approval/map"
+      ],
+      "workflow": {
+        "transitions": [
+          "Xem danh sách cần duyệt > Xem chi tiết/Xem bản đồ/Xem file > Phê duyệt hoặc Từ chối (kèm lý do)"
+        ]
+      },
+      "source_quotes": [
+        "Nhóm chức năng Phê duyệt: Lãnh đạo các cấp thực hiện phê duyệt KCHT"
+      ],
+      "uc_ids": [
+        39,
+        41,
+        43,
+        45,
+        47,
+        49,
+        51,
+        53,
+        55,
+        57,
+        59,
+        61,
+        63,
+        65,
+        67,
+        69,
+        71,
+        73,
+        75,
+        77,
+        79,
+        81,
+        83,
+        85
+      ]
+    },
+    {
+      "name": "Quản lý thông tin vận hành khai thác KCHT",
+      "description": "Quản lý và cập nhật thông tin vận hành khai thác KCHT: kế hoạch vận hành, thông tin vận hành thực tế, xem lịch sử vận hành",
+      "type": "CRUD",
+      "priority": "P1",
+      "actors": [
+        "Chuyên viên"
+      ],
+      "entities": [
+        "Seaport",
+        "Berth",
+        "NavigationChannel"
+      ],
+      "validations": [],
+      "screens": [
+        "/operations/plan",
+        "/operations/history"
+      ],
+      "source_quotes": [
+        "Cập nhật kế hoạch vận hành khai thác, Cập nhật thông tin vận hành khai thác, Xem lịch sử vận hành khai thác"
+      ]
+    },
+    {
+      "name": "Quản lý thông tin bảo trì KCHT",
+      "description": "Quản lý kế hoạch bảo trì, thông tin bảo trì và lịch sử bảo trì của KCHT",
+      "type": "CRUD",
+      "priority": "P1",
+      "actors": [
+        "Chuyên viên"
+      ],
+      "entities": [
+        "Seaport",
+        "Berth",
+        "NavigationChannel",
+        "Lighthouse",
+        "BuoyBeacon"
+      ],
+      "validations": [],
+      "screens": [
+        "/maintenance/plan",
+        "/maintenance/history"
+      ],
+      "source_quotes": [
+        "Cập nhật kế hoạch bảo trì, Cập nhật thông tin bảo trì, Xem lịch sử bảo trì của KCHT"
+      ]
+    },
+    {
+      "name": "Quản lý sự cố KCHT",
+      "description": "Quản lý thông tin sự cố: đính kèm biên bản sự cố, văn bản chỉ đạo xử lý, cập nhật kết quả xử lý, xem lịch sử sự cố",
+      "type": "CRUD",
+      "priority": "P1",
+      "actors": [
+        "Chuyên viên"
+      ],
+      "entities": [
+        "Seaport",
+        "Berth",
+        "NavigationChannel",
+        "Lighthouse",
+        "BuoyBeacon",
+        "BreakwaterDike"
+      ],
+      "validations": [
+        "Phải đính kèm biên bản sự cố và văn bản chỉ đạo xử lý"
+      ],
+      "screens": [
+        "/incidents",
+        "/incidents/add",
+        "/incidents/history"
+      ],
+      "source_quotes": [
+        "Đính kèm biên bản sự cố, Đính kèm văn bản chỉ đạo xử lý sự cố, Cập nhật kết quả xử lý sự cố, Xem lịch sử sự cố"
+      ]
+    },
+    {
+      "name": "Quản lý tài sản KCHTGTHH",
+      "description": "Quản lý tài sản kết cấu hạ tầng: tăng tài sản, tăng/giảm nguyên giá, xử lý tài sản, cập nhật biến động, tự động hao mòn, kiểm kê tài sản, xem lịch sử biến động",
+      "type": "CRUD",
+      "priority": "P0",
+      "actors": [
+        "Chuyên viên",
+        "Lãnh đạo"
+      ],
+      "entities": [
+        "Asset"
+      ],
+      "validations": [
+        "Hỗ trợ tự động cập nhật hao mòn lũy kế và giá trị còn lại",
+        "Cho phép Lưu tạm hoặc Chuyển lãnh đạo"
+      ],
+      "screens": [
+        "/assets",
+        "/assets/add",
+        "/assets/approve",
+        "/assets/inventory"
+      ],
+      "workflow": {
+        "transitions": [
+          "Thêm tài sản > Nhập thông tin > Lưu tạm hoặc Chuyển lãnh đạo duyệt > Phê duyệt > Kiểm kê định kỳ"
+        ]
+      },
+      "source_quotes": [
+        "Tăng tài sản khi có tài sản phát sinh mới, Tăng/Giảm nguyên giá tài sản, Xử lý tài sản, Kiểm kê tài sản, Hỗ trợ tự động cập nhật thông tin Hao mòn lũy kế, Giá trị còn lại"
+      ]
+    },
+    {
+      "name": "Quản lý quy hoạch bến cảng",
+      "description": "Quản lý thông tin quy hoạch bến cảng hàng hải: thêm/sửa/xóa bến cảng quy hoạch, cập nhật kế hoạch và thông tin quy hoạch",
+      "type": "CRUD",
+      "priority": "P2",
+      "actors": [
+        "Chuyên viên"
+      ],
+      "entities": [
+        "Berth"
+      ],
+      "validations": [],
+      "screens": [
+        "/planning/berths",
+        "/planning/berths/plan"
+      ],
+      "source_quotes": [
+        "Thêm/ Sửa/ Xóa mới bến cảng cần quy hoạch, Cập nhật kế hoạch quy hoạch bến cảng"
+      ]
+    },
+    {
+      "name": "Quản lý KCHT trên nền bản đồ GIS",
+      "description": "Quản lý đối tượng KCHT trên nền bản đồ số: quản lý đối tượng điểm, đường, vùng; thêm mới, xóa, cập nhật; xem danh sách/chi tiết đối tượng KCHT trên bản đồ",
+      "type": "GIS",
+      "priority": "P0",
+      "actors": [
+        "Chuyên viên"
+      ],
+      "entities": [
+        "Seaport",
+        "Berth",
+        "NavigationChannel",
+        "Lighthouse",
+        "BuoyBeacon",
+        "BreakwaterDike"
+      ],
+      "validations": [
+        "Đối tượng GIS phải gắn với thông tin thuộc tính KCHT"
+      ],
+      "screens": [
+        "/map",
+        "/map/layers"
+      ],
+      "source_quotes": [
+        "Phân hệ Quản lý thông tin KCHT trên nền bản đồ cho phép chuyên viên quản lý danh mục đối tượng điểm, đối tượng đường, đối tượng vùng được thể hiện trên nền bản đồ"
+      ]
+    },
+    {
+      "name": "Báo cáo thống kê KCHT",
+      "description": "Báo cáo thống kê về tài sản, KCHT, sản lượng cảng biển, bảo đảm an toàn. Tổng hợp theo nhiều điều kiện, xem chi tiết, kết xuất PDF/Excel",
+      "type": "Report",
+      "priority": "P1",
+      "actors": [
+        "Lãnh đạo",
+        "Chuyên viên"
+      ],
+      "entities": [
+        "Seaport",
+        "Berth",
+        "NavigationChannel",
+        "Asset"
+      ],
+      "validations": [],
+      "screens": [
+        "/reports",
+        "/reports/detail",
+        "/reports/export"
+      ],
+      "source_quotes": [
+        "Tổng hợp thông tin báo cáo theo nhiều điều kiện tìm kiếm khác nhau, Kết xuất báo cáo theo định dạng PDF/ Excel"
+      ]
+    },
+    {
+      "name": "Quản lý VTS, AIS, CCTV, SCADA, Radar (CRUD + Approval)",
+      "description": "Quản lý các hệ thống giám sát hàng hải: VTS, trung tâm điều hành VTS, trạm radar, AIS, CCTV, SCADA, VHF, truyền dẫn, phụ trợ VTS. CRUD + approval cho từng loại",
+      "type": "CRUD",
+      "priority": "P2",
+      "actors": [
+        "Chuyên viên"
+      ],
+      "entities": [
+        "VTS_System",
+        "RadarStation",
+        "AIS_System",
+        "CCTV_System"
+      ],
+      "validations": [],
+      "screens": [
+        "/admin/vts",
+        "/admin/radar",
+        "/admin/ais",
+        "/admin/cctv",
+        "/admin/scada",
+        "/admin/vhf"
+      ],
+      "source_quotes": [
+        "Người dùng thực hiện thêm mới, cập nhật, xóa hệ thống VTS/AIS/CCTV"
+      ],
+      "uc_ids": [
+        56,
+        57,
+        58,
+        59,
+        60,
+        61,
+        62,
+        63,
+        64,
+        65,
+        66,
+        67,
+        68,
+        69,
+        70,
+        71,
+        72,
+        73
+      ]
+    }
+  ],
+  "screens": [
+    {
+      "path": "/dashboard",
+      "title": "Dashboard - Tổng quan KCHT",
+      "type": "list",
+      "visible_to_roles": [
+        "Quản trị hệ thống",
+        "Lãnh đạo",
+        "Chuyên viên",
+        "Người dùng tại Cảng"
+      ],
+      "key_fields": [
+        "biểu đồ thống kê",
+        "bảng tổng hợp số lượng",
+        "tình trạng hoạt động"
+      ],
+      "actions": [
+        "Xem tổng quan",
+        "Lọc theo loại KCHT"
+      ]
+    },
+    {
+      "path": "/legal-documents",
+      "title": "Tra cứu văn bản pháp lý",
+      "type": "list",
+      "visible_to_roles": [
+        "Tất cả người dùng"
+      ],
+      "key_fields": [
+        "tên văn bản",
+        "loại văn bản",
+        "ngày ban hành",
+        "cơ quan ban hành"
+      ],
+      "actions": [
+        "Xem danh sách",
+        "Tìm kiếm",
+        "Xem chi tiết",
+        "Tải về",
+        "In"
+      ]
+    },
+    {
+      "path": "/admin/seaports",
+      "title": "Quản lý Cảng biển",
+      "type": "list",
+      "visible_to_roles": [
+        "Chuyên viên"
+      ],
+      "key_fields": [
+        "mã cảng",
+        "tên cảng",
+        "loại cảng",
+        "tỉnh/thành"
+      ],
+      "actions": [
+        "Xem danh sách",
+        "Thêm mới",
+        "Cập nhật",
+        "Xóa",
+        "Đính kèm tài liệu",
+        "Lưu tạm",
+        "Gửi duyệt",
+        "Xem bản đồ",
+        "Lịch sử"
+      ]
+    },
+    {
+      "path": "/admin/berths",
+      "title": "Quản lý Bến cảng",
+      "type": "list",
+      "visible_to_roles": [
+        "Chuyên viên"
+      ],
+      "key_fields": [
+        "mã bến",
+        "tên bến",
+        "cảng biển",
+        "chiều dài",
+        "độ sâu"
+      ],
+      "actions": [
+        "Xem danh sách",
+        "Thêm mới",
+        "Cập nhật",
+        "Xóa",
+        "Đính kèm",
+        "Xem bản đồ",
+        "Gửi duyệt"
+      ]
+    },
+    {
+      "path": "/admin/channels",
+      "title": "Quản lý Luồng hàng hải",
+      "type": "list",
+      "visible_to_roles": [
+        "Chuyên viên"
+      ],
+      "key_fields": [
+        "mã luồng",
+        "tên luồng",
+        "chiều dài",
+        "độ sâu",
+        "cấp luồng"
+      ],
+      "actions": [
+        "Xem danh sách",
+        "Thêm mới",
+        "Cập nhật",
+        "Xóa",
+        "Đính kèm",
+        "Gửi duyệt"
+      ]
+    },
+    {
+      "path": "/approval/list",
+      "title": "Danh sách phê duyệt KCHT",
+      "type": "list",
+      "visible_to_roles": [
+        "Lãnh đạo Cảng vụ/Chi cục",
+        "Lãnh đạo Cục"
+      ],
+      "key_fields": [
+        "loại KCHT",
+        "mã KCHT",
+        "người tạo",
+        "ngày gửi",
+        "trạng thái"
+      ],
+      "actions": [
+        "Xem danh sách chờ duyệt",
+        "Xem chi tiết",
+        "Xem bản đồ",
+        "Xem file đính kèm",
+        "Phê duyệt",
+        "Từ chối kèm lý do"
+      ]
+    },
+    {
+      "path": "/operations/plan",
+      "title": "Kế hoạch vận hành khai thác",
+      "type": "form",
+      "visible_to_roles": [
+        "Chuyên viên"
+      ],
+      "key_fields": [
+        "KCHT",
+        "kế hoạch",
+        "thông tin vận hành"
+      ],
+      "actions": [
+        "Cập nhật kế hoạch",
+        "Cập nhật thông tin",
+        "Xem lịch sử"
+      ]
+    },
+    {
+      "path": "/maintenance/plan",
+      "title": "Kế hoạch bảo trì",
+      "type": "form",
+      "visible_to_roles": [
+        "Chuyên viên"
+      ],
+      "key_fields": [
+        "KCHT",
+        "kế hoạch bảo trì",
+        "thông tin bảo trì"
+      ],
+      "actions": [
+        "Cập nhật kế hoạch",
+        "Cập nhật thông tin",
+        "Xem lịch sử"
+      ]
+    },
+    {
+      "path": "/incidents",
+      "title": "Quản lý sự cố KCHT",
+      "type": "list",
+      "visible_to_roles": [
+        "Chuyên viên"
+      ],
+      "key_fields": [
+        "KCHT",
+        "biên bản sự cố",
+        "văn bản chỉ đạo",
+        "kết quả xử lý"
+      ],
+      "actions": [
+        "Đính kèm biên bản",
+        "Đính kèm văn bản",
+        "Cập nhật kết quả",
+        "Xem lịch sử"
+      ]
+    },
+    {
+      "path": "/assets",
+      "title": "Quản lý tài sản KCHTGTHH",
+      "type": "list",
+      "visible_to_roles": [
+        "Chuyên viên",
+        "Lãnh đạo"
+      ],
+      "key_fields": [
+        "mã tài sản",
+        "tên tài sản",
+        "loại KCHT",
+        "nguyên giá",
+        "giá trị còn lại",
+        "tình trạng"
+      ],
+      "actions": [
+        "Xem danh sách",
+        "Tăng tài sản",
+        "Tăng/Giảm nguyên giá",
+        "Xử lý tài sản",
+        "Kiểm kê",
+        "Lịch sử biến động"
+      ]
+    },
+    {
+      "path": "/map",
+      "title": "Bản đồ KCHTGTHH",
+      "type": "map",
+      "visible_to_roles": [
+        "Quản trị hệ thống",
+        "Lãnh đạo",
+        "Chuyên viên",
+        "Người dùng tại Cảng"
+      ],
+      "key_fields": [
+        "đối tượng điểm",
+        "đối tượng đường",
+        "đối tượng vùng",
+        "lớp dữ liệu"
+      ],
+      "actions": [
+        "Xem bản đồ",
+        "Thêm đối tượng",
+        "Xóa đối tượng",
+        "Cập nhật thông tin",
+        "Chọn lớp hiển thị"
+      ]
+    },
+    {
+      "path": "/reports",
+      "title": "Báo cáo thống kê",
+      "type": "list",
+      "visible_to_roles": [
+        "Lãnh đạo",
+        "Chuyên viên"
+      ],
+      "key_fields": [
+        "loại báo cáo",
+        "điều kiện tìm kiếm",
+        "định dạng"
+      ],
+      "actions": [
+        "Tổng hợp",
+        "Xem chi tiết",
+        "Kết xuất PDF",
+        "Kết xuất Excel"
+      ]
+    },
+    {
+      "path": "/planning/berths",
+      "title": "Quy hoạch bến cảng",
+      "type": "list",
+      "visible_to_roles": [
+        "Chuyên viên"
+      ],
+      "key_fields": [
+        "bến cảng",
+        "kế hoạch",
+        "thông tin quy hoạch"
+      ],
+      "actions": [
+        "Thêm/Sửa/Xóa",
+        "Cập nhật kế hoạch",
+        "Cập nhật thông tin"
+      ]
+    }
+  ],
+  "integrations": [
+    {
+      "name": "CSDL nền tảng dùng chung Bộ GTVT (LGSP)",
+      "description": "Đồng bộ dữ liệu KCHTGTHH lên CSDL nền tảng dùng chung của Bộ GTVT qua trục LGSP. Dữ liệu đồng bộ bao gồm thông tin tổng hợp cảng biển, bến cảng, luồng HH, khu neo đậu, phao tiêu, đèn biển, đê kè, bảo trì, tài sản.",
+      "type": "outbound",
+      "protocol": "API/Webservice qua LGSP",
+      "data_exchanged": [
+        "thong_tin_cang_bien",
+        "thong_tin_ben_cang",
+        "thong_tin_luong",
+        "thong_tin_bao_tri",
+        "thong_tin_tai_san"
+      ],
+      "security": "HTTPS, mã hóa dữ liệu truyền"
+    },
+    {
+      "name": "CSDL Vishipel (Công ty TNHH MTV Thông tin Điện tử Hàng hải Việt Nam)",
+      "description": "Tích hợp dữ liệu KCHT từ Vishipel qua API, kết nối VPN Site-to-Site",
+      "type": "inbound",
+      "protocol": "API, VPN Site-to-Site",
+      "data_exchanged": [
+        "thong_tin_KCHT",
+        "thong_tin_tai_san"
+      ],
+      "security": "VPN mã hóa, HTTPS"
+    },
+    {
+      "name": "CSDL TCT BĐATHH miền Bắc và miền Nam",
+      "description": "Tích hợp dữ liệu KCHT từ 02 Tổng công ty Bảo đảm an toàn hàng hải qua API, VPN Site-to-Site",
+      "type": "inbound",
+      "protocol": "API, VPN Site-to-Site",
+      "data_exchanged": [
+        "thong_tin_KCHT",
+        "thong_tin_tai_san",
+        "thong_tin_bao_tri"
+      ],
+      "security": "VPN mã hóa, HTTPS"
+    },
+    {
+      "name": "CSDL Quốc gia về tài sản công (NDXP)",
+      "description": "Chia sẻ dữ liệu tài sản KCHTGTHH với CSDL Quốc gia về tài sản công qua trục NDXP",
+      "type": "outbound",
+      "protocol": "NDXP",
+      "data_exchanged": [
+        "thong_tin_tai_san",
+        "bao_cao_tai_san"
+      ],
+      "security": "Qua trục LGSP/NDXP"
+    },
+    {
+      "name": "Hệ thống CNTT Cảng vụ",
+      "description": "Kết nối với Cảng vụ qua Internet/VPN để khai thác dữ liệu KCHTGTHH",
+      "type": "inbound",
+      "protocol": "Internet/VPN, API",
+      "data_exchanged": [
+        "tai_khoan_phan_quyen",
+        "du_lieu_KCHT"
+      ],
+      "security": "Phân quyền truy cập, HTTPS"
+    },
+    {
+      "name": "Tích hợp hải đồ điện tử (ENC)",
+      "description": "Tích hợp các mảnh hải đồ điện tử từ TCT BĐATHH miền Bắc và miền Nam, hiển thị theo tiêu chuẩn S-52",
+      "type": "map",
+      "protocol": "WMS/WFS, S-57/S-100",
+      "data_exchanged": [
+        "hai_do_dien_tu",
+        "lop_du_lieu_GIS"
+      ],
+      "security": "Qua VPN"
+    }
+  ]
+}

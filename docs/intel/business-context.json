@@ -1,0 +1,44 @@
+{
+  "_meta": {"producer": "from-doc", "generated": "2026-06-05"},
+  "project": {
+    "name": "Xây dựng Hệ thống thông tin quản lý Kết cấu Hạ tầng Giao thông Hàng hải",
+    "name_en": "Maritime Transport Infrastructure Management Information System (MTIS)",
+    "abbreviation": "MTIS"
+  },
+  "legal_basis": [
+    "Luật Công nghệ thông tin ngày 29/6/2006",
+    "Luật An toàn thông tin mạng ngày 19/11/2015",
+    "Nghị định số 73/2019/NĐ-CP về quản lý đầu tư ứng dụng CNTT sử dụng vốn NSNN",
+    "Nghị định số 85/2016/NĐ-CP về bảo đảm an toàn hệ thống thông tin theo cấp độ",
+    "Nghị định số 43/2018/NĐ-CP về quản lý, sử dụng và khai thác tài sản KCHT hàng hải",
+    "Quyết định 1516/QĐ-CHHVN ngày 06/10/2023 phê duyệt dự án",
+    "Quyết định 2097/QĐ-BGTVT về Kiến trúc Chính phủ điện tử Bộ GTVT",
+    "Thông tư 04/2020/TT-BTTTT về lập và quản lý chi phí dự án đầu tư CNTT"
+  ],
+  "objectives": {
+    "specific": [
+      "Bảo đảm dữ liệu tập trung, đồng nhất để hình thành CSDL chuyên ngành Hàng hải",
+      "Nâng cao năng suất và hiệu quả công tác báo cáo, thống kê quản lý KCHT",
+      "Nâng cao hiệu quả hoạt động quản lý, chỉ đạo điều hành của Cục Hàng hải VN",
+      "Sẵn sàng chia sẻ dữ liệu với CSDL dùng chung của Bộ GTVT và NDXP"
+    ]
+  },
+  "pain_points": [
+    "Dữ liệu KCHT hàng hải hiện phân tán, thiếu đồng bộ giữa các đơn vị",
+    "Khó khăn trong tra cứu và tổng hợp báo cáo quản lý KCHT",
+    "Quy trình phê duyệt dữ liệu KCHT chưa được tin học hóa",
+    "Thiếu hệ thống quản lý tài sản KCHT tập trung theo vòng đời"
+  ],
+  "scope": {
+    "in_scope": [
+      "Xây dựng CSDL quản lý KCHT giao thông hàng hải",
+      "Xây dựng phần mềm ứng dụng quản lý KCHT giao thông hàng hải",
+      "Tích hợp GIS và hải đồ điện tử",
+      "Liên thông dữ liệu với LGSP, NDXP và CSDL Bộ GTVT"
+    ],
+    "out_scope": [
+      "Hạ tầng mạng và thiết bị CNTT (đầu tư riêng)",
+      "Đào tạo và chuyển giao công nghệ cho người dùng"
+    ]
+  }
+}

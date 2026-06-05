@@ -1,0 +1,275 @@
+{
+  "$schema": "https://ai-studio.etc.vn/schemas/structure-map.json",
+  "docId": "VMD-MTIS-TKCT-vFinal",
+  "primarySource": "1.TKCT-Cuc HH-KetCauHaTangGiaoThong 13.11.2024 ban in final (1).docx",
+  "extractedAt": "2026-06-05T18:30:00Z",
+  "mode": "LARGE",
+  "estimatedTotalPages": 250,
+  "estimatedScreenshots": 180,
+  "documentStructure": [
+    {
+      "section": "Part I - General Information",
+      "startPage": 1,
+      "endPage": 5,
+      "paraRange": "73-148",
+      "description": "Project overview, legal basis, investment objectives, scale, location, funding",
+      "isSoftware": false,
+      "estimatedScreenshots": 0
+    },
+    {
+      "section": "Part II Section I - Hardware/Network Deployment",
+      "startPage": 5,
+      "endPage": 20,
+      "paraRange": "149-675",
+      "description": "Network topology, firewall, switches, servers (app, DB, GIS, SIEM, proxy), SAN storage, UPS, cabling, IP planning, rack layout",
+      "isSoftware": false,
+      "estimatedScreenshots": 15,
+      "modules": [
+        {"name": "Hardware Infrastructure Design", "subsections": ["Firewall Design", "Switch Design", "Proxy Server", "App Server", "DB Server", "GIS Server", "SIEM Server", "SAN Storage", "UPS Design", "Cooling/Power"]}
+      ]
+    },
+    {
+      "section": "Part II Section II - Internal Software Design",
+      "startPage": 20,
+      "endPage": 38,
+      "paraRange": "675-1298",
+      "description": "Full software architecture, functional modules, non-functional requirements, business processes",
+      "isSoftware": true,
+      "estimatedScreenshots": 45,
+      "modules": [
+        {
+          "id": "M01",
+          "name": "User Management (Quản lý người dùng)",
+          "pageRange": "31",
+          "paraRange": "1068-1069",
+          "description": "User account management, registration, login, logout, password reset",
+          "estimatedRequirements": 13,
+          "estimatedScreenshots": 5
+        },
+        {
+          "id": "M02",
+          "name": "System Administration (Quản trị hệ thống)",
+          "pageRange": "31-32",
+          "paraRange": "1070-1084",
+          "description": "Unit management, interconnections, admin accounts, approval, lock/unlock, permission assignment, audit log",
+          "estimatedRequirements": 25,
+          "estimatedScreenshots": 8
+        },
+        {
+          "id": "M03",
+          "name": "Technical Parameters Management (Quản lý thông số kỹ thuật KCHTGTHH)",
+          "pageRange": "32",
+          "paraRange": "1085-1102",
+          "description": "Dashboard, technical parameter lookup, CRUD infrastructure data, approval workflow (Port Authority -> Dept Lead -> Cục), document attachment, map preview, history",
+          "estimatedRequirements": 688,
+          "estimatedScreenshots": 25
+        },
+        {
+          "id": "M04",
+          "name": "Operations & Maintenance Management (Quản lý vận hành khai thác, bảo trì)",
+          "pageRange": "32",
+          "paraRange": "1103-1117",
+          "description": "Operational plans, maintenance plans, incident management, document attachment, history tracking",
+          "estimatedRequirements": 28,
+          "estimatedScreenshots": 12
+        },
+        {
+          "id": "M05",
+          "name": "Planning Management (Quản lý quy hoạch KCHTGTHH)",
+          "pageRange": "32-33",
+          "paraRange": "1118-1122",
+          "description": "Port terminal planning, CRUD planning entries, planning schedule updates",
+          "estimatedRequirements": 13,
+          "estimatedScreenshots": 6
+        },
+        {
+          "id": "M06",
+          "name": "Asset Management (Quản lý tài sản KCHTGTHH)",
+          "pageRange": "33",
+          "paraRange": "1123-1135",
+          "description": "Asset lifecycle: addition, depreciation, disposal, revaluation, amortization tracking, inventory, exploitation",
+          "estimatedRequirements": 482,
+          "estimatedScreenshots": 20
+        },
+        {
+          "id": "M07",
+          "name": "GIS/Map-based Infrastructure Management (Quản lý KCHT trên nền bản đồ)",
+          "pageRange": "33",
+          "paraRange": "1136-1145",
+          "description": "Point/line/polygon object management on map, CRUD spatial objects, attribute updates, list/detail views",
+          "estimatedRequirements": 18,
+          "estimatedScreenshots": 15
+        },
+        {
+          "id": "M08",
+          "name": "Reporting & Statistics (Báo cáo thống kê)",
+          "pageRange": "33",
+          "paraRange": "1146-1150",
+          "description": "Asset reports, infrastructure reports, port throughput, safety reports, multi-condition filtering, PDF/Excel export, detail drill-down",
+          "estimatedRequirements": 128,
+          "estimatedScreenshots": 10
+        },
+        {
+          "id": "M09",
+          "name": "Data Interconnection & Sharing (Liên thông chia sẻ dữ liệu)",
+          "pageRange": "33-34",
+          "paraRange": "1151-1154",
+          "description": "LGSP integration, NDXP (National Data Exchange Platform), Web API, data sharing with MOT shared DB, external query services",
+          "estimatedRequirements": 287,
+          "estimatedScreenshots": 8
+        }
+      ]
+    },
+    {
+      "section": "Part II Section III - Nautical Chart Editing & Database Creation",
+      "startPage": 38,
+      "endPage": 39,
+      "paraRange": "1299-1364",
+      "description": "Electronic nautical chart editing, GIS integration, spatial DB creation, data conversion, S-57/S-100 standards, data digitization",
+      "isSoftware": true,
+      "estimatedScreenshots": 10,
+      "modules": [
+        {
+          "id": "M10",
+          "name": "Nautical Chart Editing (Biên tập hải đồ điện tử)",
+          "pageRange": "38",
+          "paraRange": "1300-1330",
+          "description": "Chart editing, S-57/S-100 standard compliance, GIS integration, data conversion, spatial database building, UI development",
+          "estimatedRequirements": 30,
+          "estimatedScreenshots": 8
+        },
+        {
+          "id": "M11",
+          "name": "Infrastructure Database Creation (Tạo lập CSDL KCHTGTHH)",
+          "pageRange": "39",
+          "paraRange": "1331-1364",
+          "description": "Mass data digitization of maritime infrastructure documents (~2000+ records), data field mapping, document scanning/vectorization",
+          "estimatedRequirements": 0,
+          "estimatedScreenshots": 2
+        }
+      ]
+    },
+    {
+      "section": "Part II Section IV - Training & Handover",
+      "startPage": 40,
+      "endPage": 40,
+      "paraRange": "1365-1434",
+      "description": "User training, system administration training, warranty, maintenance, technical support",
+      "isSoftware": false,
+      "estimatedScreenshots": 0
+    },
+    {
+      "section": "Part II Section V - Compliance Assessment",
+      "startPage": 42,
+      "endPage": 43,
+      "paraRange": "1435-1490",
+      "description": "Alignment with national IT strategy, e-government framework, MOT digital transformation",
+      "isSoftware": false,
+      "estimatedScreenshots": 0
+    },
+    {
+      "section": "Part II Section VI - Information Security Plan",
+      "startPage": 43,
+      "endPage": 48,
+      "paraRange": "1491-1665",
+      "description": "Security Level 3 compliance: network security, server security, application security, data security, encryption, audit logging, backup",
+      "isSoftware": false,
+      "estimatedScreenshots": 5
+    },
+    {
+      "section": "Part II Section VII - Implementation Plan & Budget",
+      "startPage": 48,
+      "endPage": 51,
+      "paraRange": "1666-1752",
+      "description": "Deployment schedule (2024-2025), cost estimates by line item (software: ~10.7B VND, hardware: ~7.6B VND)",
+      "isSoftware": false,
+      "estimatedScreenshots": 3
+    },
+    {
+      "section": "Appendix 01 - Functional Requirements Catalog",
+      "startPage": 51,
+      "endPage": 53,
+      "tableIndex": 67,
+      "tableRows": 1978,
+      "description": "Complete functional requirements table with 1978 rows across all modules, classified by input/output/query types",
+      "isSoftware": true,
+      "estimatedScreenshots": 10,
+      "modules": [
+        {"name": "PHÂN HỆ QUẢN LÝ NGƯỜI DÙNG", "requirements": 13},
+        {"name": "PHÂN HỆ QUẢN TRỊ HỆ THỐNG", "requirements": 25},
+        {"name": "PHÂN HỆ QUẢN LÝ THÔNG SỐ KỸ THUẬT KCHTGTHH", "requirements": 688},
+        {"name": "QUẢN LÝ THÔNG TIN VẬN HÀNH KHAI THÁC, BẢO TRÌ", "requirements": 28},
+        {"name": "QUẢN LÝ QUY HOẠCH KCHTGTHH", "requirements": 13},
+        {"name": "QUẢN LÝ THÔNG TIN TÀI SẢN", "requirements": 482},
+        {"name": "PHÂN HỆ QUẢN LÝ THÔNG TIN KCHT TRÊN NỀN BẢN ĐỒ (GIS)", "requirements": 18},
+        {"name": "BÁO CÁO THỐNG KÊ", "requirements": 128},
+        {"name": "CHỨC NĂNG LIÊN THÔNG CHIA SẺ DỮ LIỆU", "requirements": 287}
+      ]
+    },
+    {
+      "section": "Appendix 02 - Use Case Conversion Table",
+      "startPage": 51,
+      "paraRange": "1753-1760",
+      "description": "Use case mapping to modules",
+      "isSoftware": true,
+      "estimatedScreenshots": 2
+    },
+    {
+      "section": "Appendix 03-06 - Diagrams, Charts, DB Schemas, Asset Fields",
+      "startPage": 51,
+      "endPage": 54,
+      "tableIndices": "70-82",
+      "paraRange": "1761-1868",
+      "description": "Detailed DB field definitions for all infrastructure types (ports, berths, channels, anchorages, buoys, lighthouses, dikes), asset management fields for 3 entities (North, South, VISHIPEL)",
+      "isSoftware": true,
+      "estimatedScreenshots": 12,
+      "modules": [
+        {"name": "Landing/User Account module", "paraRange": "1761-1762"},
+        {"name": "System Administration", "paraRange": "1763-1764"},
+        {"name": "Information Lookup (Tra cứu)", "paraRange": "1765-1777"},
+        {"name": "Infrastructure Data Management", "paraRange": "1778-1794"},
+        {"name": "Operations Management", "paraRange": "1795-1796"},
+        {"name": "Planning Management", "paraRange": "1797-1798"},
+        {"name": "Asset Information Management", "paraRange": "1799-1811"},
+        {"name": "Reporting & Statistics", "paraRange": "1812-1820"},
+        {"name": "Integration & Data Sharing", "paraRange": "1821-1831"},
+        {"name": "Nautical Chart Catalogs (North/South)", "paraRange": "1832-1843"},
+        {"name": "DB Entity Field Definitions", "paraRange": "1844-1847"},
+        {"name": "LGSP/NDXP Shared Data Fields", "paraRange": "1848-1865"},
+        {"name": "Asset Management Fields - North Company", "paraRange": "1866"},
+        {"name": "Asset Management Fields - South Company", "paraRange": "1867"},
+        {"name": "Asset Management Fields - VISHIPEL", "paraRange": "1868"}
+      ]
+    }
+  ],
+  "supplementarySources": [
+    {
+      "file": "MOT_VMD_MTIS_URD_ v3.0_PHCV_Final.pdf",
+      "type": "URD",
+      "estimatedPages": 150,
+      "role": "User requirements - supplements NFRs, business rules, and acceptance criteria",
+      "priority": "high"
+    },
+    {
+      "file": "MOT_VMD_MTIS_DD_ 3.0_PHCV_Final.pdf",
+      "type": "DD",
+      "estimatedPages": 200,
+      "role": "Detailed design - supplements architecture, DB schemas, API contracts, screen mockups",
+      "priority": "high"
+    },
+    {
+      "file": "VMD_MTIS_TaiLieuKhaoSat_PM_NoiBo_v1.0_PHCV.pdf",
+      "type": "Survey",
+      "estimatedPages": 200,
+      "role": "Survey/study - context for business processes, data classifications, operational constraints",
+      "priority": "medium"
+    },
+    {
+      "file": "VMD_MTIS_TaiLieuKhaoSat_PM_NoiBo_v1.0_Phụ lục_PHCV.pdf",
+      "type": "SurveyAppendix",
+      "estimatedPages": 964,
+      "role": "Survey appendix - 964 pages of raw appendices (forms, templates, questionnaire results)",
+      "priority": "low"
+    }
+  ]
+}
