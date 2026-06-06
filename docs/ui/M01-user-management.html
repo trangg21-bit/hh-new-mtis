@@ -1073,6 +1073,71 @@ textarea.form-control { resize: vertical; min-height: 80px; }
       </div>
     </div>
 
+    <!-- ======= SCREEN 9: Đăng ký tài khoản ======= -->
+    <hr class="section-divider">
+    <section class="screen" id="dang-ky">
+      <div class="screen-label">9. Đăng ký tài khoản</div>
+      <div class="breadcrumb"><a href="#">M01 — Quản lý người dùng</a> <span class="sep">›</span> <span>Đăng ký tài khoản</span></div>
+      <h2 class="page-title">Đăng ký tài khoản mới</h2>
+      <div class="card" style="max-width:600px">
+        <div class="card-header"><h3>Thông tin người dùng</h3></div>
+        <div class="card-body">
+          <div class="form-group"><label class="required">Họ và tên</label><input class="form-control" placeholder="Nhập họ và tên"></div>
+          <div class="form-group"><label class="required">Email</label><input class="form-control" type="email" placeholder="email@domain.com"></div>
+          <div class="form-group"><label class="required">Số điện thoại</label><input class="form-control" placeholder="0987654321"></div>
+          <div class="grid-2">
+            <div class="form-group"><label class="required">Đơn vị</label><select class="form-control"><option>Cảng vụ Hàng hải Hải Phòng</option><option>Cảng vụ Hàng hải Vũng Tàu</option><option>Cảng vụ Hàng hải Đà Nẵng</option></select></div>
+            <div class="form-group"><label class="required">Vai trò</label><select class="form-control"><option>Chuyên viên</option><option>Lãnh đạo Cảng vụ</option><option>Lãnh đạo Cục</option><option>Chuyên viên GIS</option></select></div>
+          </div>
+          <div class="grid-2">
+            <div class="form-group"><label class="required">Tên đăng nhập</label><input class="form-control" placeholder="Tên đăng nhập"></div>
+            <div class="form-group"><label class="required">Mật khẩu</label><input class="form-control" type="password" placeholder="••••••••"></div>
+          </div>
+          <div class="form-group"><label class="required">Nhập lại mật khẩu</label><input class="form-control" type="password" placeholder="••••••••"></div>
+          <div class="flex gap-2" style="margin-top:16px;justify-content:flex-end">
+            <button class="btn btn-outline">Hủy</button>
+            <button class="btn btn-primary">✓ Gửi đăng ký</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======= SCREEN 10: Quản lý mật khẩu ======= -->
+    <hr class="section-divider">
+    <section class="screen" id="quen-mat-khau">
+      <div class="screen-label">10. Quản lý mật khẩu</div>
+      <div class="breadcrumb"><a href="#">M01 — Quản lý người dùng</a> <span class="sep">›</span> <span>Đổi mật khẩu</span></div>
+      <h2 class="page-title">Đổi / Đặt lại mật khẩu</h2>
+      <div class="card" style="max-width:500px">
+        <div class="card-header"><h3>Đổi mật khẩu</h3></div>
+        <div class="card-body">
+          <div class="form-group"><label class="required">Mật khẩu hiện tại</label><input class="form-control" type="password" placeholder="••••••••"></div>
+          <div class="form-group"><label class="required">Mật khẩu mới</label><input class="form-control" type="password" placeholder="••••••••"></div>
+          <div class="form-group"><label class="required">Xác nhận mật khẩu mới</label><input class="form-control" type="password" placeholder="••••••••"></div>
+          <div class="form-group" style="background:#fffbeb;padding:10px 14px;border-radius:6px;font-size:12px;color:#92400e">
+            <strong>Yêu cầu mật khẩu:</strong> Tối thiểu 8 ký tự, bao gồm chữ hoa, chữ thường, số và ký tự đặc biệt.
+          </div>
+          <div class="flex gap-2" style="margin-top:12px;justify-content:flex-end">
+            <button class="btn btn-outline">Hủy</button>
+            <button class="btn btn-primary">✓ Lưu mật khẩu mới</button>
+          </div>
+        </div>
+      </div>
+      <div class="card mt-4">
+        <div class="card-header"><h3>Lịch sử thay đổi mật khẩu</h3></div>
+        <div class="table-wrap">
+          <table class="ant-table">
+            <thead><tr><th>Ngày thay đổi</th><th>Người thực hiện</th><th>IP</th><th>Thiết bị</th></tr></thead>
+            <tbody>
+              <tr><td>01/06/2026 14:30</td><td>Nguyễn Văn A</td><td>192.168.1.100</td><td>Chrome / macOS</td></tr>
+              <tr><td>15/05/2026 09:12</td><td>Nguyễn Văn A</td><td>192.168.1.100</td><td>Chrome / macOS</td></tr>
+              <tr><td>20/04/2026 16:45</td><td>System</td><td>—</td><td>Yêu cầu đặt lại</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
   </main>
 
   <!-- FOOTER -->
