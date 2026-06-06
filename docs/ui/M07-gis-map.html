@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>M07 — Bản đồ GIS | MTIS</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
 <style>
 :root {
   --color-primary: #2153aa;
@@ -302,26 +303,21 @@ code.pre-block { display: block; background: #1e1e2e; color: #cdd6f4; padding: 1
     <section class="screen" id="map-viewer">
       <div class="screen-label">1. Map Viewer chính</div>
       <div class="page-title">Bản đồ GIS — Hệ thống KCHT Giao thông Hàng hải</div>
-      <div class="map-placeholder" style="min-height:500px">
-        <div style="text-align:center">
-          <div style="font-size:48px;margin-bottom:12px">🗺️</div>
-          <div>BẢN ĐỒ KCHT GIAO THÔNG HÀNG HẢI VIỆT NAM</div>
-          <div class="text-muted mt-2" style="font-weight:400;font-size:13px">Tọa độ: 20.85°N — 106.72°E | Tỷ lệ: 1:250,000 | Phạm vi: Toàn quốc</div>
-          <div class="map-overlay-bar" style="justify-content:center">
-            <button class="map-overlay-btn active">Cảng biển</button>
-            <button class="map-overlay-btn">Bến cảng</button>
-            <button class="map-overlay-btn">Luồng</button>
-            <button class="map-overlay-btn">Phao tiêu</button>
-            <button class="map-overlay-btn">Đèn biển</button>
-          </div>
+      <div class="map-placeholder" id="main-map" style="min-height:500px;padding:0;border:1px solid #93c5fd;overflow:hidden">
+        <div class="map-overlay-bar" style="justify-content:center;top:12px;left:50%;transform:translateX(-50%);z-index:500">
+          <button class="map-overlay-btn active" data-layer="ports">Cảng biển</button>
+          <button class="map-overlay-btn" data-layer="wharves">Bến cảng</button>
+          <button class="map-overlay-btn" data-layer="channels">Luồng</button>
+          <button class="map-overlay-btn" data-layer="buoys">Phao tiêu</button>
+          <button class="map-overlay-btn" data-layer="lights">Đèn biển</button>
         </div>
-        <div class="map-controls">
-          <button title="Phóng to">+</button>
-          <button title="Thu nhỏ">−</button>
-          <button title="Lớp bản đồ" style="font-size:14px">☰</button>
-          <button title="Toàn màn hình">⛶</button>
+        <div class="map-controls" style="z-index:500">
+          <button title="Phóng to" id="btn-zoom-in">+</button>
+          <button title="Thu nhỏ" id="btn-zoom-out">−</button>
+          <button title="Lớp bản đồ" id="btn-layers" style="font-size:14px">☰</button>
+          <button title="Toàn màn hình" id="btn-fullscreen">⛶</button>
         </div>
-        <div class="coord-display">20.8512°N — 106.7245°E | Tỷ lệ: 1:250,000</div>
+        <div class="coord-display" id="coord-display" style="z-index:500">20.8512°N — 106.7245°E | Tỷ lệ: 1:250,000</div>
       </div>
     </section>
 
@@ -638,6 +634,169 @@ code.pre-block { display: block; background: #1e1e2e; color: #cdd6f4; padding: 1
       mapBtns.forEach(function (b) { b.classList.remove('active'); });
       this.classList.add('active');
     });
+  });
+})();
+</script>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script>
+(function() {
+  // Vietnamese maritime infrastructure data (mock, from M07 entities)
+  var ports = [
+    { name: 'Cảng Hải Phòng', lat: 20.8512, lng: 106.7245, type: 'port' },
+    { name: 'Cảng Cái Mép', lat: 10.5341, lng: 107.0234, type: 'port' },
+    { name: 'Cảng Vũng Tàu', lat: 10.3451, lng: 107.0724, type: 'port' },
+    { name: 'Cảng Đà Nẵng', lat: 16.0544, lng: 108.2022, type: 'port' },
+    { name: 'Cảng Quy Nhơn', lat: 13.7833, lng: 109.2333, type: 'port' },
+    { name: 'Cảng Cam Ranh', lat: 11.9000, lng: 109.2167, type: 'port' }
+  ];
+  var wharves = [
+    { name: 'Bến Hoàng Diệu (Hải Phòng)', lat: 20.8590, lng: 106.7310, type: 'wharf' },
+    { name: 'Bến Tân Vũ (Hải Phòng)', lat: 20.7820, lng: 106.7890, type: 'wharf' },
+    { name: 'Bến Cái Mép (Bà Rịa-Vũng Tàu)', lat: 10.5300, lng: 107.0250, type: 'wharf' }
+  ];
+  var buoys = [
+    { name: 'Phao số 1 — Luồng Sài Gòn', lat: 10.6543, lng: 106.7890, type: 'buoy' },
+    { name: 'Phao số 5 — Luồng Hải Phòng', lat: 20.8001, lng: 106.7543, type: 'buoy' },
+    { name: 'Phao số 12 — Luồng Đà Nẵng', lat: 16.0830, lng: 108.2150, type: 'buoy' }
+  ];
+  var lights = [
+    { name: 'Đèn biển Côn Đảo', lat: 8.6833, lng: 106.6082, type: 'light' },
+    { name: 'Đèn biển Hòn Dấu', lat: 20.6678, lng: 106.8123, type: 'light' },
+    { name: 'Đèn biển Vũng Tàu (Cap Saint Jacques)', lat: 10.3050, lng: 107.0840, type: 'light' },
+    { name: 'Đèn biển Hải Vân', lat: 16.1900, lng: 108.1300, type: 'light' },
+    { name: 'Đèn biển Phú Quốc', lat: 10.0167, lng: 103.9833, type: 'light' },
+    { name: 'Đèn biển Đồ Sơn', lat: 20.6700, lng: 106.7800, type: 'light' }
+  ];
+  var channels = [
+    { name: 'Luồng Hải Phòng', path: [[20.85, 106.65], [20.80, 106.70], [20.75, 106.75], [20.70, 106.80]] },
+    { name: 'Luồng Sài Gòn - Vũng Tàu', path: [[10.65, 106.75], [10.50, 106.85], [10.40, 107.00], [10.35, 107.05]] }
+  ];
+
+  // Icon factory
+  function makeIcon(color, symbol) {
+    return L.divIcon({
+      className: 'mtis-marker',
+      html: '<div style="background:' + color + ';width:26px;height:26px;border-radius:50%;border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,0.4);display:flex;align-items:center;justify-content:center;color:#fff;font-size:13px;font-weight:bold">' + symbol + '</div>',
+      iconSize: [26, 26],
+      iconAnchor: [13, 13]
+    });
+  }
+  var icons = {
+    port: makeIcon('#2153aa', '⚓'),
+    wharf: makeIcon('#0ea5e9', 'B'),
+    buoy: makeIcon('#f59e0b', '◆'),
+    light: makeIcon('#dc2626', '✦')
+  };
+
+  // Init map
+  var map = L.map('main-map', { zoomControl: false, attributionControl: true }).setView([16.5, 107.0], 6);
+
+  // Base layers
+  var osmLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 18,
+    attribution: '© OpenStreetMap'
+  });
+  var satelliteLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+    maxZoom: 18,
+    attribution: '© Esri'
+  });
+  var nauticalLayer = L.tileLayer('https://tiles.openseamap.org/seamark/{z}/{x}/{y}.png', {
+    maxZoom: 18,
+    attribution: '© OpenSeaMap'
+  });
+  osmLayer.addTo(map);
+
+  // Overlay groups
+  var layerGroups = {
+    ports: L.layerGroup(),
+    wharves: L.layerGroup(),
+    buoys: L.layerGroup(),
+    lights: L.layerGroup(),
+    channels: L.layerGroup()
+  };
+
+  ports.forEach(function(p) {
+    L.marker([p.lat, p.lng], { icon: icons.port, title: p.name })
+      .bindPopup('<b>' + p.name + '</b><br><span style="color:#666">Cảng biển</span><br><small>' + p.lat.toFixed(4) + '°N, ' + p.lng.toFixed(4) + '°E</small>')
+      .addTo(layerGroups.ports);
+  });
+  wharves.forEach(function(p) {
+    L.marker([p.lat, p.lng], { icon: icons.wharf, title: p.name })
+      .bindPopup('<b>' + p.name + '</b><br><span style="color:#666">Bến cảng</span>')
+      .addTo(layerGroups.wharves);
+  });
+  buoys.forEach(function(p) {
+    L.marker([p.lat, p.lng], { icon: icons.buoy, title: p.name })
+      .bindPopup('<b>' + p.name + '</b><br><span style="color:#666">Phao tiêu</span>')
+      .addTo(layerGroups.buoys);
+  });
+  lights.forEach(function(p) {
+    L.marker([p.lat, p.lng], { icon: icons.light, title: p.name })
+      .bindPopup('<b>' + p.name + '</b><br><span style="color:#666">Đèn biển</span>')
+      .addTo(layerGroups.lights);
+  });
+  channels.forEach(function(c) {
+    L.polyline(c.path, { color: '#0ea5e9', weight: 3, opacity: 0.8, dashArray: '6,4' })
+      .bindTooltip(c.name)
+      .addTo(layerGroups.channels);
+  });
+
+  // Default visible: lights
+  layerGroups.lights.addTo(map);
+  layerGroups.ports.addTo(map);
+
+  // Layer toggle buttons
+  var activeLayers = { ports: true, wharves: false, channels: false, buoys: false, lights: true };
+  document.querySelectorAll('.map-overlay-btn[data-layer]').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var k = this.getAttribute('data-layer');
+      if (this.classList.contains('active')) {
+        this.classList.remove('active');
+        map.removeLayer(layerGroups[k]);
+        activeLayers[k] = false;
+      } else {
+        this.classList.add('active');
+        map.addLayer(layerGroups[k]);
+        activeLayers[k] = true;
+      }
+    });
+  });
+
+  // Zoom & fullscreen & layer switch
+  document.getElementById('btn-zoom-in').addEventListener('click', function() { map.zoomIn(); });
+  document.getElementById('btn-zoom-out').addEventListener('click', function() { map.zoomOut(); });
+  document.getElementById('btn-fullscreen').addEventListener('click', function() {
+    var el = document.getElementById('main-map');
+    if (!document.fullscreenElement) { el.requestFullscreen(); } else { document.exitFullscreen(); }
+  });
+
+  // Layer switch (cycle osm -> satellite -> osm+nautical)
+  var layerIdx = 0;
+  var bases = [osmLayer, satelliteLayer, osmLayer];
+  var overlays = [null, null, nauticalLayer];
+  document.getElementById('btn-layers').addEventListener('click', function() {
+    layerIdx = (layerIdx + 1) % bases.length;
+    Object.values({osm: osmLayer, sat: satelliteLayer, naut: nauticalLayer}).forEach(function(l) {
+      if (map.hasLayer(l)) map.removeLayer(l);
+    });
+    bases[layerIdx].addTo(map);
+    if (overlays[layerIdx]) overlays[layerIdx].addTo(map);
+  });
+
+  // Coord display
+  var coordEl = document.getElementById('coord-display');
+  map.on('mousemove', function(e) {
+    coordEl.textContent = e.latlng.lat.toFixed(4) + '°N — ' + e.latlng.lng.toFixed(4) + '°E | Zoom: ' + map.getZoom();
+  });
+  map.on('zoomend', function() {
+    var z = map.getZoom();
+    var scale = '1:' + Math.round(25000000 / Math.pow(2, z - 4));
+    if (z > 8) scale = '1:50,000';
+    else if (z > 6) scale = '1:250,000';
+    else scale = '1:1,500,000';
+    var c = map.getCenter();
+    coordEl.textContent = c.lat.toFixed(4) + '°N — ' + c.lng.toFixed(4) + '°E | Tỷ lệ: ' + scale;
   });
 })();
 </script>
