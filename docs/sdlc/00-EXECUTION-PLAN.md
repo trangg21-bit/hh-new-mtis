@@ -52,8 +52,30 @@ Each module runs through:
 | Dashboard live | Cross-module stats | After M08 |
 | Full system | All 11 modules integrated | All phases |
 
-## 6. Revision History
+## 6. Current Status
+
+| Module | UI Prototype | Backend | Docker | Status |
+|--------|-------------|---------|--------|--------|
+| M01 User Management | ✅ 10 screens | ✅ Express API | ✅ Docker | **Done — running** |
+| M02 System Admin | ⬜ | ⬜ | ⬜ | Pending |
+| M03 Technical Parameters | ✅ 23 screens | ⬜ | ⬜ | Pending |
+| M04 Ops & Maintenance | ✅ 8 screens | ⬜ | ⬜ | Pending |
+| M05 Planning | ✅ 3 screens | ⬜ | ⬜ | Pending |
+| M06 Asset Management | ✅ 14 screens | ⬜ | ⬜ | Pending |
+| M07 GIS Map | ✅ 8 screens | ⬜ | ⬜ | Pending |
+| M08 Reporting | ✅ 8 screens | ⬜ | ⬜ | Pending |
+| M09 Data Interconnection | ✅ 6 screens | ⬜ | ⬜ | Pending |
+| M10 Nautical Chart | ✅ 10 screens | ⬜ | ⬜ | Pending |
+| M11 Database Creation | ✅ 5 screens | ⬜ | ⬜ | Pending |
+
+## 7. Stack Decision
+
+**Prototype stack:** Express.js + SQLite + Static HTML (see [ADR-002](../adr/ADR-002-stack-prototype.md))
+**Production target:** NestJS (or Express) + SQL Server + React/Vue (to be decided later)
+
+## 8. Revision History
 
 | Date | Change | Author |
 |------|--------|--------|
 | 2026-06-06 | Initial plan | ETC AI |
+| 2026-06-06 | Updated with M01 done, stack decision | ETC AI |

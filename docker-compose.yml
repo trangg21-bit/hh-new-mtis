@@ -1,14 +1,17 @@
-services:
-  # Services will be added here by /new-project
-  # Example:
-  # api:
-  #   build:
-  #     context: .
-  #     dockerfile: src/services/api/Dockerfile
-  #   ports: ["${API_PORT:-3000}:${API_PORT:-3000}"]
-  #   env_file: .env
-  #   restart: unless-stopped
+version: '3.8'
 
-volumes:
-  db_data:
-  cache_data:
+services:
+  api:
+    build:
+      context: ./src/apps/api
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./src/apps/api/data:/app/data
+      - ./docs/ui:/app/public
+    environment:
+      - PORT=3000
+      - DB_PATH=/app/data/database.sqlite
+      - NODE_ENV=development
+    restart: unless-stopped
