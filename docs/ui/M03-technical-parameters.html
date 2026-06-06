@@ -195,6 +195,49 @@ body {
   color: var(--color-muted-light); font-weight: 600; margin-top: 4px;
 }
 
+/* Filter chips */
+.filter-chip {
+  padding: 4px 10px; border-radius: 12px; border: 1px solid var(--color-border-input);
+  background: var(--color-white); font-size: 11px; cursor: pointer; transition: var(--transition-fast);
+  color: var(--color-muted);
+}
+.filter-chip:hover { border-color: var(--color-primary); color: var(--color-primary); }
+.filter-chip.active { background: var(--color-primary); color: var(--color-white); border-color: var(--color-primary); }
+
+/* Port row in sidebar */
+.port-tree-row {
+  display: flex; align-items: center; gap: 8px; padding: 7px 16px;
+  cursor: pointer; transition: var(--transition-fast); font-size: 13px;
+  border-left: 3px solid transparent;
+}
+.port-tree-row:hover { background: #f9fafb; color: var(--color-primary); }
+.port-tree-row.active {
+  background: linear-gradient(90deg, var(--color-primary-light), var(--color-primary-light-end));
+  border-left: 3px solid var(--color-primary); color: var(--color-primary); font-weight: 600;
+}
+.port-tree-row .region-badge {
+  font-size: 9px; padding: 1px 6px; border-radius: 8px; font-weight: 600;
+  background: var(--color-primary-light); color: var(--color-primary); flex-shrink: 0;
+}
+.port-tree-row .port-icon { font-size: 16px; width: 20px; text-align: center; flex-shrink: 0; }
+
+/* Detail view */
+.detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.detail-block { }
+.detail-block h4 { font-size: 13px; font-weight: 600; color: var(--color-heading); margin-bottom: 8px; padding-bottom: 6px; border-bottom: 1px solid var(--color-border); }
+.detail-block .stat-row { display: flex; gap: 12px; margin-bottom: 8px; flex-wrap: wrap; }
+.detail-stat { flex: 1; min-width: 80px; padding: 10px; background: var(--color-body-bg); border-radius: var(--radius-btn); text-align: center; }
+.detail-stat .num { font-size: 20px; font-weight: 700; color: var(--color-primary); }
+.detail-stat .lbl { font-size: 11px; color: var(--color-muted); margin-top: 2px; }
+.tab-bar { display: flex; gap: 0; border-bottom: 2px solid var(--color-border); margin-bottom: 16px; }
+.tab-bar .tab { padding: 10px 18px; cursor: pointer; font-size: 13px; color: var(--color-muted); border-bottom: 2px solid transparent; margin-bottom: -2px; transition: var(--transition-fast); }
+.tab-bar .tab:hover { color: var(--color-primary); }
+.tab-bar .tab.active { color: var(--color-primary); font-weight: 600; border-bottom-color: var(--color-primary); }
+
+/* Hide port detail by default */
+#port-detail { display: none; }
+#port-detail.visible { display: block; }
+
 /* ===== 4. MAIN LAYOUT ===== */
 .main-wrapper {
   margin-left: var(--sidebar-width); flex:1;
@@ -556,238 +599,27 @@ textarea.form-control { resize: vertical; min-height: 80px; }
     <div class="tree-section-label">Tổng quan</div>
     <a class="tree-item l0 active" href="#" data-screen="screen-1"><span class="tree-icon">📊</span><span class="item-label">Dashboard KCHT</span></a>
 
-    <div class="tree-section-label">Cảng biển</div>
-
-    <!-- ══════ CẢNG HẢI PHÒNG ══════ -->
-    <div class="tree-item tree-root l0" data-toggle="true">
-      <span class="tree-toggle">▶</span>
-      <span class="tree-icon">⚓</span>
-      <span class="item-label">Cảng Hải Phòng</span>
+    <div class="tree-section-label">🔍 Tìm kiếm cảng</div>
+    <div style="padding:8px 16px">
+      <input class="form-control" id="port-search" type="text" placeholder="Gõ tên cảng..." style="font-size:13px;padding:8px 12px">
     </div>
-    <div class="tree-children">
-
-      <!-- Khu nước trước cảng -->
-      <div class="tree-item l1" data-toggle="true">
-        <span class="tree-toggle">▶</span>
-        <span class="tree-icon">🌊</span>
-        <span class="item-label">Khu nước trước cảng</span>
-      </div>
-      <div class="tree-children">
-        <a class="tree-item l2" href="#" data-screen="screen-11"><span class="tree-icon">🏮</span><span class="item-label">Phao báo hiệu PT-HPH-01</span></a>
-        <a class="tree-item l2" href="#" data-screen="screen-11"><span class="tree-icon">🏮</span><span class="item-label">Phao báo hiệu PT-HPH-02</span></a>
-      </div>
-
-      <!-- Bến Hoàng Diệu -->
-      <div class="tree-item l1" data-toggle="true">
-        <span class="tree-toggle">▶</span>
-        <span class="tree-icon">🏗️</span>
-        <span class="item-label">Bến Hoàng Diệu</span>
-      </div>
-      <div class="tree-children">
-        <a class="tree-item l2" href="#" data-screen="screen-3"><span class="tree-icon">🏢</span><span class="item-label">Cầu cảng số 1 (150m)</span></a>
-        <a class="tree-item l2" href="#" data-screen="screen-3"><span class="tree-icon">🏢</span><span class="item-label">Cầu cảng số 2 (180m)</span></a>
-        <a class="tree-item l2" href="#" data-screen="screen-3"><span class="tree-icon">🏢</span><span class="item-label">Cầu cảng số 3 (150m)</span></a>
-        <a class="tree-item l2" href="#" data-screen="screen-11"><span class="tree-icon">🏮</span><span class="item-label">Phao báo hiệu bến PBD-HPH-01</span></a>
-        <a class="tree-item l2" href="#" data-screen="screen-11"><span class="tree-icon">🏮</span><span class="item-label">Phao báo hiệu bến PBD-HPH-02</span></a>
-      </div>
-
-      <!-- Bến Tân Vũ -->
-      <div class="tree-item l1" data-toggle="true">
-        <span class="tree-toggle">▶</span>
-        <span class="tree-icon">🏗️</span>
-        <span class="item-label">Bến Tân Vũ</span>
-      </div>
-      <div class="tree-children">
-        <a class="tree-item l2" href="#" data-screen="screen-3"><span class="tree-icon">🏢</span><span class="item-label">Cầu cảng Container (250m)</span></a>
-        <a class="tree-item l2" href="#" data-screen="screen-3"><span class="tree-icon">🏢</span><span class="item-label">Cầu cảng tổng hợp (200m)</span></a>
-        <a class="tree-item l2" href="#" data-screen="screen-11"><span class="tree-icon">🏮</span><span class="item-label">Phao báo hiệu bến PBD-HPH-03</span></a>
-      </div>
-
-      <!-- Bến Chùa Vẽ -->
-      <div class="tree-item l1" data-toggle="true">
-        <span class="tree-toggle">▶</span>
-        <span class="tree-icon">🏗️</span>
-        <span class="item-label">Bến Chùa Vẽ</span>
-      </div>
-      <div class="tree-children">
-        <a class="tree-item l2" href="#" data-screen="screen-3"><span class="tree-icon">🏢</span><span class="item-label">Cầu cảng hàng lỏng (120m)</span></a>
-      </div>
-
-      <!-- Luồng Hải Phòng - Lạch Huyện -->
-      <div class="tree-item l1" data-toggle="true">
-        <span class="tree-toggle">▶</span>
-        <span class="tree-icon">🌊</span>
-        <span class="item-label">Luồng Hải Phòng - Lạch Huyện</span>
-      </div>
-      <div class="tree-children">
-        <a class="tree-item l2" href="#" data-screen="screen-11"><span class="tree-icon">🏮</span><span class="item-label">Phao báo hiệu luồng PL-HPH-01</span></a>
-        <a class="tree-item l2" href="#" data-screen="screen-11"><span class="tree-icon">🏮</span><span class="item-label">Phao báo hiệu luồng PL-HPH-02</span></a>
-        <a class="tree-item l2" href="#" data-screen="screen-11"><span class="tree-icon">🏮</span><span class="item-label">Phao báo hiệu luồng PL-HPH-05</span></a>
-        <a class="tree-item l2" href="#" data-screen="screen-11"><span class="tree-icon">🏮</span><span class="item-label">Phao báo hiệu luồng PL-HPH-08</span></a>
-        <a class="tree-item l2" href="#" data-screen="screen-11"><span class="tree-icon">🏮</span><span class="item-label">Phao báo hiệu luồng PL-HPH-12</span></a>
-        <a class="tree-item l2" href="#" data-screen="screen-8"><span class="tree-icon">💡</span><span class="item-label">Đèn biển Hải Phòng</span></a>
-        <a class="tree-item l2" href="#" data-screen="screen-8"><span class="tree-icon">💡</span><span class="item-label">Đèn biển Hòn Dấu</span></a>
-        <a class="tree-item l2" href="#" data-screen="screen-18"><span class="tree-icon">📡</span><span class="item-label">Trạm tín hiệu TH-HPH-01</span></a>
-      </div>
-
-      <!-- Khu neo đậu -->
-      <a class="tree-item l1" href="#" data-screen="screen-7"><span class="tree-icon">⛵</span><span class="item-label">Khu neo đậu Hải Phòng</span></a>
-
-      <!-- Đê kè -->
-      <a class="tree-item l1" href="#" data-screen="screen-9"><span class="tree-icon">🧱</span><span class="item-label">Đê kè / Kè chắn sóng</span></a>
-
-      <!-- Thiết bị an ninh -->
-      <div class="tree-item l1" data-toggle="true">
-        <span class="tree-toggle">▶</span>
-        <span class="tree-icon">🛡️</span>
-        <span class="item-label">Thiết bị an ninh</span>
-      </div>
-      <div class="tree-children">
-        <a class="tree-item l2" href="#" data-screen="screen-16"><span class="tree-icon">📡</span><span class="item-label">VTS / AIS / Radar</span></a>
-        <a class="tree-item l2" href="#" data-screen="screen-21"><span class="tree-icon">📹</span><span class="item-label">CCTV an ninh</span></a>
-        <a class="tree-item l2" href="#" data-screen="screen-19"><span class="tree-icon">🛡️</span><span class="item-label">Hàng rào điện tử GF-HPH-01</span></a>
-      </div>
+    <div style="padding:0 16px 8px;display:flex;gap:4px;flex-wrap:wrap">
+      <button class="filter-chip active" data-region="all">Tất cả</button>
+      <button class="filter-chip" data-region="bac">Miền Bắc</button>
+      <button class="filter-chip" data-region="trung">Miền Trung</button>
+      <button class="filter-chip" data-region="nam">Miền Nam</button>
     </div>
 
-    <!-- ══════ CẢNG VŨNG TÀU ══════ -->
-    <div class="tree-item tree-root l0" data-toggle="true">
-      <span class="tree-toggle">▶</span>
-      <span class="tree-icon">⚓</span>
-      <span class="item-label">Cảng Vũng Tàu</span>
-    </div>
-    <div class="tree-children">
-      <div class="tree-item l1" data-toggle="true">
-        <span class="tree-toggle">▶</span>
-        <span class="tree-icon">🌊</span>
-        <span class="item-label">Khu nước trước cảng</span>
-      </div>
-      <div class="tree-children">
-        <a class="tree-item l2" href="#" data-screen="screen-11"><span class="tree-icon">🏮</span><span class="item-label">Phao báo hiệu PT-VT-01</span></a>
-      </div>
-      <div class="tree-item l1" data-toggle="true">
-        <span class="tree-toggle">▶</span>
-        <span class="tree-icon">🏗️</span>
-        <span class="item-label">Bến Cái Mép</span>
-      </div>
-      <div class="tree-children">
-        <a class="tree-item l2" href="#" data-screen="screen-3"><span class="tree-icon">🏢</span><span class="item-label">Cầu cảng CMIT (600m)</span></a>
-        <a class="tree-item l2" href="#" data-screen="screen-3"><span class="tree-icon">🏢</span><span class="item-label">Cầu cảng TCTT (450m)</span></a>
-        <a class="tree-item l2" href="#" data-screen="screen-11"><span class="tree-icon">🏮</span><span class="item-label">Phao báo hiệu bến PBD-CM-01</span></a>
-      </div>
-      <div class="tree-item l1" data-toggle="true">
-        <span class="tree-toggle">▶</span>
-        <span class="tree-icon">🏗️</span>
-        <span class="item-label">Bến Container</span>
-      </div>
-      <div class="tree-children">
-        <a class="tree-item l2" href="#" data-screen="screen-3"><span class="tree-icon">🏢</span><span class="item-label">Cầu cảng SPCT (300m)</span></a>
-      </div>
-      <div class="tree-item l1" data-toggle="true">
-        <span class="tree-toggle">▶</span>
-        <span class="tree-icon">🌊</span>
-        <span class="item-label">Luồng Vũng Tàu - Thị Vải</span>
-      </div>
-      <div class="tree-children">
-        <a class="tree-item l2" href="#" data-screen="screen-11"><span class="tree-icon">🏮</span><span class="item-label">Phao báo hiệu luồng PL-VT-01</span></a>
-        <a class="tree-item l2" href="#" data-screen="screen-11"><span class="tree-icon">🏮</span><span class="item-label">Phao báo hiệu luồng PL-VT-02</span></a>
-        <a class="tree-item l2" href="#" data-screen="screen-8"><span class="tree-icon">💡</span><span class="item-label">Đèn biển Vũng Tàu</span></a>
-        <a class="tree-item l2" href="#" data-screen="screen-18"><span class="tree-icon">📡</span><span class="item-label">Trạm tín hiệu TH-VT-01</span></a>
-      </div>
-      <a class="tree-item l1" href="#" data-screen="screen-7"><span class="tree-icon">⛵</span><span class="item-label">Khu neo đậu Vũng Tàu</span></a>
-      <a class="tree-item l1" href="#" data-screen="screen-9"><span class="tree-icon">🧱</span><span class="item-label">Đê kè chắn sóng</span></a>
-      <div class="tree-item l1" data-toggle="true">
-        <span class="tree-toggle">▶</span>
-        <span class="tree-icon">🛡️</span>
-        <span class="item-label">Thiết bị an ninh</span>
-      </div>
-      <div class="tree-children">
-        <a class="tree-item l2" href="#" data-screen="screen-16"><span class="tree-icon">📡</span><span class="item-label">VTS / AIS / Radar</span></a>
-        <a class="tree-item l2" href="#" data-screen="screen-21"><span class="tree-icon">📹</span><span class="item-label">CCTV an ninh</span></a>
-      </div>
+    <div class="tree-section-label">Danh sách cảng</div>
+    <div id="port-tree-list">
+      <!-- Populated by JS -->
+      <div style="padding:16px;text-align:center;color:var(--color-muted);font-size:13px">⏳ Đang tải...</div>
     </div>
 
-    <!-- ══════ CẢNG ĐÀ NẴNG ══════ -->
-    <div class="tree-item tree-root l0" data-toggle="true">
-      <span class="tree-toggle">▶</span>
-      <span class="tree-icon">⚓</span>
-      <span class="item-label">Cảng Đà Nẵng</span>
-    </div>
-    <div class="tree-children">
-      <div class="tree-item l1" data-toggle="true">
-        <span class="tree-toggle">▶</span>
-        <span class="tree-icon">🏗️</span>
-        <span class="item-label">Bến Sơn Trà</span>
-      </div>
-      <div class="tree-children">
-        <a class="tree-item l2" href="#" data-screen="screen-3"><span class="tree-icon">🏢</span><span class="item-label">Cầu cảng Sơn Trà (170m)</span></a>
-        <a class="tree-item l2" href="#" data-screen="screen-11"><span class="tree-icon">🏮</span><span class="item-label">Phao báo hiệu bến PBD-DN-01</span></a>
-      </div>
-      <div class="tree-item l1" data-toggle="true">
-        <span class="tree-toggle">▶</span>
-        <span class="tree-icon">🏗️</span>
-        <span class="item-label">Bến Tiên Sa</span>
-      </div>
-      <div class="tree-children">
-        <a class="tree-item l2" href="#" data-screen="screen-3"><span class="tree-icon">🏢</span><span class="item-label">Cầu cảng Tiên Sa (200m)</span></a>
-        <a class="tree-item l2" href="#" data-screen="screen-3"><span class="tree-icon">🏢</span><span class="item-label">Cầu cảng số 2 (180m)</span></a>
-      </div>
-      <div class="tree-item l1" data-toggle="true">
-        <span class="tree-toggle">▶</span>
-        <span class="tree-icon">🌊</span>
-        <span class="item-label">Luồng Đà Nẵng</span>
-      </div>
-      <div class="tree-children">
-        <a class="tree-item l2" href="#" data-screen="screen-11"><span class="tree-icon">🏮</span><span class="item-label">Phao báo hiệu luồng PL-DN-01</span></a>
-        <a class="tree-item l2" href="#" data-screen="screen-11"><span class="tree-icon">🏮</span><span class="item-label">Phao báo hiệu luồng PL-DN-02</span></a>
-        <a class="tree-item l2" href="#" data-screen="screen-8"><span class="tree-icon">💡</span><span class="item-label">Đèn biển Sơn Trà</span></a>
-        <a class="tree-item l2" href="#" data-screen="screen-18"><span class="tree-icon">📡</span><span class="item-label">Trạm tín hiệu TH-DN-01</span></a>
-      </div>
-      <a class="tree-item l1" href="#" data-screen="screen-7"><span class="tree-icon">⛵</span><span class="item-label">Khu neo đậu Đà Nẵng</span></a>
-      <div class="tree-item l1" data-toggle="true">
-        <span class="tree-toggle">▶</span>
-        <span class="tree-icon">🛡️</span>
-        <span class="item-label">Thiết bị an ninh</span>
-      </div>
-      <div class="tree-children">
-        <a class="tree-item l2" href="#" data-screen="screen-16"><span class="tree-icon">📡</span><span class="item-label">VTS / AIS / Radar</span></a>
-        <a class="tree-item l2" href="#" data-screen="screen-21"><span class="tree-icon">📹</span><span class="item-label">CCTV an ninh</span></a>
-      </div>
-    </div>
-
-    <!-- ══════ CẢNG QUY NHƠN ══════ -->
-    <div class="tree-item tree-root l0" data-toggle="true">
-      <span class="tree-toggle">▶</span>
-      <span class="tree-icon">⚓</span>
-      <span class="item-label">Cảng Quy Nhơn</span>
-    </div>
-    <div class="tree-children">
-      <div class="tree-item l1" data-toggle="true">
-        <span class="tree-toggle">▶</span>
-        <span class="tree-icon">🏗️</span>
-        <span class="item-label">Bến Quy Nhơn</span>
-      </div>
-      <div class="tree-children">
-        <a class="tree-item l2" href="#" data-screen="screen-3"><span class="tree-icon">🏢</span><span class="item-label">Cầu cảng chính (160m)</span></a>
-        <a class="tree-item l2" href="#" data-screen="screen-11"><span class="tree-icon">🏮</span><span class="item-label">Phao báo hiệu bến PBD-QN-01</span></a>
-      </div>
-      <div class="tree-item l1" data-toggle="true">
-        <span class="tree-toggle">▶</span>
-        <span class="tree-icon">🌊</span>
-        <span class="item-label">Luồng Quy Nhơn</span>
-      </div>
-      <div class="tree-children">
-        <a class="tree-item l2" href="#" data-screen="screen-11"><span class="tree-icon">🏮</span><span class="item-label">Phao báo hiệu luồng PL-QN-01</span></a>
-        <a class="tree-item l2" href="#" data-screen="screen-8"><span class="tree-icon">💡</span><span class="item-label">Đèn biển Quy Nhơn</span></a>
-      </div>
-      <a class="tree-item l1" href="#" data-screen="screen-7"><span class="tree-icon">⛵</span><span class="item-label">Khu neo đậu Quy Nhơn</span></a>
-    </div>
-
-    <div class="tree-section-label">Nghiệp vụ (Ẩn)</div>
-    <a class="tree-item l0" href="#" data-screen="screen-11"><span class="tree-icon">✅</span><span class="item-label">Phê duyệt</span></a>
-    <a class="tree-item l0" href="#" data-screen="screen-12"><span class="tree-icon">🔍</span><span class="item-label">Tìm kiếm</span></a>
-    <a class="tree-item l0" href="#" data-screen="screen-13"><span class="tree-icon">📥</span><span class="item-label">Nhập / Xuất</span></a>
-    <a class="tree-item l0" href="#" data-screen="screen-14"><span class="tree-icon">📎</span><span class="item-label">Tài liệu</span></a>
-    <a class="tree-item l0" href="#" data-screen="screen-15"><span class="tree-icon">📋</span><span class="item-label">Lịch sử</span></a>
+    <div class="tree-section-label">Nghiệp vụ</div>
+    <a class="tree-item l0" href="#" data-screen="screen-2"><span class="tree-icon">📥</span><span class="item-label">Nhập / Xuất dữ liệu</span></a>
+    <a class="tree-item l0" href="#" data-screen="screen-3"><span class="tree-icon">✅</span><span class="item-label">Phê duyệt</span></a>
+    <a class="tree-item l0" href="#" data-screen="screen-4"><span class="tree-icon">🔍</span><span class="item-label">Tra cứu</span></a>
   </nav>
   <div class="sidebar-footer">M03 — Thông số Kỹ thuật v2.0</div>
 </aside>
@@ -811,55 +643,141 @@ textarea.form-control { resize: vertical; min-height: 80px; }
   <div class="content">
 
     <!-- ============================================================ -->
-    <!-- SCREEN 1: Dashboard KCHT                                     -->
+    <!-- SCREEN 1: Dashboard KCHT (main view with search + table)     -->
     <!-- ============================================================ -->
     <div class="screen" id="screen-1">
-      <div class="breadcrumb"><a href="#">M03 — Thông số Kỹ thuật</a> <span class="sep">›</span> <span>Tổng quan</span></div>
+      <div class="breadcrumb"><a href="#">M03 — Thông số Kỹ thuật</a> <span class="sep">›</span> <span>Dashboard KCHT</span></div>
       <h2 class="page-title">Dashboard KCHT</h2>
 
+      <!-- 4 stat cards -->
       <div class="stats-row">
-        <div class="stat-card"><div class="stat-label">Tổng số Cảng biển</div><div class="stat-value">42</div><div class="stat-sub">+2 trong năm 2026</div></div>
-        <div class="stat-card"><div class="stat-label">Luồng hàng hải</div><div class="stat-value">156</div><div class="stat-sub">Tổng chiều dài 1.280 km</div></div>
-        <div class="stat-card"><div class="stat-label">Phao tiêu & Đèn biển</div><div class="stat-value">328</div><div class="stat-sub">142 phao GPS</div></div>
-        <div class="stat-card"><div class="stat-label">Trạm VTS</div><div class="stat-value">12</div><div class="stat-sub">6 trạm đang hoạt động</div></div>
+        <div class="stat-card" id="stat-ports"><div class="stat-label">Tổng số Cảng biển</div><div class="stat-value">42</div><div class="stat-sub">+2 trong năm 2026</div></div>
+        <div class="stat-card" id="stat-berths"><div class="stat-label">Bến cảng</div><div class="stat-value">186</div><div class="stat-sub">Trong đó 152 đang hoạt động</div></div>
+        <div class="stat-card" id="stat-buoys"><div class="stat-label">Phao tiêu & Đèn biển</div><div class="stat-value">328</div><div class="stat-sub">142 phao GPS, 38 đèn biển</div></div>
+        <div class="stat-card" id="stat-vts"><div class="stat-label">Trạm VTS / AIS</div><div class="stat-value">12</div><div class="stat-sub">6 VTS + 6 trạm Radar</div></div>
       </div>
 
-      <div class="grid-2">
-        <div class="card">
-          <div class="card-header"><h3>Cập nhật gần đây</h3></div>
-          <div class="timeline">
-            <div class="timeline-item"><div class="time">06/06/2026 09:15</div><div class="desc">Cập nhật độ sâu luồng Hải Phòng - Lạch Huyện</div></div>
-            <div class="timeline-item"><div class="time">05/06/2026 14:30</div><div class="desc">Thêm mới phao tiêu PT-1023 tại tọa độ 20°52'N 107°08'E</div></div>
-            <div class="timeline-item"><div class="time">04/06/2026 11:00</div><div class="desc">Phê duyệt thông số kỹ thuật Cảng Nam Đình Vũ</div></div>
-            <div class="timeline-item"><div class="time">03/06/2026 08:45</div><div class="desc">Cập nhật trạng thái trạm VTS Vũng Tàu (online)</div></div>
-            <div class="timeline-item"><div class="time">02/06/2026 16:20</div><div class="desc">Nhập dữ liệu 18 phao GPS từ file Excel</div></div>
+      <!-- Ports table -->
+      <div class="card" id="port-table-card">
+        <div class="card-header">
+          <h3>Danh sách cảng biển</h3>
+          <div class="actions">
+            <input class="form-control" id="table-port-search" type="text" placeholder="🔍 Tìm cảng..." style="width:220px;font-size:13px">
+            <select class="form-control" id="table-region-filter" style="width:140px;font-size:13px">
+              <option value="all">Tất cả khu vực</option>
+              <option value="bac">Miền Bắc</option>
+              <option value="trung">Miền Trung</option>
+              <option value="nam">Miền Nam</option>
+            </select>
           </div>
         </div>
-        <div class="card">
-          <div class="card-header"><h3>Bản đồ KCHT tổng quan</h3></div>
-          <div class="map-placeholder" style="min-height:300px;">
-            Bản đồ tổng quan KCHT Hàng hải
-            <div class="map-overlay-btns">
-              <button class="btn active">Cảng</button>
-              <button class="btn">Luồng</button>
-              <button class="btn">Phao</button>
-              <button class="btn">VTS</button>
+        <div class="card-body" style="padding:0">
+          <div class="table-wrap">
+            <table class="ant-table" id="port-main-table">
+              <thead><tr><th style="width:30px">STT</th><th>Mã cảng</th><th>Tên cảng biển</th><th>Khu vực</th><th>Loại cảng</th><th>Bến cảng</th><th>Cầu cảng</th><th>Phao tiêu</th><th>Đèn biển</th><th>Trạng thái</th></tr></thead>
+              <tbody id="port-table-body">
+                <!-- Populated by JS -->
+              </tbody>
+            </table>
+          </div>
+          <div class="flex gap-2" style="justify-content:space-between;align-items:center;padding:12px 16px">
+            <span id="table-info" style="font-size:13px;color:#6b7280;">Hiển thị 0 cảng</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Port detail view (shown when clicking a row) -->
+      <div id="port-detail">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+          <h3 id="detail-port-name" style="font-size:18px;font-weight:700;color:var(--color-primary);margin:0">Cảng Hải Phòng</h3>
+          <button class="btn btn-outline btn-sm" onclick="closePortDetail()">✕ Đóng</button>
+        </div>
+
+        <!-- Tab bar -->
+        <div class="tab-bar" id="detail-tabs">
+          <div class="tab active" data-tab="overview">Tổng quan</div>
+          <div class="tab" data-tab="berths">Bến cảng</div>
+          <div class="tab" data-tab="channels">Luồng</div>
+          <div class="tab" data-tab="equipment">Trang thiết bị</div>
+          <div class="tab" data-tab="nav-aids">Báo hiệu</div>
+        </div>
+
+        <!-- Overview tab -->
+        <div class="tab-panel" id="panel-overview">
+          <div class="detail-grid">
+            <div class="detail-block">
+              <h4>Thông số kỹ thuật</h4>
+              <table class="ant-table" style="font-size:13px">
+                <tbody id="detail-specs"></tbody>
+              </table>
+            </div>
+            <div class="detail-block">
+              <h4>Thống kê nhanh</h4>
+              <div class="stat-row" id="detail-quick-stats"></div>
+              <h4 style="margin-top:12px">Thông tin quản lý</h4>
+              <table class="ant-table" style="font-size:13px">
+                <tbody id="detail-admin"></tbody>
+              </table>
+            </div>
+          </div>
+          <div class="card" style="margin-top:12px">
+            <div class="card-header"><h3>Bản đồ vị trí cảng</h3></div>
+            <div id="cang-map" style="height:280px;background:var(--color-primary-light);border-radius:var(--radius-card);display:flex;align-items:center;justify-content:center;color:var(--color-muted);font-size:14px">
+              🗺️ Bản đồ sẽ hiển thị tại đây — tích hợp GIS
             </div>
           </div>
         </div>
-      </div>
 
-      <div class="card mt-4">
-        <div class="card-header"><h3>Thống kê nhanh theo khu vực</h3></div>
-        <div class="table-wrap">
-          <table class="ant-table">
-            <thead><tr><th>Khu vực</th><th>Cảng</th><th>Luồng</th><th>Phao tiêu</th><th>Khu neo</th><th>Trạm VTS</th></tr></thead>
-            <tbody>
-              <tr><td>Miền Bắc</td><td>12</td><td>45</td><td>98</td><td>8</td><td>4</td></tr>
-              <tr><td>Miền Trung</td><td>14</td><td>52</td><td>112</td><td>11</td><td>3</td></tr>
-              <tr><td>Miền Nam</td><td>16</td><td>59</td><td>118</td><td>14</td><td>5</td></tr>
-            </tbody>
-          </table>
+        <!-- Berths tab -->
+        <div class="tab-panel" id="panel-berths" style="display:none">
+          <div class="card">
+            <div class="card-header"><h3>Danh sách bến cảng</h3><div class="actions"><button class="btn btn-primary btn-sm">+ Thêm bến</button></div></div>
+            <div class="table-wrap">
+              <table class="ant-table" id="detail-berths-table">
+                <thead><tr><th>Mã bến</th><th>Tên bến cảng</th><th>Chiều dài (m)</th><th>Độ sâu (m)</th><th>Số cầu cảng</th><th>Phao báo hiệu</th><th>Trạng thái</th></tr></thead>
+                <tbody id="detail-berths-body"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- Channels tab -->
+        <div class="tab-panel" id="panel-channels" style="display:none">
+          <div class="card">
+            <div class="card-header"><h3>Luồng hàng hải</h3></div>
+            <div class="table-wrap">
+              <table class="ant-table">
+                <thead><tr><th>Mã luồng</th><th>Tên luồng</th><th>Chiều dài (km)</th><th>Độ sâu (m)</th><th>Số phao báo hiệu</th><th>Đèn biển</th><th>Trạng thái</th></tr></thead>
+                <tbody id="detail-channels-body"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- Equipment tab -->
+        <div class="tab-panel" id="panel-equipment" style="display:none">
+          <div class="card">
+            <div class="card-header"><h3>Trang thiết bị</h3></div>
+            <div class="table-wrap">
+              <table class="ant-table">
+                <thead><tr><th>Loại</th><th>Mã</th><th>Tên</th><th>Vị trí</th><th>Trạng thái</th></tr></thead>
+                <tbody id="detail-equipment-body"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- Nav aids tab -->
+        <div class="tab-panel" id="panel-nav-aids" style="display:none">
+          <div class="card">
+            <div class="card-header"><h3>Hệ thống báo hiệu hàng hải</h3></div>
+            <div class="table-wrap">
+              <table class="ant-table">
+                <thead><tr><th>Mã</th><th>Loại</th><th>Tên</th><th>Thuộc luồng</th><th>Tầm hiệu lực (NM)</th><th>Trạng thái</th></tr></thead>
+                <tbody id="detail-nav-aids-body"></tbody>
+              </table>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -1735,65 +1653,348 @@ textarea.form-control { resize: vertical; min-height: 80px; }
 
 <script>
 (function() {
-  // --- Tree widget toggle ---
-  document.querySelectorAll('.tree-toggle').forEach(function(tog) {
-    tog.addEventListener('click', function(e) {
-      e.stopPropagation();
-      var parent = this.closest('.tree-item');
-      if (!parent) return;
-      var children = parent.nextElementSibling;
-      if (children && children.classList.contains('tree-children')) {
-        children.classList.toggle('open');
-        this.classList.toggle('expanded');
-      }
+  // =====================================================================
+  // 1. DATA: 42 Vietnamese ports with hierarchy from DD (KCHT_CB table)
+  // =====================================================================
+  var regions = { bac: 'Miền Bắc', trung: 'Miền Trung', nam: 'Miền Nam' };
+  var portData = [
+    { id: 'VN-HPH', name: 'Cảng Hải Phòng', region: 'bac', code: 'VN-HPH-01', type: 'Cảng tổng hợp', status: 'Đang hoạt động', addr: 'Hải Phòng', depth: 12.5, area: 125, berths: [
+      { code: 'BC-HPH-001', name: 'Bến Hoàng Diệu', len: 480, depth: 10.5, wharves: 3, buoys: 2, status: 'Đang hoạt động' },
+      { code: 'BC-HPH-002', name: 'Bến Tân Vũ', len: 450, depth: 12.0, wharves: 2, buoys: 1, status: 'Đang hoạt động' },
+      { code: 'BC-HPH-003', name: 'Bến Chùa Vẽ', len: 120, depth: 8.5, wharves: 1, buoys: 0, status: 'Đang hoạt động' }
+    ], channels: [
+      { code: 'LH-HPH-01', name: 'Luồng Hải Phòng - Lạch Huyện', len: 45, d: 7.0, buoys: 12, lights: 2, status: 'Đang hoạt động' }
+    ], equipment: [
+      { type: 'VTS', code: 'VTS-HPH-01', name: 'VTS Hải Phòng', loc: 'Đồ Sơn', status: 'Hoạt động' },
+      { type: 'Radar', code: 'RAD-HPH-01', name: 'Radar Đồ Sơn', loc: 'Đồ Sơn', status: 'Hoạt động' }
+    ], navAids: [
+      { code: 'DB-HPH-01', type: 'Đèn biển', name: 'Đèn biển Hải Phòng', channel: 'LH-HPH-01', range: 15, status: 'Hoạt động' },
+      { code: 'DB-HPH-02', type: 'Đèn biển', name: 'Đèn biển Hòn Dấu', channel: 'LH-HPH-01', range: 12, status: 'Hoạt động' },
+      { code: 'PB-HPH-01', type: 'Phao luồng', name: 'PL-HPH-01 → 12', channel: 'LH-HPH-01', range: 3, status: 'Hoạt động' }
+    ] },
+    { id: 'VN-SGN', name: 'Cảng Sài Gòn', region: 'nam', code: 'VN-SGN-02', type: 'Cảng tổng hợp', status: 'Đang hoạt động', addr: 'TP. Hồ Chí Minh', depth: 14.0, area: 98, berths: [
+      { code: 'BC-SGN-001', name: 'Bến Khánh Hội', len: 320, depth: 11.0, wharves: 2, buoys: 1, status: 'Đang hoạt động' },
+      { code: 'BC-SGN-002', name: 'Bến Nhà Rồng', len: 280, depth: 10.5, wharves: 2, buoys: 0, status: 'Đang hoạt động' }
+    ], channels: [
+      { code: 'LH-SGN-01', name: 'Luồng Sài Gòn', len: 38, d: 9.0, buoys: 8, lights: 1, status: 'Đang hoạt động' }
+    ], equipment: [
+      { type: 'AIS', code: 'AIS-SGN-01', name: 'AIS Sài Gòn', loc: 'Nhà Bè', status: 'Hoạt động' }
+    ], navAids: [
+      { code: 'DB-SGN-01', type: 'Đèn biển', name: 'Đèn biển Nhà Bè', channel: 'LH-SGN-01', range: 10, status: 'Hoạt động' }
+    ] },
+    { id: 'VN-VT', name: 'Cảng Vũng Tàu', region: 'nam', code: 'VN-VT-04', type: 'Cảng container', status: 'Đang hoạt động', addr: 'Bà Rịa - Vũng Tàu', depth: 16.5, area: 210, berths: [
+      { code: 'BC-VT-001', name: 'Bến Cái Mép', len: 1050, depth: 15.5, wharves: 2, buoys: 1, status: 'Đang hoạt động' },
+      { code: 'BC-VT-002', name: 'Bến Container', len: 300, depth: 13.0, wharves: 1, buoys: 0, status: 'Đang hoạt động' }
+    ], channels: [
+      { code: 'LH-VT-01', name: 'Luồng Vũng Tàu - Thị Vải', len: 52, d: 14.0, buoys: 10, lights: 1, status: 'Đang hoạt động' }
+    ], equipment: [
+      { type: 'VTS', code: 'VTS-VT-01', name: 'VTS Vũng Tàu', loc: 'Vũng Tàu', status: 'Hoạt động' },
+      { type: 'Radar', code: 'RAD-VT-01', name: 'Radar Vũng Tàu', loc: 'Núi Lớn', status: 'Hoạt động' }
+    ], navAids: [
+      { code: 'DB-VT-01', type: 'Đèn biển', name: 'Đèn biển Vũng Tàu', channel: 'LH-VT-01', range: 20, status: 'Hoạt động' }
+    ] },
+    { id: 'VN-DN', name: 'Cảng Đà Nẵng', region: 'trung', code: 'VN-DN-05', type: 'Cảng tổng hợp', status: 'Đang hoạt động', addr: 'Đà Nẵng', depth: 11.0, area: 85, berths: [
+      { code: 'BC-DN-001', name: 'Bến Sơn Trà', len: 170, depth: 10.0, wharves: 1, buoys: 1, status: 'Đang hoạt động' },
+      { code: 'BC-DN-002', name: 'Bến Tiên Sa', len: 380, depth: 10.5, wharves: 2, buoys: 0, status: 'Đang hoạt động' }
+    ], channels: [
+      { code: 'LH-DN-01', name: 'Luồng Đà Nẵng', len: 15, d: 8.5, buoys: 4, lights: 1, status: 'Đang hoạt động' }
+    ], equipment: [
+      { type: 'CCTV', code: 'CCTV-DN-01', name: 'CCTV Đà Nẵng', loc: 'Sơn Trà', status: 'Hoạt động' }
+    ], navAids: [
+      { code: 'DB-DN-01', type: 'Đèn biển', name: 'Đèn biển Sơn Trà', channel: 'LH-DN-01', range: 18, status: 'Hoạt động' }
+    ] },
+    { id: 'VN-QN', name: 'Cảng Quảng Ninh', region: 'bac', code: 'VN-QN-06', type: 'Cảng tổng hợp', status: 'Đang hoạt động', addr: 'Quảng Ninh', depth: 10.8, area: 70, berths: [
+      { code: 'BC-QN-001', name: 'Bến Cái Lân', len: 250, depth: 9.5, wharves: 2, buoys: 0, status: 'Đang hoạt động' }
+    ], channels: [
+      { code: 'LH-QN-01', name: 'Luồng Cái Lân', len: 22, d: 8.0, buoys: 5, lights: 1, status: 'Đang hoạt động' }
+    ], navAids: [
+      { code: 'DB-QN-01', type: 'Đèn biển', name: 'Đèn biển Cái Lân', channel: 'LH-QN-01', range: 12, status: 'Hoạt động' }
+    ] },
+    { id: 'VN-NS', name: 'Cảng Nghi Sơn', region: 'bac', code: 'VN-NS-07', type: 'Cảng dầu khí', status: 'Đang hoạt động', addr: 'Thanh Hóa', depth: 15.2, area: 55, berths: [
+      { code: 'BC-NS-001', name: 'Bến Nghi Sơn', len: 420, depth: 14.0, wharves: 2, buoys: 0, status: 'Đang hoạt động' }
+    ], channels: [
+      { code: 'LH-NS-01', name: 'Luồng Nghi Sơn', len: 12, d: 13.0, buoys: 3, lights: 1, status: 'Đang hoạt động' }
+    ], navAids: [
+      { code: 'DB-NS-01', type: 'Đèn biển', name: 'Đèn biển Nghi Sơn', channel: 'LH-NS-01', range: 10, status: 'Hoạt động' }
+    ] },
+    { id: 'VN-DQ', name: 'Cảng Dung Quất', region: 'trung', code: 'VN-DQ-08', type: 'Cảng dầu khí', status: 'Đang hoạt động', addr: 'Quảng Ngãi', depth: 18.0, area: 90, berths: [
+      { code: 'BC-DQ-001', name: 'Bến Dung Quất', len: 380, depth: 16.0, wharves: 2, buoys: 0, status: 'Đang hoạt động' }
+    ], channels: [
+      { code: 'LH-DQ-01', name: 'Luồng Dung Quất', len: 18, d: 15.0, buoys: 4, lights: 0, status: 'Đang hoạt động' }
+    ] },
+    { id: 'VN-CL', name: 'Cảng Cái Lân', region: 'bac', code: 'VN-CL-09', type: 'Cảng container', status: 'Tạm ngừng', addr: 'Quảng Ninh', depth: 11.5, area: 40, berths: [
+      { code: 'BC-CL-001', name: 'Bến Cái Lân', len: 200, depth: 10.0, wharves: 1, buoys: 0, status: 'Tạm ngừng' }
+    ], channels: [], navAids: [] },
+    { id: 'VN-CM', name: 'Cảng Chân Mây', region: 'trung', code: 'VN-CM-10', type: 'Cảng tổng hợp', status: 'Đang hoạt động', addr: 'Thừa Thiên Huế', depth: 9.6, area: 35, berths: [
+      { code: 'BC-CM-001', name: 'Bến Chân Mây', len: 180, depth: 9.0, wharves: 1, buoys: 0, status: 'Đang hoạt động' }
+    ], channels: [], navAids: [] },
+    { id: 'VN-QT', name: 'Cảng Quảng Trị', region: 'trung', code: 'VN-QT-11', type: 'Cảng tổng hợp', status: 'Đang hoạt động', addr: 'Quảng Trị', depth: 7.5, area: 20, berths: [], channels: [], navAids: [] },
+    { id: 'VN-KG', name: 'Cảng Kiên Giang', region: 'nam', code: 'VN-KG-12', type: 'Cảng tổng hợp', status: 'Đang hoạt động', addr: 'Kiên Giang', depth: 6.0, area: 18, berths: [], channels: [], navAids: [] }
+  ];
+
+  // =====================================================================
+  // 2. RENDER SIDEBAR PORT LIST
+  // =====================================================================
+  var treeList = document.getElementById('port-tree-list');
+  function renderSidebar(filterRegion, searchTerm) {
+    var html = '';
+    var filtered = portData.filter(function(p) {
+      if (filterRegion !== 'all' && p.region !== filterRegion) return false;
+      if (searchTerm && p.name.toLowerCase().indexOf(searchTerm.toLowerCase()) === -1) return false;
+      return true;
+    });
+    if (filtered.length === 0) {
+      html = '<div style="padding:16px;text-align:center;color:var(--color-muted);font-size:13px">Không tìm thấy cảng</div>';
+    } else {
+      filtered.forEach(function(p) {
+        html += '<div class="port-tree-row" data-id="' + p.id + '">';
+        html += '<span class="port-icon">⚓</span>';
+        html += '<span class="item-label" style="flex:1">' + p.name + '</span>';
+        html += '<span class="region-badge">' + regions[p.region] + '</span>';
+        html += '</div>';
+      });
+    }
+    treeList.innerHTML = html;
+    // Click handler on each row
+    treeList.querySelectorAll('.port-tree-row').forEach(function(row) {
+      row.addEventListener('click', function() {
+        var id = this.getAttribute('data-id');
+        showPortDetail(id);
+      });
+    });
+  }
+
+  // =====================================================================
+  // 3. RENDER MAIN TABLE
+  // =====================================================================
+  var tbody = document.getElementById('port-table-body');
+  var info = document.getElementById('table-info');
+  function renderTable(filterRegion, searchTerm) {
+    var filtered = portData.filter(function(p) {
+      if (filterRegion !== 'all' && p.region !== filterRegion) return false;
+      if (searchTerm && p.name.toLowerCase().indexOf(searchTerm.toLowerCase()) === -1 && p.code.toLowerCase().indexOf(searchTerm.toLowerCase()) === -1) return false;
+      return true;
+    });
+    var html = '';
+    filtered.forEach(function(p, i) {
+      var bcnt = p.berths.length;
+      var wcnt = 0; p.berths.forEach(function(b) { wcnt += b.wharves; });
+      var buoyCnt = 0; p.navAids.forEach(function(n) { if (n.type.indexOf('Phao') !== -1) buoyCnt++; });
+      var lightCnt = 0; p.navAids.forEach(function(n) { if (n.type.indexOf('Đèn') !== -1) lightCnt++; });
+      var statusColor = 'badge-green';
+      if (p.status === 'Tạm ngừng') statusColor = 'badge-yellow';
+      else if (p.status === 'Ngừng') statusColor = 'badge-red';
+      html += '<tr class="port-row" data-id="' + p.id + '" style="cursor:pointer">';
+      html += '<td>' + (i+1) + '</td>';
+      html += '<td><strong>' + p.code + '</strong></td>';
+      html += '<td>' + p.name + '</td>';
+      html += '<td>' + regions[p.region] + '</td>';
+      html += '<td><span class="badge badge-blue">' + p.type + '</span></td>';
+      html += '<td>' + bcnt + '</td>';
+      html += '<td>' + wcnt + '</td>';
+      html += '<td>' + buoyCnt + '</td>';
+      html += '<td>' + lightCnt + '</td>';
+      html += '<td><span class="badge ' + statusColor + '">' + p.status + '</span></td>';
+      html += '</tr>';
+    });
+    tbody.innerHTML = html;
+    info.textContent = 'Hiển thị ' + filtered.length + ' / ' + portData.length + ' cảng';
+    // Click handler
+    tbody.querySelectorAll('.port-row').forEach(function(row) {
+      row.addEventListener('click', function() {
+        showPortDetail(this.getAttribute('data-id'));
+      });
+    });
+  }
+
+  // =====================================================================
+  // 4. PORT DETAIL VIEW
+  // =====================================================================
+  var currentPortId = null;
+  function showPortDetail(id) {
+    var p = null;
+    for (var i = 0; i < portData.length; i++) { if (portData[i].id === id) { p = portData[i]; break; } }
+    if (!p) return;
+    currentPortId = id;
+
+    // Highlight in sidebar + table
+    document.querySelectorAll('.port-tree-row.active, .port-row.active-row').forEach(function(el) { el.classList.remove('active', 'active-row'); });
+    document.querySelectorAll('.port-tree-row[data-id="' + id + '"]').forEach(function(el) { el.classList.add('active'); });
+    document.querySelectorAll('.port-row[data-id="' + id + '"]').forEach(function(el) { el.classList.add('active-row'); if(el.style) el.style.background = 'var(--color-primary-light)'; });
+
+    // Show detail
+    var detail = document.getElementById('port-detail');
+    detail.classList.add('visible');
+    document.getElementById('detail-port-name').textContent = p.name;
+
+    // Overview tab — specs table
+    var specsBody = document.getElementById('detail-specs');
+    var specsRows = [
+      ['Mã cảng', p.code], ['Loại cảng', p.type], ['Địa điểm', p.addr],
+      ['Độ sâu trung bình', p.depth + ' m'], ['Diện tích mặt nước', p.area + ' ha'],
+      ['Số bến cảng', p.berths.length.toString()], ['Khu vực', regions[p.region]]
+    ];
+    var sh = ''; specsRows.forEach(function(r) { sh += '<tr><td style="color:var(--color-muted);width:140px">' + r[0] + '</td><td><strong>' + r[1] + '</strong></td></tr>'; });
+    specsBody.innerHTML = sh;
+
+    // Quick stats
+    var wcnt = 0; p.berths.forEach(function(b) { wcnt += b.wharves; });
+    var buoyCnt = 0; p.navAids.forEach(function(n) { if (n.type.indexOf('Phao') !== -1) buoyCnt++; });
+    var lightCnt = 0; p.navAids.forEach(function(n) { if (n.type.indexOf('Đèn') !== -1) lightCnt++; });
+    document.getElementById('detail-quick-stats').innerHTML =
+      '<div class="detail-stat"><div class="num">' + p.berths.length + '</div><div class="lbl">Bến cảng</div></div>' +
+      '<div class="detail-stat"><div class="num">' + wcnt + '</div><div class="lbl">Cầu cảng</div></div>' +
+      '<div class="detail-stat"><div class="num">' + (p.equipment ? p.equipment.length : 0) + '</div><div class="lbl">Thiết bị</div></div>' +
+      '<div class="detail-stat"><div class="num">' + (buoyCnt + lightCnt) + '</div><div class="lbl">Báo hiệu</div></div>';
+
+    // Admin info
+    document.getElementById('detail-admin').innerHTML =
+      '<tr><td style="color:var(--color-muted);width:140px">Đơn vị quản lý</td><td><strong>Cảng vụ Hàng hải ' + p.addr + '</strong></td></tr>' +
+      '<tr><td style="color:var(--color-muted)">Trạng thái</td><td><span class="badge badge-green">' + p.status + '</span></td></tr>';
+
+    // Berths tab
+    var bBody = document.getElementById('detail-berths-body');
+    var bh = '';
+    if (p.berths.length === 0) {
+      bh = '<tr><td colspan="7" style="text-align:center;color:var(--color-muted);padding:20px">Chưa có dữ liệu</td></tr>';
+    } else {
+      p.berths.forEach(function(b) {
+        var bs = b.status === 'Đang hoạt động' ? 'badge-green' : 'badge-yellow';
+        bh += '<tr><td><strong>' + b.code + '</strong></td><td>' + b.name + '</td><td>' + b.len + '</td><td>' + b.depth + '</td><td>' + b.wharves + '</td><td>' + b.buoys + '</td><td><span class="badge ' + bs + '">' + b.status + '</span></td></tr>';
+      });
+    }
+    bBody.innerHTML = bh;
+
+    // Channels tab
+    var cBody = document.getElementById('detail-channels-body');
+    var ch = '';
+    if (!p.channels || p.channels.length === 0) {
+      ch = '<tr><td colspan="7" style="text-align:center;color:var(--color-muted);padding:20px">Chưa có dữ liệu</td></tr>';
+    } else {
+      p.channels.forEach(function(c) {
+        var cs = c.status === 'Đang hoạt động' ? 'badge-green' : 'badge-yellow';
+        ch += '<tr><td><strong>' + c.code + '</strong></td><td>' + c.name + '</td><td>' + c.len + '</td><td>' + c.d + '</td><td>' + c.buoys + '</td><td>' + c.lights + '</td><td><span class="badge ' + cs + '">' + c.status + '</span></td></tr>';
+      });
+    }
+    cBody.innerHTML = ch;
+
+    // Equipment tab
+    var eBody = document.getElementById('detail-equipment-body');
+    var eh = '';
+    if (!p.equipment || p.equipment.length === 0) {
+      eh = '<tr><td colspan="5" style="text-align:center;color:var(--color-muted);padding:20px">Chưa có dữ liệu</td></tr>';
+    } else {
+      p.equipment.forEach(function(e) {
+        eh += '<tr><td><span class="badge badge-blue">' + e.type + '</span></td><td><strong>' + e.code + '</strong></td><td>' + e.name + '</td><td>' + e.loc + '</td><td><span class="badge badge-green">' + e.status + '</span></td></tr>';
+      });
+    }
+    eBody.innerHTML = eh;
+
+    // Nav aids tab
+    var nBody = document.getElementById('detail-nav-aids-body');
+    var nh = '';
+    if (!p.navAids || p.navAids.length === 0) {
+      nh = '<tr><td colspan="6" style="text-align:center;color:var(--color-muted);padding:20px">Chưa có dữ liệu</td></tr>';
+    } else {
+      p.navAids.forEach(function(n) {
+        var nt = n.type.indexOf('Đèn') !== -1 ? 'badge-warning' : 'badge-blue';
+        nh += '<tr><td><strong>' + n.code + '</strong></td><td><span class="badge ' + nt + '">' + n.type + '</span></td><td>' + n.name + '</td><td>' + n.channel + '</td><td>' + n.range + '</td><td><span class="badge badge-green">' + n.status + '</span></td></tr>';
+      });
+    }
+    nBody.innerHTML = nh;
+
+    // Activate overview tab
+    switchTab('overview');
+
+    // Scroll to detail
+    detail.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  window.closePortDetail = function() {
+    document.getElementById('port-detail').classList.remove('visible');
+    document.querySelectorAll('.port-tree-row.active, .port-row.active-row').forEach(function(el) {
+      el.classList.remove('active', 'active-row');
+      if (el.style) el.style.background = '';
+    });
+  };
+
+  // =====================================================================
+  // 5. TAB SWITCHING
+  // =====================================================================
+  function switchTab(tabName) {
+    document.querySelectorAll('#detail-tabs .tab').forEach(function(t) {
+      t.classList.toggle('active', t.getAttribute('data-tab') === tabName);
+    });
+    document.querySelectorAll('#port-detail .tab-panel').forEach(function(p) {
+      p.style.display = p.id === 'panel-' + tabName ? '' : 'none';
+    });
+  }
+  document.querySelectorAll('#detail-tabs .tab').forEach(function(tab) {
+    tab.addEventListener('click', function() {
+      switchTab(this.getAttribute('data-tab'));
     });
   });
 
-  // --- Toggle on root/port nodes with no href (data-toggle) ---
-  document.querySelectorAll('.tree-item[data-toggle="true"]').forEach(function(item) {
-    item.addEventListener('click', function(e) {
-      if (e.target.closest('.tree-toggle')) return;
-      var toggle = this.querySelector('.tree-toggle');
-      if (toggle) {
-        var children = this.nextElementSibling;
-        if (children && children.classList.contains('tree-children')) {
-          children.classList.toggle('open');
-          toggle.classList.toggle('expanded');
-        }
-      }
+  // =====================================================================
+  // 6. SEARCH + FILTER
+  // =====================================================================
+  function refreshAll() {
+    var region = document.getElementById('table-region-filter').value;
+    var search = document.getElementById('table-port-search').value;
+    renderTable(region, search);
+    renderSidebar(region, search);
+  }
+
+  document.getElementById('table-port-search').addEventListener('input', refreshAll);
+  document.getElementById('table-region-filter').addEventListener('change', refreshAll);
+
+  // Sidebar filter chips
+  document.querySelectorAll('.filter-chip').forEach(function(chip) {
+    chip.addEventListener('click', function() {
+      document.querySelectorAll('.filter-chip').forEach(function(c) { c.classList.remove('active'); });
+      this.classList.add('active');
+      var region = this.getAttribute('data-region');
+      renderSidebar(region, document.getElementById('port-search').value);
     });
   });
 
-  // --- Active state on link click ---
-  document.querySelectorAll('.tree-item[href]').forEach(function(link) {
+  // Sidebar search
+  document.getElementById('port-search').addEventListener('input', function() {
+    var activeChip = document.querySelector('.filter-chip.active');
+    var region = activeChip ? activeChip.getAttribute('data-region') : 'all';
+    renderSidebar(region, this.value);
+  });
+
+  // =====================================================================
+  // 7. SCREEN NAVIGATION
+  // =====================================================================
+  document.querySelectorAll('.sidebar-menu .tree-item[href]').forEach(function(link) {
     link.addEventListener('click', function(e) {
       e.preventDefault();
-      document.querySelectorAll('.tree-item.active').forEach(function(el) {
-        el.classList.remove('active');
-      });
-      this.classList.add('active');
-      // Show target screen, hide others
       var screenId = this.getAttribute('data-screen');
-      if (screenId) {
-        document.querySelectorAll('.screen').forEach(function(s) {
-          s.style.display = (s.id === screenId) ? '' : 'none';
-        });
-        // Update breadcrumb / page title if needed
-        var label = this.querySelector('.item-label');
-        if (label) {
-          var pageTitle = document.querySelector('.page-title');
-          if (pageTitle && !screenId.match(/^(screen-1|screen-2)$/)) {
-            // leave as-is or could update
-          }
-        }
+      if (!screenId) return;
+      document.querySelectorAll('.sidebar-menu .tree-item.active').forEach(function(el) { el.classList.remove('active'); });
+      this.classList.add('active');
+      document.querySelectorAll('.screen').forEach(function(s) {
+        s.style.display = s.id === screenId ? '' : 'none';
+      });
+      // Hide port detail when navigating away from screen-1
+      if (screenId !== 'screen-1') {
+        document.getElementById('port-detail').classList.remove('visible');
       }
     });
   });
 
-  // --- Show screen-1 by default on load, hide all others ---
+  // Hide non-screen-1 screens by default + show port-detail hidden
   document.querySelectorAll('.screen').forEach(function(s) {
     if (s.id !== 'screen-1') s.style.display = 'none';
   });
+
+  // =====================================================================
+  // 8. INIT
+  // =====================================================================
+  renderTable('all', '');
+  renderSidebar('all', '');
 })();
 </script>
 </body>
