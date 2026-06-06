@@ -309,7 +309,7 @@ code.pre-block { display: block; background: #1e1e2e; color: #cdd6f4; padding: 1
           <button class="map-overlay-btn" data-layer="wharves">Bến cảng</button>
           <button class="map-overlay-btn" data-layer="channels">Luồng</button>
           <button class="map-overlay-btn" data-layer="buoys">Phao tiêu</button>
-          <button class="map-overlay-btn" data-layer="lights">Đèn biển</button>
+          <button class="map-overlay-btn active" data-layer="lights">Đèn biển</button>
         </div>
         <div class="map-controls" style="z-index:500">
           <button title="Phóng to" id="btn-zoom-in">+</button>
@@ -689,23 +689,86 @@ code.pre-block { display: block; background: #1e1e2e; color: #cdd6f4; padding: 1
     light: makeIcon('#dc2626', '✦')
   };
 
-  // Init map
-  var map = L.map('main-map', { zoomControl: false, attributionControl: true }).setView([16.5, 107.0], 6);
+  // Init map — Vietnam maritime territory
+  var map = L.map('main-map', { zoomControl: false, attributionControl: true }).setView([12.0, 112.0], 6);
 
-  // Base layers
-  var osmLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  // Base layers (NO Chinese labels — CartoDB no-labels + Esri satellite)
+  var cartodbLayer = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png', {
     maxZoom: 18,
-    attribution: '© OpenStreetMap'
+    attribution: '© CartoDB | © OpenStreetMap'
   });
   var satelliteLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
     maxZoom: 18,
     attribution: '© Esri'
   });
-  var nauticalLayer = L.tileLayer('https://tiles.openseamap.org/seamark/{z}/{x}/{y}.png', {
-    maxZoom: 18,
-    attribution: '© OpenSeaMap'
+  // Grid/ENС overlay (no OpenSeaMap — unavailable for S-57 VN domain)
+  var gridLayer = L.tileLayer('https://tileservice.charts.noaa.gov/tiles/50000_1/{z}/{x}/{y}.png', {
+    maxZoom: 16,
+    attribution: '© NOAA ENC'
   });
-  osmLayer.addTo(map);
+  cartodbLayer.addTo(map);
+
+  // ===== HOÀNG SA & TRƯỜNG SA — Vietnam sovereignty markers =====
+  var sovereigntyGroup = L.layerGroup();
+
+  // Hoàng Sa (Paracel Islands) — Vietnam
+  var hoangSaPoly = L.polygon([
+    [16.8, 110.3], [17.2, 110.4], [17.1, 113.0], [16.5, 112.8],
+    [16.0, 112.2], [15.6, 111.8], [15.6, 111.2], [16.0, 110.7]
+  ], {
+    color: '#dc2626', weight: 2, opacity: 0.9, fillColor: '#dc2626',
+    fillOpacity: 0.08, dashArray: '8,4'
+  }).bindTooltip('Hoàng Sa — Việt Nam', { permanent: false, direction: 'center' });
+
+  var hoangSaLbl = L.marker([16.55, 111.6], {
+    icon: L.divIcon({
+      className: '',
+      html: '<div style="background:rgba(220,38,38,0.9);color:#fff;padding:3px 10px;border-radius:4px;font-size:12px;font-weight:700;white-space:nowrap;border:1px solid #fff">HOÀNG SA — VIỆT NAM</div>',
+      iconSize: [0, 0], iconAnchor: [80, 12]
+    })
+  });
+
+  // Trường Sa (Spratly Islands) — Vietnam
+  var truongSaPoly = L.polygon([
+    [8.5, 111.5], [11.5, 111.8], [12.0, 114.5], [10.5, 117.2],
+    [7.8, 116.5], [7.0, 115.0], [7.0, 113.0], [8.0, 112.0]
+  ], {
+    color: '#dc2626', weight: 2, opacity: 0.9, fillColor: '#dc2626',
+    fillOpacity: 0.08, dashArray: '8,4'
+  }).bindTooltip('Trường Sa — Việt Nam', { permanent: false, direction: 'center' });
+
+  var truongSaLbl = L.marker([9.5, 114.2], {
+    icon: L.divIcon({
+      className: '',
+      html: '<div style="background:rgba(220,38,38,0.9);color:#fff;padding:3px 10px;border-radius:4px;font-size:12px;font-weight:700;white-space:nowrap;border:1px solid #fff">TRƯỜNG SA — VIỆT NAM</div>',
+      iconSize: [0, 0], iconAnchor: [88, 12]
+    })
+  });
+
+  // Specific named islands (Trường Sa)
+  var truongSaLon = L.circleMarker([8.65, 111.92], { radius: 6, color: '#dc2626', fillColor: '#dc2626', fillOpacity: 0.7, weight: 2 })
+    .bindPopup('<b>Đảo Trường Sa Lớn</b><br><small>Huyện đảo Trường Sa, Khánh Hòa</small>');
+  var songTuTay = L.circleMarker([11.43, 114.32], { radius: 5, color: '#dc2626', fillColor: '#dc2626', fillOpacity: 0.7, weight: 2 })
+    .bindPopup('<b>Đảo Song Tử Tây</b><br><small>Quần đảo Trường Sa</small>');
+  var namYet = L.circleMarker([10.18, 114.35], { radius: 5, color: '#dc2626', fillColor: '#dc2626', fillOpacity: 0.7, weight: 2 })
+    .bindPopup('<b>Đảo Nam Yết</b><br><small>Quần đảo Trường Sa</small>');
+
+  // Specific named islands (Hoàng Sa)
+  var hoangSaLon = L.circleMarker([16.55, 111.58], { radius: 5, color: '#dc2626', fillColor: '#dc2626', fillOpacity: 0.7, weight: 2 })
+    .bindPopup('<b>Đảo Hoàng Sa</b><br><small>Huyện đảo Hoàng Sa, Đà Nẵng</small>');
+  var triTon = L.circleMarker([16.53, 111.65], { radius: 4, color: '#dc2626', fillColor: '#dc2626', fillOpacity: 0.7, weight: 2 })
+    .bindPopup('<b>Đảo Tri Tôn</b><br><small>Quần đảo Hoàng Sa</small>');
+
+  sovereigntyGroup.addLayer(hoangSaPoly);
+  sovereigntyGroup.addLayer(hoangSaLbl);
+  sovereigntyGroup.addLayer(truongSaPoly);
+  sovereigntyGroup.addLayer(truongSaLbl);
+  sovereigntyGroup.addLayer(truongSaLon);
+  sovereigntyGroup.addLayer(songTuTay);
+  sovereigntyGroup.addLayer(namYet);
+  sovereigntyGroup.addLayer(hoangSaLon);
+  sovereigntyGroup.addLayer(triTon);
+  sovereigntyGroup.addTo(map);
 
   // Overlay groups
   var layerGroups = {
@@ -771,13 +834,13 @@ code.pre-block { display: block; background: #1e1e2e; color: #cdd6f4; padding: 1
     if (!document.fullscreenElement) { el.requestFullscreen(); } else { document.exitFullscreen(); }
   });
 
-  // Layer switch (cycle osm -> satellite -> osm+nautical)
+  // Layer switch (cycle CartoDB no-labels → Satellite → CartoDB+Grid)
   var layerIdx = 0;
-  var bases = [osmLayer, satelliteLayer, osmLayer];
-  var overlays = [null, null, nauticalLayer];
+  var bases = [cartodbLayer, satelliteLayer, cartodbLayer];
+  var overlays = [null, null, gridLayer];
   document.getElementById('btn-layers').addEventListener('click', function() {
     layerIdx = (layerIdx + 1) % bases.length;
-    Object.values({osm: osmLayer, sat: satelliteLayer, naut: nauticalLayer}).forEach(function(l) {
+    [cartodbLayer, satelliteLayer, gridLayer].forEach(function(l) {
       if (map.hasLayer(l)) map.removeLayer(l);
     });
     bases[layerIdx].addTo(map);
