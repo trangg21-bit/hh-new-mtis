@@ -1315,6 +1315,157 @@ textarea.form-control { resize: vertical; min-height: 80px; }
       </div>
     </div>
 
+    <hr class="section-divider">
+
+    <!-- SCREEN 19: QUẢN LÝ HÀNG RÀO ĐIỆN TỬ -->
+    <section class="screen" id="hang-rao-dien-tu">
+      <div class="screen-label">19. Hàng rào điện tử</div>
+      <div class="card">
+        <div class="card-header">
+          <h3>Danh sách vùng hàng rào điện tử (Geofence)</h3>
+          <div class="actions"><button class="btn btn-primary btn-sm">+ Thêm vùng</button><button class="btn btn-outline btn-sm">📋 Xuất</button></div>
+        </div>
+        <div class="card-body">
+          <div class="search-bar"><input class="form-control" type="text" placeholder="Tìm kiếm vùng..."><select class="form-control"><option value="">Trạng thái</option><option>Hoạt động</option><option>Tạm dừng</option></select><button class="btn btn-outline btn-sm">🔍 Tìm</button></div>
+          <div class="table-wrap">
+            <table class="ant-table">
+              <thead><tr><th>Mã</th><th>Tên vùng</th><th>Cảng khu vực</th><th>Đỉnh (polygon)</th><th>Cảnh báo</th><th>Trạng thái</th><th></th></tr></thead>
+              <tbody>
+                <tr><td><strong>GF-HPH-01</strong></td><td>Vùng cảng Hải Phòng</td><td>Cảng vụ Hải Phòng</td><td>6 điểm</td><td><span class="badge badge-blue">Xâm nhập, Tốc độ</span></td><td><span class="badge badge-green">Hoạt động</span></td><td><button class="btn btn-ghost btn-sm">✎</button></td></tr>
+                <tr><td><strong>GF-VT-01</strong></td><td>Vùng cảng Vũng Tàu</td><td>Cảng vụ Vũng Tàu</td><td>8 điểm</td><td><span class="badge badge-blue">Xâm nhập, Neo đậu</span></td><td><span class="badge badge-green">Hoạt động</span></td><td><button class="btn btn-ghost btn-sm">✎</button></td></tr>
+                <tr><td><strong>GF-DN-01</strong></td><td>Vùng cảng Đà Nẵng</td><td>Cảng vụ Đà Nẵng</td><td>5 điểm</td><td><span class="badge badge-blue">Xâm nhập</span></td><td><span class="badge badge-green">Hoạt động</span></td><td><button class="btn btn-ghost btn-sm">✎</button></td></tr>
+                <tr><td><strong>GF-QN-01</strong></td><td>Vùng cảng Quy Nhơn</td><td>Cảng vụ Bình Định</td><td>4 điểm</td><td><span class="badge badge-yellow">Neo đậu trái phép</span></td><td><span class="badge badge-green">Hoạt động</span></td><td><button class="btn btn-ghost btn-sm">✎</button></td></tr>
+                <tr><td><strong>GF-DQ-01</strong></td><td>Vùng cảng Dung Quất</td><td>Cảng vụ Quảng Ngãi</td><td>5 điểm</td><td><span class="badge badge-blue">Xâm nhập, Tốc độ</span></td><td><span class="badge badge-yellow">Tạm dừng</span></td><td><button class="btn btn-ghost btn-sm">✎</button></td></tr>
+                <tr><td><strong>GF-HCM-01</strong></td><td>Vùng cảng TP.HCM</td><td>Cảng vụ TP.HCM</td><td>7 điểm</td><td><span class="badge badge-blue">Xâm nhập, Neo đậu</span></td><td><span class="badge badge-green">Hoạt động</span></td><td><button class="btn btn-ghost btn-sm">✎</button></td></tr>
+                <tr><td><strong>GF-CM-01</strong></td><td>Vùng cảng Cái Mép</td><td>Cảng vụ Vũng Tàu</td><td>5 điểm</td><td><span class="badge badge-blue">Xâm nhập, Tốc độ, Neo đậu</span></td><td><span class="badge badge-green">Hoạt động</span></td><td><button class="btn btn-ghost btn-sm">✎</button></td></tr>
+                <tr><td><strong>GF-CL-01</strong></td><td>Vùng cảng Cái Lân</td><td>Cảng vụ Quảng Ninh</td><td>4 điểm</td><td><span class="badge badge-blue">Xâm nhập</span></td><td><span class="badge badge-green">Hoạt động</span></td><td><button class="btn btn-ghost btn-sm">✎</button></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="pagination"><span>Hiển thị 1-8 / 13 vùng</span><div class="page-btns"><button class="btn btn-ghost btn-sm">‹</button><button class="btn btn-ghost btn-sm active">1</button><button class="btn btn-ghost btn-sm">2</button><button class="btn btn-ghost btn-sm">›</button></div></div>
+        </div>
+      </div>
+    </section>
+
+    <hr class="section-divider">
+
+    <!-- SCREEN 20: QUẢN LÝ ĐIỂM ĐÓN TRẢ HOA TIÊU -->
+    <section class="screen" id="diem-don-tra-hoa-tieu">
+      <div class="screen-label">20. Điểm đón trả hoa tiêu</div>
+      <div class="card">
+        <div class="card-header">
+          <h3>Danh sách điểm đón trả hoa tiêu</h3>
+          <div class="actions"><button class="btn btn-primary btn-sm">+ Thêm điểm</button><button class="btn btn-outline btn-sm">📋 Xuất</button></div>
+        </div>
+        <div class="card-body">
+          <div class="search-bar"><input class="form-control" type="text" placeholder="Tìm kiếm..."><select class="form-control"><option value="">Trạm hoa tiêu</option><option>HP Pilot</option><option>VT Pilot</option></select><button class="btn btn-outline btn-sm">🔍 Tìm</button></div>
+          <div class="table-wrap">
+            <table class="ant-table">
+              <thead><tr><th>Mã</th><th>Tên điểm</th><th>Kinh độ</th><th>Vĩ độ</th><th>Khu vực cảng</th><th>Trạm hoa tiêu</th><th>Kiểm tra gần nhất</th><th>Trạng thái</th><th></th></tr></thead>
+              <tbody>
+                <tr><td><strong>PBS-HPH-01</strong></td><td>Điểm đón Hải Phòng số 1</td><td>106.7245</td><td>20.8512</td><td>Hải Phòng</td><td>Trạm HP Pilot</td><td>01/04/2026</td><td><span class="badge badge-green">Hoạt động</span></td><td><button class="btn btn-ghost btn-sm">✎</button></td></tr>
+                <tr><td><strong>PBS-HPH-02</strong></td><td>Điểm đón Hải Phòng số 2</td><td>106.6890</td><td>20.8120</td><td>Hải Phòng</td><td>Trạm HP Pilot</td><td>15/03/2026</td><td><span class="badge badge-green">Hoạt động</span></td><td><button class="btn btn-ghost btn-sm">✎</button></td></tr>
+                <tr><td><strong>PBS-VT-01</strong></td><td>Điểm đón Vũng Tàu</td><td>107.0724</td><td>10.3451</td><td>Vũng Tàu</td><td>Trạm VT Pilot</td><td>20/05/2026</td><td><span class="badge badge-green">Hoạt động</span></td><td><button class="btn btn-ghost btn-sm">✎</button></td></tr>
+                <tr><td><strong>PBS-DN-01</strong></td><td>Điểm đón Đà Nẵng</td><td>108.2022</td><td>16.0544</td><td>Đà Nẵng</td><td>Trạm DN Pilot</td><td>10/02/2026</td><td><span class="badge badge-green">Hoạt động</span></td><td><button class="btn btn-ghost btn-sm">✎</button></td></tr>
+                <tr><td><strong>PBS-QN-01</strong></td><td>Điểm đón Quy Nhơn</td><td>109.2333</td><td>13.7833</td><td>Bình Định</td><td>Trạm QN Pilot</td><td>05/01/2026</td><td><span class="badge badge-yellow">Bảo trì</span></td><td><button class="btn btn-ghost btn-sm">✎</button></td></tr>
+                <tr><td><strong>PBS-CM-01</strong></td><td>Điểm đón Cái Mép</td><td>107.0234</td><td>10.5341</td><td>Vũng Tàu</td><td>Trạm VT Pilot</td><td>18/04/2026</td><td><span class="badge badge-green">Hoạt động</span></td><td><button class="btn btn-ghost btn-sm">✎</button></td></tr>
+                <tr><td><strong>PBS-TH-01</strong></td><td>Điểm đón Nghi Sơn</td><td>105.8830</td><td>19.3330</td><td>Thanh Hóa</td><td>Trạm NS Pilot</td><td>22/03/2026</td><td><span class="badge badge-green">Hoạt động</span></td><td><button class="btn btn-ghost btn-sm">✎</button></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <hr class="section-divider">
+
+    <!-- SCREEN 21: QUẢN LÝ THIẾT BỊ AN NINH HÀNG HẢI -->
+    <section class="screen" id="thiet-bi-an-ninh">
+      <div class="screen-label">21. Thiết bị an ninh hàng hải</div>
+      <div class="card">
+        <div class="card-header"><h3>Danh sách thiết bị an ninh</h3><div class="actions"><button class="btn btn-primary btn-sm">+ Thêm thiết bị</button><button class="btn btn-outline btn-sm">📋 Xuất</button></div></div>
+        <div class="card-body">
+          <div class="search-bar"><input class="form-control" type="text" placeholder="Tìm kiếm..."><select class="form-control"><option value="">Loại</option><option>CCTV</option><option>AIS</option><option>Radar</option><option>Gate control</option></select><select class="form-control"><option value="">Trạng thái</option><option>Hoạt động</option><option>Bảo trì</option></select><button class="btn btn-outline btn-sm">🔍 Tìm</button></div>
+          <div class="table-wrap">
+            <table class="ant-table">
+              <thead><tr><th>Mã</th><th>Tên thiết bị</th><th>Loại</th><th>Vị trí lắp đặt</th><th>Kinh độ</th><th>Vĩ độ</th><th>Bảo trì gần nhất</th><th>Trạng thái</th><th></th></tr></thead>
+              <tbody>
+                <tr><td><strong>SEC-HPH-01</strong></td><td>Camera cảng Hải Phòng</td><td><span class="badge badge-blue">CCTV</span></td><td>Cảng Hải Phòng</td><td>106.7245</td><td>20.8512</td><td>01/05/2026</td><td><span class="badge badge-green">Hoạt động</span></td><td><button class="btn btn-ghost btn-sm">✎</button></td></tr>
+                <tr><td><strong>SEC-HPH-02</strong></td><td>Camera luồng Bạch Đằng</td><td><span class="badge badge-blue">CCTV</span></td><td>Luồng Hải Phòng</td><td>106.6820</td><td>20.8040</td><td>15/04/2026</td><td><span class="badge badge-green">Hoạt động</span></td><td><button class="btn btn-ghost btn-sm">✎</button></td></tr>
+                <tr><td><strong>SEC-VT-01</strong></td><td>AIS Vũng Tàu</td><td><span class="badge badge-blue">AIS</span></td><td>Trạm VT Pilot</td><td>107.0724</td><td>10.3451</td><td>20/02/2026</td><td><span class="badge badge-green">Hoạt động</span></td><td><button class="btn btn-ghost btn-sm">✎</button></td></tr>
+                <tr><td><strong>SEC-DN-01</strong></td><td>Radar Sơn Trà</td><td><span class="badge badge-blue">Radar</span></td><td>Bán đảo Sơn Trà</td><td>108.2500</td><td>16.1200</td><td>10/03/2026</td><td><span class="badge badge-green">Hoạt động</span></td><td><button class="btn btn-ghost btn-sm">✎</button></td></tr>
+                <tr><td><strong>SEC-CM-01</strong></td><td>Gate control Cái Mép</td><td><span class="badge badge-blue">Gate control</span></td><td>Cảng Cái Mép</td><td>107.0234</td><td>10.5341</td><td>05/05/2026</td><td><span class="badge badge-yellow">Bảo trì</span></td><td><button class="btn btn-ghost btn-sm">✎</button></td></tr>
+                <tr><td><strong>SEC-QN-01</strong></td><td>AIS Quy Nhơn</td><td><span class="badge badge-blue">AIS</span></td><td>Cảng Quy Nhơn</td><td>109.2333</td><td>13.7833</td><td>12/01/2026</td><td><span class="badge badge-green">Hoạt động</span></td><td><button class="btn btn-ghost btn-sm">✎</button></td></tr>
+                <tr><td><strong>SEC-DQ-01</strong></td><td>Camera Dung Quất</td><td><span class="badge badge-blue">CCTV</span></td><td>Cảng Dung Quất</td><td>108.8800</td><td>15.3700</td><td>18/04/2026</td><td><span class="badge badge-yellow">Bảo trì</span></td><td><button class="btn btn-ghost btn-sm">✎</button></td></tr>
+                <tr><td><strong>SEC-HCM-01</strong></td><td>Gate control TP.HCM</td><td><span class="badge badge-blue">Gate control</span></td><td>Cảng TP.HCM</td><td>106.7500</td><td>10.7600</td><td>08/03/2026</td><td><span class="badge badge-green">Hoạt động</span></td><td><button class="btn btn-ghost btn-sm">✎</button></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <hr class="section-divider">
+
+    <!-- SCREEN 22: CÔNG CỤ KIỂM TRA DỮ LIỆU ĐẦU VÀO -->
+    <section class="screen" id="kiem-tra-du-lieu">
+      <div class="screen-label">22. Công cụ kiểm tra dữ liệu đầu vào</div>
+      <div class="card">
+        <div class="card-header"><h3>Quy tắc kiểm tra — Validation Rules</h3><div class="actions"><button class="btn btn-primary btn-sm">▶ Chạy kiểm tra</button><button class="btn btn-outline btn-sm">+ Thêm rule</button></div></div>
+        <div class="card-body">
+          <div class="table-wrap">
+            <table class="ant-table">
+              <thead><tr><th>STT</th><th>Tên quy tắc</th><th>Phạm vi</th><th>Biểu thức</th><th>Mức độ</th><th>Lần chạy cuối</th><th>Kết quả</th><th></th></tr></thead>
+              <tbody>
+                <tr><td>1</td><td>Trường bắt buộc</td><td>Toàn bộ module</td><td>required_fields != null</td><td><span class="badge badge-red">Lỗi</span></td><td>06/06/2026 09:30</td><td><span class="badge badge-red">3 lỗi</span></td><td><button class="btn btn-ghost btn-sm">🔍</button></td></tr>
+                <tr><td>2</td><td>Khoảng tọa độ</td><td>Đối tượng điểm</td><td>lat ∈ [-90,90], lng ∈ [-180,180]</td><td><span class="badge badge-red">Lỗi</span></td><td>06/06/2026 09:30</td><td><span class="badge badge-green">Đạt</span></td><td><button class="btn btn-ghost btn-sm">🔍</button></td></tr>
+                <tr><td>3</td><td>Định dạng ngày</td><td>Toàn bộ module</td><td>regex: ^\d{2}/\d{2}/\d{4}$</td><td><span class="badge badge-yellow">Cảnh báo</span></td><td>06/06/2026 09:30</td><td><span class="badge badge-green">Đạt</span></td><td><button class="btn btn-ghost btn-sm">🔍</button></td></tr>
+                <tr><td>4</td><td>Mã đối tượng duy nhất</td><td>Cảng biển, Bến cảng</td><td>unique(code) per entity</td><td><span class="badge badge-red">Lỗi</span></td><td>06/06/2026 09:30</td><td><span class="badge badge-red">2 trùng</span></td><td><button class="btn btn-ghost btn-sm">🔍</button></td></tr>
+                <tr><td>5</td><td>Khoảng số hợp lệ</td><td>Thông số kỹ thuật</td><td>value ∈ [min, max]</td><td><span class="badge badge-yellow">Cảnh báo</span></td><td>06/06/2026 09:30</td><td><span class="badge badge-green">Đạt</span></td><td><button class="btn btn-ghost btn-sm">🔍</button></td></tr>
+                <tr><td>6</td><td>Khóa ngoại</td><td>Liên kết entity</td><td>ref_table.id EXISTS</td><td><span class="badge badge-red">Lỗi</span></td><td>06/06/2026 09:30</td><td><span class="badge badge-yellow">1 cảnh báo</span></td><td><button class="btn btn-ghost btn-sm">🔍</button></td></tr>
+                <tr><td>7</td><td>Định dạng email</td><td>Người dùng</td><td>regex: ^...@...$</td><td><span class="badge badge-yellow">Cảnh báo</span></td><td>06/06/2026 09:30</td><td><span class="badge badge-green">Đạt</span></td><td><button class="btn btn-ghost btn-sm">🔍</button></td></tr>
+                <tr><td>8</td><td>Trùng tọa độ</td><td>Đối tượng điểm</td><td>no duplicate (lat,lng)</td><td><span class="badge badge-yellow">Cảnh báo</span></td><td>06/06/2026 09:30</td><td><span class="badge badge-green">Đạt</span></td><td><button class="btn btn-ghost btn-sm">🔍</button></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div style="margin-top:16px">
+            <div class="card-header"><h3>Kết quả kiểm tra gần nhất — 06/06/2026 09:30</h3></div>
+            <div style="padding:12px 16px;background:var(--color-primary-light);border-radius:var(--radius-card);font-size:14px">
+              <strong>Tổng cộng:</strong> 8 rules được kiểm tra — <span style="color:#dc2626">2 lỗi</span>, <span style="color:#f59e0b">1 cảnh báo</span>, <span style="color:#16a34a">5 đạt</span>.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <hr class="section-divider">
+
+    <!-- SCREEN 23: ĐÈN TÍN HIỆU HÀNG HẢI — MỞ RỘNG -->
+    <section class="screen" id="den-tin-hieu">
+      <div class="screen-label">23. Đèn tín hiệu hàng hải (Chi tiết)</div>
+      <div class="card">
+        <div class="card-header"><h3>Danh sách đèn tín hiệu hàng hải</h3><div class="actions"><button class="btn btn-primary btn-sm">+ Thêm</button><button class="btn btn-outline btn-sm">📋 Xuất</button></div></div>
+        <div class="card-body">
+          <div class="search-bar"><input class="form-control" type="text" placeholder="Tìm kiếm..."><select class="form-control"><option value="">Loại tín hiệu</option><option>Đèn</option><option>Còi</option><option>Âm hiệu</option></select><button class="btn btn-outline btn-sm">🔍 Tìm</button></div>
+          <div class="table-wrap">
+            <table class="ant-table">
+              <thead><tr><th>Mã</th><th>Tên</th><th>Vị trí</th><th>Loại</th><th>Đặc tính ánh sáng</th><th>Tầm (NM)</th><th>Chiều cao (m)</th><th>Năm xây</th><th>Trạng thái</th><th></th></tr></thead>
+              <tbody>
+                <tr><td><strong>TH-HPH-01</strong></td><td>Đèn Hải Phòng</td><td>20°52'N 106°42'E</td><td><span class="badge badge-blue">Đèn hàng hải</span></td><td>Fl(2) 10s</td><td>15</td><td>28</td><td>2005</td><td><span class="badge badge-green">Hoạt động</span></td><td><button class="btn btn-ghost btn-sm">✎</button></td></tr>
+                <tr><td><strong>TH-VT-01</strong></td><td>Đèn Vũng Tàu</td><td>10°20'N 107°05'E</td><td><span class="badge badge-blue">Đèn hàng hải</span></td><td>Fl(3) 15s</td><td>20</td><td>35</td><td>1911</td><td><span class="badge badge-green">Hoạt động</span></td><td><button class="btn btn-ghost btn-sm">✎</button></td></tr>
+                <tr><td><strong>TH-DN-01</strong></td><td>Đèn Sơn Trà</td><td>16°06'N 108°14'E</td><td><span class="badge badge-blue">Đèn hàng hải</span></td><td>Fl(1) 5s</td><td>18</td><td>30</td><td>2008</td><td><span class="badge badge-green">Hoạt động</span></td><td><button class="btn btn-ghost btn-sm">✎</button></td></tr>
+                <tr><td><strong>TH-QN-01</strong></td><td>Đèn Cái Lân</td><td>20°58'N 107°10'E</td><td><span class="badge badge-yellow">Còi tín hiệu</span></td><td>—</td><td>8</td><td>12</td><td>2012</td><td><span class="badge badge-yellow">Bảo trì</span></td><td><button class="btn btn-ghost btn-sm">✎</button></td></tr>
+                <tr><td><strong>TH-DQ-01</strong></td><td>Đèn Dung Quất</td><td>15°22'N 108°52'E</td><td><span class="badge badge-blue">Đèn hàng hải</span></td><td>Fl(1) 6s</td><td>14</td><td>22</td><td>2015</td><td><span class="badge badge-green">Hoạt động</span></td><td><button class="btn btn-ghost btn-sm">✎</button></td></tr>
+                <tr><td><strong>TH-HD-01</strong></td><td>Đèn Hòn Dấu</td><td>20°40'N 106°49'E</td><td><span class="badge badge-blue">Đèn hàng hải</span></td><td>Fl(2) 8s</td><td>12</td><td>18</td><td>2003</td><td><span class="badge badge-yellow">Bảo trì</span></td><td><button class="btn btn-ghost btn-sm">✎</button></td></tr>
+                <tr><td><strong>TH-CM-01</strong></td><td>Đèn Cái Mép</td><td>10°32'N 107°01'E</td><td><span class="badge badge-blue">Đèn hàng hải</span></td><td>Fl(2) 12s</td><td>16</td><td>25</td><td>2018</td><td><span class="badge badge-green">Hoạt động</span></td><td><button class="btn btn-ghost btn-sm">✎</button></td></tr>
+                <tr><td><strong>TH-NS-01</strong></td><td>Đèn Nghi Sơn</td><td>19°20'N 105°53'E</td><td><span class="badge badge-blue">Đèn hàng hải</span></td><td>Fl(1) 4s</td><td>10</td><td>16</td><td>2017</td><td><span class="badge badge-green">Hoạt động</span></td><td><button class="btn btn-ghost btn-sm">✎</button></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
   </div><!-- /content -->
 
   <!-- ===== FOOTER ===== -->
