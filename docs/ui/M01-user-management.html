@@ -491,6 +491,32 @@ textarea.form-control { resize: vertical; min-height: 80px; }
 </style>
 </head>
 <body>
+<script>
+(function() {
+  var token = localStorage.getItem('mtis_token');
+  var user = JSON.parse(localStorage.getItem('mtis_user') || 'null');
+  if (!token || !user) { window.location.href = '/login.html'; return; }
+  window.mtisToken = token;
+  window.mtisUser = user;
+  window.apiGet = function(path) {
+    return fetch(path, { headers: { 'Authorization': 'Bearer ' + token } }).then(function(r) {
+      if (r.status === 401) { localStorage.clear(); window.location.href = '/login.html'; }
+      return r.json();
+    });
+  };
+  window.apiPost = function(path, body) {
+    return fetch(path, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+      body: JSON.stringify(body)
+    }).then(function(r) {
+      if (r.status === 401) { localStorage.clear(); window.location.href = '/login.html'; }
+      return r.json();
+    });
+  };
+  window.logout = function() { localStorage.clear(); window.location.href = '/login.html'; };
+})();
+</script>
 
 <!-- SIDEBAR -->
 <aside class="sidebar">
@@ -528,10 +554,11 @@ textarea.form-control { resize: vertical; min-height: 80px; }
     <h1>DỰ ÁN: Xây dựng Hệ thống thông tin quản lý KCHT Giao thông Hàng hải</h1>
     <div class="user-info">
       <div>
-        <div class="name">Nguyễn Văn A</div>
-        <div class="role">Chuyên viên</div>
+        <div class="name" id="m01-username">Nguyễn Văn A</div>
+        <div class="role" id="m01-userrole">Quản trị hệ thống</div>
       </div>
-      <div class="avatar">NV</div>
+      <div class="avatar" id="m01-avatar">NV</div>
+      <button onclick="logout()" style="background:none;border:none;cursor:pointer;font-size:18px;color:var(--color-muted)" title="Đăng xuất">🚪</button>
     </div>
   </header>
 
@@ -618,38 +645,35 @@ textarea.form-control { resize: vertical; min-height: 80px; }
       <div class="search-bar">
         <input type="text" class="form-control" placeholder="Tìm theo tên, email..." style="width:280px">
         <select class="form-control" style="width:180px">
-          <option>Tất cả đơn vị</option>
-          <option>Cục Hàng hải Việt Nam</option>
-          <option>Chi cục HH Hải Phòng</option>
-          <option>Chi cục HH TP. Hồ Chí Minh</option>
-          <option>Chi cục HH Đà Nẵng</option>
+          <option value="all">Tất cả trạng thái</option>
+          <option value="1">Đang hoạt động</option>
+          <option value="0">Bị khóa</option>
         </select>
-        <select class="form-control" style="width:160px">
-          <option>Tất cả trạng thái</option>
-          <option>Đang hoạt động</option>
-          <option>Bị khóa</option>
-          <option>Chưa kích hoạt</option>
-        </select>
-        <button class="btn btn-primary">🔍 Tìm kiếm</button>
+        <button class="btn btn-primary" onclick="var s=document.querySelector('#user-table-card .search-bar input'); if(s) s.dispatchEvent(new Event('input'))">🔍 Tìm kiếm</button>
       </div>
 
-      <div class="card">
+      <div class="card" id="user-table-card">
         <div class="card-header">
-          <h3>Kết quả (245 người dùng)</h3>
+          <h3>Kết quả (<span id="user-count">245</span> người dùng)</h3>
           <div class="actions">
             <button class="btn btn-outline btn-sm">📥 Xuất Excel</button>
             <button class="btn btn-primary btn-sm">+ Thêm mới</button>
           </div>
         </div>
         <div class="table-wrap">
-          <table class="ant-table">
+          <table class="ant-table" id="user-table">
             <thead>
-              <tr><th>STT</th><th>Họ tên</th><th>Email</th><th>Đơn vị</th><th>Nhóm</th><th>Trạng thái</th><th>Ngày tạo</th><th>Thao tác</th></tr>
+              <tr><th>STT</th><th>Tên đăng nhập</th><th>Họ tên</th><th>Email</th><th>Vai trò</th><th>Trạng thái</th><th>Thao tác</th></tr>
             </thead>
             <tbody>
-              <tr>
-                <td>1</td><td>Nguyễn Văn A</td><td>nguyenvana@vinamarine.gov.vn</td><td>Văn phòng Cục</td>
-                <td><span class="badge badge-blue">Lãnh đạo</span></td>
+              <tr><td colspan="7" style="text-align:center;color:var(--color-muted);padding:24px">Đang tải...</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="flex gap-2" style="justify-content:space-between;align-items:center;padding:12px 16px">
+          <span id="user-table-info" style="font-size:13px;color:#6b7280;">Đang tải...</span>
+        </div>
+      </div>
                 <td><span class="badge badge-green">Đang hoạt động</span></td>
                 <td>15/01/2025</td>
                 <td>
@@ -1146,5 +1170,72 @@ textarea.form-control { resize: vertical; min-height: 80px; }
   </footer>
 
 </div>
+
+<script>
+(function() {
+  // --- Set user info from token ---
+  var uname = document.getElementById('m01-username');
+  var urole = document.getElementById('m01-userrole');
+  if (window.mtisUser) {
+    if (uname) uname.textContent = window.mtisUser.full_name;
+    if (urole) urole.textContent = window.mtisUser.role;
+    var av = document.getElementById('m01-avatar');
+    if (av) av.textContent = window.mtisUser.full_name.charAt(0).toUpperCase();
+  }
+
+  // --- Load users from API ---
+  function loadUsers(search, roleFilter) {
+    var url = '/api/users?limit=50';
+    if (search) url += '&search=' + encodeURIComponent(search);
+    if (roleFilter && roleFilter !== 'all') url += '&role=' + encodeURIComponent(roleFilter);
+    apiGet(url).then(function(data) {
+      var tbody = document.querySelector('#user-table tbody');
+      if (!tbody) return;
+      if (!data.users || data.users.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:var(--color-muted);padding:24px">Không có dữ liệu</td></tr>';
+        document.getElementById('user-table-info').textContent = 'Hiển thị 0 người dùng';
+        return;
+      }
+      var html = '';
+      data.users.forEach(function(u, i) {
+        var sBadge = u.status === 1 ? 'badge-green' : 'badge-red';
+        var sText = u.status === 1 ? 'Hoạt động' : 'Khóa';
+        html += '<tr><td>' + (i + 1) + '</td><td><strong>' + u.username + '</strong></td><td>' + u.full_name + '</td><td>' + u.email + '</td><td>' + u.role + '</td><td><span class="badge ' + sBadge + '">' + sText + '</span></td><td><button class="btn btn-ghost btn-sm" onclick="alert(\'Sửa user ' + u.id + '\')">✎</button></td></tr>';
+      });
+      tbody.innerHTML = html;
+      document.getElementById('user-table-info').textContent = 'Hiển thị ' + data.users.length + ' người dùng';
+    });
+  }
+
+  // --- Search handler ---
+  var searchInput = document.querySelector('#user-table-card .search-bar input');
+  var roleSelect = document.querySelector('#user-table-card .search-bar select');
+  if (searchInput) {
+    searchInput.addEventListener('input', function() {
+      loadUsers(this.value, roleSelect ? roleSelect.value : 'all');
+    });
+  }
+  if (roleSelect) {
+    roleSelect.addEventListener('change', function() {
+      loadUsers(searchInput ? searchInput.value : '', this.value);
+    });
+  }
+
+  // --- Initial load ---
+  loadUsers('', 'all');
+
+  // --- Stats: update from API result (approximate) ---
+  apiGet('/api/users?limit=200').then(function(data) {
+    if (data.users) {
+      var total = data.total || data.users.length;
+      var active = data.users.filter(function(u) { return u.status === 1; }).length;
+      var statEls = document.querySelectorAll('.stat-card .stat-value');
+      if (statEls[0]) statEls[0].textContent = total;
+      if (statEls[1]) statEls[1].textContent = active;
+    }
+  });
+
+})();
+</script>
 </body>
 </html>

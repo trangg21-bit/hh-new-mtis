@@ -154,6 +154,35 @@ hr.section-divider { border: none; border-top: 1px solid var(--color-border); ma
 </style>
 </head>
 <body>
+<script>
+(function() {
+  var token = localStorage.getItem('mtis_token');
+  var user = JSON.parse(localStorage.getItem('mtis_user') || 'null');
+  if (!token || !user) { window.location.href = '/login.html'; return; }
+
+  // Update header with real user
+  document.addEventListener('DOMContentLoaded', function() {
+    var nameEl = document.querySelector('.user-info .name');
+    var roleEl = document.querySelector('.user-info .role');
+    if (nameEl) nameEl.textContent = user.full_name;
+    if (roleEl) roleEl.textContent = user.role;
+  });
+
+  // API helper with auth
+  window.apiGet = function(path) {
+    return fetch(path, { headers: { 'Authorization': 'Bearer ' + token } }).then(function(r) {
+      if (r.status === 401) { localStorage.clear(); window.location.href = '/login.html'; }
+      return r.json();
+    });
+  };
+
+  // Logout
+  window.logout = function() {
+    localStorage.clear();
+    window.location.href = '/login.html';
+  };
+})();
+</script>
 
 <aside class="sidebar">
   <div class="sidebar-logo">
@@ -189,9 +218,10 @@ hr.section-divider { border: none; border-top: 1px solid var(--color-border); ma
     <div class="user-info">
       <div>
         <div class="name">Nguyễn Văn A</div>
-        <div class="role">Chuyên viên</div>
+        <div class="role">Quản trị hệ thống</div>
       </div>
       <div class="avatar">NV</div>
+      <button onclick="logout()" style="background:none;border:none;cursor:pointer;font-size:18px;color:var(--color-muted)" title="Đăng xuất">🚪</button>
     </div>
   </header>
 
