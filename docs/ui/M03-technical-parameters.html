@@ -152,6 +152,49 @@ body {
   font-size: var(--font-size-xxs); color: var(--color-muted-light); text-align: center;
 }
 
+/* ===== 3B. TREE WIDGET (sidebar hierarchy) ===== */
+.tree-item {
+  display: flex; align-items: center; gap: 8px;
+  padding: 8px 20px;
+  color: var(--color-heading); text-decoration: none;
+  font-size: var(--font-size-sm); cursor: pointer;
+  transition: var(--transition-fast);
+  border-left: 3px solid transparent;
+  position: relative;
+}
+.tree-item:hover { background: #f9fafb; color: var(--color-primary); }
+.tree-item.active {
+  background: linear-gradient(90deg, var(--color-primary-light), var(--color-primary-light-end));
+  border-left: 3px solid var(--color-primary);
+  color: var(--color-primary);
+  font-weight: 600;
+}
+.tree-toggle {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 16px; min-width: 16px; height: 16px;
+  font-size: 10px; cursor: pointer; user-select: none;
+  color: var(--color-muted-light); transition: transform 0.2s;
+  flex-shrink: 0;
+}
+.tree-toggle.expanded { transform: rotate(90deg); }
+.tree-children { display: none; }
+.tree-children.open { display: block; }
+.tree-item .tree-icon { width: 18px; text-align: center; font-size: var(--font-size-base); flex-shrink: 0; }
+.tree-item.l0 { padding-left: 20px; }
+.tree-item.l1 { padding-left: 40px; font-size: var(--font-size-xs); }
+.tree-item.l2 { padding-left: 60px; font-size: var(--font-size-xs); }
+.tree-item.l3 { padding-left: 80px; font-size: var(--font-size-xs); }
+.tree-item .item-label { flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.tree-item.tree-root {
+  font-weight: 600; font-size: var(--font-size-base);
+}
+.tree-item.tree-root .tree-toggle { margin-left: 0; }
+.tree-section-label {
+  padding: 12px 20px 4px;
+  font-size: var(--font-size-xxs); text-transform: uppercase; letter-spacing: 0.5px;
+  color: var(--color-muted-light); font-weight: 600; margin-top: 4px;
+}
+
 /* ===== 4. MAIN LAYOUT ===== */
 .main-wrapper {
   margin-left: var(--sidebar-width); flex:1;
@@ -510,26 +553,105 @@ textarea.form-control { resize: vertical; min-height: 80px; }
     </div>
   </div>
   <nav class="sidebar-menu">
-    <div class="menu-section">Tổng quan</div>
-    <a class="menu-item active" href="#"><span class="icon">📊</span> Dashboard KCHT</a>
-    <div class="menu-section">Danh mục Cảng</div>
-    <a class="menu-item" href="#"><span class="icon">⚓</span> Danh sách Cảng biển</a>
-    <a class="menu-item" href="#"><span class="icon">🏗️</span> Bến cảng</a>
-    <div class="menu-section">Luồng & Khu neo</div>
-    <a class="menu-item" href="#"><span class="icon">🌊</span> Luồng hàng hải</a>
-    <a class="menu-item" href="#"><span class="icon">⛵</span> Khu neo đậu</a>
-    <div class="menu-section">Trang thiết bị</div>
-    <a class="menu-item" href="#"><span class="icon">🏮</span> Phao tiêu & Đèn biển</a>
-    <a class="menu-item" href="#"><span class="icon">🛰️</span> Phao GPS</a>
-    <a class="menu-item" href="#"><span class="icon">📡</span> Trạm tín hiệu</a>
-    <a class="menu-item" href="#"><span class="icon">🖥️</span> Cảm biến VTS</a>
-    <div class="menu-section">Nghiệp vụ</div>
-    <a class="menu-item" href="#"><span class="icon">🗺️</span> Bản đồ KCHT</a>
-    <a class="menu-item" href="#"><span class="icon">✅</span> Phê duyệt dữ liệu</a>
-    <a class="menu-item" href="#"><span class="icon">🔍</span> Tìm kiếm</a>
-    <a class="menu-item" href="#"><span class="icon">📥</span> Nhập / Xuất dữ liệu</a>
-    <a class="menu-item" href="#"><span class="icon">📎</span> Tài liệu đính kèm</a>
-    <a class="menu-item" href="#"><span class="icon">📋</span> Lịch sử thay đổi</a>
+    <div class="tree-section-label">Tổng quan</div>
+    <a class="tree-item l0 active" href="#" data-screen="screen-1"><span class="tree-icon">📊</span><span class="item-label">Dashboard KCHT</span></a>
+
+    <div class="tree-section-label">Cảng biển</div>
+
+    <!-- Cảng Hải Phòng -->
+    <div class="tree-item tree-root l0" data-toggle="true">
+      <span class="tree-toggle">▶</span>
+      <span class="tree-icon">⚓</span>
+      <span class="item-label">Cảng Hải Phòng</span>
+    </div>
+    <div class="tree-children">
+      <!-- Luồng Hải Phòng -->
+      <div class="tree-item l1" data-toggle="true">
+        <span class="tree-toggle">▶</span>
+        <span class="tree-icon">🌊</span>
+        <span class="item-label">Luồng Hải Phòng</span>
+      </div>
+      <div class="tree-children">
+        <a class="tree-item l2" href="#" data-screen="screen-9"><span class="tree-icon">🏮</span><span class="item-label">PT-HPH-01</span></a>
+        <a class="tree-item l2" href="#" data-screen="screen-9"><span class="tree-icon">🏮</span><span class="item-label">PT-HPH-02</span></a>
+        <a class="tree-item l2" href="#" data-screen="screen-9"><span class="tree-icon">🏮</span><span class="item-label">PT-HPH-03</span></a>
+        <a class="tree-item l2" href="#" data-screen="screen-9"><span class="tree-icon">💡</span><span class="item-label">Đèn biển Hải Phòng</span></a>
+        <a class="tree-item l2" href="#" data-screen="screen-9"><span class="tree-icon">💡</span><span class="item-label">Đèn Hòn Dấu</span></a>
+      </div>
+      <a class="tree-item l1" href="#" data-screen="screen-4"><span class="tree-icon">🏗️</span><span class="item-label">Bến Hoàng Diệu</span></a>
+      <a class="tree-item l1" href="#" data-screen="screen-4"><span class="tree-icon">🏗️</span><span class="item-label">Bến Tân Vũ</span></a>
+      <a class="tree-item l1" href="#" data-screen="screen-8"><span class="tree-icon">⛵</span><span class="item-label">Khu neo đậu Hải Phòng</span></a>
+    </div>
+
+    <!-- Cảng Vũng Tàu -->
+    <div class="tree-item tree-root l0" data-toggle="true">
+      <span class="tree-toggle">▶</span>
+      <span class="tree-icon">⚓</span>
+      <span class="item-label">Cảng Vũng Tàu</span>
+    </div>
+    <div class="tree-children">
+      <div class="tree-item l1" data-toggle="true">
+        <span class="tree-toggle">▶</span>
+        <span class="tree-icon">🌊</span>
+        <span class="item-label">Luồng Vũng Tàu</span>
+      </div>
+      <div class="tree-children">
+        <a class="tree-item l2" href="#" data-screen="screen-9"><span class="tree-icon">🏮</span><span class="item-label">PT-VT-01</span></a>
+        <a class="tree-item l2" href="#" data-screen="screen-9"><span class="tree-icon">🏮</span><span class="item-label">PT-VT-02</span></a>
+        <a class="tree-item l2" href="#" data-screen="screen-9"><span class="tree-icon">💡</span><span class="item-label">Đèn biển Vũng Tàu</span></a>
+      </div>
+      <a class="tree-item l1" href="#" data-screen="screen-4"><span class="tree-icon">🏗️</span><span class="item-label">Bến Cái Mép</span></a>
+      <a class="tree-item l1" href="#" data-screen="screen-4"><span class="tree-icon">🏗️</span><span class="item-label">Bến Container</span></a>
+      <a class="tree-item l1" href="#" data-screen="screen-8"><span class="tree-icon">⛵</span><span class="item-label">Khu neo đậu Vũng Tàu</span></a>
+    </div>
+
+    <!-- Cảng Đà Nẵng -->
+    <div class="tree-item tree-root l0" data-toggle="true">
+      <span class="tree-toggle">▶</span>
+      <span class="tree-icon">⚓</span>
+      <span class="item-label">Cảng Đà Nẵng</span>
+    </div>
+    <div class="tree-children">
+      <div class="tree-item l1" data-toggle="true">
+        <span class="tree-toggle">▶</span>
+        <span class="tree-icon">🌊</span>
+        <span class="item-label">Luồng Đà Nẵng</span>
+      </div>
+      <div class="tree-children">
+        <a class="tree-item l2" href="#" data-screen="screen-9"><span class="tree-icon">🏮</span><span class="item-label">PT-DN-01</span></a>
+        <a class="tree-item l2" href="#" data-screen="screen-9"><span class="tree-icon">🏮</span><span class="item-label">PT-DN-02</span></a>
+        <a class="tree-item l2" href="#" data-screen="screen-9"><span class="tree-icon">💡</span><span class="item-label">Đèn biển Sơn Trà</span></a>
+      </div>
+      <a class="tree-item l1" href="#" data-screen="screen-4"><span class="tree-icon">🏗️</span><span class="item-label">Bến Sơn Trà</span></a>
+      <a class="tree-item l1" href="#" data-screen="screen-4"><span class="tree-icon">🏗️</span><span class="item-label">Bến Tiên Sa</span></a>
+    </div>
+
+    <!-- Cảng Quy Nhơn -->
+    <div class="tree-item tree-root l0" data-toggle="true">
+      <span class="tree-toggle">▶</span>
+      <span class="tree-icon">⚓</span>
+      <span class="item-label">Cảng Quy Nhơn</span>
+    </div>
+    <div class="tree-children">
+      <div class="tree-item l1" data-toggle="true">
+        <span class="tree-toggle">▶</span>
+        <span class="tree-icon">🌊</span>
+        <span class="item-label">Luồng Quy Nhơn</span>
+      </div>
+      <div class="tree-children">
+        <a class="tree-item l2" href="#" data-screen="screen-9"><span class="tree-icon">🏮</span><span class="item-label">PT-QN-01</span></a>
+        <a class="tree-item l2" href="#" data-screen="screen-9"><span class="tree-icon">💡</span><span class="item-label">Đèn biển Quy Nhơn</span></a>
+      </div>
+      <a class="tree-item l1" href="#" data-screen="screen-4"><span class="tree-icon">🏗️</span><span class="item-label">Bến Quy Nhơn</span></a>
+      <a class="tree-item l1" href="#" data-screen="screen-8"><span class="tree-icon">⛵</span><span class="item-label">Khu neo đậu Quy Nhơn</span></a>
+    </div>
+
+    <div class="tree-section-label">Nghiệp vụ (Ẩn)</div>
+    <a class="tree-item l0" href="#" data-screen="screen-11"><span class="tree-icon">✅</span><span class="item-label">Phê duyệt</span></a>
+    <a class="tree-item l0" href="#" data-screen="screen-12"><span class="tree-icon">🔍</span><span class="item-label">Tìm kiếm</span></a>
+    <a class="tree-item l0" href="#" data-screen="screen-13"><span class="tree-icon">📥</span><span class="item-label">Nhập / Xuất</span></a>
+    <a class="tree-item l0" href="#" data-screen="screen-14"><span class="tree-icon">📎</span><span class="item-label">Tài liệu</span></a>
+    <a class="tree-item l0" href="#" data-screen="screen-15"><span class="tree-icon">📋</span><span class="item-label">Lịch sử</span></a>
   </nav>
   <div class="sidebar-footer">M03 — Thông số Kỹ thuật v2.0</div>
 </aside>
@@ -1475,5 +1597,68 @@ textarea.form-control { resize: vertical; min-height: 80px; }
 
 </div><!-- /main-wrapper -->
 
+<script>
+(function() {
+  // --- Tree widget toggle ---
+  document.querySelectorAll('.tree-toggle').forEach(function(tog) {
+    tog.addEventListener('click', function(e) {
+      e.stopPropagation();
+      var parent = this.closest('.tree-item');
+      if (!parent) return;
+      var children = parent.nextElementSibling;
+      if (children && children.classList.contains('tree-children')) {
+        children.classList.toggle('open');
+        this.classList.toggle('expanded');
+      }
+    });
+  });
+
+  // --- Toggle on root/port nodes with no href (data-toggle) ---
+  document.querySelectorAll('.tree-item[data-toggle="true"]').forEach(function(item) {
+    item.addEventListener('click', function(e) {
+      if (e.target.closest('.tree-toggle')) return;
+      var toggle = this.querySelector('.tree-toggle');
+      if (toggle) {
+        var children = this.nextElementSibling;
+        if (children && children.classList.contains('tree-children')) {
+          children.classList.toggle('open');
+          toggle.classList.toggle('expanded');
+        }
+      }
+    });
+  });
+
+  // --- Active state on link click ---
+  document.querySelectorAll('.tree-item[href]').forEach(function(link) {
+    link.addEventListener('click', function(e) {
+      e.preventDefault();
+      document.querySelectorAll('.tree-item.active').forEach(function(el) {
+        el.classList.remove('active');
+      });
+      this.classList.add('active');
+      // Show target screen, hide others
+      var screenId = this.getAttribute('data-screen');
+      if (screenId) {
+        document.querySelectorAll('.screen').forEach(function(s) {
+          s.style.display = (s.id === screenId) ? '' : 'none';
+        });
+        // Update breadcrumb / page title if needed
+        var label = this.querySelector('.item-label');
+        if (label) {
+          var pageTitle = document.querySelector('.page-title');
+          if (pageTitle && !screenId.match(/^(screen-1|screen-2)$/)) {
+            // leave as-is or could update
+          }
+        }
+      }
+    });
+  });
+
+  // --- Show screen-1 by default on load, hide all others ---
+  document.querySelectorAll('.screen').forEach(function(s) {
+    if (s.id !== 'screen-1') s.style.display = 'none';
+  });
+})();
+</script>
 </body>
 </html>
