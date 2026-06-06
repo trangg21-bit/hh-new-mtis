@@ -1,0 +1,1037 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>M10 — Biên tập hải đồ điện tử | MTIS</title>
+<style>
+/* ================================================================
+   MTIS Design System — Theme Tokens (FULL)
+   From: theme-tokens.css
+   ================================================================ */
+
+/* ===== 1. CSS CUSTOM PROPERTIES ===== */
+:root {
+  --color-primary: #2153aa;
+  --color-primary-hover: #1a3f8a;
+  --color-primary-light: #eff8ff;
+  --color-primary-light-end: #e0f2fe;
+  --color-primary-ring: rgba(33, 83, 170, 0.12);
+  --color-body-bg: #f4f4f5;
+  --color-body-text: #1a1a2e;
+  --color-muted: #6b7280;
+  --color-muted-light: #9ca3af;
+  --color-heading: #374151;
+  --color-border: #e5e7eb;
+  --color-border-light: #f0f0f0;
+  --color-border-input: #d1d5db;
+  --color-white: #ffffff;
+  --color-table-header-bg: #fafafa;
+  --color-table-even-row: #fafbfc;
+  --color-table-hover: #eff8ff;
+  --color-ghost-hover: #f3f4f6;
+  --color-danger: #dc2626;
+  --color-danger-hover: #b91c1c;
+  --color-danger-bg: #fef2f2;
+  --color-danger-text: #991b1b;
+  --color-success: #059669;
+  --color-success-hover: #047857;
+  --color-success-bg: #ecfdf5;
+  --color-success-text: #065f46;
+  --color-warning: #d97706;
+  --color-warning-bg: #fffbeb;
+  --color-warning-text: #92400e;
+  --color-info-bg: #eff6ff;
+  --color-info-text: #1e40af;
+  --sidebar-width: 260px;
+  --header-padding: 12px 28px;
+  --content-padding: 24px 28px;
+  --content-max-width: 1360px;
+  --font-family: Averta, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-size-base: 14px;
+  --font-size-sm: 13px;
+  --font-size-xs: 12px;
+  --font-size-xxs: 11px;
+  --font-size-lg: 16px;
+  --font-size-xl: 22px;
+  --font-size-stat: 28px;
+  --radius-card: 8px;
+  --radius-btn: 6px;
+  --radius-badge: 12px;
+  --radius-input: 6px;
+  --radius-icon: 12px;
+  --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.06);
+  --shadow-header: 0 1px 3px rgba(0, 0, 0, 0.06);
+  --transition-fast: all 0.15s ease;
+}
+
+/* ===== 2. RESET ===== */
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html, body { height:100%; }
+body {
+  font-family: var(--font-family);
+  background: var(--color-body-bg);
+  color: var(--color-body-text);
+  font-size: var(--font-size-base);
+  line-height: 1.5;
+  display: flex;
+  min-height: 100vh;
+}
+
+/* ===== 3. SIDEBAR ===== */
+.sidebar {
+  width: var(--sidebar-width);
+  min-width: var(--sidebar-width);
+  background: var(--color-white);
+  border-right: 1px solid var(--color-border);
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  position: fixed;
+  left:0; top:0; bottom:0;
+  z-index: 100;
+  overflow-y: auto;
+}
+.sidebar-logo {
+  display: flex; align-items: center; gap: 12px;
+  padding: 20px 20px 16px;
+  border-bottom: 1px solid var(--color-border);
+}
+.sidebar-logo .logo-icon {
+  width: 44px; height: 44px;
+  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-hover));
+  border-radius: var(--radius-icon);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--color-white); font-weight: 700; font-size: 20px;
+  flex-shrink: 0;
+}
+.sidebar-logo .logo-text { line-height: 1.3; }
+.sidebar-logo .logo-text strong { display:block; font-size: var(--font-size-sm); color: var(--color-body-text); }
+.sidebar-logo .logo-text small { font-size: var(--font-size-xxs); color: var(--color-muted); }
+.sidebar-menu { padding: 12px 0; flex: 1; }
+.sidebar-menu .menu-section {
+  padding: 8px 20px 4px;
+  font-size: var(--font-size-xxs); text-transform: uppercase; letter-spacing: 0.5px;
+  color: var(--color-muted-light); font-weight: 600;
+}
+.sidebar-menu .menu-item {
+  display: flex; align-items: center; gap: 12px;
+  padding: 10px 20px;
+  color: var(--color-heading); text-decoration: none;
+  font-size: var(--font-size-base); cursor: pointer;
+  transition: var(--transition-fast);
+  border-left: 3px solid transparent;
+}
+.sidebar-menu .menu-item:hover { background: #f9fafb; color: var(--color-primary); }
+.sidebar-menu .menu-item.active {
+  background: linear-gradient(90deg, var(--color-primary-light), var(--color-primary-light-end));
+  border-left: 3px solid var(--color-primary);
+  color: var(--color-primary);
+  font-weight: 600;
+}
+.sidebar-menu .menu-item .icon { width: 20px; text-align: center; font-size: var(--font-size-lg); flex-shrink: 0; }
+.sidebar-footer {
+  padding: 16px 20px; border-top: 1px solid var(--color-border);
+  font-size: var(--font-size-xxs); color: var(--color-muted-light); text-align: center;
+}
+
+/* ===== 4. MAIN LAYOUT ===== */
+.main-wrapper {
+  margin-left: var(--sidebar-width); flex:1;
+  display: flex; flex-direction: column; min-height: 100vh;
+}
+.header {
+  background: var(--color-white);
+  box-shadow: var(--shadow-header);
+  padding: var(--header-padding);
+  display: flex; align-items: center; justify-content: space-between;
+  position: sticky; top: 0; z-index: 50;
+}
+.header h1 { font-size: 15px; font-weight: 600; color: var(--color-body-text); }
+.header .user-info { display: flex; align-items: center; gap: 16px; }
+.header .user-info .avatar {
+  width: 34px; height: 34px; border-radius: 50%;
+  background: var(--color-primary); color: var(--color-white);
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 600; font-size: var(--font-size-base);
+}
+.header .user-info .name { font-size: var(--font-size-sm); color: var(--color-heading); }
+.header .user-info .role { font-size: var(--font-size-xxs); color: var(--color-muted-light); }
+.content { flex: 1; padding: var(--content-padding); max-width: var(--content-max-width); }
+.breadcrumb {
+  font-size: var(--font-size-sm); color: var(--color-muted);
+  margin-bottom: 6px; display: flex; align-items: center; gap: 6px; flex-wrap: wrap;
+}
+.breadcrumb a { color: var(--color-primary); text-decoration: none; }
+.breadcrumb a:hover { text-decoration: underline; }
+.breadcrumb span.sep { color: var(--color-muted-light); }
+.page-title { font-size: var(--font-size-xl); font-weight: 700; color: var(--color-body-text); margin-bottom: 20px; }
+.page-subtitle { font-size: var(--font-size-sm); color: var(--color-muted); margin-bottom: 20px; margin-top: -16px; }
+.section-title {
+  font-size: var(--font-size-lg); font-weight: 600; color: var(--color-primary);
+  margin-bottom: 12px; display: flex; align-items: center; gap: 8px;
+}
+hr.section-divider { border: none; border-top: 1px solid var(--color-border); margin: 28px 0; }
+.footer {
+  background: var(--color-white); border-top: 1px solid var(--color-border);
+  padding: 14px 28px; font-size: var(--font-size-xs); color: var(--color-muted); text-align: center;
+}
+
+/* ===== 5. CARD ===== */
+.card {
+  background: var(--color-white); border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card); padding: 20px; margin-bottom: 16px;
+}
+.card-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 14px;
+}
+.card-header h3 { font-size: var(--font-size-lg); font-weight: 600; color: var(--color-body-text); }
+.card-header .actions { display: flex; gap: 8px; }
+.card-body { padding: 4px 0; }
+
+/* ===== 6. STAT CARDS ===== */
+.stats-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 20px; }
+.stat-card {
+  background: var(--color-white); border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card); padding: 18px 20px;
+  border-left: 4px solid var(--color-primary);
+}
+.stat-card .stat-label { font-size: var(--font-size-sm); color: var(--color-muted); margin-bottom: 4px; }
+.stat-card .stat-value { font-size: var(--font-size-stat); font-weight: 700; color: var(--color-body-text); }
+.stat-card .stat-sub { font-size: var(--font-size-xs); color: var(--color-muted-light); margin-top: 4px; }
+.stat-card:nth-child(1) { border-left-color: var(--color-primary); }
+.stat-card:nth-child(2) { border-left-color: var(--color-success); }
+.stat-card:nth-child(3) { border-left-color: var(--color-warning); }
+.stat-card:nth-child(4) { border-left-color: var(--color-danger); }
+
+/* ===== 7. TABLE ===== */
+.table-wrap { overflow-x: auto; }
+.ant-table { width: 100%; border-collapse: collapse; font-size: var(--font-size-sm); }
+.ant-table thead th {
+  background: var(--color-table-header-bg);
+  border-bottom: 2px solid var(--color-border);
+  padding: 10px 12px; text-align: left;
+  font-weight: 600; color: var(--color-heading); white-space: nowrap;
+}
+.ant-table tbody td {
+  padding: 9px 12px; border-bottom: 1px solid var(--color-border-light);
+  color: var(--color-body-text);
+}
+.ant-table tbody tr:nth-child(even) td { background: var(--color-table-even-row); }
+.ant-table tbody tr:hover td { background: var(--color-table-hover); }
+
+/* ===== 8. BADGES ===== */
+.badge {
+  display: inline-block; padding: 2px 10px; border-radius: var(--radius-badge);
+  font-size: var(--font-size-xs); font-weight: 500; line-height: 1.6;
+}
+.badge-green  { background: var(--color-success-bg); color: var(--color-success-text); }
+.badge-red    { background: var(--color-danger-bg);  color: var(--color-danger-text); }
+.badge-blue   { background: var(--color-info-bg);    color: var(--color-info-text); }
+.badge-yellow { background: var(--color-warning-bg); color: var(--color-warning-text); }
+.badge-gray   { background: var(--color-ghost-hover); color: var(--color-heading); }
+
+/* ===== 9. BUTTONS ===== */
+.btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 8px 16px; border-radius: var(--radius-btn);
+  font-size: var(--font-size-sm); font-weight: 500;
+  cursor: pointer; border: 1px solid transparent;
+  transition: var(--transition-fast); text-decoration: none;
+  line-height: 1.4;
+}
+.btn-sm { padding: 4px 10px; font-size: var(--font-size-xs); }
+.btn-primary   { background: var(--color-primary); color: var(--color-white); border-color: var(--color-primary); }
+.btn-primary:hover   { background: var(--color-primary-hover); }
+.btn-outline   { background: var(--color-white); color: var(--color-primary); border-color: var(--color-primary); }
+.btn-outline:hover   { background: var(--color-primary-light); }
+.btn-danger    { background: var(--color-danger); color: var(--color-white); border-color: var(--color-danger); }
+.btn-danger:hover    { background: var(--color-danger-hover); }
+.btn-success   { background: var(--color-success); color: var(--color-white); border-color: var(--color-success); }
+.btn-success:hover   { background: var(--color-success-hover); }
+.btn-ghost     { background: transparent; color: var(--color-heading); border-color: transparent; }
+.btn-ghost:hover     { background: var(--color-ghost-hover); }
+
+/* ===== 10. FORMS ===== */
+.form-group { margin-bottom: 14px; }
+.form-group label {
+  display: block; font-size: var(--font-size-sm); font-weight: 500;
+  color: var(--color-heading); margin-bottom: 4px;
+}
+.form-group label.required::after { content: " *"; color: var(--color-danger); }
+.form-control {
+  width: 100%; padding: 8px 12px;
+  border: 1px solid var(--color-border-input); border-radius: var(--radius-input);
+  font-size: var(--font-size-sm); color: var(--color-body-text);
+  transition: border-color 0.15s; background: var(--color-white);
+}
+.form-control:focus {
+  outline: none; border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px var(--color-primary-ring);
+}
+select.form-control {
+  -webkit-appearance: none; appearance: none;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%236b7280' d='M6 8L1 3h10z'/%3E%3C/svg%3E") no-repeat right 12px center var(--color-white);
+  padding-right: 32px;
+}
+textarea.form-control { resize: vertical; min-height: 80px; }
+
+/* ===== 11. WORKFLOW STEPS ===== */
+.workflow-steps { display: flex; align-items: center; gap: 0; margin-bottom: 20px; }
+.workflow-step {
+  flex: 1; text-align: center; padding: 12px 8px;
+  background: var(--color-ghost-hover); color: var(--color-muted-light);
+  font-size: var(--font-size-sm); font-weight: 500; position: relative;
+}
+.workflow-step:not(:last-child)::after {
+  content: '\203A'; position: absolute; right: -12px; top: 50%;
+  transform: translateY(-50%); font-size: 20px; color: var(--color-border-input); z-index: 1;
+}
+.workflow-step.active { background: var(--color-primary); color: var(--color-white); }
+.workflow-step.done { background: var(--color-success); color: var(--color-white); }
+
+/* ===== 12. TIMELINE ===== */
+.timeline { position: relative; padding-left: 28px; }
+.timeline::before { content: ''; position: absolute; left: 8px; top: 4px; bottom: 4px; width: 2px; background: var(--color-border); }
+.timeline-item { position: relative; margin-bottom: 16px; padding-left: 16px; }
+.timeline-item::before {
+  content: ''; position: absolute; left: -24px; top: 6px;
+  width: 10px; height: 10px; border-radius: 50%;
+  background: var(--color-primary); border: 2px solid var(--color-white);
+  box-shadow: 0 0 0 2px var(--color-primary);
+}
+.timeline-item .time { font-size: var(--font-size-xs); color: var(--color-muted-light); }
+.timeline-item .desc { font-size: var(--font-size-sm); color: var(--color-heading); }
+.timeline-item .diff { font-size: var(--font-size-xs); color: var(--color-muted); }
+.timeline-item .diff .old { color: var(--color-danger); text-decoration: line-through; }
+.timeline-item .diff .new { color: var(--color-success); font-weight: 500; }
+
+/* ===== 13. SEARCH BAR ===== */
+.search-bar { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; padding: 14px 0; }
+.search-bar .form-control { width: 220px; }
+
+/* ===== 14. MAP PLACEHOLDER ===== */
+.map-placeholder {
+  background: linear-gradient(135deg, var(--color-primary-light-end), #bae6fd);
+  border-radius: var(--radius-card); min-height: 400px;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--color-primary); font-weight: 600; font-size: 15px;
+  position: relative; border: 2px dashed #93c5fd;
+}
+.map-placeholder .map-controls {
+  position: absolute; right: 16px; top: 16px;
+  display: flex; flex-direction: column; gap: 4px;
+}
+.map-placeholder .map-controls button {
+  width: 36px; height: 36px; background: var(--color-white);
+  border: 1px solid var(--color-border-input); border-radius: var(--radius-btn);
+  font-size: 18px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+.map-placeholder .map-controls button:hover { background: var(--color-ghost-hover); }
+
+/* ===== 15. DROP ZONE ===== */
+.drop-zone {
+  border: 2px dashed var(--color-border-input); border-radius: var(--radius-card);
+  padding: 40px; text-align: center; color: var(--color-muted); cursor: pointer;
+  transition: var(--transition-fast);
+}
+.drop-zone:hover { border-color: var(--color-primary); background: var(--color-primary-light); }
+.drop-zone .icon { font-size: 40px; margin-bottom: 8px; }
+.drop-zone p { font-size: var(--font-size-base); }
+.drop-zone small { font-size: var(--font-size-xs); color: var(--color-muted-light); }
+
+/* ===== 16. FILE ICONS ===== */
+.file-icon {
+  width: 36px; height: 36px; border-radius: var(--radius-btn);
+  display: inline-flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: var(--font-size-xxs); flex-shrink: 0;
+}
+.file-icon-pdf { background: var(--color-danger-bg);  color: var(--color-danger); }
+.file-icon-doc { background: var(--color-info-bg);    color: var(--color-primary); }
+.file-icon-xls { background: var(--color-success-bg); color: var(--color-success); }
+.file-icon-img { background: var(--color-warning-bg); color: var(--color-warning); }
+.file-icon-zip { background: var(--color-ghost-hover); color: var(--color-heading); }
+
+/* ===== 17. SENSOR STATUS DOTS ===== */
+.sensor-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; margin-right: 6px; }
+.sensor-dot.online  { background: var(--color-success); }
+.sensor-dot.offline { background: var(--color-danger); }
+.sensor-dot.warning { background: var(--color-warning); }
+
+/* ===== 18. REAL-TIME BAR ===== */
+.realtime-bar {
+  display: flex; gap: 20px; padding: 12px 16px;
+  background: linear-gradient(90deg, #1e3a5f, var(--color-primary));
+  border-radius: var(--radius-card); color: var(--color-white); margin-bottom: 16px;
+}
+.realtime-bar .rt-item { text-align: center; }
+.realtime-bar .rt-value { font-size: var(--font-size-xl); font-weight: 700; }
+.realtime-bar .rt-label { font-size: var(--font-size-xxs); opacity: 0.8; }
+
+/* ===== 19. UTILITY ===== */
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+.grid-4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 16px; }
+.flex { display: flex; }
+.flex-center { display: flex; align-items: center; justify-content: center; }
+.flex-between { display: flex; align-items: center; justify-content: space-between; }
+.inline-flex { display: inline-flex; align-items: center; gap: 6px; }
+.gap-2 { gap: 8px; }
+.gap-3 { gap: 12px; }
+.gap-4 { gap: 16px; }
+.mt-2 { margin-top: 8px; }
+.mt-4 { margin-top: 16px; }
+.mb-2 { margin-bottom: 8px; }
+.mb-4 { margin-bottom: 16px; }
+.w-full { width: 100%; }
+.text-right { text-align: right; }
+.text-center { text-align: center; }
+.text-muted { color: var(--color-muted); }
+.text-danger { color: var(--color-danger); }
+.text-success { color: var(--color-success); }
+.text-primary { color: var(--color-primary); }
+.font-bold { font-weight: 700; }
+.truncate { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* ===== 20. SCREEN SECTION LABELS ===== */
+.screen { padding: 4px 0 20px; }
+.screen-label {
+  font-size: var(--font-size-xs); color: var(--color-muted-light);
+  font-weight: 500; letter-spacing: 0.3px; margin-bottom: 12px; text-transform: uppercase;
+}
+.file-list-item {
+  display: flex; align-items: center; gap: 12px;
+  padding: 10px 0; border-bottom: 1px solid var(--color-border-light);
+}
+
+/* ===== 21. RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .sidebar { display: none; }
+  .main-wrapper { margin-left: 0; }
+  .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+  .stats-row { grid-template-columns: 1fr; }
+}
+
+/* ===== 22. NO RESULTS / EMPTY STATE ===== */
+.empty-state {
+  padding: 40px; text-align: center; color: var(--color-muted-light);
+}
+.empty-state .icon { font-size: 48px; margin-bottom: 12px; opacity: 0.4; }
+.empty-state p { font-size: var(--font-size-base); }
+
+/* ===== 23. MODAL OVERLAY ===== */
+.modal-overlay {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.4);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 200;
+}
+.modal-overlay .modal-card {
+  background: var(--color-white); border-radius: var(--radius-card);
+  padding: 24px; max-width: 800px; width: 90%;
+  max-height: 85vh; overflow-y: auto;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.15);
+}
+.modal-overlay .modal-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 16px; padding-bottom: 12px;
+  border-bottom: 1px solid var(--color-border);
+}
+.modal-overlay .modal-header h3 { font-size: var(--font-size-lg); font-weight: 600; }
+.modal-overlay .modal-close {
+  background: none; border: none; font-size: 20px; cursor: pointer;
+  color: var(--color-muted-light); padding: 4px;
+}
+
+/* ===== 24. TABS ===== */
+.tabs { display: flex; gap: 0; border-bottom: 2px solid var(--color-border); margin-bottom: 16px; }
+.tab {
+  padding: 10px 20px; font-size: var(--font-size-sm); font-weight: 500; cursor: pointer;
+  color: var(--color-muted); border-bottom: 2px solid transparent; margin-bottom: -2px;
+  transition: var(--transition-fast);
+}
+.tab:hover { color: var(--color-primary); }
+.tab.active { color: var(--color-primary); border-bottom-color: var(--color-primary); }
+
+/* ===== 25. PAGINATION ===== */
+.pagination {
+  display: flex; align-items: center; justify-content: flex-end;
+  gap: 8px; margin-top: 16px;
+}
+.pagination .page-btn {
+  padding: 6px 12px; border: 1px solid var(--color-border);
+  border-radius: var(--radius-btn); font-size: var(--font-size-xs);
+  background: var(--color-white); cursor: pointer;
+  color: var(--color-heading);
+}
+.pagination .page-btn:hover { border-color: var(--color-primary); color: var(--color-primary); }
+.pagination .page-btn.active { background: var(--color-primary); color: var(--color-white); border-color: var(--color-primary); }
+.pagination .page-info { font-size: var(--font-size-xs); color: var(--color-muted); }
+
+/* ===== 26. M10: MAP LAYER TOGGLES ===== */
+.map-layer-bar {
+  position: absolute; bottom: 16px; left: 16px;
+  display: flex; gap: 6px; flex-wrap: wrap; align-items: center;
+}
+.map-layer-bar .layer-btn {
+  padding: 5px 14px; border-radius: 20px;
+  font-size: var(--font-size-xs); font-weight: 500; cursor: pointer;
+  background: rgba(255,255,255,0.92); border: 1px solid var(--color-border-input);
+  color: var(--color-heading); transition: var(--transition-fast);
+  white-space: nowrap;
+}
+.map-layer-bar .layer-btn:hover { border-color: var(--color-primary); color: var(--color-primary); }
+.map-layer-bar .layer-btn.on { background: var(--color-primary); color: var(--color-white); border-color: var(--color-primary); }
+.coord-overlay {
+  position: absolute; bottom: 16px; right: 16px;
+  background: rgba(0,0,0,0.68); color: #fff;
+  padding: 5px 14px; border-radius: var(--radius-btn);
+  font-size: var(--font-size-xs); font-family: 'SF Mono', 'Cascadia Code', monospace;
+  letter-spacing: 0.5px;
+}
+.map-grid-lines {
+  position: absolute; inset: 0; pointer-events: none; overflow: hidden; border-radius: var(--radius-card);
+  background:
+    repeating-linear-gradient(0deg, transparent, transparent 59px, rgba(33,83,170,0.08) 59px, rgba(33,83,170,0.08) 60px),
+    repeating-linear-gradient(90deg, transparent, transparent 79px, rgba(33,83,170,0.08) 79px, rgba(33,83,170,0.08) 80px);
+}
+/* M10: Sync card status row */
+.sync-status-row { display: flex; align-items: center; gap: 12px; padding: 12px 0; }
+</style>
+</head>
+<body>
+
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-icon">MT</div>
+    <div class="logo-text">
+      <strong>MTIS</strong>
+      <small>Hệ thống thông tin KCHT</small>
+    </div>
+  </div>
+  <nav class="sidebar-menu">
+    <div class="menu-section">BIÊN TẬP HẢI ĐỒ</div>
+    <a class="menu-item active" href="#dashboard"><span class="icon">📊</span> Dashboard</a>
+    <a class="menu-item" href="#import"><span class="icon">📥</span> Import ENC</a>
+    <a class="menu-item" href="#bien-tap"><span class="icon">🗺️</span> Biên tập hải đồ</a>
+    <a class="menu-item" href="#danh-muc"><span class="icon">📋</span> Danh mục hải đồ</a>
+    <a class="menu-item" href="#kiem-tra-s58"><span class="icon">✅</span> Kiểm tra S-58</a>
+    <a class="menu-item" href="#chuyen-doi"><span class="icon">🔄</span> Chuyển đổi dữ liệu</a>
+    <a class="menu-item" href="#lich-su"><span class="icon">📜</span> Lịch sử phiên bản</a>
+    <a class="menu-item" href="#xuat-ban"><span class="icon">📤</span> Xuất bản</a>
+    <a class="menu-item" href="#annotation"><span class="icon">✏️</span> Annotation</a>
+    <a class="menu-item" href="#dong-bo"><span class="icon">🔗</span> Đồng bộ CSDL</a>
+    <div class="menu-section">MODULE KHÁC</div>
+    <a class="menu-item" href="#"><span class="icon">👤</span> Quản lý người dùng</a>
+    <a class="menu-item" href="#"><span class="icon">⚙️</span> Quản trị hệ thống</a>
+    <a class="menu-item" href="#"><span class="icon">📋</span> Thông số kỹ thuật</a>
+    <a class="menu-item" href="#"><span class="icon">🔧</span> Vận hành &amp; Bảo trì</a>
+    <a class="menu-item" href="#"><span class="icon">📐</span> Quy hoạch</a>
+    <a class="menu-item" href="#"><span class="icon">🏗️</span> Quản lý tài sản</a>
+    <a class="menu-item" href="#"><span class="icon">🗺️</span> Bản đồ GIS</a>
+    <a class="menu-item" href="#"><span class="icon">📊</span> Báo cáo thống kê</a>
+  </nav>
+  <div class="sidebar-footer">MTIS v1.0 — Cục Hàng hải VN</div>
+</aside>
+
+<div class="main-wrapper">
+  <header class="header">
+    <h1>DỰ ÁN: Xây dựng Hệ thống thông tin quản lý KCHT Giao thông Hàng hải</h1>
+    <div class="user-info">
+      <div>
+        <div class="name">Nguyễn Văn A</div>
+        <div class="role">Chuyên viên</div>
+      </div>
+      <div class="avatar">NV</div>
+    </div>
+  </header>
+
+  <main class="content">
+    <div class="breadcrumb">
+      <a href="#">Trang chủ</a> <span class="sep">›</span> <a href="#">Quản lý KCHT</a> <span class="sep">›</span> Biên tập hải đồ điện tử
+    </div>
+
+    <!-- ===== SCREEN 1: DASHBOARD ===== -->
+    <section class="screen" id="dashboard">
+      <div class="screen-label">1. Dashboard</div>
+      <div class="page-title">Biên tập hải đồ điện tử</div>
+
+      <div class="stats-row">
+        <div class="stat-card">
+          <div class="stat-label">Tổng ENC</div>
+          <div class="stat-value">108</div>
+          <div class="stat-sub">Mảnh hải đồ điện tử</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Cập nhật mới</div>
+          <div class="stat-value">3</div>
+          <div class="stat-sub">Trong 7 ngày qua</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Đang biên tập</div>
+          <div class="stat-value">5</div>
+          <div class="stat-sub">Chưa xuất bản</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Đã XB</div>
+          <div class="stat-value">100</div>
+          <div class="stat-sub">Đã phát hành chính thức</div>
+        </div>
+      </div>
+
+      <div class="realtime-bar">
+        <div class="rt-item"><div class="rt-value">S-57 / S-63</div><div class="rt-label">Định dạng</div></div>
+        <div class="rt-item"><div class="rt-value">51</div><div class="rt-label">VMS-N (mảnh)</div></div>
+        <div class="rt-item"><div class="rt-value">57</div><div class="rt-label">VMS-S (mảnh)</div></div>
+      </div>
+
+      <div class="card">
+        <div class="card-header"><h3>Phân bố ENC theo khu vực</h3></div>
+        <div class="card-body">
+          <div class="grid-3 text-center">
+            <div style="padding:20px;background:var(--color-body-bg);border-radius:var(--radius-card)">
+              <div style="font-size:32px">⚓</div>
+              <div class="font-bold mt-2" style="color:var(--color-heading)">VMS Bắc</div>
+              <div class="text-muted" style="font-size:var(--font-size-xs)">Hải Phòng — Quảng Ninh</div>
+              <div class="mt-2"><span class="badge badge-blue">51 mảnh</span></div>
+            </div>
+            <div style="padding:20px;background:var(--color-body-bg);border-radius:var(--radius-card)">
+              <div style="font-size:32px">🌊</div>
+              <div class="font-bold mt-2" style="color:var(--color-heading)">VMS Nam</div>
+              <div class="text-muted" style="font-size:var(--font-size-xs)">Đà Nẵng — Vũng Tàu</div>
+              <div class="mt-2"><span class="badge badge-yellow">57 mảnh</span></div>
+            </div>
+            <div style="padding:20px;background:var(--color-body-bg);border-radius:var(--radius-card)">
+              <div style="font-size:32px">📐</div>
+              <div class="font-bold mt-2" style="color:var(--color-heading)">Tỷ lệ phổ biến</div>
+              <div class="text-muted" style="font-size:var(--font-size-xs)">Đa dạng tỷ lệ</div>
+              <div class="mt-2"><span class="badge badge-green">1:50,000</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <hr class="section-divider">
+
+    <!-- ===== SCREEN 2: IMPORT ENC ===== -->
+    <section class="screen" id="import">
+      <div class="screen-label">2. Import ENC</div>
+      <div class="card">
+        <div class="card-header">
+          <h3>Nhập dữ liệu hải đồ</h3>
+          <div class="actions">
+            <button class="btn btn-outline btn-sm">📂 Chọn tệp</button>
+            <button class="btn btn-primary btn-sm">🔄 Import hàng loạt</button>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="drop-zone">
+            <div class="icon">📁</div>
+            <p>Kéo thả file .000 (S-57) hoặc .s57 vào đây</p>
+            <small>Hỗ trợ định dạng: S-57 ENC (.000), S-57 (.s57) — Dung lượng tối đa: 50 MB</small>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header"><h3>Tệp đã nhập gần đây</h3></div>
+        <div class="table-wrap">
+          <table class="ant-table">
+            <thead>
+              <tr><th>Tên file</th><th>Mã mảnh</th><th>Ngày</th><th>Kích thước</th><th>Trạng thái</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>VN4HA001.000</td><td>VN400001</td><td>05/06/2026</td><td>2.4 MB</td><td><span class="badge badge-green">Thành công</span></td></tr>
+              <tr><td>VN4HA002.000</td><td>VN400002</td><td>04/06/2026</td><td>3.1 MB</td><td><span class="badge badge-green">Thành công</span></td></tr>
+              <tr><td>VN5HA001.000</td><td>VN500001</td><td>03/06/2026</td><td>1.8 MB</td><td><span class="badge badge-red">Lỗi định dạng</span></td></tr>
+              <tr><td>VN4HA003.s57</td><td>VN400003</td><td>02/06/2026</td><td>2.9 MB</td><td><span class="badge badge-green">Thành công</span></td></tr>
+              <tr><td>VN5HA002.s57</td><td>VN500002</td><td>01/06/2026</td><td>3.5 MB</td><td><span class="badge badge-green">Thành công</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="pagination">
+          <span class="page-info">Hiển thị 1–5 / 18</span>
+          <button class="page-btn active">1</button><button class="page-btn">2</button><button class="page-btn">3</button>
+        </div>
+      </div>
+    </section>
+
+    <hr class="section-divider">
+
+    <!-- ===== SCREEN 3: BIÊN TẬP HẢI ĐỒ ===== -->
+    <section class="screen" id="bien-tap">
+      <div class="screen-label">3. Biên tập hải đồ</div>
+      <div class="card">
+        <div class="card-header">
+          <h3>Biên tập ENC: VN400001 — Hải Phòng • Cửa Lục</h3>
+          <div class="actions">
+            <button class="btn btn-ghost btn-sm">↩️ Hoàn tác</button>
+            <button class="btn btn-ghost btn-sm">↪️ Làm lại</button>
+            <button class="btn btn-primary btn-sm">💾 Lưu thay đổi</button>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="map-placeholder" style="min-height:500px">
+            <div class="map-grid-lines"></div>
+            <div style="z-index:1;text-align:center">
+              <div style="font-size:48px;margin-bottom:12px;opacity:0.6">🗺️</div>
+              <div>ENC: VN400001 — Hải Phòng • Cửa Lục</div>
+              <div class="text-muted mt-2" style="font-size:var(--font-size-xs);font-weight:400">Tỷ lệ 1:50,000 • Cập nhật 05/2026</div>
+            </div>
+            <div class="map-controls">
+              <button title="Phóng to">+</button>
+              <button title="Thu nhỏ">−</button>
+              <button title="Về mặc định" style="font-size:14px">⟲</button>
+            </div>
+            <div class="map-layer-bar">
+              <button class="layer-btn on">Đường bờ</button>
+              <button class="layer-btn on">Đường đẳng sâu</button>
+              <button class="layer-btn">Phao tiêu</button>
+              <button class="layer-btn on">Đèn biển</button>
+              <button class="layer-btn">Chướng ngại vật</button>
+            </div>
+            <div class="coord-overlay">20°51′12″N · 106°43′08″E · 1:50,000</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <hr class="section-divider">
+
+    <!-- ===== SCREEN 4: DANH MỤC HẢI ĐỒ ===== -->
+    <section class="screen" id="danh-muc">
+      <div class="screen-label">4. Danh mục hải đồ</div>
+      <div class="card">
+        <div class="card-header">
+          <h3>Danh sách mảnh hải đồ ENC</h3>
+          <div class="actions">
+            <button class="btn btn-outline btn-sm">📥 Export CSV</button>
+            <button class="btn btn-primary btn-sm">＋ Thêm mới</button>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="search-bar">
+            <input class="form-control" type="text" placeholder="Tìm kiếm mã mảnh, tên...">
+            <select class="form-control">
+              <option value="">Tất cả nguồn</option><option>VMS-N</option><option>VMS-S</option>
+            </select>
+            <select class="form-control">
+              <option value="">Tất cả trạng thái</option><option>Đã XB</option><option>Đang biên tập</option><option>Chờ kiểm tra</option>
+            </select>
+            <button class="btn btn-primary btn-sm">🔍 Tìm kiếm</button>
+          </div>
+          <div class="table-wrap">
+            <table class="ant-table">
+              <thead>
+                <tr><th>Mã mảnh</th><th>Tên</th><th>Tỷ lệ</th><th>Năm</th><th>Nguồn</th><th>Trạng thái</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>VN400001</td><td>Hải Phòng — Cửa Lục</td><td>1:50,000</td><td>2025</td><td><span class="badge badge-blue">VMS-N</span></td><td><span class="badge badge-green">Đã XB</span></td></tr>
+                <tr><td>VN400002</td><td>Vịnh Hạ Long</td><td>1:75,000</td><td>2025</td><td><span class="badge badge-blue">VMS-N</span></td><td><span class="badge badge-yellow">Đang biên tập</span></td></tr>
+                <tr><td>VN500001</td><td>Đà Nẵng — Cửa Hàn</td><td>1:50,000</td><td>2024</td><td><span class="badge badge-yellow">VMS-S</span></td><td><span class="badge badge-green">Đã XB</span></td></tr>
+                <tr><td>VN500002</td><td>Vũng Tàu — Thị Vải</td><td>1:50,000</td><td>2024</td><td><span class="badge badge-yellow">VMS-S</span></td><td><span class="badge badge-green">Đã XB</span></td></tr>
+                <tr><td>VN400003</td><td>Hòn Gai — Cẩm Phả</td><td>1:75,000</td><td>2025</td><td><span class="badge badge-blue">VMS-N</span></td><td><span class="badge badge-gray">Chờ kiểm tra</span></td></tr>
+                <tr><td>VN500003</td><td>Nha Trang — Cửa Bé</td><td>1:50,000</td><td>2024</td><td><span class="badge badge-yellow">VMS-S</span></td><td><span class="badge badge-yellow">Đang biên tập</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="pagination">
+            <span class="page-info">Hiển thị 1–6 / 108</span>
+            <button class="page-btn active">1</button><button class="page-btn">2</button><button class="page-btn">3</button><button class="page-btn">...</button><button class="page-btn">18</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <hr class="section-divider">
+
+    <!-- ===== SCREEN 5: KIỂM TRA S-58 ===== -->
+    <section class="screen" id="kiem-tra-s58">
+      <div class="screen-label">5. Kiểm tra S-58</div>
+      <div class="card">
+        <div class="card-header">
+          <h3>Kết quả kiểm tra chuẩn S-58</h3>
+          <div class="actions">
+            <button class="btn btn-outline btn-sm">📋 Xem chi tiết</button>
+            <button class="btn btn-primary">▶️ Chạy kiểm tra</button>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table class="ant-table">
+            <thead>
+              <tr><th>Mã mảnh</th><th>Loại lỗi</th><th>Mô tả</th><th>Vị trí</th><th>Mức độ</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>VN400002</td><td><span class="badge badge-red">Hình học</span></td><td>Đường bờ không khép kín</td><td>20°51′N 106°43′E</td><td><span class="badge badge-red">Nghiêm trọng</span></td>
+              </tr>
+              <tr>
+                <td>VN400002</td><td><span class="badge badge-yellow">Thuộc tính</span></td><td>Thiếu giá trị DEPCNT</td><td>20°50′N 106°45′E</td><td><span class="badge badge-yellow">Cảnh báo</span></td>
+              </tr>
+              <tr>
+                <td>VN500001</td><td><span class="badge badge-red">Hình học</span></td><td>Đường đẳng sâu chồng lấn</td><td>16°04′N 108°14′E</td><td><span class="badge badge-red">Nghiêm trọng</span></td>
+              </tr>
+              <tr>
+                <td>VN400003</td><td><span class="badge badge-yellow">Thuộc tính</span></td><td>Mã OBJNAM không đúng định dạng</td><td>20°57′N 107°05′E</td><td><span class="badge badge-yellow">Cảnh báo</span></td>
+              </tr>
+              <tr>
+                <td>VN400003</td><td><span class="badge badge-yellow">Quan hệ</span></td><td>Thiếu liên kết M_COVR với M_CSCL</td><td>20°56′N 107°03′E</td><td><span class="badge badge-yellow">Cảnh báo</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="pagination">
+          <span class="page-info">Hiển thị 1–5 / 12 lỗi</span>
+          <button class="page-btn active">1</button><button class="page-btn">2</button><button class="page-btn">3</button>
+        </div>
+      </div>
+    </section>
+
+    <hr class="section-divider">
+
+    <!-- ===== SCREEN 6: CHUYỂN ĐỔI DỮ LIỆU ===== -->
+    <section class="screen" id="chuyen-doi">
+      <div class="screen-label">6. Chuyển đổi dữ liệu</div>
+      <div class="card">
+        <div class="card-header"><h3>Pipeline chuyển đổi định dạng</h3></div>
+        <div class="card-body">
+          <div class="workflow-steps">
+            <div class="workflow-step done">S-57 .000</div>
+            <div class="workflow-step done">Shapefile</div>
+            <div class="workflow-step done">GeoPackage</div>
+            <div class="workflow-step active">PostGIS</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <h3>Lịch sử chuyển đổi</h3>
+          <div class="actions">
+            <button class="btn btn-primary btn-sm">🔄 Chuyển đổi mới</button>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table class="ant-table">
+            <thead>
+              <tr><th>STT</th><th>Tệp nguồn</th><th>Định dạng đích</th><th>Ngày</th><th>Trạng thái</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>1</td><td>VN4HA001.000</td><td>Shapefile</td><td>05/06/2026</td><td><span class="badge badge-green">Thành công</span></td></tr>
+              <tr><td>2</td><td>VN4HA001.shp</td><td>GeoPackage</td><td>05/06/2026</td><td><span class="badge badge-green">Thành công</span></td></tr>
+              <tr><td>3</td><td>VN4HA002.000</td><td>PostGIS</td><td>04/06/2026</td><td><span class="badge badge-green">Thành công</span></td></tr>
+              <tr><td>4</td><td>VN5HA001.000</td><td>Shapefile</td><td>03/06/2026</td><td><span class="badge badge-red">Thất bại</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="pagination">
+          <span class="page-info">Hiển thị 1–4 / 24</span>
+          <button class="page-btn active">1</button><button class="page-btn">2</button><button class="page-btn">3</button>
+        </div>
+      </div>
+    </section>
+
+    <hr class="section-divider">
+
+    <!-- ===== SCREEN 7: LỊCH SỬ PHIÊN BẢN ===== -->
+    <section class="screen" id="lich-su">
+      <div class="screen-label">7. Lịch sử phiên bản</div>
+      <div class="card">
+        <div class="card-header"><h3>Nhật ký thay đổi</h3></div>
+        <div class="timeline">
+          <div class="timeline-item">
+            <div class="time">08:30 — 06/06/2026</div>
+            <div class="desc">Xuất bản ENC <strong>VN400001 v2.5</strong> <span class="badge badge-green">Đã phát hành</span></div>
+            <div class="diff mt-2"><span class="old">v2.4</span> → <span class="new">v2.5</span> · Cập nhật tuyến luồng Hải Phòng</div>
+          </div>
+          <div class="timeline-item">
+            <div class="time">14:00 — 05/06/2026</div>
+            <div class="desc">Cập nhật đường đẳng sâu <strong>VN400002</strong> <span class="badge badge-blue">Biên tập</span></div>
+            <div class="text-muted mt-2" style="font-size:var(--font-size-xs)">Bổ sung 12 đường đẳng sâu mới khu vực Vịnh Hạ Long</div>
+          </div>
+          <div class="timeline-item">
+            <div class="time">10:00 — 05/06/2026</div>
+            <div class="desc">Sửa lỗi S-58 <strong>VN400002</strong> <span class="badge badge-yellow">Đã sửa</span></div>
+            <div class="text-muted mt-2" style="font-size:var(--font-size-xs)">Khép kín đường bờ tại 20°51′N 106°43′E</div>
+          </div>
+          <div class="timeline-item">
+            <div class="time">16:30 — 04/06/2026</div>
+            <div class="desc">Nhập mới ENC <strong>VN400003</strong> <span class="badge badge-green">Đã nhập</span></div>
+            <div class="text-muted mt-2" style="font-size:var(--font-size-xs)">Hòn Gai — Cẩm Phả · Tỷ lệ 1:75,000 · 2.9 MB</div>
+          </div>
+          <div class="timeline-item">
+            <div class="time">09:00 — 03/06/2026</div>
+            <div class="desc">Xuất bản ENC <strong>VN500001 v3.1</strong> <span class="badge badge-green">Đã phát hành</span></div>
+            <div class="diff mt-2"><span class="old">v3.0</span> → <span class="new">v3.1</span> · Cập nhật phao tiêu Đà Nẵng</div>
+          </div>
+          <div class="timeline-item">
+            <div class="time">11:00 — 02/06/2026</div>
+            <div class="desc">Kiểm tra S-58 toàn bộ <strong>VMS-N</strong> <span class="badge badge-green">Hoàn tất</span></div>
+            <div class="text-muted mt-2" style="font-size:var(--font-size-xs)">51 mảnh · Phát hiện 12 lỗi · Đã xử lý 9 lỗi</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <hr class="section-divider">
+
+    <!-- ===== SCREEN 8: XUẤT BẢN ===== -->
+    <section class="screen" id="xuat-ban">
+      <div class="screen-label">8. Xuất bản</div>
+      <div class="card">
+        <div class="card-header">
+          <h3>Các phiên bản đã xuất bản</h3>
+          <div class="actions">
+            <button class="btn btn-outline btn-sm">📋 Xem lịch sử</button>
+            <button class="btn btn-success">📤 Xuất bản mới</button>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table class="ant-table">
+            <thead>
+              <tr><th>Mã mảnh</th><th>Phiên bản</th><th>Ngày XB</th><th>Định dạng</th><th>Trạng thái</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>VN400001</td><td>v2.5</td><td>06/06/2026</td><td>S-57, S-63</td><td><span class="badge badge-green">Đã phát hành</span></td></tr>
+              <tr><td>VN500001</td><td>v3.1</td><td>03/06/2026</td><td>S-57, S-63</td><td><span class="badge badge-green">Đã phát hành</span></td></tr>
+              <tr><td>VN500002</td><td>v1.0</td><td>15/05/2026</td><td>S-57</td><td><span class="badge badge-green">Đã phát hành</span></td></tr>
+              <tr><td>VN400003</td><td>v1.2</td><td>10/05/2026</td><td>S-57, S-63</td><td><span class="badge badge-green">Đã phát hành</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="pagination">
+          <span class="page-info">Hiển thị 1–4 / 100</span>
+          <button class="page-btn active">1</button><button class="page-btn">2</button><button class="page-btn">3</button>
+        </div>
+      </div>
+    </section>
+
+    <hr class="section-divider">
+
+    <!-- ===== SCREEN 9: ANNOTATION ===== -->
+    <section class="screen" id="annotation">
+      <div class="screen-label">9. Annotation</div>
+      <div class="card">
+        <div class="card-header">
+          <h3>Tạo annotation mới</h3>
+          <div class="actions">
+            <button class="btn btn-ghost btn-sm">📋 Danh sách</button>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="grid-2">
+            <div class="form-group">
+              <label class="required">Mã mảnh</label>
+              <select class="form-control">
+                <option value="">Chọn mã mảnh...</option>
+                <option>VN400001 — Hải Phòng · Cửa Lục</option>
+                <option>VN400002 — Vịnh Hạ Long</option>
+                <option>VN500001 — Đà Nẵng · Cửa Hàn</option>
+                <option>VN500002 — Vũng Tàu · Thị Vải</option>
+                <option>VN400003 — Hòn Gai · Cẩm Phả</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="required">Loại annotation</label>
+              <select class="form-control">
+                <option value="">Chọn loại...</option>
+                <option>Ghi chú</option>
+                <option>Cảnh báo</option>
+                <option>Điểm quan tâm</option>
+                <option>Cần xác minh</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="required">Kinh độ</label>
+              <input class="form-control" type="text" placeholder="VD: 106.7245">
+            </div>
+            <div class="form-group">
+              <label class="required">Vĩ độ</label>
+              <input class="form-control" type="text" placeholder="VD: 20.8512">
+            </div>
+          </div>
+          <div class="form-group mt-4">
+            <label class="required">Nội dung</label>
+            <textarea class="form-control" placeholder="Nhập nội dung annotation..." style="min-height:100px"></textarea>
+          </div>
+          <div class="grid-2 mt-4">
+            <div class="form-group">
+              <label>Mức ưu tiên</label>
+              <select class="form-control">
+                <option>Thấp</option>
+                <option selected>Trung bình</option>
+                <option>Cao</option>
+              </select>
+            </div>
+            <div class="flex-center" style="align-items:flex-end;padding-bottom:14px">
+              <button class="btn btn-primary">💾 Lưu annotation</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <hr class="section-divider">
+
+    <!-- ===== SCREEN 10: ĐỒNG BỘ CSDL ===== -->
+    <section class="screen" id="dong-bo">
+      <div class="screen-label">10. Đồng bộ CSDL</div>
+      <div class="card">
+        <div class="card-header">
+          <h3>Đồng bộ cơ sở dữ liệu hải đồ</h3>
+          <div class="actions">
+            <button class="btn btn-outline">🔄 Đồng bộ ngay</button>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="sync-status-row">
+            <span class="sensor-dot online"></span>
+            <span class="badge badge-green">Online</span>
+            <span class="text-muted" style="font-size:var(--font-size-sm)">Kết nối: CSDL Hải đồ trung tâm — Cục Hàng hải Việt Nam</span>
+          </div>
+          <div class="grid-2 mt-4">
+            <div style="padding:16px;background:var(--color-body-bg);border-radius:var(--radius-card)">
+              <div class="text-muted mb-2" style="font-size:var(--font-size-xs)">Đồng bộ lần cuối</div>
+              <div class="font-bold" style="font-size:var(--font-size-lg)">06/06/2026 08:30</div>
+              <div class="text-muted mt-2" style="font-size:var(--font-size-xs)">108 mảnh · Đồng bộ trong 2.3 giây</div>
+            </div>
+            <div style="padding:16px;background:var(--color-body-bg);border-radius:var(--radius-card)">
+              <div class="text-muted mb-2" style="font-size:var(--font-size-xs)">Trạng thái CSDL</div>
+              <div class="flex gap-4 mt-2">
+                <div><span class="sensor-dot online"></span><span class="badge badge-green">VMS-N (51)</span></div>
+                <div><span class="sensor-dot online"></span><span class="badge badge-green">VMS-S (57)</span></div>
+              </div>
+              <div class="text-muted mt-2" style="font-size:var(--font-size-xs)">Lịch đồng bộ: Mỗi 6 giờ · Tự động</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    Cục Hàng hải Việt Nam — Phiên bản 1.0
+  </footer>
+</div>
+
+<script>
+(function () {
+  var items = document.querySelectorAll('.sidebar-menu .menu-item');
+  items.forEach(function (item) {
+    item.addEventListener('click', function (e) {
+      var href = this.getAttribute('href');
+      if (!href || href === '#') return;
+      var target = document.querySelector(href);
+      if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+    });
+  });
+})();
+</script>
+
+</body>
+</html>

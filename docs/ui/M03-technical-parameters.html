@@ -1,0 +1,1328 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>M03 — Thông số Kỹ thuật | MTIS</title>
+<style>
+/* ================================================================
+   MTIS Design System — Theme Tokens
+   Extracted from M03 (Chuẩn), dùng cho toàn bộ 11 modules
+   Primary: #2153aa | Sidebar: light 260px | Font: Averta
+   ================================================================ */
+
+/* ===== 1. CSS CUSTOM PROPERTIES ===== */
+:root {
+  /* Brand */
+  --color-primary: #2153aa;
+  --color-primary-hover: #1a3f8a;
+  --color-primary-light: #eff8ff;
+  --color-primary-light-end: #e0f2fe;
+  --color-primary-ring: rgba(33, 83, 170, 0.12);
+
+  /* Neutrals */
+  --color-body-bg: #f4f4f5;
+  --color-body-text: #1a1a2e;
+  --color-muted: #6b7280;
+  --color-muted-light: #9ca3af;
+  --color-heading: #374151;
+  --color-border: #e5e7eb;
+  --color-border-light: #f0f0f0;
+  --color-border-input: #d1d5db;
+  --color-white: #ffffff;
+  --color-table-header-bg: #fafafa;
+  --color-table-even-row: #fafbfc;
+  --color-table-hover: #eff8ff;
+  --color-ghost-hover: #f3f4f6;
+
+  /* Semantic */
+  --color-danger: #dc2626;
+  --color-danger-hover: #b91c1c;
+  --color-danger-bg: #fef2f2;
+  --color-danger-text: #991b1b;
+  --color-success: #059669;
+  --color-success-hover: #047857;
+  --color-success-bg: #ecfdf5;
+  --color-success-text: #065f46;
+  --color-warning: #d97706;
+  --color-warning-bg: #fffbeb;
+  --color-warning-text: #92400e;
+  --color-info-bg: #eff6ff;
+  --color-info-text: #1e40af;
+
+  /* Layout */
+  --sidebar-width: 260px;
+  --header-padding: 12px 28px;
+  --content-padding: 24px 28px;
+  --content-max-width: 1360px;
+
+  /* Typography */
+  --font-family: Averta, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-size-base: 14px;
+  --font-size-sm: 13px;
+  --font-size-xs: 12px;
+  --font-size-xxs: 11px;
+  --font-size-lg: 16px;
+  --font-size-xl: 22px;
+  --font-size-stat: 28px;
+
+  /* Radii */
+  --radius-card: 8px;
+  --radius-btn: 6px;
+  --radius-badge: 12px;
+  --radius-input: 6px;
+  --radius-icon: 12px;
+
+  /* Shadows */
+  --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.06);
+  --shadow-header: 0 1px 3px rgba(0, 0, 0, 0.06);
+
+  /* Transitions */
+  --transition-fast: all 0.15s ease;
+}
+
+/* ===== 2. RESET ===== */
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html, body { height:100%; }
+body {
+  font-family: var(--font-family);
+  background: var(--color-body-bg);
+  color: var(--color-body-text);
+  font-size: var(--font-size-base);
+  line-height: 1.5;
+  display: flex;
+  min-height: 100vh;
+}
+
+/* ===== 3. SIDEBAR ===== */
+.sidebar {
+  width: var(--sidebar-width);
+  min-width: var(--sidebar-width);
+  background: var(--color-white);
+  border-right: 1px solid var(--color-border);
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  position: fixed;
+  left:0; top:0; bottom:0;
+  z-index: 100;
+  overflow-y: auto;
+}
+.sidebar-logo {
+  display: flex; align-items: center; gap: 12px;
+  padding: 20px 20px 16px;
+  border-bottom: 1px solid var(--color-border);
+}
+.sidebar-logo .logo-icon {
+  width: 44px; height: 44px;
+  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-hover));
+  border-radius: var(--radius-icon);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--color-white); font-weight: 700; font-size: 20px;
+  flex-shrink: 0;
+}
+.sidebar-logo .logo-text { line-height: 1.3; }
+.sidebar-logo .logo-text strong { display:block; font-size: var(--font-size-sm); color: var(--color-body-text); }
+.sidebar-logo .logo-text small { font-size: var(--font-size-xxs); color: var(--color-muted); }
+/* Menu */
+.sidebar-menu { padding: 12px 0; flex: 1; }
+.sidebar-menu .menu-section {
+  padding: 8px 20px 4px;
+  font-size: var(--font-size-xxs); text-transform: uppercase; letter-spacing: 0.5px;
+  color: var(--color-muted-light); font-weight: 600;
+}
+.sidebar-menu .menu-item {
+  display: flex; align-items: center; gap: 12px;
+  padding: 10px 20px;
+  color: var(--color-heading); text-decoration: none;
+  font-size: var(--font-size-base); cursor: pointer;
+  transition: var(--transition-fast);
+  border-left: 3px solid transparent;
+}
+.sidebar-menu .menu-item:hover { background: #f9fafb; color: var(--color-primary); }
+.sidebar-menu .menu-item.active {
+  background: linear-gradient(90deg, var(--color-primary-light), var(--color-primary-light-end));
+  border-left: 3px solid var(--color-primary);
+  color: var(--color-primary);
+  font-weight: 600;
+}
+.sidebar-menu .menu-item .icon { width: 20px; text-align: center; font-size: var(--font-size-lg); flex-shrink: 0; }
+.sidebar-footer {
+  padding: 16px 20px; border-top: 1px solid var(--color-border);
+  font-size: var(--font-size-xxs); color: var(--color-muted-light); text-align: center;
+}
+
+/* ===== 4. MAIN LAYOUT ===== */
+.main-wrapper {
+  margin-left: var(--sidebar-width); flex:1;
+  display: flex; flex-direction: column; min-height: 100vh;
+}
+.header {
+  background: var(--color-white);
+  box-shadow: var(--shadow-header);
+  padding: var(--header-padding);
+  display: flex; align-items: center; justify-content: space-between;
+  position: sticky; top: 0; z-index: 50;
+}
+.header h1 { font-size: 15px; font-weight: 600; color: var(--color-body-text); }
+.header .user-info { display: flex; align-items: center; gap: 16px; }
+.header .user-info .avatar {
+  width: 34px; height: 34px; border-radius: 50%;
+  background: var(--color-primary); color: var(--color-white);
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 600; font-size: var(--font-size-base);
+}
+.header .user-info .name { font-size: var(--font-size-sm); color: var(--color-heading); }
+.header .user-info .role { font-size: var(--font-size-xxs); color: var(--color-muted-light); }
+/* Content */
+.content { flex: 1; padding: var(--content-padding); max-width: var(--content-max-width); }
+.breadcrumb {
+  font-size: var(--font-size-sm); color: var(--color-muted);
+  margin-bottom: 6px; display: flex; align-items: center; gap: 6px; flex-wrap: wrap;
+}
+.breadcrumb a { color: var(--color-primary); text-decoration: none; }
+.breadcrumb a:hover { text-decoration: underline; }
+.breadcrumb span.sep { color: var(--color-muted-light); }
+.page-title { font-size: var(--font-size-xl); font-weight: 700; color: var(--color-body-text); margin-bottom: 20px; }
+.page-subtitle { font-size: var(--font-size-sm); color: var(--color-muted); margin-bottom: 20px; margin-top: -16px; }
+.section-title {
+  font-size: var(--font-size-lg); font-weight: 600; color: var(--color-primary);
+  margin-bottom: 12px; display: flex; align-items: center; gap: 8px;
+}
+hr.section-divider { border: none; border-top: 1px solid var(--color-border); margin: 28px 0; }
+.footer {
+  background: var(--color-white); border-top: 1px solid var(--color-border);
+  padding: 14px 28px; font-size: var(--font-size-xs); color: var(--color-muted); text-align: center;
+}
+
+/* ===== 5. CARD ===== */
+.card {
+  background: var(--color-white); border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card); padding: 20px; margin-bottom: 16px;
+}
+.card-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 14px;
+}
+.card-header h3 { font-size: var(--font-size-lg); font-weight: 600; color: var(--color-body-text); }
+.card-header .actions { display: flex; gap: 8px; }
+.card-body { padding: 4px 0; }
+
+/* ===== 6. STAT CARDS ===== */
+.stats-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 20px; }
+.stat-card {
+  background: var(--color-white); border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card); padding: 18px 20px;
+  border-left: 4px solid var(--color-primary);
+}
+.stat-card .stat-label { font-size: var(--font-size-sm); color: var(--color-muted); margin-bottom: 4px; }
+.stat-card .stat-value { font-size: var(--font-size-stat); font-weight: 700; color: var(--color-body-text); }
+.stat-card .stat-sub { font-size: var(--font-size-xs); color: var(--color-muted-light); margin-top: 4px; }
+.stat-card:nth-child(1) { border-left-color: var(--color-primary); }
+.stat-card:nth-child(2) { border-left-color: var(--color-success); }
+.stat-card:nth-child(3) { border-left-color: var(--color-warning); }
+.stat-card:nth-child(4) { border-left-color: var(--color-danger); }
+
+/* ===== 7. TABLE ===== */
+.table-wrap { overflow-x: auto; }
+.ant-table { width: 100%; border-collapse: collapse; font-size: var(--font-size-sm); }
+.ant-table thead th {
+  background: var(--color-table-header-bg);
+  border-bottom: 2px solid var(--color-border);
+  padding: 10px 12px; text-align: left;
+  font-weight: 600; color: var(--color-heading); white-space: nowrap;
+}
+.ant-table tbody td {
+  padding: 9px 12px; border-bottom: 1px solid var(--color-border-light);
+  color: var(--color-body-text);
+}
+.ant-table tbody tr:nth-child(even) td { background: var(--color-table-even-row); }
+.ant-table tbody tr:hover td { background: var(--color-table-hover); }
+
+/* ===== 8. BADGES ===== */
+.badge {
+  display: inline-block; padding: 2px 10px; border-radius: var(--radius-badge);
+  font-size: var(--font-size-xs); font-weight: 500; line-height: 1.6;
+}
+.badge-green  { background: var(--color-success-bg); color: var(--color-success-text); }
+.badge-red    { background: var(--color-danger-bg);  color: var(--color-danger-text); }
+.badge-blue   { background: var(--color-info-bg);    color: var(--color-info-text); }
+.badge-yellow { background: var(--color-warning-bg); color: var(--color-warning-text); }
+.badge-gray   { background: var(--color-ghost-hover); color: var(--color-heading); }
+
+/* ===== 9. BUTTONS ===== */
+.btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 8px 16px; border-radius: var(--radius-btn);
+  font-size: var(--font-size-sm); font-weight: 500;
+  cursor: pointer; border: 1px solid transparent;
+  transition: var(--transition-fast); text-decoration: none;
+  line-height: 1.4;
+}
+.btn-sm { padding: 4px 10px; font-size: var(--font-size-xs); }
+.btn-primary   { background: var(--color-primary); color: var(--color-white); border-color: var(--color-primary); }
+.btn-primary:hover   { background: var(--color-primary-hover); }
+.btn-outline   { background: var(--color-white); color: var(--color-primary); border-color: var(--color-primary); }
+.btn-outline:hover   { background: var(--color-primary-light); }
+.btn-danger    { background: var(--color-danger); color: var(--color-white); border-color: var(--color-danger); }
+.btn-danger:hover    { background: var(--color-danger-hover); }
+.btn-success   { background: var(--color-success); color: var(--color-white); border-color: var(--color-success); }
+.btn-success:hover   { background: var(--color-success-hover); }
+.btn-ghost     { background: transparent; color: var(--color-heading); border-color: transparent; }
+.btn-ghost:hover     { background: var(--color-ghost-hover); }
+
+/* ===== 10. FORMS ===== */
+.form-group { margin-bottom: 14px; }
+.form-group label {
+  display: block; font-size: var(--font-size-sm); font-weight: 500;
+  color: var(--color-heading); margin-bottom: 4px;
+}
+.form-group label.required::after { content: " *"; color: var(--color-danger); }
+.form-control {
+  width: 100%; padding: 8px 12px;
+  border: 1px solid var(--color-border-input); border-radius: var(--radius-input);
+  font-size: var(--font-size-sm); color: var(--color-body-text);
+  transition: border-color 0.15s; background: var(--color-white);
+}
+.form-control:focus {
+  outline: none; border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px var(--color-primary-ring);
+}
+select.form-control {
+  -webkit-appearance: none; appearance: none;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%236b7280' d='M6 8L1 3h10z'/%3E%3C/svg%3E") no-repeat right 12px center var(--color-white);
+  padding-right: 32px;
+}
+textarea.form-control { resize: vertical; min-height: 80px; }
+
+/* ===== 11. WORKFLOW STEPS ===== */
+.workflow-steps { display: flex; align-items: center; gap: 0; margin-bottom: 20px; }
+.workflow-step {
+  flex: 1; text-align: center; padding: 12px 8px;
+  background: var(--color-ghost-hover); color: var(--color-muted-light);
+  font-size: var(--font-size-sm); font-weight: 500; position: relative;
+}
+.workflow-step:not(:last-child)::after {
+  content: '\203A'; position: absolute; right: -12px; top: 50%;
+  transform: translateY(-50%); font-size: 20px; color: var(--color-border-input); z-index: 1;
+}
+.workflow-step.active { background: var(--color-primary); color: var(--color-white); }
+.workflow-step.done { background: var(--color-success); color: var(--color-white); }
+
+/* ===== 12. TIMELINE ===== */
+.timeline { position: relative; padding-left: 28px; }
+.timeline::before { content: ''; position: absolute; left: 8px; top: 4px; bottom: 4px; width: 2px; background: var(--color-border); }
+.timeline-item { position: relative; margin-bottom: 16px; padding-left: 16px; }
+.timeline-item::before {
+  content: ''; position: absolute; left: -24px; top: 6px;
+  width: 10px; height: 10px; border-radius: 50%;
+  background: var(--color-primary); border: 2px solid var(--color-white);
+  box-shadow: 0 0 0 2px var(--color-primary);
+}
+.timeline-item .time { font-size: var(--font-size-xs); color: var(--color-muted-light); }
+.timeline-item .desc { font-size: var(--font-size-sm); color: var(--color-heading); }
+.timeline-item .diff { font-size: var(--font-size-xs); color: var(--color-muted); }
+.timeline-item .diff .old { color: var(--color-danger); text-decoration: line-through; }
+.timeline-item .diff .new { color: var(--color-success); font-weight: 500; }
+
+/* ===== 13. SEARCH BAR ===== */
+.search-bar { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; padding: 14px 0; }
+.search-bar .form-control { width: 220px; }
+
+/* ===== 14. MAP PLACEHOLDER ===== */
+.map-placeholder {
+  background: linear-gradient(135deg, var(--color-primary-light-end), #bae6fd);
+  border-radius: var(--radius-card); min-height: 400px;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--color-primary); font-weight: 600; font-size: 15px;
+  position: relative; border: 2px dashed #93c5fd;
+}
+.map-placeholder .map-controls {
+  position: absolute; right: 16px; top: 16px;
+  display: flex; flex-direction: column; gap: 4px;
+}
+.map-placeholder .map-controls button {
+  width: 36px; height: 36px; background: var(--color-white);
+  border: 1px solid var(--color-border-input); border-radius: var(--radius-btn);
+  font-size: 18px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+.map-placeholder .map-controls button:hover { background: var(--color-ghost-hover); }
+
+/* ===== 15. DROP ZONE ===== */
+.drop-zone {
+  border: 2px dashed var(--color-border-input); border-radius: var(--radius-card);
+  padding: 40px; text-align: center; color: var(--color-muted); cursor: pointer;
+  transition: var(--transition-fast);
+}
+.drop-zone:hover { border-color: var(--color-primary); background: var(--color-primary-light); }
+.drop-zone .icon { font-size: 40px; margin-bottom: 8px; }
+.drop-zone p { font-size: var(--font-size-base); }
+.drop-zone small { font-size: var(--font-size-xs); color: var(--color-muted-light); }
+
+/* ===== 16. FILE ICONS ===== */
+.file-icon {
+  width: 36px; height: 36px; border-radius: var(--radius-btn);
+  display: inline-flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: var(--font-size-xxs); flex-shrink: 0;
+}
+.file-icon-pdf { background: var(--color-danger-bg);  color: var(--color-danger); }
+.file-icon-doc { background: var(--color-info-bg);    color: var(--color-primary); }
+.file-icon-xls { background: var(--color-success-bg); color: var(--color-success); }
+.file-icon-img { background: var(--color-warning-bg); color: var(--color-warning); }
+.file-icon-zip { background: var(--color-ghost-hover); color: var(--color-heading); }
+
+/* ===== 17. SENSOR STATUS DOTS ===== */
+.sensor-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; margin-right: 6px; }
+.sensor-dot.online  { background: var(--color-success); }
+.sensor-dot.offline { background: var(--color-danger); }
+.sensor-dot.warning { background: var(--color-warning); }
+
+/* ===== 18. REAL-TIME BAR ===== */
+.realtime-bar {
+  display: flex; gap: 20px; padding: 12px 16px;
+  background: linear-gradient(90deg, #1e3a5f, var(--color-primary));
+  border-radius: var(--radius-card); color: var(--color-white); margin-bottom: 16px;
+}
+.realtime-bar .rt-item { text-align: center; }
+.realtime-bar .rt-value { font-size: var(--font-size-xl); font-weight: 700; }
+.realtime-bar .rt-label { font-size: var(--font-size-xxs); opacity: 0.8; }
+
+/* ===== 19. UTILITY ===== */
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+.grid-4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 16px; }
+.flex { display: flex; }
+.flex-center { display: flex; align-items: center; justify-content: center; }
+.flex-between { display: flex; align-items: center; justify-content: space-between; }
+.inline-flex { display: inline-flex; align-items: center; gap: 6px; }
+.gap-2 { gap: 8px; }
+.gap-3 { gap: 12px; }
+.gap-4 { gap: 16px; }
+.mt-2 { margin-top: 8px; }
+.mt-4 { margin-top: 16px; }
+.mb-2 { margin-bottom: 8px; }
+.mb-4 { margin-bottom: 16px; }
+.w-full { width: 100%; }
+.text-right { text-align: right; }
+.text-center { text-align: center; }
+.text-muted { color: var(--color-muted); }
+.text-danger { color: var(--color-danger); }
+.text-success { color: var(--color-success); }
+.text-primary { color: var(--color-primary); }
+.font-bold { font-weight: 700; }
+.truncate { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* ===== 20. SCREEN SECTION LABELS ===== */
+.screen { padding: 4px 0 20px; }
+.screen-label {
+  font-size: var(--font-size-xs); color: var(--color-muted-light);
+  font-weight: 500; letter-spacing: 0.3px; margin-bottom: 12px; text-transform: uppercase;
+}
+.file-list-item {
+  display: flex; align-items: center; gap: 12px;
+  padding: 10px 0; border-bottom: 1px solid var(--color-border-light);
+}
+
+/* ===== 21. RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .sidebar { display: none; }
+  .main-wrapper { margin-left: 0; }
+  .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+  .stats-row { grid-template-columns: 1fr; }
+}
+
+/* ===== 22. NO RESULTS / EMPTY STATE ===== */
+.empty-state {
+  padding: 40px; text-align: center; color: var(--color-muted-light);
+}
+.empty-state .icon { font-size: 48px; margin-bottom: 12px; opacity: 0.4; }
+.empty-state p { font-size: var(--font-size-base); }
+
+/* ===== 23. MODAL OVERLAY (for detail views) ===== */
+.modal-overlay {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.4);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 200;
+}
+.modal-overlay .modal-card {
+  background: var(--color-white); border-radius: var(--radius-card);
+  padding: 24px; max-width: 800px; width: 90%;
+  max-height: 85vh; overflow-y: auto;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.15);
+}
+.modal-overlay .modal-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 16px; padding-bottom: 12px;
+  border-bottom: 1px solid var(--color-border);
+}
+.modal-overlay .modal-header h3 { font-size: var(--font-size-lg); font-weight: 600; }
+.modal-overlay .modal-close {
+  background: none; border: none; font-size: 20px; cursor: pointer;
+  color: var(--color-muted-light); padding: 4px;
+}
+
+/* ===== 24. TABS ===== */
+.tabs { display: flex; gap: 0; border-bottom: 2px solid var(--color-border); margin-bottom: 16px; }
+.tab {
+  padding: 10px 20px; font-size: var(--font-size-sm); font-weight: 500; cursor: pointer;
+  color: var(--color-muted); border-bottom: 2px solid transparent; margin-bottom: -2px;
+  transition: var(--transition-fast);
+}
+.tab:hover { color: var(--color-primary); }
+.tab.active { color: var(--color-primary); border-bottom-color: var(--color-primary); }
+
+/* ===== 25. PAGINATION ===== */
+.pagination {
+  display: flex; align-items: center; justify-content: flex-end;
+  gap: 8px; margin-top: 16px;
+}
+.pagination .page-btn {
+  padding: 6px 12px; border: 1px solid var(--color-border);
+  border-radius: var(--radius-btn); font-size: var(--font-size-xs);
+  background: var(--color-white); cursor: pointer;
+  color: var(--color-heading);
+}
+.pagination .page-btn:hover { border-color: var(--color-primary); color: var(--color-primary); }
+.pagination .page-btn.active { background: var(--color-primary); color: var(--color-white); border-color: var(--color-primary); }
+.pagination .page-info { font-size: var(--font-size-xs); color: var(--color-muted); }
+</style>
+<style>
+/* ===== MODULE-SPECIFIC OVERRIDES (not in theme-tokens.css) ===== */
+.map-overlay-btns { position: absolute; left: 16px; top: 16px; display: flex; gap: 6px; flex-wrap: wrap; }
+.map-overlay-btns .btn { background: #fff; border: 1px solid #d1d5db; font-size: 12px; padding: 4px 12px; }
+.map-overlay-btns .btn.active { background: #2153aa; color: #fff; border-color: #2153aa; }
+.space-y-2 > * + * { margin-top: 8px; }
+.file-list-item:last-child { border-bottom: none; }
+</style>
+</head>
+<body>
+
+<!-- ===== SIDEBAR ===== -->
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-icon">MT</div>
+    <div class="logo-text">
+      <strong>MTIS</strong>
+      <small>Quản lý KCHT Hàng hải</small>
+    </div>
+  </div>
+  <nav class="sidebar-menu">
+    <div class="menu-section">Tổng quan</div>
+    <a class="menu-item active" href="#"><span class="icon">📊</span> Dashboard KCHT</a>
+    <div class="menu-section">Danh mục Cảng</div>
+    <a class="menu-item" href="#"><span class="icon">⚓</span> Danh sách Cảng biển</a>
+    <a class="menu-item" href="#"><span class="icon">🏗️</span> Bến cảng</a>
+    <div class="menu-section">Luồng & Khu neo</div>
+    <a class="menu-item" href="#"><span class="icon">🌊</span> Luồng hàng hải</a>
+    <a class="menu-item" href="#"><span class="icon">⛵</span> Khu neo đậu</a>
+    <div class="menu-section">Trang thiết bị</div>
+    <a class="menu-item" href="#"><span class="icon">🏮</span> Phao tiêu & Đèn biển</a>
+    <a class="menu-item" href="#"><span class="icon">🛰️</span> Phao GPS</a>
+    <a class="menu-item" href="#"><span class="icon">📡</span> Trạm tín hiệu</a>
+    <a class="menu-item" href="#"><span class="icon">🖥️</span> Cảm biến VTS</a>
+    <div class="menu-section">Nghiệp vụ</div>
+    <a class="menu-item" href="#"><span class="icon">🗺️</span> Bản đồ KCHT</a>
+    <a class="menu-item" href="#"><span class="icon">✅</span> Phê duyệt dữ liệu</a>
+    <a class="menu-item" href="#"><span class="icon">🔍</span> Tìm kiếm</a>
+    <a class="menu-item" href="#"><span class="icon">📥</span> Nhập / Xuất dữ liệu</a>
+    <a class="menu-item" href="#"><span class="icon">📎</span> Tài liệu đính kèm</a>
+    <a class="menu-item" href="#"><span class="icon">📋</span> Lịch sử thay đổi</a>
+  </nav>
+  <div class="sidebar-footer">M03 — Thông số Kỹ thuật v2.0</div>
+</aside>
+
+<!-- ===== MAIN WRAPPER ===== -->
+<div class="main-wrapper">
+
+  <!-- ===== HEADER ===== -->
+  <header class="header">
+    <h1>DỰ ÁN: Xây dựng Hệ thống thông tin quản lý KCHT Giao thông Hàng hải</h1>
+    <div class="user-info">
+      <div>
+        <div class="name">Nguyễn Văn A</div>
+        <div class="role">Chuyên viên</div>
+      </div>
+      <div class="avatar">NV</div>
+    </div>
+  </header>
+
+  <!-- ===== CONTENT ===== -->
+  <div class="content">
+
+    <!-- ============================================================ -->
+    <!-- SCREEN 1: Dashboard KCHT                                     -->
+    <!-- ============================================================ -->
+    <div class="screen" id="screen-1">
+      <div class="breadcrumb"><a href="#">M03 — Thông số Kỹ thuật</a> <span class="sep">›</span> <span>Tổng quan</span></div>
+      <h2 class="page-title">Dashboard KCHT</h2>
+
+      <div class="stats-row">
+        <div class="stat-card"><div class="stat-label">Tổng số Cảng biển</div><div class="stat-value">42</div><div class="stat-sub">+2 trong năm 2026</div></div>
+        <div class="stat-card"><div class="stat-label">Luồng hàng hải</div><div class="stat-value">156</div><div class="stat-sub">Tổng chiều dài 1.280 km</div></div>
+        <div class="stat-card"><div class="stat-label">Phao tiêu & Đèn biển</div><div class="stat-value">328</div><div class="stat-sub">142 phao GPS</div></div>
+        <div class="stat-card"><div class="stat-label">Trạm VTS</div><div class="stat-value">12</div><div class="stat-sub">6 trạm đang hoạt động</div></div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-header"><h3>Cập nhật gần đây</h3></div>
+          <div class="timeline">
+            <div class="timeline-item"><div class="time">06/06/2026 09:15</div><div class="desc">Cập nhật độ sâu luồng Hải Phòng - Lạch Huyện</div></div>
+            <div class="timeline-item"><div class="time">05/06/2026 14:30</div><div class="desc">Thêm mới phao tiêu PT-1023 tại tọa độ 20°52'N 107°08'E</div></div>
+            <div class="timeline-item"><div class="time">04/06/2026 11:00</div><div class="desc">Phê duyệt thông số kỹ thuật Cảng Nam Đình Vũ</div></div>
+            <div class="timeline-item"><div class="time">03/06/2026 08:45</div><div class="desc">Cập nhật trạng thái trạm VTS Vũng Tàu (online)</div></div>
+            <div class="timeline-item"><div class="time">02/06/2026 16:20</div><div class="desc">Nhập dữ liệu 18 phao GPS từ file Excel</div></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header"><h3>Bản đồ KCHT tổng quan</h3></div>
+          <div class="map-placeholder" style="min-height:300px;">
+            Bản đồ tổng quan KCHT Hàng hải
+            <div class="map-overlay-btns">
+              <button class="btn active">Cảng</button>
+              <button class="btn">Luồng</button>
+              <button class="btn">Phao</button>
+              <button class="btn">VTS</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card mt-4">
+        <div class="card-header"><h3>Thống kê nhanh theo khu vực</h3></div>
+        <div class="table-wrap">
+          <table class="ant-table">
+            <thead><tr><th>Khu vực</th><th>Cảng</th><th>Luồng</th><th>Phao tiêu</th><th>Khu neo</th><th>Trạm VTS</th></tr></thead>
+            <tbody>
+              <tr><td>Miền Bắc</td><td>12</td><td>45</td><td>98</td><td>8</td><td>4</td></tr>
+              <tr><td>Miền Trung</td><td>14</td><td>52</td><td>112</td><td>11</td><td>3</td></tr>
+              <tr><td>Miền Nam</td><td>16</td><td>59</td><td>118</td><td>14</td><td>5</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <hr class="section-divider">
+    <div class="section-title">2. Danh sách Cảng biển</div>
+
+    <!-- ============================================================ -->
+    <!-- SCREEN 2: Port list                                          -->
+    <!-- ============================================================ -->
+    <div class="screen" id="screen-2">
+      <div class="breadcrumb"><a href="#">M03 — Thông số Kỹ thuật</a> <span class="sep">›</span> <a href="#">Cảng biển</a> <span class="sep">›</span> <span>Danh sách Cảng biển</span></div>
+      <h2 class="page-title">Danh sách Cảng biển</h2>
+
+      <div class="card">
+        <div class="search-bar">
+          <input class="form-control" placeholder="Tìm kiếm theo tên hoặc mã cảng..." style="flex:1;max-width:360px;">
+          <select class="form-control" style="width:170px;"><option>Loại cảng</option><option>Cảng tổng hợp</option><option>Cảng container</option><option>Cảng dầu khí</option></select>
+          <select class="form-control" style="width:150px;"><option>Trạng thái</option><option>Đang hoạt động</option><option>Tạm ngừng</option><option>Đang xây dựng</option></select>
+          <button class="btn btn-primary">🔍 Tìm kiếm</button>
+          <button class="btn btn-outline">↻ Làm mới</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header"><h3>Kết quả (42 cảng)</h3><div class="actions"><button class="btn btn-outline btn-sm">📤 Xuất Excel</button><button class="btn btn-primary btn-sm">＋ Thêm cảng</button></div></div>
+        <div class="table-wrap">
+          <table class="ant-table">
+            <thead><tr><th>Mã cảng</th><th>Tên cảng biển</th><th>Loại cảng</th><th>Địa điểm</th><th>Độ sâu (m)</th><th>Trạng thái</th><th>Cập nhật</th><th></th></tr></thead>
+            <tbody>
+              <tr><td><strong>VN-HPH-01</strong></td><td>Cảng Hải Phòng</td><td><span class="badge badge-blue">Cảng tổng hợp</span></td><td>Hải Phòng</td><td>12.5</td><td><span class="badge badge-green">Đang hoạt động</span></td><td>05/06/2026</td><td><button class="btn btn-ghost btn-sm">✎</button></td></tr>
+              <tr><td><strong>VN-SGN-02</strong></td><td>Cảng Sài Gòn</td><td><span class="badge badge-blue">Cảng tổng hợp</span></td><td>TP. Hồ Chí Minh</td><td>14.0</td><td><span class="badge badge-green">Đang hoạt động</span></td><td>04/06/2026</td><td><button class="btn btn-ghost btn-sm">✎</button></td></tr>
+              <tr><td><strong>VN-DNV-03</strong></td><td>Cảng Nam Đình Vũ</td><td><span class="badge badge-yellow">Cảng container</span></td><td>Hải Phòng</td><td>13.2</td><td><span class="badge badge-green">Đang hoạt động</span></td><td>03/06/2026</td><td><button class="btn btn-ghost btn-sm">✎</button></td></tr>
+              <tr><td><strong>VN-VT-04</strong></td><td>Cảng Vũng Tàu</td><td><span class="badge badge-yellow">Cảng container</span></td><td>Bà Rịa - Vũng Tàu</td><td>16.5</td><td><span class="badge badge-green">Đang hoạt động</span></td><td>02/06/2026</td><td><button class="btn btn-ghost btn-sm">✎</button></td></tr>
+              <tr><td><strong>VN-DN-05</strong></td><td>Cảng Đà Nẵng</td><td><span class="badge badge-blue">Cảng tổng hợp</span></td><td>Đà Nẵng</td><td>11.0</td><td><span class="badge badge-green">Đang hoạt động</span></td><td>01/06/2026</td><td><button class="btn btn-ghost btn-sm">✎</button></td></tr>
+              <tr><td><strong>VN-QN-06</strong></td><td>Cảng Quảng Ninh</td><td><span class="badge badge-blue">Cảng tổng hợp</span></td><td>Quảng Ninh</td><td>10.8</td><td><span class="badge badge-green">Đang hoạt động</span></td><td>31/05/2026</td><td><button class="btn btn-ghost btn-sm">✎</button></td></tr>
+              <tr><td><strong>VN-NT-07</strong></td><td>Cảng Nghi Sơn</td><td><span class="badge badge-red">Cảng dầu khí</span></td><td>Thanh Hóa</td><td>15.2</td><td><span class="badge badge-green">Đang hoạt động</span></td><td>30/05/2026</td><td><button class="btn btn-ghost btn-sm">✎</button></td></tr>
+              <tr><td><strong>VN-DQ-08</strong></td><td>Cảng Dung Quất</td><td><span class="badge badge-red">Cảng dầu khí</span></td><td>Quảng Ngãi</td><td>18.0</td><td><span class="badge badge-green">Đang hoạt động</span></td><td>29/05/2026</td><td><button class="btn btn-ghost btn-sm">✎</button></td></tr>
+              <tr><td><strong>VN-CL-09</strong></td><td>Cảng Cái Lân</td><td><span class="badge badge-yellow">Cảng container</span></td><td>Quảng Ninh</td><td>11.5</td><td><span class="badge badge-yellow">Tạm ngừng</span></td><td>28/05/2026</td><td><button class="btn btn-ghost btn-sm">✎</button></td></tr>
+              <tr><td><strong>VN-TT-10</strong></td><td>Cảng Chân Mây</td><td><span class="badge badge-blue">Cảng tổng hợp</span></td><td>Thừa Thiên Huế</td><td>9.6</td><td><span class="badge badge-green">Đang hoạt động</span></td><td>27/05/2026</td><td><button class="btn btn-ghost btn-sm">✎</button></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="flex gap-2 mt-2" style="justify-content:space-between;align-items:center;">
+          <span style="font-size:13px;color:#6b7280;">Hiển thị 1-10 / 42</span>
+          <div class="flex gap-2"><button class="btn btn-ghost btn-sm">‹ Trước</button><button class="btn btn-primary btn-sm">1</button><button class="btn btn-ghost btn-sm">2</button><button class="btn btn-ghost btn-sm">3</button><span style="padding:4px 2px;color:#9ca3af;">...</span><button class="btn btn-ghost btn-sm">5</button><button class="btn btn-ghost btn-sm">Sau ›</button></div>
+        </div>
+      </div>
+    </div>
+
+    <hr class="section-divider">
+    <div class="section-title">3. Chi tiết Cảng biển</div>
+
+    <!-- ============================================================ -->
+    <!-- SCREEN 3: Port detail form                                   -->
+    <!-- ============================================================ -->
+    <div class="screen" id="screen-3">
+      <div class="breadcrumb"><a href="#">M03 — Thông số Kỹ thuật</a> <span class="sep">›</span> <a href="#">Cảng biển</a> <span class="sep">›</span> <span>Cảng Hải Phòng</span></div>
+      <h2 class="page-title">Chi tiết Cảng biển — VN-HPH-01</h2>
+
+      <div class="card">
+        <div class="card-header"><h3>Thông tin chung</h3><div class="actions"><button class="btn btn-outline btn-sm">✎ Chỉnh sửa</button><button class="btn btn-primary btn-sm">💾 Lưu</button></div></div>
+        <div class="grid-3">
+          <div class="form-group"><label class="required">Mã cảng</label><input class="form-control" value="VN-HPH-01" disabled></div>
+          <div class="form-group"><label class="required">Tên cảng biển</label><input class="form-control" value="Cảng Hải Phòng"></div>
+          <div class="form-group"><label class="required">Loại cảng</label><select class="form-control"><option>Cảng tổng hợp</option><option>Cảng container</option><option>Cảng dầu khí</option></select></div>
+          <div class="form-group"><label class="required">Tỉnh / Thành phố</label><input class="form-control" value="Hải Phòng"></div>
+          <div class="form-group"><label>Khu vực</label><input class="form-control" value="Miền Bắc"></div>
+          <div class="form-group"><label class="required">Đơn vị quản lý</label><input class="form-control" value="Cảng vụ Hàng hải Hải Phòng"></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header"><h3>Thông số kỹ thuật</h3></div>
+        <div class="grid-3">
+          <div class="form-group"><label class="required">Kinh độ</label><input class="form-control" value="106°41'22&quot;E"></div>
+          <div class="form-group"><label class="required">Vĩ độ</label><input class="form-control" value="20°52'14&quot;N"></div>
+          <div class="form-group"><label>Độ sâu trung bình (m)</label><input class="form-control" value="12.5"></div>
+          <div class="form-group"><label>Công suất thiết kế (DWT)</label><input class="form-control" value="50.000"></div>
+          <div class="form-group"><label>Chiều dài cầu cảng (m)</label><input class="form-control" value="2.850"></div>
+          <div class="form-group"><label>Số bến cảng</label><input class="form-control" value="12"></div>
+          <div class="form-group"><label>Phân loại</label><input class="form-control" value="Cảng đặc biệt (Loại IA)"></div>
+          <div class="form-group"><label>Năng lực thông qua (triệu tấn/năm)</label><input class="form-control" value="35.0"></div>
+          <div class="form-group"><label>Trạng thái</label><select class="form-control"><option>Đang hoạt động</option><option>Tạm ngừng</option><option>Đang xây dựng</option></select></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header"><h3>Ghi chú</h3></div>
+        <textarea class="form-control" rows="3">Cảng tổng hợp lớn nhất miền Bắc, tiếp nhận tàu trọng tải đến 50.000 DWT.</textarea>
+      </div>
+    </div>
+
+    <hr class="section-divider">
+    <div class="section-title">4. Danh sách Bến cảng</div>
+
+    <!-- ============================================================ -->
+    <!-- SCREEN 4: Berth list                                         -->
+    <!-- ============================================================ -->
+    <div class="screen" id="screen-4">
+      <div class="breadcrumb"><a href="#">M03 — Thông số Kỹ thuật</a> <span class="sep">›</span> <span>Bến cảng</span></div>
+      <h2 class="page-title">Danh sách Bến cảng</h2>
+
+      <div class="card">
+        <div class="search-bar">
+          <input class="form-control" placeholder="Mã bến hoặc tên cảng..." style="width:240px;">
+          <select class="form-control" style="width:170px;"><option>Loại hàng</option><option>Container</option><option>Hàng tổng hợp</option><option>Hàng lỏng/khí</option><option>Hàng rời</option></select>
+          <select class="form-control" style="width:150px;"><option>Trạng thái</option><option>Đang hoạt động</option><option>Tạm ngừng</option></select>
+          <button class="btn btn-primary">🔍 Tìm kiếm</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header"><h3>Danh sách bến cảng</h3><div class="actions"><button class="btn btn-outline btn-sm">📤 Xuất Excel</button><button class="btn btn-primary btn-sm">＋ Thêm bến</button></div></div>
+        <div class="table-wrap">
+          <table class="ant-table">
+            <thead><tr><th>Mã bến</th><th>Tên bến</th><th>Cảng trực thuộc</th><th>Chiều dài (m)</th><th>Độ sâu (m)</th><th>Loại hàng</th><th>Trạng thái</th><th></th></tr></thead>
+            <tbody>
+              <tr><td><strong>B-HPH-001</strong></td><td>Bến Chùa Vẽ</td><td>Cảng Hải Phòng</td><td>220</td><td>11.5</td><td>Container</td><td><span class="badge badge-green">Đang hoạt động</span></td><td><button class="btn btn-ghost btn-sm">✎</button></td></tr>
+              <tr><td><strong>B-HPH-002</strong></td><td>Bến Đình Vũ</td><td>Cảng Hải Phòng</td><td>310</td><td>12.0</td><td>Hàng tổng hợp</td><td><span class="badge badge-green">Đang hoạt động</span></td><td><button class="btn btn-ghost btn-sm">✎</button></td></tr>
+              <tr><td><strong>B-SGN-001</strong></td><td>Bến Nhà Rồng</td><td>Cảng Sài Gòn</td><td>280</td><td>13.2</td><td>Container</td><td><span class="badge badge-green">Đang hoạt động</span></td><td><button class="btn btn-ghost btn-sm">✎</button></td></tr>
+              <tr><td><strong>B-DN-001</strong></td><td>Bến Tiên Sa</td><td>Cảng Đà Nẵng</td><td>250</td><td>10.8</td><td>Hàng tổng hợp</td><td><span class="badge badge-green">Đang hoạt động</span></td><td><button class="btn btn-ghost btn-sm">✎</button></td></tr>
+              <tr><td><strong>B-VT-001</strong></td><td>Bến Cái Mép</td><td>Cảng Vũng Tàu</td><td>420</td><td>16.0</td><td>Container</td><td><span class="badge badge-green">Đang hoạt động</span></td><td><button class="btn btn-ghost btn-sm">✎</button></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <hr class="section-divider">
+    <div class="section-title">5. Chi tiết Bến cảng</div>
+
+    <!-- ============================================================ -->
+    <!-- SCREEN 5: Berth detail                                       -->
+    <!-- ============================================================ -->
+    <div class="screen" id="screen-5">
+      <div class="breadcrumb"><a href="#">M03 — Thông số Kỹ thuật</a> <span class="sep">›</span> <a href="#">Bến cảng</a> <span class="sep">›</span> <span>Bến Chùa Vẽ</span></div>
+      <h2 class="page-title">Chi tiết Bến cảng — B-HPH-001</h2>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-header"><h3>Thông số bến</h3><button class="btn btn-outline btn-sm">✎ Sửa</button></div>
+          <div class="grid-2">
+            <div class="form-group"><label>Mã bến</label><input class="form-control" value="B-HPH-001" disabled></div>
+            <div class="form-group"><label>Tên bến</label><input class="form-control" value="Bến Chùa Vẽ"></div>
+            <div class="form-group"><label>Cảng trực thuộc</label><input class="form-control" value="Cảng Hải Phòng"></div>
+            <div class="form-group"><label>Chiều dài (m)</label><input class="form-control" value="220"></div>
+            <div class="form-group"><label>Độ sâu (m)</label><input class="form-control" value="11.5"></div>
+            <div class="form-group"><label>Loại hàng</label><select class="form-control"><option>Container</option><option>Hàng tổng hợp</option><option>Hàng lỏng/khí</option><option>Hàng rời</option></select></div>
+            <div class="form-group"><label>Sức nâng tối đa (tấn)</label><input class="form-control" value="40"></div>
+            <div class="form-group"><label>Trạng thái</label><select class="form-control"><option>Đang hoạt động</option><option>Tạm ngừng</option></select></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header"><h3>Thiết bị tại bến</h3><button class="btn btn-primary btn-sm">＋ Thêm thiết bị</button></div>
+          <div class="table-wrap">
+            <table class="ant-table">
+              <thead><tr><th>Loại thiết bị</th><th>Công suất</th><th>Số lượng</th><th></th></tr></thead>
+              <tbody>
+                <tr><td>Cần cẩu bờ (Ship-to-Shore)</td><td>40 tấn</td><td>3</td><td><button class="btn btn-ghost btn-sm">✎</button></td></tr>
+                <tr><td>Cần cẩu bánh lốp (RTG)</td><td>35 tấn</td><td>6</td><td><button class="btn btn-ghost btn-sm">✎</button></td></tr>
+                <tr><td>Xe nâng hàng</td><td>10 tấn</td><td>8</td><td><button class="btn btn-ghost btn-sm">✎</button></td></tr>
+                <tr><td>Băng tải</td><td>1.200 tấn/h</td><td>2</td><td><button class="btn btn-ghost btn-sm">✎</button></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <hr class="section-divider">
+    <div class="section-title">6. Danh sách Luồng hàng hải</div>
+
+    <!-- ============================================================ -->
+    <!-- SCREEN 6: Channel list                                       -->
+    <!-- ============================================================ -->
+    <div class="screen" id="screen-6">
+      <div class="breadcrumb"><a href="#">M03 — Thông số Kỹ thuật</a> <span class="sep">›</span> <span>Luồng hàng hải</span></div>
+      <h2 class="page-title">Danh sách Luồng hàng hải</h2>
+
+      <div class="card">
+        <div class="search-bar">
+          <input class="form-control" placeholder="Mã hoặc tên luồng..." style="width:240px;">
+          <select class="form-control" style="width:170px;"><option>Khu vực</option><option>Miền Bắc</option><option>Miền Trung</option><option>Miền Nam</option></select>
+          <select class="form-control" style="width:150px;"><option>Trạng thái</option><option>Đang hoạt động</option><option>Đang nạo vét</option><option>Tạm ngừng</option></select>
+          <button class="btn btn-primary">🔍 Tìm kiếm</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header"><h3>Danh sách luồng (156 luồng)</h3><div class="actions"><button class="btn btn-outline btn-sm">📤 Xuất Excel</button><button class="btn btn-primary btn-sm">＋ Thêm luồng</button></div></div>
+        <div class="table-wrap">
+          <table class="ant-table">
+            <thead><tr><th>Mã luồng</th><th>Tên luồng</th><th>Khu vực</th><th>Chiều dài (km)</th><th>Rộng (m)</th><th>Độ sâu (m)</th><th>Trạng thái</th><th></th></tr></thead>
+            <tbody>
+              <tr><td><strong>L-HPH-001</strong></td><td>Luồng Hải Phòng - Lạch Huyện</td><td>Miền Bắc</td><td>45.2</td><td>160</td><td>13.0</td><td><span class="badge badge-green">Đang hoạt động</span></td><td><button class="btn btn-ghost btn-sm">✎</button></td></tr>
+              <tr><td><strong>L-SGN-001</strong></td><td>Luồng Sài Gòn - Vũng Tàu</td><td>Miền Nam</td><td>78.5</td><td>180</td><td>14.5</td><td><span class="badge badge-green">Đang hoạt động</span></td><td><button class="btn btn-ghost btn-sm">✎</button></td></tr>
+              <tr><td><strong>L-DN-001</strong></td><td>Luồng Đà Nẵng</td><td>Miền Trung</td><td>18.6</td><td>140</td><td>11.0</td><td><span class="badge badge-green">Đang hoạt động</span></td><td><button class="btn btn-ghost btn-sm">✎</button></td></tr>
+              <tr><td><strong>L-QN-001</strong></td><td>Luồng Cái Lân</td><td>Miền Bắc</td><td>22.0</td><td>130</td><td>10.5</td><td><span class="badge badge-yellow">Đang nạo vét</span></td><td><button class="btn btn-ghost btn-sm">✎</button></td></tr>
+              <tr><td><strong>L-DQ-001</strong></td><td>Luồng Dung Quất</td><td>Miền Trung</td><td>14.8</td><td>200</td><td>18.0</td><td><span class="badge badge-green">Đang hoạt động</span></td><td><button class="btn btn-ghost btn-sm">✎</button></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <hr class="section-divider">
+    <div class="section-title">7. Chi tiết Luồng</div>
+
+    <!-- ============================================================ -->
+    <!-- SCREEN 7: Channel detail                                     -->
+    <!-- ============================================================ -->
+    <div class="screen" id="screen-7">
+      <div class="breadcrumb"><a href="#">M03 — Thông số Kỹ thuật</a> <span class="sep">›</span> <a href="#">Luồng hàng hải</a> <span class="sep">›</span> <span>Luồng Hải Phòng - Lạch Huyện</span></div>
+      <h2 class="page-title">Chi tiết Luồng — L-HPH-001</h2>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-header"><h3>Thông số luồng</h3><button class="btn btn-outline btn-sm">✎ Sửa</button></div>
+          <div class="grid-2">
+            <div class="form-group"><label>Mã luồng</label><input class="form-control" value="L-HPH-001" disabled></div>
+            <div class="form-group"><label>Tên luồng</label><input class="form-control" value="Luồng Hải Phòng - Lạch Huyện"></div>
+            <div class="form-group"><label>Khu vực</label><input class="form-control" value="Miền Bắc"></div>
+            <div class="form-group"><label>Chiều dài (km)</label><input class="form-control" value="45.2"></div>
+            <div class="form-group"><label>Bề rộng (m)</label><input class="form-control" value="160"></div>
+            <div class="form-group"><label>Độ sâu (m)</label><input class="form-control" value="13.0"></div>
+            <div class="form-group"><label>Cao độ luồng</label><input class="form-control" value="+2.5m (Hải đồ)"></div>
+            <div class="form-group"><label>Trạng thái</label><select class="form-control"><option>Đang hoạt động</option><option>Đang nạo vét</option><option>Tạm ngừng</option></select></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header"><h3>Phao tiêu tham chiếu</h3><button class="btn btn-primary btn-sm">＋ Thêm</button></div>
+          <div class="table-wrap">
+            <table class="ant-table">
+              <thead><tr><th>Mã phao</th><th>Tên phao</th><th>Tọa độ</th><th>Loại</th></tr></thead>
+              <tbody>
+                <tr><td>PT-HPH-01</td><td>Phao số 0</td><td>20°48'N 106°55'E</td><td><span class="badge badge-blue">Phao luồng</span></td></tr>
+                <tr><td>PT-HPH-02</td><td>Phao số 1</td><td>20°49'N 106°58'E</td><td><span class="badge badge-blue">Phao luồng</span></td></tr>
+                <tr><td>PT-HPH-03</td><td>Phao số 2</td><td>20°50'N 107°00'E</td><td><span class="badge badge-blue">Phao luồng</span></td></tr>
+                <tr><td>PT-HPH-04</td><td>Phao GPS-01</td><td>20°51'N 107°04'E</td><td><span class="badge badge-yellow">Phao GPS</span></td></tr>
+                <tr><td>PT-HPH-05</td><td>Phao số 3</td><td>20°52'N 107°08'E</td><td><span class="badge badge-blue">Phao luồng</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <hr class="section-divider">
+    <div class="section-title">8. Danh sách Khu neo đậu</div>
+
+    <!-- ============================================================ -->
+    <!-- SCREEN 8: Anchorage list                                     -->
+    <!-- ============================================================ -->
+    <div class="screen" id="screen-8">
+      <div class="breadcrumb"><a href="#">M03 — Thông số Kỹ thuật</a> <span class="sep">›</span> <span>Khu neo đậu</span></div>
+      <h2 class="page-title">Danh sách Khu neo đậu</h2>
+
+      <div class="card">
+        <div class="search-bar">
+          <input class="form-control" placeholder="Tên khu neo..." style="width:240px;">
+          <select class="form-control" style="width:150px;"><option>Trạng thái</option><option>Đang hoạt động</option><option>Đầy</option><option>Bảo trì</option></select>
+          <button class="btn btn-primary">🔍 Tìm kiếm</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header"><h3>Khu neo đậu</h3><div class="actions"><button class="btn btn-outline btn-sm">📤 Xuất</button><button class="btn btn-primary btn-sm">＋ Thêm</button></div></div>
+        <div class="table-wrap">
+          <table class="ant-table">
+            <thead><tr><th>Mã</th><th>Tên khu neo</th><th>Khu vực</th><th>Số tàu tối đa</th><th>Diện tích (ha)</th><th>Độ sâu (m)</th><th>Trạng thái</th><th></th></tr></thead>
+            <tbody>
+              <tr><td><strong>KN-HPH-01</strong></td><td>Khu neo Hải Phòng</td><td>Miền Bắc</td><td>25</td><td>180</td><td>12.0</td><td><span class="badge badge-green">Đang hoạt động</span></td><td><button class="btn btn-ghost btn-sm">✎</button></td></tr>
+              <tr><td><strong>KN-VT-01</strong></td><td>Khu neo Vũng Tàu</td><td>Miền Nam</td><td>40</td><td>320</td><td>16.5</td><td><span class="badge badge-green">Đang hoạt động</span></td><td><button class="btn btn-ghost btn-sm">✎</button></td></tr>
+              <tr><td><strong>KN-DN-01</strong></td><td>Khu neo Đà Nẵng</td><td>Miền Trung</td><td>18</td><td>120</td><td>10.5</td><td><span class="badge badge-green">Đang hoạt động</span></td><td><button class="btn btn-ghost btn-sm">✎</button></td></tr>
+              <tr><td><strong>KN-DQ-01</strong></td><td>Khu neo Dung Quất</td><td>Miền Trung</td><td>15</td><td>95</td><td>17.0</td><td><span class="badge badge-yellow">Đầy</span></td><td><button class="btn btn-ghost btn-sm">✎</button></td></tr>
+              <tr><td><strong>KN-CL-01</strong></td><td>Khu neo Cái Lân</td><td>Miền Bắc</td><td>12</td><td>75</td><td>10.0</td><td><span class="badge badge-gray">Bảo trì</span></td><td><button class="btn btn-ghost btn-sm">✎</button></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <hr class="section-divider">
+    <div class="section-title">9. Danh sách Phao tiêu & Đèn biển</div>
+
+    <!-- ============================================================ -->
+    <!-- SCREEN 9: Buoy/lighthouse list                               -->
+    <!-- ============================================================ -->
+    <div class="screen" id="screen-9">
+      <div class="breadcrumb"><a href="#">M03 — Thông số Kỹ thuật</a> <span class="sep">›</span> <span>Phao tiêu & Đèn biển</span></div>
+      <h2 class="page-title">Danh sách Phao tiêu & Đèn biển</h2>
+
+      <div class="card">
+        <div class="search-bar">
+          <input class="form-control" placeholder="Mã hoặc tên phao..." style="width:220px;">
+          <select class="form-control" style="width:180px;"><option>Tất cả loại</option><option>Phao tiêu</option><option>Đèn biển</option><option>Phao GPS</option></select>
+          <select class="form-control" style="width:150px;"><option>Trạng thái</option><option>Hoạt động tốt</option><option>Cần bảo trì</option><option>Hỏng</option></select>
+          <button class="btn btn-primary">🔍 Tìm kiếm</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header"><h3>Phao tiêu & Đèn biển (328)</h3><div class="actions"><button class="btn btn-outline btn-sm">📤 Xuất</button><button class="btn btn-primary btn-sm">＋ Thêm</button></div></div>
+        <div class="table-wrap">
+          <table class="ant-table">
+            <thead><tr><th>Mã</th><th>Tên</th><th>Loại</th><th>Tọa độ</th><th>Trạng thái</th><th>Pin (%)</th><th>Bảo dưỡng</th><th></th></tr></thead>
+            <tbody>
+              <tr><td><strong>PT-HPH-01</strong></td><td>Phao số 0 - Lạch Huyện</td><td><span class="badge badge-blue">Phao tiêu</span></td><td>20°48'N 106°55'E</td><td><span class="badge badge-green">Hoạt động tốt</span></td><td>—</td><td>15/05/2026</td><td><button class="btn btn-ghost btn-sm">✎</button></td></tr>
+              <tr><td><strong>DB-HN-01</strong></td><td>Đèn Hòn Nét</td><td><span class="badge badge-yellow">Đèn biển</span></td><td>20°46'N 106°52'E</td><td><span class="badge badge-green">Hoạt động tốt</span></td><td>—</td><td>10/05/2026</td><td><button class="btn btn-ghost btn-sm">✎</button></td></tr>
+              <tr><td><strong>GPS-HPH-01</strong></td><td>Phao GPS - Lạch Huyện</td><td><span class="badge badge-red">Phao GPS</span></td><td>20°51'N 107°04'E</td><td><span class="badge badge-green">Hoạt động tốt</span></td><td>85</td><td>20/05/2026</td><td><button class="btn btn-ghost btn-sm">✎</button></td></tr>
+              <tr><td><strong>PT-SGN-01</strong></td><td>Phao số 0 - Sài Gòn</td><td><span class="badge badge-blue">Phao tiêu</span></td><td>10°18'N 106°48'E</td><td><span class="badge badge-yellow">Cần bảo trì</span></td><td>—</td><td>01/04/2026</td><td><button class="btn btn-ghost btn-sm">✎</button></td></tr>
+              <tr><td><strong>DB-VT-01</strong></td><td>Đèn Vũng Tàu</td><td><span class="badge badge-yellow">Đèn biển</span></td><td>10°20'N 107°05'E</td><td><span class="badge badge-green">Hoạt động tốt</span></td><td>—</td><td>12/05/2026</td><td><button class="btn btn-ghost btn-sm">✎</button></td></tr>
+              <tr><td><strong>GPS-VT-01</strong></td><td>Phao GPS - Vũng Tàu</td><td><span class="badge badge-red">Phao GPS</span></td><td>10°22'N 107°08'E</td><td><span class="badge badge-red">Hỏng</span></td><td>12</td><td>28/03/2026</td><td><button class="btn btn-ghost btn-sm">✎</button></td></tr>
+              <tr><td><strong>PT-DN-01</strong></td><td>Phao số 1 - Đà Nẵng</td><td><span class="badge badge-blue">Phao tiêu</span></td><td>16°06'N 108°14'E</td><td><span class="badge badge-green">Hoạt động tốt</span></td><td>—</td><td>08/05/2026</td><td><button class="btn btn-ghost btn-sm">✎</button></td></tr>
+              <tr><td><strong>GPS-DN-01</strong></td><td>Phao GPS - Đà Nẵng</td><td><span class="badge badge-red">Phao GPS</span></td><td>16°08'N 108°18'E</td><td><span class="badge badge-green">Hoạt động tốt</span></td><td>72</td><td>18/05/2026</td><td><button class="btn btn-ghost btn-sm">✎</button></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <hr class="section-divider">
+    <div class="section-title">10. Bản đồ KCHT</div>
+
+    <!-- ============================================================ -->
+    <!-- SCREEN 10: Map preview                                       -->
+    <!-- ============================================================ -->
+    <div class="screen" id="screen-10">
+      <div class="breadcrumb"><a href="#">M03 — Thông số Kỹ thuật</a> <span class="sep">›</span> <span>Bản đồ KCHT</span></div>
+      <h2 class="page-title">Bản đồ KCHT</h2>
+
+      <div class="card" style="padding:0;">
+        <div class="map-placeholder" style="min-height:420px;border-radius:8px;">
+          <div style="text-align:center;">
+            <div style="font-size:32px;margin-bottom:8px;">🗺️</div>
+            <div>Bản đồ tương tác KCHT Hàng hải</div>
+            <div style="font-size:12px;margin-top:4px;opacity:.7;">Kéo để di chuyển · Click để chọn đối tượng</div>
+          </div>
+          <div class="map-overlay-btns">
+            <button class="btn active">Phao tiêu</button>
+            <button class="btn">Luồng</button>
+            <button class="btn">Cảng</button>
+            <button class="btn">VTS</button>
+            <button class="btn">Khu neo</button>
+          </div>
+          <div class="map-controls">
+            <button>＋</button>
+            <button>−</button>
+          </div>
+          <div style="position:absolute;left:16px;bottom:16px;background:#fff;padding:8px 12px;border-radius:6px;box-shadow:0 1px 4px rgba(0,0,0,.12);font-size:12px;color:#374151;">
+            📍 Tọa độ: 20°52'14"N 106°41'22"E | Tỷ lệ: 1:250.000
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <hr class="section-divider">
+    <div class="section-title">11. Phê duyệt dữ liệu (3 cấp)</div>
+
+    <!-- ============================================================ -->
+    <!-- SCREEN 11: Data approval workflow                            -->
+    <!-- ============================================================ -->
+    <div class="screen" id="screen-11">
+      <div class="breadcrumb"><a href="#">M03 — Thông số Kỹ thuật</a> <span class="sep">›</span> <span>Phê duyệt dữ liệu</span></div>
+      <h2 class="page-title">Phê duyệt dữ liệu</h2>
+
+      <div class="card">
+        <div class="workflow-steps">
+          <div class="workflow-step done">1. Nhập liệu</div>
+          <div class="workflow-step active">2. Kiểm tra</div>
+          <div class="workflow-step">3. Phê duyệt</div>
+        </div>
+        <div style="text-align:center;padding:4px 0 8px;font-size:13px;color:#6b7280;">
+          Bước hiện tại: <strong>Kiểm tra</strong> — Chờ xác nhận của cán bộ kiểm tra
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header"><h3>Danh sách chờ xử lý</h3><div class="actions"><select class="form-control" style="width:160px;"><option>Tất cả bước</option><option>Nhập liệu</option><option>Kiểm tra</option><option>Phê duyệt</option></select></div></div>
+        <div class="table-wrap">
+          <table class="ant-table">
+            <thead><tr><th>Đối tượng</th><th>Thao tác</th><th>Người gửi</th><th>Ngày</th><th>Bước hiện tại</th><th></th></tr></thead>
+            <tbody>
+              <tr><td>Cảng Hải Phòng</td><td>Cập nhật độ sâu</td><td>Nguyễn Văn A</td><td>06/06/2026</td><td><span class="badge badge-yellow">Kiểm tra</span></td><td><button class="btn btn-success btn-sm">✔ Duyệt</button> <button class="btn btn-danger btn-sm">✘ Từ chối</button></td></tr>
+              <tr><td>Luồng Cái Lân</td><td>Thay đổi trạng thái</td><td>Trần Thị B</td><td>05/06/2026</td><td><span class="badge badge-yellow">Kiểm tra</span></td><td><button class="btn btn-success btn-sm">✔ Duyệt</button> <button class="btn btn-danger btn-sm">✘ Từ chối</button></td></tr>
+              <tr><td>Phao GPS-VT-01</td><td>Cập nhật tọa độ</td><td>Lê Văn C</td><td>04/06/2026</td><td><span class="badge badge-blue">Nhập liệu</span></td><td><button class="btn btn-success btn-sm">✔ Duyệt</button> <button class="btn btn-danger btn-sm">✘ Từ chối</button></td></tr>
+              <tr><td>Bến Chùa Vẽ</td><td>Thêm thiết bị</td><td>Phạm Thị D</td><td>03/06/2026</td><td><span class="badge badge-red">Phê duyệt</span></td><td><button class="btn btn-success btn-sm">✔ Duyệt</button> <button class="btn btn-danger btn-sm">✘ Từ chối</button></td></tr>
+              <tr><td>Khu neo Vũng Tàu</td><td>Cập nhật sức chứa</td><td>Hoàng Văn E</td><td>02/06/2026</td><td><span class="badge badge-yellow">Kiểm tra</span></td><td><button class="btn btn-success btn-sm">✔ Duyệt</button> <button class="btn btn-danger btn-sm">✘ Từ chối</button></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <hr class="section-divider">
+    <div class="section-title">12. Tìm kiếm thông số</div>
+
+    <!-- ============================================================ -->
+    <!-- SCREEN 12: Search/filter page                                -->
+    <!-- ============================================================ -->
+    <div class="screen" id="screen-12">
+      <div class="breadcrumb"><a href="#">M03 — Thông số Kỹ thuật</a> <span class="sep">›</span> <span>Tìm kiếm</span></div>
+      <h2 class="page-title">Tìm kiếm thông số</h2>
+
+      <div class="card">
+        <div class="card-header"><h3>Bộ lọc tìm kiếm nâng cao</h3></div>
+        <div class="grid-3">
+          <div class="form-group"><label>Từ khóa</label><input class="form-control" placeholder="Nhập từ khóa..."></div>
+          <div class="form-group"><label>Loại KCHT</label><select class="form-control"><option>Tất cả</option><option>Cảng biển</option><option>Bến cảng</option><option>Luồng hàng hải</option><option>Khu neo đậu</option><option>Phao tiêu</option><option>Đèn biển</option><option>Phao GPS</option></select></div>
+          <div class="form-group"><label>Trạng thái</label><select class="form-control"><option>Tất cả</option><option>Đang hoạt động</option><option>Tạm ngừng</option><option>Bảo trì</option></select></div>
+          <div class="form-group"><label>Khu vực</label><select class="form-control"><option>Tất cả</option><option>Miền Bắc</option><option>Miền Trung</option><option>Miền Nam</option></select></div>
+          <div class="form-group"><label>Từ ngày</label><input class="form-control" type="date" value="2026-01-01"></div>
+          <div class="form-group"><label>Đến ngày</label><input class="form-control" type="date" value="2026-06-06"></div>
+        </div>
+        <div class="flex gap-2 mt-2">
+          <button class="btn btn-primary">🔍 Tìm kiếm</button>
+          <button class="btn btn-ghost">↻ Xóa bộ lọc</button>
+          <button class="btn btn-outline" style="margin-left:auto;">📤 Xuất kết quả</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header"><h3>Kết quả tìm kiếm (18 kết quả)</h3></div>
+        <div class="table-wrap">
+          <table class="ant-table">
+            <thead><tr><th>Loại</th><th>Mã</th><th>Tên</th><th>Khu vực</th><th>Trạng thái</th><th>Cập nhật</th><th></th></tr></thead>
+            <tbody>
+              <tr><td><span class="badge badge-blue">Cảng biển</span></td><td>VN-HPH-01</td><td>Cảng Hải Phòng</td><td>Miền Bắc</td><td><span class="badge badge-green">Đang hoạt động</span></td><td>05/06/2026</td><td><button class="btn btn-ghost btn-sm">Xem</button></td></tr>
+              <tr><td><span class="badge badge-blue">Cảng biển</span></td><td>VN-SGN-02</td><td>Cảng Sài Gòn</td><td>Miền Nam</td><td><span class="badge badge-green">Đang hoạt động</span></td><td>04/06/2026</td><td><button class="btn btn-ghost btn-sm">Xem</button></td></tr>
+              <tr><td><span class="badge badge-green">Luồng</span></td><td>L-HPH-001</td><td>Luồng Hải Phòng - Lạch Huyện</td><td>Miền Bắc</td><td><span class="badge badge-green">Đang hoạt động</span></td><td>05/06/2026</td><td><button class="btn btn-ghost btn-sm">Xem</button></td></tr>
+              <tr><td><span class="badge badge-red">Phao GPS</span></td><td>GPS-VT-01</td><td>Phao GPS - Vũng Tàu</td><td>Miền Nam</td><td><span class="badge badge-red">Hỏng</span></td><td>28/05/2026</td><td><button class="btn btn-ghost btn-sm">Xem</button></td></tr>
+              <tr><td><span class="badge badge-yellow">Khu neo</span></td><td>KN-DN-01</td><td>Khu neo Đà Nẵng</td><td>Miền Trung</td><td><span class="badge badge-green">Đang hoạt động</span></td><td>01/06/2026</td><td><button class="btn btn-ghost btn-sm">Xem</button></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <hr class="section-divider">
+    <div class="section-title">13. Nhập / Xuất dữ liệu</div>
+
+    <!-- ============================================================ -->
+    <!-- SCREEN 13: Data import/export                                -->
+    <!-- ============================================================ -->
+    <div class="screen" id="screen-13">
+      <div class="breadcrumb"><a href="#">M03 — Thông số Kỹ thuật</a> <span class="sep">›</span> <span>Nhập / Xuất dữ liệu</span></div>
+      <h2 class="page-title">Nhập / Xuất dữ liệu</h2>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-header"><h3>Nhập dữ liệu</h3></div>
+          <div class="drop-zone">
+            <div class="icon">📁</div>
+            <p><strong>Kéo thả file vào đây</strong></p>
+            <p style="font-size:13px;color:#9ca3af;">hoặc click để chọn file</p>
+            <small>Hỗ trợ: .xlsx, .xls, .csv, .json (tối đa 20MB)</small>
+          </div>
+          <div class="flex gap-2 mt-4">
+            <button class="btn btn-primary">📥 Nhập dữ liệu</button>
+            <button class="btn btn-ghost">Tải file mẫu</button>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header"><h3>Xuất dữ liệu</h3></div>
+          <div style="padding:8px 0;">
+            <div class="form-group"><label>Định dạng xuất</label>
+              <div class="flex gap-3" style="padding:6px 0;">
+                <label style="display:flex;align-items:center;gap:4px;"><input type="radio" name="export" checked> Excel (.xlsx)</label>
+                <label style="display:flex;align-items:center;gap:4px;"><input type="radio" name="export"> CSV (.csv)</label>
+                <label style="display:flex;align-items:center;gap:4px;"><input type="radio" name="export"> JSON (.json)</label>
+              </div>
+            </div>
+            <div class="form-group"><label>Phạm vi dữ liệu</label><select class="form-control"><option>Tất cả KCHT</option><option>Cảng biển</option><option>Luồng hàng hải</option><option>Phao tiêu</option></select></div>
+            <div class="form-group"><label>Khu vực</label><select class="form-control"><option>Tất cả khu vực</option><option>Miền Bắc</option><option>Miền Trung</option><option>Miền Nam</option></select></div>
+            <button class="btn btn-success mt-2">📤 Xuất dữ liệu</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card mt-4">
+        <div class="card-header"><h3>Lịch sử nhập dữ liệu</h3></div>
+        <div class="table-wrap">
+          <table class="ant-table">
+            <thead><tr><th>Ngày</th><th>File</th><th>Loại</th><th>Số bản ghi</th><th>Người nhập</th><th>Trạng thái</th></tr></thead>
+            <tbody>
+              <tr><td>06/06/2026 09:15</td><td>du_lieu_cang_06_2026.xlsx</td><td>Cảng biển</td><td>42</td><td>Nguyễn Văn A</td><td><span class="badge badge-green">Thành công</span></td></tr>
+              <tr><td>05/06/2026 14:30</td><td>phao_gps_update.json</td><td>Phao GPS</td><td>18</td><td>Trần Thị B</td><td><span class="badge badge-green">Thành công</span></td></tr>
+              <tr><td>04/06/2026 11:00</td><td>luong_hang_hai_q2.csv</td><td>Luồng</td><td>56</td><td>Lê Văn C</td><td><span class="badge badge-yellow">Có lỗi (3)</span></td></tr>
+              <tr><td>03/06/2026 08:45</td><td>ben_cang_data.xlsx</td><td>Bến cảng</td><td>24</td><td>Phạm Thị D</td><td><span class="badge badge-green">Thành công</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <hr class="section-divider">
+    <div class="section-title">14. Tài liệu đính kèm</div>
+
+    <!-- ============================================================ -->
+    <!-- SCREEN 14: Document attachment viewer                        -->
+    <!-- ============================================================ -->
+    <div class="screen" id="screen-14">
+      <div class="breadcrumb"><a href="#">M03 — Thông số Kỹ thuật</a> <span class="sep">›</span> <span>Tài liệu đính kèm</span></div>
+      <h2 class="page-title">Tài liệu đính kèm</h2>
+
+      <div class="flex gap-3" style="align-items:center;justify-content:space-between;margin-bottom:14px;">
+        <div class="flex gap-2" style="flex:1;">
+          <input class="form-control" placeholder="Tìm kiếm tài liệu..." style="max-width:320px;">
+          <select class="form-control" style="width:150px;"><option>Tất cả loại</option><option>PDF</option><option>DOC</option><option>Excel</option><option>Hình ảnh</option></select>
+          <button class="btn btn-primary">🔍 Tìm</button>
+        </div>
+        <button class="btn btn-primary">📤 Tải lên</button>
+      </div>
+
+      <div class="card">
+        <div class="grid-3">
+          <div class="file-list-item"><div class="file-icon file-icon-pdf">PDF</div><div><strong>Bản vẽ kỹ thuật cảng Hải Phòng</strong><br><small style="color:#9ca3af;">PDF • 2.4 MB • 05/06/2026</small></div></div>
+          <div class="file-list-item"><div class="file-icon file-icon-doc">DOC</div><div><strong>Báo cáo khảo sát luồng Lạch Huyện</strong><br><small style="color:#9ca3af;">DOC • 1.8 MB • 04/06/2026</small></div></div>
+          <div class="file-list-item"><div class="file-icon file-icon-xls">XLS</div><div><strong>Thông số kỹ thuật cảng – Q2/2026</strong><br><small style="color:#9ca3af;">XLSX • 3.1 MB • 03/06/2026</small></div></div>
+          <div class="file-list-item"><div class="file-icon file-icon-img">IMG</div><div><strong>Sơ đồ bố trí phao GPS Vũng Tàu</strong><br><small style="color:#9ca3af;">PNG • 856 KB • 02/06/2026</small></div></div>
+          <div class="file-list-item"><div class="file-icon file-icon-pdf">PDF</div><div><strong>Quy chuẩn kỹ thuật quốc gia về luồng</strong><br><small style="color:#9ca3af;">PDF • 5.2 MB • 01/06/2026</small></div></div>
+          <div class="file-list-item"><div class="file-icon file-icon-zip">ZIP</div><div><strong>Hồ sơ thiết kế KCHT miền Trung</strong><br><small style="color:#9ca3af;">ZIP • 12.6 MB • 30/05/2026</small></div></div>
+        </div>
+      </div>
+    </div>
+
+    <hr class="section-divider">
+    <div class="section-title">15. Lịch sử thay đổi</div>
+
+    <!-- ============================================================ -->
+    <!-- SCREEN 15: History tracking                                  -->
+    <!-- ============================================================ -->
+    <div class="screen" id="screen-15">
+      <div class="breadcrumb"><a href="#">M03 — Thông số Kỹ thuật</a> <span class="sep">›</span> <span>Lịch sử thay đổi</span></div>
+      <h2 class="page-title">Lịch sử thay đổi</h2>
+
+      <div class="card">
+        <div class="search-bar">
+          <input class="form-control" placeholder="Tên đối tượng..." style="width:240px;">
+          <select class="form-control" style="width:180px;"><option>Loại đối tượng</option><option>Cảng biển</option><option>Bến cảng</option><option>Luồng</option><option>Phao tiêu</option></select>
+          <input class="form-control" type="date" style="width:160px;">
+          <input class="form-control" type="date" style="width:160px;">
+          <button class="btn btn-primary">🔍 Lọc</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="timeline">
+          <div class="timeline-item">
+            <div class="time">06/06/2026 09:15 — Nguyễn Văn A</div>
+            <div class="desc">Cập nhật <strong>độ sâu</strong> luồng Hải Phòng - Lạch Huyện</div>
+            <div class="diff"><span class="old">12.0m</span> → <span class="new">13.0m</span></div>
+          </div>
+          <div class="timeline-item">
+            <div class="time">05/06/2026 14:30 — Trần Thị B</div>
+            <div class="desc">Thay đổi <strong>trạng thái</strong> phao GPS-VT-01</div>
+            <div class="diff"><span class="old">Hoạt động tốt</span> → <span class="new">Hỏng</span></div>
+          </div>
+          <div class="timeline-item">
+            <div class="time">04/06/2026 11:00 — Lê Văn C</div>
+            <div class="desc">Thêm mới <strong>thiết bị</strong> bến Chùa Vẽ</div>
+            <div class="diff">Thêm: Cần cẩu bờ STS (40 tấn) x2</div>
+          </div>
+          <div class="timeline-item">
+            <div class="time">03/06/2026 08:45 — Phạm Thị D</div>
+            <div class="desc">Cập nhật <strong>sức chứa</strong> khu neo Vũng Tàu</div>
+            <div class="diff"><span class="old">30 tàu</span> → <span class="new">40 tàu</span></div>
+          </div>
+          <div class="timeline-item">
+            <div class="time">02/06/2026 16:20 — Hoàng Văn E</div>
+            <div class="desc">Nhập hàng loạt <strong>18 phao GPS</strong> từ file Excel</div>
+          </div>
+          <div class="timeline-item">
+            <div class="time">01/06/2026 10:00 — Nguyễn Văn A</div>
+            <div class="desc">Phê duyệt thông số kỹ thuật <strong>Cảng Nam Đình Vũ</strong></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <hr class="section-divider">
+    <div class="section-title">16. Theo dõi Phao GPS</div>
+
+    <!-- ============================================================ -->
+    <!-- SCREEN 16: GPS buoy tracking map                             -->
+    <!-- ============================================================ -->
+    <div class="screen" id="screen-16">
+      <div class="breadcrumb"><a href="#">M03 — Thông số Kỹ thuật</a> <span class="sep">›</span> <span>Phao GPS</span></div>
+      <h2 class="page-title">Theo dõi Phao GPS</h2>
+
+      <div class="grid-2">
+        <div class="card" style="padding:0;">
+          <div class="map-placeholder" style="min-height:350px;border-radius:8px;">
+            Bản đồ theo dõi Phao GPS
+            <div class="map-overlay-btns">
+              <button class="btn active">Tất cả</button>
+              <button class="btn">Online</button>
+              <button class="btn">Cảnh báo</button>
+            </div>
+            <div class="map-controls"><button>＋</button><button>−</button></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header"><h3>Danh sách Phao GPS</h3></div>
+          <div class="table-wrap" style="max-height:340px;overflow-y:auto;">
+            <table class="ant-table">
+              <thead><tr><th>Phao</th><th>Lat</th><th>Lng</th><th>Pin</th><th>Tín hiệu</th><th>Ping</th><th>Trạng thái</th></tr></thead>
+              <tbody>
+                <tr><td>GPS-HPH-01</td><td>20°51'N</td><td>107°04'E</td><td>85%</td><td>Mạnh</td><td>09:15</td><td><span class="badge badge-green">Online</span></td></tr>
+                <tr><td>GPS-HPH-02</td><td>20°53'N</td><td>107°06'E</td><td>72%</td><td>Trung bình</td><td>09:14</td><td><span class="badge badge-green">Online</span></td></tr>
+                <tr><td>GPS-VT-01</td><td>10°22'N</td><td>107°08'E</td><td>12%</td><td>Yếu</td><td>06:30</td><td><span class="badge badge-red">Offline</span></td></tr>
+                <tr><td>GPS-VT-02</td><td>10°24'N</td><td>107°10'E</td><td>64%</td><td>Mạnh</td><td>09:15</td><td><span class="badge badge-green">Online</span></td></tr>
+                <tr><td>GPS-DN-01</td><td>16°08'N</td><td>108°18'E</td><td>72%</td><td>Mạnh</td><td>09:13</td><td><span class="badge badge-green">Online</span></td></tr>
+                <tr><td>GPS-DN-02</td><td>16°10'N</td><td>108°20'E</td><td>45%</td><td>Trung bình</td><td>09:10</td><td><span class="badge badge-yellow">Cảnh báo</span></td></tr>
+                <tr><td>GPS-DQ-01</td><td>15°22'N</td><td>108°52'E</td><td>90%</td><td>Mạnh</td><td>09:15</td><td><span class="badge badge-green">Online</span></td></tr>
+                <tr><td>GPS-CL-01</td><td>20°58'N</td><td>107°10'E</td><td>28%</td><td>Yếu</td><td>07:45</td><td><span class="badge badge-yellow">Cảnh báo</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <hr class="section-divider">
+    <div class="section-title">17. Dữ liệu cảm biến VTS</div>
+
+    <!-- ============================================================ -->
+    <!-- SCREEN 17: VTS sensor data feed                              -->
+    <!-- ============================================================ -->
+    <div class="screen" id="screen-17">
+      <div class="breadcrumb"><a href="#">M03 — Thông số Kỹ thuật</a> <span class="sep">›</span> <span>Cảm biến VTS</span></div>
+      <h2 class="page-title">Dữ liệu cảm biến VTS</h2>
+
+      <div class="realtime-bar">
+        <div class="rt-item"><div class="rt-value">47</div><div class="rt-label">Tàu trong khu vực</div></div>
+        <div class="rt-item"><div class="rt-value">12</div><div class="rt-label">Tàu neo đậu</div></div>
+        <div class="rt-item"><div class="rt-value">35</div><div class="rt-label">Tàu đang di chuyển</div></div>
+        <div class="rt-item"><div class="rt-value">6</div><div class="rt-label">Cảnh báo</div></div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-header"><h3>Trạng thái trạm cảm biến</h3></div>
+          <div class="space-y-2">
+            <div class="flex gap-3" style="padding:6px 0;border-bottom:1px solid #f0f0f0;"><span class="sensor-dot online"></span> <strong>VTS Hải Phòng</strong> <span style="color:#6b7280;margin-left:auto;">Online · 12 radar · 08:45</span></div>
+            <div class="flex gap-3" style="padding:6px 0;border-bottom:1px solid #f0f0f0;"><span class="sensor-dot online"></span> <strong>VTS Vũng Tàu</strong> <span style="color:#6b7280;margin-left:auto;">Online · 8 radar · 08:45</span></div>
+            <div class="flex gap-3" style="padding:6px 0;border-bottom:1px solid #f0f0f0;"><span class="sensor-dot online"></span> <strong>VTS Đà Nẵng</strong> <span style="color:#6b7280;margin-left:auto;">Online · 6 radar · 08:44</span></div>
+            <div class="flex gap-3" style="padding:6px 0;border-bottom:1px solid #f0f0f0;"><span class="sensor-dot offline"></span> <strong>VTS Quảng Ninh</strong> <span style="color:#6b7280;margin-left:auto;">Offline · Từ 06:30</span></div>
+            <div class="flex gap-3" style="padding:6px 0;border-bottom:1px solid #f0f0f0;"><span class="sensor-dot online"></span> <strong>VTS Dung Quất</strong> <span style="color:#6b7280;margin-left:auto;">Online · 4 radar · 08:45</span></div>
+            <div class="flex gap-3" style="padding:6px 0;"><span class="sensor-dot warning"></span> <strong>VTS Nghi Sơn</strong> <span style="color:#6b7280;margin-left:auto;">Degraded · 2/4 radar · 08:40</span></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header"><h3>Tàu gần đây</h3></div>
+          <div class="table-wrap" style="max-height:300px;overflow-y:auto;">
+            <table class="ant-table">
+              <thead><tr><th>Tên tàu</th><th>IMO</th><th>Vị trí</th><th>Hướng</th><th>Tốc độ</th></tr></thead>
+              <tbody>
+                <tr><td>Ever Fortune</td><td>IMO 9234567</td><td>20°51'N 107°02'E</td><td>NE</td><td>12.5 kn</td></tr>
+                <tr><td>Hai Phong Star</td><td>IMO 9123456</td><td>20°49'N 106°58'E</td><td>SW</td><td>8.2 kn</td></tr>
+                <tr><td>MSC Aries</td><td>IMO 9345678</td><td>10°20'N 107°05'E</td><td>NW</td><td>14.0 kn</td></tr>
+                <tr><td>Dong Do</td><td>IMO 9012345</td><td>16°07'N 108°16'E</td><td>N</td><td>6.8 kn</td></tr>
+                <tr><td>Petrolimex 08</td><td>IMO 8901234</td><td>10°22'N 107°10'E</td><td>SE</td><td>10.0 kn</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <hr class="section-divider">
+    <div class="section-title">18. Trạm tín hiệu</div>
+
+    <!-- ============================================================ -->
+    <!-- SCREEN 18: Signal station management                         -->
+    <!-- ============================================================ -->
+    <div class="screen" id="screen-18">
+      <div class="breadcrumb"><a href="#">M03 — Thông số Kỹ thuật</a> <span class="sep">›</span> <span>Trạm tín hiệu</span></div>
+      <h2 class="page-title">Trạm tín hiệu</h2>
+
+      <div class="card">
+        <div class="card-header"><h3>Danh sách Trạm tín hiệu</h3><div class="actions"><button class="btn btn-outline btn-sm">📤 Xuất</button><button class="btn btn-primary btn-sm">＋ Thêm trạm</button></div></div>
+        <div class="table-wrap">
+          <table class="ant-table">
+            <thead><tr><th>Mã trạm</th><th>Tên trạm</th><th>Vị trí</th><th>Loại</th><th>Trạng thái</th><th></th></tr></thead>
+            <tbody>
+              <tr><td><strong>TH-HPH-01</strong></td><td>Trạm tín hiệu Hải Phòng</td><td>20°52'N 106°42'E</td><td><span class="badge badge-blue">Đèn tín hiệu</span></td><td><span class="badge badge-green">Đang hoạt động</span></td><td><button class="btn btn-ghost btn-sm">✎</button></td></tr>
+              <tr><td><strong>TH-VT-01</strong></td><td>Trạm tín hiệu Vũng Tàu</td><td>10°20'N 107°05'E</td><td><span class="badge badge-blue">Đèn tín hiệu</span></td><td><span class="badge badge-green">Đang hoạt động</span></td><td><button class="btn btn-ghost btn-sm">✎</button></td></tr>
+              <tr><td><strong>TH-DN-01</strong></td><td>Trạm tín hiệu Đà Nẵng</td><td>16°06'N 108°14'E</td><td><span class="badge badge-yellow">Còi tín hiệu</span></td><td><span class="badge badge-green">Đang hoạt động</span></td><td><button class="btn btn-ghost btn-sm">✎</button></td></tr>
+              <tr><td><strong>TH-QN-01</strong></td><td>Trạm tín hiệu Cái Lân</td><td>20°58'N 107°10'E</td><td><span class="badge badge-blue">Đèn tín hiệu</span></td><td><span class="badge badge-yellow">Bảo trì</span></td><td><button class="btn btn-ghost btn-sm">✎</button></td></tr>
+              <tr><td><strong>TH-DQ-01</strong></td><td>Trạm tín hiệu Dung Quất</td><td>15°22'N 108°52'E</td><td><span class="badge badge-yellow">Còi tín hiệu</span></td><td><span class="badge badge-green">Đang hoạt động</span></td><td><button class="btn btn-ghost btn-sm">✎</button></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header"><h3>Chi tiết Trạm tín hiệu — TH-HPH-01</h3><div class="actions"><button class="btn btn-outline btn-sm">✎ Chỉnh sửa</button><button class="btn btn-primary btn-sm">💾 Lưu</button></div></div>
+        <div class="grid-2">
+          <div class="form-group"><label class="required">Mã trạm</label><input class="form-control" value="TH-HPH-01" disabled></div>
+          <div class="form-group"><label class="required">Tên trạm</label><input class="form-control" value="Trạm tín hiệu Hải Phòng"></div>
+          <div class="form-group"><label class="required">Kinh độ</label><input class="form-control" value="106°42'E"></div>
+          <div class="form-group"><label class="required">Vĩ độ</label><input class="form-control" value="20°52'N"></div>
+          <div class="form-group"><label>Loại trạm</label><select class="form-control"><option>Đèn tín hiệu</option><option>Còi tín hiệu</option></select></div>
+          <div class="form-group"><label>Trạng thái</label><select class="form-control"><option>Đang hoạt động</option><option>Bảo trì</option><option>Ngừng hoạt động</option></select></div>
+          <div class="form-group"><label>Tầm hiệu lực (hải lý)</label><input class="form-control" value="15"></div>
+          <div class="form-group"><label>Đơn vị quản lý</label><input class="form-control" value="Cảng vụ Hàng hải Hải Phòng"></div>
+        </div>
+        <div class="form-group mt-2"><label>Ghi chú</label><textarea class="form-control" rows="2">Trạm đèn tín hiệu chính tại cửa ngõ cảng Hải Phòng.</textarea></div>
+      </div>
+    </div>
+
+  </div><!-- /content -->
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    Cục Hàng hải Việt Nam — Phiên bản 1.0
+  </footer>
+
+</div><!-- /main-wrapper -->
+
+</body>
+</html>

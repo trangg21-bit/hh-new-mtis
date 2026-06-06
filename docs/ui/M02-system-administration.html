@@ -1,0 +1,1279 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>M02 — Quản trị Hệ thống | Hệ thống MTIS</title>
+<style>
+/* ================================================================
+   MTIS Design System — Theme Tokens
+   Extracted from M03 (Chuẩn), dùng cho toàn bộ 11 modules
+   Primary: #2153aa | Sidebar: light 260px | Font: Averta
+   ================================================================ */
+
+/* ===== 1. CSS CUSTOM PROPERTIES ===== */
+:root {
+  /* Brand */
+  --color-primary: #2153aa;
+  --color-primary-hover: #1a3f8a;
+  --color-primary-light: #eff8ff;
+  --color-primary-light-end: #e0f2fe;
+  --color-primary-ring: rgba(33, 83, 170, 0.12);
+
+  /* Neutrals */
+  --color-body-bg: #f4f4f5;
+  --color-body-text: #1a1a2e;
+  --color-muted: #6b7280;
+  --color-muted-light: #9ca3af;
+  --color-heading: #374151;
+  --color-border: #e5e7eb;
+  --color-border-light: #f0f0f0;
+  --color-border-input: #d1d5db;
+  --color-white: #ffffff;
+  --color-table-header-bg: #fafafa;
+  --color-table-even-row: #fafbfc;
+  --color-table-hover: #eff8ff;
+  --color-ghost-hover: #f3f4f6;
+
+  /* Semantic */
+  --color-danger: #dc2626;
+  --color-danger-hover: #b91c1c;
+  --color-danger-bg: #fef2f2;
+  --color-danger-text: #991b1b;
+  --color-success: #059669;
+  --color-success-hover: #047857;
+  --color-success-bg: #ecfdf5;
+  --color-success-text: #065f46;
+  --color-warning: #d97706;
+  --color-warning-bg: #fffbeb;
+  --color-warning-text: #92400e;
+  --color-info-bg: #eff6ff;
+  --color-info-text: #1e40af;
+
+  /* Layout */
+  --sidebar-width: 260px;
+  --header-padding: 12px 28px;
+  --content-padding: 24px 28px;
+  --content-max-width: 1360px;
+
+  /* Typography */
+  --font-family: Averta, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-size-base: 14px;
+  --font-size-sm: 13px;
+  --font-size-xs: 12px;
+  --font-size-xxs: 11px;
+  --font-size-lg: 16px;
+  --font-size-xl: 22px;
+  --font-size-stat: 28px;
+
+  /* Radii */
+  --radius-card: 8px;
+  --radius-btn: 6px;
+  --radius-badge: 12px;
+  --radius-input: 6px;
+  --radius-icon: 12px;
+
+  /* Shadows */
+  --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.06);
+  --shadow-header: 0 1px 3px rgba(0, 0, 0, 0.06);
+
+  /* Transitions */
+  --transition-fast: all 0.15s ease;
+}
+
+/* ===== 2. RESET ===== */
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html, body { height:100%; }
+body {
+  font-family: var(--font-family);
+  background: var(--color-body-bg);
+  color: var(--color-body-text);
+  font-size: var(--font-size-base);
+  line-height: 1.5;
+  display: flex;
+  min-height: 100vh;
+}
+
+/* ===== 3. SIDEBAR ===== */
+.sidebar {
+  width: var(--sidebar-width);
+  min-width: var(--sidebar-width);
+  background: var(--color-white);
+  border-right: 1px solid var(--color-border);
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  position: fixed;
+  left:0; top:0; bottom:0;
+  z-index: 100;
+  overflow-y: auto;
+}
+.sidebar-logo {
+  display: flex; align-items: center; gap: 12px;
+  padding: 20px 20px 16px;
+  border-bottom: 1px solid var(--color-border);
+}
+.sidebar-logo .logo-icon {
+  width: 44px; height: 44px;
+  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-hover));
+  border-radius: var(--radius-icon);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--color-white); font-weight: 700; font-size: 20px;
+  flex-shrink: 0;
+}
+.sidebar-logo .logo-text { line-height: 1.3; }
+.sidebar-logo .logo-text strong { display:block; font-size: var(--font-size-sm); color: var(--color-body-text); }
+.sidebar-logo .logo-text small { font-size: var(--font-size-xxs); color: var(--color-muted); }
+/* Menu */
+.sidebar-menu { padding: 12px 0; flex: 1; }
+.sidebar-menu .menu-section {
+  padding: 8px 20px 4px;
+  font-size: var(--font-size-xxs); text-transform: uppercase; letter-spacing: 0.5px;
+  color: var(--color-muted-light); font-weight: 600;
+}
+.sidebar-menu .menu-item {
+  display: flex; align-items: center; gap: 12px;
+  padding: 10px 20px;
+  color: var(--color-heading); text-decoration: none;
+  font-size: var(--font-size-base); cursor: pointer;
+  transition: var(--transition-fast);
+  border-left: 3px solid transparent;
+}
+.sidebar-menu .menu-item:hover { background: #f9fafb; color: var(--color-primary); }
+.sidebar-menu .menu-item.active {
+  background: linear-gradient(90deg, var(--color-primary-light), var(--color-primary-light-end));
+  border-left: 3px solid var(--color-primary);
+  color: var(--color-primary);
+  font-weight: 600;
+}
+.sidebar-menu .menu-item .icon { width: 20px; text-align: center; font-size: var(--font-size-lg); flex-shrink: 0; }
+.sidebar-footer {
+  padding: 16px 20px; border-top: 1px solid var(--color-border);
+  font-size: var(--font-size-xxs); color: var(--color-muted-light); text-align: center;
+}
+
+/* ===== 4. MAIN LAYOUT ===== */
+.main-wrapper {
+  margin-left: var(--sidebar-width); flex:1;
+  display: flex; flex-direction: column; min-height: 100vh;
+}
+.header {
+  background: var(--color-white);
+  box-shadow: var(--shadow-header);
+  padding: var(--header-padding);
+  display: flex; align-items: center; justify-content: space-between;
+  position: sticky; top: 0; z-index: 50;
+}
+.header h1 { font-size: 15px; font-weight: 600; color: var(--color-body-text); }
+.header .user-info { display: flex; align-items: center; gap: 16px; }
+.header .user-info .avatar {
+  width: 34px; height: 34px; border-radius: 50%;
+  background: var(--color-primary); color: var(--color-white);
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 600; font-size: var(--font-size-base);
+}
+.header .user-info .name { font-size: var(--font-size-sm); color: var(--color-heading); }
+.header .user-info .role { font-size: var(--font-size-xxs); color: var(--color-muted-light); }
+/* Content */
+.content { flex: 1; padding: var(--content-padding); max-width: var(--content-max-width); }
+.breadcrumb {
+  font-size: var(--font-size-sm); color: var(--color-muted);
+  margin-bottom: 6px; display: flex; align-items: center; gap: 6px; flex-wrap: wrap;
+}
+.breadcrumb a { color: var(--color-primary); text-decoration: none; }
+.breadcrumb a:hover { text-decoration: underline; }
+.breadcrumb span.sep { color: var(--color-muted-light); }
+.page-title { font-size: var(--font-size-xl); font-weight: 700; color: var(--color-body-text); margin-bottom: 20px; }
+.page-subtitle { font-size: var(--font-size-sm); color: var(--color-muted); margin-bottom: 20px; margin-top: -16px; }
+.section-title {
+  font-size: var(--font-size-lg); font-weight: 600; color: var(--color-primary);
+  margin-bottom: 12px; display: flex; align-items: center; gap: 8px;
+}
+hr.section-divider { border: none; border-top: 1px solid var(--color-border); margin: 28px 0; }
+.footer {
+  background: var(--color-white); border-top: 1px solid var(--color-border);
+  padding: 14px 28px; font-size: var(--font-size-xs); color: var(--color-muted); text-align: center;
+}
+
+/* ===== 5. CARD ===== */
+.card {
+  background: var(--color-white); border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card); padding: 20px; margin-bottom: 16px;
+}
+.card-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 14px;
+}
+.card-header h3 { font-size: var(--font-size-lg); font-weight: 600; color: var(--color-body-text); }
+.card-header .actions { display: flex; gap: 8px; }
+.card-body { padding: 4px 0; }
+
+/* ===== 6. STAT CARDS ===== */
+.stats-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 20px; }
+.stat-card {
+  background: var(--color-white); border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card); padding: 18px 20px;
+  border-left: 4px solid var(--color-primary);
+}
+.stat-card .stat-label { font-size: var(--font-size-sm); color: var(--color-muted); margin-bottom: 4px; }
+.stat-card .stat-value { font-size: var(--font-size-stat); font-weight: 700; color: var(--color-body-text); }
+.stat-card .stat-sub { font-size: var(--font-size-xs); color: var(--color-muted-light); margin-top: 4px; }
+.stat-card:nth-child(1) { border-left-color: var(--color-primary); }
+.stat-card:nth-child(2) { border-left-color: var(--color-success); }
+.stat-card:nth-child(3) { border-left-color: var(--color-warning); }
+.stat-card:nth-child(4) { border-left-color: var(--color-danger); }
+
+/* ===== 7. TABLE ===== */
+.table-wrap { overflow-x: auto; }
+.ant-table { width: 100%; border-collapse: collapse; font-size: var(--font-size-sm); }
+.ant-table thead th {
+  background: var(--color-table-header-bg);
+  border-bottom: 2px solid var(--color-border);
+  padding: 10px 12px; text-align: left;
+  font-weight: 600; color: var(--color-heading); white-space: nowrap;
+}
+.ant-table tbody td {
+  padding: 9px 12px; border-bottom: 1px solid var(--color-border-light);
+  color: var(--color-body-text);
+}
+.ant-table tbody tr:nth-child(even) td { background: var(--color-table-even-row); }
+.ant-table tbody tr:hover td { background: var(--color-table-hover); }
+
+/* ===== 8. BADGES ===== */
+.badge {
+  display: inline-block; padding: 2px 10px; border-radius: var(--radius-badge);
+  font-size: var(--font-size-xs); font-weight: 500; line-height: 1.6;
+}
+.badge-green  { background: var(--color-success-bg); color: var(--color-success-text); }
+.badge-red    { background: var(--color-danger-bg);  color: var(--color-danger-text); }
+.badge-blue   { background: var(--color-info-bg);    color: var(--color-info-text); }
+.badge-yellow { background: var(--color-warning-bg); color: var(--color-warning-text); }
+.badge-gray   { background: var(--color-ghost-hover); color: var(--color-heading); }
+
+/* ===== 9. BUTTONS ===== */
+.btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 8px 16px; border-radius: var(--radius-btn);
+  font-size: var(--font-size-sm); font-weight: 500;
+  cursor: pointer; border: 1px solid transparent;
+  transition: var(--transition-fast); text-decoration: none;
+  line-height: 1.4;
+}
+.btn-sm { padding: 4px 10px; font-size: var(--font-size-xs); }
+.btn-primary   { background: var(--color-primary); color: var(--color-white); border-color: var(--color-primary); }
+.btn-primary:hover   { background: var(--color-primary-hover); }
+.btn-outline   { background: var(--color-white); color: var(--color-primary); border-color: var(--color-primary); }
+.btn-outline:hover   { background: var(--color-primary-light); }
+.btn-danger    { background: var(--color-danger); color: var(--color-white); border-color: var(--color-danger); }
+.btn-danger:hover    { background: var(--color-danger-hover); }
+.btn-success   { background: var(--color-success); color: var(--color-white); border-color: var(--color-success); }
+.btn-success:hover   { background: var(--color-success-hover); }
+.btn-ghost     { background: transparent; color: var(--color-heading); border-color: transparent; }
+.btn-ghost:hover     { background: var(--color-ghost-hover); }
+
+/* ===== 10. FORMS ===== */
+.form-group { margin-bottom: 14px; }
+.form-group label {
+  display: block; font-size: var(--font-size-sm); font-weight: 500;
+  color: var(--color-heading); margin-bottom: 4px;
+}
+.form-group label.required::after { content: " *"; color: var(--color-danger); }
+.form-control {
+  width: 100%; padding: 8px 12px;
+  border: 1px solid var(--color-border-input); border-radius: var(--radius-input);
+  font-size: var(--font-size-sm); color: var(--color-body-text);
+  transition: border-color 0.15s; background: var(--color-white);
+}
+.form-control:focus {
+  outline: none; border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px var(--color-primary-ring);
+}
+select.form-control {
+  -webkit-appearance: none; appearance: none;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%236b7280' d='M6 8L1 3h10z'/%3E%3C/svg%3E") no-repeat right 12px center var(--color-white);
+  padding-right: 32px;
+}
+textarea.form-control { resize: vertical; min-height: 80px; }
+
+/* ===== 11. WORKFLOW STEPS ===== */
+.workflow-steps { display: flex; align-items: center; gap: 0; margin-bottom: 20px; }
+.workflow-step {
+  flex: 1; text-align: center; padding: 12px 8px;
+  background: var(--color-ghost-hover); color: var(--color-muted-light);
+  font-size: var(--font-size-sm); font-weight: 500; position: relative;
+}
+.workflow-step:not(:last-child)::after {
+  content: '\203A'; position: absolute; right: -12px; top: 50%;
+  transform: translateY(-50%); font-size: 20px; color: var(--color-border-input); z-index: 1;
+}
+.workflow-step.active { background: var(--color-primary); color: var(--color-white); }
+.workflow-step.done { background: var(--color-success); color: var(--color-white); }
+
+/* ===== 12. TIMELINE ===== */
+.timeline { position: relative; padding-left: 28px; }
+.timeline::before { content: ''; position: absolute; left: 8px; top: 4px; bottom: 4px; width: 2px; background: var(--color-border); }
+.timeline-item { position: relative; margin-bottom: 16px; padding-left: 16px; }
+.timeline-item::before {
+  content: ''; position: absolute; left: -24px; top: 6px;
+  width: 10px; height: 10px; border-radius: 50%;
+  background: var(--color-primary); border: 2px solid var(--color-white);
+  box-shadow: 0 0 0 2px var(--color-primary);
+}
+.timeline-item .time { font-size: var(--font-size-xs); color: var(--color-muted-light); }
+.timeline-item .desc { font-size: var(--font-size-sm); color: var(--color-heading); }
+.timeline-item .diff { font-size: var(--font-size-xs); color: var(--color-muted); }
+.timeline-item .diff .old { color: var(--color-danger); text-decoration: line-through; }
+.timeline-item .diff .new { color: var(--color-success); font-weight: 500; }
+
+/* ===== 13. SEARCH BAR ===== */
+.search-bar { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; padding: 14px 0; }
+.search-bar .form-control { width: 220px; }
+
+/* ===== 14. MAP PLACEHOLDER ===== */
+.map-placeholder {
+  background: linear-gradient(135deg, var(--color-primary-light-end), #bae6fd);
+  border-radius: var(--radius-card); min-height: 400px;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--color-primary); font-weight: 600; font-size: 15px;
+  position: relative; border: 2px dashed #93c5fd;
+}
+.map-placeholder .map-controls {
+  position: absolute; right: 16px; top: 16px;
+  display: flex; flex-direction: column; gap: 4px;
+}
+.map-placeholder .map-controls button {
+  width: 36px; height: 36px; background: var(--color-white);
+  border: 1px solid var(--color-border-input); border-radius: var(--radius-btn);
+  font-size: 18px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+.map-placeholder .map-controls button:hover { background: var(--color-ghost-hover); }
+
+/* ===== 15. DROP ZONE ===== */
+.drop-zone {
+  border: 2px dashed var(--color-border-input); border-radius: var(--radius-card);
+  padding: 40px; text-align: center; color: var(--color-muted); cursor: pointer;
+  transition: var(--transition-fast);
+}
+.drop-zone:hover { border-color: var(--color-primary); background: var(--color-primary-light); }
+.drop-zone .icon { font-size: 40px; margin-bottom: 8px; }
+.drop-zone p { font-size: var(--font-size-base); }
+.drop-zone small { font-size: var(--font-size-xs); color: var(--color-muted-light); }
+
+/* ===== 16. FILE ICONS ===== */
+.file-icon {
+  width: 36px; height: 36px; border-radius: var(--radius-btn);
+  display: inline-flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: var(--font-size-xxs); flex-shrink: 0;
+}
+.file-icon-pdf { background: var(--color-danger-bg);  color: var(--color-danger); }
+.file-icon-doc { background: var(--color-info-bg);    color: var(--color-primary); }
+.file-icon-xls { background: var(--color-success-bg); color: var(--color-success); }
+.file-icon-img { background: var(--color-warning-bg); color: var(--color-warning); }
+.file-icon-zip { background: var(--color-ghost-hover); color: var(--color-heading); }
+
+/* ===== 17. SENSOR STATUS DOTS ===== */
+.sensor-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; margin-right: 6px; }
+.sensor-dot.online  { background: var(--color-success); }
+.sensor-dot.offline { background: var(--color-danger); }
+.sensor-dot.warning { background: var(--color-warning); }
+
+/* ===== 18. REAL-TIME BAR ===== */
+.realtime-bar {
+  display: flex; gap: 20px; padding: 12px 16px;
+  background: linear-gradient(90deg, #1e3a5f, var(--color-primary));
+  border-radius: var(--radius-card); color: var(--color-white); margin-bottom: 16px;
+}
+.realtime-bar .rt-item { text-align: center; }
+.realtime-bar .rt-value { font-size: var(--font-size-xl); font-weight: 700; }
+.realtime-bar .rt-label { font-size: var(--font-size-xxs); opacity: 0.8; }
+
+/* ===== 19. UTILITY ===== */
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+.grid-4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 16px; }
+.flex { display: flex; }
+.flex-center { display: flex; align-items: center; justify-content: center; }
+.flex-between { display: flex; align-items: center; justify-content: space-between; }
+.inline-flex { display: inline-flex; align-items: center; gap: 6px; }
+.gap-2 { gap: 8px; }
+.gap-3 { gap: 12px; }
+.gap-4 { gap: 16px; }
+.mt-2 { margin-top: 8px; }
+.mt-4 { margin-top: 16px; }
+.mb-2 { margin-bottom: 8px; }
+.mb-4 { margin-bottom: 16px; }
+.w-full { width: 100%; }
+.text-right { text-align: right; }
+.text-center { text-align: center; }
+.text-muted { color: var(--color-muted); }
+.text-danger { color: var(--color-danger); }
+.text-success { color: var(--color-success); }
+.text-primary { color: var(--color-primary); }
+.font-bold { font-weight: 700; }
+.truncate { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* ===== 20. SCREEN SECTION LABELS ===== */
+.screen { padding: 4px 0 20px; }
+.screen-label {
+  font-size: var(--font-size-xs); color: var(--color-muted-light);
+  font-weight: 500; letter-spacing: 0.3px; margin-bottom: 12px; text-transform: uppercase;
+}
+.file-list-item {
+  display: flex; align-items: center; gap: 12px;
+  padding: 10px 0; border-bottom: 1px solid var(--color-border-light);
+}
+
+/* ===== 21. RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .sidebar { display: none; }
+  .main-wrapper { margin-left: 0; }
+  .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+  .stats-row { grid-template-columns: 1fr; }
+}
+
+/* ===== 22. NO RESULTS / EMPTY STATE ===== */
+.empty-state {
+  padding: 40px; text-align: center; color: var(--color-muted-light);
+}
+.empty-state .icon { font-size: 48px; margin-bottom: 12px; opacity: 0.4; }
+.empty-state p { font-size: var(--font-size-base); }
+
+/* ===== 23. MODAL OVERLAY (for detail views) ===== */
+.modal-overlay {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.4);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 200;
+}
+.modal-overlay .modal-card {
+  background: var(--color-white); border-radius: var(--radius-card);
+  padding: 24px; max-width: 800px; width: 90%;
+  max-height: 85vh; overflow-y: auto;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.15);
+}
+.modal-overlay .modal-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 16px; padding-bottom: 12px;
+  border-bottom: 1px solid var(--color-border);
+}
+.modal-overlay .modal-header h3 { font-size: var(--font-size-lg); font-weight: 600; }
+.modal-overlay .modal-close {
+  background: none; border: none; font-size: 20px; cursor: pointer;
+  color: var(--color-muted-light); padding: 4px;
+}
+
+/* ===== 24. TABS ===== */
+.tabs { display: flex; gap: 0; border-bottom: 2px solid var(--color-border); margin-bottom: 16px; }
+.tab {
+  padding: 10px 20px; font-size: var(--font-size-sm); font-weight: 500; cursor: pointer;
+  color: var(--color-muted); border-bottom: 2px solid transparent; margin-bottom: -2px;
+  transition: var(--transition-fast);
+}
+.tab:hover { color: var(--color-primary); }
+.tab.active { color: var(--color-primary); border-bottom-color: var(--color-primary); }
+
+/* ===== 25. PAGINATION ===== */
+.pagination {
+  display: flex; align-items: center; justify-content: flex-end;
+  gap: 8px; margin-top: 16px;
+}
+.pagination .page-btn {
+  padding: 6px 12px; border: 1px solid var(--color-border);
+  border-radius: var(--radius-btn); font-size: var(--font-size-xs);
+  background: var(--color-white); cursor: pointer;
+  color: var(--color-heading);
+}
+.pagination .page-btn:hover { border-color: var(--color-primary); color: var(--color-primary); }
+.pagination .page-btn.active { background: var(--color-primary); color: var(--color-white); border-color: var(--color-primary); }
+.pagination .page-info { font-size: var(--font-size-xs); color: var(--color-muted); }
+</style>
+</head>
+<body>
+
+<!-- ==================== SIDEBAR ==================== -->
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-icon">MT</div>
+    <div class="logo-text">
+      <strong>MTIS</strong>
+      <small>Quản lý KCHT Hàng hải</small>
+    </div>
+  </div>
+  <nav class="sidebar-menu">
+    <div class="menu-section">Tổng quan</div>
+    <a class="menu-item" href="#"><span class="icon">📊</span> Tổng quan</a>
+
+    <div class="menu-section">Quản lý người dùng</div>
+    <a class="menu-item" href="#"><span class="icon">👥</span> Danh sách người dùng</a>
+
+    <div class="menu-section">Quản trị hệ thống</div>
+    <a class="menu-item active" href="#"><span class="icon">🏢</span> Đơn vị</a>
+    <a class="menu-item" href="#"><span class="icon">🔗</span> Kết nối liên thông</a>
+    <a class="menu-item" href="#"><span class="icon">🛡️</span> Tài khoản quản trị</a>
+    <a class="menu-item" href="#"><span class="icon">✅</span> Phê duyệt</a>
+    <a class="menu-item" href="#"><span class="icon">📋</span> Nhật ký hệ thống</a>
+    <a class="menu-item" href="#"><span class="icon">⚙️</span> Cấu hình</a>
+    <a class="menu-item" href="#"><span class="icon">💾</span> Sao lưu</a>
+
+    <div class="menu-section">Hệ thống</div>
+    <a class="menu-item" href="#"><span class="icon">⚓</span> Quản lý KCHT</a>
+    <a class="menu-item" href="#"><span class="icon">📦</span> Quản lý tài sản</a>
+    <a class="menu-item" href="#"><span class="icon">🗺️</span> Bản đồ GIS</a>
+    <a class="menu-item" href="#"><span class="icon">📊</span> Báo cáo</a>
+  </nav>
+  <div class="sidebar-footer">M02 — Quản trị hệ thống v1.0</div>
+</aside>
+
+<!-- ==================== MAIN WRAPPER ==================== -->
+<div class="main-wrapper">
+
+  <!-- HEADER -->
+  <header class="header">
+    <h1>DỰ ÁN: Xây dựng Hệ thống thông tin quản lý KCHT Giao thông Hàng hải</h1>
+    <div class="user-info">
+      <div class="flex gap-2" style="align-items:center;">
+        <div class="avatar">NV</div>
+        <div>
+          <div class="name">Nguyễn Văn A</div>
+          <div class="role">Chuyên viên</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- CONTENT -->
+  <div class="content">
+
+    <!-- ==================== SCREEN 1: Quản lý đơn vị ==================== -->
+    <div class="screen">
+      <div class="screen-label">MÀN HÌNH 1</div>
+      <div class="breadcrumb">
+        <a href="#">M02 — Quản trị hệ thống</a>
+        <span class="sep">›</span>
+        <span>Đơn vị</span>
+      </div>
+      <h2 class="page-title">Quản lý đơn vị</h2>
+
+      <div class="card">
+        <div class="card-header">
+          <h3>Chế độ xem</h3>
+        </div>
+        <div class="flex gap-2">
+          <button class="btn btn-outline">📋 Dạng bảng</button>
+          <button class="btn btn-primary">🌳 Cây đơn vị</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <h3>Danh sách đơn vị (18 đơn vị)</h3>
+          <div class="actions">
+            <button class="btn btn-outline">📥 Xuất Excel</button>
+            <button class="btn btn-primary">+ Thêm đơn vị</button>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table class="ant-table">
+            <thead>
+              <tr>
+                <th>Mã ĐV</th>
+                <th>Tên đơn vị</th>
+                <th>Loại</th>
+                <th>ĐV cha</th>
+                <th>Trạng thái</th>
+                <th>Thao tác</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="font-bold">CUC-HH</td>
+                <td>Cục Hàng hải Việt Nam</td>
+                <td>Cục</td>
+                <td><span class="text-muted">—</span></td>
+                <td><span class="badge badge-green">Hoạt động</span></td>
+                <td><button class="btn btn-ghost btn-sm">✎</button></td>
+              </tr>
+              <tr>
+                <td class="font-bold">CC-HPH</td>
+                <td>Chi cục HH Hải Phòng</td>
+                <td>Chi cục</td>
+                <td>Cục HH VN</td>
+                <td><span class="badge badge-green">Hoạt động</span></td>
+                <td><button class="btn btn-ghost btn-sm">✎</button></td>
+              </tr>
+              <tr>
+                <td class="font-bold">CC-SGN</td>
+                <td>Chi cục HH TP.HCM</td>
+                <td>Chi cục</td>
+                <td>Cục HH VN</td>
+                <td><span class="badge badge-green">Hoạt động</span></td>
+                <td><button class="btn btn-ghost btn-sm">✎</button></td>
+              </tr>
+              <tr>
+                <td class="font-bold">CV-HPH</td>
+                <td>Cảng vụ HH Hải Phòng</td>
+                <td>Cảng vụ</td>
+                <td>CC HH Hải Phòng</td>
+                <td><span class="badge badge-green">Hoạt động</span></td>
+                <td><button class="btn btn-ghost btn-sm">✎</button></td>
+              </tr>
+              <tr>
+                <td class="font-bold">CV-QN</td>
+                <td>Cảng vụ HH Quảng Ninh</td>
+                <td>Cảng vụ</td>
+                <td>CC HH Hải Phòng</td>
+                <td><span class="badge badge-green">Hoạt động</span></td>
+                <td><button class="btn btn-ghost btn-sm">✎</button></td>
+              </tr>
+              <tr>
+                <td class="font-bold">CV-VT</td>
+                <td>Cảng vụ HH Vũng Tàu</td>
+                <td>Cảng vụ</td>
+                <td>CC HH TP.HCM</td>
+                <td><span class="badge badge-yellow">Tạm ngừng</span></td>
+                <td><button class="btn btn-ghost btn-sm">✎</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="pagination">
+          <span class="page-info">1–6 / 18</span>
+          <button class="page-btn">‹</button>
+          <button class="page-btn active">1</button>
+          <button class="page-btn">2</button>
+          <button class="page-btn">3</button>
+          <button class="page-btn">›</button>
+        </div>
+      </div>
+    </div>
+
+    <hr class="section-divider">
+
+    <!-- ==================== SCREEN 2: Kết nối liên thông ==================== -->
+    <div class="screen">
+      <div class="screen-label">MÀN HÌNH 2</div>
+      <div class="breadcrumb">
+        <a href="#">M02 — Quản trị hệ thống</a>
+        <span class="sep">›</span>
+        <span>Kết nối liên thông</span>
+      </div>
+      <h2 class="page-title">Kết nối liên thông</h2>
+
+      <div class="grid-3">
+        <div class="card">
+          <div class="card-header">
+            <h3>LGSP</h3>
+            <span class="badge badge-green">Online</span>
+          </div>
+          <p class="text-muted mb-2">Đồng bộ: 06/06/2026 08:00</p>
+          <button class="btn btn-outline w-full">Đồng bộ ngay</button>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <h3>NDXP</h3>
+            <span class="badge badge-green">Online</span>
+          </div>
+          <p class="text-muted mb-2">Đồng bộ: 06/06/2026 07:45</p>
+          <button class="btn btn-outline w-full">Đồng bộ ngay</button>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <h3>CSDL Bộ GTVT</h3>
+            <span class="badge badge-yellow">Chậm</span>
+          </div>
+          <p class="text-muted mb-2">Đồng bộ: 05/06/2026 22:30</p>
+          <button class="btn btn-primary w-full">Đồng bộ ngay</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <h3>Lịch sử đồng bộ</h3>
+        </div>
+        <div class="table-wrap">
+          <table class="ant-table">
+            <thead>
+              <tr>
+                <th>Thời gian</th>
+                <th>Hệ thống</th>
+                <th>Trạng thái</th>
+                <th>Số bản ghi</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>06/06/2026 08:00</td>
+                <td>LGSP</td>
+                <td><span class="badge badge-green">Thành công</span></td>
+                <td>1.245</td>
+              </tr>
+              <tr>
+                <td>06/06/2026 07:45</td>
+                <td>NDXP</td>
+                <td><span class="badge badge-green">Thành công</span></td>
+                <td>856</td>
+              </tr>
+              <tr>
+                <td>05/06/2026 22:30</td>
+                <td>CSDL Bộ GTVT</td>
+                <td><span class="badge badge-yellow">Một phần</span></td>
+                <td>3.210</td>
+              </tr>
+              <tr>
+                <td>05/06/2026 14:00</td>
+                <td>LGSP</td>
+                <td><span class="badge badge-green">Thành công</span></td>
+                <td>1.240</td>
+              </tr>
+              <tr>
+                <td>05/06/2026 14:00</td>
+                <td>NDXP</td>
+                <td><span class="badge badge-green">Thành công</span></td>
+                <td>850</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <hr class="section-divider">
+
+    <!-- ==================== SCREEN 3: Tài khoản quản trị ==================== -->
+    <div class="screen">
+      <div class="screen-label">MÀN HÌNH 3</div>
+      <div class="breadcrumb">
+        <a href="#">M02 — Quản trị hệ thống</a>
+        <span class="sep">›</span>
+        <span>Tài khoản quản trị</span>
+      </div>
+      <h2 class="page-title">Tài khoản quản trị</h2>
+
+      <div class="card">
+        <div class="card-header">
+          <h3>Danh sách tài khoản</h3>
+          <div class="actions">
+            <button class="btn btn-outline">+ Thêm admin</button>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table class="ant-table">
+            <thead>
+              <tr>
+                <th>STT</th>
+                <th>Tên đăng nhập</th>
+                <th>Họ tên</th>
+                <th>Vai trò</th>
+                <th>Trạng thái</th>
+                <th>Đăng nhập cuối</th>
+                <th>Thao tác</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1</td>
+                <td class="font-bold">admin</td>
+                <td>Nguyễn Văn A</td>
+                <td>Quản trị hệ thống</td>
+                <td><span class="badge badge-green">Hoạt động</span></td>
+                <td>06/06/2026 08:30</td>
+                <td><button class="btn btn-ghost btn-sm">✎</button></td>
+              </tr>
+              <tr>
+                <td>2</td>
+                <td class="font-bold">admin2</td>
+                <td>Trần Thị B</td>
+                <td>Quản trị hệ thống</td>
+                <td><span class="badge badge-green">Hoạt động</span></td>
+                <td>06/06/2026 07:15</td>
+                <td><button class="btn btn-ghost btn-sm">✎</button></td>
+              </tr>
+              <tr>
+                <td>3</td>
+                <td class="font-bold">dv_hph</td>
+                <td>Lê Văn C</td>
+                <td>Quản trị đơn vị</td>
+                <td><span class="badge badge-green">Hoạt động</span></td>
+                <td>05/06/2026 16:20</td>
+                <td><button class="btn btn-ghost btn-sm">✎</button></td>
+              </tr>
+              <tr>
+                <td>4</td>
+                <td class="font-bold">dv_sgn</td>
+                <td>Phạm Thị D</td>
+                <td>Quản trị đơn vị</td>
+                <td><span class="badge badge-green">Hoạt động</span></td>
+                <td>06/06/2026 09:00</td>
+                <td><button class="btn btn-ghost btn-sm">✎</button></td>
+              </tr>
+              <tr>
+                <td>5</td>
+                <td class="font-bold">dv_dn</td>
+                <td>Hoàng Văn E</td>
+                <td>Quản trị đơn vị</td>
+                <td><span class="badge badge-red">Tạm khóa</span></td>
+                <td>01/06/2026 11:00</td>
+                <td><button class="btn btn-ghost btn-sm">✎</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <hr class="section-divider">
+
+    <!-- ==================== SCREEN 4: Phê duyệt ==================== -->
+    <div class="screen">
+      <div class="screen-label">MÀN HÌNH 4</div>
+      <div class="breadcrumb">
+        <a href="#">M02 — Quản trị hệ thống</a>
+        <span class="sep">›</span>
+        <span>Phê duyệt</span>
+      </div>
+      <h2 class="page-title">Phê duyệt</h2>
+
+      <div class="card">
+        <div class="workflow-steps">
+          <div class="workflow-step done">1. Chuyên viên</div>
+          <div class="workflow-step active">2. Lãnh đạo Cảng vụ</div>
+          <div class="workflow-step">3. Lãnh đạo Cục</div>
+        </div>
+        <p class="text-muted text-center">Bước hiện tại: <span class="badge badge-blue">Lãnh đạo Cảng vụ — Chờ phê duyệt</span></p>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <h3>Danh sách chờ phê duyệt</h3>
+        </div>
+        <div class="table-wrap">
+          <table class="ant-table">
+            <thead>
+              <tr>
+                <th>Mã HS</th>
+                <th>Loại</th>
+                <th>Người gửi</th>
+                <th>Ngày</th>
+                <th>Trạng thái</th>
+                <th>Thao tác</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="font-bold">HS-2026-0042</td>
+                <td>Đề nghị cấp phép</td>
+                <td>Nguyễn Văn H</td>
+                <td>06/06/2026</td>
+                <td><span class="badge badge-yellow">Chờ duyệt</span></td>
+                <td>
+                  <button class="btn btn-success btn-sm">✔ Duyệt</button>
+                  <button class="btn btn-danger btn-sm">✘ Từ chối</button>
+                </td>
+              </tr>
+              <tr>
+                <td class="font-bold">HS-2026-0041</td>
+                <td>Báo cáo định kỳ</td>
+                <td>Trần Thị K</td>
+                <td>05/06/2026</td>
+                <td><span class="badge badge-yellow">Chờ duyệt</span></td>
+                <td>
+                  <button class="btn btn-success btn-sm">✔ Duyệt</button>
+                  <button class="btn btn-danger btn-sm">✘ Từ chối</button>
+                </td>
+              </tr>
+              <tr>
+                <td class="font-bold">HS-2026-0040</td>
+                <td>Điều chỉnh hồ sơ</td>
+                <td>Lê Văn M</td>
+                <td>05/06/2026</td>
+                <td><span class="badge badge-blue">Đã duyệt</span></td>
+                <td><span class="text-muted">—</span></td>
+              </tr>
+              <tr>
+                <td class="font-bold">HS-2026-0039</td>
+                <td>Đề nghị cấp phép</td>
+                <td>Phạm Thị N</td>
+                <td>04/06/2026</td>
+                <td><span class="badge badge-blue">Đã duyệt</span></td>
+                <td><span class="text-muted">—</span></td>
+              </tr>
+              <tr>
+                <td class="font-bold">HS-2026-0038</td>
+                <td>Kế hoạch bảo trì</td>
+                <td>Hoàng Văn P</td>
+                <td>03/06/2026</td>
+                <td><span class="badge badge-yellow">Chờ duyệt</span></td>
+                <td>
+                  <button class="btn btn-success btn-sm">✔ Duyệt</button>
+                  <button class="btn btn-danger btn-sm">✘ Từ chối</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <hr class="section-divider">
+
+    <!-- ==================== SCREEN 5: Nhật ký hệ thống ==================== -->
+    <div class="screen">
+      <div class="screen-label">MÀN HÌNH 5</div>
+      <div class="breadcrumb">
+        <a href="#">M02 — Quản trị hệ thống</a>
+        <span class="sep">›</span>
+        <span>Nhật ký hệ thống</span>
+      </div>
+      <h2 class="page-title">Nhật ký hệ thống</h2>
+
+      <div class="search-bar">
+        <input type="text" class="form-control" placeholder="Tìm kiếm...">
+        <input type="date" class="form-control" value="2026-05-01">
+        <input type="date" class="form-control" value="2026-06-06">
+        <select class="form-control" style="width:180px;">
+          <option>Tất cả hành động</option>
+          <option>Đăng nhập</option>
+          <option>Sửa dữ liệu</option>
+          <option>Xóa dữ liệu</option>
+        </select>
+        <button class="btn btn-primary">🔍 Tìm</button>
+      </div>
+
+      <div class="card">
+        <div class="table-wrap">
+          <table class="ant-table">
+            <thead>
+              <tr>
+                <th>Thời gian</th>
+                <th>Người dùng</th>
+                <th>Hành động</th>
+                <th>Đối tượng</th>
+                <th>IP</th>
+                <th>Chi tiết</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>06/06/2026 09:15</td>
+                <td>admin</td>
+                <td><span class="badge badge-blue">Đăng nhập</span></td>
+                <td>Hệ thống</td>
+                <td>192.168.1.100</td>
+                <td>Đăng nhập thành công</td>
+              </tr>
+              <tr>
+                <td>06/06/2026 08:42</td>
+                <td>dv_hph</td>
+                <td><span class="badge badge-yellow">Sửa</span></td>
+                <td>Đơn vị CV-HPH</td>
+                <td>10.0.12.45</td>
+                <td>Cập nhật thông tin đơn vị</td>
+              </tr>
+              <tr>
+                <td>06/06/2026 07:30</td>
+                <td>admin2</td>
+                <td><span class="badge badge-green">Đồng bộ</span></td>
+                <td>Kết nối LGSP</td>
+                <td>192.168.1.101</td>
+                <td>Đồng bộ dữ liệu thành công</td>
+              </tr>
+              <tr>
+                <td>05/06/2026 18:20</td>
+                <td>dv_sgn</td>
+                <td><span class="badge badge-red">Xóa</span></td>
+                <td>Tài khoản temp_user</td>
+                <td>10.0.15.22</td>
+                <td>Xóa tài khoản tạm thời</td>
+              </tr>
+              <tr>
+                <td>05/06/2026 14:05</td>
+                <td>admin</td>
+                <td><span class="badge badge-gray">Xuất</span></td>
+                <td>Báo cáo tháng</td>
+                <td>192.168.1.100</td>
+                <td>Xuất báo cáo Excel</td>
+              </tr>
+              <tr>
+                <td>05/06/2026 09:00</td>
+                <td>dv_dn</td>
+                <td><span class="badge badge-blue">Đăng nhập</span></td>
+                <td>Hệ thống</td>
+                <td>10.0.18.10</td>
+                <td>Đăng nhập thất bại (3 lần)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="pagination">
+          <span class="page-info">1–6 / 142</span>
+          <button class="page-btn">‹</button>
+          <button class="page-btn active">1</button>
+          <button class="page-btn">2</button>
+          <button class="page-btn">3</button>
+          <button class="page-btn">›</button>
+        </div>
+      </div>
+    </div>
+
+    <hr class="section-divider">
+
+    <!-- ==================== SCREEN 6: Cấu hình hệ thống ==================== -->
+    <div class="screen">
+      <div class="screen-label">MÀN HÌNH 6</div>
+      <div class="breadcrumb">
+        <a href="#">M02 — Quản trị hệ thống</a>
+        <span class="sep">›</span>
+        <span>Cấu hình</span>
+      </div>
+      <h2 class="page-title">Cấu hình hệ thống</h2>
+
+      <div class="card">
+        <div class="card-header">
+          <h3>Thông số hệ thống</h3>
+          <div class="actions">
+            <button class="btn btn-ghost">↻ Đặt lại</button>
+            <button class="btn btn-primary">💾 Lưu</button>
+          </div>
+        </div>
+        <div class="grid-2">
+          <div class="form-group">
+            <label>Tên hệ thống</label>
+            <input type="text" class="form-control" value="MTIS — Hệ thống quản lý KCHT Hàng hải">
+          </div>
+          <div class="form-group">
+            <label>Email quản trị</label>
+            <input type="email" class="form-control" value="admin@vinamarine.gov.vn">
+          </div>
+          <div class="form-group">
+            <label>Ngôn ngữ</label>
+            <select class="form-control">
+              <option>Tiếng Việt</option>
+              <option>English</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Múi giờ</label>
+            <select class="form-control">
+              <option>Asia/Ho_Chi_Minh (UTC+7)</option>
+              <option>Asia/Bangkok (UTC+7)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Timeout phiên làm việc</label>
+            <select class="form-control">
+              <option>30 phút</option>
+              <option>60 phút</option>
+              <option>120 phút</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Số lần đăng nhập sai tối đa</label>
+            <input type="number" class="form-control" value="5">
+          </div>
+        </div>
+        <div class="flex gap-4 mt-4">
+          <label class="inline-flex"><input type="checkbox" checked> Gửi email thông báo</label>
+          <label class="inline-flex"><input type="checkbox" checked> Bắt buộc đổi mật khẩu lần đầu</label>
+          <label class="inline-flex"><input type="checkbox"> Bật xác thực 2 lớp</label>
+        </div>
+      </div>
+    </div>
+
+    <hr class="section-divider">
+
+    <!-- ==================== SCREEN 7: Chính sách phân quyền ==================== -->
+    <div class="screen">
+      <div class="screen-label">MÀN HÌNH 7</div>
+      <div class="breadcrumb">
+        <a href="#">M02 — Quản trị hệ thống</a>
+        <span class="sep">›</span>
+        <span>Chính sách phân quyền</span>
+      </div>
+      <h2 class="page-title">Chính sách phân quyền (RBAC)</h2>
+
+      <div class="card">
+        <div class="card-header">
+          <h3>Cấu hình RBAC</h3>
+          <div class="actions">
+            <button class="btn btn-primary">💾 Lưu</button>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table class="ant-table">
+            <thead>
+              <tr>
+                <th>Vai trò</th>
+                <th class="text-center">Quản trị HT</th>
+                <th class="text-center">QL Người dùng</th>
+                <th class="text-center">QL KCHT</th>
+                <th class="text-center">Phê duyệt</th>
+                <th class="text-center">Báo cáo</th>
+                <th class="text-center">Nhập / Xuất</th>
+                <th class="text-center">Cấu hình</th>
+                <th class="text-center">Sao lưu</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="font-bold">Quản trị hệ thống</td>
+                <td class="text-center"><span class="text-success">✅</span></td>
+                <td class="text-center"><span class="text-success">✅</span></td>
+                <td class="text-center"><span class="text-success">✅</span></td>
+                <td class="text-center"><span class="text-success">✅</span></td>
+                <td class="text-center"><span class="text-success">✅</span></td>
+                <td class="text-center"><span class="text-success">✅</span></td>
+                <td class="text-center"><span class="text-success">✅</span></td>
+                <td class="text-center"><span class="text-success">✅</span></td>
+              </tr>
+              <tr>
+                <td class="font-bold">Quản trị đơn vị</td>
+                <td class="text-center text-muted">—</td>
+                <td class="text-center"><span class="text-success">✅</span></td>
+                <td class="text-center"><span class="text-success">✅</span></td>
+                <td class="text-center"><span class="text-success">✅</span></td>
+                <td class="text-center text-muted">—</td>
+                <td class="text-center text-muted">—</td>
+                <td class="text-center text-muted">—</td>
+                <td class="text-center"><span class="text-success">✅</span></td>
+              </tr>
+              <tr>
+                <td class="font-bold">Lãnh đạo Cục</td>
+                <td class="text-center text-muted">—</td>
+                <td class="text-center text-muted">—</td>
+                <td class="text-center text-muted">—</td>
+                <td class="text-center"><span class="text-success">✅</span></td>
+                <td class="text-center"><span class="text-success">✅</span></td>
+                <td class="text-center text-muted">—</td>
+                <td class="text-center text-muted">—</td>
+                <td class="text-center"><span class="text-success">✅</span></td>
+              </tr>
+              <tr>
+                <td class="font-bold">Lãnh đạo Cảng vụ</td>
+                <td class="text-center text-muted">—</td>
+                <td class="text-center text-muted">—</td>
+                <td class="text-center"><span class="text-success">✅</span></td>
+                <td class="text-center"><span class="text-success">✅</span></td>
+                <td class="text-center text-muted">—</td>
+                <td class="text-center text-muted">—</td>
+                <td class="text-center text-muted">—</td>
+                <td class="text-center"><span class="text-success">✅</span></td>
+              </tr>
+              <tr>
+                <td class="font-bold">Cán bộ nghiệp vụ</td>
+                <td class="text-center text-muted">—</td>
+                <td class="text-center text-muted">—</td>
+                <td class="text-center"><span class="text-success">✅</span></td>
+                <td class="text-center text-muted">—</td>
+                <td class="text-center text-muted">—</td>
+                <td class="text-center"><span class="text-success">✅</span></td>
+                <td class="text-center text-muted">—</td>
+                <td class="text-center text-muted">—</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <hr class="section-divider">
+
+    <!-- ==================== SCREEN 8: Sao lưu & Phục hồi ==================== -->
+    <div class="screen">
+      <div class="screen-label">MÀN HÌNH 8</div>
+      <div class="breadcrumb">
+        <a href="#">M02 — Quản trị hệ thống</a>
+        <span class="sep">›</span>
+        <span>Sao lưu &amp; Phục hồi</span>
+      </div>
+      <h2 class="page-title">Sao lưu &amp; Phục hồi</h2>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-header">
+            <h3>Sao lưu dữ liệu</h3>
+          </div>
+          <p class="text-muted mb-2">Tự động: 02:00 hàng ngày</p>
+          <p class="mb-2">Lần cuối: <strong>06/06/2026 02:00</strong> — <span class="badge badge-green">1.8 GB</span></p>
+          <button class="btn btn-primary w-full">💾 Sao lưu ngay</button>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <h3>Phục hồi dữ liệu</h3>
+          </div>
+          <div class="drop-zone">
+            <div class="icon">📁</div>
+            <p>Kéo thả file vào đây</p>
+            <small>Hỗ trợ .sql .gz .zip</small>
+          </div>
+          <button class="btn btn-primary w-full mt-4">📤 Phục hồi</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <h3>Lịch sử sao lưu</h3>
+        </div>
+        <div class="table-wrap">
+          <table class="ant-table">
+            <thead>
+              <tr>
+                <th>Thời gian</th>
+                <th>Loại</th>
+                <th>Dung lượng</th>
+                <th>Trạng thái</th>
+                <th>Người thực hiện</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>06/06/2026 02:00</td>
+                <td>Tự động</td>
+                <td>1.8 GB</td>
+                <td><span class="badge badge-green">Thành công</span></td>
+                <td>Hệ thống</td>
+              </tr>
+              <tr>
+                <td>05/06/2026 02:00</td>
+                <td>Tự động</td>
+                <td>1.7 GB</td>
+                <td><span class="badge badge-green">Thành công</span></td>
+                <td>Hệ thống</td>
+              </tr>
+              <tr>
+                <td>04/06/2026 15:30</td>
+                <td>Thủ công</td>
+                <td>2.1 GB</td>
+                <td><span class="badge badge-green">Thành công</span></td>
+                <td>admin</td>
+              </tr>
+              <tr>
+                <td>03/06/2026 02:00</td>
+                <td>Tự động</td>
+                <td>1.7 GB</td>
+                <td><span class="badge badge-yellow">Cảnh báo</span></td>
+                <td>Hệ thống</td>
+              </tr>
+              <tr>
+                <td>02/06/2026 02:00</td>
+                <td>Tự động</td>
+                <td>1.6 GB</td>
+                <td><span class="badge badge-green">Thành công</span></td>
+                <td>Hệ thống</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">Cục Hàng hải Việt Nam — Phiên bản 1.0</footer>
+
+</div>
+
+</body>
+</html>

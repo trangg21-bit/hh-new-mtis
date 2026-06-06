@@ -1,16 +1,19 @@
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>M05 — Quy hoạch | MTIS</title>
-<style>
+/* ================================================================
+   MTIS Design System — Theme Tokens
+   Extracted from M03 (Chuẩn), dùng cho toàn bộ 11 modules
+   Primary: #2153aa | Sidebar: light 260px | Font: Averta
+   ================================================================ */
+
+/* ===== 1. CSS CUSTOM PROPERTIES ===== */
 :root {
+  /* Brand */
   --color-primary: #2153aa;
   --color-primary-hover: #1a3f8a;
   --color-primary-light: #eff8ff;
   --color-primary-light-end: #e0f2fe;
   --color-primary-ring: rgba(33, 83, 170, 0.12);
+
+  /* Neutrals */
   --color-body-bg: #f4f4f5;
   --color-body-text: #1a1a2e;
   --color-muted: #6b7280;
@@ -24,6 +27,8 @@
   --color-table-even-row: #fafbfc;
   --color-table-hover: #eff8ff;
   --color-ghost-hover: #f3f4f6;
+
+  /* Semantic */
   --color-danger: #dc2626;
   --color-danger-hover: #b91c1c;
   --color-danger-bg: #fef2f2;
@@ -37,10 +42,14 @@
   --color-warning-text: #92400e;
   --color-info-bg: #eff6ff;
   --color-info-text: #1e40af;
+
+  /* Layout */
   --sidebar-width: 260px;
   --header-padding: 12px 28px;
   --content-padding: 24px 28px;
   --content-max-width: 1360px;
+
+  /* Typography */
   --font-family: Averta, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   --font-size-base: 14px;
   --font-size-sm: 13px;
@@ -49,15 +58,23 @@
   --font-size-lg: 16px;
   --font-size-xl: 22px;
   --font-size-stat: 28px;
+
+  /* Radii */
   --radius-card: 8px;
   --radius-btn: 6px;
   --radius-badge: 12px;
   --radius-input: 6px;
   --radius-icon: 12px;
+
+  /* Shadows */
   --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.06);
   --shadow-header: 0 1px 3px rgba(0, 0, 0, 0.06);
+
+  /* Transitions */
   --transition-fast: all 0.15s ease;
 }
+
+/* ===== 2. RESET ===== */
 *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
 html, body { height:100%; }
 body {
@@ -69,6 +86,8 @@ body {
   display: flex;
   min-height: 100vh;
 }
+
+/* ===== 3. SIDEBAR ===== */
 .sidebar {
   width: var(--sidebar-width);
   min-width: var(--sidebar-width);
@@ -98,6 +117,7 @@ body {
 .sidebar-logo .logo-text { line-height: 1.3; }
 .sidebar-logo .logo-text strong { display:block; font-size: var(--font-size-sm); color: var(--color-body-text); }
 .sidebar-logo .logo-text small { font-size: var(--font-size-xxs); color: var(--color-muted); }
+/* Menu */
 .sidebar-menu { padding: 12px 0; flex: 1; }
 .sidebar-menu .menu-section {
   padding: 8px 20px 4px;
@@ -124,6 +144,8 @@ body {
   padding: 16px 20px; border-top: 1px solid var(--color-border);
   font-size: var(--font-size-xxs); color: var(--color-muted-light); text-align: center;
 }
+
+/* ===== 4. MAIN LAYOUT ===== */
 .main-wrapper {
   margin-left: var(--sidebar-width); flex:1;
   display: flex; flex-direction: column; min-height: 100vh;
@@ -145,6 +167,7 @@ body {
 }
 .header .user-info .name { font-size: var(--font-size-sm); color: var(--color-heading); }
 .header .user-info .role { font-size: var(--font-size-xxs); color: var(--color-muted-light); }
+/* Content */
 .content { flex: 1; padding: var(--content-padding); max-width: var(--content-max-width); }
 .breadcrumb {
   font-size: var(--font-size-sm); color: var(--color-muted);
@@ -164,6 +187,8 @@ hr.section-divider { border: none; border-top: 1px solid var(--color-border); ma
   background: var(--color-white); border-top: 1px solid var(--color-border);
   padding: 14px 28px; font-size: var(--font-size-xs); color: var(--color-muted); text-align: center;
 }
+
+/* ===== 5. CARD ===== */
 .card {
   background: var(--color-white); border-radius: var(--radius-card);
   box-shadow: var(--shadow-card); padding: 20px; margin-bottom: 16px;
@@ -175,6 +200,8 @@ hr.section-divider { border: none; border-top: 1px solid var(--color-border); ma
 .card-header h3 { font-size: var(--font-size-lg); font-weight: 600; color: var(--color-body-text); }
 .card-header .actions { display: flex; gap: 8px; }
 .card-body { padding: 4px 0; }
+
+/* ===== 6. STAT CARDS ===== */
 .stats-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 20px; }
 .stat-card {
   background: var(--color-white); border-radius: var(--radius-card);
@@ -188,6 +215,8 @@ hr.section-divider { border: none; border-top: 1px solid var(--color-border); ma
 .stat-card:nth-child(2) { border-left-color: var(--color-success); }
 .stat-card:nth-child(3) { border-left-color: var(--color-warning); }
 .stat-card:nth-child(4) { border-left-color: var(--color-danger); }
+
+/* ===== 7. TABLE ===== */
 .table-wrap { overflow-x: auto; }
 .ant-table { width: 100%; border-collapse: collapse; font-size: var(--font-size-sm); }
 .ant-table thead th {
@@ -202,6 +231,8 @@ hr.section-divider { border: none; border-top: 1px solid var(--color-border); ma
 }
 .ant-table tbody tr:nth-child(even) td { background: var(--color-table-even-row); }
 .ant-table tbody tr:hover td { background: var(--color-table-hover); }
+
+/* ===== 8. BADGES ===== */
 .badge {
   display: inline-block; padding: 2px 10px; border-radius: var(--radius-badge);
   font-size: var(--font-size-xs); font-weight: 500; line-height: 1.6;
@@ -211,6 +242,8 @@ hr.section-divider { border: none; border-top: 1px solid var(--color-border); ma
 .badge-blue   { background: var(--color-info-bg);    color: var(--color-info-text); }
 .badge-yellow { background: var(--color-warning-bg); color: var(--color-warning-text); }
 .badge-gray   { background: var(--color-ghost-hover); color: var(--color-heading); }
+
+/* ===== 9. BUTTONS ===== */
 .btn {
   display: inline-flex; align-items: center; gap: 6px;
   padding: 8px 16px; border-radius: var(--radius-btn);
@@ -230,6 +263,8 @@ hr.section-divider { border: none; border-top: 1px solid var(--color-border); ma
 .btn-success:hover   { background: var(--color-success-hover); }
 .btn-ghost     { background: transparent; color: var(--color-heading); border-color: transparent; }
 .btn-ghost:hover     { background: var(--color-ghost-hover); }
+
+/* ===== 10. FORMS ===== */
 .form-group { margin-bottom: 14px; }
 .form-group label {
   display: block; font-size: var(--font-size-sm); font-weight: 500;
@@ -252,6 +287,8 @@ select.form-control {
   padding-right: 32px;
 }
 textarea.form-control { resize: vertical; min-height: 80px; }
+
+/* ===== 11. WORKFLOW STEPS ===== */
 .workflow-steps { display: flex; align-items: center; gap: 0; margin-bottom: 20px; }
 .workflow-step {
   flex: 1; text-align: center; padding: 12px 8px;
@@ -264,6 +301,8 @@ textarea.form-control { resize: vertical; min-height: 80px; }
 }
 .workflow-step.active { background: var(--color-primary); color: var(--color-white); }
 .workflow-step.done { background: var(--color-success); color: var(--color-white); }
+
+/* ===== 12. TIMELINE ===== */
 .timeline { position: relative; padding-left: 28px; }
 .timeline::before { content: ''; position: absolute; left: 8px; top: 4px; bottom: 4px; width: 2px; background: var(--color-border); }
 .timeline-item { position: relative; margin-bottom: 16px; padding-left: 16px; }
@@ -278,8 +317,12 @@ textarea.form-control { resize: vertical; min-height: 80px; }
 .timeline-item .diff { font-size: var(--font-size-xs); color: var(--color-muted); }
 .timeline-item .diff .old { color: var(--color-danger); text-decoration: line-through; }
 .timeline-item .diff .new { color: var(--color-success); font-weight: 500; }
+
+/* ===== 13. SEARCH BAR ===== */
 .search-bar { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; padding: 14px 0; }
 .search-bar .form-control { width: 220px; }
+
+/* ===== 14. MAP PLACEHOLDER ===== */
 .map-placeholder {
   background: linear-gradient(135deg, var(--color-primary-light-end), #bae6fd);
   border-radius: var(--radius-card); min-height: 400px;
@@ -299,6 +342,8 @@ textarea.form-control { resize: vertical; min-height: 80px; }
   box-shadow: 0 1px 3px rgba(0,0,0,0.1);
 }
 .map-placeholder .map-controls button:hover { background: var(--color-ghost-hover); }
+
+/* ===== 15. DROP ZONE ===== */
 .drop-zone {
   border: 2px dashed var(--color-border-input); border-radius: var(--radius-card);
   padding: 40px; text-align: center; color: var(--color-muted); cursor: pointer;
@@ -308,6 +353,8 @@ textarea.form-control { resize: vertical; min-height: 80px; }
 .drop-zone .icon { font-size: 40px; margin-bottom: 8px; }
 .drop-zone p { font-size: var(--font-size-base); }
 .drop-zone small { font-size: var(--font-size-xs); color: var(--color-muted-light); }
+
+/* ===== 16. FILE ICONS ===== */
 .file-icon {
   width: 36px; height: 36px; border-radius: var(--radius-btn);
   display: inline-flex; align-items: center; justify-content: center;
@@ -318,10 +365,14 @@ textarea.form-control { resize: vertical; min-height: 80px; }
 .file-icon-xls { background: var(--color-success-bg); color: var(--color-success); }
 .file-icon-img { background: var(--color-warning-bg); color: var(--color-warning); }
 .file-icon-zip { background: var(--color-ghost-hover); color: var(--color-heading); }
+
+/* ===== 17. SENSOR STATUS DOTS ===== */
 .sensor-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; margin-right: 6px; }
 .sensor-dot.online  { background: var(--color-success); }
 .sensor-dot.offline { background: var(--color-danger); }
 .sensor-dot.warning { background: var(--color-warning); }
+
+/* ===== 18. REAL-TIME BAR ===== */
 .realtime-bar {
   display: flex; gap: 20px; padding: 12px 16px;
   background: linear-gradient(90deg, #1e3a5f, var(--color-primary));
@@ -330,6 +381,8 @@ textarea.form-control { resize: vertical; min-height: 80px; }
 .realtime-bar .rt-item { text-align: center; }
 .realtime-bar .rt-value { font-size: var(--font-size-xl); font-weight: 700; }
 .realtime-bar .rt-label { font-size: var(--font-size-xxs); opacity: 0.8; }
+
+/* ===== 19. UTILITY ===== */
 .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
 .grid-4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 16px; }
@@ -353,6 +406,8 @@ textarea.form-control { resize: vertical; min-height: 80px; }
 .text-primary { color: var(--color-primary); }
 .font-bold { font-weight: 700; }
 .truncate { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* ===== 20. SCREEN SECTION LABELS ===== */
 .screen { padding: 4px 0 20px; }
 .screen-label {
   font-size: var(--font-size-xs); color: var(--color-muted-light);
@@ -362,17 +417,23 @@ textarea.form-control { resize: vertical; min-height: 80px; }
   display: flex; align-items: center; gap: 12px;
   padding: 10px 0; border-bottom: 1px solid var(--color-border-light);
 }
+
+/* ===== 21. RESPONSIVE ===== */
 @media (max-width: 768px) {
   .sidebar { display: none; }
   .main-wrapper { margin-left: 0; }
   .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
   .stats-row { grid-template-columns: 1fr; }
 }
+
+/* ===== 22. NO RESULTS / EMPTY STATE ===== */
 .empty-state {
   padding: 40px; text-align: center; color: var(--color-muted-light);
 }
 .empty-state .icon { font-size: 48px; margin-bottom: 12px; opacity: 0.4; }
 .empty-state p { font-size: var(--font-size-base); }
+
+/* ===== 23. MODAL OVERLAY (for detail views) ===== */
 .modal-overlay {
   position: fixed; inset: 0;
   background: rgba(0,0,0,0.4);
@@ -395,6 +456,8 @@ textarea.form-control { resize: vertical; min-height: 80px; }
   background: none; border: none; font-size: 20px; cursor: pointer;
   color: var(--color-muted-light); padding: 4px;
 }
+
+/* ===== 24. TABS ===== */
 .tabs { display: flex; gap: 0; border-bottom: 2px solid var(--color-border); margin-bottom: 16px; }
 .tab {
   padding: 10px 20px; font-size: var(--font-size-sm); font-weight: 500; cursor: pointer;
@@ -403,6 +466,8 @@ textarea.form-control { resize: vertical; min-height: 80px; }
 }
 .tab:hover { color: var(--color-primary); }
 .tab.active { color: var(--color-primary); border-bottom-color: var(--color-primary); }
+
+/* ===== 25. PAGINATION ===== */
 .pagination {
   display: flex; align-items: center; justify-content: flex-end;
   gap: 8px; margin-top: 16px;
@@ -416,357 +481,3 @@ textarea.form-control { resize: vertical; min-height: 80px; }
 .pagination .page-btn:hover { border-color: var(--color-primary); color: var(--color-primary); }
 .pagination .page-btn.active { background: var(--color-primary); color: var(--color-white); border-color: var(--color-primary); }
 .pagination .page-info { font-size: var(--font-size-xs); color: var(--color-muted); }
-</style>
-</head>
-<body>
-
-<aside class="sidebar">
-  <div class="sidebar-logo">
-    <div class="logo-icon">MT</div>
-    <div class="logo-text">
-      <strong>MTIS</strong>
-      <small>Hệ thống quản lý Hàng hải</small>
-    </div>
-  </div>
-  <nav class="sidebar-menu">
-    <div class="menu-section">QUY HOẠCH</div>
-    <a class="menu-item active" href="#danhsach" onclick="scrollToSection('danhsach')">
-      <span class="icon">📋</span> Quy hoạch
-    </a>
-    <div class="menu-section">QUẢN LÝ KCHT</div>
-    <a class="menu-item" href="#" onclick="scrollToSection('danhsach')">
-      <span class="icon">⚙️</span> Quản lý thông số Kỹ thuật
-    </a>
-    <a class="menu-item" href="#" onclick="scrollToSection('danhsach')">
-      <span class="icon">🔄</span> Vận hành & Bảo trì
-    </a>
-    <a class="menu-item" href="#" onclick="scrollToSection('danhsach')">
-      <span class="icon">📦</span> Quản lý tài sản
-    </a>
-    <a class="menu-item" href="#" onclick="scrollToSection('danhsach')">
-      <span class="icon">🗺️</span> Bản đồ GIS
-    </a>
-    <a class="menu-item" href="#" onclick="scrollToSection('danhsach')">
-      <span class="icon">📊</span> Báo cáo thống kê
-    </a>
-  </nav>
-  <div class="sidebar-footer">Cục Hàng hải Việt Nam</div>
-</aside>
-
-<div class="main-wrapper">
-
-  <header class="header">
-    <h1>DỰ ÁN: Xây dựng Hệ thống thông tin quản lý KCHT Giao thông Hàng hải</h1>
-    <div class="user-info">
-      <div class="avatar">NV</div>
-      <div>
-        <div class="name">Nguyễn Văn A</div>
-        <div class="role">Chuyên viên</div>
-      </div>
-    </div>
-  </header>
-
-  <div class="content">
-
-    <nav class="breadcrumb">
-      <a href="#">Trang chủ</a><span class="sep">›</span>
-      <a href="#">Quản lý KCHT</a><span class="sep">›</span>
-      <span>Quy hoạch</span>
-    </nav>
-    <h2 class="page-title">Quy hoạch</h2>
-
-    <!-- ===== SCREEN 1: DANH SÁCH QUY HOẠCH BẾN CẢNG ===== -->
-    <div class="screen" id="danhsach">
-      <div class="screen-label">1. DANH SÁCH QUY HOẠCH BẾN CẢNG</div>
-
-      <div class="card">
-        <div class="card-header">
-          <h3>Danh sách quy hoạch bến cảng</h3>
-          <div class="actions">
-            <button class="btn btn-primary">+ Thêm quy hoạch</button>
-            <button class="btn btn-outline">📥 Import Excel</button>
-          </div>
-        </div>
-        <div class="card-body">
-          <div class="search-bar">
-            <input type="text" class="form-control" placeholder="Tìm kiếm tên bến...">
-            <button class="btn btn-outline btn-sm">🔍 Tìm kiếm</button>
-          </div>
-          <div class="table-wrap">
-            <table class="ant-table">
-              <thead>
-                <tr>
-                  <th>STT</th>
-                  <th>Tên bến</th>
-                  <th>Cảng biển</th>
-                  <th>Cỡ tàu (DWT)</th>
-                  <th>Năng lực thông qua</th>
-                  <th>Giai đoạn đầu tư</th>
-                  <th>Năm quy hoạch</th>
-                  <th>Trạng thái</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>1</td>
-                  <td>Bến cảng Lạch Huyện</td>
-                  <td>Hải Phòng</td>
-                  <td>100,000</td>
-                  <td>12,000,000 tấn/năm</td>
-                  <td>2021–2030</td>
-                  <td>2023</td>
-                  <td><span class="badge badge-green">Đã duyệt</span></td>
-                </tr>
-                <tr>
-                  <td>2</td>
-                  <td>Bến cảng Cái Mép</td>
-                  <td>Vũng Tàu</td>
-                  <td>200,000</td>
-                  <td>15,000,000 tấn/năm</td>
-                  <td>2021–2030</td>
-                  <td>2022</td>
-                  <td><span class="badge badge-green">Đã duyệt</span></td>
-                </tr>
-                <tr>
-                  <td>3</td>
-                  <td>Bến cảng Tiên Sa</td>
-                  <td>Đà Nẵng</td>
-                  <td>50,000</td>
-                  <td>8,000,000 tấn/năm</td>
-                  <td>2031–2040</td>
-                  <td>2024</td>
-                  <td><span class="badge badge-yellow">Chờ duyệt</span></td>
-                </tr>
-                <tr>
-                  <td>4</td>
-                  <td>Bến cảng Cẩm Phả</td>
-                  <td>Quảng Ninh</td>
-                  <td>70,000</td>
-                  <td>6,500,000 tấn/năm</td>
-                  <td>2021–2030</td>
-                  <td>2023</td>
-                  <td><span class="badge badge-blue">Dự thảo</span></td>
-                </tr>
-                <tr>
-                  <td>5</td>
-                  <td>Bến cảng Nghi Sơn</td>
-                  <td>Thanh Hóa</td>
-                  <td>80,000</td>
-                  <td>10,000,000 tấn/năm</td>
-                  <td>2031–2040</td>
-                  <td>2025</td>
-                  <td><span class="badge badge-green">Đã duyệt</span></td>
-                </tr>
-                <tr>
-                  <td>6</td>
-                  <td>Bến cảng Cần Thơ</td>
-                  <td>Cần Thơ</td>
-                  <td>30,000</td>
-                  <td>4,200,000 tấn/năm</td>
-                  <td>2021–2030</td>
-                  <td>2024</td>
-                  <td><span class="badge badge-yellow">Chờ duyệt</span></td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          <div class="pagination">
-            <span class="page-info">1–6 / 42</span>
-            <button class="page-btn active">1</button>
-            <button class="page-btn">2</button>
-            <button class="page-btn">3</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <hr class="section-divider">
-
-    <!-- ===== SCREEN 2: TRA CỨU QUY HOẠCH ===== -->
-    <div class="screen" id="tracuu">
-      <div class="screen-label">2. TRA CỨU QUY HOẠCH</div>
-
-      <div class="card">
-        <div class="card-header">
-          <h3>Tra cứu quy hoạch</h3>
-        </div>
-        <div class="card-body">
-          <div class="grid-3 mb-4">
-            <div class="form-group">
-              <label>Cảng biển</label>
-              <select class="form-control">
-                <option value="">-- Chọn cảng biển --</option>
-                <option>Hải Phòng</option>
-                <option>Vũng Tàu</option>
-                <option>Đà Nẵng</option>
-                <option>Quảng Ninh</option>
-                <option>Thanh Hóa</option>
-                <option>Cần Thơ</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label>Tên bến</label>
-              <input type="text" class="form-control" placeholder="Nhập tên bến...">
-            </div>
-            <div class="form-group">
-              <label>Giai đoạn</label>
-              <select class="form-control">
-                <option value="">-- Chọn giai đoạn --</option>
-                <option>2021–2030</option>
-                <option>2031–2040</option>
-              </select>
-            </div>
-          </div>
-          <button class="btn btn-primary">🔍 Tìm kiếm</button>
-
-          <div class="table-wrap mt-4">
-            <table class="ant-table">
-              <thead>
-                <tr>
-                  <th>STT</th>
-                  <th>Tên bến</th>
-                  <th>Cảng biển</th>
-                  <th>Cỡ tàu (DWT)</th>
-                  <th>Năng lực thông qua</th>
-                  <th>Năm QH</th>
-                  <th>Trạng thái</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>1</td>
-                  <td>Bến cảng Lạch Huyện</td>
-                  <td>Hải Phòng</td>
-                  <td>100,000</td>
-                  <td>12,000,000 tấn/năm</td>
-                  <td>2023</td>
-                  <td><span class="badge badge-green">Đã duyệt</span></td>
-                </tr>
-                <tr>
-                  <td>2</td>
-                  <td>Bến cảng Cái Mép</td>
-                  <td>Vũng Tàu</td>
-                  <td>200,000</td>
-                  <td>15,000,000 tấn/năm</td>
-                  <td>2022</td>
-                  <td><span class="badge badge-green">Đã duyệt</span></td>
-                </tr>
-                <tr>
-                  <td>3</td>
-                  <td>Bến cảng Nghi Sơn</td>
-                  <td>Thanh Hóa</td>
-                  <td>80,000</td>
-                  <td>10,000,000 tấn/năm</td>
-                  <td>2025</td>
-                  <td><span class="badge badge-green">Đã duyệt</span></td>
-                </tr>
-                <tr>
-                  <td>4</td>
-                  <td>Bến cảng Cần Thơ</td>
-                  <td>Cần Thơ</td>
-                  <td>30,000</td>
-                  <td>4,200,000 tấn/năm</td>
-                  <td>2024</td>
-                  <td><span class="badge badge-yellow">Chờ duyệt</span></td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <hr class="section-divider">
-
-    <!-- ===== SCREEN 3: CẬP NHẬT QUY HOẠCH ===== -->
-    <div class="screen" id="capnhat">
-      <div class="screen-label">3. CẬP NHẬT QUY HOẠCH</div>
-
-      <div class="workflow-steps">
-        <div class="workflow-step">Dự thảo</div>
-        <div class="workflow-step active">Chờ duyệt</div>
-        <div class="workflow-step">Đã duyệt</div>
-      </div>
-
-      <div class="card">
-        <div class="card-header">
-          <h3>Cập nhật quy hoạch bến cảng</h3>
-        </div>
-        <div class="card-body">
-          <div class="grid-2">
-            <div>
-              <div class="form-group">
-                <label class="required">Tên bến</label>
-                <input type="text" class="form-control" value="Bến cảng Tiên Sa">
-              </div>
-              <div class="form-group">
-                <label class="required">Cảng biển</label>
-                <select class="form-control">
-                  <option>Đà Nẵng</option>
-                  <option>Hải Phòng</option>
-                  <option>Vũng Tàu</option>
-                  <option>Quảng Ninh</option>
-                  <option>Thanh Hóa</option>
-                  <option>Cần Thơ</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label class="required">Cỡ tàu DWT</label>
-                <input type="number" class="form-control" value="50000">
-              </div>
-              <div class="form-group">
-                <label>Năng lực container TEU</label>
-                <input type="number" class="form-control" value="800000">
-              </div>
-            </div>
-            <div>
-              <div class="form-group">
-                <label class="required">Giai đoạn đầu tư</label>
-                <select class="form-control">
-                  <option>2021–2030</option>
-                  <option>2031–2040</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label class="required">Năm</label>
-                <input type="number" class="form-control" value="2024">
-              </div>
-              <div class="form-group">
-                <label class="required">Trạng thái</label>
-                <select class="form-control">
-                  <option>Dự thảo</option>
-                  <option selected>Chờ duyệt</option>
-                  <option>Đã duyệt</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label>Ghi chú</label>
-                <textarea class="form-control" placeholder="Nhập ghi chú...">Đang chờ phê duyệt của Cục Hàng hải Việt Nam</textarea>
-              </div>
-            </div>
-          </div>
-          <div class="flex gap-3 mt-4">
-            <button class="btn btn-primary">💾 Lưu</button>
-            <button class="btn btn-outline">Hủy</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-  </div>
-
-  <footer class="footer">Cục Hàng hải Việt Nam — Phiên bản 1.0</footer>
-
-</div>
-
-<script>
-function scrollToSection(id) {
-  var el = document.getElementById(id);
-  if (el) {
-    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }
-}
-</script>
-
-</body>
-</html>

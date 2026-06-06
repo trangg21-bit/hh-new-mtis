@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>M08 — Báo cáo thống kê | MTIS</title>
+<style>
+:root {
+  --color-primary: #2153aa;
+  --color-primary-hover: #1a3f8a;
+  --color-primary-light: #eff8ff;
+  --color-primary-light-end: #e0f2fe;
+  --color-primary-ring: rgba(33, 83, 170, 0.12);
+  --color-body-bg: #f4f4f5;
+  --color-body-text: #1a1a2e;
+  --color-muted: #6b7280;
+  --color-muted-light: #9ca3af;
+  --color-heading: #374151;
+  --color-border: #e5e7eb;
+  --color-border-light: #f0f0f0;
+  --color-border-input: #d1d5db;
+  --color-white: #ffffff;
+  --color-table-header-bg: #fafafa;
+  --color-table-even-row: #fafbfc;
+  --color-table-hover: #eff8ff;
+  --color-ghost-hover: #f3f4f6;
+  --color-danger: #dc2626;
+  --color-danger-hover: #b91c1c;
+  --color-danger-bg: #fef2f2;
+  --color-danger-text: #991b1b;
+  --color-success: #059669;
+  --color-success-hover: #047857;
+  --color-success-bg: #ecfdf5;
+  --color-success-text: #065f46;
+  --color-warning: #d97706;
+  --color-warning-bg: #fffbeb;
+  --color-warning-text: #92400e;
+  --color-info-bg: #eff6ff;
+  --color-info-text: #1e40af;
+  --sidebar-width: 260px;
+  --header-padding: 12px 28px;
+  --content-padding: 24px 28px;
+  --content-max-width: 1360px;
+  --font-family: Averta, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-size-base: 14px;
+  --font-size-sm: 13px;
+  --font-size-xs: 12px;
+  --font-size-xxs: 11px;
+  --font-size-lg: 16px;
+  --font-size-xl: 22px;
+  --font-size-stat: 28px;
+  --radius-card: 8px;
+  --radius-btn: 6px;
+  --radius-badge: 12px;
+  --radius-input: 6px;
+  --radius-icon: 12px;
+  --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.06);
+  --shadow-header: 0 1px 3px rgba(0, 0, 0, 0.06);
+  --transition-fast: all 0.15s ease;
+}
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html, body { height:100%; }
+body { font-family: var(--font-family); background: var(--color-body-bg); color: var(--color-body-text); font-size: var(--font-size-base); line-height: 1.5; display: flex; min-height: 100vh; }
+.sidebar { width: var(--sidebar-width); min-width: var(--sidebar-width); background: var(--color-white); border-right: 1px solid var(--color-border); display: flex; flex-direction: column; height: 100vh; position: fixed; left:0; top:0; bottom:0; z-index: 100; overflow-y: auto; }
+.sidebar-logo { display: flex; align-items: center; gap: 12px; padding: 20px 20px 16px; border-bottom: 1px solid var(--color-border); }
+.sidebar-logo .logo-icon { width: 44px; height: 44px; background: linear-gradient(135deg, var(--color-primary), var(--color-primary-hover)); border-radius: var(--radius-icon); display: flex; align-items: center; justify-content: center; color: var(--color-white); font-weight: 700; font-size: 20px; flex-shrink: 0; }
+.sidebar-logo .logo-text { line-height: 1.3; }
+.sidebar-logo .logo-text strong { display:block; font-size: var(--font-size-sm); color: var(--color-body-text); }
+.sidebar-logo .logo-text small { font-size: var(--font-size-xxs); color: var(--color-muted); }
+.sidebar-menu { padding: 12px 0; flex: 1; }
+.sidebar-menu .menu-section { padding: 8px 20px 4px; font-size: var(--font-size-xxs); text-transform: uppercase; letter-spacing: 0.5px; color: var(--color-muted-light); font-weight: 600; }
+.sidebar-menu .menu-item { display: flex; align-items: center; gap: 12px; padding: 10px 20px; color: var(--color-heading); text-decoration: none; font-size: var(--font-size-base); cursor: pointer; transition: var(--transition-fast); border-left: 3px solid transparent; }
+.sidebar-menu .menu-item:hover { background: #f9fafb; color: var(--color-primary); }
+.sidebar-menu .menu-item.active { background: linear-gradient(90deg, var(--color-primary-light), var(--color-primary-light-end)); border-left: 3px solid var(--color-primary); color: var(--color-primary); font-weight: 600; }
+.sidebar-menu .menu-item .icon { width: 20px; text-align: center; font-size: var(--font-size-lg); flex-shrink: 0; }
+.sidebar-footer { padding: 16px 20px; border-top: 1px solid var(--color-border); font-size: var(--font-size-xxs); color: var(--color-muted-light); text-align: center; }
+.main-wrapper { margin-left: var(--sidebar-width); flex:1; display: flex; flex-direction: column; min-height: 100vh; }
+.header { background: var(--color-white); box-shadow: var(--shadow-header); padding: var(--header-padding); display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 50; }
+.header h1 { font-size: 15px; font-weight: 600; color: var(--color-body-text); }
+.header .user-info { display: flex; align-items: center; gap: 16px; }
+.header .user-info .avatar { width: 34px; height: 34px; border-radius: 50%; background: var(--color-primary); color: var(--color-white); display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: var(--font-size-base); }
+.header .user-info .name { font-size: var(--font-size-sm); color: var(--color-heading); }
+.header .user-info .role { font-size: var(--font-size-xxs); color: var(--color-muted-light); }
+.content { flex: 1; padding: var(--content-padding); max-width: var(--content-max-width); }
+.breadcrumb { font-size: var(--font-size-sm); color: var(--color-muted); margin-bottom: 6px; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.breadcrumb a { color: var(--color-primary); text-decoration: none; }
+.breadcrumb a:hover { text-decoration: underline; }
+.breadcrumb span.sep { color: var(--color-muted-light); }
+.page-title { font-size: var(--font-size-xl); font-weight: 700; color: var(--color-body-text); margin-bottom: 20px; }
+.section-title { font-size: var(--font-size-lg); font-weight: 600; color: var(--color-primary); margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+hr.section-divider { border: none; border-top: 1px solid var(--color-border); margin: 28px 0; }
+.footer { background: var(--color-white); border-top: 1px solid var(--color-border); padding: 14px 28px; font-size: var(--font-size-xs); color: var(--color-muted); text-align: center; }
+.card { background: var(--color-white); border-radius: var(--radius-card); box-shadow: var(--shadow-card); padding: 20px; margin-bottom: 16px; }
+.card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+.card-header h3 { font-size: var(--font-size-lg); font-weight: 600; color: var(--color-body-text); }
+.card-header .actions { display: flex; gap: 8px; }
+.card-body { padding: 4px 0; }
+.stats-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 20px; }
+.stat-card { background: var(--color-white); border-radius: var(--radius-card); box-shadow: var(--shadow-card); padding: 18px 20px; border-left: 4px solid var(--color-primary); }
+.stat-card .stat-label { font-size: var(--font-size-sm); color: var(--color-muted); margin-bottom: 4px; }
+.stat-card .stat-value { font-size: var(--font-size-stat); font-weight: 700; color: var(--color-body-text); }
+.stat-card .stat-sub { font-size: var(--font-size-xs); color: var(--color-muted-light); margin-top: 4px; }
+.stat-card:nth-child(1) { border-left-color: var(--color-primary); }
+.stat-card:nth-child(2) { border-left-color: var(--color-success); }
+.stat-card:nth-child(3) { border-left-color: var(--color-warning); }
+.stat-card:nth-child(4) { border-left-color: var(--color-danger); }
+.table-wrap { overflow-x: auto; }
+.ant-table { width: 100%; border-collapse: collapse; font-size: var(--font-size-sm); }
+.ant-table thead th { background: var(--color-table-header-bg); border-bottom: 2px solid var(--color-border); padding: 10px 12px; text-align: left; font-weight: 600; color: var(--color-heading); white-space: nowrap; }
+.ant-table tbody td { padding: 9px 12px; border-bottom: 1px solid var(--color-border-light); color: var(--color-body-text); }
+.ant-table tbody tr:nth-child(even) td { background: var(--color-table-even-row); }
+.ant-table tbody tr:hover td { background: var(--color-table-hover); }
+.badge { display: inline-block; padding: 2px 10px; border-radius: var(--radius-badge); font-size: var(--font-size-xs); font-weight: 500; line-height: 1.6; }
+.badge-green  { background: var(--color-success-bg); color: var(--color-success-text); }
+.badge-red    { background: var(--color-danger-bg);  color: var(--color-danger-text); }
+.badge-blue   { background: var(--color-info-bg);    color: var(--color-info-text); }
+.badge-yellow { background: var(--color-warning-bg); color: var(--color-warning-text); }
+.badge-gray   { background: var(--color-ghost-hover); color: var(--color-heading); }
+.btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px; border-radius: var(--radius-btn); font-size: var(--font-size-sm); font-weight: 500; cursor: pointer; border: 1px solid transparent; transition: var(--transition-fast); text-decoration: none; line-height: 1.4; }
+.btn-sm { padding: 4px 10px; font-size: var(--font-size-xs); }
+.btn-primary   { background: var(--color-primary); color: var(--color-white); border-color: var(--color-primary); }
+.btn-primary:hover   { background: var(--color-primary-hover); }
+.btn-outline   { background: var(--color-white); color: var(--color-primary); border-color: var(--color-primary); }
+.btn-outline:hover   { background: var(--color-primary-light); }
+.btn-danger    { background: var(--color-danger); color: var(--color-white); border-color: var(--color-danger); }
+.btn-danger:hover    { background: var(--color-danger-hover); }
+.btn-success   { background: var(--color-success); color: var(--color-white); border-color: var(--color-success); }
+.btn-success:hover   { background: var(--color-success-hover); }
+.btn-ghost     { background: transparent; color: var(--color-heading); border-color: transparent; }
+.btn-ghost:hover     { background: var(--color-ghost-hover); }
+.form-group { margin-bottom: 14px; }
+.form-group label { display: block; font-size: var(--font-size-sm); font-weight: 500; color: var(--color-heading); margin-bottom: 4px; }
+.form-control { width: 100%; padding: 8px 12px; border: 1px solid var(--color-border-input); border-radius: var(--radius-input); font-size: var(--font-size-sm); color: var(--color-body-text); transition: border-color 0.15s; background: var(--color-white); }
+.form-control:focus { outline: none; border-color: var(--color-primary); box-shadow: 0 0 0 3px var(--color-primary-ring); }
+select.form-control { -webkit-appearance: none; appearance: none; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%236b7280' d='M6 8L1 3h10z'/%3E%3C/svg%3E") no-repeat right 12px center var(--color-white); padding-right: 32px; }
+textarea.form-control { resize: vertical; min-height: 80px; }
+.timeline { position: relative; padding-left: 28px; }
+.timeline::before { content: ''; position: absolute; left: 8px; top: 4px; bottom: 4px; width: 2px; background: var(--color-border); }
+.timeline-item { position: relative; margin-bottom: 16px; padding-left: 16px; }
+.timeline-item::before { content: ''; position: absolute; left: -24px; top: 6px; width: 10px; height: 10px; border-radius: 50%; background: var(--color-primary); border: 2px solid var(--color-white); box-shadow: 0 0 0 2px var(--color-primary); }
+.timeline-item .time { font-size: var(--font-size-xs); color: var(--color-muted-light); }
+.timeline-item .desc { font-size: var(--font-size-sm); color: var(--color-heading); }
+.search-bar { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; padding: 14px 0; }
+.search-bar .form-control { width: 220px; }
+.map-placeholder { background: linear-gradient(135deg, var(--color-primary-light-end), #bae6fd); border-radius: var(--radius-card); min-height: 400px; display: flex; align-items: center; justify-content: center; color: var(--color-primary); font-weight: 600; font-size: 15px; position: relative; border: 2px dashed #93c5fd; }
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+.grid-4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 16px; }
+.flex { display: flex; }
+.flex-center { display: flex; align-items: center; justify-content: center; }
+.flex-between { display: flex; align-items: center; justify-content: space-between; }
+.inline-flex { display: inline-flex; align-items: center; gap: 6px; }
+.gap-2 { gap: 8px; }
+.gap-3 { gap: 12px; }
+.gap-4 { gap: 16px; }
+.mt-2 { margin-top: 8px; }
+.mt-4 { margin-top: 16px; }
+.mb-2 { margin-bottom: 8px; }
+.mb-4 { margin-bottom: 16px; }
+.w-full { width: 100%; }
+.text-right { text-align: right; }
+.text-center { text-align: center; }
+.text-muted { color: var(--color-muted); }
+.text-danger { color: var(--color-danger); }
+.text-success { color: var(--color-success); }
+.text-primary { color: var(--color-primary); }
+.font-bold { font-weight: 700; }
+.truncate { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.screen { padding: 4px 0 20px; }
+.screen-label { font-size: var(--font-size-xs); color: var(--color-muted-light); font-weight: 500; letter-spacing: 0.3px; margin-bottom: 12px; text-transform: uppercase; }
+@media (max-width: 768px) { .sidebar { display: none; } .main-wrapper { margin-left: 0; } .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; } .stats-row { grid-template-columns: 1fr; } }
+.empty-state { padding: 40px; text-align: center; color: var(--color-muted-light); }
+.empty-state .icon { font-size: 48px; margin-bottom: 12px; opacity: 0.4; }
+.empty-state p { font-size: var(--font-size-base); }
+.pagination { display: flex; align-items: center; justify-content: flex-end; gap: 8px; margin-top: 16px; }
+.pagination .page-btn { padding: 6px 12px; border: 1px solid var(--color-border); border-radius: var(--radius-btn); font-size: var(--font-size-xs); background: var(--color-white); cursor: pointer; color: var(--color-heading); }
+.pagination .page-btn:hover { border-color: var(--color-primary); color: var(--color-primary); }
+.pagination .page-btn.active { background: var(--color-primary); color: var(--color-white); border-color: var(--color-primary); }
+.pagination .page-info { font-size: var(--font-size-xs); color: var(--color-muted); }
+.menu-sub { padding-left: 36px; }
+.menu-sub .menu-item { font-size: var(--font-size-sm); padding: 7px 20px; }
+.bar-chart { display: flex; align-items: flex-end; gap: 4px; height: 120px; padding: 8px 0; }
+.bar-chart .bar { flex: 1; border-radius: 4px 4px 0 0; min-width: 20px; position: relative; }
+.bar-chart .bar .bar-val { position: absolute; top: -18px; left: 50%; transform: translateX(-50%); font-size: var(--font-size-xxs); color: var(--color-muted); }
+.bar-chart .bar .bar-lbl { position: absolute; bottom: -18px; left: 50%; transform: translateX(-50%); font-size: var(--font-size-xxs); color: var(--color-muted-light); }
+.map-overlay-bar { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+.toolbar { display: flex; gap: 8px; margin-bottom: 12px; }
+</style>
+</head>
+<body>
+
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-icon">MT</div>
+    <div class="logo-text">
+      <strong>MTIS</strong>
+      <small>Hệ thống thông tin KCHT</small>
+    </div>
+  </div>
+  <nav class="sidebar-menu">
+    <div class="menu-section">BÁO CÁO THỐNG KÊ</div>
+    <a class="menu-item active" href="#dashboard"><span class="icon">📊</span> Dashboard báo cáo</a>
+    <div class="menu-sub">
+      <a class="menu-item" href="#bao-cao-tai-san"><span class="icon">🏗️</span> Báo cáo tài sản</a>
+      <a class="menu-item" href="#bao-cao-kcht"><span class="icon">📋</span> Báo cáo KCHT</a>
+      <a class="menu-item" href="#bao-cao-san-luong"><span class="icon">🚢</span> Báo cáo sản lượng</a>
+      <a class="menu-item" href="#bao-cao-an-toan"><span class="icon">🛡️</span> Báo cáo an toàn</a>
+      <a class="menu-item" href="#xuat-bao-cao"><span class="icon">📄</span> Xuất báo cáo</a>
+    </div>
+    <div class="menu-section">MODULE KHÁC</div>
+    <a class="menu-item" href="#"><span class="icon">👤</span> Quản lý người dùng</a>
+    <a class="menu-item" href="#"><span class="icon">⚙️</span> Quản trị hệ thống</a>
+    <a class="menu-item" href="#"><span class="icon">📋</span> Thông số kỹ thuật</a>
+    <a class="menu-item" href="#"><span class="icon">🔧</span> Vận hành &amp; Bảo trì</a>
+    <a class="menu-item" href="#"><span class="icon">📐</span> Quy hoạch</a>
+    <a class="menu-item" href="#"><span class="icon">🏗️</span> Quản lý tài sản</a>
+    <a class="menu-item" href="#"><span class="icon">🗺️</span> Bản đồ GIS</a>
+    <a class="menu-item" href="#"><span class="icon">🔗</span> Liên thông dữ liệu</a>
+  </nav>
+  <div class="sidebar-footer">MTIS v1.0 — Cục Hàng hải VN</div>
+</aside>
+
+<div class="main-wrapper">
+  <header class="header">
+    <h1>DỰ ÁN: Xây dựng Hệ thống thông tin quản lý KCHT Giao thông Hàng hải</h1>
+    <div class="user-info">
+      <div>
+        <div class="name">Nguyễn Văn A</div>
+        <div class="role">Chuyên viên</div>
+      </div>
+      <div class="avatar">NV</div>
+    </div>
+  </header>
+
+  <main class="content">
+    <div class="breadcrumb">
+      <a href="#">Trang chủ</a> <span class="sep">›</span> <a href="#">Quản lý KCHT</a> <span class="sep">›</span> Báo cáo thống kê
+    </div>
+
+    <!-- SCREEN 1: DASHBOARD BÁO CÁO -->
+    <section class="screen" id="dashboard">
+      <div class="screen-label">1. Dashboard báo cáo</div>
+      <div class="page-title">Báo cáo thống kê</div>
+
+      <div class="stats-row">
+        <div class="stat-card">
+          <div class="stat-label">Báo cáo tháng</div>
+          <div class="stat-value">12</div>
+          <div class="stat-sub">Tháng 1-6/2026</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Báo cáo quý</div>
+          <div class="stat-value">4</div>
+          <div class="stat-sub">Quý I-II/2026</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Báo cáo năm</div>
+          <div class="stat-value">1</div>
+          <div class="stat-sub">Năm 2025</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Đang chờ duyệt</div>
+          <div class="stat-value">3</div>
+          <div class="stat-sub">Cần xử lý</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header"><h3>Báo cáo nhanh</h3></div>
+        <div class="grid-2">
+          <a class="card" style="text-decoration:none;cursor:pointer;padding:24px;text-align:center">
+            <div style="font-size:32px;margin-bottom:8px">🏗️</div>
+            <div class="font-bold" style="color:var(--color-heading)">Báo cáo tài sản</div>
+            <div class="text-muted" style="font-size:var(--font-size-xs)">Tổng hợp tài sản KCHT toàn ngành</div>
+          </a>
+          <a class="card" style="text-decoration:none;cursor:pointer;padding:24px;text-align:center">
+            <div style="font-size:32px;margin-bottom:8px">📋</div>
+            <div class="font-bold" style="color:var(--color-heading)">Báo cáo KCHT</div>
+            <div class="text-muted" style="font-size:var(--font-size-xs)">Thống kê cơ sở hạ tầng toàn quốc</div>
+          </a>
+          <a class="card" style="text-decoration:none;cursor:pointer;padding:24px;text-align:center">
+            <div style="font-size:32px;margin-bottom:8px">🚢</div>
+            <div class="font-bold" style="color:var(--color-heading)">Báo cáo sản lượng cảng</div>
+            <div class="text-muted" style="font-size:var(--font-size-xs)">Sản lượng hàng hóa qua cảng biển</div>
+          </a>
+          <a class="card" style="text-decoration:none;cursor:pointer;padding:24px;text-align:center">
+            <div style="font-size:32px;margin-bottom:8px">🛡️</div>
+            <div class="font-bold" style="color:var(--color-heading)">Báo cáo an toàn</div>
+            <div class="text-muted" style="font-size:var(--font-size-xs)">An toàn hàng hải &amp; thuyền viên</div>
+          </a>
+          <a class="card" style="text-decoration:none;cursor:pointer;padding:24px;text-align:center">
+            <div style="font-size:32px;margin-bottom:8px">👨‍✈️</div>
+            <div class="font-bold" style="color:var(--color-heading)">Báo cáo thuyền viên</div>
+            <div class="text-muted" style="font-size:var(--font-size-xs)">Thống kê nhân sự hàng hải</div>
+          </a>
+          <a class="card" style="text-decoration:none;cursor:pointer;padding:24px;text-align:center">
+            <div style="font-size:32px;margin-bottom:8px">📈</div>
+            <div class="font-bold" style="color:var(--color-heading)">Báo cáo tổng hợp</div>
+            <div class="text-muted" style="font-size:var(--font-size-xs)">Tổng hợp tất cả chỉ tiêu</div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <hr class="section-divider">
+
+    <!-- SCREEN 2: BÁO CÁO TÀI SẢN -->
+    <section class="screen" id="bao-cao-tai-san">
+      <div class="screen-label">2. Báo cáo tài sản</div>
+      <div class="card">
+        <div class="card-header">
+          <h3>Báo cáo tài sản KCHT</h3>
+          <div class="actions">
+            <button class="btn btn-outline btn-sm">📥 Xuất Excel</button>
+            <button class="btn btn-outline btn-sm">📄 Xuất PDF</button>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="grid-3">
+            <div class="form-group">
+              <label>Kỳ báo cáo</label>
+              <select class="form-control"><option>Tháng 6/2026</option><option>Tháng 5/2026</option><option>Quý II/2026</option><option>Năm 2026</option></select>
+            </div>
+            <div class="form-group">
+              <label>Đơn vị</label>
+              <select class="form-control"><option value="">Tất cả đơn vị</option><option>Cảng vụ Hải Phòng</option><option>Cảng vụ Vũng Tàu</option><option>Cảng vụ TP.HCM</option></select>
+            </div>
+            <div class="form-group">
+              <label>Loại tài sản</label>
+              <select class="form-control"><option value="">Tất cả loại</option><option>Bến cảng</option><option>Luồng</option><option>Phao tiêu</option><option>Đèn biển</option><option>Đê kè</option></select>
+            </div>
+          </div>
+          <div class="table-wrap mt-4">
+            <table class="ant-table">
+              <thead><tr><th>STT</th><th>Mã TS</th><th>Tên</th><th>Đơn vị</th><th>Nguyên giá (VNĐ)</th><th>GT còn lại (VNĐ)</th><th>Tỷ lệ HM (%)</th></tr></thead>
+              <tbody>
+                <tr><td>1</td><td>TS-2024-001</td><td>Bến cảng tổng hợp số 1</td><td>Cảng vụ Hải Phòng</td><td>125,000,000,000</td><td>112,500,000,000</td><td>10.0</td></tr>
+                <tr><td>2</td><td>TS-2023-045</td><td>Luồng tàu Sài Gòn - Vũng Tàu</td><td>Cảng vụ Vũng Tàu</td><td>450,000,000,000</td><td>405,000,000,000</td><td>10.0</td></tr>
+                <tr><td>3</td><td>TS-2024-089</td><td>Phao tiêu số 12</td><td>Cảng vụ Vũng Tàu</td><td>2,500,000,000</td><td>2,250,000,000</td><td>10.0</td></tr>
+                <tr><td>4</td><td>TS-2022-156</td><td>Đèn biển Côn Đảo</td><td>Cảng vụ Vũng Tàu</td><td>8,500,000,000</td><td>5,950,000,000</td><td>30.0</td></tr>
+                <tr><td>5</td><td>TS-2021-078</td><td>Đê kè chắn sóng Nghi Sơn</td><td>Cảng vụ Hải Phòng</td><td>320,000,000,000</td><td>256,000,000,000</td><td>20.0</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <hr class="section-divider">
+
+    <!-- SCREEN 3: BÁO CÁO KCHT -->
+    <section class="screen" id="bao-cao-kcht">
+      <div class="screen-label">3. Báo cáo KCHT</div>
+      <div class="card">
+        <div class="card-header"><h3>Thống kê KCHT theo loại — Tháng 6/2026</h3></div>
+        <div class="table-wrap">
+          <table class="ant-table">
+            <thead><tr><th>STT</th><th>Loại KCHT</th><th>Số lượng</th><th>Đang hoạt động</th><th>Bảo trì</th><th>Ngừng</th><th>Tỷ lệ hoạt động (%)</th></tr></thead>
+            <tbody>
+              <tr><td>1</td><td>Cảng biển</td><td>48</td><td><span class="badge badge-green">45</span></td><td><span class="badge badge-yellow">2</span></td><td><span class="badge badge-red">1</span></td><td>93.8%</td></tr>
+              <tr><td>2</td><td>Bến cảng</td><td>312</td><td><span class="badge badge-green">298</span></td><td><span class="badge badge-yellow">10</span></td><td><span class="badge badge-red">4</span></td><td>95.5%</td></tr>
+              <tr><td>3</td><td>Luồng</td><td>89</td><td><span class="badge badge-green">84</span></td><td><span class="badge badge-yellow">4</span></td><td><span class="badge badge-red">1</span></td><td>94.4%</td></tr>
+              <tr><td>4</td><td>Phao tiêu</td><td>3,847</td><td><span class="badge badge-green">3,689</span></td><td><span class="badge badge-yellow">112</span></td><td><span class="badge badge-red">46</span></td><td>95.9%</td></tr>
+              <tr><td>5</td><td>Đèn biển</td><td>1,204</td><td><span class="badge badge-green">1,156</span></td><td><span class="badge badge-yellow">38</span></td><td><span class="badge badge-red">10</span></td><td>96.0%</td></tr>
+              <tr><td>6</td><td>Đê kè</td><td>156</td><td><span class="badge badge-green">148</span></td><td><span class="badge badge-yellow">6</span></td><td><span class="badge badge-red">2</span></td><td>94.9%</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <hr class="section-divider">
+
+    <!-- SCREEN 4: BÁO CÁO SẢN LƯỢNG CẢNG BIỂN -->
+    <section class="screen" id="bao-cao-san-luong">
+      <div class="screen-label">4. Báo cáo sản lượng cảng biển</div>
+      <div class="card">
+        <div class="card-header"><h3>Sản lượng hàng hóa qua cảng biển — Năm 2025</h3></div>
+        <div class="table-wrap">
+          <table class="ant-table">
+            <thead><tr><th>STT</th><th>Cảng</th><th>Năm</th><th>Tổng lượt tàu</th><th>Tổng hàng hóa (tấn)</th><th>Container (TEU)</th><th>Tăng trưởng (%)</th></tr></thead>
+            <tbody>
+              <tr><td>1</td><td>Cảng Hải Phòng</td><td>2025</td><td>8,452</td><td>142,500,000</td><td>6,200,000</td><td><span class="text-success">+8.5%</span></td></tr>
+              <tr><td>2</td><td>Cảng Vũng Tàu (Cái Mép)</td><td>2025</td><td>6,234</td><td>118,300,000</td><td>5,850,000</td><td><span class="text-success">+12.3%</span></td></tr>
+              <tr><td>3</td><td>Cảng TP.HCM</td><td>2025</td><td>5,987</td><td>95,700,000</td><td>4,200,000</td><td><span class="text-success">+6.7%</span></td></tr>
+              <tr><td>4</td><td>Cảng Đà Nẵng</td><td>2025</td><td>2,845</td><td>38,200,000</td><td>1,450,000</td><td><span class="text-success">+5.2%</span></td></tr>
+              <tr><td>5</td><td>Cảng Quy Nhơn</td><td>2025</td><td>1,956</td><td>22,800,000</td><td>680,000</td><td><span class="text-success">+3.8%</span></td></tr>
+              <tr><td>6</td><td>Cảng Nghi Sơn</td><td>2025</td><td>1,423</td><td>18,500,000</td><td>340,000</td><td><span class="text-danger">-2.1%</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="card mt-4">
+          <div class="card-header"><h3>Biểu đồ sản lượng container (TEU)</h3></div>
+          <div class="bar-chart">
+            <div class="bar" style="background:linear-gradient(0deg,#2153aa,#3b82f6);height:100px"><span class="bar-val">6.2M</span><span class="bar-lbl">Hải Phòng</span></div>
+            <div class="bar" style="background:linear-gradient(0deg,#059669,#10b981);height:94px"><span class="bar-val">5.85M</span><span class="bar-lbl">Vũng Tàu</span></div>
+            <div class="bar" style="background:linear-gradient(0deg,#d97706,#f59e0b);height:67px"><span class="bar-val">4.2M</span><span class="bar-lbl">TP.HCM</span></div>
+            <div class="bar" style="background:linear-gradient(0deg,#8b5cf6,#a78bfa);height:23px"><span class="bar-val">1.45M</span><span class="bar-lbl">Đà Nẵng</span></div>
+            <div class="bar" style="background:linear-gradient(0deg,#ec4899,#f472b6);height:11px"><span class="bar-val">680K</span><span class="bar-lbl">Quy Nhơn</span></div>
+            <div class="bar" style="background:linear-gradient(0deg,#6366f1,#818cf8);height:5px"><span class="bar-val">340K</span><span class="bar-lbl">Nghi Sơn</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <hr class="section-divider">
+
+    <!-- SCREEN 5: BÁO CÁO AN TOÀN HÀNG HẢI -->
+    <section class="screen" id="bao-cao-an-toan">
+      <div class="screen-label">5. Báo cáo an toàn hàng hải</div>
+      <div class="card">
+        <div class="card-header"><h3>Sự cố an toàn hàng hải — 6 tháng đầu năm 2026</h3></div>
+        <div class="table-wrap">
+          <table class="ant-table">
+            <thead><tr><th>STT</th><th>Khu vực</th><th>Số sự cố</th><th>Mức độ</th><th>Thiệt hại (tỷ VNĐ)</th><th>Nguyên nhân chính</th></tr></thead>
+            <tbody>
+              <tr><td>1</td><td>Luồng Sài Gòn - Vũng Tàu</td><td>12</td><td><span class="badge badge-red">Nghiêm trọng</span></td><td>28.5</td><td>Va chạm tàu thuyền</td></tr>
+              <tr><td>2</td><td>Vùng nước cảng Hải Phòng</td><td>8</td><td><span class="badge badge-yellow">Trung bình</span></td><td>15.2</td><td>Thời tiết xấu</td></tr>
+              <tr><td>3</td><td>Luồng Hải Phòng</td><td>5</td><td><span class="badge badge-yellow">Trung bình</span></td><td>8.7</td><td>Sa bồi luồng tàu</td></tr>
+              <tr><td>4</td><td>Vùng biển Côn Đảo</td><td>3</td><td><span class="badge badge-green">Nhẹ</span></td><td>2.1</td><td>Sự cố thiết bị</td></tr>
+              <tr><td>5</td><td>Khu vực Đà Nẵng</td><td>2</td><td><span class="badge badge-green">Nhẹ</span></td><td>1.4</td><td>Lỗi con người</td></tr>
+              <tr><td>6</td><td>Vùng nước cảng Quy Nhơn</td><td>1</td><td><span class="badge badge-green">Nhẹ</span></td><td>0.8</td><td>Hư hỏng phao tiêu</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <hr class="section-divider">
+
+    <!-- SCREEN 6: BÁO CÁO THUYỀN VIÊN -->
+    <section class="screen" id="bao-cao-thuyen-vien">
+      <div class="screen-label">6. Báo cáo thuyền viên</div>
+      <div class="card">
+        <div class="card-header"><h3>Thống kê thuyền viên theo đơn vị — 2026</h3></div>
+        <div class="table-wrap">
+          <table class="ant-table">
+            <thead><tr><th>STT</th><th>Đơn vị</th><th>Tổng số</th><th>Sỹ quan</th><th>Thủy thủ</th><th>Đã đào tạo AT</th><th>Tỷ lệ (%)</th></tr></thead>
+            <tbody>
+              <tr><td>1</td><td>Cảng vụ Hải Phòng</td><td>1,245</td><td>312</td><td>933</td><td>1,198</td><td>96.2</td></tr>
+              <tr><td>2</td><td>Cảng vụ Vũng Tàu</td><td>986</td><td>245</td><td>741</td><td>945</td><td>95.8</td></tr>
+              <tr><td>3</td><td>Cảng vụ TP.HCM</td><td>854</td><td>198</td><td>656</td><td>812</td><td>95.1</td></tr>
+              <tr><td>4</td><td>Cảng vụ Đà Nẵng</td><td>523</td><td>124</td><td>399</td><td>498</td><td>95.2</td></tr>
+              <tr><td>5</td><td>Cảng vụ Quy Nhơn</td><td>312</td><td>78</td><td>234</td><td>290</td><td>92.9</td></tr>
+              <tr><td>6</td><td>Cảng vụ Cần Thơ</td><td>198</td><td>45</td><td>153</td><td>185</td><td>93.4</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <hr class="section-divider">
+
+    <!-- SCREEN 7: BỘ LỌC ĐA ĐIỀU KIỆN -->
+    <section class="screen" id="bo-loc">
+      <div class="screen-label">7. Bộ lọc đa điều kiện</div>
+      <div class="card">
+        <div class="card-header"><h3>Tạo báo cáo tùy chỉnh</h3></div>
+        <div class="grid-3">
+          <div class="form-group">
+            <label>Loại báo cáo</label>
+            <select class="form-control"><option value="">Chọn loại báo cáo</option><option>Báo cáo tài sản</option><option>Báo cáo KCHT</option><option>Báo cáo sản lượng</option><option>Báo cáo an toàn</option><option>Báo cáo thuyền viên</option></select>
+          </div>
+          <div class="form-group">
+            <label>Kỳ</label>
+            <select class="form-control"><option value="">Chọn kỳ</option><option>Tháng 6/2026</option><option>Quý II/2026</option><option>6 tháng đầu 2026</option><option>Năm 2026</option></select>
+          </div>
+          <div class="form-group">
+            <label>Đơn vị</label>
+            <select class="form-control"><option value="">Tất cả</option><option>Cảng vụ Hải Phòng</option><option>Cảng vụ Vũng Tàu</option><option>Cảng vụ TP.HCM</option></select>
+          </div>
+          <div class="form-group">
+            <label>Loại KCHT</label>
+            <select class="form-control"><option value="">Tất cả</option><option>Cảng biển</option><option>Bến cảng</option><option>Luồng</option><option>Phao tiêu</option><option>Đèn biển</option></select>
+          </div>
+          <div class="form-group">
+            <label>Từ ngày</label>
+            <input class="form-control" type="date" value="2026-01-01">
+          </div>
+          <div class="form-group">
+            <label>Đến ngày</label>
+            <input class="form-control" type="date" value="2026-06-30">
+          </div>
+        </div>
+        <div class="flex gap-3 mt-4">
+          <button class="btn btn-primary">📊 Tạo báo cáo</button>
+          <button class="btn btn-outline">🔄 Đặt lại</button>
+        </div>
+      </div>
+    </section>
+
+    <hr class="section-divider">
+
+    <!-- SCREEN 8: XUẤT PDF/EXCEL -->
+    <section class="screen" id="xuat-bao-cao">
+      <div class="screen-label">8. Xuất PDF/Excel</div>
+      <div class="card">
+        <div class="card-header"><h3>Xuất báo cáo</h3></div>
+        <div class="card-body">
+          <div class="grid-2">
+            <div style="padding:20px;background:var(--color-body-bg);border-radius:var(--radius-card)">
+              <div class="font-bold mb-2" style="color:var(--color-heading)">Định dạng xuất</div>
+              <div class="flex gap-3">
+                <label class="flex gap-2" style="align-items:center;cursor:pointer">
+                  <input type="radio" name="export-format" value="pdf" checked> PDF
+                </label>
+                <label class="flex gap-2" style="align-items:center;cursor:pointer">
+                  <input type="radio" name="export-format" value="excel"> Excel
+                </label>
+              </div>
+            </div>
+            <div style="padding:20px;background:var(--color-body-bg);border-radius:var(--radius-card)">
+              <div class="form-group">
+                <label>Khổ giấy</label>
+                <select class="form-control"><option>A4</option><option>A3</option></select>
+              </div>
+              <div>
+                <div class="font-bold mb-2" style="color:var(--color-heading);font-size:var(--font-size-sm)">Hướng</div>
+                <div class="flex gap-3">
+                  <label class="flex gap-2" style="align-items:center;cursor:pointer">
+                    <input type="radio" name="export-orient" value="ngang" checked> Ngang
+                  </label>
+                  <label class="flex gap-2" style="align-items:center;cursor:pointer">
+                    <input type="radio" name="export-orient" value="doc"> Dọc
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="flex gap-3 mt-4">
+            <button class="btn btn-success">📥 Xuất file</button>
+            <button class="btn btn-outline">Xem trước</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    Cục Hàng hải Việt Nam — Phiên bản 1.0
+  </footer>
+</div>
+
+<script>
+(function () {
+  var items = document.querySelectorAll('.sidebar-menu .menu-item');
+  items.forEach(function (item) {
+    item.addEventListener('click', function (e) {
+      var href = this.getAttribute('href');
+      if (!href || href === '#') return;
+      var target = document.querySelector(href);
+      if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+    });
+  });
+})();
+</script>
+
+</body>
+</html>

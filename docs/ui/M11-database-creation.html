@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>M11 — Tạo lập CSDL KCHTGTHH</title>
+<style>
+/* ================================================================
+   MTIS Design System — Theme Tokens
+   Extracted from M03 (Chuẩn), dùng cho toàn bộ 11 modules
+   Primary: #2153aa | Sidebar: light 260px | Font: Averta
+   ================================================================ */
+
+/* ===== 1. CSS CUSTOM PROPERTIES ===== */
+:root {
+  --color-primary: #2153aa;
+  --color-primary-hover: #1a3f8a;
+  --color-primary-light: #eff8ff;
+  --color-primary-light-end: #e0f2fe;
+  --color-primary-ring: rgba(33, 83, 170, 0.12);
+  --color-body-bg: #f4f4f5;
+  --color-body-text: #1a1a2e;
+  --color-muted: #6b7280;
+  --color-muted-light: #9ca3af;
+  --color-heading: #374151;
+  --color-border: #e5e7eb;
+  --color-border-light: #f0f0f0;
+  --color-border-input: #d1d5db;
+  --color-white: #ffffff;
+  --color-table-header-bg: #fafafa;
+  --color-table-even-row: #fafbfc;
+  --color-table-hover: #eff8ff;
+  --color-ghost-hover: #f3f4f6;
+  --color-danger: #dc2626;
+  --color-danger-hover: #b91c1c;
+  --color-danger-bg: #fef2f2;
+  --color-danger-text: #991b1b;
+  --color-success: #059669;
+  --color-success-hover: #047857;
+  --color-success-bg: #ecfdf5;
+  --color-success-text: #065f46;
+  --color-warning: #d97706;
+  --color-warning-bg: #fffbeb;
+  --color-warning-text: #92400e;
+  --color-info-bg: #eff6ff;
+  --color-info-text: #1e40af;
+  --sidebar-width: 260px;
+  --header-padding: 12px 28px;
+  --content-padding: 24px 28px;
+  --content-max-width: 1360px;
+  --font-family: Averta, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-size-base: 14px;
+  --font-size-sm: 13px;
+  --font-size-xs: 12px;
+  --font-size-xxs: 11px;
+  --font-size-lg: 16px;
+  --font-size-xl: 22px;
+  --font-size-stat: 28px;
+  --radius-card: 8px;
+  --radius-btn: 6px;
+  --radius-badge: 12px;
+  --radius-input: 6px;
+  --radius-icon: 12px;
+  --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.06);
+  --shadow-header: 0 1px 3px rgba(0, 0, 0, 0.06);
+  --transition-fast: all 0.15s ease;
+}
+
+/* ===== 2. RESET ===== */
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html, body { height:100%; }
+body {
+  font-family: var(--font-family);
+  background: var(--color-body-bg);
+  color: var(--color-body-text);
+  font-size: var(--font-size-base);
+  line-height: 1.5;
+  display: flex;
+  min-height: 100vh;
+}
+
+/* ===== 3. SIDEBAR ===== */
+.sidebar {
+  width: var(--sidebar-width);
+  min-width: var(--sidebar-width);
+  background: var(--color-white);
+  border-right: 1px solid var(--color-border);
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  position: fixed;
+  left:0; top:0; bottom:0;
+  z-index: 100;
+  overflow-y: auto;
+}
+.sidebar-logo {
+  display: flex; align-items: center; gap: 12px;
+  padding: 20px 20px 16px;
+  border-bottom: 1px solid var(--color-border);
+}
+.sidebar-logo .logo-icon {
+  width: 44px; height: 44px;
+  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-hover));
+  border-radius: var(--radius-icon);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--color-white); font-weight: 700; font-size: 20px;
+  flex-shrink: 0;
+}
+.sidebar-logo .logo-text { line-height: 1.3; }
+.sidebar-logo .logo-text strong { display:block; font-size: var(--font-size-sm); color: var(--color-body-text); }
+.sidebar-logo .logo-text small { font-size: var(--font-size-xxs); color: var(--color-muted); }
+.sidebar-menu { padding: 12px 0; flex: 1; }
+.sidebar-menu .menu-section {
+  padding: 8px 20px 4px;
+  font-size: var(--font-size-xxs); text-transform: uppercase; letter-spacing: 0.5px;
+  color: var(--color-muted-light); font-weight: 600;
+}
+.sidebar-menu .menu-item {
+  display: flex; align-items: center; gap: 12px;
+  padding: 10px 20px;
+  color: var(--color-heading); text-decoration: none;
+  font-size: var(--font-size-base); cursor: pointer;
+  transition: var(--transition-fast);
+  border-left: 3px solid transparent;
+}
+.sidebar-menu .menu-item:hover { background: #f9fafb; color: var(--color-primary); }
+.sidebar-menu .menu-item.active {
+  background: linear-gradient(90deg, var(--color-primary-light), var(--color-primary-light-end));
+  border-left: 3px solid var(--color-primary);
+  color: var(--color-primary);
+  font-weight: 600;
+}
+.sidebar-menu .menu-item .icon { width: 20px; text-align: center; font-size: var(--font-size-lg); flex-shrink: 0; }
+.sidebar-footer {
+  padding: 16px 20px; border-top: 1px solid var(--color-border);
+  font-size: var(--font-size-xxs); color: var(--color-muted-light); text-align: center;
+}
+
+/* ===== 4. MAIN LAYOUT ===== */
+.main-wrapper {
+  margin-left: var(--sidebar-width); flex:1;
+  display: flex; flex-direction: column; min-height: 100vh;
+}
+.header {
+  background: var(--color-white);
+  box-shadow: var(--shadow-header);
+  padding: var(--header-padding);
+  display: flex; align-items: center; justify-content: space-between;
+  position: sticky; top: 0; z-index: 50;
+}
+.header h1 { font-size: 15px; font-weight: 600; color: var(--color-body-text); }
+.header .user-info { display: flex; align-items: center; gap: 16px; }
+.header .user-info .avatar {
+  width: 34px; height: 34px; border-radius: 50%;
+  background: var(--color-primary); color: var(--color-white);
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 600; font-size: var(--font-size-base);
+}
+.header .user-info .name { font-size: var(--font-size-sm); color: var(--color-heading); }
+.header .user-info .role { font-size: var(--font-size-xxs); color: var(--color-muted-light); }
+.content { flex: 1; padding: var(--content-padding); max-width: var(--content-max-width); }
+.breadcrumb {
+  font-size: var(--font-size-sm); color: var(--color-muted);
+  margin-bottom: 6px; display: flex; align-items: center; gap: 6px; flex-wrap: wrap;
+}
+.breadcrumb a { color: var(--color-primary); text-decoration: none; }
+.breadcrumb a:hover { text-decoration: underline; }
+.breadcrumb span.sep { color: var(--color-muted-light); }
+.page-title { font-size: var(--font-size-xl); font-weight: 700; color: var(--color-body-text); margin-bottom: 20px; }
+.page-subtitle { font-size: var(--font-size-sm); color: var(--color-muted); margin-bottom: 20px; margin-top: -16px; }
+.section-title {
+  font-size: var(--font-size-lg); font-weight: 600; color: var(--color-primary);
+  margin-bottom: 12px; display: flex; align-items: center; gap: 8px;
+}
+hr.section-divider { border: none; border-top: 1px solid var(--color-border); margin: 28px 0; }
+.footer {
+  background: var(--color-white); border-top: 1px solid var(--color-border);
+  padding: 14px 28px; font-size: var(--font-size-xs); color: var(--color-muted); text-align: center;
+}
+
+/* ===== 5. CARD ===== */
+.card {
+  background: var(--color-white); border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card); padding: 20px; margin-bottom: 16px;
+}
+.card-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 14px;
+}
+.card-header h3 { font-size: var(--font-size-lg); font-weight: 600; color: var(--color-body-text); }
+.card-header .actions { display: flex; gap: 8px; }
+.card-body { padding: 4px 0; }
+
+/* ===== 6. STAT CARDS ===== */
+.stats-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 20px; }
+.stat-card {
+  background: var(--color-white); border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card); padding: 18px 20px;
+  border-left: 4px solid var(--color-primary);
+}
+.stat-card .stat-label { font-size: var(--font-size-sm); color: var(--color-muted); margin-bottom: 4px; }
+.stat-card .stat-value { font-size: var(--font-size-stat); font-weight: 700; color: var(--color-body-text); }
+.stat-card .stat-sub { font-size: var(--font-size-xs); color: var(--color-muted-light); margin-top: 4px; }
+.stat-card:nth-child(1) { border-left-color: var(--color-primary); }
+.stat-card:nth-child(2) { border-left-color: var(--color-success); }
+.stat-card:nth-child(3) { border-left-color: var(--color-warning); }
+.stat-card:nth-child(4) { border-left-color: var(--color-danger); }
+
+/* ===== 7. TABLE ===== */
+.table-wrap { overflow-x: auto; }
+.ant-table { width: 100%; border-collapse: collapse; font-size: var(--font-size-sm); }
+.ant-table thead th {
+  background: var(--color-table-header-bg);
+  border-bottom: 2px solid var(--color-border);
+  padding: 10px 12px; text-align: left;
+  font-weight: 600; color: var(--color-heading); white-space: nowrap;
+}
+.ant-table tbody td {
+  padding: 9px 12px; border-bottom: 1px solid var(--color-border-light);
+  color: var(--color-body-text);
+}
+.ant-table tbody tr:nth-child(even) td { background: var(--color-table-even-row); }
+.ant-table tbody tr:hover td { background: var(--color-table-hover); }
+
+/* ===== 8. BADGES ===== */
+.badge {
+  display: inline-block; padding: 2px 10px; border-radius: var(--radius-badge);
+  font-size: var(--font-size-xs); font-weight: 500; line-height: 1.6;
+}
+.badge-green  { background: var(--color-success-bg); color: var(--color-success-text); }
+.badge-red    { background: var(--color-danger-bg);  color: var(--color-danger-text); }
+.badge-blue   { background: var(--color-info-bg);    color: var(--color-info-text); }
+.badge-yellow { background: var(--color-warning-bg); color: var(--color-warning-text); }
+.badge-gray   { background: var(--color-ghost-hover); color: var(--color-heading); }
+
+/* ===== 9. BUTTONS ===== */
+.btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 8px 16px; border-radius: var(--radius-btn);
+  font-size: var(--font-size-sm); font-weight: 500;
+  cursor: pointer; border: 1px solid transparent;
+  transition: var(--transition-fast); text-decoration: none;
+  line-height: 1.4;
+}
+.btn-sm { padding: 4px 10px; font-size: var(--font-size-xs); }
+.btn-primary   { background: var(--color-primary); color: var(--color-white); border-color: var(--color-primary); }
+.btn-primary:hover   { background: var(--color-primary-hover); }
+.btn-outline   { background: var(--color-white); color: var(--color-primary); border-color: var(--color-primary); }
+.btn-outline:hover   { background: var(--color-primary-light); }
+.btn-danger    { background: var(--color-danger); color: var(--color-white); border-color: var(--color-danger); }
+.btn-danger:hover    { background: var(--color-danger-hover); }
+.btn-success   { background: var(--color-success); color: var(--color-white); border-color: var(--color-success); }
+.btn-success:hover   { background: var(--color-success-hover); }
+.btn-ghost     { background: transparent; color: var(--color-heading); border-color: transparent; }
+.btn-ghost:hover     { background: var(--color-ghost-hover); }
+
+/* ===== 10. FORMS ===== */
+.form-group { margin-bottom: 14px; }
+.form-group label {
+  display: block; font-size: var(--font-size-sm); font-weight: 500;
+  color: var(--color-heading); margin-bottom: 4px;
+}
+.form-group label.required::after { content: " *"; color: var(--color-danger); }
+.form-control {
+  width: 100%; padding: 8px 12px;
+  border: 1px solid var(--color-border-input); border-radius: var(--radius-input);
+  font-size: var(--font-size-sm); color: var(--color-body-text);
+  transition: border-color 0.15s; background: var(--color-white);
+}
+.form-control:focus {
+  outline: none; border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px var(--color-primary-ring);
+}
+select.form-control {
+  -webkit-appearance: none; appearance: none;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%236b7280' d='M6 8L1 3h10z'/%3E%3C/svg%3E") no-repeat right 12px center var(--color-white);
+  padding-right: 32px;
+}
+textarea.form-control { resize: vertical; min-height: 80px; }
+
+/* ===== 11. WORKFLOW STEPS ===== */
+.workflow-steps { display: flex; align-items: center; gap: 0; margin-bottom: 20px; }
+.workflow-step {
+  flex: 1; text-align: center; padding: 12px 8px;
+  background: var(--color-ghost-hover); color: var(--color-muted-light);
+  font-size: var(--font-size-sm); font-weight: 500; position: relative;
+}
+.workflow-step:not(:last-child)::after {
+  content: '\203A'; position: absolute; right: -12px; top: 50%;
+  transform: translateY(-50%); font-size: 20px; color: var(--color-border-input); z-index: 1;
+}
+.workflow-step.active { background: var(--color-primary); color: var(--color-white); }
+.workflow-step.done { background: var(--color-success); color: var(--color-white); }
+
+/* ===== 12. TIMELINE ===== */
+.timeline { position: relative; padding-left: 28px; }
+.timeline::before { content: ''; position: absolute; left: 8px; top: 4px; bottom: 4px; width: 2px; background: var(--color-border); }
+.timeline-item { position: relative; margin-bottom: 16px; padding-left: 16px; }
+.timeline-item::before {
+  content: ''; position: absolute; left: -24px; top: 6px;
+  width: 10px; height: 10px; border-radius: 50%;
+  background: var(--color-primary); border: 2px solid var(--color-white);
+  box-shadow: 0 0 0 2px var(--color-primary);
+}
+.timeline-item .time { font-size: var(--font-size-xs); color: var(--color-muted-light); }
+.timeline-item .desc { font-size: var(--font-size-sm); color: var(--color-heading); }
+.timeline-item .diff { font-size: var(--font-size-xs); color: var(--color-muted); }
+.timeline-item .diff .old { color: var(--color-danger); text-decoration: line-through; }
+.timeline-item .diff .new { color: var(--color-success); font-weight: 500; }
+
+/* ===== 13. SEARCH BAR ===== */
+.search-bar { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; padding: 14px 0; }
+.search-bar .form-control { width: 220px; }
+
+/* ===== 14. MAP PLACEHOLDER ===== */
+.map-placeholder {
+  background: linear-gradient(135deg, var(--color-primary-light-end), #bae6fd);
+  border-radius: var(--radius-card); min-height: 400px;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--color-primary); font-weight: 600; font-size: 15px;
+  position: relative; border: 2px dashed #93c5fd;
+}
+.map-placeholder .map-controls {
+  position: absolute; right: 16px; top: 16px;
+  display: flex; flex-direction: column; gap: 4px;
+}
+.map-placeholder .map-controls button {
+  width: 36px; height: 36px; background: var(--color-white);
+  border: 1px solid var(--color-border-input); border-radius: var(--radius-btn);
+  font-size: 18px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+.map-placeholder .map-controls button:hover { background: var(--color-ghost-hover); }
+
+/* ===== 15. DROP ZONE ===== */
+.drop-zone {
+  border: 2px dashed var(--color-border-input); border-radius: var(--radius-card);
+  padding: 30px; text-align: center; color: var(--color-muted); cursor: pointer;
+  transition: var(--transition-fast);
+}
+.drop-zone:hover { border-color: var(--color-primary); background: var(--color-primary-light); }
+.drop-zone .dz-icon { font-size: 36px; margin-bottom: 8px; }
+.drop-zone p { font-size: var(--font-size-base); }
+.drop-zone small { font-size: var(--font-size-xs); color: var(--color-muted-light); }
+
+/* ===== 16. FILE ICONS ===== */
+.file-icon {
+  width: 36px; height: 36px; border-radius: var(--radius-btn);
+  display: inline-flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: var(--font-size-xxs); flex-shrink: 0;
+}
+.file-icon-pdf { background: var(--color-danger-bg);  color: var(--color-danger); }
+.file-icon-doc { background: var(--color-info-bg);    color: var(--color-primary); }
+.file-icon-xls { background: var(--color-success-bg); color: var(--color-success); }
+.file-icon-img { background: var(--color-warning-bg); color: var(--color-warning); }
+.file-icon-zip { background: var(--color-ghost-hover); color: var(--color-heading); }
+
+/* ===== 17. SENSOR STATUS DOTS ===== */
+.sensor-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; margin-right: 6px; }
+.sensor-dot.online  { background: var(--color-success); }
+.sensor-dot.offline { background: var(--color-danger); }
+.sensor-dot.warning { background: var(--color-warning); }
+
+/* ===== 18. REAL-TIME BAR ===== */
+.realtime-bar {
+  display: flex; gap: 20px; padding: 12px 16px;
+  background: linear-gradient(90deg, #1e3a5f, var(--color-primary));
+  border-radius: var(--radius-card); color: var(--color-white); margin-bottom: 16px;
+}
+.realtime-bar .rt-item { text-align: center; }
+.realtime-bar .rt-value { font-size: var(--font-size-xl); font-weight: 700; }
+.realtime-bar .rt-label { font-size: var(--font-size-xxs); opacity: 0.8; }
+
+/* ===== 19. UTILITY ===== */
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+.grid-4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 16px; }
+.flex { display: flex; }
+.flex-center { display: flex; align-items: center; justify-content: center; }
+.flex-between { display: flex; align-items: center; justify-content: space-between; }
+.inline-flex { display: inline-flex; align-items: center; gap: 6px; }
+.gap-2 { gap: 8px; }
+.gap-3 { gap: 12px; }
+.gap-4 { gap: 16px; }
+.mt-2 { margin-top: 8px; }
+.mt-4 { margin-top: 16px; }
+.mb-2 { margin-bottom: 8px; }
+.mb-4 { margin-bottom: 16px; }
+.w-full { width: 100%; }
+.text-right { text-align: right; }
+.text-center { text-align: center; }
+.text-muted { color: var(--color-muted); }
+.text-danger { color: var(--color-danger); }
+.text-success { color: var(--color-success); }
+.text-primary { color: var(--color-primary); }
+.font-bold { font-weight: 700; }
+.truncate { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* ===== 20. SCREEN SECTION LABELS ===== */
+.screen { padding: 4px 0 20px; display: none; }
+.screen.active { display: block; }
+.screen-label {
+  font-size: var(--font-size-xs); color: var(--color-muted-light);
+  font-weight: 500; letter-spacing: 0.3px; margin-bottom: 12px; text-transform: uppercase;
+}
+.file-list-item {
+  display: flex; align-items: center; gap: 12px;
+  padding: 10px 0; border-bottom: 1px solid var(--color-border-light);
+}
+
+/* ===== 21. RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .sidebar { display: none; }
+  .main-wrapper { margin-left: 0; }
+  .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+  .stats-row { grid-template-columns: 1fr; }
+}
+
+/* ===== 22. NO RESULTS / EMPTY STATE ===== */
+.empty-state {
+  padding: 40px; text-align: center; color: var(--color-muted-light);
+}
+.empty-state .icon { font-size: 48px; margin-bottom: 12px; opacity: 0.4; }
+.empty-state p { font-size: var(--font-size-base); }
+
+/* ===== 23. MODAL OVERLAY (for detail views) ===== */
+.modal-overlay {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.4);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 200;
+}
+.modal-overlay .modal-card {
+  background: var(--color-white); border-radius: var(--radius-card);
+  padding: 24px; max-width: 800px; width: 90%;
+  max-height: 85vh; overflow-y: auto;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.15);
+}
+.modal-overlay .modal-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 16px; padding-bottom: 12px;
+  border-bottom: 1px solid var(--color-border);
+}
+.modal-overlay .modal-header h3 { font-size: var(--font-size-lg); font-weight: 600; }
+.modal-overlay .modal-close {
+  background: none; border: none; font-size: 20px; cursor: pointer;
+  color: var(--color-muted-light); padding: 4px;
+}
+
+/* ===== 24. TABS ===== */
+.tabs { display: flex; gap: 0; border-bottom: 2px solid var(--color-border); margin-bottom: 16px; overflow-x: auto; }
+.tab {
+  padding: 10px 20px; font-size: var(--font-size-sm); font-weight: 500; cursor: pointer;
+  color: var(--color-muted); border-bottom: 2px solid transparent; margin-bottom: -2px;
+  transition: var(--transition-fast); white-space: nowrap;
+}
+.tab:hover { color: var(--color-primary); }
+.tab.active { color: var(--color-primary); border-bottom-color: var(--color-primary); }
+
+/* ===== 25. PAGINATION ===== */
+.pagination {
+  display: flex; align-items: center; justify-content: flex-end;
+  gap: 8px; margin-top: 16px;
+}
+.pagination .page-btn {
+  padding: 6px 12px; border: 1px solid var(--color-border);
+  border-radius: var(--radius-btn); font-size: var(--font-size-xs);
+  background: var(--color-white); cursor: pointer;
+  color: var(--color-heading);
+}
+.pagination .page-btn:hover { border-color: var(--color-primary); color: var(--color-primary); }
+.pagination .page-btn.active { background: var(--color-primary); color: var(--color-white); border-color: var(--color-primary); }
+.pagination .page-info { font-size: var(--font-size-xs); color: var(--color-muted); }
+
+/* ===== CUSTOM M11: Progress Bar ===== */
+.progress-bar-bg {
+  background: var(--color-border); border-radius: 10px;
+  height: 14px; overflow: hidden; width: 100%;
+}
+.progress-bar-fill {
+  background: linear-gradient(90deg, var(--color-primary), #3b82f6);
+  height: 100%; border-radius: 10px; transition: width 0.4s;
+}
+.progress-label { display: flex; justify-content: space-between; font-size: var(--font-size-xs); color: var(--color-muted); margin-bottom: 6px; }
+
+/* ===== CUSTOM M11: Bar Chart ===== */
+.bar-chart { display: flex; flex-direction: column; gap: 10px; }
+.bar-row { display: flex; align-items: center; gap: 10px; }
+.bar-label { width: 105px; font-size: var(--font-size-sm); color: var(--color-heading); text-align: right; flex-shrink: 0; }
+.bar-track { flex: 1; height: 28px; background: var(--color-ghost-hover); border-radius: 4px; overflow: hidden; }
+.bar-fill {
+  height: 100%; border-radius: 4px; display: flex; align-items: center;
+  padding: 0 10px; font-size: var(--font-size-xs); color: var(--color-white); font-weight: 600;
+  min-width: fit-content; white-space: nowrap;
+}
+.bar-fill.c1 { background: var(--color-primary); }
+.bar-fill.c2 { background: var(--color-success); }
+.bar-fill.c3 { background: #d97706; }
+.bar-fill.c4 { background: #7c3aed; }
+.bar-fill.c5 { background: #db2777; }
+
+/* ===== CUSTOM M11: Validation Rules ===== */
+.rule-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 0; border-bottom: 1px solid var(--color-border-light);
+  font-size: var(--font-size-sm);
+}
+.rule-item .rule-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.rule-item .rule-dot.pass { background: var(--color-success); }
+.rule-item .rule-dot.fail { background: var(--color-danger); }
+
+/* ===== CUSTOM M11: Misc ===== */
+.align-center { vertical-align: middle; }
+.flex-wrap { flex-wrap: wrap; }
+.ml-auto { margin-left: auto; }
+.p-0 { padding: 0; }
+.inline-flex { display: inline-flex; align-items: center; gap: 6px; }
+</style>
+</head>
+<body>
+
+<!-- ===== SIDEBAR ===== -->
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-icon">⛵</div>
+    <div class="logo-text">
+      <strong>HHsoft</strong>
+      <small>Hàng Hải Số</small>
+    </div>
+  </div>
+  <nav class="sidebar-menu">
+    <div class="menu-section">Tổng quan</div>
+    <a class="menu-item"><span class="icon">📊</span> Bảng điều khiển</a>
+    <a class="menu-item"><span class="icon">🗺️</span> Bản đồ trực quan</a>
+    <div class="menu-section">Dữ liệu</div>
+    <a class="menu-item"><span class="icon">📋</span> Quản lý hồ sơ</a>
+    <a class="menu-item"><span class="icon">🔍</span> Tra cứu thông tin</a>
+    <a class="menu-item active"><span class="icon">🗄️</span> Tạo lập CSDL</a>
+    <a class="menu-item"><span class="icon">📥</span> Nhập dữ liệu</a>
+    <div class="menu-section">Hệ thống</div>
+    <a class="menu-item"><span class="icon">👥</span> Quản lý người dùng</a>
+    <a class="menu-item"><span class="icon">⚙️</span> Cấu hình</a>
+    <a class="menu-item"><span class="icon">📝</span> Nhật ký hệ thống</a>
+  </nav>
+  <div class="sidebar-footer">Cục Hàng hải Việt Nam</div>
+</aside>
+
+<!-- ===== MAIN ===== -->
+<div class="main-wrapper">
+
+  <!-- HEADER -->
+  <header class="header">
+    <h1>DỰ ÁN: Xây dựng Hệ thống thông tin quản lý KCHT Giao thông Hàng hải</h1>
+    <div class="user-info">
+      <div style="display:flex; flex-direction:column; align-items:flex-end;">
+        <span class="name">Nguyễn Văn A</span>
+        <span class="role">Chuyên viên</span>
+      </div>
+      <div class="avatar">NV</div>
+    </div>
+  </header>
+
+  <!-- CONTENT -->
+  <main class="content">
+
+    <!-- BREADCRUMB -->
+    <div class="breadcrumb">
+      <a href="#">Trang chủ</a><span class="sep">›</span>
+      <a href="#">Dữ liệu</a><span class="sep">›</span>
+      <span>Tạo lập CSDL KCHTGTHH</span>
+    </div>
+
+    <!-- PAGE TITLE -->
+    <div class="page-title">Tạo lập CSDL KCHTGTHH</div>
+    <div class="page-subtitle">Quản lý quy trình số hóa, kiểm tra và nhập dữ liệu vào cơ sở dữ liệu Kết cấu Hạ tầng Giao thông Hàng hải</div>
+
+    <!-- TABS -->
+    <div class="tabs" id="screenTabs">
+      <div class="tab active" data-screen="1">Tổng quan</div>
+      <div class="tab" data-screen="2">Số hóa tài liệu</div>
+      <div class="tab" data-screen="3">Kiểm tra dữ liệu</div>
+      <div class="tab" data-screen="4">Nhập dữ liệu vào CSDL</div>
+      <div class="tab" data-screen="5">Quản lý phiên bản</div>
+      <div class="tab" data-screen="6">Báo cáo tiến độ</div>
+    </div>
+
+    <!-- =========================== -->
+    <!-- SCREEN 1: DASHBOARD -->
+    <!-- =========================== -->
+    <div class="screen active" data-screen="1">
+      <div class="stats-row">
+        <div class="stat-card">
+          <div class="stat-label">Tổng hồ sơ</div>
+          <div class="stat-value">2,847</div>
+          <div class="stat-sub">Hồ sơ KCHTGTHH toàn quốc</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Đã số hóa</div>
+          <div class="stat-value">1,203</div>
+          <div class="stat-sub">Đạt 42.2% tổng hồ sơ</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Đang xử lý</div>
+          <div class="stat-value">892</div>
+          <div class="stat-sub">Đang số hóa & kiểm tra</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Đã kiểm tra</div>
+          <div class="stat-value">456</div>
+          <div class="stat-sub">Đã xác thực & nhập CSDL</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header"><h3>Tiến độ số hóa tổng thể</h3></div>
+        <div class="progress-label"><span>Đã số hóa: 1,203 / 2,847</span><span class="font-bold text-primary">42%</span></div>
+        <div class="progress-bar-bg"><div class="progress-bar-fill" style="width:42%"></div></div>
+        <div class="mt-2 text-muted" style="font-size:var(--font-size-xs)">Dự kiến hoàn thành: Quý IV/2026</div>
+      </div>
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-header"><h3>Phân bổ theo loại tài liệu</h3></div>
+          <div class="bar-chart">
+            <div class="bar-row"><span class="bar-label">Bản đồ</span><div class="bar-track"><div class="bar-fill c1" style="width:78%">1,023</div></div></div>
+            <div class="bar-row"><span class="bar-label">Hồ sơ pháp lý</span><div class="bar-track"><div class="bar-fill c2" style="width:62%">856</div></div></div>
+            <div class="bar-row"><span class="bar-label">Báo cáo KT</span><div class="bar-track"><div class="bar-fill c3" style="width:51%">634</div></div></div>
+            <div class="bar-row"><span class="bar-label">Ảnh hiện trạng</span><div class="bar-track"><div class="bar-fill c4" style="width:25%">334</div></div></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header"><h3>Phân bổ theo đơn vị</h3></div>
+          <div class="bar-chart">
+            <div class="bar-row"><span class="bar-label">Phòng QL1</span><div class="bar-track"><div class="bar-fill c1" style="width:87%">650</div></div></div>
+            <div class="bar-row"><span class="bar-label">Phòng QL2</span><div class="bar-track"><div class="bar-fill c2" style="width:64%">480</div></div></div>
+            <div class="bar-row"><span class="bar-label">Phòng QL3</span><div class="bar-track"><div class="bar-fill c3" style="width:96%">720</div></div></div>
+            <div class="bar-row"><span class="bar-label">Phòng QL4</span><div class="bar-track"><div class="bar-fill c4" style="width:68%">510</div></div></div>
+            <div class="bar-row"><span class="bar-label">Phòng QL5</span><div class="bar-track"><div class="bar-fill c5" style="width:65%">487</div></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- =========================== -->
+    <!-- SCREEN 2: SỐ HÓA TÀI LIỆU -->
+    <!-- =========================== -->
+    <div class="screen" data-screen="2">
+      <div class="card">
+        <div class="card-header">
+          <h3>Danh sách hồ sơ số hóa</h3>
+          <div class="actions"><button class="btn btn-primary">+ Thêm hồ sơ</button></div>
+        </div>
+        <div class="table-wrap">
+          <table class="ant-table">
+            <thead>
+              <tr>
+                <th>Mã HS</th><th>Tên hồ sơ</th><th>Loại</th><th>Đơn vị</th><th>Số trang</th><th>Ngày scan</th><th>Trạng thái</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="font-bold">HS-2026-001</td>
+                <td>Hồ sơ luồng Hải Phòng</td>
+                <td><span class="file-icon file-icon-pdf">PDF</span></td>
+                <td>Phòng QL1</td><td>45</td><td>15/03/2026</td>
+                <td><span class="badge badge-green">Đã số hóa</span></td>
+              </tr>
+              <tr>
+                <td class="font-bold">HS-2026-002</td>
+                <td>Hồ sơ luồng Đà Nẵng</td>
+                <td><span class="file-icon file-icon-pdf">PDF</span></td>
+                <td>Phòng QL2</td><td>32</td><td>18/03/2026</td>
+                <td><span class="badge badge-green">Đã số hóa</span></td>
+              </tr>
+              <tr>
+                <td class="font-bold">HS-2026-003</td>
+                <td>Bản đồ luồng Vũng Tàu</td>
+                <td><span class="file-icon file-icon-img">JPG</span></td>
+                <td>Phòng QL3</td><td>8</td><td>20/03/2026</td>
+                <td><span class="badge badge-yellow">Chờ xử lý</span></td>
+              </tr>
+              <tr>
+                <td class="font-bold">HS-2026-004</td>
+                <td>Hồ sơ cảng Sài Gòn</td>
+                <td><span class="file-icon file-icon-doc">DOC</span></td>
+                <td>Phòng QL1</td><td>56</td><td>22/03/2026</td>
+                <td><span class="badge badge-green">Đã số hóa</span></td>
+              </tr>
+              <tr>
+                <td class="font-bold">HS-2026-005</td>
+                <td>Báo cáo khảo sát địa chất</td>
+                <td><span class="file-icon file-icon-xls">XLS</span></td>
+                <td>Phòng QL4</td><td>12</td><td>25/03/2026</td>
+                <td><span class="badge badge-red">Lỗi</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="pagination">
+          <span class="page-info">1–5 / 32 hồ sơ</span>
+          <button class="page-btn active">1</button><button class="page-btn">2</button><button class="page-btn">3</button><button class="page-btn">›</button>
+        </div>
+      </div>
+      <div class="drop-zone mt-4">
+        <div class="dz-icon">📂</div>
+        <p>Kéo thả file scan vào đây</p>
+        <small>Hỗ trợ: PDF, JPG, PNG — Tối đa 50MB/file</small>
+      </div>
+    </div>
+
+    <!-- =========================== -->
+    <!-- SCREEN 3: KIỂM TRA DỮ LIỆU -->
+    <!-- =========================== -->
+    <div class="screen" data-screen="3">
+      <div class="card">
+        <div class="card-header">
+          <h3>Danh sách kiểm tra dữ liệu</h3>
+          <div class="actions"><button class="btn btn-outline">📄 Xuất báo cáo</button></div>
+        </div>
+        <div class="table-wrap">
+          <table class="ant-table">
+            <thead>
+              <tr>
+                <th>Mã HS</th><th>Người kiểm tra</th><th>Ngày kiểm tra</th><th>Số lỗi</th><th>Trạng thái</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="font-bold">HS-2026-001</td><td>Trần Văn B</td><td>16/03/2026</td><td>0</td>
+                <td><span class="badge badge-green">Đạt</span></td>
+              </tr>
+              <tr>
+                <td class="font-bold">HS-2026-002</td><td>Trần Văn B</td><td>19/03/2026</td><td class="text-danger">2</td>
+                <td><span class="badge badge-red">Không đạt</span></td>
+              </tr>
+              <tr>
+                <td class="font-bold">HS-2026-004</td><td>Lê Thị C</td><td>23/03/2026</td><td>0</td>
+                <td><span class="badge badge-green">Đạt</span></td>
+              </tr>
+              <tr>
+                <td class="font-bold">HS-2026-005</td><td>Trần Văn B</td><td>26/03/2026</td><td class="text-danger">5</td>
+                <td><span class="badge badge-red">Không đạt</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="pagination">
+          <span class="page-info">1–4 / 14 hồ sơ đã kiểm tra</span>
+          <button class="page-btn active">1</button><button class="page-btn">2</button><button class="page-btn">›</button>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header"><h3>Quy tắc kiểm tra dữ liệu</h3></div>
+        <div class="card-body p-0">
+          <div class="rule-item"><span class="rule-dot pass"></span> Kiểm tra định dạng file (PDF, JPG, PNG, DOC, XLS)</div>
+          <div class="rule-item"><span class="rule-dot pass"></span> Kiểm tra độ phân giải tối thiểu 300 DPI</div>
+          <div class="rule-item"><span class="rule-dot fail"></span> Kiểm tra tính toàn vẹn metadata (mã HS, ngày, đơn vị)</div>
+          <div class="rule-item"><span class="rule-dot pass"></span> Đối chiếu với danh mục KCHTGTHH chuẩn</div>
+          <div class="rule-item"><span class="rule-dot pass"></span> Kiểm tra trùng lặp mã hồ sơ trong CSDL</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- =========================== -->
+    <!-- SCREEN 4: NHẬP DỮ LIỆU VÀO CSDL -->
+    <!-- =========================== -->
+    <div class="screen" data-screen="4">
+      <div class="workflow-steps">
+        <div class="workflow-step done">Chuẩn bị</div>
+        <div class="workflow-step done">Xác thực</div>
+        <div class="workflow-step active">Nhập</div>
+        <div class="workflow-step">LGSP</div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <h3>Batch nhập dữ liệu</h3>
+          <div class="actions"><button class="btn btn-primary">+ Nhập batch mới</button></div>
+        </div>
+        <div class="table-wrap">
+          <table class="ant-table">
+            <thead>
+              <tr>
+                <th>Mã batch</th><th>Số lượng bản ghi</th><th>Ngày nhập</th><th>Trạng thái</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="font-bold">B2026-001</td><td>1,245</td><td>10/03/2026</td>
+                <td><span class="badge badge-green">Hoàn thành</span></td>
+              </tr>
+              <tr>
+                <td class="font-bold">B2026-002</td><td>856</td><td>15/03/2026</td>
+                <td><span class="badge badge-green">Hoàn thành</span></td>
+              </tr>
+              <tr>
+                <td class="font-bold">B2026-003</td><td>2,103</td><td>20/03/2026</td>
+                <td><span class="badge badge-yellow">Đang xử lý</span></td>
+              </tr>
+              <tr>
+                <td class="font-bold">B2026-004</td><td>450</td><td>25/03/2026</td>
+                <td><span class="badge badge-gray">Chờ xử lý</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="pagination">
+          <span class="page-info">1–4 / 14 batch</span>
+          <button class="page-btn active">1</button><button class="page-btn">2</button><button class="page-btn">3</button><button class="page-btn">›</button>
+        </div>
+      </div>
+      <div class="card mt-4">
+        <div class="card-header"><h3>Trạng thái đồng bộ LGSP</h3></div>
+        <div class="card-body">
+          <div class="flex gap-4 flex-wrap">
+            <div><span class="sensor-dot online"></span><strong>LGSP kết nối</strong> <span class="text-muted">— hoạt động</span></div>
+            <div class="ml-auto text-muted" style="font-size:var(--font-size-xs)">Batch cuối: B2026-003 &nbsp;|&nbsp; Đồng bộ cuối: 20/03/2026 14:30</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- =========================== -->
+    <!-- SCREEN 5: QUẢN LÝ PHIÊN BẢN -->
+    <!-- =========================== -->
+    <div class="screen" data-screen="5">
+      <div class="card">
+        <div class="card-header"><h3>Lịch sử phiên bản CSDL</h3></div>
+        <div class="card-body">
+          <div class="timeline">
+            <div class="timeline-item">
+              <div class="time">01/06/2026 — v2.3</div>
+              <div class="desc">Cập nhật dữ liệu luồng hàng hải quý II/2026 — bổ sung 124 hồ sơ mới</div>
+              <div class="diff"><span class="old">2,723</span> → <span class="new">2,847</span> bản ghi</div>
+            </div>
+            <div class="timeline-item">
+              <div class="time">15/04/2026 — v2.2</div>
+              <div class="desc">Bổ sung dữ liệu cảng biển khu vực miền Trung — 6 cảng mới</div>
+              <div class="diff"><span class="old">2,415</span> → <span class="new">2,723</span> bản ghi</div>
+            </div>
+            <div class="timeline-item">
+              <div class="time">01/03/2026 — v2.1</div>
+              <div class="desc">Cập nhật bản đồ độ sâu luồng chính — 12 tuyến luồng</div>
+              <div class="diff"><span class="old">2,107</span> → <span class="new">2,415</span> bản ghi</div>
+            </div>
+            <div class="timeline-item">
+              <div class="time">15/01/2026 — v2.0</div>
+              <div class="desc">Tái cấu trúc CSDL, chuẩn hóa schema theo tiêu chuẩn IHO S-100</div>
+              <div class="diff"><span class="old">1,850</span> → <span class="new">2,107</span> bản ghi</div>
+            </div>
+            <div class="timeline-item">
+              <div class="time">01/10/2025 — v1.0</div>
+              <div class="desc">Khởi tạo CSDL KCHTGTHH ban đầu — nhập dữ liệu từ hồ sơ giấy</div>
+              <div class="diff"><span class="old">0</span> → <span class="new">1,850</span> bản ghi</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- =========================== -->
+    <!-- SCREEN 6: BÁO CÁO TIẾN ĐỘ -->
+    <!-- =========================== -->
+    <div class="screen" data-screen="6">
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-header"><h3>Tỷ lệ số hóa theo đơn vị</h3></div>
+          <div class="bar-chart">
+            <div class="bar-row"><span class="bar-label">Phòng QL1</span><div class="bar-track"><div class="bar-fill c1" style="width:80%">80%</div></div></div>
+            <div class="bar-row"><span class="bar-label">Phòng QL2</span><div class="bar-track"><div class="bar-fill c2" style="width:73%">73%</div></div></div>
+            <div class="bar-row"><span class="bar-label">Phòng QL3</span><div class="bar-track"><div class="bar-fill c3" style="width:67%">67%</div></div></div>
+            <div class="bar-row"><span class="bar-label">Phòng QL4</span><div class="bar-track"><div class="bar-fill c4" style="width:59%">59%</div></div></div>
+            <div class="bar-row"><span class="bar-label">Phòng QL5</span><div class="bar-track"><div class="bar-fill c5" style="width:32%">32%</div></div></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header"><h3>Chi tiết theo đơn vị</h3></div>
+          <div class="table-wrap">
+            <table class="ant-table">
+              <thead>
+                <tr>
+                  <th>Đơn vị</th><th class="text-right">Tổng HS</th><th class="text-right">Đã số hóa</th><th class="text-right">Tỷ lệ</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Phòng QL1</td><td class="text-right font-bold">650</td><td class="text-right">520</td>
+                  <td class="text-right text-success font-bold">80%</td>
+                </tr>
+                <tr>
+                  <td>Phòng QL2</td><td class="text-right font-bold">480</td><td class="text-right">350</td>
+                  <td class="text-right text-primary font-bold">73%</td>
+                </tr>
+                <tr>
+                  <td>Phòng QL3</td><td class="text-right font-bold">720</td><td class="text-right">480</td>
+                  <td class="text-right text-primary font-bold">67%</td>
+                </tr>
+                <tr>
+                  <td>Phòng QL4</td><td class="text-right font-bold">510</td><td class="text-right">300</td>
+                  <td class="text-right text-muted font-bold">59%</td>
+                </tr>
+                <tr>
+                  <td>Phòng QL5</td><td class="text-right font-bold">487</td><td class="text-right">156</td>
+                  <td class="text-right text-danger font-bold">32%</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- FOOTER -->
+  <div class="footer">Cục Hàng hải Việt Nam — Phiên bản 1.0</div>
+
+</div>
+
+<!-- TAB SWITCHING -->
+<script>
+(function(){
+  var tabs = document.querySelectorAll('#screenTabs .tab');
+  var screens = document.querySelectorAll('.screen[data-screen]');
+  tabs.forEach(function(t){
+    t.addEventListener('click', function(){
+      var id = this.getAttribute('data-screen');
+      tabs.forEach(function(x){ x.classList.remove('active'); });
+      this.classList.add('active');
+      screens.forEach(function(s){ s.classList.remove('active'); });
+      var target = document.querySelector('.screen[data-screen="' + id + '"]');
+      if(target) target.classList.add('active');
+    });
+  });
+})();
+</script>
+
+</body>
+</html>

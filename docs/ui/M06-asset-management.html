@@ -1,0 +1,1012 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>M06 — Quản lý tài sản | MTIS</title>
+<style>
+:root {
+  --color-primary: #2153aa;
+  --color-primary-hover: #1a3f8a;
+  --color-primary-light: #eff8ff;
+  --color-primary-light-end: #e0f2fe;
+  --color-primary-ring: rgba(33, 83, 170, 0.12);
+  --color-body-bg: #f4f4f5;
+  --color-body-text: #1a1a2e;
+  --color-muted: #6b7280;
+  --color-muted-light: #9ca3af;
+  --color-heading: #374151;
+  --color-border: #e5e7eb;
+  --color-border-light: #f0f0f0;
+  --color-border-input: #d1d5db;
+  --color-white: #ffffff;
+  --color-table-header-bg: #fafafa;
+  --color-table-even-row: #fafbfc;
+  --color-table-hover: #eff8ff;
+  --color-ghost-hover: #f3f4f6;
+  --color-danger: #dc2626;
+  --color-danger-hover: #b91c1c;
+  --color-danger-bg: #fef2f2;
+  --color-danger-text: #991b1b;
+  --color-success: #059669;
+  --color-success-hover: #047857;
+  --color-success-bg: #ecfdf5;
+  --color-success-text: #065f46;
+  --color-warning: #d97706;
+  --color-warning-bg: #fffbeb;
+  --color-warning-text: #92400e;
+  --color-info-bg: #eff6ff;
+  --color-info-text: #1e40af;
+  --sidebar-width: 260px;
+  --header-padding: 12px 28px;
+  --content-padding: 24px 28px;
+  --content-max-width: 1360px;
+  --font-family: Averta, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-size-base: 14px;
+  --font-size-sm: 13px;
+  --font-size-xs: 12px;
+  --font-size-xxs: 11px;
+  --font-size-lg: 16px;
+  --font-size-xl: 22px;
+  --font-size-stat: 28px;
+  --radius-card: 8px;
+  --radius-btn: 6px;
+  --radius-badge: 12px;
+  --radius-input: 6px;
+  --radius-icon: 12px;
+  --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.06);
+  --shadow-header: 0 1px 3px rgba(0, 0, 0, 0.06);
+  --transition-fast: all 0.15s ease;
+}
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html, body { height:100%; }
+body {
+  font-family: var(--font-family);
+  background: var(--color-body-bg);
+  color: var(--color-body-text);
+  font-size: var(--font-size-base);
+  line-height: 1.5;
+  display: flex;
+  min-height: 100vh;
+}
+.sidebar {
+  width: var(--sidebar-width);
+  min-width: var(--sidebar-width);
+  background: var(--color-white);
+  border-right: 1px solid var(--color-border);
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  position: fixed;
+  left:0; top:0; bottom:0;
+  z-index: 100;
+  overflow-y: auto;
+}
+.sidebar-logo {
+  display: flex; align-items: center; gap: 12px;
+  padding: 20px 20px 16px;
+  border-bottom: 1px solid var(--color-border);
+}
+.sidebar-logo .logo-icon {
+  width: 44px; height: 44px;
+  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-hover));
+  border-radius: var(--radius-icon);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--color-white); font-weight: 700; font-size: 20px;
+  flex-shrink: 0;
+}
+.sidebar-logo .logo-text { line-height: 1.3; }
+.sidebar-logo .logo-text strong { display:block; font-size: var(--font-size-sm); color: var(--color-body-text); }
+.sidebar-logo .logo-text small { font-size: var(--font-size-xxs); color: var(--color-muted); }
+.sidebar-menu { padding: 12px 0; flex: 1; }
+.sidebar-menu .menu-section {
+  padding: 8px 20px 4px;
+  font-size: var(--font-size-xxs); text-transform: uppercase; letter-spacing: 0.5px;
+  color: var(--color-muted-light); font-weight: 600;
+}
+.sidebar-menu .menu-item {
+  display: flex; align-items: center; gap: 12px;
+  padding: 10px 20px;
+  color: var(--color-heading); text-decoration: none;
+  font-size: var(--font-size-base); cursor: pointer;
+  transition: var(--transition-fast);
+  border-left: 3px solid transparent;
+}
+.sidebar-menu .menu-item:hover { background: #f9fafb; color: var(--color-primary); }
+.sidebar-menu .menu-item.active {
+  background: linear-gradient(90deg, var(--color-primary-light), var(--color-primary-light-end));
+  border-left: 3px solid var(--color-primary);
+  color: var(--color-primary);
+  font-weight: 600;
+}
+.sidebar-menu .menu-item .icon { width: 20px; text-align: center; font-size: var(--font-size-lg); flex-shrink: 0; }
+.sidebar-footer {
+  padding: 16px 20px; border-top: 1px solid var(--color-border);
+  font-size: var(--font-size-xxs); color: var(--color-muted-light); text-align: center;
+}
+.main-wrapper {
+  margin-left: var(--sidebar-width); flex:1;
+  display: flex; flex-direction: column; min-height: 100vh;
+}
+.header {
+  background: var(--color-white);
+  box-shadow: var(--shadow-header);
+  padding: var(--header-padding);
+  display: flex; align-items: center; justify-content: space-between;
+  position: sticky; top: 0; z-index: 50;
+}
+.header h1 { font-size: 15px; font-weight: 600; color: var(--color-body-text); }
+.header .user-info { display: flex; align-items: center; gap: 16px; }
+.header .user-info .avatar {
+  width: 34px; height: 34px; border-radius: 50%;
+  background: var(--color-primary); color: var(--color-white);
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 600; font-size: var(--font-size-base);
+}
+.header .user-info .name { font-size: var(--font-size-sm); color: var(--color-heading); }
+.header .user-info .role { font-size: var(--font-size-xxs); color: var(--color-muted-light); }
+.content { flex: 1; padding: var(--content-padding); max-width: var(--content-max-width); }
+.breadcrumb {
+  font-size: var(--font-size-sm); color: var(--color-muted);
+  margin-bottom: 6px; display: flex; align-items: center; gap: 6px; flex-wrap: wrap;
+}
+.breadcrumb a { color: var(--color-primary); text-decoration: none; }
+.breadcrumb a:hover { text-decoration: underline; }
+.breadcrumb span.sep { color: var(--color-muted-light); }
+.page-title { font-size: var(--font-size-xl); font-weight: 700; color: var(--color-body-text); margin-bottom: 20px; }
+.page-subtitle { font-size: var(--font-size-sm); color: var(--color-muted); margin-bottom: 20px; margin-top: -16px; }
+.section-title {
+  font-size: var(--font-size-lg); font-weight: 600; color: var(--color-primary);
+  margin-bottom: 12px; display: flex; align-items: center; gap: 8px;
+}
+hr.section-divider { border: none; border-top: 1px solid var(--color-border); margin: 28px 0; }
+.footer {
+  background: var(--color-white); border-top: 1px solid var(--color-border);
+  padding: 14px 28px; font-size: var(--font-size-xs); color: var(--color-muted); text-align: center;
+}
+.card {
+  background: var(--color-white); border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card); padding: 20px; margin-bottom: 16px;
+}
+.card-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 14px;
+}
+.card-header h3 { font-size: var(--font-size-lg); font-weight: 600; color: var(--color-body-text); }
+.card-header .actions { display: flex; gap: 8px; }
+.card-body { padding: 4px 0; }
+.stats-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 20px; }
+.stat-card {
+  background: var(--color-white); border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card); padding: 18px 20px;
+  border-left: 4px solid var(--color-primary);
+}
+.stat-card .stat-label { font-size: var(--font-size-sm); color: var(--color-muted); margin-bottom: 4px; }
+.stat-card .stat-value { font-size: var(--font-size-stat); font-weight: 700; color: var(--color-body-text); }
+.stat-card .stat-sub { font-size: var(--font-size-xs); color: var(--color-muted-light); margin-top: 4px; }
+.stat-card:nth-child(1) { border-left-color: var(--color-primary); }
+.stat-card:nth-child(2) { border-left-color: var(--color-success); }
+.stat-card:nth-child(3) { border-left-color: var(--color-warning); }
+.stat-card:nth-child(4) { border-left-color: var(--color-danger); }
+.table-wrap { overflow-x: auto; }
+.ant-table { width: 100%; border-collapse: collapse; font-size: var(--font-size-sm); }
+.ant-table thead th {
+  background: var(--color-table-header-bg);
+  border-bottom: 2px solid var(--color-border);
+  padding: 10px 12px; text-align: left;
+  font-weight: 600; color: var(--color-heading); white-space: nowrap;
+}
+.ant-table tbody td {
+  padding: 9px 12px; border-bottom: 1px solid var(--color-border-light);
+  color: var(--color-body-text);
+}
+.ant-table tbody tr:nth-child(even) td { background: var(--color-table-even-row); }
+.ant-table tbody tr:hover td { background: var(--color-table-hover); }
+.badge {
+  display: inline-block; padding: 2px 10px; border-radius: var(--radius-badge);
+  font-size: var(--font-size-xs); font-weight: 500; line-height: 1.6;
+}
+.badge-green  { background: var(--color-success-bg); color: var(--color-success-text); }
+.badge-red    { background: var(--color-danger-bg);  color: var(--color-danger-text); }
+.badge-blue   { background: var(--color-info-bg);    color: var(--color-info-text); }
+.badge-yellow { background: var(--color-warning-bg); color: var(--color-warning-text); }
+.badge-gray   { background: var(--color-ghost-hover); color: var(--color-heading); }
+.btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 8px 16px; border-radius: var(--radius-btn);
+  font-size: var(--font-size-sm); font-weight: 500;
+  cursor: pointer; border: 1px solid transparent;
+  transition: var(--transition-fast); text-decoration: none;
+  line-height: 1.4;
+}
+.btn-sm { padding: 4px 10px; font-size: var(--font-size-xs); }
+.btn-primary   { background: var(--color-primary); color: var(--color-white); border-color: var(--color-primary); }
+.btn-primary:hover   { background: var(--color-primary-hover); }
+.btn-outline   { background: var(--color-white); color: var(--color-primary); border-color: var(--color-primary); }
+.btn-outline:hover   { background: var(--color-primary-light); }
+.btn-danger    { background: var(--color-danger); color: var(--color-white); border-color: var(--color-danger); }
+.btn-danger:hover    { background: var(--color-danger-hover); }
+.btn-success   { background: var(--color-success); color: var(--color-white); border-color: var(--color-success); }
+.btn-success:hover   { background: var(--color-success-hover); }
+.btn-ghost     { background: transparent; color: var(--color-heading); border-color: transparent; }
+.btn-ghost:hover     { background: var(--color-ghost-hover); }
+.form-group { margin-bottom: 14px; }
+.form-group label {
+  display: block; font-size: var(--font-size-sm); font-weight: 500;
+  color: var(--color-heading); margin-bottom: 4px;
+}
+.form-group label.required::after { content: " *"; color: var(--color-danger); }
+.form-control {
+  width: 100%; padding: 8px 12px;
+  border: 1px solid var(--color-border-input); border-radius: var(--radius-input);
+  font-size: var(--font-size-sm); color: var(--color-body-text);
+  transition: border-color 0.15s; background: var(--color-white);
+}
+.form-control:focus {
+  outline: none; border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px var(--color-primary-ring);
+}
+select.form-control {
+  -webkit-appearance: none; appearance: none;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%236b7280' d='M6 8L1 3h10z'/%3E%3C/svg%3E") no-repeat right 12px center var(--color-white);
+  padding-right: 32px;
+}
+textarea.form-control { resize: vertical; min-height: 80px; }
+.workflow-steps { display: flex; align-items: center; gap: 0; margin-bottom: 20px; }
+.workflow-step {
+  flex: 1; text-align: center; padding: 12px 8px;
+  background: var(--color-ghost-hover); color: var(--color-muted-light);
+  font-size: var(--font-size-sm); font-weight: 500; position: relative;
+}
+.workflow-step:not(:last-child)::after {
+  content: '\203A'; position: absolute; right: -12px; top: 50%;
+  transform: translateY(-50%); font-size: 20px; color: var(--color-border-input); z-index: 1;
+}
+.workflow-step.active { background: var(--color-primary); color: var(--color-white); }
+.workflow-step.done { background: var(--color-success); color: var(--color-white); }
+.timeline { position: relative; padding-left: 28px; }
+.timeline::before { content: ''; position: absolute; left: 8px; top: 4px; bottom: 4px; width: 2px; background: var(--color-border); }
+.timeline-item { position: relative; margin-bottom: 16px; padding-left: 16px; }
+.timeline-item::before {
+  content: ''; position: absolute; left: -24px; top: 6px;
+  width: 10px; height: 10px; border-radius: 50%;
+  background: var(--color-primary); border: 2px solid var(--color-white);
+  box-shadow: 0 0 0 2px var(--color-primary);
+}
+.timeline-item .time { font-size: var(--font-size-xs); color: var(--color-muted-light); }
+.timeline-item .desc { font-size: var(--font-size-sm); color: var(--color-heading); }
+.timeline-item .diff { font-size: var(--font-size-xs); color: var(--color-muted); }
+.timeline-item .diff .old { color: var(--color-danger); text-decoration: line-through; }
+.timeline-item .diff .new { color: var(--color-success); font-weight: 500; }
+.search-bar { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; padding: 14px 0; }
+.search-bar .form-control { width: 220px; }
+.map-placeholder {
+  background: linear-gradient(135deg, var(--color-primary-light-end), #bae6fd);
+  border-radius: var(--radius-card); min-height: 400px;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--color-primary); font-weight: 600; font-size: 15px;
+  position: relative; border: 2px dashed #93c5fd;
+}
+.map-placeholder .map-controls {
+  position: absolute; right: 16px; top: 16px;
+  display: flex; flex-direction: column; gap: 4px;
+}
+.map-placeholder .map-controls button {
+  width: 36px; height: 36px; background: var(--color-white);
+  border: 1px solid var(--color-border-input); border-radius: var(--radius-btn);
+  font-size: 18px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+.map-placeholder .map-controls button:hover { background: var(--color-ghost-hover); }
+.drop-zone {
+  border: 2px dashed var(--color-border-input); border-radius: var(--radius-card);
+  padding: 40px; text-align: center; color: var(--color-muted); cursor: pointer;
+  transition: var(--transition-fast);
+}
+.drop-zone:hover { border-color: var(--color-primary); background: var(--color-primary-light); }
+.drop-zone .icon { font-size: 40px; margin-bottom: 8px; }
+.drop-zone p { font-size: var(--font-size-base); }
+.drop-zone small { font-size: var(--font-size-xs); color: var(--color-muted-light); }
+.file-icon {
+  width: 36px; height: 36px; border-radius: var(--radius-btn);
+  display: inline-flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: var(--font-size-xxs); flex-shrink: 0;
+}
+.file-icon-pdf { background: var(--color-danger-bg);  color: var(--color-danger); }
+.file-icon-doc { background: var(--color-info-bg);    color: var(--color-primary); }
+.file-icon-xls { background: var(--color-success-bg); color: var(--color-success); }
+.file-icon-img { background: var(--color-warning-bg); color: var(--color-warning); }
+.file-icon-zip { background: var(--color-ghost-hover); color: var(--color-heading); }
+.sensor-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; margin-right: 6px; }
+.sensor-dot.online  { background: var(--color-success); }
+.sensor-dot.offline { background: var(--color-danger); }
+.sensor-dot.warning { background: var(--color-warning); }
+.realtime-bar {
+  display: flex; gap: 20px; padding: 12px 16px;
+  background: linear-gradient(90deg, #1e3a5f, var(--color-primary));
+  border-radius: var(--radius-card); color: var(--color-white); margin-bottom: 16px;
+}
+.realtime-bar .rt-item { text-align: center; }
+.realtime-bar .rt-value { font-size: var(--font-size-xl); font-weight: 700; }
+.realtime-bar .rt-label { font-size: var(--font-size-xxs); opacity: 0.8; }
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+.grid-4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 16px; }
+.flex { display: flex; }
+.flex-center { display: flex; align-items: center; justify-content: center; }
+.flex-between { display: flex; align-items: center; justify-content: space-between; }
+.inline-flex { display: inline-flex; align-items: center; gap: 6px; }
+.gap-2 { gap: 8px; }
+.gap-3 { gap: 12px; }
+.gap-4 { gap: 16px; }
+.mt-2 { margin-top: 8px; }
+.mt-4 { margin-top: 16px; }
+.mb-2 { margin-bottom: 8px; }
+.mb-4 { margin-bottom: 16px; }
+.w-full { width: 100%; }
+.text-right { text-align: right; }
+.text-center { text-align: center; }
+.text-muted { color: var(--color-muted); }
+.text-danger { color: var(--color-danger); }
+.text-success { color: var(--color-success); }
+.text-primary { color: var(--color-primary); }
+.font-bold { font-weight: 700; }
+.truncate { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.screen { padding: 4px 0 20px; }
+.screen-label {
+  font-size: var(--font-size-xs); color: var(--color-muted-light);
+  font-weight: 500; letter-spacing: 0.3px; margin-bottom: 12px; text-transform: uppercase;
+}
+.file-list-item {
+  display: flex; align-items: center; gap: 12px;
+  padding: 10px 0; border-bottom: 1px solid var(--color-border-light);
+}
+@media (max-width: 768px) {
+  .sidebar { display: none; }
+  .main-wrapper { margin-left: 0; }
+  .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+  .stats-row { grid-template-columns: 1fr; }
+}
+.empty-state {
+  padding: 40px; text-align: center; color: var(--color-muted-light);
+}
+.empty-state .icon { font-size: 48px; margin-bottom: 12px; opacity: 0.4; }
+.empty-state p { font-size: var(--font-size-base); }
+.modal-overlay {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.4);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 200;
+}
+.modal-overlay .modal-card {
+  background: var(--color-white); border-radius: var(--radius-card);
+  padding: 24px; max-width: 800px; width: 90%;
+  max-height: 85vh; overflow-y: auto;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.15);
+}
+.modal-overlay .modal-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 16px; padding-bottom: 12px;
+  border-bottom: 1px solid var(--color-border);
+}
+.modal-overlay .modal-header h3 { font-size: var(--font-size-lg); font-weight: 600; }
+.modal-overlay .modal-close {
+  background: none; border: none; font-size: 20px; cursor: pointer;
+  color: var(--color-muted-light); padding: 4px;
+}
+.tabs { display: flex; gap: 0; border-bottom: 2px solid var(--color-border); margin-bottom: 16px; }
+.tab {
+  padding: 10px 20px; font-size: var(--font-size-sm); font-weight: 500; cursor: pointer;
+  color: var(--color-muted); border-bottom: 2px solid transparent; margin-bottom: -2px;
+  transition: var(--transition-fast);
+}
+.tab:hover { color: var(--color-primary); }
+.tab.active { color: var(--color-primary); border-bottom-color: var(--color-primary); }
+.pagination {
+  display: flex; align-items: center; justify-content: flex-end;
+  gap: 8px; margin-top: 16px;
+}
+.pagination .page-btn {
+  padding: 6px 12px; border: 1px solid var(--color-border);
+  border-radius: var(--radius-btn); font-size: var(--font-size-xs);
+  background: var(--color-white); cursor: pointer;
+  color: var(--color-heading);
+}
+.pagination .page-btn:hover { border-color: var(--color-primary); color: var(--color-primary); }
+.pagination .page-btn.active { background: var(--color-primary); color: var(--color-white); border-color: var(--color-primary); }
+.pagination .page-info { font-size: var(--font-size-xs); color: var(--color-muted); }
+
+.bar-chart-item { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+.bar-chart-item .bar-label { width: 160px; font-size: var(--font-size-sm); color: var(--color-heading); flex-shrink: 0; }
+.bar-chart-item .bar-track { flex: 1; height: 22px; background: var(--color-ghost-hover); border-radius: 6px; overflow: hidden; position: relative; }
+.bar-chart-item .bar-fill { height: 100%; border-radius: 6px; transition: width 0.4s ease; }
+.bar-chart-item .bar-val { width: 56px; font-size: var(--font-size-sm); font-weight: 600; color: var(--color-heading); text-align: right; flex-shrink: 0; }
+.bar-color-1 { background: linear-gradient(90deg, #2153aa, #3b82f6); }
+.bar-color-2 { background: linear-gradient(90deg, #059669, #10b981); }
+.bar-color-3 { background: linear-gradient(90deg, #d97706, #f59e0b); }
+.bar-color-4 { background: linear-gradient(90deg, #8b5cf6, #a78bfa); }
+.bar-color-5 { background: linear-gradient(90deg, #ec4899, #f472b6); }
+
+.tree-item { padding: 8px 14px; background: var(--color-white); border: 1px solid var(--color-border-light); border-radius: 6px; margin-bottom: 4px; }
+.tree-item:hover { background: var(--color-primary-light); }
+</style>
+</head>
+<body>
+
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-icon">MT</div>
+    <div class="logo-text">
+      <strong>MTIS</strong>
+      <small>Hệ thống thông tin KCHT</small>
+    </div>
+  </div>
+  <nav class="sidebar-menu">
+    <div class="menu-section">QUẢN LÝ TÀI SẢN</div>
+    <a class="menu-item active" href="#dashboard"><span class="icon">📊</span> Quản lý tài sản</a>
+    <a class="menu-item" href="#hoso"><span class="icon">📋</span> Hồ sơ tài sản</a>
+    <a class="menu-item" href="#phanloai"><span class="icon">🗂️</span> Phân loại tài sản</a>
+    <a class="menu-item" href="#ghitang"><span class="icon">➕</span> Ghi tăng</a>
+    <a class="menu-item" href="#haomon"><span class="icon">📉</span> Hao mòn/Khấu hao</a>
+    <a class="menu-item" href="#danhgia"><span class="icon">🔄</span> Đánh giá lại</a>
+    <a class="menu-item" href="#thanhly"><span class="icon">🗑️</span> Thanh lý</a>
+    <a class="menu-item" href="#kiemke"><span class="icon">✅</span> Kiểm kê</a>
+    <a class="menu-item" href="#lichsu"><span class="icon">🕐</span> Lịch sử biến động</a>
+    <a class="menu-item" href="#baocao"><span class="icon">📈</span> Báo cáo</a>
+    <div class="menu-section">KCHT KHÁC</div>
+    <a class="menu-item" href="#"><span class="icon">⚙️</span> Quản lý thông số KT</a>
+    <a class="menu-item" href="#"><span class="icon">🔧</span> Vận hành &amp; Bảo trì</a>
+    <a class="menu-item" href="#"><span class="icon">🗺️</span> Quy hoạch</a>
+    <a class="menu-item" href="#"><span class="icon">🌐</span> Bản đồ GIS</a>
+    <a class="menu-item" href="#"><span class="icon">📊</span> Báo cáo thống kê</a>
+  </nav>
+  <div class="sidebar-footer">MTIS v1.0 — Cục Hàng hải VN</div>
+</aside>
+
+<div class="main-wrapper">
+
+  <header class="header">
+    <h1>DỰ ÁN: Xây dựng Hệ thống thông tin quản lý KCHT Giao thông Hàng hải</h1>
+    <div class="user-info">
+      <div>
+        <div class="name">Nguyễn Văn A</div>
+        <div class="role">Chuyên viên</div>
+      </div>
+      <div class="avatar">NV</div>
+    </div>
+  </header>
+
+  <main class="content">
+
+    <div class="breadcrumb">
+      <a href="#">Trang chủ</a> <span class="sep">›</span> <a href="#">Quản lý KCHT</a> <span class="sep">›</span> Quản lý tài sản
+    </div>
+
+    <!-- ==================== SCREEN 1: DASHBOARD ==================== -->
+    <section class="screen" id="dashboard">
+      <div class="screen-label">1. Dashboard tài sản</div>
+      <div class="page-title">Quản lý tài sản</div>
+
+      <div class="stats-row">
+        <div class="stat-card">
+          <div class="stat-label">Tổng tài sản</div>
+          <div class="stat-value">2,847</div>
+          <div class="stat-sub">Trên toàn hệ thống</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Nguyên giá</div>
+          <div class="stat-value">1,245 tỷ</div>
+          <div class="stat-sub">VNĐ</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Giá trị còn lại</div>
+          <div class="stat-value">892 tỷ</div>
+          <div class="stat-sub">VNĐ</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Đã thanh lý</div>
+          <div class="stat-value">156</div>
+          <div class="stat-sub">Tài sản</div>
+        </div>
+      </div>
+
+      <div class="tabs" id="dashboard-tabs">
+        <div class="tab active" data-tab="tab-overview">Tổng quan</div>
+        <div class="tab" data-tab="tab-unit">Theo đơn vị</div>
+        <div class="tab" data-tab="tab-type">Theo loại</div>
+      </div>
+
+      <div class="tab-panel" id="tab-overview">
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-header"><h3>Tài sản theo đơn vị</h3></div>
+            <div class="card-body">
+              <div class="bar-chart-item">
+                <span class="bar-label">Cảng vụ Hải Phòng</span>
+                <span class="bar-track"><span class="bar-fill bar-color-1" style="width:34%"></span></span>
+                <span class="bar-val">34%</span>
+              </div>
+              <div class="bar-chart-item">
+                <span class="bar-label">Cảng vụ Vũng Tàu</span>
+                <span class="bar-track"><span class="bar-fill bar-color-2" style="width:28%"></span></span>
+                <span class="bar-val">28%</span>
+              </div>
+              <div class="bar-chart-item">
+                <span class="bar-label">Cảng vụ TP.HCM</span>
+                <span class="bar-track"><span class="bar-fill bar-color-3" style="width:22%"></span></span>
+                <span class="bar-val">22%</span>
+              </div>
+              <div class="bar-chart-item">
+                <span class="bar-label">Khác</span>
+                <span class="bar-track"><span class="bar-fill bar-color-4" style="width:16%"></span></span>
+                <span class="bar-val">16%</span>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header"><h3>Tài sản theo loại</h3></div>
+            <div class="card-body">
+              <div class="bar-chart-item">
+                <span class="bar-label">Bến cảng</span>
+                <span class="bar-track"><span class="bar-fill bar-color-1" style="width:38%"></span></span>
+                <span class="bar-val">38%</span>
+              </div>
+              <div class="bar-chart-item">
+                <span class="bar-label">Luồng tàu</span>
+                <span class="bar-track"><span class="bar-fill bar-color-2" style="width:25%"></span></span>
+                <span class="bar-val">25%</span>
+              </div>
+              <div class="bar-chart-item">
+                <span class="bar-label">Phao tiêu</span>
+                <span class="bar-track"><span class="bar-fill bar-color-3" style="width:15%"></span></span>
+                <span class="bar-val">15%</span>
+              </div>
+              <div class="bar-chart-item">
+                <span class="bar-label">Đèn biển</span>
+                <span class="bar-track"><span class="bar-fill bar-color-4" style="width:12%"></span></span>
+                <span class="bar-val">12%</span>
+              </div>
+              <div class="bar-chart-item">
+                <span class="bar-label">Đê kè</span>
+                <span class="bar-track"><span class="bar-fill bar-color-5" style="width:10%"></span></span>
+                <span class="bar-val">10%</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-panel" id="tab-unit" style="display:none">
+        <div class="card">
+          <div class="card-header"><h3>Tài sản theo đơn vị — chi tiết</h3></div>
+          <div class="table-wrap">
+            <table class="ant-table">
+              <thead><tr><th>Đơn vị</th><th>Số lượng</th><th>Nguyên giá (tỷ VNĐ)</th><th>GT còn lại (tỷ VNĐ)</th></tr></thead>
+              <tbody>
+                <tr><td>Cảng vụ Hải Phòng</td><td>968</td><td>423.3</td><td>303.3</td></tr>
+                <tr><td>Cảng vụ Vũng Tàu</td><td>797</td><td>348.6</td><td>249.8</td></tr>
+                <tr><td>Cảng vụ TP.HCM</td><td>626</td><td>273.9</td><td>196.2</td></tr>
+                <tr><td>Đơn vị khác</td><td>456</td><td>199.2</td><td>142.7</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-panel" id="tab-type" style="display:none">
+        <div class="card">
+          <div class="card-header"><h3>Tài sản theo loại — chi tiết</h3></div>
+          <div class="table-wrap">
+            <table class="ant-table">
+              <thead><tr><th>Loại tài sản</th><th>Số lượng</th><th>Nguyên giá (tỷ VNĐ)</th><th>GT còn lại (tỷ VNĐ)</th></tr></thead>
+              <tbody>
+                <tr><td>Bến cảng</td><td>356</td><td>473.1</td><td>339.0</td></tr>
+                <tr><td>Luồng tàu</td><td>89</td><td>311.3</td><td>223.0</td></tr>
+                <tr><td>Phao tiêu</td><td>1,245</td><td>186.8</td><td>133.8</td></tr>
+                <tr><td>Đèn biển</td><td>342</td><td>149.4</td><td>107.0</td></tr>
+                <tr><td>Đê kè</td><td>145</td><td>124.5</td><td>89.2</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <hr class="section-divider">
+
+    <!-- ==================== SCREEN 2: HỒ SƠ TÀI SẢN ==================== -->
+    <section class="screen" id="hoso">
+      <div class="screen-label">2. Hồ sơ tài sản</div>
+      <div class="card">
+        <div class="card-header">
+          <h3>Danh sách hồ sơ tài sản</h3>
+          <div class="actions">
+            <button class="btn btn-primary btn-sm">+ Thêm mới</button>
+            <button class="btn btn-outline btn-sm">📥 Xuất Excel</button>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="search-bar">
+            <input class="form-control" type="text" placeholder="Tìm kiếm mã/tên tài sản...">
+            <select class="form-control"><option value="">Loại TS</option><option>Bến cảng</option><option>Luồng</option><option>Phao tiêu</option><option>Đèn biển</option><option>Đê kè</option></select>
+            <select class="form-control"><option value="">Đơn vị QL</option><option>Cảng vụ Hải Phòng</option><option>Cảng vụ Vũng Tàu</option><option>Cảng vụ TP.HCM</option></select>
+            <button class="btn btn-outline btn-sm">🔍 Tìm</button>
+          </div>
+          <div class="table-wrap">
+            <table class="ant-table">
+              <thead>
+                <tr>
+                  <th>STT</th><th>Mã TS</th><th>Tên tài sản</th><th>Loại TS</th><th>Đơn vị QL</th><th>Ngày đưa vào SD</th><th>Nguyên giá</th><th>GT còn lại</th><th>Trạng thái</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>1</td><td>TS-2024-001</td><td>Bến cảng tổng hợp số 1</td><td><span class="badge badge-blue">Bến cảng</span></td><td>Cảng vụ Hải Phòng</td><td>15/01/2024</td><td>125,000,000,000</td><td>112,500,000,000</td><td><span class="badge badge-green">Đang sử dụng</span></td>
+                </tr>
+                <tr>
+                  <td>2</td><td>TS-2023-045</td><td>Luồng tàu Sài Gòn - Vũng Tàu</td><td><span class="badge badge-blue">Luồng</span></td><td>Cảng vụ Vũng Tàu</td><td>20/03/2023</td><td>450,000,000,000</td><td>405,000,000,000</td><td><span class="badge badge-green">Đang sử dụng</span></td>
+                </tr>
+                <tr>
+                  <td>3</td><td>TS-2024-089</td><td>Phao tiêu số 12 - Vũng Tàu</td><td><span class="badge badge-blue">Phao tiêu</span></td><td>Cảng vụ Vũng Tàu</td><td>05/06/2024</td><td>2,500,000,000</td><td>2,250,000,000</td><td><span class="badge badge-yellow">Bảo trì</span></td>
+                </tr>
+                <tr>
+                  <td>4</td><td>TS-2022-156</td><td>Đèn biển Côn Đảo</td><td><span class="badge badge-blue">Đèn biển</span></td><td>Cảng vụ Vũng Tàu</td><td>10/11/2022</td><td>8,500,000,000</td><td>5,950,000,000</td><td><span class="badge badge-green">Đang sử dụng</span></td>
+                </tr>
+                <tr>
+                  <td>5</td><td>TS-2021-078</td><td>Đê kè chắn sóng Nghi Sơn</td><td><span class="badge badge-blue">Đê kè</span></td><td>Cảng vụ Hải Phòng</td><td>01/07/2021</td><td>320,000,000,000</td><td>256,000,000,000</td><td><span class="badge badge-green">Đang sử dụng</span></td>
+                </tr>
+                <tr>
+                  <td>6</td><td>TS-2025-012</td><td>Bến cảng container số 3</td><td><span class="badge badge-blue">Bến cảng</span></td><td>Cảng vụ TP.HCM</td><td>12/02/2025</td><td>210,000,000,000</td><td>199,500,000,000</td><td><span class="badge badge-yellow">Bảo trì</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="pagination">
+            <span class="page-info">Hiển thị 1-6 / 2,847</span>
+            <button class="page-btn active">1</button>
+            <button class="page-btn">2</button>
+            <button class="page-btn">3</button>
+            <button class="page-btn">...</button>
+            <button class="page-btn">475</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <hr class="section-divider">
+
+    <!-- ==================== SCREEN 3: PHÂN LOẠI TÀI SẢN ==================== -->
+    <section class="screen" id="phanloai">
+      <div class="screen-label">3. Phân loại tài sản</div>
+      <div class="card">
+        <div class="card-header"><h3>Cây phân loại tài sản</h3></div>
+        <div class="card-body">
+          <div class="tree-item font-bold" style="padding-left:14px">📂 Tài sản KCHT Giao thông Hàng hải</div>
+          <div class="tree-item flex-between" style="padding-left:36px">
+            <span>📁 Cảng biển</span>
+            <span class="badge badge-gray">12</span>
+          </div>
+          <div class="tree-item flex-between" style="padding-left:36px">
+            <span>📁 Bến cảng</span>
+            <span class="badge badge-blue">356</span>
+          </div>
+          <div class="tree-item flex-between" style="padding-left:36px">
+            <span>📁 Luồng tàu</span>
+            <span class="badge badge-blue">89</span>
+          </div>
+          <div class="tree-item flex-between" style="padding-left:36px">
+            <span>📁 Phao tiêu, đèn biển</span>
+            <span class="badge badge-blue">1,245</span>
+          </div>
+          <div class="tree-item flex-between" style="padding-left:36px">
+            <span>📁 Đê kè, kè bảo vệ</span>
+            <span class="badge badge-blue">145</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <hr class="section-divider">
+
+    <!-- ==================== SCREEN 4: GHI TĂNG TÀI SẢN ==================== -->
+    <section class="screen" id="ghitang">
+      <div class="screen-label">4. Ghi tăng tài sản</div>
+      <div class="workflow-steps">
+        <div class="workflow-step active">Nháp</div>
+        <div class="workflow-step">Chờ duyệt</div>
+        <div class="workflow-step">Đã duyệt</div>
+      </div>
+      <div class="card">
+        <div class="card-header"><h3>Phiếu ghi tăng tài sản</h3></div>
+        <div class="card-body">
+          <div class="grid-2">
+            <div>
+              <div class="form-group"><label class="required">Mã TS</label><input class="form-control" type="text" placeholder="Nhập mã tài sản"></div>
+              <div class="form-group"><label class="required">Tên tài sản</label><input class="form-control" type="text" placeholder="Nhập tên tài sản"></div>
+              <div class="form-group"><label class="required">Loại TS</label>
+                <select class="form-control"><option value="">-- Chọn loại --</option><option>Bến cảng</option><option>Luồng</option><option>Phao tiêu</option><option>Đèn biển</option><option>Đê kè</option></select>
+              </div>
+              <div class="form-group"><label class="required">Đơn vị QL</label>
+                <select class="form-control"><option value="">-- Chọn đơn vị --</option><option>Cảng vụ Hải Phòng</option><option>Cảng vụ Vũng Tàu</option><option>Cảng vụ TP.HCM</option></select>
+              </div>
+              <div class="form-group"><label class="required">Ngày đưa vào SD</label><input class="form-control" type="date"></div>
+            </div>
+            <div>
+              <div class="form-group"><label class="required">Nguyên giá (VNĐ)</label><input class="form-control" type="number" placeholder="0"></div>
+              <div class="form-group"><label class="required">Thời gian SD (năm)</label><input class="form-control" type="number" placeholder="0"></div>
+              <div class="form-group"><label class="required">Tỷ lệ hao mòn (%)</label><input class="form-control" type="number" placeholder="0"></div>
+              <div class="form-group"><label class="required">Nguồn vốn</label>
+                <select class="form-control"><option value="">-- Chọn nguồn vốn --</option><option>NSNN</option><option>ODA</option><option>Doanh nghiệp</option></select>
+              </div>
+              <div class="form-group"><label>Ghi chú</label><textarea class="form-control" placeholder="Nhập ghi chú..."></textarea></div>
+            </div>
+          </div>
+          <div class="flex gap-3 mt-4">
+            <button class="btn btn-primary">💾 Lưu</button>
+            <button class="btn btn-outline">Hủy</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <hr class="section-divider">
+
+    <!-- ==================== SCREEN 5: HAO MÒN / KHẤU HAO ==================== -->
+    <section class="screen" id="haomon">
+      <div class="screen-label">5. Hao mòn / Khấu hao</div>
+      <div class="card">
+        <div class="card-header"><h3>Bảng tính hao mòn &amp; khấu hao tài sản</h3></div>
+        <div class="table-wrap">
+          <table class="ant-table">
+            <thead>
+              <tr><th>STT</th><th>Mã TS</th><th>Tên tài sản</th><th>Nguyên giá</th><th>GT đã KH</th><th>GT còn lại</th><th>Năm</th><th>Kỳ</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>1</td><td>TS-2024-001</td><td>Bến cảng tổng hợp số 1</td><td>125,000,000,000</td><td>3,750,000,000</td><td><strong>121,250,000,000</strong></td><td>2026</td><td>1</td></tr>
+              <tr><td>2</td><td>TS-2023-045</td><td>Luồng tàu Sài Gòn - Vũng Tàu</td><td>450,000,000,000</td><td>45,000,000,000</td><td><strong>405,000,000,000</strong></td><td>2026</td><td>1</td></tr>
+              <tr><td>3</td><td>TS-2022-156</td><td>Đèn biển Côn Đảo</td><td>8,500,000,000</td><td>2,550,000,000</td><td><strong>5,950,000,000</strong></td><td>2026</td><td>1</td></tr>
+              <tr><td>4</td><td>TS-2021-078</td><td>Đê kè chắn sóng Nghi Sơn</td><td>320,000,000,000</td><td>64,000,000,000</td><td><strong>256,000,000,000</strong></td><td>2026</td><td>1</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <hr class="section-divider">
+
+    <!-- ==================== SCREEN 6: ĐÁNH GIÁ LẠI ==================== -->
+    <section class="screen" id="danhgia">
+      <div class="screen-label">6. Đánh giá lại</div>
+      <div class="card">
+        <div class="card-header"><h3>Đánh giá lại tài sản</h3></div>
+        <div class="grid-2">
+          <div>
+            <div class="form-group"><label class="required">Chọn tài sản</label>
+              <select class="form-control"><option value="">-- Chọn tài sản --</option><option>TS-2023-045 — Luồng tàu Sài Gòn - Vũng Tàu</option><option>TS-2024-001 — Bến cảng tổng hợp số 1</option><option>TS-2022-156 — Đèn biển Côn Đảo</option></select>
+            </div>
+            <div class="form-group"><label class="required">Ngày đánh giá</label><input class="form-control" type="date"></div>
+          </div>
+          <div>
+            <div class="form-group"><label class="required">Giá trị đánh giá lại (VNĐ)</label><input class="form-control" type="number" placeholder="0"></div>
+            <div class="form-group"><label>Lý do</label><textarea class="form-control" placeholder="Nhập lý do đánh giá lại..."></textarea></div>
+          </div>
+        </div>
+        <button class="btn btn-primary mt-4">💾 Lưu đánh giá</button>
+      </div>
+
+      <div class="card">
+        <div class="card-header"><h3>Lịch sử đánh giá lại</h3></div>
+        <div class="table-wrap">
+          <table class="ant-table">
+            <thead><tr><th>STT</th><th>Mã TS</th><th>Tên tài sản</th><th>Ngày ĐG</th><th>GT cũ (tỷ VNĐ)</th><th>GT mới (tỷ VNĐ)</th><th>Chênh lệch</th></tr></thead>
+            <tbody>
+              <tr><td>1</td><td>TS-2023-045</td><td>Luồng tàu Sài Gòn - Vũng Tàu</td><td>20/05/2026</td><td>450</td><td>520</td><td><span class="text-success">+70</span></td></tr>
+              <tr><td>2</td><td>TS-2022-156</td><td>Đèn biển Côn Đảo</td><td>10/03/2026</td><td>8.5</td><td>9.2</td><td><span class="text-success">+0.7</span></td></tr>
+              <tr><td>3</td><td>TS-2021-078</td><td>Đê kè chắn sóng Nghi Sơn</td><td>15/01/2026</td><td>320</td><td>310</td><td><span class="text-danger">-10</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <hr class="section-divider">
+
+    <!-- ==================== SCREEN 7: THANH LÝ TÀI SẢN ==================== -->
+    <section class="screen" id="thanhly">
+      <div class="screen-label">7. Thanh lý tài sản</div>
+      <div class="workflow-steps">
+        <div class="workflow-step active">Đề xuất</div>
+        <div class="workflow-step">Thẩm định</div>
+        <div class="workflow-step">Phê duyệt</div>
+        <div class="workflow-step">Thanh lý</div>
+      </div>
+      <div class="flex-between mb-4">
+        <div class="page-title mb-2" style="margin-bottom:0">Danh sách đề xuất thanh lý</div>
+        <button class="btn btn-danger">🗑️ Đề xuất thanh lý</button>
+      </div>
+      <div class="card">
+        <div class="table-wrap">
+          <table class="ant-table">
+            <thead>
+              <tr><th>STT</th><th>Mã TS</th><th>Tên tài sản</th><th>Nguyên giá</th><th>GT còn lại</th><th>Lý do thanh lý</th><th>Trạng thái</th><th>Ngày đề xuất</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1</td><td>TS-2015-012</td><td>Cầu cảng cũ Tiên Sa</td><td>45,000,000,000</td><td>2,250,000,000</td><td>Xuống cấp nghiêm trọng</td><td><span class="badge badge-yellow">Đề xuất</span></td><td>05/06/2026</td>
+              </tr>
+              <tr>
+                <td>2</td><td>TS-2018-034</td><td>Phao tiêu cũ Vũng Tàu</td><td>1,800,000,000</td><td>180,000,000</td><td>Hư hỏng không sửa chữa được</td><td><span class="badge badge-green">Đã thanh lý</span></td><td>15/04/2026</td>
+              </tr>
+              <tr>
+                <td>3</td><td>TS-2016-067</td><td>Đèn biển cũ Phú Quốc</td><td>5,200,000,000</td><td>520,000,000</td><td>Thay thế bằng đèn mới</td><td><span class="badge badge-blue">Thẩm định</span></td><td>20/05/2026</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <hr class="section-divider">
+
+    <!-- ==================== SCREEN 8: KIỂM KÊ TÀI SẢN ==================== -->
+    <section class="screen" id="kiemke">
+      <div class="screen-label">8. Kiểm kê tài sản</div>
+      <div class="card">
+        <div class="card-header">
+          <h3>Kết quả kiểm kê tài sản — Đợt 1/2026</h3>
+          <button class="btn btn-success">📄 Xuất biên bản</button>
+        </div>
+        <div class="table-wrap">
+          <table class="ant-table">
+            <thead>
+              <tr><th>STT</th><th>Mã TS</th><th>Tên tài sản</th><th>Đơn vị QL</th><th>SL sổ sách</th><th>SL thực tế</th><th>Chênh lệch</th><th>Ghi chú</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1</td><td>TS-2024-001</td><td>Bến cảng tổng hợp số 1</td><td>Cảng vụ Hải Phòng</td><td>1</td><td>1</td><td class="text-success font-bold">0</td><td>Đúng sổ sách</td>
+              </tr>
+              <tr>
+                <td>2</td><td>TS-2023-045</td><td>Luồng tàu Sài Gòn - Vũng Tàu</td><td>Cảng vụ Vũng Tàu</td><td>1</td><td>1</td><td class="text-success font-bold">0</td><td>Đúng sổ sách</td>
+              </tr>
+              <tr>
+                <td>3</td><td>TS-2024-089</td><td>Phao tiêu số 12 - Vũng Tàu</td><td>Cảng vụ Vũng Tàu</td><td>1</td><td>0</td><td class="text-danger font-bold">-1</td><td>Mất — đang xác minh</td>
+              </tr>
+              <tr>
+                <td>4</td><td>TS-2022-156</td><td>Đèn biển Côn Đảo</td><td>Cảng vụ Vũng Tàu</td><td>1</td><td>1</td><td class="text-success font-bold">0</td><td>Đúng sổ sách</td>
+              </tr>
+              <tr>
+                <td>5</td><td>TS-2021-078</td><td>Đê kè chắn sóng Nghi Sơn</td><td>Cảng vụ Hải Phòng</td><td>1</td><td>1</td><td class="text-success font-bold">0</td><td>Đúng sổ sách</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <hr class="section-divider">
+
+    <!-- ==================== SCREEN 9: LỊCH SỬ BIẾN ĐỘNG ==================== -->
+    <section class="screen" id="lichsu">
+      <div class="screen-label">9. Lịch sử biến động</div>
+      <div class="card">
+        <div class="card-header"><h3>Lịch sử biến động tài sản</h3></div>
+        <div class="card-body">
+          <div class="timeline">
+            <div class="timeline-item">
+              <div class="time">05/06/2026</div>
+              <div class="desc"><strong>Ghi tăng tài sản:</strong> TS-2026-089 (Bến cảng số 5 - Nghi Sơn)</div>
+              <div class="diff">Nguyên giá: <span class="new">85,2 tỷ VNĐ</span></div>
+            </div>
+            <div class="timeline-item">
+              <div class="time">20/05/2026</div>
+              <div class="desc"><strong>Đánh giá lại:</strong> TS-2023-156 (Luồng tàu Hải Phòng)</div>
+              <div class="diff">GT cũ: <span class="old">450 tỷ</span> → GT mới: <span class="new">520 tỷ</span></div>
+            </div>
+            <div class="timeline-item">
+              <div class="time">15/04/2026</div>
+              <div class="desc"><strong>Thanh lý:</strong> TS-2018-034 (Phao tiêu cũ Vũng Tàu)</div>
+              <div class="diff">Đã hoàn tất thủ tục</div>
+            </div>
+            <div class="timeline-item">
+              <div class="time">30/03/2026</div>
+              <div class="desc"><strong>Kiểm kê định kỳ:</strong> Hoàn thành kiểm kê 2,847 tài sản</div>
+              <div class="diff">Chênh lệch: <span class="old">-3</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <hr class="section-divider">
+
+    <!-- ==================== SCREEN 10: BÁO CÁO TÀI SẢN ==================== -->
+    <section class="screen" id="baocao">
+      <div class="screen-label">10. Báo cáo tài sản</div>
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-header"><h3>Biểu đồ cơ cấu tài sản</h3></div>
+          <div class="card-body">
+            <div class="bar-chart-item">
+              <span class="bar-label">Bến cảng</span>
+              <span class="bar-track"><span class="bar-fill bar-color-1" style="width:38%"></span></span>
+              <span class="bar-val">38%</span>
+            </div>
+            <div class="bar-chart-item">
+              <span class="bar-label">Luồng</span>
+              <span class="bar-track"><span class="bar-fill bar-color-2" style="width:25%"></span></span>
+              <span class="bar-val">25%</span>
+            </div>
+            <div class="bar-chart-item">
+              <span class="bar-label">Phao tiêu</span>
+              <span class="bar-track"><span class="bar-fill bar-color-3" style="width:15%"></span></span>
+              <span class="bar-val">15%</span>
+            </div>
+            <div class="bar-chart-item">
+              <span class="bar-label">Đèn biển</span>
+              <span class="bar-track"><span class="bar-fill bar-color-4" style="width:12%"></span></span>
+              <span class="bar-val">12%</span>
+            </div>
+            <div class="bar-chart-item">
+              <span class="bar-label">Đê kè</span>
+              <span class="bar-track"><span class="bar-fill bar-color-5" style="width:10%"></span></span>
+              <span class="bar-val">10%</span>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header"><h3>Báo cáo hao mòn</h3></div>
+          <div class="table-wrap">
+            <table class="ant-table">
+              <thead><tr><th>STT</th><th>Loại TS</th><th>Nguyên giá (tỷ VNĐ)</th><th>KH lũy kế (tỷ VNĐ)</th><th>GT còn lại (tỷ VNĐ)</th><th>Tỷ lệ HM</th></tr></thead>
+              <tbody>
+                <tr><td>1</td><td>Bến cảng</td><td>473.1</td><td>47.3</td><td>425.8</td><td>10%</td></tr>
+                <tr><td>2</td><td>Luồng</td><td>311.3</td><td>46.7</td><td>264.6</td><td>15%</td></tr>
+                <tr><td>3</td><td>Phao tiêu</td><td>186.8</td><td>37.4</td><td>149.4</td><td>20%</td></tr>
+                <tr><td>4</td><td>Đèn biển</td><td>149.4</td><td>22.4</td><td>127.0</td><td>15%</td></tr>
+                <tr><td>5</td><td>Đê kè</td><td>124.5</td><td>6.2</td><td>118.3</td><td>5%</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    Cục Hàng hải Việt Nam — Phiên bản 1.0
+  </footer>
+</div>
+
+<script>
+(function () {
+  var sidebarItems = document.querySelectorAll('.sidebar-menu .menu-item');
+  sidebarItems.forEach(function (item) {
+    item.addEventListener('click', function (e) {
+      var href = this.getAttribute('href');
+      if (!href || href === '#') return;
+      var target = document.querySelector(href);
+      if (target) {
+        e.preventDefault();
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+
+  var tabs = document.querySelectorAll('#dashboard-tabs .tab');
+  tabs.forEach(function (tab) {
+    tab.addEventListener('click', function () {
+      var panelId = this.getAttribute('data-tab');
+      document.querySelectorAll('#dashboard-tabs .tab').forEach(function (t) { t.classList.remove('active'); });
+      this.classList.add('active');
+      document.querySelectorAll('#dashboard .tab-panel').forEach(function (p) { p.style.display = 'none'; });
+      var panel = document.getElementById(panelId);
+      if (panel) panel.style.display = '';
+    });
+  });
+})();
+</script>
+
+</body>
+</html>

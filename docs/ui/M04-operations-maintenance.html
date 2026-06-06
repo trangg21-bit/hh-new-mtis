@@ -3,8 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>M05 — Quy hoạch | MTIS</title>
+<title>M04 — Vận hành &amp; Bảo trì</title>
 <style>
+/* ================================================================
+   MTIS Design System — Theme Tokens
+   ================================================================ */
 :root {
   --color-primary: #2153aa;
   --color-primary-hover: #1a3f8a;
@@ -423,38 +426,21 @@ textarea.form-control { resize: vertical; min-height: 80px; }
 <aside class="sidebar">
   <div class="sidebar-logo">
     <div class="logo-icon">MT</div>
-    <div class="logo-text">
-      <strong>MTIS</strong>
-      <small>Hệ thống quản lý Hàng hải</small>
-    </div>
+    <div class="logo-text"><strong>MTIS</strong><small>Hệ thống Quản lý KCHT</small></div>
   </div>
   <nav class="sidebar-menu">
-    <div class="menu-section">QUY HOẠCH</div>
-    <a class="menu-item active" href="#danhsach" onclick="scrollToSection('danhsach')">
-      <span class="icon">📋</span> Quy hoạch
-    </a>
-    <div class="menu-section">QUẢN LÝ KCHT</div>
-    <a class="menu-item" href="#" onclick="scrollToSection('danhsach')">
-      <span class="icon">⚙️</span> Quản lý thông số Kỹ thuật
-    </a>
-    <a class="menu-item" href="#" onclick="scrollToSection('danhsach')">
-      <span class="icon">🔄</span> Vận hành & Bảo trì
-    </a>
-    <a class="menu-item" href="#" onclick="scrollToSection('danhsach')">
-      <span class="icon">📦</span> Quản lý tài sản
-    </a>
-    <a class="menu-item" href="#" onclick="scrollToSection('danhsach')">
-      <span class="icon">🗺️</span> Bản đồ GIS
-    </a>
-    <a class="menu-item" href="#" onclick="scrollToSection('danhsach')">
-      <span class="icon">📊</span> Báo cáo thống kê
-    </a>
+    <div class="menu-section">Quản lý KCHT</div>
+    <a class="menu-item" href="#sketch"><span class="icon">⚙</span> Quản lý thông số Kỹ thuật</a>
+    <a class="menu-item active" href="#dashboard"><span class="icon">⚙</span> Vận hành &amp; Bảo trì</a>
+    <a class="menu-item" href="#"><span class="icon">📦</span> Quản lý tài sản</a>
+    <a class="menu-item" href="#"><span class="icon">📋</span> Quy hoạch</a>
+    <a class="menu-item" href="#"><span class="icon">🗺</span> Bản đồ GIS</a>
+    <a class="menu-item" href="#"><span class="icon">📊</span> Báo cáo thống kê</a>
   </nav>
   <div class="sidebar-footer">Cục Hàng hải Việt Nam</div>
 </aside>
 
 <div class="main-wrapper">
-
   <header class="header">
     <h1>DỰ ÁN: Xây dựng Hệ thống thông tin quản lý KCHT Giao thông Hàng hải</h1>
     <div class="user-info">
@@ -466,115 +452,311 @@ textarea.form-control { resize: vertical; min-height: 80px; }
     </div>
   </header>
 
-  <div class="content">
+  <main class="content">
+    <div class="breadcrumb">
+      <a href="#">Trang chủ</a> <span class="sep">›</span>
+      <a href="#">Quản lý KCHT</a> <span class="sep">›</span>
+      <span>Vận hành &amp; Bảo trì</span>
+    </div>
+    <h2 class="page-title">Quản lý Vận hành &amp; Bảo trì</h2>
 
-    <nav class="breadcrumb">
-      <a href="#">Trang chủ</a><span class="sep">›</span>
-      <a href="#">Quản lý KCHT</a><span class="sep">›</span>
-      <span>Quy hoạch</span>
-    </nav>
-    <h2 class="page-title">Quy hoạch</h2>
+    <div class="screen" id="dashboard">
+      <div class="screen-label">1. Dashboard</div>
+      <div class="stats-row">
+        <div class="stat-card">
+          <div class="stat-label">Kế hoạch vận hành</div>
+          <div class="stat-value">23</div>
+          <div class="stat-sub">Đang thực hiện</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Kế hoạch bảo trì</div>
+          <div class="stat-value">18</div>
+          <div class="stat-sub">Đã lên lịch</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Sự cố đang xử lý</div>
+          <div class="stat-value">5</div>
+          <div class="stat-sub">Cần ưu tiên</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Sự cố đã xử lý</div>
+          <div class="stat-value">12</div>
+          <div class="stat-sub">Trong tháng này</div>
+        </div>
+      </div>
+      <div class="realtime-bar">
+        <div class="rt-item"><div class="rt-value">847</div><div class="rt-label">Tổng số hạng mục KCHT đang theo dõi</div></div>
+        <div class="rt-item"><div class="rt-value">23</div><div class="rt-label">Đang bảo trì</div></div>
+        <div class="rt-item"><div class="rt-value">5</div><div class="rt-label">Sự cố</div></div>
+      </div>
+    </div>
 
-    <!-- ===== SCREEN 1: DANH SÁCH QUY HOẠCH BẾN CẢNG ===== -->
-    <div class="screen" id="danhsach">
-      <div class="screen-label">1. DANH SÁCH QUY HOẠCH BẾN CẢNG</div>
+    <hr class="section-divider">
 
+    <div class="screen" id="kehoach-vanhanh">
+      <div class="screen-label">2. Kế hoạch vận hành</div>
       <div class="card">
         <div class="card-header">
-          <h3>Danh sách quy hoạch bến cảng</h3>
+          <h3>Danh sách kế hoạch vận hành</h3>
           <div class="actions">
-            <button class="btn btn-primary">+ Thêm quy hoạch</button>
-            <button class="btn btn-outline">📥 Import Excel</button>
+            <button class="btn btn-primary">+ Thêm KH</button>
           </div>
         </div>
+        <div class="search-bar">
+          <input class="form-control" type="text" placeholder="Tìm kiếm tên hạng mục...">
+          <button class="btn btn-outline btn-sm">Tìm kiếm</button>
+        </div>
+        <div class="table-wrap">
+          <table class="ant-table">
+            <thead>
+              <tr><th>STT</th><th>Tên hạng mục</th><th>Đơn vị quản lý</th><th>Tần suất</th><th>Ngày bắt đầu</th><th>Ngày kết thúc</th><th>Trạng thái</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>1</td><td>Vận hành luồng Hải Phòng</td><td>Cảng vụ Hải Phòng</td><td>Hàng ngày</td><td>01/06/2026</td><td>31/12/2026</td><td><span class="badge badge-green">Đang thực hiện</span></td></tr>
+              <tr><td>2</td><td>Vận hành phao tiêu Vũng Tàu</td><td>Cảng vụ Vũng Tàu</td><td>Hàng tuần</td><td>15/05/2026</td><td>15/05/2027</td><td><span class="badge badge-green">Đang thực hiện</span></td></tr>
+              <tr><td>3</td><td>Vận hành đèn biển Cù Lao Xanh</td><td>Trạm Hải đăng Quy Nhơn</td><td>Hàng tháng</td><td>01/04/2026</td><td>31/03/2027</td><td><span class="badge badge-blue">Sắp thực hiện</span></td></tr>
+              <tr><td>4</td><td>Vận hành cầu cảng Cái Mép</td><td>Cảng vụ Bà Rịa</td><td>Hàng tuần</td><td>01/01/2026</td><td>30/06/2026</td><td><span class="badge badge-green">Đang thực hiện</span></td></tr>
+              <tr><td>5</td><td>Vận hành bến phà Cần Giờ</td><td>Cảng vụ TP.HCM</td><td>Hàng ngày</td><td>10/06/2026</td><td>09/06/2027</td><td><span class="badge badge-yellow">Chưa thực hiện</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="pagination">
+          <span class="page-info">1-5 / 23</span>
+          <button class="page-btn active">1</button>
+          <button class="page-btn">2</button>
+          <button class="page-btn">3</button>
+        </div>
+      </div>
+    </div>
+
+    <hr class="section-divider">
+
+    <div class="screen" id="kehoach-baotri">
+      <div class="screen-label">3. Kế hoạch bảo trì</div>
+      <div class="card">
+        <div class="card-header">
+          <h3>Danh sách kế hoạch bảo trì</h3>
+          <select class="form-control" style="width:200px">
+            <option value="">Tất cả loại bảo trì</option>
+            <option>Bảo trì định kỳ</option>
+            <option>Bảo trì đột xuất</option>
+            <option>Bảo dưỡng thường xuyên</option>
+          </select>
+        </div>
+        <div class="table-wrap">
+          <table class="ant-table">
+            <thead>
+              <tr><th>STT</th><th>Hạng mục</th><th>Loại bảo trì</th><th>Định kỳ</th><th>Ngày dự kiến</th><th>Đơn vị thực hiện</th><th>Trạng thái</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>1</td><td>Luồng tàu Sông Dinh</td><td>Bảo trì định kỳ</td><td>6 tháng/lần</td><td>20/06/2026</td><td>Đơn vị nạo vét X</td><td><span class="badge badge-blue">Đã lên lịch</span></td></tr>
+              <tr><td>2</td><td>Đèn biển Hòn Mê</td><td>Bảo dưỡng thường xuyên</td><td>3 tháng/lần</td><td>01/07/2026</td><td>Trạm Hải đăng Nghệ An</td><td><span class="badge badge-blue">Đã lên lịch</span></td></tr>
+              <tr><td>3</td><td>Cầu tàu số 3 - Tiên Sa</td><td>Bảo trì đột xuất</td><td>—</td><td>05/06/2026</td><td>Nhà thầu Y</td><td><span class="badge badge-yellow">Đang thực hiện</span></td></tr>
+              <tr><td>4</td><td>Phao tiêu số 12 - Sài Gòn</td><td>Bảo trì định kỳ</td><td>12 tháng/lần</td><td>15/09/2026</td><td>Xí nghiệp Phao tiêu</td><td><span class="badge badge-green">Hoàn thành</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="pagination">
+          <span class="page-info">1-4 / 18</span>
+          <button class="page-btn active">1</button>
+          <button class="page-btn">2</button>
+          <button class="page-btn">3</button>
+        </div>
+      </div>
+    </div>
+
+    <hr class="section-divider">
+
+    <div class="screen" id="quanly-suco">
+      <div class="screen-label">4. Quản lý sự cố</div>
+      <div class="card">
+        <div class="card-header">
+          <h3>Danh sách sự cố</h3>
+          <button class="btn btn-danger">⚠ Báo cáo sự cố</button>
+        </div>
+        <div class="table-wrap">
+          <table class="ant-table">
+            <thead>
+              <tr><th>Mã SC</th><th>Hạng mục</th><th>Mô tả</th><th>Mức độ</th><th>Ngày phát hiện</th><th>Trạng thái</th><th>Người xử lý</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>SC-2026-042</td><td>Đèn biển Cô Tô</td><td>Đèn nhấp nháy chập chờn, cần thay bóng</td><td><span class="badge badge-red">Cao</span></td><td>02/06/2026</td>
+                <td>
+                  <div class="workflow-steps" style="margin-bottom:0">
+                    <div class="workflow-step done">Mới</div>
+                    <div class="workflow-step active">Đang XL</div>
+                    <div class="workflow-step">Đã xử lý</div>
+                  </div>
+                </td>
+                <td>Trần Văn B</td>
+              </tr>
+              <tr>
+                <td>SC-2026-041</td><td>Phao tiêu luồng Cái Mép</td><td>Phao bị lệch vị trí do sóng lớn</td><td><span class="badge badge-yellow">Trung bình</span></td><td>01/06/2026</td>
+                <td>
+                  <div class="workflow-steps" style="margin-bottom:0">
+                    <div class="workflow-step done">Mới</div>
+                    <div class="workflow-step done">Đang XL</div>
+                    <div class="workflow-step active">Đã xử lý</div>
+                  </div>
+                </td>
+                <td>Lê Thị C</td>
+              </tr>
+              <tr>
+                <td>SC-2026-040</td><td>Cầu tàu Cẩm Phả</td><td>Nứt bề mặt bê tông khu vực bích neo</td><td><span class="badge badge-red">Cao</span></td><td>28/05/2026</td>
+                <td>
+                  <div class="workflow-steps" style="margin-bottom:0">
+                    <div class="workflow-step active">Mới</div>
+                    <div class="workflow-step">Đang XL</div>
+                    <div class="workflow-step">Đã xử lý</div>
+                  </div>
+                </td>
+                <td>—</td>
+              </tr>
+              <tr>
+                <td>SC-2026-039</td><td>Luồng Hòn Gai</td><td>Sa bồi tại Km số 3+200</td><td><span class="badge badge-yellow">Trung bình</span></td><td>25/05/2026</td>
+                <td>
+                  <div class="workflow-steps" style="margin-bottom:0">
+                    <div class="workflow-step done">Mới</div>
+                    <div class="workflow-step done">Đang XL</div>
+                    <div class="workflow-step done">Đã xử lý</div>
+                  </div>
+                </td>
+                <td>Phạm Văn D</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <hr class="section-divider">
+
+    <div class="screen" id="tracuu-vanhanh">
+      <div class="screen-label">5. Tra cứu vận hành</div>
+      <div class="card">
+        <div class="card-header"><h3>Tra cứu kế hoạch vận hành</h3></div>
+        <div class="search-bar">
+          <div class="form-group" style="margin-bottom:0">
+            <label>Tên hạng mục</label>
+            <input class="form-control" type="text" placeholder="Nhập tên hạng mục...">
+          </div>
+          <div class="form-group" style="margin-bottom:0">
+            <label>Đơn vị</label>
+            <select class="form-control">
+              <option value="">Tất cả</option>
+              <option>Cảng vụ Hải Phòng</option>
+              <option>Cảng vụ Vũng Tàu</option>
+              <option>Cảng vụ TP.HCM</option>
+            </select>
+          </div>
+          <div class="form-group" style="margin-bottom:0">
+            <label>Từ ngày</label>
+            <input class="form-control" type="date">
+          </div>
+          <div class="form-group" style="margin-bottom:0">
+            <label>Đến ngày</label>
+            <input class="form-control" type="date">
+          </div>
+          <button class="btn btn-primary" style="align-self:flex-end">Tìm kiếm</button>
+        </div>
+        <div class="table-wrap mt-4">
+          <table class="ant-table">
+            <thead>
+              <tr><th>STT</th><th>Tên hạng mục</th><th>Đơn vị</th><th>Tần suất</th><th>Ngày bắt đầu</th><th>Ngày kết thúc</th><th>Trạng thái</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>1</td><td>Vận hành luồng Hải Phòng</td><td>Cảng vụ Hải Phòng</td><td>Hàng ngày</td><td>01/06/2026</td><td>31/12/2026</td><td><span class="badge badge-green">Đang thực hiện</span></td></tr>
+              <tr><td>2</td><td>Vận hành phao tiêu Vũng Tàu</td><td>Cảng vụ Vũng Tàu</td><td>Hàng tuần</td><td>15/05/2026</td><td>15/05/2027</td><td><span class="badge badge-green">Đang thực hiện</span></td></tr>
+              <tr><td>3</td><td>Vận hành đèn biển Cù Lao Xanh</td><td>Trạm Hải đăng Quy Nhơn</td><td>Hàng tháng</td><td>01/04/2026</td><td>31/03/2027</td><td><span class="badge badge-blue">Sắp thực hiện</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <hr class="section-divider">
+
+    <div class="screen" id="tracuu-baotri">
+      <div class="screen-label">6. Tra cứu bảo trì</div>
+      <div class="card">
+        <div class="card-header"><h3>Tra cứu kế hoạch bảo trì</h3></div>
+        <div class="search-bar">
+          <div class="form-group" style="margin-bottom:0">
+            <label>Hạng mục</label>
+            <input class="form-control" type="text" placeholder="Nhập tên hạng mục...">
+          </div>
+          <div class="form-group" style="margin-bottom:0">
+            <label>Loại bảo trì</label>
+            <select class="form-control">
+              <option value="">Tất cả</option>
+              <option>Bảo trì định kỳ</option>
+              <option>Bảo trì đột xuất</option>
+            </select>
+          </div>
+          <div class="form-group" style="margin-bottom:0">
+            <label>Từ ngày</label>
+            <input class="form-control" type="date">
+          </div>
+          <div class="form-group" style="margin-bottom:0">
+            <label>Đến ngày</label>
+            <input class="form-control" type="date">
+          </div>
+          <button class="btn btn-primary" style="align-self:flex-end">Tìm kiếm</button>
+        </div>
+        <div class="table-wrap mt-4">
+          <table class="ant-table">
+            <thead>
+              <tr><th>STT</th><th>Hạng mục</th><th>Loại bảo trì</th><th>Đơn vị</th><th>Ngày dự kiến</th><th>Trạng thái</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>1</td><td>Luồng tàu Sông Dinh</td><td>Bảo trì định kỳ</td><td>Đơn vị nạo vét X</td><td>20/06/2026</td><td><span class="badge badge-blue">Đã lên lịch</span></td></tr>
+              <tr><td>2</td><td>Đèn biển Hòn Mê</td><td>Bảo dưỡng thường xuyên</td><td>Trạm Hải đăng Nghệ An</td><td>01/07/2026</td><td><span class="badge badge-blue">Đã lên lịch</span></td></tr>
+              <tr><td>3</td><td>Phao tiêu số 12</td><td>Bảo trì định kỳ</td><td>Xí nghiệp Phao tiêu</td><td>15/09/2026</td><td><span class="badge badge-green">Hoàn thành</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <hr class="section-divider">
+
+    <div class="screen" id="lichsu">
+      <div class="screen-label">7. Lịch sử hoạt động</div>
+      <div class="card">
+        <div class="card-header"><h3>Nhật ký hoạt động gần đây</h3></div>
         <div class="card-body">
-          <div class="search-bar">
-            <input type="text" class="form-control" placeholder="Tìm kiếm tên bến...">
-            <button class="btn btn-outline btn-sm">🔍 Tìm kiếm</button>
-          </div>
-          <div class="table-wrap">
-            <table class="ant-table">
-              <thead>
-                <tr>
-                  <th>STT</th>
-                  <th>Tên bến</th>
-                  <th>Cảng biển</th>
-                  <th>Cỡ tàu (DWT)</th>
-                  <th>Năng lực thông qua</th>
-                  <th>Giai đoạn đầu tư</th>
-                  <th>Năm quy hoạch</th>
-                  <th>Trạng thái</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>1</td>
-                  <td>Bến cảng Lạch Huyện</td>
-                  <td>Hải Phòng</td>
-                  <td>100,000</td>
-                  <td>12,000,000 tấn/năm</td>
-                  <td>2021–2030</td>
-                  <td>2023</td>
-                  <td><span class="badge badge-green">Đã duyệt</span></td>
-                </tr>
-                <tr>
-                  <td>2</td>
-                  <td>Bến cảng Cái Mép</td>
-                  <td>Vũng Tàu</td>
-                  <td>200,000</td>
-                  <td>15,000,000 tấn/năm</td>
-                  <td>2021–2030</td>
-                  <td>2022</td>
-                  <td><span class="badge badge-green">Đã duyệt</span></td>
-                </tr>
-                <tr>
-                  <td>3</td>
-                  <td>Bến cảng Tiên Sa</td>
-                  <td>Đà Nẵng</td>
-                  <td>50,000</td>
-                  <td>8,000,000 tấn/năm</td>
-                  <td>2031–2040</td>
-                  <td>2024</td>
-                  <td><span class="badge badge-yellow">Chờ duyệt</span></td>
-                </tr>
-                <tr>
-                  <td>4</td>
-                  <td>Bến cảng Cẩm Phả</td>
-                  <td>Quảng Ninh</td>
-                  <td>70,000</td>
-                  <td>6,500,000 tấn/năm</td>
-                  <td>2021–2030</td>
-                  <td>2023</td>
-                  <td><span class="badge badge-blue">Dự thảo</span></td>
-                </tr>
-                <tr>
-                  <td>5</td>
-                  <td>Bến cảng Nghi Sơn</td>
-                  <td>Thanh Hóa</td>
-                  <td>80,000</td>
-                  <td>10,000,000 tấn/năm</td>
-                  <td>2031–2040</td>
-                  <td>2025</td>
-                  <td><span class="badge badge-green">Đã duyệt</span></td>
-                </tr>
-                <tr>
-                  <td>6</td>
-                  <td>Bến cảng Cần Thơ</td>
-                  <td>Cần Thơ</td>
-                  <td>30,000</td>
-                  <td>4,200,000 tấn/năm</td>
-                  <td>2021–2030</td>
-                  <td>2024</td>
-                  <td><span class="badge badge-yellow">Chờ duyệt</span></td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          <div class="pagination">
-            <span class="page-info">1–6 / 42</span>
-            <button class="page-btn active">1</button>
-            <button class="page-btn">2</button>
-            <button class="page-btn">3</button>
+          <div class="timeline">
+            <div class="timeline-item">
+              <div class="time">05/06/2026 14:30 — Nguyễn Văn A</div>
+              <div class="desc">Cập nhật kế hoạch vận hành: <strong>Vận hành luồng Hải Phòng</strong></div>
+              <div class="diff">Tần suất: <span class="old">Hàng tuần</span> &rarr; <span class="new">Hàng ngày</span></div>
+            </div>
+            <div class="timeline-item">
+              <div class="time">04/06/2026 09:15 — Trần Văn B</div>
+              <div class="desc">Hoàn thành bảo trì: <strong>Phao tiêu số 12 - Sài Gòn</strong></div>
+              <div class="diff">Trạng thái: <span class="old">Đang thực hiện</span> &rarr; <span class="new">Hoàn thành</span></div>
+            </div>
+            <div class="timeline-item">
+              <div class="time">02/06/2026 08:00 — Hệ thống</div>
+              <div class="desc">Phát hiện sự cố: <strong>SC-2026-042 — Đèn biển Cô Tô</strong></div>
+              <div class="diff">Mức độ: <span class="new">Cao</span></div>
+            </div>
+            <div class="timeline-item">
+              <div class="time">01/06/2026 16:45 — Lê Thị C</div>
+              <div class="desc">Xử lý sự cố: <strong>SC-2026-041 — Phao tiêu luồng Cái Mép</strong></div>
+              <div class="diff">Trạng thái: <span class="old">Đang XL</span> &rarr; <span class="new">Đã xử lý</span></div>
+            </div>
+            <div class="timeline-item">
+              <div class="time">30/05/2026 10:00 — Nguyễn Văn A</div>
+              <div class="desc">Kiểm tra định kỳ: <strong>Cầu cảng Cái Mép</strong></div>
+              <div class="diff">Kết quả: <span class="new">Đạt yêu cầu</span></div>
+            </div>
+            <div class="timeline-item">
+              <div class="time">28/05/2026 11:20 — Phạm Văn D</div>
+              <div class="desc">Cập nhật trạng thái: <strong>Cầu tàu Cẩm Phả</strong></div>
+              <div class="diff">Trạng thái: <span class="old">Bình thường</span> &rarr; <span class="new">Có sự cố</span></div>
+            </div>
           </div>
         </div>
       </div>
@@ -582,191 +764,60 @@ textarea.form-control { resize: vertical; min-height: 80px; }
 
     <hr class="section-divider">
 
-    <!-- ===== SCREEN 2: TRA CỨU QUY HOẠCH ===== -->
-    <div class="screen" id="tracuu">
-      <div class="screen-label">2. TRA CỨU QUY HOẠCH</div>
-
-      <div class="card">
-        <div class="card-header">
-          <h3>Tra cứu quy hoạch</h3>
+    <div class="screen" id="baocao-vanhanh">
+      <div class="screen-label">8. Báo cáo vận hành</div>
+      <div class="grid-3 mb-4">
+        <div class="stat-card">
+          <div class="stat-label">Bảo trì hoàn thành</div>
+          <div class="stat-value">18</div>
+          <div class="stat-sub">Trong quý II/2026</div>
         </div>
+        <div class="stat-card">
+          <div class="stat-label">Sự cố đã xử lý</div>
+          <div class="stat-value">12</div>
+          <div class="stat-sub">Tỷ lệ xử lý 70.6%</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Sự cố đang xử lý</div>
+          <div class="stat-value">5</div>
+          <div class="stat-sub">Cần ưu tiên</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header"><h3>Biểu đồ vận hành &amp; bảo trì Quý II/2026</h3></div>
         <div class="card-body">
-          <div class="grid-3 mb-4">
-            <div class="form-group">
-              <label>Cảng biển</label>
-              <select class="form-control">
-                <option value="">-- Chọn cảng biển --</option>
-                <option>Hải Phòng</option>
-                <option>Vũng Tàu</option>
-                <option>Đà Nẵng</option>
-                <option>Quảng Ninh</option>
-                <option>Thanh Hóa</option>
-                <option>Cần Thơ</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label>Tên bến</label>
-              <input type="text" class="form-control" placeholder="Nhập tên bến...">
-            </div>
-            <div class="form-group">
-              <label>Giai đoạn</label>
-              <select class="form-control">
-                <option value="">-- Chọn giai đoạn --</option>
-                <option>2021–2030</option>
-                <option>2031–2040</option>
-              </select>
-            </div>
+          <div class="flex-between mb-2"><span>Bảo trì hoàn thành</span><span class="font-bold" style="color:#059669">18</span></div>
+          <div style="background:#e5e7eb;border-radius:4px;height:24px;width:100%;margin-bottom:12px">
+            <div style="background:#059669;border-radius:4px;height:24px;width:100%"></div>
           </div>
-          <button class="btn btn-primary">🔍 Tìm kiếm</button>
-
-          <div class="table-wrap mt-4">
-            <table class="ant-table">
-              <thead>
-                <tr>
-                  <th>STT</th>
-                  <th>Tên bến</th>
-                  <th>Cảng biển</th>
-                  <th>Cỡ tàu (DWT)</th>
-                  <th>Năng lực thông qua</th>
-                  <th>Năm QH</th>
-                  <th>Trạng thái</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>1</td>
-                  <td>Bến cảng Lạch Huyện</td>
-                  <td>Hải Phòng</td>
-                  <td>100,000</td>
-                  <td>12,000,000 tấn/năm</td>
-                  <td>2023</td>
-                  <td><span class="badge badge-green">Đã duyệt</span></td>
-                </tr>
-                <tr>
-                  <td>2</td>
-                  <td>Bến cảng Cái Mép</td>
-                  <td>Vũng Tàu</td>
-                  <td>200,000</td>
-                  <td>15,000,000 tấn/năm</td>
-                  <td>2022</td>
-                  <td><span class="badge badge-green">Đã duyệt</span></td>
-                </tr>
-                <tr>
-                  <td>3</td>
-                  <td>Bến cảng Nghi Sơn</td>
-                  <td>Thanh Hóa</td>
-                  <td>80,000</td>
-                  <td>10,000,000 tấn/năm</td>
-                  <td>2025</td>
-                  <td><span class="badge badge-green">Đã duyệt</span></td>
-                </tr>
-                <tr>
-                  <td>4</td>
-                  <td>Bến cảng Cần Thơ</td>
-                  <td>Cần Thơ</td>
-                  <td>30,000</td>
-                  <td>4,200,000 tấn/năm</td>
-                  <td>2024</td>
-                  <td><span class="badge badge-yellow">Chờ duyệt</span></td>
-                </tr>
-              </tbody>
-            </table>
+          <div class="flex-between mb-2"><span>Sự cố đã xử lý</span><span class="font-bold" style="color:#059669">12</span></div>
+          <div style="background:#e5e7eb;border-radius:4px;height:24px;width:100%;margin-bottom:12px">
+            <div style="background:#059669;border-radius:4px;height:24px;width:67%"></div>
+          </div>
+          <div class="flex-between mb-2"><span>Sự cố đang xử lý</span><span class="font-bold" style="color:#d97706">5</span></div>
+          <div style="background:#e5e7eb;border-radius:4px;height:24px;width:100%;margin-bottom:12px">
+            <div style="background:#d97706;border-radius:4px;height:24px;width:28%"></div>
           </div>
         </div>
       </div>
     </div>
 
-    <hr class="section-divider">
-
-    <!-- ===== SCREEN 3: CẬP NHẬT QUY HOẠCH ===== -->
-    <div class="screen" id="capnhat">
-      <div class="screen-label">3. CẬP NHẬT QUY HOẠCH</div>
-
-      <div class="workflow-steps">
-        <div class="workflow-step">Dự thảo</div>
-        <div class="workflow-step active">Chờ duyệt</div>
-        <div class="workflow-step">Đã duyệt</div>
-      </div>
-
-      <div class="card">
-        <div class="card-header">
-          <h3>Cập nhật quy hoạch bến cảng</h3>
-        </div>
-        <div class="card-body">
-          <div class="grid-2">
-            <div>
-              <div class="form-group">
-                <label class="required">Tên bến</label>
-                <input type="text" class="form-control" value="Bến cảng Tiên Sa">
-              </div>
-              <div class="form-group">
-                <label class="required">Cảng biển</label>
-                <select class="form-control">
-                  <option>Đà Nẵng</option>
-                  <option>Hải Phòng</option>
-                  <option>Vũng Tàu</option>
-                  <option>Quảng Ninh</option>
-                  <option>Thanh Hóa</option>
-                  <option>Cần Thơ</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label class="required">Cỡ tàu DWT</label>
-                <input type="number" class="form-control" value="50000">
-              </div>
-              <div class="form-group">
-                <label>Năng lực container TEU</label>
-                <input type="number" class="form-control" value="800000">
-              </div>
-            </div>
-            <div>
-              <div class="form-group">
-                <label class="required">Giai đoạn đầu tư</label>
-                <select class="form-control">
-                  <option>2021–2030</option>
-                  <option>2031–2040</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label class="required">Năm</label>
-                <input type="number" class="form-control" value="2024">
-              </div>
-              <div class="form-group">
-                <label class="required">Trạng thái</label>
-                <select class="form-control">
-                  <option>Dự thảo</option>
-                  <option selected>Chờ duyệt</option>
-                  <option>Đã duyệt</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label>Ghi chú</label>
-                <textarea class="form-control" placeholder="Nhập ghi chú...">Đang chờ phê duyệt của Cục Hàng hải Việt Nam</textarea>
-              </div>
-            </div>
-          </div>
-          <div class="flex gap-3 mt-4">
-            <button class="btn btn-primary">💾 Lưu</button>
-            <button class="btn btn-outline">Hủy</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-  </div>
+  </main>
 
   <footer class="footer">Cục Hàng hải Việt Nam — Phiên bản 1.0</footer>
-
 </div>
 
 <script>
-function scrollToSection(id) {
-  var el = document.getElementById(id);
-  if (el) {
-    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }
-}
+document.querySelectorAll('.menu-item').forEach(function(item) {
+  item.addEventListener('click', function(e) {
+    var href = this.getAttribute('href');
+    if (href && href.startsWith('#')) {
+      e.preventDefault();
+      var el = document.querySelector(href);
+      if (el) el.scrollIntoView({behavior:'smooth'});
+    }
+  });
+});
 </script>
-
 </body>
 </html>
