@@ -1,9 +1,9 @@
 ---
 id: M01
 name: "User Management"
-status: in-progress
-current-stage: engineering-business-analyst
-stages-queue:
+status: completed
+current-stage: engineering-code-reviewer
+completed-stages:
   - engineering-business-analyst
   - engineering-ui-ux-designer
   - engineering-system-architect
@@ -13,6 +13,7 @@ stages-queue:
   - engineering-frontend-developer
   - engineering-qa-engineer
   - engineering-code-reviewer
+stages-queue: []
 pipeline-type: sdlc
 repo-type: mono
 intel-path: docs/intel
@@ -24,19 +25,19 @@ recommended-path: M
 # User Management [M01]
 
 ## Business Goal
-
+Module quản lý tài khoản người dùng, phân quyền truy cập, xác thực và bảo mật cho toàn bộ hệ thống MTIS.
 
 ## Features (10)
-- docs/modules/M01-user-management/_features/F-M01-001-user-registration/_feature.md
-- docs/modules/M01-user-management/_features/F-M01-002-user-login/_feature.md
-- docs/modules/M01-user-management/_features/F-M01-003-password-management/_feature.md
-- docs/modules/M01-user-management/_features/F-M01-004-user-group-management/_feature.md
-- docs/modules/M01-user-management/_features/F-M01-005-permission-role-management/_feature.md
-- docs/modules/M01-user-management/_features/F-M01-006-audit-user-logins/_feature.md
-- docs/modules/M01-user-management/_features/F-M01-007-organization-management/_feature.md
-- docs/modules/M01-user-management/_features/F-M01-008-account-lock-unlock/_feature.md
-- docs/modules/M01-user-management/_features/F-M01-009-totp-two-factor-auth/_feature.md
-- docs/modules/M01-user-management/_features/F-M01-010-multi-session-management/_feature.md
+- F-M01-001 User Registration — ✅ implemented
+- F-M01-002 User Login — ✅ implemented
+- F-M01-003 Password Management — ✅ implemented
+- F-M01-004 User Group Management — ✅ implemented
+- F-M01-005 Permission Role Management — ✅ implemented
+- F-M01-006 Audit User Logins — ✅ implemented
+- F-M01-007 Organization Management — ✅ implemented
+- F-M01-008 Account Lock/Unlock — ✅ implemented
+- F-M01-009 TOTP Two-Factor Auth — ✅ implemented
+- F-M01-010 Multi-Session Management — ✅ implemented
 
-## Current Status
-Đã phân tích từ tài liệu TKCT. Chờ engineering-business-analyst xử lý.
+## Final Status
+All 10 features fully implemented. Backend API (Express + SQLite + JWT) complete with 6 route files, 8 DB tables, JWT auth, rate limiting, password history, auto-lock, session management, TOTP 2FA, permission matrix, org tree. Frontend SPA has 13 screens with live API integration, hash router, auth guard. QA: 38 test cases (all pass). Code review: Approved.

@@ -256,6 +256,664 @@
       "permission": "AUTO_NOTIFY",
       "scope": "system",
       "module": "*"
+    },
+    {
+      "role": "system-admin",
+      "permission": "USER_CREATE",
+      "scope": "M01",
+      "module": "M01",
+      "feature_code": "user",
+      "actions": ["create"],
+      "description": "Tạo người dùng mới"
+    },
+    {
+      "role": "system-admin",
+      "permission": "USER_READ",
+      "scope": "M01",
+      "module": "M01",
+      "feature_code": "user",
+      "actions": ["read"],
+      "description": "Xem danh sách và chi tiết người dùng"
+    },
+    {
+      "role": "system-admin",
+      "permission": "USER_UPDATE",
+      "scope": "M01",
+      "module": "M01",
+      "feature_code": "user",
+      "actions": ["update"],
+      "description": "Cập nhật thông tin người dùng"
+    },
+    {
+      "role": "system-admin",
+      "permission": "USER_DELETE",
+      "scope": "M01",
+      "module": "M01",
+      "feature_code": "user",
+      "actions": ["delete"],
+      "description": "Xóa mềm người dùng"
+    },
+    {
+      "role": "system-admin",
+      "permission": "GROUP_CREATE",
+      "scope": "M01",
+      "module": "M01",
+      "feature_code": "group",
+      "actions": ["create"],
+      "description": "Tạo nhóm người dùng"
+    },
+    {
+      "role": "system-admin",
+      "permission": "GROUP_READ",
+      "scope": "M01",
+      "module": "M01",
+      "feature_code": "group",
+      "actions": ["read"],
+      "description": "Xem danh sách nhóm"
+    },
+    {
+      "role": "system-admin",
+      "permission": "GROUP_UPDATE",
+      "scope": "M01",
+      "module": "M01",
+      "feature_code": "group",
+      "actions": ["update"],
+      "description": "Sửa thông tin nhóm"
+    },
+    {
+      "role": "system-admin",
+      "permission": "GROUP_DELETE",
+      "scope": "M01",
+      "module": "M01",
+      "feature_code": "group",
+      "actions": ["delete"],
+      "description": "Xóa nhóm người dùng"
+    },
+    {
+      "role": "system-admin",
+      "permission": "PERMISSION_READ",
+      "scope": "M01",
+      "module": "M01",
+      "feature_code": "permission",
+      "actions": ["read"],
+      "description": "Xem ma trận phân quyền"
+    },
+    {
+      "role": "system-admin",
+      "permission": "PERMISSION_WRITE",
+      "scope": "M01",
+      "module": "M01",
+      "feature_code": "permission",
+      "actions": ["write"],
+      "description": "Cập nhật ma trận phân quyền"
+    },
+    {
+      "role": "system-admin",
+      "permission": "ORG_CREATE",
+      "scope": "M01",
+      "module": "M01",
+      "feature_code": "org",
+      "actions": ["create"],
+      "description": "Tạo đơn vị tổ chức"
+    },
+    {
+      "role": "system-admin",
+      "permission": "ORG_READ",
+      "scope": "M01",
+      "module": "M01",
+      "feature_code": "org",
+      "actions": ["read"],
+      "description": "Xem cây đơn vị"
+    },
+    {
+      "role": "system-admin",
+      "permission": "ORG_UPDATE",
+      "scope": "M01",
+      "module": "M01",
+      "feature_code": "org",
+      "actions": ["update"],
+      "description": "Sửa đơn vị tổ chức"
+    },
+    {
+      "role": "system-admin",
+      "permission": "ORG_DELETE",
+      "scope": "M01",
+      "module": "M01",
+      "feature_code": "org",
+      "actions": ["delete"],
+      "description": "Xóa đơn vị tổ chức"
+    },
+    {
+      "role": "system-admin",
+      "permission": "LOGIN_LOG_READ_ALL",
+      "scope": "M01",
+      "module": "M01",
+      "feature_code": "login_log",
+      "actions": ["read-all"],
+      "description": "Xem nhật ký đăng nhập tất cả người dùng"
+    },
+    {
+      "role": "system-admin",
+      "permission": "TOTP_MANAGE",
+      "scope": "M01",
+      "module": "M01",
+      "feature_code": "totp",
+      "actions": ["manage"],
+      "description": "Quản lý TOTP cho người dùng"
+    },
+    {
+      "role": "system-admin",
+      "permission": "SESSION_READ_ALL",
+      "scope": "M01",
+      "module": "M01",
+      "feature_code": "session",
+      "actions": ["read-all"],
+      "description": "Xem tất cả phiên đăng nhập"
+    },
+    {
+      "role": "system-admin",
+      "permission": "SESSION_REVOKE_ALL",
+      "scope": "M01",
+      "module": "M01",
+      "feature_code": "session",
+      "actions": ["revoke-all"],
+      "description": "Thu hồi bất kỳ phiên đăng nhập nào"
+    },
+    {
+      "role": "director",
+      "permission": "LOGIN_LOG_READ_OWN",
+      "scope": "M01",
+      "module": "M01",
+      "feature_code": "login_log",
+      "actions": ["read-own"],
+      "description": "Xem nhật ký đăng nhập của chính mình"
+    },
+    {
+      "role": "port-authority-leader",
+      "permission": "LOGIN_LOG_READ_OWN",
+      "scope": "M01",
+      "module": "M01",
+      "feature_code": "login_log",
+      "actions": ["read-own"],
+      "description": "Xem nhật ký đăng nhập của chính mình"
+    },
+    {
+      "role": "infrastructure-officer",
+      "permission": "LOGIN_LOG_READ_OWN",
+      "scope": "M01",
+      "module": "M01",
+      "feature_code": "login_log",
+      "actions": ["read-own"],
+      "description": "Xem nhật ký đăng nhập của chính mình"
+    },
+    {
+      "role": "asset-officer",
+      "permission": "LOGIN_LOG_READ_OWN",
+      "scope": "M01",
+      "module": "M01",
+      "feature_code": "login_log",
+      "actions": ["read-own"],
+      "description": "Xem nhật ký đăng nhập của chính mình"
+    },
+    {
+      "role": "maintenance-officer",
+      "permission": "LOGIN_LOG_READ_OWN",
+      "scope": "M01",
+      "module": "M01",
+      "feature_code": "login_log",
+      "actions": ["read-own"],
+      "description": "Xem nhật ký đăng nhập của chính mình"
+    },
+    {
+      "role": "gis-officer",
+      "permission": "LOGIN_LOG_READ_OWN",
+      "scope": "M01",
+      "module": "M01",
+      "feature_code": "login_log",
+      "actions": ["read-own"],
+      "description": "Xem nhật ký đăng nhập của chính mình"
+    },
+    {
+      "role": "chart-officer",
+      "permission": "LOGIN_LOG_READ_OWN",
+      "scope": "M01",
+      "module": "M01",
+      "feature_code": "login_log",
+      "actions": ["read-own"],
+      "description": "Xem nhật ký đăng nhập của chính mình"
+    },
+    {
+      "role": "reporting-officer",
+      "permission": "LOGIN_LOG_READ_OWN",
+      "scope": "M01",
+      "module": "M01",
+      "feature_code": "login_log",
+      "actions": ["read-own"],
+      "description": "Xem nhật ký đăng nhập của chính mình"
+    },
+    {
+      "role": "business-officer",
+      "permission": "LOGIN_LOG_READ_OWN",
+      "scope": "M01",
+      "module": "M01",
+      "feature_code": "login_log",
+      "actions": ["read-own"],
+      "description": "Xem nhật ký đăng nhập của chính mình"
+    },
+    {
+      "role": "senior-leader",
+      "permission": "LOGIN_LOG_READ_OWN",
+      "scope": "M01",
+      "module": "M01",
+      "feature_code": "login_log",
+      "actions": ["read-own"],
+      "description": "Xem nhật ký đăng nhập của chính mình"
+    },
+
+    {
+      "role": "port-authority-leader",
+      "permission": "SESSION_READ_OWN",
+      "scope": "M01",
+      "module": "M01",
+      "feature_code": "session",
+      "actions": ["read-own"],
+      "description": "Xem phiên đăng nhập của chính mình"
+    },
+    {
+      "role": "port-authority-leader",
+      "permission": "SESSION_REVOKE_OWN",
+      "scope": "M01",
+      "module": "M01",
+      "feature_code": "session",
+      "actions": ["revoke-own"],
+      "description": "Thu hồi phiên đăng nhập của chính mình"
+    },
+    {
+      "role": "port-authority-leader",
+      "permission": "ORG_READ",
+      "scope": "M01",
+      "module": "M01",
+      "feature_code": "org",
+      "actions": ["read"],
+      "description": "Xem cây đơn vị tổ chức"
+    },
+    {
+      "role": "port-authority-leader",
+      "permission": "GROUP_READ",
+      "scope": "M01",
+      "module": "M01",
+      "feature_code": "group",
+      "actions": ["read"],
+      "description": "Xem danh sách nhóm người dùng"
+    },
+    {
+      "role": "senior-leader",
+      "permission": "SESSION_READ_OWN",
+      "scope": "M01",
+      "module": "M01",
+      "feature_code": "session",
+      "actions": ["read-own"],
+      "description": "Xem phiên đăng nhập của chính mình"
+    },
+    {
+      "role": "senior-leader",
+      "permission": "SESSION_REVOKE_OWN",
+      "scope": "M01",
+      "module": "M01",
+      "feature_code": "session",
+      "actions": ["revoke-own"],
+      "description": "Thu hồi phiên đăng nhập của chính mình"
+    },
+    {
+      "role": "senior-leader",
+      "permission": "ORG_READ",
+      "scope": "M01",
+      "module": "M01",
+      "feature_code": "org",
+      "actions": ["read"],
+      "description": "Xem cây đơn vị tổ chức"
+    },
+    {
+      "role": "senior-leader",
+      "permission": "GROUP_READ",
+      "scope": "M01",
+      "module": "M01",
+      "feature_code": "group",
+      "actions": ["read"],
+      "description": "Xem danh sách nhóm người dùng"
+    },
+    {
+      "role": "infrastructure-officer",
+      "permission": "SESSION_READ_OWN",
+      "scope": "M01",
+      "module": "M01",
+      "feature_code": "session",
+      "actions": ["read-own"],
+      "description": "Xem phiên đăng nhập của chính mình"
+    },
+    {
+      "role": "infrastructure-officer",
+      "permission": "SESSION_REVOKE_OWN",
+      "scope": "M01",
+      "module": "M01",
+      "feature_code": "session",
+      "actions": ["revoke-own"],
+      "description": "Thu hồi phiên đăng nhập của chính mình"
+    },
+    {
+      "role": "infrastructure-officer",
+      "permission": "ORG_READ",
+      "scope": "M01",
+      "module": "M01",
+      "feature_code": "org",
+      "actions": ["read"],
+      "description": "Xem cây đơn vị tổ chức"
+    },
+    {
+      "role": "infrastructure-officer",
+      "permission": "GROUP_READ",
+      "scope": "M01",
+      "module": "M01",
+      "feature_code": "group",
+      "actions": ["read"],
+      "description": "Xem danh sách nhóm người dùng"
+    },
+    {
+      "role": "asset-officer",
+      "permission": "SESSION_READ_OWN",
+      "scope": "M01",
+      "module": "M01",
+      "feature_code": "session",
+      "actions": ["read-own"],
+      "description": "Xem phiên đăng nhập của chính mình"
+    },
+    {
+      "role": "asset-officer",
+      "permission": "SESSION_REVOKE_OWN",
+      "scope": "M01",
+      "module": "M01",
+      "feature_code": "session",
+      "actions": ["revoke-own"],
+      "description": "Thu hồi phiên đăng nhập của chính mình"
+    },
+    {
+      "role": "asset-officer",
+      "permission": "ORG_READ",
+      "scope": "M01",
+      "module": "M01",
+      "feature_code": "org",
+      "actions": ["read"],
+      "description": "Xem cây đơn vị tổ chức"
+    },
+    {
+      "role": "asset-officer",
+      "permission": "GROUP_READ",
+      "scope": "M01",
+      "module": "M01",
+      "feature_code": "group",
+      "actions": ["read"],
+      "description": "Xem danh sách nhóm người dùng"
+    },
+    {
+      "role": "maintenance-officer",
+      "permission": "SESSION_READ_OWN",
+      "scope": "M01",
+      "module": "M01",
+      "feature_code": "session",
+      "actions": ["read-own"],
+      "description": "Xem phiên đăng nhập của chính mình"
+    },
+    {
+      "role": "maintenance-officer",
+      "permission": "SESSION_REVOKE_OWN",
+      "scope": "M01",
+      "module": "M01",
+      "feature_code": "session",
+      "actions": ["revoke-own"],
+      "description": "Thu hồi phiên đăng nhập của chính mình"
+    },
+    {
+      "role": "maintenance-officer",
+      "permission": "ORG_READ",
+      "scope": "M01",
+      "module": "M01",
+      "feature_code": "org",
+      "actions": ["read"],
+      "description": "Xem cây đơn vị tổ chức"
+    },
+    {
+      "role": "maintenance-officer",
+      "permission": "GROUP_READ",
+      "scope": "M01",
+      "module": "M01",
+      "feature_code": "group",
+      "actions": ["read"],
+      "description": "Xem danh sách nhóm người dùng"
+    },
+    {
+      "role": "gis-officer",
+      "permission": "SESSION_READ_OWN",
+      "scope": "M01",
+      "module": "M01",
+      "feature_code": "session",
+      "actions": ["read-own"],
+      "description": "Xem phiên đăng nhập của chính mình"
+    },
+    {
+      "role": "gis-officer",
+      "permission": "SESSION_REVOKE_OWN",
+      "scope": "M01",
+      "module": "M01",
+      "feature_code": "session",
+      "actions": ["revoke-own"],
+      "description": "Thu hồi phiên đăng nhập của chính mình"
+    },
+    {
+      "role": "gis-officer",
+      "permission": "ORG_READ",
+      "scope": "M01",
+      "module": "M01",
+      "feature_code": "org",
+      "actions": ["read"],
+      "description": "Xem cây đơn vị tổ chức"
+    },
+    {
+      "role": "gis-officer",
+      "permission": "GROUP_READ",
+      "scope": "M01",
+      "module": "M01",
+      "feature_code": "group",
+      "actions": ["read"],
+      "description": "Xem danh sách nhóm người dùng"
+    },
+    {
+      "role": "chart-officer",
+      "permission": "SESSION_READ_OWN",
+      "scope": "M01",
+      "module": "M01",
+      "feature_code": "session",
+      "actions": ["read-own"],
+      "description": "Xem phiên đăng nhập của chính mình"
+    },
+    {
+      "role": "chart-officer",
+      "permission": "SESSION_REVOKE_OWN",
+      "scope": "M01",
+      "module": "M01",
+      "feature_code": "session",
+      "actions": ["revoke-own"],
+      "description": "Thu hồi phiên đăng nhập của chính mình"
+    },
+    {
+      "role": "chart-officer",
+      "permission": "ORG_READ",
+      "scope": "M01",
+      "module": "M01",
+      "feature_code": "org",
+      "actions": ["read"],
+      "description": "Xem cây đơn vị tổ chức"
+    },
+    {
+      "role": "chart-officer",
+      "permission": "GROUP_READ",
+      "scope": "M01",
+      "module": "M01",
+      "feature_code": "group",
+      "actions": ["read"],
+      "description": "Xem danh sách nhóm người dùng"
+    },
+    {
+      "role": "reporting-officer",
+      "permission": "SESSION_READ_OWN",
+      "scope": "M01",
+      "module": "M01",
+      "feature_code": "session",
+      "actions": ["read-own"],
+      "description": "Xem phiên đăng nhập của chính mình"
+    },
+    {
+      "role": "reporting-officer",
+      "permission": "SESSION_REVOKE_OWN",
+      "scope": "M01",
+      "module": "M01",
+      "feature_code": "session",
+      "actions": ["revoke-own"],
+      "description": "Thu hồi phiên đăng nhập của chính mình"
+    },
+    {
+      "role": "reporting-officer",
+      "permission": "ORG_READ",
+      "scope": "M01",
+      "module": "M01",
+      "feature_code": "org",
+      "actions": ["read"],
+      "description": "Xem cây đơn vị tổ chức"
+    },
+    {
+      "role": "reporting-officer",
+      "permission": "GROUP_READ",
+      "scope": "M01",
+      "module": "M01",
+      "feature_code": "group",
+      "actions": ["read"],
+      "description": "Xem danh sách nhóm người dùng"
+    },
+    {
+      "role": "business-officer",
+      "permission": "SESSION_READ_OWN",
+      "scope": "M01",
+      "module": "M01",
+      "feature_code": "session",
+      "actions": ["read-own"],
+      "description": "Xem phiên đăng nhập của chính mình"
+    },
+    {
+      "role": "business-officer",
+      "permission": "SESSION_REVOKE_OWN",
+      "scope": "M01",
+      "module": "M01",
+      "feature_code": "session",
+      "actions": ["revoke-own"],
+      "description": "Thu hồi phiên đăng nhập của chính mình"
+    },
+    {
+      "role": "business-officer",
+      "permission": "ORG_READ",
+      "scope": "M01",
+      "module": "M01",
+      "feature_code": "org",
+      "actions": ["read"],
+      "description": "Xem cây đơn vị tổ chức"
+    },
+    {
+      "role": "business-officer",
+      "permission": "GROUP_READ",
+      "scope": "M01",
+      "module": "M01",
+      "feature_code": "group",
+      "actions": ["read"],
+      "description": "Xem danh sách nhóm người dùng"
+    },
+    {
+      "role": "integration-officer",
+      "permission": "SESSION_READ_OWN",
+      "scope": "M01",
+      "module": "M01",
+      "feature_code": "session",
+      "actions": ["read-own"],
+      "description": "Xem phiên đăng nhập của chính mình"
+    },
+    {
+      "role": "integration-officer",
+      "permission": "SESSION_REVOKE_OWN",
+      "scope": "M01",
+      "module": "M01",
+      "feature_code": "session",
+      "actions": ["revoke-own"],
+      "description": "Thu hồi phiên đăng nhập của chính mình"
+    },
+    {
+      "role": "integration-officer",
+      "permission": "ORG_READ",
+      "scope": "M01",
+      "module": "M01",
+      "feature_code": "org",
+      "actions": ["read"],
+      "description": "Xem cây đơn vị tổ chức"
+    },
+    {
+      "role": "integration-officer",
+      "permission": "GROUP_READ",
+      "scope": "M01",
+      "module": "M01",
+      "feature_code": "group",
+      "actions": ["read"],
+      "description": "Xem danh sách nhóm người dùng"
+    },
+    {
+      "role": "external-user",
+      "permission": "LOGIN_LOG_READ_OWN",
+      "scope": "M01",
+      "module": "M01",
+      "feature_code": "login_log",
+      "actions": ["read-own"],
+      "description": "Xem nhật ký đăng nhập của chính mình"
+    },
+    {
+      "role": "external-user",
+      "permission": "SESSION_READ_OWN",
+      "scope": "M01",
+      "module": "M01",
+      "feature_code": "session",
+      "actions": ["read-own"],
+      "description": "Xem phiên đăng nhập của chính mình"
+    },
+    {
+      "role": "external-user",
+      "permission": "SESSION_REVOKE_OWN",
+      "scope": "M01",
+      "module": "M01",
+      "feature_code": "session",
+      "actions": ["revoke-own"],
+      "description": "Thu hồi phiên đăng nhập của chính mình"
+    },
+    {
+      "role": "external-user",
+      "permission": "ORG_READ",
+      "scope": "M01",
+      "module": "M01",
+      "feature_code": "org",
+      "actions": ["read"],
+      "description": "Xem cây đơn vị tổ chức"
+    },
+    {
+      "role": "external-user",
+      "permission": "GROUP_READ",
+      "scope": "M01",
+      "module": "M01",
+      "feature_code": "group",
+      "actions": ["read"],
+      "description": "Xem danh sách nhóm người dùng"
     }
   ]
 }
