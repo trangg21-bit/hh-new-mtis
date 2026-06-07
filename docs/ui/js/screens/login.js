@@ -23,12 +23,12 @@ const SCREEN_LOGIN = {
             <div class="form-group">
               <label for="login-username" class="required">Tên đăng nhập</label>
               <input type="text" id="login-username" class="form-control" placeholder="Nhập tên đăng nhập"
-                     autocomplete="username" required aria-required="true" autofocus>
+                     autocomplete="username" aria-required="true" autofocus>
             </div>
             <div class="form-group">
               <label for="login-password" class="required">Mật khẩu</label>
               <input type="password" id="login-password" class="form-control" placeholder="Nhập mật khẩu"
-                     autocomplete="current-password" required aria-required="true">
+                     autocomplete="current-password" aria-required="true">
             </div>
             <div class="form-group login-options">
               <label class="checkbox-label">

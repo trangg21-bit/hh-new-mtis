@@ -38,8 +38,9 @@ async function handleResponse(res) {
   }
 
   if (!res.ok) {
-    // Auto-redirect on session expiry
-    if (res.status === 401) {
+    // Auto-redirect on session expiry — but NOT during login flow (hash=login or no hash)
+    var hash = window.location.hash.replace('#', '') || 'login';
+    if (res.status === 401 && hash !== 'login') {
       localStorage.removeItem('mtis_token');
       localStorage.removeItem('mtis_user');
       window.location.hash = '#login';

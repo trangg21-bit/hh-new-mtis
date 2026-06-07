@@ -16,8 +16,8 @@ if (!JWT_SECRET) {
 
 const app = express();
 
-// Security headers (HIGH-03)
-app.use(helmet());
+// Security headers (HIGH-03) — CSP disabled for SPA inline event handlers
+app.use(helmet({ contentSecurityPolicy: false }));
 
 // CORS — restrict to same-origin for production (HIGH-04)
 app.use(cors({
