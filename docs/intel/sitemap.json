@@ -1,5 +1,12 @@
 {
-  "_meta": {
+    "public_auth": {
+      "all": [
+        { "label": "Đăng nhập", "screen": "S-M01-11", "route": "#login", "features": ["F-M01-002"] },
+        { "label": "Quên mật khẩu", "screen": "S-M01-12", "route": "#forgot-password", "features": ["F-M01-003"] },
+        { "label": "Đặt lại mật khẩu", "screen": "S-M01-13", "route": "#reset-password/:token", "features": ["F-M01-003"] }
+      ]
+    },
+    "_meta": {
     "producer": "consulting-intelligence-extractor",
     "mode": "from-doc",
     "roles_analyzed": [
@@ -22,17 +29,56 @@
   "menu_tree": {
     "Quản trị hệ thống": {
       "system-admin": [
-        "Trang tổng quan",
-        "Quản lý người dùng",
-        "Quản lý nhóm",
-        "Phân quyền",
-        "Cấu hình hệ thống",
-        "Nhật ký hoạt động",
-        "Sao lưu dữ liệu",
-        "Kết nối liên thông"
+        { "label": "Trang tổng quan", "screen": "S-M01-01", "route": "#dashboard", "features": ["F-M01-001", "F-M01-006"] },
+        { "label": "Quản lý người dùng", "screen": "S-M01-02", "route": "#users", "features": ["F-M01-001", "F-M01-008"] },
+        { "label": "Đăng ký tài khoản", "screen": "S-M01-09", "route": "#user-registration", "features": ["F-M01-001"] },
+        { "label": "Quản lý nhóm", "screen": "S-M01-04", "route": "#groups", "features": ["F-M01-004"] },
+        { "label": "Phân quyền", "screen": "S-M01-05", "route": "#permissions", "features": ["F-M01-005"] },
+        { "label": "Nhật ký đăng nhập", "screen": "S-M01-06", "route": "#login-log", "features": ["F-M01-006"] },
+        { "label": "Đơn vị tổ chức", "screen": "S-M01-07", "route": "#organizations", "features": ["F-M01-007"] },
+        { "label": "TOTP 2FA", "screen": "S-M01-08", "route": "#totp", "features": ["F-M01-009"] },
+        { "label": "Phiên đăng nhập", "screen": "S-M01-14", "route": "#sessions", "features": ["F-M01-010"] },
+        { "label": "Đổi mật khẩu", "screen": "S-M01-10", "route": "#password", "features": ["F-M01-003"] },
+        { "label": "Cấu hình hệ thống", "screen": null, "route": null, "features": ["M02"] },
+        { "label": "Sao lưu dữ liệu", "screen": null, "route": null, "features": ["M02"] },
+        { "label": "Kết nối liên thông", "screen": null, "route": null, "features": ["M09"] }
+      ]
+    },
+    "Người dùng": {
+      "director": [
+        { "label": "Nhật ký đăng nhập", "screen": "S-M01-06", "route": "#login-log", "features": ["F-M01-006"] },
+        { "label": "Đổi mật khẩu", "screen": "S-M01-10", "route": "#password", "features": ["F-M01-003"] },
+        { "label": "Phiên đăng nhập", "screen": "S-M01-14", "route": "#sessions", "features": ["F-M01-010"] }
       ],
-      "system-admin": [
-        "Nhật ký hoạt động"
+      "port-authority-leader": [
+        { "label": "Nhật ký đăng nhập", "screen": "S-M01-06", "route": "#login-log", "features": ["F-M01-006"] },
+        { "label": "Đổi mật khẩu", "screen": "S-M01-10", "route": "#password", "features": ["F-M01-003"] },
+        { "label": "Phiên đăng nhập", "screen": "S-M01-14", "route": "#sessions", "features": ["F-M01-010"] }
+      ],
+      "infrastructure-officer": [
+        { "label": "Đổi mật khẩu", "screen": "S-M01-10", "route": "#password", "features": ["F-M01-003"] }
+      ],
+      "asset-officer": [
+        { "label": "Đổi mật khẩu", "screen": "S-M01-10", "route": "#password", "features": ["F-M01-003"] }
+      ],
+      "maintenance-officer": [
+        { "label": "Đổi mật khẩu", "screen": "S-M01-10", "route": "#password", "features": ["F-M01-003"] }
+      ],
+      "gis-officer": [
+        { "label": "Đổi mật khẩu", "screen": "S-M01-10", "route": "#password", "features": ["F-M01-003"] }
+      ],
+      "chart-officer": [
+        { "label": "Đổi mật khẩu", "screen": "S-M01-10", "route": "#password", "features": ["F-M01-003"] }
+      ],
+      "reporting-officer": [
+        { "label": "Đổi mật khẩu", "screen": "S-M01-10", "route": "#password", "features": ["F-M01-003"] }
+      ],
+      "senior-leader": [
+        { "label": "Nhật ký đăng nhập", "screen": "S-M01-06", "route": "#login-log", "features": ["F-M01-006"] },
+        { "label": "Đổi mật khẩu", "screen": "S-M01-10", "route": "#password", "features": ["F-M01-003"] }
+      ],
+      "business-officer": [
+        { "label": "Đổi mật khẩu", "screen": "S-M01-10", "route": "#password", "features": ["F-M01-003"] }
       ]
     },
     "Quản lý KCHT": {

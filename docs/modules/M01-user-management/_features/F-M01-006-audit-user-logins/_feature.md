@@ -4,16 +4,22 @@ name: "Audit User Logins"
 type: Monitor
 priority: P1
 module: M01
-status: proposed
+status: specified
 ---
 # Audit User Logins
 
 ## Description
-Nhật ký đăng nhập và hoạt động người dùng
+Xem nhật ký đăng nhập của người dùng. Hỗ trợ phân trang, lọc theo khoảng thời gian, username, trạng thái. Hiển thị thông tin chi tiết: username, địa chỉ IP, thiết bị, thời gian đăng nhập, trạng thái (thành công/thất bại). Dữ liệu được lấy từ bảng login_log.
 
 ## Acceptance Criteria
-- [ ] Audit User Logins hoạt động đúng theo yêu cầu
-- [ ] Kiểm tra các trường hợp biên
+- AC-F-M01-006-01: Danh sách login_log hiển thị với phân trang
+- AC-F-M01-006-02: Có thể lọc theo khoảng thời gian (từ ngày - đến ngày)
+- AC-F-M01-006-03: Có thể lọc theo username
+- AC-F-M01-006-04: Có thể lọc theo trạng thái (thành công/thất bại)
+- AC-F-M01-006-05: Mỗi dòng log hiển thị: username, IP, device, thời gian, trạng thái
+- AC-F-M01-006-06: Người dùng thường chỉ xem được log của chính mình
+- AC-F-M01-006-07: Admin xem được log của tất cả người dùng
+- AC-F-M01-006-08: Có thể xuất log ra file Excel (tùy chọn)
 
 ## Business Rules Referenced
-<!-- List BR-IDs from doc-brief -->
+- BR-M01-007: Login audit

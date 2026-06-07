@@ -1,0 +1,1807 @@
+Tài liệu thiết kế hệ thống                                                            V3.0
+
+II.2.3.13.3. Index
+
+                             Tên chỉ mục                            Nội dung
+
+      QTHT_HAI_DO_DIEN_TU_PK                                    Là unique index, sử
+                                                                dụng cho      khóa
+                                                                chính
+
+
+            dbo.QLHS
+Mục đích: Quản lý hồ sơ
+II.2.3.14.1. Các trường và ràng buộc trên trường
+            Tên trường (Diễn giải)           Kiểu dữ liệu       Rỗng       Giá trị mặc
+                                                                               định
+
+ ID                                         bigint
+ ID
+
+ FK_DON_VI_QL                               varchar(20)
+ Đơn vị quản lý
+
+ HS_LOAI                                    varchar(5)
+ Loại hồ sơ
+ HS_SO                                      nvarchar(50)
+ Số hồ sơ
+
+ HS_TEN                                     nvarchar(255)
+ Tên hồ sơ
+
+ HS_GHI_CHU                                 nvarchar(2000) X
+ Ghi chú
+ STATUS                                     int             X              ((1))
+ Trạng thái
+
+ CREATED_DATE                               datetime        X              (getdate())
+ Ngày nhập
+ CREATED_USER                               varchar(50)     X              ('SYSTEM'
+ Người nhập                                                                )
+ UPDATED_DATE                               datetime        X              (getdate())
+ Ngày cập nhật
+
+
+                                                                               Trang 60
+Tài liệu thiết kế hệ thống                                                                  V3.0
+
+           Tên trường (Diễn giải)             Kiểu dữ liệu           Rỗng       Giá trị mặc
+                                                                                     định
+
+ UPDATED_USER                                varchar(50)         X              ('SYSTEM'
+ Người cập nhật                                                                 )
+
+
+
+
+II.2.3.14.2. Các ràng buộc
+               Tên cột                                Nội dung
+
+      ID                        Khóa chính
+
+
+II.2.3.14.3. Index
+
+                             Tên chỉ mục                                 Nội dung
+
+      QLHS_PK                                                        Là unique index, sử
+                                                                     dụng cho khóa
+                                                                     chính
+
+
+           dbo.TS_QL
+Mục đích: Quản lý dữ liệu tài sản
+II.2.3.15.1. Các trường và ràng buộc trên trường
+
+             Tên trường (Diễn giải)                   Kiểu dữ liệu                  Rỗng
+ ID                                                bigint
+ ID
+ FK_DON_VI_QL_CAP_TREN                             varchar(20)              X
+ Đơn vị quản lý cấp trên
+ FK_DON_VI_QL                                      varchar(20)              X
+ Đơn vị quản lý
+ FK_DON_VI_SD                                      varchar(20)              X
+ Đơn vị sử dụng
+ FK_MA_CHA                                         varchar(50)              X
+ Mã cha (Mã bến cảng/Mã cảng cạn/Mã bến
+
+                                                                                     Trang 61
+Tài liệu thiết kế hệ thống                                                  V3.0
+
+             Tên trường (Diễn giải)               Kiểu dữ liệu       Rỗng
+ phao/Mã khu tránh trú/Mã khu chuyển
+ tải/Mã khu neo đậu/Mã luồng hàng hải/Mã
+ đèn biển và nhà trạm gắn liền với biển/...)
+ NHOM                                          varchar(10)
+ Nhóm (KCHT_ATHH/KCHT_CB/KCHT_-
+ MVT.NHOM)
+ MA                                            varchar(50)
+ Mã (KCHT_ATHH/KCHT_CB/KCHT_-
+ MVT.MA)
+ TS_LOAI                                       varchar(20)
+ TS > Loại
+ TS_MA                                         varchar(50)
+ TS > Mã
+ TS_TEN                                        nvarchar(255)
+ TS > Tên
+
+ TS_TINH_TRANG                                 varchar(20)
+ TS > Tình trạng
+ TS_HIEN_TRANG_SD                              varchar(20)
+ TS > Hiện trạng sử dụng
+
+ TS_NHOM                                       varchar(20)
+ TS > Nhóm
+ TS_PHAN_NHOM                                  varchar(50)
+ TS > Phân nhóm
+ TS_NGAY_SD                                    date              X
+ TS > Ngày sử dụng
+
+ CT_NGAY_KE_KHAI_TAI_SAN                       date              X
+ Ngày kê khai tài sản
+
+ CT_NGUYEN_GIA_NGUON_NGAN_-                    decimal(20,0)     X
+ SACH_NGUON_KHAC
+ Nguyên giá (nguồn ngân sách, nguồn khác)
+
+
+
+
+                                                                      Trang 62
+Tài liệu thiết kế hệ thống                                                  V3.0
+
+             Tên trường (Diễn giải)               Kiểu dữ liệu       Rỗng
+
+ CT_TY_LE_HAO_MON_KHAU_HAO                  decimal(7,2)         X
+ Tỷ lệ hao mòn/Khấu hao (%)
+
+ CT_GIA_TRI_CON_LAI                         decimal(20,0)        X
+ Giá trị còn lại
+ CT_DON_VI_TINH                             varchar(10)          X
+ Đơn vị tính (VNĐ)
+ CT_SO_QUYET_DINH_GIAO                      varchar(20)          X
+ Số quyết định giao (bao gồm cả tăng vốn)
+
+ CT_NGAY_TINH_KHAU_HAO                      date                 X
+ Ngày tính khấu hao
+
+ CT_SO_THANG_TINH_KHAU_HAO                  int                  X
+ Số tháng tính khấu hao
+ CT_NGAY_HET_KHAU_HAO                       date                 X
+ Ngày hết khấu hao
+ CT_KHAU_HAO_LUY_KE                         decimal(20,0)        X
+ Khấu hao lũy kế
+
+ CT_KHAU_HAO_THANG                          decimal(20,0)        X
+ Khấu hao tháng
+
+ CT_HINH_THUC_XU_LY_TAI_SAN                 varchar(2)           X
+ Hình thức xử lý tài sản
+
+ PD_GUI_DUYET_NGAY                          datetime             X
+ Phê duyệt > Ngày gửi duyệt
+ PD_GUI_DUYET_NGUOI                         varchar(50)          X
+ Phê duyệt > Người gửi duyệt
+
+ PD_CHI_CUC_DUYET_NGAY                      datetime             X
+ Phê duyệt > Ngày cấp Chi Cục duyệt
+ PD_CHI_CUC_DUYET_NGUOI                     varchar(50)          X
+ Phê duyệt > Người cấp Chi Cục duyệt
+ PD_CUC_DUYET_NGAY                          datetime             X
+ Phê duyệt > Ngày cấp Cục duyệt
+
+
+                                                                      Trang 63
+Tài liệu thiết kế hệ thống                                                             V3.0
+
+              Tên trường (Diễn giải)                     Kiểu dữ liệu          Rỗng
+
+ PD_CUC_DUYET_NGUOI                                varchar(50)             X
+ Phê duyệt > Người cấp Cục duyệt
+
+ STATUS                                            int                     X
+ Trạng thái
+ CREATED_DATE                                      datetime                X
+ Ngày nhập
+ CREATED_USER                                      varchar(50)             X
+ Người nhập
+
+ UPDATED_DATE                                      datetime                X
+ Ngày cập nhật
+
+ UPDATED_USER                                      varchar(50)             X
+ Người cập nhật
+
+
+II.2.3.15.2. Các ràng buộc
+               Tên cột                                   Nội dung
+
+      NHOM, TS_MA              Khóa chính
+
+
+II.2.3.15.3. Index
+                Tên chỉ mục                                 Nội dung
+
+      TS_QL_PK                           Là unique index, sử dụng cho khóa chính
+
+
+           dbo.TS_QL_DN_XL_KCHT
+Mục đích: Quản lý Đề nghị xử lý tài sản KCHTGT hàng hải
+II.2.3.16.1. Các trường và ràng buộc trên trường
+
+                Tên trường (Diễn giải)                      Kiểu dữ liệu       Rỗng
+ ID                                                      bigint
+ ID
+
+ DN_DON_VI                                               varchar(20)
+ Đơn vị đề nghị
+
+                                                                                   Trang 64
+Tài liệu thiết kế hệ thống                                           V3.0
+
+                Tên trường (Diễn giải)     Kiểu dữ liệu       Rỗng
+
+ DN_SO                                   varchar(20)
+ Số đề nghị
+
+ DN_NGAY                                 date             X
+ Ngày đề nghị
+ DN_HINH_THUC_XL                         varchar(2)       X
+ Hình thức xử lý đề nghị
+ DN_LY_DO                                nvarchar(255)    X
+ Lý do đề nghị xử lý
+
+ TS_LOAI                                 varchar(20)      X
+ Loại tài sản
+
+ TS_MA                                   varchar(50)      X
+ Mã tài sản
+ TS_TEN                                  nvarchar(255)    X
+ Mã tài sản
+ PD_GUI_DUYET_NGAY                       datetime         X
+ Phê duyệt > Ngày gửi duyệt
+
+ PD_GUI_DUYET_NGUOI                      varchar(50)      X
+ Phê duyệt > Người gửi duyệt
+
+ PD_CHI_CUC_DUYET_NGAY                   datetime         X
+ Phê duyệt > Ngày cấp Chi Cục duyệt
+
+ PD_CHI_CUC_DUYET_NGUOI                  varchar(50)      X
+ Phê duyệt > Người cấp Chi Cục duyệt
+ PD_CHI_CUC_DUYET_NOI_DUNG               nvarchar(2000)   X
+ Phê duyệt > Nội dung Chi Cục duyệt
+
+ PD_CUC_DUYET_NGAY                       datetime         X
+ Phê duyệt > Ngày cấp Cục duyệt
+ PD_CUC_DUYET_NGUOI                      varchar(50)      X
+ Phê duyệt > Người cấp Cục duyệt
+ PD_CUC_DUYET_NOI_DUNG                   nvarchar(2000)   X
+ Phê duyệt > Nội dung Cục duyệt
+
+
+                                                               Trang 65
+Tài liệu thiết kế hệ thống                                                             V3.0
+
+                Tên trường (Diễn giải)                   Kiểu dữ liệu         Rỗng
+
+ STATUS                                                int                X
+ Trạng thái
+
+ CREATED_DATE                                          datetime           X
+ Ngày nhập
+ CREATED_USER                                          varchar(50)        X
+ Người nhập
+ UPDATED_DATE                                          datetime           X
+ Ngày cập nhật
+
+ UPDATED_USER                                          varchar(50)        X
+ Người cập nhật
+
+
+II.2.3.16.2. Các ràng buộc
+               Tên cột                                Nội dung
+
+      DN_SO                    Khóa chính
+
+
+II.2.3.16.3. Index
+                Tên chỉ mục                                  Nội dung
+
+      TS_QL_DN_XL_KCHT_PK                Là unique index, sử dụng cho khóa chính
+
+
+           dbo.TS_QL_KK
+Mục đích: Quản lý thông tin kiểm kê tài sản
+II.2.3.17.1. Các trường và ràng buộc trên trường
+
+                Tên trường (Diễn giải)                   Kiểu dữ liệu         Rỗng
+
+ ID                                                    bigint
+ ID
+ FK_DON_VI_KK                                          varchar(20)
+ Đơn vị kiểm kê
+
+ THOI_GIAN_KK                                          datetime
+ Thời gian kiểm kê
+
+                                                                                   Trang 66
+Tài liệu thiết kế hệ thống                                                             V3.0
+
+                Tên trường (Diễn giải)                    Kiểu dữ liệu        Rỗng
+
+ PHAN_LOAI_KK                                           int               X
+ Phân loại kiểm kê
+
+ GHI_CHU                                                nvarchar(2000)    X
+ Ghi chú
+ STATUS                                                 int               X
+ Trạng thái
+ CREATED_DATE                                           datetime          X
+ Ngày nhập
+
+ CREATED_USER                                           varchar(50)       X
+ Người nhập
+
+ UPDATED_DATE                                           datetime          X
+ Ngày cập nhật
+ UPDATED_USER                                           varchar(50)       X
+ Người cập nhật
+
+
+II.2.3.17.2. Các ràng buộc
+
+               Tên cột                                Nội dung
+
+      ID                       ID tự sinh, khóa chính
+
+
+II.2.3.17.3. Index
+
+                Tên chỉ mục                                   Nội dung
+      TS_QL_KK_PK                        Là unique index, sử dụng cho khóa chính
+
+
+           dbo.TS_QL_KT
+Mục đích: Quản lý dữ liệu khai thác
+II.2.3.18.1. Các trường và ràng buộc trên trường
+                Tên trường (Diễn giải)                    Kiểu dữ liệu        Rỗng
+
+ ID                                                     bigint
+ ID
+
+                                                                                   Trang 67
+Tài liệu thiết kế hệ thống                                           V3.0
+
+                Tên trường (Diễn giải)     Kiểu dữ liệu       Rỗng
+
+ NHOM                                    varchar(10)
+ Nhóm (KCHT_ATHH/KCHT_CB/KCHT_-
+ MVT.NHOM)
+ TS_MA                                   varchar(50)
+ TS > Mã
+ FK_DON_VI_KT                            varchar(20)
+ Đơn vị khai thác
+ DANH_MUC_TAI_SAN                        varchar(20)
+ Danh mục tài sản
+ DON_VI_TINH                             varchar(10)      X
+ Đơn vị tính
+ SO_LUONG                                decimal(24,4)    X
+ Số lượng
+ THOI_HAN_KHAI_THAC                      date             X
+ Thời hạn khai thác
+
+ TONG_SO_TIEN_THU_DUOC_VND               decimal(20,0)    X
+ Tổng số tiền thu được (VNĐ)
+
+ CHI_PHI_CO_LIEN_QUAN                    decimal(20,0)    X
+ Chi phí có liên quan
+
+ NOP_NSNN                                decimal(20,0)    X
+ Nộp NSNN
+
+ SO_TIEN_DUOC_THUC_HIEN_DU_AN            decimal(20,0)    X
+ Số tiền được thực hiện dự án
+
+ GHI_CHU                                 nvarchar(2000)
+ Ghi chú
+ STATUS                                  int              X
+ Trạng thái
+
+ CREATED_DATE                            datetime         X
+ Ngày nhập
+ CREATED_USER                            varchar(50)      X
+ Người nhập
+
+                                                               Trang 68
+Tài liệu thiết kế hệ thống                                                             V3.0
+
+                Tên trường (Diễn giải)                   Kiểu dữ liệu         Rỗng
+
+ UPDATED_DATE                                          datetime           X
+ Ngày cập nhật
+
+ UPDATED_USER                                          varchar(50)        X
+ Người cập nhật
+
+
+II.2.3.18.2. Các ràng buộc
+               Tên cột                                Nội dung
+
+      NHOM, TS_MA, ID          Khóa chính
+
+
+II.2.3.18.3. Index
+
+                Tên chỉ mục                              Nội dung
+      TS_QL_KT_PK                        Là unique index, sử dụng cho khóa chính
+
+
+           dbo.TS_QL_SL_CB
+Mục đích: Quản lý sản lượng cảng biển
+II.2.3.19.1. Các trường và ràng buộc trên trường
+                Tên trường (Diễn giải)                   Kiểu dữ liệu         Rỗng
+
+ ID                                                    bigint
+ ID
+
+ FK_DON_VI_QL                                          varchar(20)
+ Đơn vị quản lý
+
+ THOI_GIAN_TONG_HOP_SL                                 varchar(20)
+ Thời gian tổng hợp sản lượng
+
+ GHI_CHU                                               nvarchar(2000)     X
+ Ghi chú
+ VTTN_HANG_CONT_TAN                                    decimal(24,4)      X
+ VTTN > Hàng container (Tấn)
+
+ VTTN_HANG_CONT_TAN_KM                                 decimal(24,4)      X
+ VTTN > Hàng container (Tấn - Km)
+
+                                                                                   Trang 69
+Tài liệu thiết kế hệ thống                                           V3.0
+
+                Tên trường (Diễn giải)     Kiểu dữ liệu       Rỗng
+
+ VTTN_HANG_KHO_TAN                       decimal(24,4)    X
+ VTTN > Hàng khô (Tấn)
+
+ VTTN_HANG_KHO_TAN_KM                    decimal(24,4)    X
+ VTTN > Hàng khô (Tấn - Km)
+ VTTN_HANG_LONG_TAN                      decimal(24,4)    X
+ VTTN > Hàng lỏng (Tấn)
+ VTTN_HANG_LONG_TAN_KM                   decimal(24,4)    X
+ VTTN > Hàng lỏng (Tấn - Km)
+
+ VTTN_HANG_KHAC_TAN                      decimal(24,4)    X
+ VTTN > Hàng khác (Tấn)
+
+ VTTN_HANG_KHAC_TAN_KM                   decimal(24,4)    X
+ VTTN > Hàng khác (Tấn - Km)
+ VTNN_HANG_CONT_TAN                      decimal(24,4)    X
+ VTNN > Hàng container (Tấn)
+ VTNN_HANG_CONT_TAN_KM                   decimal(24,4)    X
+ VTNN > Hàng container (Tấn - Km)
+
+ VTNN_HANG_KHO_TAN                       decimal(24,4)    X
+ VTNN > Hàng khô (Tấn)
+
+ VTNN_HANG_KHO_TAN_KM                    decimal(24,4)    X
+ VTNN > Hàng khô (Tấn - Km)
+
+ VTNN_HANG_LONG_TAN                      decimal(24,4)    X
+ VTNN > Hàng lỏng (Tấn)
+ VTNN_HANG_LONG_TAN_KM                   decimal(24,4)    X
+ VTNN > Hàng lỏng (Tấn - Km)
+
+ VTNN_HANG_KHAC_TAN                      decimal(24,4)    X
+ VTNN > Hàng khác (Tấn)
+ VTNN_HANG_KHAC_TAN_KM                   decimal(24,4)    X
+ VTNN > Hàng khác (Tấn - Km)
+ TTVC_HANG_CONT_TAN                      decimal(24,4)    X
+ TTVC > Hàng container (Tấn)
+
+
+                                                               Trang 70
+Tài liệu thiết kế hệ thống                                           V3.0
+
+                Tên trường (Diễn giải)     Kiểu dữ liệu       Rỗng
+
+ TTVC_HANG_CONT_TAN_KM                   decimal(24,4)    X
+ TTVC > Hàng container (Tấn - Km)
+
+ TTVC_HANG_KHO_TAN                       decimal(24,4)    X
+ TTVC > Hàng khô (Tấn)
+ TTVC_HANG_KHO_TAN_KM                    decimal(24,4)    X
+ TTVC > Hàng khô (Tấn - Km)
+ TTVC_HANG_LONG_TAN                      decimal(24,4)    X
+ TTVC > Hàng lỏng (Tấn)
+
+ TTVC_HANG_LONG_TAN_KM                   decimal(24,4)    X
+ TTVC > Hàng lỏng (Tấn - Km)
+
+ TTVC_HANG_KHAC_TAN                      decimal(24,4)    X
+ TTVC > Hàng khác (Tấn)
+ TTVC_HANG_KHAC_TAN_KM                   decimal(24,4)    X
+ TTVC > Hàng khác (Tấn - Km)
+ VTHK_LUOT_HK                            decimal(20,0)    X
+ VTHK > Lượt hành khách
+
+ PD_GUI_DUYET_NGAY                       datetime         X
+ Phê duyệt > Ngày gửi duyệt
+
+ PD_GUI_DUYET_NGUOI                      varchar(50)      X
+ Phê duyệt > Người gửi duyệt
+
+ PD_CHI_CUC_DUYET_NGAY                   datetime         X
+ Phê duyệt > Ngày cấp Chi Cục duyệt
+ PD_CHI_CUC_DUYET_NGUOI                  varchar(50)      X
+ Phê duyệt > Người cấp Chi Cục duyệt
+
+ PD_CHI_CUC_DUYET_NOI_DUNG               nvarchar(2000)   X
+ Phê duyệt > Nội dung Chi Cục duyệt
+ PD_CUC_DUYET_NGAY                       datetime         X
+ Phê duyệt > Ngày cấp Cục duyệt
+ PD_CUC_DUYET_NGUOI                      varchar(50)      X
+ Phê duyệt > Người cấp Cục duyệt
+
+
+                                                               Trang 71
+Tài liệu thiết kế hệ thống                                                                   V3.0
+
+                Tên trường (Diễn giải)                      Kiểu dữ liệu              Rỗng
+
+ PD_CUC_DUYET_NOI_DUNG                                    nvarchar(2000)        X
+ Phê duyệt > Nội dung Cục duyệt
+
+ STATUS                                                   int                   X
+ Trạng thái
+ CREATED_DATE                                             datetime              X
+ Ngày nhập
+ CREATED_USER                                             varchar(50)           X
+ Người nhập
+
+ UPDATED_DATE                                             datetime              X
+ Ngày cập nhật
+
+ UPDATED_USER                                             varchar(50)           X
+ Người cập nhật
+
+
+II.2.3.19.2. Các ràng buộc
+                             Tên cột                                       Nội dung
+
+      FK_DON_VI_QL, THOI_GIAN_TONG_HOP_SL Khóa chính
+
+
+II.2.3.19.3. Index
+                Tên chỉ mục                                     Nội dung
+
+      TS_QL_SL_CB_PK                     Là unique index, sử dụng cho khóa chính
+
+
+           dbo.TS_QL_TG_NG
+Mục đích: Quản lý tăng giảm nguyên giá
+II.2.3.20.1. Các trường và ràng buộc trên trường
+
+            Tên trường (Diễn giải)                   Kiểu dữ liệu                     Rỗng
+ ID                                              bigint
+ ID
+
+
+
+
+                                                                                       Trang 72
+Tài liệu thiết kế hệ thống                                                   V3.0
+
+            Tên trường (Diễn giải)                 Kiểu dữ liệu       Rỗng
+
+ NHOM                                       varchar(10)
+ Nhóm (KCHT_ATHH/KCHT_CB/KCHT_-
+ MVT.NHOM)
+ TS_MA                                      varchar(50)
+ TS > Mã
+ LOAI                                       varchar(1)
+ Loại
+ QD_SO                                      varchar(20)
+ QĐ > Số
+ QD_NGAY                                    date                  X
+ QĐ > Ngày
+ TG_NGAY                                    date
+ Ngày tăng / giảm
+ LY_DO                                      varchar(20)
+ Lý do
+
+ GHI_CHU                                    nvarchar(2000)
+ Ghi chú
+
+ NG_TRUOC                                   decimal(20,0)
+ Nguyên giá trước khi tăng / giảm
+
+ NG_SAU                                     decimal(20,0)
+ Nguyên giá sau khi tăng / giảm
+
+ GT_CON_LAI_TRUOC                           decimal(20,0)         X
+ Giá trị còn lại trước khi tăng / giảm
+
+ GT_CON_LAI_SAU                             decimal(20,0)         X
+ Giá trị còn lại sau khi tăng / giảm
+ NGAY_KE_KHAI_TAI_SAN                       date                  X
+ Ngày kê khai tài sản
+
+ NGUYEN_GIA                                 decimal(20,0)         X
+ Nguyên giá (nguồn ngân sách, nguồn khác)
+ TY_LE_HAO_MON_KHAU_HAO                     decimal(7,2)          X
+ Tỷ lệ hao mòn/Khấu hao (%)
+
+                                                                       Trang 73
+Tài liệu thiết kế hệ thống                                                   V3.0
+
+            Tên trường (Diễn giải)                 Kiểu dữ liệu       Rỗng
+
+ GIA_TRI_CON_LAI                            decimal(20,0)         X
+ Giá trị còn lại
+
+ DON_VI_TINH                                varchar(10)           X
+ Đơn vị tính (VNĐ)
+ SO_QUYET_DINH_GIAO                         varchar(20)           X
+ Số quyết định giao (bao gồm cả tăng vốn)
+ NGAY_TINH_KHAU_HAO                         date                  X
+ Ngày tính khấu hao
+
+ SO_THANG_TINH_KHAU_HAO                     int                   X
+ Số tháng tính khấu hao
+
+ NGAY_HET_KHAU_HAO                          date                  X
+ Ngày hết khấu hao
+ KHAU_HAO_LUY_KE                            decimal(20,0)         X
+ Khấu hao lũy kế
+ KHAU_HAO_THANG                             decimal(20,0)         X
+ Khấu hao tháng
+
+ HINH_THUC_XU_LY_TAI_SAN                    varchar(2)            X
+ Hình thức xử lý tài sản
+
+ PD_GUI_DUYET_NGAY                          datetime              X
+ Phê duyệt > Ngày gửi duyệt
+
+ PD_GUI_DUYET_NGUOI                         varchar(50)           X
+ Phê duyệt > Người gửi duyệt
+ PD_CHI_CUC_DUYET_NGAY                      datetime              X
+ Phê duyệt > Ngày cấp Chi Cục duyệt
+
+ PD_CHI_CUC_DUYET_NGUOI                     varchar(50)           X
+ Phê duyệt > Người cấp Chi Cục duyệt
+ PD_CHI_CUC_DUYET_NOI_DUNG                  nvarchar(2000)        X
+ Phê duyệt > Nội dung Chi Cục duyệt
+ PD_CUC_DUYET_NGAY                          datetime              X
+ Phê duyệt > Ngày cấp Cục duyệt
+
+
+                                                                       Trang 74
+Tài liệu thiết kế hệ thống                                                          V3.0
+
+            Tên trường (Diễn giải)                   Kiểu dữ liệu         Rỗng
+
+ PD_CUC_DUYET_NGUOI                            varchar(50)           X
+ Phê duyệt > Người cấp Cục duyệt
+
+ PD_CUC_DUYET_NOI_DUNG                         nvarchar(2000)        X
+ Phê duyệt > Nội dung Cục duyệt
+ STATUS                                        int                   X
+ Trạng thái
+ CREATED_DATE                                  datetime              X
+ Ngày nhập
+
+ CREATED_USER                                  varchar(50)           X
+ Người nhập
+
+ UPDATED_DATE                                  datetime              X
+ Ngày cập nhật
+ UPDATED_USER                                  varchar(50)           X
+ Người cập nhật
+
+
+II.2.3.20.2. Các ràng buộc
+
+               Tên cột                               Nội dung
+
+      NHOM, TS_MA, ID          Khóa chính
+
+
+II.2.3.20.3. Index
+
+                Tên chỉ mục                               Nội dung
+      TS_QL_TG_NG_PK                  Là unique index, sử dụng cho khóa chính
+
+
+           dbo.VH_KT_BT_SC
+Mục đích: Quản lý dữ liệu vận hành khai thác, bảo trì, sự cố
+
+
+
+
+                                                                                Trang 75
+Tài liệu thiết kế hệ thống                                                       V3.0
+
+II.2.3.21.1. Các trường và ràng buộc trên trường
+
+           Tên trường (Diễn giải)            Kiểu dữ liệu       Rỗng   Giá trị mặc
+                                                                          định
+
+ ID                                         bigint
+ ID
+
+ FK_DON_VI_QL                               varchar(20)
+ Đơn vị quản lý
+
+ FK_DON_VI_VH                               varchar(20)     X
+ Đơn vị vận hành khai thác / bảo trì
+
+ NHOM                                       varchar(2)
+ Loại vận hành: KT (Khai thác) / BT (Bảo
+ trì) / SC (Sự cố)
+
+ MA                                         varchar(50)
+ Mã (Khai thác / Bảo trì / Sự cố)
+
+ TEN                                        nvarchar(255)
+ Tên / Địa điểm (Khai thác / Bảo trì / Sự
+ cố)
+
+ NOI_DUNG                                   nvarchar(2000) X
+ Nội dung (Khai thác / Bảo trì / Sự cố)
+
+ GHI_CHU                                    nvarchar(2000) X
+ Ghi chú
+
+ LOAI                                       varchar(2)      X
+ Loại (Khai thác / Bảo trì / Sự cố)
+ NGAY_BD                                    date            X
+ Ngày bắt đầu
+
+ NGAY_KT                                    date            X
+ Ngày kết thúc
+ KCHT_NHOM                                  varchar(10)     X
+ KCHT > Nhóm / Loại
+
+ KCHT_MA                                    varchar(50)     X
+ KCHT > Mã
+
+
+
+                                                                          Trang 76
+Tài liệu thiết kế hệ thống                                                             V3.0
+
+           Tên trường (Diễn giải)            Kiểu dữ liệu         Rỗng   Giá trị mặc
+                                                                                định
+
+ KCHT_TEN                                   nvarchar(255)     X
+ KCHT > Tên
+ STATUS                                     int               X          ((1))
+ Trạng thái
+ CREATED_DATE                               datetime          X          (getdate())
+ Ngày nhập
+ CREATED_USER                               varchar(50)       X          ('SYSTEM')
+ Người nhập
+ UPDATED_DATE                               datetime          X          (getdate())
+ Ngày cập nhật
+ UPDATED_USER                               varchar(50)       X          ('SYSTEM')
+ Người cập nhật
+
+
+II.2.3.21.2. Các ràng buộc
+
+               Tên cột                              Nội dung
+
+      NHOM, MA                 Khóa chính
+
+
+II.2.3.21.3. Index
+                Tên chỉ mục                               Nội dung
+
+      VH_KT_BT_SC_PK                  Là unique index, sử dụng cho khóa chính
+
+
+           dbo.DM_DON_VI_HANH_CHINH
+Mục đích: Quản lý dữ liệu danh mục hành chính
+II.2.3.22.1. Các trường và ràng buộc trên trường
+          Tên trường (Diễn giải)             Kiểu dữ liệu         Rỗng   Giá trị mặc
+                                                                            định
+ MA                                         varchar(10)
+ Mã
+
+                                                                                Trang 77
+Tài liệu thiết kế hệ thống                                                        V3.0
+
+           Tên trường (Diễn giải)           Kiểu dữ liệu        Rỗng   Giá trị mặc
+                                                                           định
+
+ MA_CHA                                    varchar(10)
+ Mã cha
+ TEN                                       nvarchar(255)
+ Tên
+ TEN_DAY_DU                                nvarchar(255)
+ Tên đầy đủ
+ CAP                                       varchar(10)      X
+ Cấp
+ GHI_CHU                                   nvarchar(1000)   X
+ Ghi chú
+ STATUS                                    int              X          ((1))
+ Trạng thái (1: Sử dụng; 0: Không sử
+ dụng)
+
+ CREATED_DATE                              datetime         X          (getdate())
+ Ngày nhập
+
+ CREATED_USER                              varchar(50)      X          ('SYSTEM')
+ Người nhập
+
+ UPDATED_DATE                              datetime         X          (getdate())
+ Ngày cập nhật
+ UPDATED_USER                              varchar(50)      X          ('SYSTEM')
+ Người cập nhật
+
+
+II.2.3.22.2. Các ràng buộc
+
+               Tên cột                             Nội dung
+       MA                     Khóa chính
+
+
+
+
+                                                                           Trang 78
+Tài liệu thiết kế hệ thống                                                           V3.0
+
+II.2.3.22.3. Index
+
+                Tên chỉ mục                              Nội dung
+
+      DM_DON_VI_HANH_-                 Là unique index, sử dụng cho khóa chính
+      CHINH_PK
+
+
+           dbo.DM_DON_VI_VH_KT
+Mục đích: Quản lý dữ liệu danh mục đơn vị vận hành khai thác
+II.2.3.23.1. Các trường và ràng buộc trên trường
+
+          Tên trường (Diễn giải)            Kiểu dữ liệu         Rỗng     Giá trị mặc
+                                                                             định
+
+ MA                                        varchar(10)
+ Mã
+
+ MA_CHA                                    varchar(10)       X
+ Mã cha
+
+ TEN                                       nvarchar(255)
+ Tên
+
+ GHI_CHU                                   nvarchar(1000)    X
+ Ghi chú
+
+ STATUS                                    int               X            ((1))
+ Trạng thái (1: Sử dụng; 0: Không sử
+ dụng)
+
+ CREATED_DATE                              datetime          X            (getdate())
+ Ngày nhập
+ CREATED_USER                              varchar(50)       X            ('SYSTEM')
+ Người nhập
+
+ UPDATED_DATE                              datetime          X            (getdate())
+ Ngày cập nhật
+ UPDATED_USER                              varchar(50)       X            ('SYSTEM')
+ Người cập nhật
+
+
+
+
+                                                                                 Trang 79
+Tài liệu thiết kế hệ thống                                                           V3.0
+
+II.2.3.23.2. Các ràng buộc
+
+               Tên cột                                 Nội dung
+
+      MA                       Khóa chính
+
+
+II.2.3.23.3. Index
+                Tên chỉ mục                               Nội dung
+
+      DM_DON_VI_VH_KT_PK               Là unique index, sử dụng cho khóa chính
+
+
+           dbo.DM_QUOC_TICH
+Mục đích: Quản lý dữ liệu danh mục quốc tịch
+II.2.3.24.1. Các trường và ràng buộc trên trường
+
+          Tên trường (Diễn giải)             Kiểu dữ liệu         Rỗng    Giá trị mặc
+                                                                             định
+
+ MA                                         varchar(3)
+ Mã
+
+ TEN                                        nvarchar(255)
+ Tên
+ TEN_EN                                     nvarchar(255)     X
+ Tên (Tiếng Anh)
+
+ GHI_CHU                                    nvarchar(1000)    X
+ Ghi chú
+
+ STATUS                                     int               X           ((1))
+ Trạng thái (1: Sử dụng; 0: Không sử
+ dụng)
+ CREATED_DATE                               datetime          X           (getdate())
+ Ngày nhập
+ CREATED_USER                               varchar(50)       X           ('SYSTEM'
+ Người nhập                                                               )
+
+ UPDATED_DATE                               datetime          X           (getdate())
+ Ngày cập nhật
+
+
+                                                                                 Trang 80
+Tài liệu thiết kế hệ thống                                                               V3.0
+
+          Tên trường (Diễn giải)             Kiểu dữ liệu         Rỗng       Giá trị mặc
+                                                                                  định
+
+ UPDATED_USER                               varchar(50)       X              ('SYSTEM'
+ Người cập nhật                                                              )
+
+
+II.2.3.24.2. Các ràng buộc
+               Tên cột                              Nội dung
+      MA                       Khóa chính
+
+
+II.2.3.24.3. Index
+
+                Tên chỉ mục                               Nội dung
+
+      DM_QUOC_TICH_PK                  Là unique index, sử dụng cho khóa chính
+
+
+       Thiết kế chi tiết CSDL quản trị
+         Bảng dbo.AUTH_APPLICATION
+Mục đích: Quản lý ứng dụng
+II.2.4.1.1. Các trường và ràng buộc trên trường
+
+              Tên trường (Diễn giải)                    Kiểu dữ liệu             Rỗng
+
+ APP_CODE                                         varchar(50)
+ Mã ứng dụng
+ NAME                                             nvarchar(500)
+ Tên ứng dụng
+
+ DESCRIPTION                                      nvarchar(500)          X
+ Mô tả
+ STATUS                                           int
+ Trạng thái
+ JWT_SECRET_KEY                                   varchar(50)            X
+ Mã bảo mật JWT
+ API_KEY                                          varchar(50)            X
+ Mã bảo mật API
+
+                                                                                  Trang 81
+Tài liệu thiết kế hệ thống                                                       V3.0
+
+              Tên trường (Diễn giải)               Kiểu dữ liệu           Rỗng
+
+ CREATED_USER                                   varchar(50)          X
+ Người nhập
+
+ CREATED_DATE                                   datetime             X
+ Ngày nhập
+ UPDATED_USER                                   varchar(50)          X
+ Người cập nhật
+ UPDATED_DATE                                   datetime             X
+ Ngày cập nhật
+
+ CONTEXT_ROOT                                   varchar(50)
+ Đường dẫn ứng dụng
+
+ MENU_ICON                                      varchar(50)          X
+ Hiển thị icon trên menu
+ DATA_JSON                                      nvarchar(max)        X
+ Dữ liệu json
+
+
+II.2.4.1.2. Các ràng buộc
+
+               Tên cột                            Nội dung
+
+      APP_CODE                 Khóa chính
+
+
+II.2.4.1.3. Index
+
+                 Tên chỉ mục                           Nội dung
+      AUTH_APPLICATION_PK              Là unique index, sử dụng cho khóa chính
+
+
+         Bảng dbo.AUTH_GROUP
+Mục đích: Quản lý nhóm người dùng
+
+
+
+
+                                                                            Trang 82
+Tài liệu thiết kế hệ thống                                                             V3.0
+
+II.2.4.2.1. Các trường và ràng buộc trên trường
+
+          Tên trường (Diễn giải)            Kiểu dữ liệu         Rỗng        Giá trị mặc
+                                                                                định
+
+ APP_CODE                                  varchar(50)
+ Mã ứng dụng
+
+ GROUP_CODE                                varchar(50)
+ Mã nhóm người dùng
+
+ NAME                                      nvarchar(255)
+ Tên nhóm người dùng
+
+ DESCRIPTION                               nvarchar(500)     X
+ Mô tả nhóm người dùng
+ STATUS                                    int                            ((0))
+ Trạng thái
+ ORG_CODE                                  varchar(50)
+ Mã đơn vị
+ CREATED_USER                              varchar(50)       X
+ Người nhập
+
+ CREATED_DATE                              datetime          X
+ Ngày nhập
+
+ UPDATED_USER                              varchar(50)       X
+ Người cập nhật
+
+ UPDATED_DATE                              datetime          X
+ Ngày cập nhật
+
+
+II.2.4.2.2. Các ràng buộc
+
+                             Tên cột                              Nội dung
+      APP_CODE, GROUP_CODE, ORG_CODE                       Khóa chính
+
+
+II.2.4.2.3. Index
+            Tên chỉ mục                               Nội dung
+
+      AUTH_GROUP_PK             Là unique index, sử dụng cho khóa chính
+
+                                                                                Trang 83
+Tài liệu thiết kế hệ thống                                                         V3.0
+
+
+
+         Bảng dbo.AUTH_GROUP_PERMISSION
+Mục đích: Quản lý phân quyền nhóm người dùng truy cập vào menu
+II.2.4.3.1. Các trường và ràng buộc trên trường
+
+         Tên trường (Diễn giải)            Kiểu dữ liệu       Rỗng        Giá trị mặc
+                                                                             định
+ APP_CODE                                varchar(50)
+ Mã ứng dụng
+
+ GROUP_CODE                              varchar(50)
+ Mã nhóm người dùng
+
+ MENU_CODE                               varchar(100)
+ Mã chức năng
+ STATUS                                  int                          ((0))
+ Trạng thái
+
+ ORG_CODE                                varchar(50)
+ Mã đơn vị
+
+ CREATED_USER                            varchar(50)      X
+ Người nhập
+
+ CREATED_DATE                            datetime         X
+ Ngày nhập
+ UPDATED_USER                            varchar(50)      X
+ Người cập nhật
+
+ UPDATED_DATE                            datetime         X
+ Ngày cập nhật
+
+
+II.2.4.3.2. Các ràng buộc
+
+                             Tên cột                           Nội dung
+      APP_CODE, GROUP_CODE, MENU_CODE, Khóa chính
+      ORG_CODE
+
+
+
+
+                                                                              Trang 84
+Tài liệu thiết kế hệ thống                                                            V3.0
+
+II.2.4.3.3. Index
+
+                     Tên chỉ mục                              Nội dung
+
+      AUTH_GROUP_PERMISSION_PK                    Là unique index, sử dụng cho khóa
+                                                  chính
+
+
+         Bảng dbo.AUTH_MENU
+Mục đích: Quản lý danh sách chức năng
+II.2.4.4.1. Các trường và ràng buộc trên trường
+
+           Tên trường (Diễn giải)            Kiểu dữ liệu          Rỗng     Giá trị mặc
+                                                                               định
+
+ APP_CODE                                   varchar(50)
+ Mã ứng dụng
+
+ MENU_CODE                                  varchar(100)
+ Mã chức năng
+
+ NAME                                       nvarchar(500)
+ Tên chức năng
+
+ URL                                        varchar(500)
+ Địa chỉ url
+
+ PARENT_CODE                                varchar(100)       X
+ Mã chức năng trên một cấp
+ STATUS                                     int                            ((0))
+ Trạng thái 0=ẩn, 1=hiện
+ ORDER_NO                                   int                X           ((0))
+ Thứ tự sắp xếp
+
+ TYPE                                       int                            ((0))
+ 1=Menu FE; 5=Button FE; 6=Menu FE
+ public; 7=Button FE public
+ LEVEL_USED                                 bigint             X
+ Cấp độ sử dụng (BIT_AND) 1:TC, 2:C,
+ 4:CC, 8:TĐ
+
+
+
+
+                                                                               Trang 85
+Tài liệu thiết kế hệ thống                                                            V3.0
+
+           Tên trường (Diễn giải)            Kiểu dữ liệu         Rỗng     Giá trị mặc
+                                                                               định
+
+ LEVEL_MENU                                 bigint            X            ((1))
+ Cấp độ menu
+ CREATED_USER                               varchar(50)       X
+ Người nhập
+ CREATED_DATE                               datetime          X
+ Ngày nhập
+ UPDATED_USER                               varchar(50)       X
+ Người cập nhật
+ UPDATED_DATE                               datetime          X
+ Ngày cập nhật
+ HIDE_MENU                                  int               X            ((0))
+ Ẩn/hiện menu trên FE
+
+
+II.2.4.4.2. Các ràng buộc
+
+                      Tên cột                               Nội dung
+
+      APP_CODE, MENU_CODE                  Khóa chính
+
+
+II.2.4.4.3. Index
+            Tên chỉ mục                              Nội dung
+
+      AUTH_MENU_PK              Là unique index, sử dụng cho khóa chính
+
+
+         Bảng dbo.AUTH_ORG
+Mục đích: Quản lý thông tin đơn vị
+II.2.4.5.1. Các trường và ràng buộc trên trường
+       Tên trường (Diễn giải)           Kiểu dữ liệu         Rỗng         Giá trị mặc
+                                                                             định
+ CODE                                  varchar(20)
+ Mã đơn vị
+
+                                                                               Trang 86
+Tài liệu thiết kế hệ thống                                                       V3.0
+
+       Tên trường (Diễn giải)          Kiểu dữ liệu        Rỗng    Giá trị mặc
+                                                                          định
+
+ CODE_PARENT                          varchar(20)      X
+ Mã cha
+ NAME                                 nvarchar(255)
+ Tên đơn vị
+ ORG_LEVEL                            int
+ Cấp đơn vị
+ ADMINISTRATIVE_UNIT                  varchar(10)
+ Địa danh hành chính
+ ADDRESS                              nvarchar(500)    X
+ Địa chỉ
+ TEL                                  varchar(20)      X
+ Số điện thoại
+ NOTE                                 nvarchar(2000) X
+ Ghi chú
+
+ STATUS                               int              X          ((1))
+ Trạng thái (1: Sử dụng; 0: Không
+ sử dụng)
+
+ CREATED_DATE                         datetime         X          (getdate())
+ Ngày nhập
+ CREATED_USER                         varchar(50)      X          ('SYSTEM')
+ Người nhập
+
+ UPDATED_DATE                         datetime         X          (getdate())
+ Ngày cập nhật
+
+ UPDATED_USER                         varchar(50)      X          ('SYSTEM')
+ Người cập nhật
+
+
+II.2.4.5.2. Các ràng buộc
+               Tên cột                              Nội dung
+      CODE                      Khóa chính
+
+
+                                                                           Trang 87
+Tài liệu thiết kế hệ thống                                                       V3.0
+
+
+
+II.2.4.5.3. Index
+            Tên chỉ mục                            Nội dung
+
+      AUTH_ORG_PK              Là unique index, sử dụng cho khóa chính
+
+
+         Bảng dbo.AUTH_USER
+Mục đích: Quản lý thông tin người dùng
+II.2.4.6.1. Các trường và ràng buộc trên trường
+
+           Tên trường (Diễn giải)            Kiểu dữ liệu       Rỗng     Giá trị mặc
+                                                                            định
+
+ USERNAME                                   varchar(50)
+ Tên đăng nhập
+
+ FULLNAME                                   nvarchar(500)
+ Họ và tên
+
+ DATE_OF_BIRTH                              datetime        X
+ Ngày sinh
+
+ ID_CARD                                    varchar(50)     X
+ Mã công chức
+
+ EMAIL                                      varchar(255)
+ Địa chỉ email
+ ORG_CODE                                   varchar(50)
+ Mã đơn vị
+ PHONE_NUMBER                               varchar(50)     X
+ Số điện thoại
+
+ STATUS                                     int                          ((0))
+ 1 - Active, 0 -Deactive
+ PASSWORD                                   varchar(255)
+ Mật khẩu
+ DESCRIPTION                                nvarchar(500)   X
+ Mô tả
+
+
+
+                                                                             Trang 88
+Tài liệu thiết kế hệ thống                                               V3.0
+
+           Tên trường (Diễn giải)    Kiểu dữ liệu       Rỗng   Giá trị mặc
+                                                                  định
+
+ LAST_CHANGE_PASS_DT                datetime        X
+ Lần thay đổi mật khẩu gần nhất
+ DEP_CODE                           varchar(50)     X
+ Mã phòng ban
+ POS_CODE                           varchar(50)     X
+ Mã chức vụ
+ CREATED_USER                       varchar(50)     X
+ Người nhập
+ CREATED_DATE                       datetime        X
+ Ngày nhập
+ UPDATED_USER                       varchar(50)     X
+ Người cập nhật
+ UPDATED_DATE                       datetime        X
+ Ngày cập nhật
+
+ TOTP_SECRET                        varchar(50)     X
+ Mã bảo mật TOTP
+
+ ZAMMAD_SECRET                      varchar(100)    X
+ Mã bảo mật Zammad
+
+ JWT_SECRET                         varchar(100)    X
+ Mã bảo mật JWT
+
+ CITIZEN_ID                         varchar(20)     X
+ Số CCCD/CMND
+
+ CITIZEN_DATE                       datetime        X
+ Ngày cấp CCCD/CMND
+ CITIZEN_ISSUED_BY                  nvarchar(255)   X
+ Nơi cấp CCCD/CMND
+
+ GENDER                             int             X
+ Giới tính (0:KXD, 1:Nam, 2:Nữ)
+ ADDRESS                            nvarchar(500)   X
+ Địa chỉ
+
+                                                                  Trang 89
+Tài liệu thiết kế hệ thống                                                             V3.0
+
+           Tên trường (Diễn giải)            Kiểu dữ liệu        Rỗng        Giá trị mặc
+                                                                                định
+
+ CITIZEN_STATUS                             int             X
+ Trạng thái xác thực VNeID (0-Chưa xác
+ thực; 1-Chờ xác thực; 2-Xác thực thành
+ công; 3-Xác thực thất bại)
+ DATA_JSON                                  nvarchar(max) X
+ Dữ liệu json
+
+
+II.2.4.6.2. Các ràng buộc
+               Tên cột                             Nội dung
+
+      USERNAME                 Khóa chính
+
+
+II.2.4.6.3. Index
+            Tên chỉ mục                            Nội dung
+      AUTH_USER_PK             Là unique index, sử dụng cho khóa chính
+
+
+         Bảng dbo.AUTH_USER_ACCESS
+Mục đích: Quản lý lịch sử truy cập
+II.2.4.7.1. Các trường và ràng buộc trên trường
+
+              Tên trường (Diễn giải)                 Kiểu dữ liệu             Rỗng
+
+ ID                                               bigint
+ ID
+
+ USERNAME                                         varchar(50)
+ Tên đăng nhập
+
+ APP_CODE                                         varchar(50)
+ Mã ứng dụng
+ MENU_CODE                                        varchar(500)           X
+ Mã chức năng
+
+
+
+                                                                                Trang 90
+Tài liệu thiết kế hệ thống                                                             V3.0
+
+ IP_ADDRESS                                         varchar(50)            X
+ Địa chỉ IP
+
+ USER_AGENT                                         nvarchar(500)          X
+ Thông tin trình duyệt
+ SESSION_ID                                         varchar(500)           X
+ Mã phiên đăng nhập
+ ACCESS_DATE                                        datetime               X
+ Ngày truy cập
+ ORG_CODE                                           varchar(50)
+ Mã đơn vị
+
+
+II.2.4.7.2. Các ràng buộc
+               Tên cột                                Nội dung
+      ID                       ID tự sinh, khóa chính
+
+
+II.2.4.7.3. Index
+
+                     Tên chỉ mục                               Nội dung
+      AUTH_USER_ACCESS_PK                         Là unique index, sử dụng cho khóa
+                                                  chính
+
+
+           Bảng dbo.AUTH_USER_GROUP
+Mục đích: Quản lý người dùng được phân quyền vào các nhóm
+II.2.4.8.1. Các trường và ràng buộc trên trường
+
+            Tên trường (Diễn giải)            Kiểu dữ liệu          Rỗng       Giá trị mặc
+                                                                                  định
+
+ APP_CODE                                     varchar(50)
+ Mã ứng dụng
+ GROUP_CODE                                   varchar(50)
+ Mã nhóm người dùng
+
+
+
+                                                                                  Trang 91
+Tài liệu thiết kế hệ thống                                                           V3.0
+
+           Tên trường (Diễn giải)             Kiểu dữ liệu        Rỗng    Giá trị mặc
+                                                                              định
+
+ ORG_CODE                                    varchar(50)
+ Mã đơn vị
+ USERNAME                                    varchar(50)
+ Tên đăng nhập
+ STATUS                                      smallint                     ((0))
+ Trạng thái
+ CREATED_USER                                varchar(50)      X
+ Người nhập
+ CREATED_DATE                                datetime         X
+ Ngày nhập
+ UPDATED_USER                                varchar(50)      X
+ Người cập nhật
+ UPDATED_DATE                                datetime         X
+ Ngày cập nhật
+
+
+II.2.4.8.2. Các ràng buộc
+
+                             Tên cột                               Nội dung
+
+      APP_CODE,          GROUP_CODE,      ORG_CODE, Khóa chính
+      USERNAME
+
+
+II.2.4.8.3. Index
+                 Tên chỉ mục                               Nội dung
+
+      AUTH_USER_GROUP_PK                 Là unique index, sử dụng cho khóa chính
+
+
+         Bảng dbo.AUTH_USER_PASS
+Mục đích: Quản lý lịch sử đổi mật khẩu
+
+
+
+
+                                                                              Trang 92
+Tài liệu thiết kế hệ thống                                                           V3.0
+
+II.2.4.9.1. Các trường và ràng buộc trên trường
+
+           Tên trường (Diễn giải)         Kiểu dữ liệu        Rỗng      Giá trị mặc
+                                                                            định
+
+ ID                                      bigint
+ ID
+
+ USERNAME                                varchar(50)
+ Tên đăng nhập
+
+ PASSWORD                                varchar(255)
+ Mật khẩu
+
+ CURRENT_DT                              datetime         X            (getdate())
+ Ngày thay đổi mật khẩu
+ CREATED_USER                            varchar(50)      X
+ Người nhập
+ CREATED_DATE                            datetime         X
+ Ngày nhập
+ UPDATED_USER                            varchar(50)      X
+ Người cập nhật
+
+ UPDATED_DATE                            datetime         X
+ Ngày cập nhật
+
+
+II.2.4.9.2. Các ràng buộc
+
+               Tên cột                              Nội dung
+
+      ID                       ID tự sinh, khóa chính
+
+
+II.2.4.9.3. Index
+
+                Tên chỉ mục                              Nội dung
+      AUTH_USER_PASS_PK               Là unique index, sử dụng cho khóa chính
+
+
+            Bảng dbo.AUTH_USER_PERMISSION
+Mục đích: Quản lý người dùng được phân quyền vào chức năng
+
+
+                                                                                Trang 93
+Tài liệu thiết kế hệ thống                                                               V3.0
+
+II.2.4.10.1. Các trường và ràng buộc trên trường
+
+        Tên trường (Diễn giải)           Kiểu dữ liệu           Rỗng       Giá trị mặc
+                                                                                  định
+
+ APP_CODE                              varchar(50)
+ Mã ứng dụng
+
+ MENU_CODE                             varchar(100)
+ Mã chức năng
+
+ USERNAME                              varchar(50)
+ Tên đăng nhập
+
+ STATUS                                int                                ((0))
+ Trạng thái
+ CREATED_USER                          varchar(50)          X
+ Người nhập
+ CREATED_DATE                          datetime             X
+ Ngày nhập
+ UPDATED_USER                          varchar(50)          X
+ Người cập nhật
+
+ UPDATED_DATE                          datetime             X
+ Ngày cập nhật
+
+ ORG_CODE                              varchar(50)
+ Mã đơn vị
+
+
+II.2.4.10.2. Các ràng buộc
+                             Tên cột                              Nội dung
+
+      APP_CODE,         MENU_CODE,      USERNAME, Khóa chính
+      ORG_CODE
+
+
+II.2.4.10.3. Index
+
+                   Tên chỉ mục                             Nội dung
+      AUTH_USER_PERMISSION_PK                Là unique index, sử dụng cho khóa chính
+
+
+
+                                                                                  Trang 94
+Tài liệu thiết kế hệ thống                                                        V3.0
+
+           Bảng dbo.AUTH_USER_TEMP
+Mục đích: Quản lý người dùng chưa được duyệt
+II.2.4.11.1. Các trường và ràng buộc trên trường
+
+          Tên trường (Diễn giải)             Kiểu dữ liệu       Rỗng   Giá trị mặc
+                                                                           định
+ ID                                        bigint
+
+
+ USERNAME                                  varchar(50)
+ Tên đăng nhập
+
+ FULLNAME                                  nvarchar(500)
+ Họ và tên
+
+ DATE_OF_BIRTH                             datetime         X
+ Ngày sinh
+
+ ID_CARD                                   varchar(50)      X
+ Mã công chức
+
+ EMAIL                                     varchar(255)
+ Địa chỉ email
+
+ ORG_CODE                                  varchar(50)
+ Mã đơn vị
+
+ PHONE_NUMBER                              varchar(50)      X
+ Số điện thoại
+
+ STATUS                                    int                         ((0))
+ 1 - Active, 0 -Deactive
+ PASSWORD                                  varchar(255)
+ Mật khẩu
+
+ DESCRIPTION                               nvarchar(500)    X
+ Mô tả
+ LAST_CHANGE_PASS_DT                       datetime         X
+ Lần thay đổi mật khẩu gần nhất
+
+ DEP_CODE                                  varchar(50)      X
+ Mã phòng ban
+
+
+                                                                           Trang 95
+Tài liệu thiết kế hệ thống                                                    V3.0
+
+          Tên trường (Diễn giải)          Kiểu dữ liệu       Rỗng   Giá trị mặc
+                                                                       định
+
+ POS_CODE                               varchar(50)      X
+ Mã chức vụ
+ CREATED_USER                           varchar(50)      X
+ Người nhập
+ CREATED_DATE                           datetime         X
+ Ngày nhập
+ UPDATED_USER                           varchar(50)      X
+ Người cập nhật
+ UPDATED_DATE                           datetime         X
+ Ngày cập nhật
+ TOTP_SECRET                            varchar(50)      X
+ Mã bảo mật TOTP
+ ZAMMAD_SECRET                          varchar(100)     X
+ Mã bảo mật Zammad
+
+ JWT_SECRET                             varchar(100)     X
+ Mã bảo mật JWT
+
+ CITIZEN_ID                             varchar(20)      X
+ Số CCCD/CMND
+
+ CITIZEN_DATE                           datetime         X
+ Ngày cấp CCCD/CMND
+
+ CITIZEN_ISSUED_BY                      nvarchar(255)    X
+ Nơi cấp CCCD/CMND
+
+ GENDER                                 int              X
+ Giới tính (0:KXD, 1:Nam, 2:Nữ)
+ ADDRESS                                nvarchar(500)    X
+ Địa chỉ
+
+ CITIZEN_STATUS                         int              X
+ Trạng thái xác thực VNeID (0-Chưa
+ xác thực; 1-Chờ xác thực; 2-Xác thực
+ thành công; 3-Xác thực thất bại)
+
+                                                                       Trang 96
+Tài liệu thiết kế hệ thống                                                            V3.0
+
+           Tên trường (Diễn giải)            Kiểu dữ liệu         Rỗng      Giá trị mặc
+                                                                               định
+
+ DATA_JSON                                 nvarchar(max)      X
+ Dữ liệu json
+ APPROVE_USER                              varchar(50)        X
+
+
+ APPROVE_CONTENT                           nvarchar(2000)     X
+ Nội dung phê duyệt
+
+
+II.2.4.11.2. Các ràng buộc
+                Tên cột                               Nội dung
+
+      ID                        ID tự sinh, khóa chính
+
+
+II.2.4.11.3. Index
+
+                  Tên chỉ mục                              Nội dung
+      AUTH_USER_TEMP_PK                  Là unique index, sử dụng cho khóa chính
+
+
+           dbo.AUTH_EMAIL_OUTBOX
+Mục đích: Quản lý email thông báo gửi đi
+II.2.4.12.1. Các trường và ràng buộc trên trường
+           Tên trường (Diễn giải)              Kiểu dữ liệu          Rỗng   Giá trị mặc
+                                                                               định
+ ID                                          bigint
+ ID
+ EMAIL_FROM                                  varchar(50)         X
+ Địa chỉ email người gửi
+ EMAIL_REP                                   varchar(50)         X
+ Địa chỉ email khi nhận phản hồi
+ EMAIL_TO                                    varchar(1000)       X
+ Địa chỉ email người nhận
+
+                                                                               Trang 97
+Tài liệu thiết kế hệ thống                                                          V3.0
+
+           Tên trường (Diễn giải)            Kiểu dữ liệu         Rỗng   Giá trị mặc
+                                                                             định
+
+ EMAIL_CC                                  varchar(1000)      X
+ Địa chỉ email CC
+ EMAIL_BCC                                 varchar(1000)      X
+ Địa chỉ email BCC
+ EMAIL_SUBJECT                             nvarchar(500)      X
+ Tiêu đề email
+ EMAIL_CONTENT                             nvarchar(max)      X
+ Nội dung email
+ FILE_TEMPLATE                             varchar(50)        X
+ Mẫu email sử dụng
+ STATUS                                    smallint           X          ((0))
+ Trạng thái gửi
+ SEND_ERROR                                nvarchar(4000)     X
+ Lỗi khi gửi nếu có
+
+ CREATED_USER                              varchar(50)        X
+ Người nhập
+
+ CREATED_DATE                              datetime           X
+ Ngày nhập
+
+ UPDATED_USER                              varchar(50)        X
+ Người cập nhật
+
+ UPDATED_DATE                              datetime           X
+ Ngày cập nhật
+
+
+II.2.4.12.2. Các ràng buộc
+               Tên cột                             Nội dung
+      ID                      ID tự sinh, khóa chính
+
+
+
+
+                                                                             Trang 98
+Tài liệu thiết kế hệ thống                                                         V3.0
+
+II.2.4.12.3. Index
+
+                 Tên chỉ mục                              Nội dung
+
+      AUTH_EMAIL_OUTBOX_PK               Là unique index, sử dụng cho khóa chính
+
+
+           dbo.AUTH_EMAIL_SERVER
+Mục đích: Quản lý cấu hình mail server để gửi mail
+II.2.4.13.1. Các trường và ràng buộc trên trường
+
+            Tên trường (Diễn giải)             Kiểu dữ liệu       Rỗng    Giá trị mặc
+                                                                             định
+
+ SEND_MAIL                                     varchar(200)
+ Địa chỉ email người gửi
+
+ SMTP_SERVER                                   varchar(100)
+ Máy chủ SMTP
+ SMTP_PORT                                     int
+ Cổng SMTP
+ SMTP_TLS                                      smallint       X          ((0))
+ Bảo mật TLS (0: false, 1:true)
+
+ SMTP_SSL                                      smallint       X          ((0))
+ Xác thực chứng chỉ SSL (0: false, 1:true)
+
+ USERNAME                                      varchar(200)
+ Tên tài khoản email
+
+ SEND_NAME                                     nvarchar(200) X
+ Tên người gửi
+ PASSWORD                                      varchar(200)
+ Mật khẩu
+
+ CREATED_USER                                  varchar(50)    X
+ Người nhập
+ CREATED_DATE                                  datetime       X
+ Ngày nhập
+ UPDATED_USER                                  varchar(50)    X
+ Người cập nhật
+
+                                                                             Trang 99
+Tài liệu thiết kế hệ thống                                                              V3.0
+
+            Tên trường (Diễn giải)                 Kiểu dữ liệu        Rỗng   Giá trị mặc
+                                                                                 định
+
+ UPDATED_DATE                                     datetime         X
+ Ngày cập nhật
+ SMTP_SSL_PROTOCOLS                               varchar(20)      X
+ ssl.protocols: SSLv2Hello, SSLv3, TLSv1,
+ TLSv1.1, TLSv1.2
+
+
+II.2.4.13.2. Các ràng buộc
+
+                      Tên cột                                   Nội dung
+      USERNAME, SEND_MAIL                   Khóa chính
+
+
+II.2.4.13.3. Index
+                 Tên chỉ mục                                 Nội dung
+
+      AUTH_EMAIL_SERVER_PK               Là unique index, sử dụng cho khóa chính
+
+
+       Thiết kế chi tiết CSDL siêu dữ liệu
+         Bảng dbo.COM_DATA_EXT
+Mục đích: Quản lý dữ liệu mở rộng dùng chung
+II.2.5.1.1. Các trường và ràng buộc trên trường
+
+           Tên trường (Diễn giải)             Kiểu dữ liệu             Rỗng   Giá trị mặc
+                                                                                 định
+ TABLE_NAME                                  varchar(50)
+ Tên bảng
+ TABLE_ID                                    bigint
+ ID bảng
+ OBJ_CODE                                    varchar(50)
+ Mã đối tượng
+ OBJ_SEQ                                     int
+ Số thứ tự
+
+                                                                                Trang 100
+

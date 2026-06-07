@@ -1,0 +1,1383 @@
+Tài liệu thiết kế hệ thống                                                            V3.0
+
+           o Dịch vụ quản lý cấu hình: Cho phép cấu hình các tham số hoạt động của hệ
+               thống.
+
+
+
+       Kiến trúc kỹ thuật công nghệ
+Kiến trúc công nghệ xác định các nền tảng, công nghệ, tiêu chuẩn kỹ thuật cụ thể được lựa
+chọn để xây dựng, triển khai và vận hành Hệ thống thông tin quản lý kết cấu hạ tầng giao
+thông hàng hải (CSDL KCHTGTHH).
+Kiến trúc công nghệ được chia thành các lớp chính sau:
+
+   -   Lớp Trình diễn (Presentation Layer):
+
+           o Giao diện Web: Người dùng truy cập hệ thống chủ yếu thông qua trình duyệt
+               web tiêu chuẩn (Chrome, Firefox, Edge, Safari phiên bản mới nhất) trên máy
+               tính cá nhân hoặc thiết bị di động. Giao diện được thiết kế theo chuẩn
+               Responsive Web Design để đảm bảo hiển thị tốt trên các kích thước màn
+               hình khác nhau.
+
+           o Công nghệ: HTML5, CSS3, JavaScript.
+
+           o Framework Frontend: Sử dụng framework ReactJS để xây dựng giao diện
+               người dùng tương tác phong phú, hiệu quả và dễ bảo trì.
+
+           o Thành phần Bản đồ (GIS): Tích hợp thư viện bản đồ nền web Leaflet để hiển
+               thị, tương tác với dữ liệu không gian, kết nối với dịch vụ bản đồ từ lớp ứng
+               dụng.
+
+   -   Lớp Ứng dụng (Application Layer):
+
+           o Nền tảng backend: Sử dụng nền tảng Java (với Spring Boot framework) để
+               xây dựng các dịch vụ backend.
+
+           o Kiến trúc: Áp dụng kiến trúc microservices để đảm bảo tính module hóa, khả
+               năng triển khai và nâng cấp độc lập.
+
+           o Giao tiếp API: Sử dụng RESTful API với định dạng dữ liệu JSON làm
+               phương thức giao tiếp chuẩn giữa Frontend và Backend, cũng như giữa hệ
+               thống với các ứng dụng/hệ thống bên ngoài.
+
+
+                                                                                 Trang 30
+Tài liệu thiết kế hệ thống                                                           V3.0
+
+           o Máy chủ ứng dụng: Triển khai trên docker.
+
+           o Các dịch vụ API, WebUI sẽ được cài đặt song song trên 02 máy chủ ứng
+               dụng. Với máy chủ Proxy sẽ cấu hình trỏ đồng thời vào 02 máy chủ ứng dụng
+               nhằm đảm bảo tính sẵn sàng cho hệ thống. Khi một máy chủ ứng dụng gặp
+               sự cố, hệ thống Proxy sẽ tự động chuyển các request sang máy chủ còn lại.
+
+   -   Lớp Dữ liệu (Data Layer):
+
+           o Hệ quản trị CSDL quan hệ (RDBMS): Sử dụng MSSQL Server để lưu dữ
+               liệu nghiệp vụ, cài đặt theo chế độ Active-Standby.
+
+           o Máy chủ GIS: Sử dụng GeoServer để cung cấp các dịch vụ bản đồ chuẩn
+               OGC (WMS, WFS, WMTS).
+
+           o Lưu trữ file: Dữ liệu được lưu trữ trên MinIO.
+
+   -   Lớp Tích hợp (Integration Layer):
+
+           o API Gateway: Sử dụng Nginx triển khai trên docker.
+
+           o Giao thức: Sử dụng RESTful API (qua HTTPS) làm giao thức chính để tích
+               hợp với hệ thống của các đơn vị bên ngoài và Trục LGSP/NGSP. Tuân thủ
+               các tiêu chuẩn kỹ thuật về kết nối, chia sẻ dữ liệu do Bộ GTVT và VPCP ban
+               hành. Sử dụng định dạng JSON, Dùng cơ chế xác thực, mã hóa, chữ ký số
+               theo quy định của cơ quan chủ quản và hạ tầng LGSP/NGSP.
+
+   -   Hạ tầng Công nghệ (Infrastructure Layer):
+
+           o Máy chủ: Sử dụng máy chủ vật lý dạng Rackmount hiệu năng cao, hỗ trợ ảo
+               hóa.
+
+           o Hệ điều hành: Sử dụng Windows Server.
+
+
+
+
+                                                                               Trang 31
+Tài liệu thiết kế hệ thống                                                                                                 V3.0
+
+         Mô hình vật lý
+
+                                                                                   Hệ thống VMSN, VMSS,
+ Hệ thống cơ sở dữ liệu
+                                                                                   VISHIPEL, Cảng vụ, DN
+  dùng chung cấp bộ
+                                                                                           Cảng
+
+
+
+
+                                                 firewall
+
+
+                          DMZ
+                                                                                                           Hệ thống khác của Cục
+                                                                                                                 hàng hải
+                                            Proxy server
+
+
+
+                          App zone
+
+
+
+
+                                Application server          GIS server
+
+
+
+
+                          Database zone
+
+
+
+
+                                     Database server        File storage
+
+
+                            Hệ thống quản lý kết cấu hạ tầng giao thông hàng hải
+
+
+                                                    Hình 6: Mô hình vật lý
+
+    -    Phân vùng mạng (Network Zoning): Hạ tầng mạng được phân chia thành các vùng
+         bảo mật vật lý và logic riêng biệt thông qua các thiết bị tường lửa (Firewall) và cấu
+         hình VLAN trên switch:
+
+              o Vùng DMZ: Được thiết lập để chứa các máy chủ Proxy, đóng vai trò là điểm
+                    giao tiếp được kiểm soát với các kết nối từ bên ngoài (Internet, mạng của các
+                    đơn vị liên quan). Vùng này được cách ly nghiêm ngặt khỏi các vùng mạng
+                    nội bộ.
+
+
+
+
+                                                                                                                   Trang 32
+Tài liệu thiết kế hệ thống                                                              V3.0
+
+             o Vùng ứng dụng (App Zone): Chứa các máy chủ ứng dụng (Application
+                 Server), máy chủ GIS (GIS Server). Các máy chủ trong vùng này chịu trách
+                 nhiệm xử lý logic nghiệp vụ chính của hệ thống.
+
+             o Vùng cơ sở Dịch vụ (Database Zone): Là vùng có mức độ bảo mật cao
+                 nhất, chứa các máy chủ cơ sở Dịch vụ (Database Server) và hệ thống lưu trữ
+                 SAN. Chỉ các máy chủ được ủy quyền từ App Zone mới có thể kết nối đến
+                 vùng này qua các cổng và giao thức được quy định chặt chẽ.
+
+     -    Tường lửa (Firewall): Thiết bị tường lửa được triển khai tại biên mạng (kết nối
+          Internet/WAN) và giữa các vùng mạng (DMZ, App, DB) để thực thi các chính sách
+          an ninh, kiểm soát luồng truy cập, phát hiện và ngăn chặn xâm nhập.
+
+     -    Hạ tầng máy chủ vật lý: Các máy chủ vật lý được phân chia theo vai trò chức năng:
+          Proxy Server, Application Server, GIS Server, Database Server, SIEM Server.
+
+     -    Kết nối ra ngoài:
+
+             o Người dùng nội bộ: Kết nối qua mạng LAN hiện có của Cục, có thể sử dụng
+                 VPN để truy cập từ xa an toàn.
+
+             o Các đơn vị bên ngoài (Tổng Cty BĐATHH, VISHIPEL, DN Cảng...): Kết
+                 nối VPN Site-to-Site đến vùng DMZ.
+
+             o Trục LGSP: Kết nối qua đường truyền riêng hoặc VPN theo quy định của Bộ
+                 GTVT.
+
+
+
+         Thiết kế dữ liệu
+          Thông tin về cơ sở dữ liệu
+
+ ST              Tên CSDL/Schema                                   Mô tả
+  T
+ 1        VMD_MTIS                            CSDL kết cấu hạ tầng giao thông hàng hải :
+                                              Lưu trữ dữ liệu kết cấu hạ tầng giao thông
+                                              hàng hải
+ 2        VMD_MTIS_IAM                        CSDL kết cấu hạ tầng giao thông hàng hải :
+                                              Lưu trữ dữ liệu quản trị
+
+                                                                                 Trang 33
+Tài liệu thiết kế hệ thống                                                       V3.0
+
+ ST             Tên CSDL/Schema                              Mô tả
+  T
+
+ 3     VMD_MTIS_META                     CSDL tổng hợp: siêu dữ liệu chứa các thông
+                                         tin mô tả rõ hơn về thuộc tính của các đối
+                                         tượng kết cấu hạ tầng giao thông hàng hải
+
+ 4     VMD_MTIS_LGSP                     CSDL tổng hợp: Lưu trữ dữ liệu trao đổi với
+                                         cục/bộ ban ngành khác
+ 5     File server (sử dụng giải pháp CSDL tổng hợp: Lưu trữ thông tin file, ảnh.
+       MinIO)                            Cấu trúc lưu trữ:
+                                         {TABLE_NAME}/{TABLE_ID}/{OBJ_C
+                                         ODE}/{OBJ_SEQ}/{FileName.FileExt}
+                                         Ví dụ:
+                                         KCHT_ATHH/112/FILE_DK/1/CKS_Exa
+                                         mple.pdf
+
+
+
+
+       Danh sách các bảng và mô tả
+         Danh sách bảng CSDL nghiệp vụ
+
+ TT                  Tên bảng                                Mô tả
+ 1     dbo.COM_REPORT                    Dữ liệu báo cáo dùng chung
+
+ 2     dbo.COM_SEQ                       Bảng cấp số
+
+ 3     dbo.COM_SYNC                      Bảng đồng bộ (chia sẻ dữ liệu LGSP)
+ 4     dbo.DM_APP_PARAM                  Bảng danh mục chung, tham số hệ thống.
+
+ 5     dbo.KCHT_ATHH                     Thông tin KCHT > Đảm bảo an toàn hàng
+                                         hải
+ 6     dbo.KCHT_CB                       Thông tin KCHT > Cảng biển
+
+ 7     dbo.KCHT_CC                       Thông tin KCHT > Cảng cạn
+
+ 8     dbo.KCHT_GIS_DOI_TUONG            Quản    lý   danh      mục    đối     tượng
+                                         điểm/đường/vùng
+
+
+
+                                                                             Trang 34
+Tài liệu thiết kế hệ thống                                                       V3.0
+
+ TT                  Tên bảng                             Mô tả
+
+ 9     dbo.KCHT_MVT                     Thông tin KCHT > Mạng viễn thông hàng
+                                        hải
+
+ 10    dbo.KCHT_VBPL                    Quản lý thông tin văn bản pháp lý
+ 11    dbo.QH_BEN_CANG                  Quy hoạch > Bến cảng hàng hải
+ 12    dbo.QTHT_BIEU_TUONG_-            Quản lý biểu tượng trên bản đồ
+       BAN_DO
+ 13    dbo.QTHT_HAI_DO_DIEN_TU          Quản lý hải đồ điện tử
+
+ 14    dbo. QLHS                        Quản lý hồ sơ
+
+ 15    dbo.TS_QL                        TÀI SẢN > Quản lý tài sản
+ 16    dbo.TS_QL_DN_XL_KCHT             TÀI SẢN > Quản lý Đề nghị xử lý tài sản
+                                        KCHTGT hàng hải
+ 17    dbo.TS_QL_KK                     TÀI SẢN > Kiểm kê tài sản
+
+ 18    dbo.TS_QL_KT                     TÀI SẢN > Quản lý > Khai thác
+
+ 19    dbo.TS_QL_SL_CB                  TÀI SẢN > Quản lý sản lượng cảng biển
+
+ 20    dbo.TS_QL_TG_NG                  TÀI SẢN > Quản lý > Tăng / giảm nguyên
+                                        giá
+
+ 21    dbo.VH_KT_BT_SC                  Vận hành > Khai thác / Bảo trì / Sự cố
+
+
+ 22    dbo.DM_DON_VI_HANH_CHIN          Danh mục đơn vị hàng chính
+       H
+ 23    dbo.DM_DON_VI_VH_KT              Danh mục đơn vị vận hành khai thác
+ 24    dbo.DM_QUOC_TICH                 Danh mục quốc tịch
+
+
+         Danh sách bảng CSDL quản trị
+
+ TT                  Tên bảng                             Mô tả
+ 1     dbo.AUTH_APPLICATION             QL ứng dụng
+ 2     dbo.AUTH_GROUP                   QL nhóm người dùng
+
+
+
+
+                                                                            Trang 35
+Tài liệu thiết kế hệ thống                                                        V3.0
+
+ TT                  Tên bảng                                   Mô tả
+
+ 3     dbo.AUTH_-                           QL phân quyền nhóm người dùng truy cập
+       GROUP_PERMISSION                     vào menu
+
+ 4     dbo.AUTH_MENU                        QL chức năng
+ 5     dbo.AUTH_ORG                         Quản lý đơn vị
+ 6     dbo.AUTH_USER                        QL người dùng
+ 7     dbo.AUTH_USER_ACCESS                 QL lịch sử truy cập
+
+ 8     dbo.AUTH_USER_GROUP                  QL người dùng được phân quyền vào các
+                                            nhóm
+
+ 9     dbo.AUTH_USER_PASS                   QL lịch sử đổi mật khẩu
+ 10    dbo.AUTH_USER_PERMISSION             QL người dùng được phân quyền vào chức
+                                            năng
+ 11    dbo.AUTH_USER_TEMP                   QL người dùng
+
+ 12    dbo.AUTH_EMAIL_OUTBOX                QL email thông báo gửi đi
+
+ 13    dbo. AUTH_EMAIL_SERVER               QL cấu hình mail server để gửi mail
+
+
+         Danh sách bảng CSDL siêu dữ liệu
+
+ TT                  Tên bảng                                   Mô tả
+ 1     dbo.COM_DATA_EXT                     Dữ liệu mở rộng dùng chung
+
+ 2     dbo.COM_DATA_GEO                     Dữ liệu Geo dùng chung
+
+ 3     dbo.COM_DATA_LOG                     Dữ liệu lịch sử thay đổi
+
+
+         Danh sách bảng CSDL trao đổi với cục/bộ ban ngành khác
+
+ TT                  Tên bảng                                   Mô tả
+ 1     dbo.AUTH_USER                        Quản lý người dùng
+
+ 2     dbo.COM_DATA_TEMP                    Dữ liệu tiếp nhận tạm
+ 3     dbo.MSG_INBOX                        Dữ liệu tiếp nhận
+
+
+
+
+                                                                              Trang 36
+Tài liệu thiết kế hệ thống                                                         V3.0
+
+ TT                  Tên bảng                                   Mô tả
+
+ 4     dbo.MSG_OUTBOX                       Dữ liệu phản hồi
+
+
+
+
+       Thiết kế chi tiết CSDL kết cấu hạ tầng giao thông hàng hải
+         dbo.COM_REPORT
+Mục đích: Quản lý dữ liệu báo cáo dùng chung
+II.2.3.1.1. Các trường và ràng buộc trên trường
+
+                 Tên trường (Diễn giải)                Kiểu dữ liệu         Rỗng
+
+ ID                                                    bigint
+ ID
+
+ FK_DON_VI_BC                                          varchar(20)
+ Đơn vị báo cáo
+ BC_NHOM                                               varchar(20)
+ Kỳ báo cáo > Nhóm
+ BC_KY                                                 varchar(20)
+ Kỳ báo cáo > Kỳ (Ngày/Tháng/Năm)
+
+ BC_MA                                                 varchar(20)
+ Kỳ báo cáo > Mã
+
+ STATUS                                                int              X
+ Trạng thái (1: Sử dụng; 0: Không sử dụng)
+
+ CREATED_DATE                                          datetime         X
+ Ngày nhập
+
+ CREATED_USER                                          varchar(50)      X
+ Người nhập
+
+ UPDATED_DATE                                          datetime         X
+ Ngày cập nhật
+ UPDATED_USER                                          varchar(50)      X
+ Người cập nhật
+
+
+
+
+                                                                             Trang 37
+Tài liệu thiết kế hệ thống                                                              V3.0
+
+II.2.3.1.2. Các ràng buộc
+
+                              Tên cột                                  Nội dung
+
+      FK_DON_VI_BC, BC_NHOM, BC_KY, BC_MA                         Khóa chính
+
+
+II.2.3.1.3. Index
+                Tên chỉ mục                                 Nội dung
+
+      COM_REPORT_PK                     Là unique index, sử dụng cho khóa chính
+
+
+         dbo.COM_SEQ
+Mục đích: Cấp số
+II.2.3.2.1. Các trường và ràng buộc trên trường
+
+           Tên trường (Diễn giải)                 Kiểu dữ          Rỗng        Giá trị mặc
+                                                    liệu                          định
+
+ TABLE_NAME                                   varchar(50)
+ Tên bảng
+
+ OBJ_CODE                                     varchar(50)
+ Cấp số theo mã
+ OBJ_TIME                                     bigint
+ Cấp số theo thời gian
+
+ OBJ_SEQ                                      bigint          X
+ Số đang được cấp
+
+ STATUS                                    int                X                ((1))
+ Trạng thái (1: Sử dụng; 0: Không sử dụng)
+
+ CREATED_DATE                                 datetime        X                (getdate())
+ Ngày nhập
+
+ CREATED_USER                                 varchar(50)     X                ('SYSTEM')
+ Người nhập
+ UPDATED_DATE                                 datetime        X                (getdate())
+ Ngày cập nhật
+
+
+
+
+                                                                                   Trang 38
+Tài liệu thiết kế hệ thống                                                                  V3.0
+
+           Tên trường (Diễn giải)                 Kiểu dữ              Rỗng       Giá trị mặc
+                                                   liệu                              định
+
+ UPDATED_USER                                  varchar(50)         X              ('SYSTEM')
+ Người cập nhật
+
+
+II.2.3.2.2. Các ràng buộc
+                             Tên cột                                   Nội dung
+      TABLE_NAME, OBJ_CODE, OBJ_TIME                       Khóa chính
+
+
+II.2.3.2.3. Index
+
+                Tên chỉ mục                                     Nội dung
+
+      COM_SEQ_PK                         Là unique index, sử dụng cho khóa chính
+
+
+         dbo.COM_SYNC
+Mục đích: Quản lý dữ liệu đồng bộ (chia sẻ dữ liệu LGSP)
+II.2.3.3.1. Các trường và ràng buộc trên trường
+
+                Tên trường (Diễn giải)                      Kiểu dữ liệu           Rỗng
+ ID                                                       bigint
+ ID
+ TABLE_NAME                                               varchar(50)
+ Tên bảng
+ TABLE_ID                                                 bigint
+ ID bảng
+
+ SYNC_STATUS                                              int
+ Trạng thái đồng bộ
+
+ SYNC_DATE                                                datetime
+ Ngày đồng bộ
+ REQ_TYPE                                                 varchar(50)         X
+ Loại dữ liệu chia sẻ (ex: 205-Thông tin bến cảng)
+
+
+
+                                                                                     Trang 39
+Tài liệu thiết kế hệ thống                                                              V3.0
+
+                 Tên trường (Diễn giải)                    Kiểu dữ liệu        Rỗng
+
+ REQ_ID                                                  varchar(50)       X
+ Mã UUID
+
+ REQ_TIME                                                datetime          X
+ Thời gian chia sẻ
+ REQ_ACTION                                              varchar(50)       X
+ Mục đích sử dụng của bản tin dữ liệu (1: Tạo lập
+ dữ liệu / 2: Sửa đổi dữ liệu / 3: Xóa hiệu lực dữ
+ liệu)
+
+ REQ_FILE_LOG                                            nvarchar(2000)    X
+ Đường dẫn request gửi đi
+
+ RES_TIME                                                datetime          X
+ Thời gian nhận phản hồi
+
+ RES_CODE                                                varchar(50)       X
+ Mã phản hồi
+
+ RES_CONTENT                                             nvarchar(2000)    X
+ Nội dung phản hồi
+
+ RES_FILE_LOG                                            nvarchar(2000)    X
+ Đường dẫn response nhận về
+
+
+II.2.3.3.2. Các ràng buộc
+                 Tên cột                               Nội dung
+
+         ID                     ID tự sinh, khóa chính
+
+
+II.2.3.3.3. Index
+
+                  Tên chỉ mục                              Nội dung
+         COM_SYNC_PK                      Là unique index, sử dụng cho khóa chính
+
+
+              dbo.DM_APP_PARAM
+Mục đích: Quản lý danh mục chung, tham số hệ thống. Dùng để khai các danh mục đơn
+giản
+                                                                                    Trang 40
+Tài liệu thiết kế hệ thống                                                         V3.0
+
+II.2.3.4.1. Các trường và ràng buộc trên trường
+
+       Tên trường (Diễn giải)            Kiểu dữ liệu            Rỗng   Giá trị mặc
+                                                                            định
+
+ ID                                    bigint
+ ID
+
+ GROUP_CODE                            nvarchar(100)
+ Mã nhóm
+
+ ITEM_CODE                             nvarchar(50)
+ Mã mục
+
+ ITEM_VALUE                            nvarchar(255)      X
+ Giá trị
+ ITEM_PROP1                            nvarchar(100)      X
+ Thuộc tính 1
+ ITEM_PROP2                            nvarchar(100)      X
+ Thuộc tính 2
+ ITEM_PROP3                            nvarchar(100)      X
+ Thuộc tính 3
+
+ ITEM_DESC                             nvarchar(1000)     X
+ Mô tả mục
+
+ CREATED_DATE                          datetime           X             (getdate())
+ Ngày tạo
+
+ LAST_MODIFIED_DATE                    datetime           X             (getdate())
+ Ngày sửa cuối cùng
+ CREATED_BY                            varchar(50)        X             ('SYSTEM')
+ Người tạo
+
+ STATUS                                int                X
+ Trạng thái
+
+
+II.2.3.4.2. Các ràng buộc
+               Tên cột                                Nội dung
+
+      GROUP_CODE,               Khóa chính
+
+                                                                            Trang 41
+Tài liệu thiết kế hệ thống                                                          V3.0
+
+      ITEM_CODE
+
+
+II.2.3.4.3. Index
+
+                Tên chỉ mục                            Nội dung
+      DM_APP_PARAM_PK                 Là unique index, sử dụng cho khóa chính
+
+
+         dbo.KCHT_ATHH
+Mục đích: Quản lý dữ liệu kết cấu hạ tầng đảm bảo an toàn hàng hải
+II.2.3.5.1. Các trường và ràng buộc trên trường
+
+           Tên trường (Diễn giải)             Kiểu dữ liệu       Rỗng    Giá trị mặc
+                                                                            định
+
+ ID                                          bigint
+ ID
+
+ FK_DON_VI_QL                                varchar(20)     X
+ Đơn vị quản lý
+
+ FK_DON_VI_VH                                varchar(20)     X
+ Đơn vị vận hành
+ FK_DON_VI_KT                                varchar(20)     X
+ Đơn vị khai thác / Đơn vị chủ quản
+
+ FK_HT_VTS                                   varchar(50)     X
+ Thuộc hệ thống VTS
+
+ FK_TT_DH_VTS                                varchar(50)     X
+ Thuộc trung tâm điều hành VTS
+
+ FK_CANG_BIEN                                varchar(50)     X
+ Thuộc cảng biển
+
+ FK_NHA_TRAM                                 varchar(50)     X
+ Mã nhà trạm
+ FK_LUONG_HH                                 varchar(50)     X
+ Mã luồng hàng hải
+ FK_LUONG_HH_TUYEN                           varchar(50)     X
+ Mã luồng hàng hải > Tuyến luồng
+
+                                                                                Trang 42
+Tài liệu thiết kế hệ thống                                                      V3.0
+
+           Tên trường (Diễn giải)          Kiểu dữ liệu        Rỗng   Giá trị mặc
+                                                                         định
+
+ NHOM                                      varchar(10)
+ Nhóm (DBNT, NT, VTS, TTDH, RADAR,
+ AIS, CCTV, SCA, TRD, PTVTS, DK)
+
+ MA                                        varchar(50)
+ Mã
+ TEN                                       nvarchar(255)
+ Tên
+
+ TINH_TRANG                                int
+ Tình trạng
+
+ LOAI_DOI_TUONG                            int             X
+ Loại đối tượng
+
+ BIEU_TUONG                                varchar(10)     X
+ Biểu tượng
+
+ HE_QUY_CHIEU                              int             X
+ Hệ quy chiếu
+
+ QUY_TAC_HIEN_THI                          int             X
+ Quy tắc hiển thị
+
+ DIA_DIEM                                  varchar(6)      X
+ Địa điểm (Tỉnh/ Thành phố)
+ DIA_DIEM_CHI_TIET                         nvarchar(500) X
+ Địa điểm chi tiết
+
+ DON_VI_TINH                               varchar(5)      X
+ Đơn vị tính
+
+ SO_LUONG                                  int             X
+ Số lượng
+ NAM_DUA_VAO_SU_DUNG                       int             X
+ Năm đưa vào sử dụng
+ NGAY_BD                                   date            X
+ Thời điểm đưa vào sử dụng / Thời điểm xây
+ dựng
+
+                                                                         Trang 43
+Tài liệu thiết kế hệ thống                                                  V3.0
+
+           Tên trường (Diễn giải)      Kiểu dữ liệu       Rỗng   Giá trị mặc
+                                                                     định
+
+ NGAY_SC                               date           X
+ Thời điểm sửa chữa gần nhất
+ LOAI_KET_CAU_CONG_TRINH               int            X
+ Loại kết cấu công trình
+ CHUNG_LOAI_DEN_CHINH                  nvarchar(100) X
+ Chủng loại đèn chính
+ CHUNG_LOAI_DEN_DU_PHONG               nvarchar(100) X
+ Chủng loại đèn dự phòng
+ CAP_TRAM_DEN                          int            X
+ Cấp trạm đèn
+ PD_GUI_DUYET_NGAY                     datetime       X
+ Phê duyệt > Ngày gửi duyệt
+ PD_GUI_DUYET_NGUOI                    varchar(50)    X
+ Phê duyệt > Người gửi duyệt
+
+ PD_CHI_CUC_DUYET_NGAY                 datetime       X
+ Phê duyệt > Ngày cấp Chi Cục duyệt
+
+ PD_CHI_CUC_DUYET_NGUOI                varchar(50)    X
+ Phê duyệt > Người cấp Chi Cục duyệt
+
+ PD_CUC_DUYET_NGAY                     datetime       X
+ Phê duyệt > Ngày cấp Cục duyệt
+
+ PD_CUC_DUYET_NGUOI                    varchar(50)    X
+ Phê duyệt > Người cấp Cục duyệt
+
+ STATUS                                int            X          ((1))
+ Trạng thái
+ CREATED_DATE                          datetime       X          (getdate())
+ Ngày nhập
+
+ CREATED_USER                          varchar(50)    X          ('SYSTEM')
+ Người nhập
+ UPDATED_DATE                          datetime       X          (getdate())
+ Ngày cập nhật
+
+                                                                     Trang 44
+Tài liệu thiết kế hệ thống                                                             V3.0
+
+           Tên trường (Diễn giải)             Kiểu dữ liệu       Rỗng    Giá trị mặc
+                                                                                định
+
+ UPDATED_USER                                varchar(50)     X           ('SYSTEM')
+ Người cập nhật
+
+
+II.2.3.5.2. Các ràng buộc
+               Tên cột                                Nội dung
+      NHOM, MA                 Khóa chính
+
+
+II.2.3.5.3. Index
+
+                Tên chỉ mục                              Nội dung
+
+      KCHT_ATHH_PK                    Là unique index, sử dụng cho khóa chính
+
+
+         dbo.KCHT_CB
+Mục đích: Quản lý dữ liệu kết cấu hạ tầng cảng biển
+II.2.3.6.1. Các trường và ràng buộc trên trường
+
+           Tên trường (Diễn giải)             Kiểu dữ liệu       Rỗng    Giá trị mặc
+                                                                            định
+
+ ID                                          bigint
+ ID
+ FK_DON_VI_QL                                varchar(20)     X
+ Đơn vị quản lý
+ FK_DON_VI_VH                                varchar(20)     X
+ Đơn vị vận hành
+ FK_CANG_BIEN                                varchar(50)     X
+ Mã cảng biển
+ FK_LUONG_HH                                 varchar(50)     X
+ Mã luồng hàng hải
+ FK_BEN_PHAO                                 varchar(50)     X
+ Mã bến phao
+
+                                                                                Trang 45
+Tài liệu thiết kế hệ thống                                               V3.0
+
+           Tên trường (Diễn giải)   Kiểu dữ liệu        Rỗng   Giá trị mặc
+                                                                  định
+
+ FK_CAU_CANG                        varchar(50)     X
+ Mã cầu cảng
+ FK_BEN_CANG                        varchar(50)     X
+ Mã bến cảng
+ NHOM                               varchar(10)
+ Nhóm
+ (CB/BC/CC/BP/TTB/CT/ND/CSSCDT/LH
+ H)
+ MA                                 varchar(50)
+ Mã
+ TEN                                nvarchar(255)
+ Tên
+ TINH_TRANG                         int             X
+ Tình trạng
+
+ LOAI_DOI_TUONG                     int             X
+ Loại đối tượng
+ BIEU_TUONG                         varchar(10)     X
+ Biểu tượng
+
+ HE_QUY_CHIEU                       int             X
+ Hệ quy chiếu
+ QUY_TAC_HIEN_THI                   int             X
+ Quy tắc hiển thị
+ DIA_DIEM                           varchar(6)      X
+ Địa điểm (Tỉnh/ Thành phố)
+
+ DIA_DIEM_CHI_TIET                  nvarchar(500) X
+ Địa điểm chi tiết
+
+ PHAN_CAP                           int             X
+ Phân cấp/Phân loại
+ LOAI_KET_CAU                       int             X
+ Loại kết cấu
+
+                                                                  Trang 46
+Tài liệu thiết kế hệ thống                                                  V3.0
+
+           Tên trường (Diễn giải)      Kiểu dữ liệu       Rỗng   Giá trị mặc
+                                                                     định
+
+ CONG_NANG_KHAI_THAC                   varchar(50)    X
+ Công năng khai thác
+ NHOM_CANG_BIEN                        int            X
+ Nhóm cảng biển
+ PD_GUI_DUYET_NGAY                     datetime       X
+ Phê duyệt > Ngày gửi duyệt
+ PD_GUI_DUYET_NGUOI                    varchar(50)    X
+ Phê duyệt > Người gửi duyệt
+ PD_CHI_CUC_DUYET_NGAY                 datetime       X
+ Phê duyệt > Ngày cấp Chi Cục duyệt
+ PD_CHI_CUC_DUYET_NGUOI                varchar(50)    X
+ Phê duyệt > Người cấp Chi Cục duyệt
+ PD_CUC_DUYET_NGAY                     datetime       X
+ Phê duyệt > Ngày cấp Cục duyệt
+
+ PD_CUC_DUYET_NGUOI                    varchar(50)    X
+ Phê duyệt > Người cấp Cục duyệt
+
+ STATUS                                int            X          ((1))
+ Trạng thái
+
+ CREATED_DATE                          datetime       X          (getdate())
+ Ngày nhập
+
+ CREATED_USER                          varchar(50)    X          ('SYSTEM')
+ Người nhập
+
+ UPDATED_DATE                          datetime       X          (getdate())
+ Ngày cập nhật
+ UPDATED_USER                          varchar(50)    X          ('SYSTEM')
+ Người cập nhật
+
+
+
+
+                                                                     Trang 47
+Tài liệu thiết kế hệ thống                                                          V3.0
+
+II.2.3.6.2. Các ràng buộc
+
+               Tên cột                                Nội dung
+
+      NHOM, MA                 Khóa chính
+
+
+II.2.3.6.3. Index
+                Tên chỉ mục                              Nội dung
+
+      KCHT_CB_PK                      Là unique index, sử dụng cho khóa chính
+
+
+         dbo.KCHT_CC
+Mục đích: Quản lý dữ liệu kết cấu hạ tầng cảng cạn
+II.2.3.7.1. Các trường và ràng buộc trên trường
+
+           Tên trường (Diễn giải)             Kiểu dữ liệu       Rỗng    Giá trị mặc
+                                                                            định
+
+ ID                                          bigint
+ ID
+
+ FK_DON_VI_QL                                varchar(20)     X
+ Đơn vị quản lý
+ FK_DON_VI_KT                                varchar(20)     X
+ Đơn vị khai thác
+ NHOM                                        varchar(10)
+ Nhóm (CCAN)
+
+ MA                                          varchar(50)
+ Mã
+
+ TEN                                         nvarchar(255)
+ Tên
+
+ TINH_TRANG                                  int             X
+ Tình trạng
+ LOAI_DOI_TUONG                              int             X
+ Loại đối tượng
+
+
+
+                                                                                Trang 48
+Tài liệu thiết kế hệ thống                                                  V3.0
+
+           Tên trường (Diễn giải)      Kiểu dữ liệu       Rỗng   Giá trị mặc
+                                                                     định
+
+ BIEU_TUONG                            varchar(10)    X
+ Biểu tượng
+ HE_QUY_CHIEU                          int            X
+ Hệ quy chiếu
+ QUY_TAC_HIEN_THI                      int            X
+ Quy tắc hiển thị
+ DIA_DIEM                              varchar(6)     X
+ Địa điểm (Tỉnh/ Thành phố)
+ DIA_DIEM_CHI_TIET                     nvarchar(500) X
+ Địa điểm chi tiết
+ HANH_LANG_VAN_TAI                     varchar(1)     X
+ Hàng lang vận tải
+ KHU_VUC                               nvarchar(100) X
+ Khu vực
+
+ PD_GUI_DUYET_NGAY                     datetime       X
+ Phê duyệt > Ngày gửi duyệt
+
+ PD_GUI_DUYET_NGUOI                    varchar(50)    X
+ Phê duyệt > Người gửi duyệt
+
+ PD_CHI_CUC_DUYET_NGAY                 datetime       X
+ Phê duyệt > Ngày cấp Chi Cục duyệt
+
+ PD_CHI_CUC_DUYET_NGUOI                varchar(50)    X
+ Phê duyệt > Người cấp Chi Cục duyệt
+
+ PD_CUC_DUYET_NGAY                     datetime       X
+ Phê duyệt > Ngày cấp Cục duyệt
+ PD_CUC_DUYET_NGUOI                    varchar(50)    X
+ Phê duyệt > Người cấp Cục duyệt
+
+ STATUS                                int            X          ((1))
+ Trạng thái
+ CREATED_DATE                          datetime       X          (getdate())
+ Ngày nhập
+
+                                                                     Trang 49
+Tài liệu thiết kế hệ thống                                                             V3.0
+
+           Tên trường (Diễn giải)             Kiểu dữ liệu       Rỗng    Giá trị mặc
+                                                                                định
+
+ CREATED_USER                                varchar(50)     X           ('SYSTEM')
+ Người nhập
+ UPDATED_DATE                                datetime        X           (getdate())
+ Ngày cập nhật
+ UPDATED_USER                                varchar(50)     X           ('SYSTEM')
+ Người cập nhật
+
+
+II.2.3.7.2. Các ràng buộc
+               Tên cột                                Nội dung
+
+      NHOM, MA                 Khóa chính
+
+
+II.2.3.7.3. Index
+
+                Tên chỉ mục                              Nội dung
+      KCHT_CC_PK                      Là unique index, sử dụng cho khóa chính
+
+
+         dbo.KCHT_GIS_DOI_TUONG
+Mục đích: Quản lý danh mục đối tượng điểm/đường/vùng
+II.2.3.8.1. Các trường và ràng buộc trên trường
+           Tên trường (Diễn giải)             Kiểu dữ liệu       Rỗng    Giá trị mặc
+                                                                            định
+ ID                                          bigint
+ ID
+ LOAI_DOI_TUONG                        int
+ Loại đối tượng (1: điểm, 2: đường, 3:
+ vùng)
+ MA                                          varchar(50)
+ Mã đối tượng
+
+
+
+                                                                                Trang 50
+Tài liệu thiết kế hệ thống                                                            V3.0
+
+           Tên trường (Diễn giải)           Kiểu dữ liệu          Rỗng    Giá trị mặc
+                                                                              định
+
+ TEN                                       nvarchar(255)
+ Tên đối tượng
+ MA_BIEU_TUONG                             varchar(10)
+ Mã biểu tượng (QTHT_BIEU_TUONG_-
+ BAN_DO.MA_BIEU_TUONG)
+ STATUS                                    int                X           ((1))
+ Trạng thái (0: Lịch sử; 1: Sử dụng; 2:
+ Không sử dụng)
+ CREATED_DATE                              datetime           X           (getdate())
+ Ngày nhập
+ CREATED_USER                              varchar(50)        X           ('SYSTEM')
+ Người nhập
+ UPDATED_DATE                              datetime           X           (getdate())
+ Ngày cập nhật
+
+ UPDATED_USER                              varchar(50)        X           ('SYSTEM')
+ Người cập nhật
+
+
+II.2.3.8.2. Các ràng buộc
+
+                    Tên cột                              Nội dung
+      LOAI_DOI_TUONG, MA             Khóa chính
+
+
+II.2.3.8.3. Index
+
+                     Tên chỉ mục                             Nội dung
+
+      KCHT_GIS_DOI_TUONG_PK                      Là unique index, sử dụng cho khóa
+                                                 chính
+
+
+         dbo.KCHT_MVT
+Mục đích: Quản lý dữ liệu kết cấu hạ tầng mạng viễn thông hàng hải
+
+
+                                                                                  Trang 51
+Tài liệu thiết kế hệ thống                                                       V3.0
+
+II.2.3.9.1. Các trường và ràng buộc trên trường
+
+           Tên trường (Diễn giải)            Kiểu dữ liệu       Rỗng   Giá trị mặc
+                                                                          định
+
+ ID                                         bigint
+ ID
+
+ FK_DON_VI_QL                               varchar(20)
+ Đơn vị quản lý
+
+ FK_DON_VI_KT                               varchar(20)
+ Đơn vị khai thác
+
+ FK_TT_DH_VTS                               varchar(50)     X
+ Thuộc trung tâm điều hành VTS
+ NHOM                                       varchar(10)
+ Nhóm
+ (VHF/DTTDH/INMARSAT/SARSAT/LRI
+ T/TTXLTT)
+
+ MA                                         varchar(50)
+ Mã
+
+ TEN                                        nvarchar(255)
+ Tên
+
+ TINH_TRANG                                 int
+ Tình trạng
+
+ LOAI_DOI_TUONG                             int             X
+ Loại đối tượng
+ BIEU_TUONG                                 varchar(10)     X
+ Biểu tượng
+
+ HE_QUY_CHIEU                               int             X
+ Hệ quy chiếu
+ QUY_TAC_HIEN_THI                           int             X
+ Quy tắc hiển thị
+
+ DIA_DIEM                                   varchar(6)      X
+ Địa điểm (Tỉnh/ Thành phố)
+
+
+
+                                                                          Trang 52
+Tài liệu thiết kế hệ thống                                                  V3.0
+
+           Tên trường (Diễn giải)       Kiểu dữ liệu       Rỗng   Giá trị mặc
+                                                                     định
+
+ DIA_DIEM_CHI_TIET                     nvarchar(500)   X
+ Địa điểm chi tiết
+ TAN_SO_LIEN_LAC                       nvarchar(255)   X
+ Tần số liên lạc
+ DICH_VU_CUNG_CAP                      varchar(50)     X
+ Dịch vụ cung cấp
+ PHAN_LOAI_DAI                         int             X
+ Phân loại đài
+ DON_VI_TINH                           varchar(5)      X
+ Đơn vị tính
+ SO_LUONG                              int             X
+ Số lượng
+ MODEL                                 varchar(20)     X
+ Model
+
+ HANG_SAN_XUAT                         nvarchar(50)    X
+ Hãng sản xuất
+
+ NAM_DUA_VAO_SU_DUNG                   int             X
+ Năm đưa vào sử dụng
+
+ PD_GUI_DUYET_NGAY                     datetime        X
+ Phê duyệt > Ngày gửi duyệt
+
+ PD_GUI_DUYET_NGUOI                    varchar(50)     X
+ Phê duyệt > Người gửi duyệt
+
+ PD_CHI_CUC_DUYET_NGAY                 datetime        X
+ Phê duyệt > Ngày cấp Chi Cục duyệt
+ PD_CHI_CUC_DUYET_NGUOI                varchar(50)     X
+ Phê duyệt > Người cấp Chi Cục duyệt
+
+ PD_CUC_DUYET_NGAY                     datetime        X
+ Phê duyệt > Ngày cấp Cục duyệt
+ PD_CUC_DUYET_NGUOI                    varchar(50)     X
+ Phê duyệt > Người cấp Cục duyệt
+
+                                                                     Trang 53
+Tài liệu thiết kế hệ thống                                                             V3.0
+
+           Tên trường (Diễn giải)             Kiểu dữ liệu        Rỗng   Giá trị mặc
+                                                                                định
+
+ STATUS                                     int               X          ((1))
+ Trạng thái
+ CREATED_DATE                               datetime          X          (getdate())
+ Ngày nhập
+ CREATED_USER                               varchar(50)       X          ('SYSTEM')
+ Người nhập
+ UPDATED_DATE                               datetime          X          (getdate())
+ Ngày cập nhật
+ UPDATED_USER                               varchar(50)       X          ('SYSTEM')
+ Người cập nhật
+
+
+II.2.3.9.2. Các ràng buộc
+               Tên cột                               Nội dung
+      NHOM, MA                 Khóa chính
+
+
+II.2.3.9.3. Index
+
+                Tên chỉ mục                               Nội dung
+      KCHT_MVT_PK                     Là unique index, sử dụng cho khóa chính
+
+
+           dbo.KCHT_VBPL
+Mục đích: Quản lý thông tin văn bản pháp lý
+II.2.3.10.1. Các trường và ràng buộc trên trường
+           Tên trường (Diễn giải)             Kiểu dữ liệu        Rỗng   Giá trị mặc
+                                                                            định
+ ID                                         bigint
+ ID
+ TEN_VB                                     nvarchar(500)
+ Tên văn bản
+
+                                                                                Trang 54
+Tài liệu thiết kế hệ thống                                                V3.0
+
+           Tên trường (Diễn giải)    Kiểu dữ liệu       Rỗng   Giá trị mặc
+                                                                   định
+
+ NOI_BAN_HANH_VB                    nvarchar(255)
+ Nơi ban hành văn bản
+ SO_HIEU_VB                         nvarchar(50)
+ Số hiệu văn bản
+ NGAY_BAN_HANH                      date
+ Ngày ban hành
+ LOAI_VB                            int
+ Loại văn bản
+ GHI_CHU                            nvarchar(500)   X
+ Ghi chú
+ NGAY_HL_BAT_DAU                    date
+ Ngày bắt đầu hiệu lực
+ NGAY_HL_KET_THUC                   date            X
+ Ngày kết thúc hiệu lực
+
+ TRANG_THAI_HL                      int             X
+ Trạng thái hiệu lực
+
+ STATUS                             int             X          ((1))
+ Trạng thái
+
+ CREATED_DATE                       datetime        X          (getdate())
+ Ngày nhập
+
+ CREATED_USER                       varchar(50)     X          ('SYSTEM')
+ Người nhập
+
+ UPDATED_DATE                       datetime        X          (getdate())
+ Ngày cập nhật
+ UPDATED_USER                       varchar(50)     X          ('SYSTEM')
+ Người cập nhật
+
+
+
+
+                                                                   Trang 55
+Tài liệu thiết kế hệ thống                                                          V3.0
+
+II.2.3.10.2. Các ràng buộc
+
+               Tên cột                               Nội dung
+
+      ID                       ID tự sinh, khóa chính
+
+
+II.2.3.10.3. Index
+                Tên chỉ mục                               Nội dung
+
+      KCHT_VBPL_PK                    Là unique index, sử dụng cho khóa chính
+
+
+           dbo.QH_BEN_CANG
+Mục đích: Quản lý dữ liệu quy hoạch bến cảng hàng hải
+II.2.3.11.1. Các trường và ràng buộc trên trường
+
+           Tên trường (Diễn giải)            Kiểu dữ liệu        Rỗng    Giá trị mặc
+                                                                            định
+
+ ID                                         bigint
+ ID
+
+ FK_DON_VI_QL                               varchar(20)
+ Đơn vị quản lý
+ FK_CANG_BIEN                               varchar(50)
+ Cảng biển quy hoạch
+
+ QUYET_DINH_SO                              varchar(20)
+ Số quyết định quy hoạch
+
+ QUYET_DINH_NGAY                            date
+ Ngày quyết định quy hoạch
+
+ STATUS                                     int                          ((1))
+ Trạng thái
+
+ CREATED_DATE                               datetime                     (getdate())
+ Ngày nhập
+ CREATED_USER                               varchar(50)                  ('SYSTEM')
+ Người nhập
+
+
+
+
+                                                                                Trang 56
+Tài liệu thiết kế hệ thống                                                             V3.0
+
+           Tên trường (Diễn giải)            Kiểu dữ liệu           Rỗng   Giá trị mặc
+                                                                                định
+
+ UPDATED_DATE                               datetime                       (getdate())
+ Ngày cập nhật
+ UPDATED_USER                               varchar(50)                    ('SYSTEM')
+ Người cập nhật
+
+
+II.2.3.11.2. Các ràng buộc
+
+                         Tên cột                                Nội dung
+      FK_CANG_BIEN, QUYET_DINH_SO                  Khóa chính
+
+
+II.2.3.11.3. Index
+
+                Tên chỉ mục                               Nội dung
+
+      QH_BEN_CANG_PK                  Là unique index, sử dụng cho khóa chính
+
+
+           dbo.QTHT_BIEU_TUONG_BAN_DO
+Mục đích: Quản lý biểu tượng trên bản đồ
+II.2.3.12.1. Các trường và ràng buộc trên trường
+
+          Tên trường (Diễn giải)             Kiểu dữ liệu           Rỗng   Giá trị mặc
+                                                                              định
+ ID                                         bigint
+ ID
+ MA_BIEU_TUONG                              varchar(10)
+ Mã biểu tượng
+ TEN_BIEU_TUONG                             nvarchar(255)
+ Tên biểu tượng
+ HINH_ANH                                   varchar(2000)
+ Hình ảnh
+ GHI_CHU                                    nvarchar(500)       X
+ Ghi chú
+
+                                                                                Trang 57
+Tài liệu thiết kế hệ thống                                                            V3.0
+
+          Tên trường (Diễn giải)             Kiểu dữ liệu          Rỗng    Giá trị mặc
+                                                                               định
+
+ STATUS                                     int                X           ((1))
+ Trạng thái (1: Sử dụng; 0: Không sử
+ dụng)
+
+ CREATED_DATE                               datetime           X           (getdate())
+ Ngày nhập
+ CREATED_USER                               varchar(50)        X           ('SYSTEM')
+ Người nhập
+
+ UPDATED_DATE                               datetime           X           (getdate())
+ Ngày cập nhật
+
+ UPDATED_USER                               varchar(50)        X           ('SYSTEM')
+ Người cập nhật
+
+
+II.2.3.12.2. Các ràng buộc
+
+               Tên cột                                Nội dung
+
+      MA_BIEU_TUONG            Khóa chính
+
+
+II.2.3.12.3. Index
+
+                     Tên chỉ mục                              Nội dung
+      QTHT_BIEU_TUONG_BAN_DO_PK                   Là unique index, sử dụng cho khóa
+                                                  chính
+
+
+           dbo.QTHT_HAI_DO_DIEN_TU
+Mục đích: Quản lý hải đồ điện từ
+II.2.3.13.1. Các trường và ràng buộc trên trường
+          Tên trường (Diễn giải)             Kiểu dữ liệu          Rỗng    Giá trị mặc
+                                                                              định
+ ID                                         bigint
+ ID
+
+
+                                                                               Trang 58
+Tài liệu thiết kế hệ thống                                                          V3.0
+
+           Tên trường (Diễn giải)           Kiểu dữ liệu         Rỗng   Giá trị mặc
+                                                                            định
+
+ SO_HAI_DO                                 varchar(20)
+ Số hải đồ
+ TIEU_DE                                   nvarchar(255)
+ Tiêu đề
+ DAI_SU_DUNG                               nvarchar(20)      X
+ Dải sử dụng
+ AN_PHAM                                   int               X
+ Ấn phẩm
+ TY_LE                                     nvarchar(20)      X
+ Tỷ lệ
+ NGAY_PHAT_HANH                            date              X
+ Ngày phát hành
+ GHI_CHU                                   nvarchar(2000)    X
+ Ghi chú
+
+ STATUS                                    int               X          ((1))
+ Trạng thái
+
+ CREATED_DATE                              datetime          X          (getdate())
+ Ngày nhập
+
+ CREATED_USER                              varchar(50)       X          ('SYSTEM')
+ Người nhập
+
+ UPDATED_DATE                              datetime          X          (getdate())
+ Ngày cập nhật
+
+ UPDATED_USER                              varchar(50)       X          ('SYSTEM')
+ Người cập nhật
+
+
+II.2.3.13.2. Các ràng buộc
+
+               Tên cột                                Nội dung
+      SO_HAI_DO               Khóa chính
+
+
+
+                                                                                Trang 59
+Tài liệu thiết kế hệ thống                                                            V3.0
+
+II.2.3.13.3. Index
+
+                             Tên chỉ mục                            Nội dung
+
+      QTHT_HAI_DO_DIEN_TU_PK                                    Là unique index, sử
+                                                                dụng cho      khóa
+                                                                chính
+
+
+            dbo.QLHS
+Mục đích: Quản lý hồ sơ
+II.2.3.14.1. Các trường và ràng buộc trên trường
+            Tên trường (Diễn giải)           Kiểu dữ liệu       Rỗng       Giá trị mặc
+                                                                               định
+
+ ID                                         bigint
+ ID
+
+ FK_DON_VI_QL                               varchar(20)
+ Đơn vị quản lý
+
+ HS_LOAI                                    varchar(5)
+ Loại hồ sơ
+ HS_SO                                      nvarchar(50)
+ Số hồ sơ
+
+ HS_TEN                                     nvarchar(255)
+ Tên hồ sơ
+
+ HS_GHI_CHU                                 nvarchar(2000) X
+ Ghi chú
+ STATUS                                     int             X              ((1))
+ Trạng thái
+
+ CREATED_DATE                               datetime        X              (getdate())
+ Ngày nhập
+ CREATED_USER                               varchar(50)     X              ('SYSTEM'
+ Người nhập                                                                )
+ UPDATED_DATE                               datetime        X              (getdate())
+ Ngày cập nhật
+
+
+                                                                               Trang 60
+

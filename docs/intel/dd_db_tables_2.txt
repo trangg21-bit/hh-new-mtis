@@ -1,0 +1,1861 @@
+Tài liệu thiết kế hệ thống                                                              V3.0
+
+            Tên trường (Diễn giải)                 Kiểu dữ liệu        Rỗng   Giá trị mặc
+                                                                                 định
+
+ UPDATED_DATE                                     datetime         X
+ Ngày cập nhật
+ SMTP_SSL_PROTOCOLS                               varchar(20)      X
+ ssl.protocols: SSLv2Hello, SSLv3, TLSv1,
+ TLSv1.1, TLSv1.2
+
+
+II.2.4.13.2. Các ràng buộc
+
+                      Tên cột                                   Nội dung
+      USERNAME, SEND_MAIL                   Khóa chính
+
+
+II.2.4.13.3. Index
+                 Tên chỉ mục                                 Nội dung
+
+      AUTH_EMAIL_SERVER_PK               Là unique index, sử dụng cho khóa chính
+
+
+       Thiết kế chi tiết CSDL siêu dữ liệu
+         Bảng dbo.COM_DATA_EXT
+Mục đích: Quản lý dữ liệu mở rộng dùng chung
+II.2.5.1.1. Các trường và ràng buộc trên trường
+
+           Tên trường (Diễn giải)             Kiểu dữ liệu             Rỗng   Giá trị mặc
+                                                                                 định
+ TABLE_NAME                                  varchar(50)
+ Tên bảng
+ TABLE_ID                                    bigint
+ ID bảng
+ OBJ_CODE                                    varchar(50)
+ Mã đối tượng
+ OBJ_SEQ                                     int
+ Số thứ tự
+
+                                                                                Trang 100
+Tài liệu thiết kế hệ thống                                                              V3.0
+
+           Tên trường (Diễn giải)             Kiểu dữ liệu      Rỗng      Giá trị mặc
+                                                                                 định
+
+ OBJ_SEQ_SUB                                 int                          ((0))
+ Số thứ tự (phụ)
+ OBJ_JSON                                    nvarchar(max)
+ Dữ liệu json
+ STATUS                                      int                          ((1))
+ Trạng thái
+ CREATED_DATE                                datetime                     (getdate())
+ Ngày nhập
+ CREATED_USER                                varchar(50)                  ('SYSTEM')
+ Người nhập
+ UPDATED_DATE                                datetime                     (getdate())
+ Ngày cập nhật
+ UPDATED_USER                                varchar(50)                  ('SYSTEM')
+ Người cập nhật
+
+
+II.2.5.1.2. Các ràng buộc
+
+                             Tên cột                           Nội dung
+
+      TABLE_NAME, TABLE_ID, OBJ_CODE, Khóa chính
+      OBJ_SEQ, OBJ_SEQ_SUB
+
+
+II.2.5.1.3. Index
+                Tên chỉ mục                             Nội dung
+
+      COM_DATA_EXT_PK                  Là unique index, sử dụng cho khóa chính
+
+
+         dbo.COM_DATA_GEO
+Mục đích: Quản lý dữ liệu Geo dùng chung
+
+
+
+
+                                                                             Trang 101
+Tài liệu thiết kế hệ thống                                                             V3.0
+
+II.2.5.2.1. Các trường và ràng buộc trên trường
+
+             Tên trường (Diễn giải)               Kiểu dữ liệu   Rỗng       Giá trị mặc
+                                                                                định
+
+ TABLE_NAME                                   varchar(50)
+ Tên bảng
+
+ TABLE_ID                                     bigint
+ ID bảng
+
+ OBJ_CODE                                     varchar(50)
+ Mã đối tượng
+
+ OBJ_SEQ                                      int
+ Số thứ tự
+ OBJ_SEQ_SUB                                  int                           ((0))
+ Số thứ tự (phụ)
+ OBJ_GEO                                      geometry
+ Dữ liệu geo
+ NAME                                         nvarchar(255) X
+ Tên
+
+ STATUS                                       int                           ((1))
+ Trạng thái
+
+ CREATED_DATE                                 datetime                      (getdate())
+ Ngày nhập
+
+ CREATED_USER                                 varchar(50)                   ('SYSTEM')
+ Người nhập
+ UPDATED_DATE                                 datetime                      (getdate())
+ Ngày cập nhật
+
+ UPDATED_USER                                 varchar(50)                   ('SYSTEM')
+ Người cập nhật
+
+
+II.2.5.2.2. Các ràng buộc
+                             Tên cột                             Nội dung
+      TABLE_NAME,            TABLE_ID,     OBJ_CODE, Khóa chính
+
+
+                                                                               Trang 102
+Tài liệu thiết kế hệ thống                                                       V3.0
+
+      OBJ_SEQ, OBJ_SEQ_SUB
+
+
+II.2.5.2.3. Index
+
+                Tên chỉ mục                              Nội dung
+      COM_DATA_GEO_PK                 Là unique index, sử dụng cho khóa chính
+
+
+         dbo.COM_DATA_LOG
+Mục đích: Quàn lý dữ liệu lịch sử thay đổi
+II.2.5.3.1. Các trường và ràng buộc trên trường
+
+         Tên trường (Diễn giải)              Kiểu dữ liệu      Rỗng      Giá trị mặc
+                                                                            định
+
+ ID_LOG                                  bigint
+ ID log
+
+ TABLE_NAME                              varchar(50)
+ Tên bảng
+
+ TABLE_ID                                bigint
+ ID bảng
+ OBJ_CODE                                varchar(50)
+ Mã đối tượng
+
+ OBJ_SEQ                                 bigint
+ Số thứ tự
+
+ OBJ_SEQ_SUB                             bigint
+ Số thứ tự (phụ)
+
+ OBJ_ACTION                              varchar(1)
+ Thao tác: C/U/D/M
+
+ OBJ_JSON                                nvarchar(max)
+ Dữ liệu json
+ STATUS                                  int                            ((1))
+ Trạng thái
+
+
+
+                                                                            Trang 103
+Tài liệu thiết kế hệ thống                                                            V3.0
+
+         Tên trường (Diễn giải)            Kiểu dữ liệu        Rỗng      Giá trị mặc
+                                                                            định
+
+ CREATED_DATE                            datetime                       (getdate())
+ Ngày nhập
+ CREATED_USER                            varchar(50)                    ('SYSTEM')
+ Người nhập
+ UPDATED_DATE                            datetime                       (getdate())
+ Ngày cập nhật
+ UPDATED_USER                            varchar(50)                    ('SYSTEM')
+ Người cập nhật
+
+
+II.2.5.3.2. Các ràng buộc
+               Tên cột                              Nội dung
+      ID_LOG                   ID tự sinh, khóa chính
+
+
+II.2.5.3.3. Index
+
+                Tên chỉ mục                              Nội dung
+      COM_DATA_LOG_PK                 Là unique index, sử dụng cho khóa chính
+
+
+       Thiết kế chi tiết CSDL trao đổi với cục/bộ ban ngành khác
+         Bảng dbo.AUTH_USER
+Mục đích: Quản lý người dùng
+II.2.6.1.1. Các trường và ràng buộc trên trường
+
+          Tên trường (Diễn giải)            Kiểu dữ liệu       Rỗng      Giá trị mặc
+                                                                            định
+
+ USERNAME                                  varchar(50)
+ Tên đăng nhập
+ FULLNAME                                  nvarchar(500)
+ Họ và tên
+
+
+
+                                                                            Trang 104
+Tài liệu thiết kế hệ thống                                               V3.0
+
+          Tên trường (Diễn giải)    Kiểu dữ liệu       Rỗng   Giá trị mặc
+                                                                  định
+
+ DATE_OF_BIRTH                     datetime        X
+ Ngày sinh
+ ID_CARD                           varchar(50)     X
+ Mã công chức
+ EMAIL                             varchar(255)
+ Địa chỉ email
+ ORG_CODE                          varchar(50)
+ Mã đơn vị
+ PHONE_NUMBER                      varchar(50)     X
+ Số điện thoại
+ STATUS                            int                        ((0))
+ 1 - Active, 0 -Deactive
+ PASSWORD                          varchar(255)
+ Mật khẩu
+
+ DESCRIPTION                       nvarchar(500)   X
+ Mô tả
+
+ LAST_CHANGE_PASS_DT               datetime        X
+ Lần thay đổi mật khẩu gần nhất
+
+ DEP_CODE                          varchar(50)     X
+ Mã phòng ban
+
+ POS_CODE                          varchar(50)     X
+ Mã chức vụ
+
+ CREATED_USER                      varchar(50)     X
+ Người nhập
+ CREATED_DATE                      datetime        X
+ Ngày nhập
+
+ UPDATED_USER                      varchar(50)     X
+ Người cập nhật
+ UPDATED_DATE                      datetime        X
+ Ngày cập nhật
+
+                                                                 Trang 105
+Tài liệu thiết kế hệ thống                                                        V3.0
+
+          Tên trường (Diễn giải)            Kiểu dữ liệu         Rỗng   Giá trị mặc
+                                                                           định
+
+ TOTP_SECRET                               varchar(50)       X
+ Mã bảo mật TOTP
+ ZAMMAD_SECRET                             varchar(100)      X
+ Mã bảo mật Zammad
+ JWT_SECRET                                varchar(100)      X
+ Mã bảo mật JWT
+ CITIZEN_ID                                varchar(20)       X
+ Số CCCD/CMND
+ CITIZEN_DATE                              datetime          X
+ Ngày cấp CCCD/CMND
+ CITIZEN_ISSUED_BY                         nvarchar(255)     X
+ Nơi cấp CCCD/CMND
+ GENDER                                    int               X
+ Giới tính (0:KXD, 1:Nam, 2:Nữ)
+
+ ADDRESS                                   nvarchar(500)     X
+ Địa chỉ
+
+ CITIZEN_STATUS                            int               X
+ Trạng thái xác thực VNeID (0-Chưa
+ xác thực; 1-Chờ xác thực; 2-Xác thực
+ thành công; 3-Xác thực thất bại)
+ DATA_JSON                                 nvarchar(max)     X
+ Dữ liệu json
+
+
+II.2.6.1.2. Các ràng buộc
+
+               Tên cột                                Nội dung
+      USERNAME                Khóa chính
+
+
+
+
+                                                                          Trang 106
+Tài liệu thiết kế hệ thống                                                        V3.0
+
+II.2.6.1.3. Index
+
+            Tên chỉ mục                               Nội dung
+
+      AUTH_USER_PK             Là unique index, sử dụng cho khóa chính
+
+
+         Bảng dbo.COM_DATA_TEMP
+Mục đích: Lưu Dữ liệu tiếp nhận tạm
+II.2.6.2.1. Các trường và ràng buộc trên trường
+
+          Tên trường (Diễn giải)            Kiểu dữ liệu         Rỗng    Giá trị mặc
+                                                                            định
+
+ ID                                        bigint
+ ID
+
+ MSG_INBOX_ID_LAST                         bigint
+ MSG_INBOX.ID cuối cùng
+ GROUP_CODE                                varchar(50)
+ MSG_INBOX.REQ_TYPE
+ CODE                                      varchar(50)
+ Mã
+
+ NAME                                      nvarchar(500)
+ Tên
+
+ DATA_JSON                                 nvarchar(max)
+ Dữ liệu json
+
+ STATUS                                    int                           ((1))
+ Trạng thái (1: Sử dụng; 0: Xóa)
+ CREATED_DATE                              datetime                      (getdate())
+ Ngày nhập
+
+ CREATED_USER                              varchar(50)                   ('SYSTEM')
+ Người nhập
+ UPDATED_DATE                              datetime                      (getdate())
+ Ngày cập nhật
+ UPDATED_USER                              varchar(50)                   ('SYSTEM')
+ Người cập nhật
+
+                                                                            Trang 107
+Tài liệu thiết kế hệ thống                                                            V3.0
+
+
+
+II.2.6.2.2. Các ràng buộc
+                    Tên cột                              Nội dung
+
+      ID                                  Khóa chính
+      GROUP_CODE, CODE                    Đảm bảo dữ liệu không bị trùng lặp
+
+
+II.2.6.2.3. Index
+                 Tên chỉ mục                             Nội dung
+
+      COM_DATA_TEMP_PK                    Là unique index, sử dụng cho khóa chính
+
+      COM_DATA_TEMP_UNIQUE                unique index để mã không bị trùng lặp
+
+
+           Bảng dbo.MSG_INBOX
+Mục đích: Lưu thông tin bản tin dữ liệu
+II.2.6.3.1. Các trường và ràng buộc trên trường
+
+                 Tên trường (Diễn giải)                  Kiểu dữ liệu          Rỗng
+
+ ID                                                    bigint
+ ID
+ REQ_TYPE                                              varchar(50)
+ Loại dữ liệu xử lý của bản tin (ex: 205-Thông tin
+ bến cảng)
+ REQ_ID                                                varchar(50)
+ Mã UUID duy nhất của bản tin thông điệp dữ liệu
+ REQ_TIME                                              datetime
+ Thời gian tạo lập dữ liệu bản tin
+ REQ_ORG                                               varchar(100)
+ Nguồn gốc nơi tạo bản tin dữ liệu
+ REQ_USER                                              varchar(50)
+ Người gửi tin
+ REQ_ACTION                                            varchar(50)
+ Mục đích sử dụng của bản tin dữ liệu (1: Tạo lập
+
+                                                                               Trang 108
+Tài liệu thiết kế hệ thống                                                                 V3.0
+
+                  Tên trường (Diễn giải)                    Kiểu dữ liệu            Rỗng
+ dữ liệu / 2: Sửa đổi dữ liệu / 3: Xóa hiệu lực dữ
+ liệu)
+
+ REQ_CONTENT                                             nvarchar(max)
+ Nội dung bản tin
+ REQ_DATA_SIGN                                           nvarchar(2000)
+ Chữ ký số của hệ thống đóng gói dữ liệu
+
+
+II.2.6.3.2. Các ràng buộc
+
+                 Tên cột                               Nội dung
+
+         ID                     Khóa chính
+
+         REQ_ID                 Đảm bảo dữ liệu không bị trùng lặp
+
+
+II.2.6.3.3. Index
+
+                  Tên chỉ mục                               Nội dung
+
+         MSG_INBOX_PK                       Là unique index, sử dụng cho khóa chính
+
+         MSG_INBOX_UNIQUE                   unique index để mã không bị trùng lặp
+
+
+              Bảng dbo.MSG_OUTBOX
+Mục đích: Lưu dữ liệu phản hồi
+II.2.6.4.1. Các trường và ràng buộc trên trường
+                   Tên trường (Diễn giải)                    Kiểu dữ liệu           Rỗng
+
+ MSG_INBOX_ID                                               bigint
+ MSG_INBOX.ID
+
+ RES_TIME                                                   datetime
+ Thời gian phản hồi
+
+ RES_CODE                                                   varchar(50)
+ Mã phản hồi
+ RES_CONTENT                                                nvarchar(max)
+ Nội dung phản hồi
+
+                                                                                    Trang 109
+Tài liệu thiết kế hệ thống                                                  V3.0
+
+
+
+II.2.6.4.2. Các ràng buộc
+               Tên cột                           Nội dung
+
+      MSG_INBOX_ID           Khóa chính
+
+
+II.2.6.4.3. Index
+            Tên chỉ mục                          Nội dung
+      MSG_OUTBOX_PK          Là unique index, sử dụng cho khóa chính
+
+
+
+
+                                                                       Trang 110
+Tài liệu thiết kế hệ thống                        V3.0
+
+     Thiết kế chức năng
+       Thiết kế phân hệ Quản lý người dùng
+         Quản lý tài khoản người dùng
+II.3.1.1.1. Luồng màn hình
+
+
+
+
+II.3.1.1.2. Giao diện
+- Màn hình Đăng nhập
+
+
+
+
+- Màn hình Quên mật khẩu
+
+
+
+
+                                             Trang 111
+Tài liệu thiết kế hệ thống          V3.0
+
+
+
+
+- Màn hình Đăng ký tài khoản
+
+
+
+
+- Popup Thông tin
+
+
+
+
+                               Trang 112
+Tài liệu thiết kế hệ thống        V3.0
+
+
+
+
+- Popup Thông tin cá nhân
+
+
+
+
+- Popup Đổi mật khẩu
+
+
+
+
+                             Trang 113
+Tài liệu thiết kế hệ thống                                          V3.0
+
+
+
+
+- Popup Đặt lại mật khẩu
+
+
+
+
+II.3.1.1.3. Danh sách thành phần giao diện
+
+   Tên thành phần             Bắt   Định dạng   Vai trò   Ghi chú
+                             buộc
+                             nhập
+                               ?
+ MH Đăng nhập
+
+                                                           Trang 114
+Tài liệu thiết kế hệ thống                                                        V3.0
+
+   Tên thành phần                Bắt   Định dạng           Vai trò      Ghi chú
+                             buộc
+                             nhập
+                                  ?
+ email                       M         Textbox     Nhập email
+
+ matKhau                     M         Textbox     Nhập mật khẩu
+ maCaptcha                   M         Textbox     Nhập mã captcha
+ MH Quên mật khẩu
+
+ email                       M         Textbox     Nhập email
+
+ maCaptcha                   M         Textbox     Nhập mã captcha
+
+ MH Đăng ký tài khoản
+
+ donVi                       M         Combobox    Chọn đơn vị
+ email                       M         Textbox     Nhập email
+
+ hoVaTen                     M         Textbox     Nhập họ và tên
+
+ soDienThoai                 -         Textbox     Nhập số điện thoại
+
+ maCongChuc                  -         Textbox     Nhập mã công chức
+ phongBan                    -         Combobox    Chọn phòng ban
+
+ chucVu                      -         Combobox    Chọn chức vụ
+ diaChi                      -         Textarea    Nhập địa chỉ
+
+ matKhau                     M         Textbox     Nhập mật khẩu
+ nhapLaiMatKhau              M         Textbox     Nhập lại mật khẩu
+ maCaptcha                   M         Textbox     Nhập Mã captcha
+
+ MH Đổi mật khẩu
+ matKhauCu                   M         Textbox     Nhập mật khẩu cũ
+
+ matKhauMoi                  M         Textbox     Nhập mật khẩu mới
+ xacNhanMatKhau              M         Textbox     Nhập Xác nhận mật
+                                                   khẩu
+ nhapMaOtp                   M         Textbox     Nhập mã OTP
+ MH Đặt lại mật khẩu
+
+                                                                         Trang 115
+Tài liệu thiết kế hệ thống                                                                  V3.0
+
+   Tên thành phần            Bắt     Định dạng            Vai trò               Ghi chú
+                             buộc
+                             nhập
+                                 ?
+ email                       X       Display     Xem Email
+
+ matKhauMoi                  M       Textbox     Nhập Mật khẩu mới
+ nhapLaiMatKhauMo
+                             M       Textbox     Nhập lại mật khẩu mới
+ i
+II.3.1.1.4. Xử lý sự kiện
+
+      Sự kiện                                        Mô tả
+
+ Page_Load            Truy cập vào website hệ thống → Hiển thị màn hình đăng nhập
+
+ Đăng nhập            Khi chọn đăng nhập:
+                      + Nếu tài khoản hợp lệ thì thông báo “Đăng nhập thành công hệ
+                      thống”, hệ thống hiển thị màn hình trang chủ
+                      + Nếu không hợp lê, thông báo lỗi
+ Quên mật khẩu        Khi chọn “Quên mật khẩu”: hiển thị màn hình Quên mật khẩu
+
+ Đăng ký tài          Khi chọn “Đăng ký tài khoản người dùng”: hiển thị màn hình Đăng
+ khoản người          ký tài khoản
+ dùng
+
+ Màn hình Quên mật khẩu
+ Gửi yêu cầu đặt      Khi chọn Gửi yêu cầu đặt lại mật khẩu: hệ thống gửi link đặt lại mật
+ lại mật khẩu         khẩu vào email người dùng đã đăng ký.
+                      Tại email đặt lại mật khẩu, khi truy cập vào link đặt lại mật khẩu:
+                      hiển thị popup Đặt lại mật khẩu
+
+ Đăng nhập            Khi chọn đăng nhập: quay lại màn hình đăng nhập
+
+ Màn hình đăng ký tài khoản
+ Đăng ký tài          Khi chọn Đăng ký tài khoản: hiển thị thông báo “Đăng ký tài khoản
+ khoản                thành công, bạn có thể đăng nhập khi tài khoản được duyệt cấp”
+
+ Đăng nhập            Khi chọn đăng nhập: quay lại màn hình đăng nhập
+ Popup Thông tin
+
+
+                                                                                  Trang 116
+Tài liệu thiết kế hệ thống                                                               V3.0
+
+      Sự kiện                                           Mô tả
+
+ Đăng xuất            Khi chọn Đăng xuất:
+                      + Đăng xuất tài khoản đăng nhập, quay lại màn hình đăng nhập
+                      + Lưu log đăng xuất của tài khoản người dùng
+ Đổi mật khẩu         Khi chọn Đổi mật khẩu: Hiển thị màn hình đổi mật khẩu
+ Popup Đổi mật khẩu
+
+ Đổi mật khẩu         Khi chọn Đổi mật khẩu: thông báo “Đổi mật khẩu thành công”,
+                      quay lại màn hình đang nhập
+
+ Popup Đặt lại mật khẩu
+
+ Đặt lại mật khẩu Khi chọn Đặt lại mật khẩu: thông báo “Đặt lại mật khẩu thành công,
+                      truy cập hệ thống và đăng nhập lại bằng mặt khẩu mới”, chuyển tới màn
+                      hình Đăng nhập vào hệ thống.
+
+II.3.1.1.5. Bảng dữ liệu sử dụng
+
+                    Tên bảng                                        Kiểu
+
+                                                 Insert     Update      Delete     Query
+
+  AUTH_USER                                                     X
+
+  AUTH_USER_TEMP                                    X
+
+  AUTH_USER_PASS                                    X
+
+II.3.1.1.6. Kiểm soát dữ liệu/các ràng buộc
+- TH nhập sai mật khẩu:
++ Khi người dùng nhập sai mật khẩu từ 5 lần trở lên, hệ thống block user trong vòng 5
+phút, hệ thống sẽ hiển thị câu thông báo lỗi: “Nhập sai thông tin mật khẩu liên tục quá 5
+lần, vui lòng thử lại sau 5 phút” (sau dd/mm/yyyy 24:mm:ss => dd/mm/yyyy 24:mm:ss là
+thời gian người dùng được thử lại)
++ Đến thời gian thử lại, vẫn tiếp tục nhập sai mật khẩu, hệ thống thống báo “Nhập sai thông
+tin mật khẩu liên tục quá 6 lần, vui lòng thử lại sau 10 phút” => Cứ thế tịnh tiến thời gian
+tương ứng với số lần nhập sai
+- Trường Mật khẩu/Mật khẩu mới/Nhập lại mật khẩu/Nhập lại mật khẩu mới: Mã hóa mật
+khẩu khi nhập, Hiện hình mắt cuối ô text -> Khi người dùng chọn vào sẽ hiện mật khẩu đã
+nhập.
+
+
+                                                                                   Trang 117
+Tài liệu thiết kế hệ thống                                                                                                                    V3.0
+
+- Trường hợp tài khoản được tạo bởi Cán bộ QTHT: Khi thực hiện đăng nhập lần đầu,
+người dùng phải thực hiện đổi mật khẩu bằng cách: chọn Quên mật khẩu tại màn hình đăng
+nhập.
+
+
+              Quản lý nhóm người dùng
+II.3.1.2.1. Luồng màn hình
+                                                          QLND_002:Quản lý nhóm người dùng
+
+
+
+                                Chọn Quản lý nhóm
+       Chọn Menu                                           3.1. MH Danh sách                  Chọn Thêm mới          3.2. MH Thêm mới
+                                  người sử dụng
+
+
+
+
+    Hệ thống hiển thị kết quả             Chọn Tìm kiếm                                          Chọn Sửa              3.3. MH Sửa
+    theo điều kiện tìm kiếm
+
+
+
+
+                                                                                              Chọn Xem chi tiết      3.4. MH Xem chi tiết
+
+
+
+
+                                                                                              Chọn Phân quyền
+                                                                                                                     3.5. MH Phân quyền
+                                                                                              nhóm người dùng
+                                                                                                                          chức năng
+
+
+
+
+                                                                                             Chọn Thêm người dùng
+                                                                                                                    3.6. Thêm người dùng
+                                                                                                  vào nhóm
+                                                                                                                          vào nhóm
+
+
+
+
+                                                                                             Chọn Khóa/Mở khóa      Hiển thị màn hình thông
+                                                                                                                              báo
+
+
+
+
+II.3.1.2.2. Giao diện
+- Màn hình Tìm kiếm
+
+
+
+
+                                                                                                                              Trang 118
+Tài liệu thiết kế hệ thống        V3.0
+
+
+
+
+- Màn hình Thêm mới
+
+
+
+
+- Màn hình Sửa
+
+
+
+
+                             Trang 119
+Tài liệu thiết kế hệ thống                   V3.0
+
+
+
+
+- Màn hình Xem chi tiết
+
+
+
+
+- Màn hình Phân quyền nhóm người dùng
+
+
+
+
+                                        Trang 120
+Tài liệu thiết kế hệ thống                                          V3.0
+
+
+
+
+- Màn hình Thêm người dùng vào nhóm
+
+
+
+
+II.3.1.2.3. Danh sách thành phần giao diện
+   Tên thành phần             Bắt   Định dạng   Vai trò   Ghi chú
+                             buộc
+                             nhập
+                               ?
+
+ MH Tìm kiếm
+
+                                                           Trang 121
+Tài liệu thiết kế hệ thống                                                      V3.0
+
+   Tên thành phần                Bắt   Định dạng           Vai trò    Ghi chú
+                             buộc
+                             nhập
+                                  ?
+ Chỉ tiêu tìm kiếm
+
+ maUngDung                   M         Combobox    Chọn mã ứng dụng
+ donVi                       M         Combobox    Chọn đơn vị
+ maNhom                      -         Textbox     Nhập mã nhóm
+
+ tenNhom                     -         Textbox     Nhập tên nhóm
+
+ trangThai                   -         Combobox    Chọn Trạng thái
+
+ Kết quả tìm kiếm
+
+ stt                         X         Display     Xem STT
+ maUngDung                   X         Display     Xem mã ứng dụng
+
+ donVi                       X         Display     Xem đơn vị
+
+ maNhom                      X         Display     Xem mã nhóm
+
+ tenNhom                     X         Display     Xem tên nhóm
+ trangThai                   X         Display     Xem trạng thái
+
+ MH Thêm mới
+ maUngDung                   M         Combobox    Chọn mã ứng dụng
+
+ donVi                       M         Combobox    Chọn đơn vị
+ maNhom                      M         Textbox     Nhập mã nhóm
+ tenNhom                     M         Textarea    Nhập tên nhóm
+
+ trangThai                   M         Combobox    Chọn Trạng thái
+ moTa                        -         Textarea    Nhập mô tả
+
+ MH Sửa
+ maUngDung                   X         Display     Xem mã ứng dụng
+ donVi                       X         Display     Xem đơn vị
+ maNhom                      X         Display     Xem mã nhóm
+
+
+                                                                       Trang 122
+Tài liệu thiết kế hệ thống                                                            V3.0
+
+   Tên thành phần                Bắt   Định dạng           Vai trò          Ghi chú
+                             buộc
+                             nhập
+                                  ?
+ tenNhom                     M         Textarea    Nhập tên nhóm
+
+ trangThai                   M         Combobox    Chọn Trạng thái
+ moTa                        -         Textarea    Nhập mô tả
+ MH Chi tiết
+
+ maUngDung                   X         Display     Xem mã ứng dụng
+
+ donVi                       X         Display     Xem đơn vị
+
+ maNhom                      X         Display     Xem mã nhóm
+
+ tenNhom                     X         Display     Xem tên nhóm
+ trangThai                   X         Display     Xem Trạng thái
+
+ moTa                        X         Display     Xem mô tả
+
+ ngayCapNhat                 X         Display     Xem ngày cập nhật
+
+ canBoCapNhat                X         Display     Xem cán bộ cập nhật
+ MH Phân quyền nhóm người dùng
+
+ maUngDung                   X         Display     Xem mã ứng dụng
+ maNhom                      X         Display     Xem mã nhóm
+
+ capDonViDuocSuDu X                    Display     Xem Cấp dơn vị được sử
+ ng                                                dụng
+
+ Danh sách chức năng
+
+ timTenChucNang              -         Textbox     Nhập tìm tên chức năng
+ Bảng Danh sách chức năng
+
+ checkbox                    -         Checkbox    Tích/bỏ tích chọn các
+                                                   chức năng nhóm được
+                                                   truy cập
+ tenChucNang                 X         Display     Xem tên chức năng
+ MH Thêm người dùng vào nhóm
+
+
+                                                                             Trang 123
+Tài liệu thiết kế hệ thống                                                              V3.0
+
+   Tên thành phần                Bắt   Định dạng            Vai trò           Ghi chú
+                             buộc
+                             nhập
+                                  ?
+ donVi                       X         Display     Xem đơn vị
+
+ Người dùng chưa thêm vào nhóm
+ timKiemCanBo                -         Textbox     Nhập tìm kiếm cán bộ
+ Bảng Danh sách cán bộ chưa được thêm vào nhóm người dùng
+
+ checkbox                    -         Checkbox    Tích/bỏ tích chọn các
+                                                   cán bộ
+
+ canBo                       X         Display     Xem cán bộ
+
+ Người dùng đã thêm vào nhóm
+ timKiemCanBo                -         Textbox     Nhập tìm kiếm cán bộ
+
+ Bảng Danh sách cán bộ đã được thêm vào nhóm người dùng
+ checkbox                    -         Checkbox    Tích/bỏ tích chọn các
+                                                   cán bộ
+
+ canBo                       X         Display     Xem cán bộ
+
+II.3.1.2.4. Xử lý sự kiện
+
+      Sự kiện                                          Mô tả
+Màn hình Tìm kiếm
+
+ Page_Load            Chọn menu → Quản lý nhóm người dùng
+                      Hiển thị Màn hình Tìm kiếm danh sách nhóm người dùng
+ Tìm kiếm             Khi chọn Tìm kiếm, hệ thống truy vấn dữ liệu theo chỉ tiêu đã nhập:
+                      + Nếu không thỏa mãn điều kiện tìm kiếm, hệ thống hiển thị thông
+                      báo “Không có dữ liệu”
+                      + Nếu thỏa mãn điều kiện tìm kiếm, hệ thống hiển thị thông tin dưới
+                      bảng kết quả
+
+ Xóa tìm kiếm         Khi chọn Xóa tìm kiếm, hệ thống chuyển điều kiện tìm kiếm về giá
+                      trị mặc định và Xóa kết quả tìm kiếm đã có ở grid
+
+ Nâng cao             Khi chọn Nâng cao, hệ thống mở rộng thêm các điều kiện tìm kiếm
+
+                                                                                Trang 124
+Tài liệu thiết kế hệ thống                                                              V3.0
+
+       Sự kiện                                      Mô tả
+                      nâng cao
+ Thu gọn              Khi chọn Thu gọn, hệ thống rút gọn về các điều kiện tìm kiếm cơ
+                      bản
+ Thêm mới             Khi chọn Thêm mới, hệ thống hiển thị Màn hình Thêm mới
+ Sửa                  Khi chọn Sửa tại 1 bản ghi, hệ thống hiển thị Màn hình Sửa thông
+                      tin nhóm người dùng tại bản ghi đó
+ Xem chi tiết         Khi chọn Xem chi tiết tại 1 bản ghi, hệ thống hiển thị Màn hình
+                      Xem chi tiết thông tin nhóm người dùng tại bản ghi đó
+
+ Khóa nhóm            Khi chọn Khóa nhóm người dùng: thông báo “Khóa nhóm người
+ người dùng           dùng thành công”
+
+ Mở khóa nhóm         Khi chọn Mở khóa nhóm người dùng: thông báo “Mở khóa nhóm
+ người dùng           người dùng thành công”
+
+ Phân quyền           Khi chọn Phân quyền nhóm người dùng tại 1 bản ghi, hệ thống hiển
+ nhóm người           thị màn hình phân quyền nhóm người dùng
+ dùng
+
+ Thêm người           Khi chọn Thêm người dùng vào nhóm tại 1 bản ghi, hệ thống hiển
+ dùng vào nhóm        thị màn hình cho phép thêm 1 hoặc nhiều người dùng vào nhóm
+                      người dùng
+
+ Màn hình Thêm mới
+ Đóng                 Khi chọn Đóng, hệ thống quay lại Màn hình Tìm kiếm
+
+ Lưu                  Khi chọn Lưu, hệ thống lưu thông tin thêm mới nhóm người sử
+                      dụng và thông báo thêm mới thành công
+ Màn hình Sửa
+
+ Đóng                 Khi chọn Đóng, hệ thống quay lại Màn hình Tìm kiếm
+ Lưu                  Khi chọn Lưu, hệ thống lưu thông tin chỉnh sửa và thông báo cập
+                      nhật thành công
+ Màn hình Xem chi tiết
+ Đóng                 Khi chọn Đóng, hệ thống quay lại Màn hình Tìm kiếm
+ Màn hình phân quyền nhóm người dùng
+
+
+
+                                                                                Trang 125
+Tài liệu thiết kế hệ thống                                                           V3.0
+
+       Sự kiện                                       Mô tả
+
+ Đóng                 Khi chọn Đóng, hệ thống quay lại Màn hình Tìm kiếm
+ Lưu                  Khi chọn Lưu, hệ thống lưu thông tin phân quyền và thông báo phân
+                      quyền thành công
+ Màn hình Thêm người dùng vào nhóm
+ Đóng                 Khi chọn Đóng, hệ thống quay lại Màn hình Tìm kiếm
+ Lưu                  Khi chọn Lưu, hệ thống lưu thông tin Thêm người dùng vào nhóm
+                      người dùng và thông báo thành công
+
+II.3.1.2.5. Bảng dữ liệu sử dụng
+
+                    Tên bảng                                     Kiểu
+                                               Insert      Update   Delete    Query
+
+  AUTH_GROUP                                     X           X                   X
+
+  AUTH_ GROUP_PERMISSION                         X
+
+  AUTH_USER_GROUP                                X           X          X
+II.3.1.2.6. Kiểm soát dữ liệu/các ràng buộc
+- Khi vào màn hình, mặc định sắp xếp alphabet theo Tên nhóm
+
+
+
+
+                                                                              Trang 126
+Tài liệu thiết kế hệ thống                                                                                                  V3.0
+
+         Thiết kế phân hệ Quản trị hệ thống
+            Quản lý đơn vị
+II.3.2.1.1. Luồng màn hình
+                                               QTHT_003: Quản lý đơn vị
+
+
+
+
+    Chọn Menu           Chọn Quản lý đơn vị   3.1. Màn hình Danh sách     Chọn Thêm mới      3.2. MH Thêm mới
+
+
+
+
+                                                                            Chọn Sửa            3.3. MH Sửa
+
+
+
+
+                                                                           Chọn chi tiết       3.4.MH Chi tiết
+
+
+
+
+                                                                          Chọn Tìm kiếm    Hệ thống hiển thị danh sách kết quả
+                                                                                            tìm kiếm theo truy vấn tìm kiếm
+
+
+
+
+                                                                            Chọn Xóa       Hiển thị màn hình thông
+                                                                                                     báo
+
+
+
+
+II.3.2.1.2. Giao diện
+- Màn hình Tìm kiếm
+
+
+
+
+- Màn hình Thêm mới
+
+                                                                                                           Trang 127
+Tài liệu thiết kế hệ thống        V3.0
+
+
+
+
+- Màn hình Sửa
+
+
+
+
+- Màn hình Xem chi tiết
+
+
+
+
+                             Trang 128
+Tài liệu thiết kế hệ thống                                                      V3.0
+
+
+
+
+II.3.2.1.3. Danh sách thành phần giao diện
+   Tên thành phần             Bắt   Định dạng           Vai trò       Ghi chú
+                             buộc
+                             nhập
+                               ?
+
+ MH Tìm kiếm
+
+ Chỉ tiêu tìm kiếm
+
+ maDonVi                     -      Textbox     Nhập mã đơn vị
+
+ tenDonVi                    -      Textbox     Nhập tên đơn vị
+ trangThai                   -      Combobox    Chọn trạng thái
+
+ Kết quả tìm kiếm
+ stt                         X      Display     Xem STT
+
+ maDonVi                     X      Display     Xem mã đơn vị
+
+ tenDonVi                    X      Display     Xem tên đơn vị
+ capDonVi                    X      Display     Xem cấp đơn vị
+
+ trangThai                   X      Display     Xem trạng thái
+ ngayCapNhat                 X      Display     Xem ngày cập nhật
+ canBoCapNhat                X      Display     Xem cán bộ cập nhật
+
+
+                                                                       Trang 129
+Tài liệu thiết kế hệ thống                                                            V3.0
+
+   Tên thành phần                Bắt   Định dạng           Vai trò          Ghi chú
+                             buộc
+                             nhập
+                                  ?
+ MH Thêm mới
+
+ maCap1                      M         Textbox     Nhập mã cấp 1
+ maCap2                      M         Textbox     Nhập mã cấp 2
+ maCap3                      -         Textbox     Nhập mã cấp 3
+
+ maDonVi                     X         Display     Xem đơn vị
+
+ tenDonVi                    M         Textarea    Nhập tên đơn vị
+
+ capDonVi                    M         Combobox    Chọn cấp đơn vị
+
+ diaDiem                     M         Combobox    Chọn địa điểm
+ diaDiemChiTiet              -         Textarea    Nhập địa điểm chi tiết
+
+ soDienThoai                 -         Textbox     Nhập số điện thoại
+
+ trangThai                   M         Combobox    Chọn trạng thái
+
+ ghiChu                      -         Textarea    Nhập ghi chú
+ MH Sửa
+
+ maCap1                      X         Display     Xem mã cấp 1
+ maCap2                      X         Display     Xem mã cấp 2
+
+ maCap3                      X         Display     Xem mã cấp 3
+ maDonVi                     X         Display     Xem mã đơn vị
+ tenDonVi                    M         Textarea    Nhập tên đơn vị
+
+ capDonVi                    M         Combobox    Chọn cấp đơn vị
+ diaDiem                     M         Combobox    Chọn địa điểm
+
+ diaDiemChiTiet              -         Textarea    Nhập địa điểm chi tiết
+ soDienThoai                 -         Textbox     Nhập số điện thoại
+ trangThai                   M         Combobox    Chọn trạng thái
+ ghiChu                      -         Textarea    Nhập ghi chú
+
+
+                                                                             Trang 130
+Tài liệu thiết kế hệ thống                                                              V3.0
+
+   Tên thành phần            Bắt     Định dạng           Vai trò              Ghi chú
+                             buộc
+                             nhập
+                                 ?
+ MH Xem chi tiết
+
+ maCap1                      X       Display     Xem mã cấp 1
+ maCap2                      X       Display     Xem mã cấp 2
+ maCap3                      X       Display     Xem mã cấp 3
+
+ maDonVi                     X       Display     Xem mã đơn vị
+
+ tenDonVi                    X       Display     Xem tên đơn vị
+
+ capDonVi                    X       Display     Xem cấp đơn vị
+
+ diaDiem                     X       Display     Xem địa điểm (Tỉnh/
+                                                 Thành phố)
+
+ diaDiemChiTiet              X       Display     Xem địa điểm chi tiết
+ soDienThoai                 X       Display     Xem số điện thoại
+
+ trangThai                   X       Display     Xem trạng thái
+ ghiChu                      X       Display     Xem ghi chú
+
+ canBoCapNhap                X       Display     Xem cán bộ cập nhập
+ ngayCapNhap                 X       Display     Xem ngày cập nhật
+
+II.3.2.1.4. Xử lý sự kiện
+
+      Sự kiện                                        Mô tả
+
+ Màn hình Tìm kiếm
+
+ Page_Load            Chọn menu → Quản lý đơn vị
+                      Hiển thị Màn hình Tìm kiếm
+ Tìm kiếm             Khi chọn Tìm kiếm, hệ thống truy vấn dữ liệu theo chỉ tiêu đã nhập:
+                      + Nếu không thỏa mãn điều kiện tìm kiếm, hệ thống hiển thị thông
+                      báo “Không có dữ liệu”
+                      + Nếu thỏa mãn điều kiện tìm kiếm, hệ thống hiển thị thông tin dưới
+                      bảng kết quả
+
+
+                                                                                Trang 131
+Tài liệu thiết kế hệ thống                                                              V3.0
+
+       Sự kiện                                        Mô tả
+
+ Xóa tìm kiếm         Khi chọn Xóa tìm kiếm, hệ thống chuyển điều kiện tìm kiếm về giá
+                      trị mặc định và Xóa kết quả tìm kiếm đã có ở grid
+
+ Nâng cao             Khi chọn Nâng cao, hệ thống mở rộng thêm các điều kiện tìm kiếm
+                      nâng cao
+ Thu gọn              Khi chọn Thu gọn, hệ thống rút gọn về các điều kiện tìm kiếm cơ
+                      bản
+ Thêm mới             Khi chọn Thêm mới, hệ thống hiển thị Màn hình Thêm mới
+
+ Sửa                  Khi chọn Sửa tại 1 bản ghi, hệ thống hiển thị Màn hình Sửa bản ghi
+                      đó
+
+ Xem chi tiết         Khi chọn Xem chi tiết tại 1 bản ghi, hệ thống hiển thị Màn hình
+                      Xem chi tiết thông tin bản ghi đó
+
+ Xóa                  Khi chọn Xóa: hiển thị thông báo “Xóa thành công”
+
+ Màn hình Thêm mới
+
+ Quay lại             Khi chọn Quay lại, hệ thống quay lại Màn hình Tìm kiếm
+ Lưu                  Khi chọn Lưu, hệ thống lưu thông tin thêm mới đơn vị và thông báo
+                      thêm mới thành công
+
+ Màn hình Sửa
+
+ Quay lại             Khi chọn Quay lại, hệ thống quay lại Màn hình Tìm kiếm
+ Lưu                  Khi chọn Lưu, hệ thống lưu thông tin cập nhật đơn vị và thông báo
+                      cập nhật thành công
+
+ Màn hình Xem chi tiết
+ Đóng                 Khi chọn Đóng, quay lại Màn hình Tìm kiếm
+
+II.3.2.1.5. Bảng dữ liệu sử dụng
+
+                    Tên bảng                                      Kiểu
+
+                                                Insert    Update      Delete     Query
+  AUTH_ORG                                        X           X           X        X
+II.3.2.1.6. Kiểm soát dữ liệu/các ràng buộc
+- Màn hình Tìm kiếm:
+
+
+                                                                                Trang 132
+Tài liệu thiết kế hệ thống                                                                                                                      V3.0
+
++ Khi vào màn hình, mặc định sắp xếp alphabet theo Tên đơn vị
++ Cho phép sorting Mã đơn vị và Tên đơn vị theo alphabet
+
+
+         Quản lý tài khoản admin
+II.3.2.2.1. Luồng màn hình
+                                               QTHT_004: Quản lý tài khoản admin
+
+
+
+                      Chọn Quản lý tài khoản                                        Chọn Thêm mới         3.2. MH Thêm mới
+        Menu                                   3.1. MH Danh sách
+                             admin
+
+
+
+
+                                                                                       Chọn Sửa           3.3. MH Chỉnh sửa
+
+
+
+
+                                                                                    Chọn Xem chi tiết     3.4. MH Xem chi tiết
+
+
+
+
+                                                                                   Chọn Phân quyền chức
+                                                                                           năng           3.5. MH Phân quyền
+
+
+
+
+                                                                               Chọn Phê duyệt cấp tài     Hệ thống hiển thị xác nhận
+                                                                                      khoản                Phê duyệt cấp tài khoản
+
+
+
+
+                                                                                      Chọn Tìm kiếm       Hệ thống hiển thị danh sách kết quả
+                                                                                                           tìm kiếm theo điều kiện tìm kiếm
+
+
+
+
+                                                                              Chọn Khóa/Mở tài khoản        Hiển thị màn hình thông báo
+
+
+
+
+II.3.2.2.2. Giao diện
+- Màn hình Tìm kiếm
+
+
+
+
+                                                                                                                                   Trang 133
+Tài liệu thiết kế hệ thống        V3.0
+
+
+
+
+- Màn hình Thêm mới
+
+
+
+
+- Màn hình Sửa
+
+
+
+
+                             Trang 134
+Tài liệu thiết kế hệ thống                                 V3.0
+
+
+
+
+- Màn hình Xem chi tiết_Tab Thông tin
+
+
+
+
+- Màn hình Xem chi tiết_Tab chức năng đã phân quyền
+
+
+
+
+                                                      Trang 135
+Tài liệu thiết kế hệ thống                V3.0
+
+
+
+
+- Màn hình Phân quyền
+
+
+
+
+- Màn hình Phê duyệt cấp tài khoản
+
+
+
+
+                                     Trang 136
+Tài liệu thiết kế hệ thống                                                     V3.0
+
+
+
+
+II.3.2.2.3. Danh sách thành phần giao diện
+   Tên thành phần                Bắt   Định dạng           Vai trò   Ghi chú
+                             buộc
+                             nhập
+                               ?
+
+ MH Tìm kiếm
+ Chỉ tiêu tìm kiếm
+
+ email                       -         Textbox     Nhập email
+ hoVaTen                     -         Textbox     Nhập họ và tên
+
+ donVi                       M         Combobox    Chọn đơn vị
+ trangThai                   -         Combobox    Chọn trạng thái
+ Kết quả tìm kiếm
+
+ stt                         X         Display     Xem STT
+ hoVaTen                     X         Display     Xem họ và tên
+
+ email                       X         Display     Xem email
+ donVi                       X         Display     Xem đơn vị
+ trangThai                   X         Display     Xem trạng thái
+ MH Thêm mới
+
+                                                                      Trang 137
+Tài liệu thiết kế hệ thống                                                        V3.0
+
+   Tên thành phần                Bắt   Định dạng           Vai trò      Ghi chú
+                             buộc
+                             nhập
+                                  ?
+ donVi                       M         Combobox    Xem mã đơn vị
+
+ email                       X         Display     Xem email
+ hoVaTen                     M         Textbox     Nhập họ và tên
+ soDienThoai                 -         Textbox     Nhập số điện thoại
+
+ diaChi                      -         Textarea    Nhập địa chỉ
+
+ maCongChuc                  -         Textbox     Nhập mã công chức
+
+ phongBan                    -         Combobox    Chọn phòng ban
+
+ chucVu                      -         Combobox    Chọn chức vụ
+ trangThai                   M         Combobox    Chọn trạng thái
+
+ ghiChu                      -         Textarea    Nhập ghi chú
+
+ MH Sửa
+
+ donVi                       X         Display     Xem mã đơn vị
+ email                       X         Display     Xem email
+
+ hoVaTen                     M         Textbox     Nhập họ và tên
+ soDienThoai                 -         Textbox     Nhập số điện thoại
+
+ diaChi                      -         Textarea    Nhập địa chỉ
+ maCongChuc                  -         Textbox     Nhập mã công chức
+ phongBan                    -         Combobox    Chọn phòng ban
+
+ chucVu                      -         Combobox    Chọn chức vụ
+ trangThai                   M         Combobox    Chọn trạng thái
+
+ ghiChu                      -         Textarea    Nhập ghi chú
+ MH Xem chi tiết_Tab thông tin
+ donVi                       X         Display     Xem đơn vị
+ Email                       X         Display     Xem email
+
+
+                                                                         Trang 138
+Tài liệu thiết kế hệ thống                                                            V3.0
+
+   Tên thành phần                Bắt   Định dạng           Vai trò          Ghi chú
+                             buộc
+                             nhập
+                                  ?
+ hoVaTen                     X         Display     Xem họ và tên
+
+ soDienThoai                 X         Display     Xem số điện thoại
+ diaChi                      X         Display     Xem địa chỉ
+ maCongChuc                  X         Display     Xem mã công chức
+
+ phongBan                    X         Display     Xem phòng ban
+
+ chucVu                      X         Display     Xem chức vụ
+
+ trangThai                   X         Display     Xem trạng thái
+
+ ghiChu                      X         Display     Xem ghi chú
+ canBoCapNhat                X         Display     Xem cán bộ cập nhật
+
+ ngayCapNhat                 X         Display     Xem ngày cập nhật
+
+ noiDungPheDuyet             X         Display     Xem nội dung phê duyệt
+
+ canBoPheDuyet               X         Display     Xem cán bộ phê duyệt
+ ngayPheDuyet                X         Display     Xem ngày phê duyệt
+
+ MH Xem chi tiết_ Tab chức năng đã phân quyền
+ maUngDung                   X         Display     Xem mã ứng dụng
+
+ MH Phân quyền
+ maUngDung                   M         Combobox    Chọn mã ứng dụng
+ capDonViDuocSuDu X                    Display     Xem cấp đơn vị được sử
+ ng                                                dụng
+ Chức năng
+
+ timTenChucNang              -         Textbox     Nhập tìm tên chức năng
+ Danh sách chức năng
+
+ checkbox                    -         Checkbox    Chọn check box
+ tenChucNang                 X         Display     Xem tên chức năng
+ MH Phê duyệt cấp tài khoản
+
+                                                                             Trang 139
+Tài liệu thiết kế hệ thống                                                              V3.0
+
+   Tên thành phần            Bắt     Định dạng           Vai trò              Ghi chú
+                             buộc
+                             nhập
+                                 ?
+ Thông tin tài khoản
+
+ donVi                       X       Display     Xem đơn vị
+ email                       X       Display     Xem email
+ hoVaTen                     X       Display     Xem họ và tên
+
+ soDienThoai                 X       Display     Xem số điện thoại
+
+ diaChi                      X       Display     Xem địa chỉ
+
+ maCongChuc                  X       Display     Xem mã công chức
+
+ phongBan                    X       Display     Xem phòng ban
+ chucVu                      X       Display     Xem chức vụ
+
+ trangThai                   X       Display     Xem trạng thái
+
+ ghiChu                      X       Display     Xem ghi chú
+
+ Thông tin phê duyệt
+ canBoPheDuyet               X       Display     Xem cán bộ phê duyệt
+
+ noiDungPheDuyet             M       Textarea    Nhập nội dung phê
+                                                 duyệt
+
+II.3.2.2.4. Xử lý sự kiện
+
+      Sự kiện                                        Mô tả
+
+ Màn hình Tìm kiếm
+
+ Page_Load            Chọn menu → Quản lý đơn vị
+                      Hiển thị Màn hình Tìm kiếm
+ Tìm kiếm             Khi chọn Tìm kiếm, hệ thống truy vấn dữ liệu theo chỉ tiêu đã nhập:
+                      + Nếu không thỏa mãn điều kiện tìm kiếm, hệ thống hiển thị thông
+                      báo “Không có dữ liệu”
+                      + Nếu thỏa mãn điều kiện tìm kiếm, hệ thống hiển thị thông tin dưới
+                      bảng kết quả
+
+
+                                                                                Trang 140
+Tài liệu thiết kế hệ thống                                                              V3.0
+
+       Sự kiện                                      Mô tả
+
+ Xóa tìm kiếm         Khi chọn Xóa tìm kiếm, hệ thống chuyển điều kiện tìm kiếm về giá
+                      trị mặc định và Xóa kết quả tìm kiếm đã có ở grid
+
+ Nâng cao             Khi chọn Nâng cao, hệ thống mở rộng thêm các điều kiện tìm kiếm
+                      nâng cao
+ Thu gọn              Khi chọn Thu gọn, hệ thống rút gọn về các điều kiện tìm kiếm cơ
+                      bản
+ Thêm mới             Khi chọn Thêm mới, hệ thống hiển thị Màn hình Thêm mới
+
+ Sửa                  Khi chọn Sửa tại 1 bản ghi, hệ thống hiển thị Màn hình Sửa bản ghi
+                      đó
+
+ Xem chi tiết         Khi chọn Xem chi tiết tại 1 bản ghi, hệ thống hiển thị Màn hình
+                      Xem chi tiết thông tin bản ghi đó
+
+ Phân quyền           Khi chọn Phân quyền chức năng, hệ thống hiển thị màn hinh phân
+ chức năng            quyền chức năng
+
+ Phê duyệt cấp        Khi chọn Phê duyệt cấp tài khoản, hệ thống hiển thị màn hình phê
+ tài khoản            duyệt cấp tài khoản
+
+ Khóa tài khoản       Khi chọn Khóa tài khoản:
+                      + Nếu không hợp lệ: thông báo “Không thể khóa tài khoản”
+                      + Nếu hợp lệ: thông báo “Khóa tài khoản thành công”
+
+ Mở khóa tài          Khi chọn Mở khóa tài khoản:
+ khoản                + Nếu không hợp lệ: thông báo “Không thể mở khóa tài khoản”
+                      + Nếu hợp lệ: thông báo “Mở khóa tài khoản thành công”
+
+ Màn hình Thêm mới
+
+ Quay lại             Khi chọn Quay lại, hệ thống quay lại Màn hình Tìm kiếm
+ Lưu                  Khi chọn Lưu, hệ thống lưu thông tin thêm mới và thông báo thêm
+                      mới thành công
+ Màn hình Sửa
+
+
+
+
+                                                                                Trang 141
+Tài liệu thiết kế hệ thống                                                             V3.0
+
+       Sự kiện                                        Mô tả
+
+ Quay lại             Khi chọn Quay lại, hệ thống quay lại Màn hình Tìm kiếm
+ Lưu                  Khi chọn Lưu, hệ thống lưu thông tin cập nhật đơn và thông báo cập
+                      nhật thành công
+ Màn hình Xem chi tiết
+ Quay lại             Khi chọn Quay lại, quay lại Màn hình Tìm kiếm
+ Chọn tab             Khi chọn tab, hệ thống hiển thị các tab tương ứng
+
+ Màn hình Phân quyền chức năng
+
+ Đóng                 Khi chọn Đóng, hệ thống quay lại Màn hình Tìm kiếm
+ Lưu                  Khi chọn Lưu, hệ thống lưu thông tin phân quyền chức năng và
+                      thông báo Phân quyền thành công
+
+ Màn hình Phê duyệt cấp tài khoản
+
+ Đóng                 Khi chọn Đóng, hệ thống quay lại Màn hình Tìm kiếm
+
+ Lưu                  Khi chọn Lưu:
+                      + Nếu không hợp lệ: thông báo “Không thể phê duyệt cấp tài
+                      khoản”
+                      + Nếu hợp lệ: thông báo “Phê duyệt cấp tài khoản thành công”
+
+II.3.2.2.5. Bảng dữ liệu sử dụng
+
+                    Tên bảng                                      Kiểu
+                                                Insert    Update      Delete   Query
+
+  AUTH_USER                                       X           X                    X
+  AUTH_USER_TEMPT                                             X                    X
+
+  AUTH_USER_PERMISSION                                                    X        X
+
+II.3.2.2.6. Kiểm soát dữ liệu/các ràng buộc
+- Màn hình Tìm kiếm:
++ Khi vào MH mặc định sắp xếp alphabet theo Email
++ Cho phép sorting alphabet theo Email, Họ và tên
+
+
+
+
+                                                                               Trang 142
+Tài liệu thiết kế hệ thống                                                                                                       V3.0
+
+            Quản lý log truy cập
+II.3.2.3.1. Luồng màn hình
+                                                    QTHT_005: Quản lý log truy cập
+
+
+
+
+    Chọn Menu           Chọn Quản lý log truy cập        3.1. MH Danh sách           Chọn Chi tiết     3.2. MH Chi tiết
+
+
+
+
+                                                                                     Chọn Tìm kiếm   Hiển thị kết quả tìm kiếm
+                                                                                                     theo điều kiện tìm kiếm
+
+
+
+
+II.3.2.3.2. Giao diện
+- Màn hình Tìm kiếm
+
+
+
+
+- Màn hình Xem chi tiết
+
+
+
+
+                                                                                                              Trang 143
+Tài liệu thiết kế hệ thống                                                      V3.0
+
+
+
+
+II.3.2.3.3. Danh sách thành phần giao diện
+   Tên thành phần             Bắt    Định dạng           Vai trò      Ghi chú
+                             buộc
+                             nhập
+                                 ?
+
+ MH Tìm kiếm
+ Chỉ tiêu tìm kiếm
+
+ maUngDung                   M       Combobox    Chọn mã ứng dụng
+
+ donVi                       -       Combobox    Chọn đơn vị
+ email                       -       Textbox     Nhập email
+
+ ngayTruyCap                 M       Datetime    Chọn ngày truy cập
+                                     picker
+
+ Kết quả tìm kiếm
+
+ stt                         X       Display     Xem STT
+
+ maUngDung                   X       Display     Xem mã ứng dụng
+
+ email                       X       Display     Xem email
+ donVi                       X       Display     Xem đơn vị
+ chucNang                    X       Display     Xem chức năng
+
+
+                                                                       Trang 144
+Tài liệu thiết kế hệ thống                                                              V3.0
+
+   Tên thành phần            Bắt     Định dạng           Vai trò              Ghi chú
+                             buộc
+                             nhập
+                                 ?
+ diaChiIp                    X       Display     Xem địa chỉ ip
+
+ thongTinTrinhDuyet          X       Display     Xem thông tin trình
+                                                 duyệt
+ phienDangNhap               X       Display     Xem phiên đăng nhập
+ ngayTruyCap                 X       Display     Xem ngày truy cập
+
+ MH Xem chi tiết
+
+ maUngDung                   X       Display     Xem mã ứng dụng
+
+ email                       X       Display     Xem email
+ donVi                       X       Display     Xem đơn vị
+
+ chucNang                    X       Display     Xem chức năng
+ diaChiIp                    X       Display     Xem địa chỉ IP
+
+ thongTinTrinhDuyet          X       Display     Xem thông tin trình
+                                                 duyệt
+
+ phienDangNhap               X       Display     Xem phiên đăng nhập
+
+ ngayTruyCap                 X       Display     Xem ngày truy cập
+II.3.2.3.4. Xử lý sự kiện
+
+      Sự kiện                                        Mô tả
+ MH Tìm kiếm
+
+ Page_Load            Chọn menu → Quản lý log truy cập
+                      Hiển thị Màn hình Tìm kiếm
+ Tìm kiếm             Khi chọn Tìm kiếm, hệ thống truy vấn dữ liệu theo chỉ tiêu đã nhập:
+                      + Nếu không thỏa mãn điều kiện tìm kiếm, hệ thống hiển thị thông
+                      báo “Không có dữ liệu”
+                      + Nếu thỏa mãn điều kiện tìm kiếm, hệ thống hiển thị thông tin dưới
+                      bảng kết quả
+
+
+                                                                                Trang 145
+Tài liệu thiết kế hệ thống                                                              V3.0
+
+      Sự kiện                                       Mô tả
+
+ Nâng cao             Khi chọn Nâng cao, hệ thống mở rộng thêm các điều kiện tìm kiếm
+                      nâng cao
+
+ Thu gọn              Khi chọn Thu gọn, hệ thống rút gọn về các điều kiện tìm kiếm cơ
+                      bản
+ Xóa tìm kiếm         Khi chọn Xóa tìm kiếm, hệ thống chuyển điều kiện tìm kiếm về giá
+                      trị mặc định và Xóa kết quả tìm kiếm đã có ở grid
+ Xem chi tiết         Khi chọn Xem chi tiết tại 1 bản ghi, hệ thống hiển thị Màn hình
+                      Xem chi tiết thông tin bản ghi đó
+
+ MH Xem chi tiết
+
+ Quay lại             Khi chọn Quay lại, quay lại Màn hình Tìm kiếm
+
+II.3.2.3.5. Bảng dữ liệu sử dụng
+                    Tên bảng                                     Kiểu
+
+                                                Insert    Update      Delete     Query
+  AUTH_USER_ACCESS                                                                 X
+
+II.3.2.3.6. Kiểm soát dữ liệu/các ràng buộc
+- Màn hình Tìm kiếm:
++ Khi vào màn hình, mặc định sắp xếp từ gần nhất đến xa nhất theo Ngày truy cập
++ Cho phép sorting từ gần nhất đến xa nhất và ngược lại theo Ngày truy cập
+
+
+
+
+                                                                                Trang 146
+Tài liệu thiết kế hệ thống                                                                                                                     V3.0
+
+            Quản lý biểu tượng trên bản đồ
+II.3.2.4.1. Luồng màn hình
+                                                      QTHT_006: Quản lý biểu tượng trên bản đồ
+
+
+
+                                                                                                 Chọn Thêm mới     3.2. MH Thêm mới
+    Chọn Menu        Quản lý biểu tượng trên bản đồ         3.1. Màn hình Danh sách
+
+
+
+
+                                                                                                   Chọn Sửa           3.3. MH Sửa
+
+
+
+
+                                                                                                  Chọn chi tiết      3.4.MH Chi tiết
+
+
+
+
+                                                                                                   Chọn Tìm kiếm   Hiển thị danh sách kết quả tìm
+                                                                                                                   kiếm theo điều kiện tìm kiếm
+
+
+
+
+                                                                                                     Chọn Xóa      Hiển thị màn hình thông
+                                                                                                                             báo
+
+
+
+
+II.3.2.4.2. Giao diện
+- Màn hình Tìm kiếm
+
+
+
+
+- Màn hình Thêm mới
+
+
+
+
+                                                                                                                               Trang 147
+Tài liệu thiết kế hệ thống        V3.0
+
+
+
+
+- Màn hình Sửa
+
+
+
+
+- MH Chi tiết
+
+
+
+
+                             Trang 148
+Tài liệu thiết kế hệ thống                                                       V3.0
+
+
+
+
+II.3.2.4.3. Danh sách thành phần giao diện
+   Tên thành phần             Bắt    Định dạng           Vai trò       Ghi chú
+                             buộc
+                             nhập
+                                 ?
+ MH Tìm kiếm
+
+ Chỉ tiêu tìm kiếm
+
+ maBieuTuong                 -       Textbox     Nhập mã biểu tượng
+ tenBieuTuong                -       Textbox     Nhập tên biểu tượng
+
+ trangThai                   -       Combobox    Chọn trạng thái
+ Kết quả tìm kiếm
+
+ stt                         X       Display     Xem STT
+ maBieuTuong                 X       Display     Xem mã biểu tượng
+
+ tenBieuTuong                X       Display     Xem tên biểu tượng
+ hinhAnh                     X       Display     Xem hình ảnh
+ trangThai                   X       Display     Xem trạng thái
+
+ MH Thêm mới
+
+                                                                        Trang 149
+Tài liệu thiết kế hệ thống                                                         V3.0
+
+   Tên thành phần                Bắt   Định dạng           Vai trò       Ghi chú
+                             buộc
+                             nhập
+                                  ?
+ maBieuTuong                 X         Display     Xem mã biểu tượng
+
+ tenBieuTuong                M         Textarea    Nhập tên biểu tượng
+ hinhAnh                     M         img         Chọn hình ảnh
+ trangThai                   M         Combobox    Chọn trạng thái
+
+ ghiChu                      -         Textarea    Nhập ghi chú
+
+ MH Sửa
+
+ maBieuTuong                 X         Display     Xem mã biểu tượng
+
+ tenBieuTuong                M         Textarea    Nhập tên biểu tượng
+ hinhAnh                     M         img         Chọn hình ảnh
+
+ trangThai                   M         Combobox    Chọn trạng thái
+
+ ghiChu                      -         Textarea    Nhập ghi chú
+
+ MH Xem chi tiết
+ maBieuTuong                 X         Display     Xem mã biểu tượng
+
+ tenBieuTuong                X         Display     Xem tên biểu tượng
+ hinhAnh                     X         Display     Xem hình ảnh
+
+ ghiChu                      X         Display     Xem ghi chú
+ trangThai                   X         Display     Xem trạng thái
+ canBoCapNhat                X         Display     Xem cán bộ cập nhật
+
+ ngayCapNhat                 X         Display     Xem ngày cập nhật
+II.3.2.4.4. Xử lý sự kiện
+
+      Sự kiện                                          Mô tả
+ Màn hình Tìm kiếm
+ Page_Load            Chọn menu → Quản lý biểu tượng trên bản đồ
+                      Hiển thị Màn hình Tìm kiếm
+
+
+                                                                          Trang 150
+

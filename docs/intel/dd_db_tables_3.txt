@@ -1,0 +1,1932 @@
+Tài liệu thiết kế hệ thống                                                         V3.0
+
+   Tên thành phần                Bắt   Định dạng           Vai trò       Ghi chú
+                             buộc
+                             nhập
+                                  ?
+ maBieuTuong                 X         Display     Xem mã biểu tượng
+
+ tenBieuTuong                M         Textarea    Nhập tên biểu tượng
+ hinhAnh                     M         img         Chọn hình ảnh
+ trangThai                   M         Combobox    Chọn trạng thái
+
+ ghiChu                      -         Textarea    Nhập ghi chú
+
+ MH Sửa
+
+ maBieuTuong                 X         Display     Xem mã biểu tượng
+
+ tenBieuTuong                M         Textarea    Nhập tên biểu tượng
+ hinhAnh                     M         img         Chọn hình ảnh
+
+ trangThai                   M         Combobox    Chọn trạng thái
+
+ ghiChu                      -         Textarea    Nhập ghi chú
+
+ MH Xem chi tiết
+ maBieuTuong                 X         Display     Xem mã biểu tượng
+
+ tenBieuTuong                X         Display     Xem tên biểu tượng
+ hinhAnh                     X         Display     Xem hình ảnh
+
+ ghiChu                      X         Display     Xem ghi chú
+ trangThai                   X         Display     Xem trạng thái
+ canBoCapNhat                X         Display     Xem cán bộ cập nhật
+
+ ngayCapNhat                 X         Display     Xem ngày cập nhật
+II.3.2.4.4. Xử lý sự kiện
+
+      Sự kiện                                          Mô tả
+ Màn hình Tìm kiếm
+ Page_Load            Chọn menu → Quản lý biểu tượng trên bản đồ
+                      Hiển thị Màn hình Tìm kiếm
+
+
+                                                                          Trang 150
+Tài liệu thiết kế hệ thống                                                              V3.0
+
+       Sự kiện                                       Mô tả
+
+ Tìm kiếm             Khi chọn Tìm kiếm, hệ thống truy vấn dữ liệu theo chỉ tiêu đã nhập:
+                      + Nếu không thỏa mãn điều kiện tìm kiếm, hệ thống hiển thị thông
+                      báo “Không có dữ liệu”
+                      + Nếu thỏa mãn điều kiện tìm kiếm, hệ thống hiển thị thông tin dưới
+                      bảng kết quả
+ Xóa tìm kiếm         Khi chọn Xóa tìm kiếm, hệ thống chuyển điều kiện tìm kiếm về giá
+                      trị mặc định và Xóa kết quả tìm kiếm đã có ở grid
+
+ Nâng cao             Khi chọn Nâng cao, hệ thống mở rộng thêm các điều kiện tìm kiếm
+                      nâng cao
+ Thu gọn              Khi chọn Thu gọn, hệ thống rút gọn về các điều kiện tìm kiếm cơ
+                      bản
+ Thêm mới             Khi chọn Thêm mới, hệ thống hiển thị Màn hình Thêm mới
+
+ Sửa                  Khi chọn Sửa tại 1 bản ghi, hệ thống hiển thị Màn hình Sửa bản ghi
+                      đó
+
+ Xem chi tiết         Khi chọn Xem chi tiết tại 1 bản ghi, hệ thống hiển thị Màn hình
+                      Xem chi tiết thông tin bản ghi đó
+
+ Xóa                  Khi chọn Xóa: hệ thống kiểm tra và thông báo lỗi nếu có. Nếu hợp
+                      lệ, hệ thống lưu log vào CSDL và hiển thị thông báo “Xóa thành
+                      công”
+
+ MH Thêm mới
+ Quay lại             Khi chọn Quay lại, hệ thống quay lại Màn hình Tìm kiếm
+
+ Lưu                  Khi chọn Lưu, hệ thống lưu thông tin thêm mới và thông báo thêm
+                      mới thành công
+
+ MH Sửa
+
+ Quay lại             Khi chọn Quay lại, hệ thống quay lại Màn hình Tìm kiếm
+ Lưu                  Khi chọn Lưu, hệ thống lưu thông tin cập nhật và thông báo cập
+                      nhật thành công
+
+ Màn hình Xem chi tiết
+ Quay lại             Khi chọn Quay lại, quay lại Màn hình Tìm kiếm
+
+
+                                                                                Trang 151
+Tài liệu thiết kế hệ thống                                                                                                                                                                                     V3.0
+
+II.3.2.4.5. Bảng dữ liệu sử dụng
+
+                                     Tên bảng                                                                                              Kiểu
+
+                                                                                              Insert                            Update                      Delete                            Query
+
+  QTHT_BIEU_TUONG_BAN_DO                                                                             X                            X                                                                  X
+II.3.2.4.6. Kiểm soát dữ liệu/các ràng buộc
+- Màn hình Tìm kiếm:
++ Khi vào MH, mặc định sorting alphabet theo Mã biểu tượng
++ Cho phép sorting alphabet theo Mã biểu tượng và Tên biểu tượng
+
+
+                Quản lý kết nối liên thông chia sẻ dữ liệu
+II.3.2.5.1. Luồng màn hình
+                                                               QTHT_007:Quản lý kết nối liên thông chia sẻ dữ liệu
+
+
+
+                   Chọn Quản lý kết nối
+    Chọn Menu      liên thông chia sẻ dữ   3.1. MH Danh sách     Chọn Thêm mới                         3.2. MH Thêm mới
+                            liệu
+
+
+
+
+                                                                    Chọn Sửa                              3.3. MH Sửa
+
+
+
+
+                                                                Chọn Xem lịch sử                     3.5.MH lịch sử kết nối
+                                                                                                       liên thông dữ liệu
+
+
+
+
+                                                                 Chọn Tìm kiếm                       Hiển thị danh sách kết                                   TH: Loại kết nối = Chia sẻ DL
+                                                                                                                                      Chọn Xem chi tiết                                       3.4.1 MH Lịch sử kết nối
+                                                                                                     quả tìm kiếm theo điều
+                                                                                                                                                                                                    (Chia sẻ DL)
+                                                                                                          kiện tìm kiếm
+
+
+
+
+                                                                      Chọn Xóa                        Hiển thị màn hình thông                             TH: Loại kết nối = Tích hợp DL
+                                                                                                                                                                                              3.4.2 MH Lịch sử kết nối
+                                                                                                                báo
+                                                                                                                                                                                                   (Tích hợp DL)
+
+
+
+
+II.3.2.5.2. Giao diện
+- Màn hình Tìm kiếm
+
+
+
+
+                                                                                                                                                                                              Trang 152
+Tài liệu thiết kế hệ thống        V3.0
+
+
+
+
+- Màn hình Thêm mới
+
+
+
+
+- Màn hình Sửa
+
+
+
+
+                             Trang 153
+Tài liệu thiết kế hệ thống                           V3.0
+
+
+
+
+- MH Lịch sử kết nối (Chia sẻ dữ liệu)
+
+
+
+
+- Màn hình Lịch sử kết nối (Tích hợp dữ liệu)
+
+
+
+
+                                                Trang 154
+Tài liệu thiết kế hệ thống                                                     V3.0
+
+
+
+
+- MH Chi tiết lịch sử
+
+
+
+
+II.3.2.5.3. Danh sách thành phần giao diện
+
+   Tên thành phần             Bắt   Định dạng           Vai trò      Ghi chú
+                             buộc
+                             nhập
+                               ?
+
+ MH Tìm kiếm
+ Chỉ tiêu tìm kiếm
+ loaiTraoDoi                 M      Combobox    Chọn loại trao đổi
+
+                                                                      Trang 155
+Tài liệu thiết kế hệ thống                                                        V3.0
+
+   Tên thành phần                Bắt   Định dạng           Vai trò      Ghi chú
+                             buộc
+                             nhập
+                                  ?
+ tenKetNoi                   -         Textbox     Nhập tên kết nối
+
+ trangThai                   -         Combobox    Chọn trạng thái
+ heThongGui                  -         Combobox    Chọn hệ thống gửi
+
+ heThongNhan                 -         Combobox    Chọn hệ thống nhận
+
+ Kết quả tìm kiếm
+
+ stt                         X         Display     Xem STT
+
+ tenTaiKhoan                 X         Display     Xem tên tài khoản
+
+ tenKetNoi                   X         Display     Xem tên kết nối
+ heThongGui                  X         Display     Xem hệ thống gửi
+
+ heThongNhan                 X         Display     Xem hệ thống nhận
+
+ trangThai                   X         Display     Xem trạng thái
+
+ MH Thêm mới
+ tenKetNoi                   X         Display     Xem tên kết nối
+
+ user                        M         Textbox     Nhập user
+ password                    M         Textbox     Nhập password
+
+ heThongNhan                 X         Display     Xem hệ thống nhận
+
+ trangThai                   M         Combobox    Chọn trạng thái
+ MH Sửa
+
+ tenKetNoi                   X         Display     Xem tên kết nối
+
+ user                        M         Textbox     Nhập user
+
+ password                    M         Textbox     Nhập password
+ heThongNhan                 X         Display     Xem hệ thống nhận
+
+ trangThai                   M         Combobox    Chọn trạng thái
+ MH Lịch sử kết nối (Chia sẻ dữ liệu)
+
+
+                                                                         Trang 156
+Tài liệu thiết kế hệ thống                                                             V3.0
+
+      Tên thành phần             Bắt   Định dạng             Vai trò         Ghi chú
+                             buộc
+                             nhập
+                                  ?
+ Chỉ tiêu tìm kiếm
+
+ loaiGui                     -         Textbox     Nhập loại gửi
+ soThamChieu                 -         Textbox     Nhập số tham chiếu
+ thoiGianGui                 -         Datetime    Chọn thời gian gửi
+                                       picker
+
+ maNhan                      -         Textbox     Nhập mã nhận
+
+ id                          -         Textbox     Nhập id
+
+ mucDichGui                  -         Textbox     Nhập mục đích gửi
+ tenBang                     -         Textbox     Nhập tên bảng
+
+ idBang                      -         Textbox     Nhập id bảng
+ nhomBang                    -         Textbox     Nhập nhóm bảng
+
+ maBang                      -         Textbox     Nhập mã bảng
+ trangThaiDongBo             -         Combobox    Chọn trạng thái đồng bộ
+
+ Kết quả tìm kiếm
+ stt                         X         Display     Xem stt
+
+ id                          X         Display     Xem id
+
+ Thông tin gửi
+
+ loai                        X         Display     Xem loại
+
+ soThamChieu                 X         Display     Xem số tham chiếu
+ mucDich                     X         Display     Xem mục đích
+
+ Thông tin nhận
+ thoiGian                    X         Display     Xem thời gian
+
+ ma                          X         Display     Xem mã
+ Thông tin đồng bộ khác
+ trangThai                   X         Display     Xem trạng thái
+
+                                                                              Trang 157
+Tài liệu thiết kế hệ thống                                                        V3.0
+
+      Tên thành phần             Bắt   Định dạng             Vai trò    Ghi chú
+                             buộc
+                             nhập
+                                  ?
+ ngay                        X         Display     Xem ngày
+
+ Thông tin đồng bộ bảng
+ ten                         X         Display     Xem tên
+ id                          X         Display     Xem id
+
+ nhom                        X         Display     Xem nhóm
+
+ ma                          X         Display     Xem mã
+
+ MH Lịch sử kết nối (Tích hợp dữ liệu)
+
+ Chỉ tiêu tìm kiếm
+ loaiGui                     -         Textbox     Nhập loại gửi
+
+ soThamChieu                 -         Textbox     Nhập số tham chiếu
+
+ thoiGianGui                 -         Datetime    Chọn thời gian gửi
+                                       picker
+ maNhan                      -         Textbox     Nhập mã nhận
+
+ id                          -         Textbox     Nhập id
+ mucDichGui                  -         Textbox     Nhập mục đích gửi
+ Kết quả tìm kiếm
+
+ stt                         X         Display     Xem stt
+ id                          X         Display     Xem id
+ Thông tin gửi
+
+ loai                        X         Display     Xem loại
+
+ soThamChieu                 X         Display     Xem số tham chiếu
+ thoiGian                    X         Display     Xem thời gian
+
+ mucDich                     X         Display     Xem mục đích
+ donVi                       X         Display     Xem đơn vị
+
+ nguoi                       X         Display     Xem người
+
+                                                                         Trang 158
+Tài liệu thiết kế hệ thống                                                                 V3.0
+
+   Tên thành phần            Bắt     Định dạng             Vai trò               Ghi chú
+                             buộc
+                             nhập
+                                 ?
+ Thông tin nhận
+
+ thoiGian                    X       Display      Xem thời gian
+ ma                          X       Display      Xem mã
+ MH Chi tiết lịch sử
+
+ noiDungGui                  X       Display      Xem nội dung gửi
+
+ noiDungNhan                 X       Display      Xem nội dung nhận
+II.3.2.5.4. Xử lý sự kiện
+
+       Sự kiện                                         Mô tả
+ Màn hình Tìm kiếm
+
+ Page_Load            Chọn menu → Quản lý kết nối liên thông chia sẻ dữ liệu
+                      Hiển thị Màn hình Tìm kiếm
+
+ Tìm kiếm              Khi chọn Tìm kiếm, hệ thống truy vấn dữ liệu theo chỉ tiêu đã nhập:
+                       + Nếu không thỏa mãn điều kiện tìm kiếm, hệ thống hiển thị thông
+                       báo “Không có dữ liệu”
+                       + Nếu thỏa mãn điều kiện tìm kiếm, hệ thống hiển thị thông tin dưới
+                       bảng kết quả
+
+ Nâng cao              Khi chọn Nâng cao, hệ thống mở rộng thêm các điều kiện tìm kiếm
+                       nâng cao
+ Thu gọn               Khi chọn Thu gọn, hệ thống rút gọn về các điều kiện tìm kiếm cơ
+                       bản
+
+ Xóa tìm kiếm          Khi chọn Xóa tìm kiếm, hệ thống chuyển điều kiện tìm kiếm về giá
+                       trị mặc định và Xóa kết quả tìm kiếm đã có ở grid
+ Thêm mới              Khi chọn Thêm mới, hệ thống hiển thị Màn hình Thêm mới
+ Sửa                   Khi chọn Sửa tại 1 bản ghi, hệ thống hiển thị Màn hình Sửa bản ghi
+                       đó
+ Xem lịch sử kết       Khi chọn Xem lịch sử kết nối chi tiết tại 1 bản ghi, hệ thống hiển thị
+
+                                                                                   Trang 159
+Tài liệu thiết kế hệ thống                                                              V3.0
+
+       Sự kiện                                       Mô tả
+ nối                  màn hình lịch sử kết nối thông tin bản ghi đó:
+                      + TH Loại kết nối = Chia sẻ dữ liệu: hiển thị màn hình Lịch sử kết
+                      nối (Chia sẻ dữ liệu)
+                      + TH Loại kết nối = Tích hợp dữ liệu: hiển thị màn hình Lịch sử kết
+                      nối (Tích hợp dữ liệu)
+ Xóa                  Khi chọn Xóa:
+                      + Nếu hợp lệ: hiển thị thông báo “Xóa thông tin kết nối thành công”
+                      + Nếu không hợp lệ: hiển thị thông báo “Không thể xóa thông tin
+                      kết nối liên thông chia sẻ dữ liệu”
+
+ MH Thêm mới
+
+ Quay lại             Khi chọn Quay lại, hệ thống quay lại Màn hình Tìm kiếm
+
+ Lưu                  Khi chọn Lưu, hệ thống lưu thông tin thêm mới và thông báo thêm
+                      mới thành công
+ MH Sửa
+
+ Quay lại             Khi chọn Quay lại, hệ thống quay lại Màn hình Tìm kiếm
+
+ Lưu                  Khi chọn Lưu:
+                      + Nếu hợp lê: hệ thống lưu thông tin cập nhật và thông báo cập nhật
+                      thành công
+                      + Nếu không hợp lệ: hệ thống thông báo “Không thể cập nhật thông
+                      tin kết nối liên thông chia sẻ dữ liệu”
+ Màn hình Lịch sử kết nối (Chia sẻ dữ liệu)
+ Tìm kiếm             Khi chọn Tìm kiếm, hệ thống truy vấn dữ liệu theo chỉ tiêu đã nhập:
+                      + Nếu không thỏa mãn điều kiện tìm kiếm, hệ thống hiển thị thông
+                      báo “Không có dữ liệu”
+                      + Nếu thỏa mãn điều kiện tìm kiếm, hệ thống hiển thị thông tin dưới
+                      bảng kết quả
+
+ Xóa tìm kiếm         Khi chọn Xóa tìm kiếm, hệ thống chuyển điều kiện tìm kiếm về giá
+                      trị mặc định và Xóa kết quả tìm kiếm đã có ở grid
+ Xem chi tiết         Khi chọn Xem chi tiết, hệ thống hiển thị màn hình Chi tiết lịch sử
+
+
+                                                                                 Trang 160
+Tài liệu thiết kế hệ thống                                                              V3.0
+
+      Sự kiện                                          Mô tả
+
+ Gửi lại              Khi chọn Gửi lại, hệ thống gửi lại thông tin
+ Quay lại             Khi chọn Quay lại, quay lại Màn hình Tìm kiếm
+
+ Màn hình Lịch sử kết nối (Tích hợp dữ liệu)
+ Tìm kiếm             Khi chọn Tìm kiếm, hệ thống truy vấn dữ liệu theo chỉ tiêu đã nhập:
+                      + Nếu không thỏa mãn điều kiện tìm kiếm, hệ thống hiển thị thông
+                      báo “Không có dữ liệu”
+                      + Nếu thỏa mãn điều kiện tìm kiếm, hệ thống hiển thị thông tin dưới
+                      bảng kết quả
+ Xóa tìm kiếm         Khi chọn Xóa tìm kiếm, hệ thống chuyển điều kiện tìm kiếm về giá
+                      trị mặc định và Xóa kết quả tìm kiếm đã có ở grid
+
+ Xem chi tiết         Khi chọn Xem chi tiết, hệ thống hiển thị màn hình Chi tiết lịch sử
+
+ Quay lại             Khi chọn Quay lại, quay lại Màn hình Tìm kiếm
+
+II.3.2.5.5. Bảng dữ liệu sử dụng
+
+                    Tên bảng                                         Kiểu
+
+                                                 Insert    Update       Delete    Query
+
+  AUTH_USER                                        X           X            X       X
+
+II.3.2.5.6. Kiểm soát dữ liệu/các ràng buộc
+- Màn hình Tìm kiếm:
++ Khi vào màn hình, mặc định sắp xếp alphabet theo Tên kết nối
+
+
+
+
+                                                                                 Trang 161
+Tài liệu thiết kế hệ thống                                                   V3.0
+
+       Thiết kế phân hệ Quản lý thông số kỹ thuật kết cấu hạ tầng giao thông hàng
+hải
+         Trang chủ
+II.3.3.1.1. Luồng màn hình
+
+                                         Trang chủ
+
+
+
+
+                             Chọn Menu               Trang chủ
+
+
+
+
+II.3.3.1.2. Giao diện
+- Màn hình Trang chủ
+
+
+
+
+                                                                       Trang 162
+Tài liệu thiết kế hệ thống                                                         V3.0
+
+II.3.3.1.3. Danh sách thành phần giao diện
+
+   Tên thành phần                Bắt   Định dạng           Vai trò           Ghi chú
+                             buộc
+                             nhập
+                                  ?
+ Màn hình Trang chủ
+ Chỉ tiêu tìm kiếm
+ Tổng quan thông số kỹ thuật kết cấu hạ tầng
+ nam                         M         Combobox    Chọn Năm
+
+ Tỷ lệ phê duyệt
+
+ loaiKCHT                    -         Combobox    Chọn loại kết cấu hạ
+                                                   tầng
+
+ Tra cứu bản đồ
+
+ loaiKCHT                    -         Combobox    Chọn loại kết cấu hạ
+                                                   tầng
+ maKCHT                      -         Combobox    Chọn mã kết cấu hạ tầng
+
+ Chi tiết thông số kỹ thuật kết cấu hạ tầng
+
+ loaiKCHT                    -         Combobox    Chọn loại kết cấu hạ
+                                                   tầng
+ Kết quả
+
+ Tổng quan thông số kỹ thuật kết cấu hạ tầng (biểu đồ tròn)
+
+ tongLuongKetCauHa X                   Display     Xem tổng số lượng kết
+ Tang                                              cấu hạ tầng
+
+ soLuongKetCauHaT            X         Display     Xem số lượng kết cấu hạ
+ angSuDung                                         tầng sử dụng
+ soLuongKetCauHaT            X         Display     Xem số lượng kết cấu hạ
+ angKhongSuDung                                    tầng không sử dụng
+
+ Tổng quan thông số kỹ thuật kết cấu hạ tầng (biểu đồ đường)
+ tongLuongKetCauHa X                   Display     Xem tổng số lượng kết
+ Tang                                              cấu hạ tầng
+
+
+                                                                              Trang 163
+Tài liệu thiết kế hệ thống                                                       V3.0
+
+   Tên thành phần            Bắt     Định dạng           Vai trò           Ghi chú
+                             buộc
+                             nhập
+                                 ?
+ soLuongKetCauHaT            X       Display     Xem số lượng kết cấu hạ
+ angSuDung                                       tầng sử dụng
+ soLuongKetCauHaT            X       Display     Xem số lượng kết cấu hạ
+ angKhongSuDung                                  tầng không sử dụng
+
+ Tỷ lệ phê duyệt
+
+ Biểu đồ kết cấu hạ
+ tầng
+
+ tongLuongKetCauHa X                 Display     Xem tổng số lượng kết
+ Tang                                            cấu hạ tầng
+
+ soLuongKetCauHaT            X       Display     Xem số lượng kết cấu hạ
+ angDaPheDuyet                                   tầng đã phê duyệt
+
+ soLuongKetCauHaT            X       Display     Xem số lượng kết cấu hạ
+ angDaTuChoi                                     tầng đã từ chối
+
+ soLuongKetCauHaT            X       Display     Xem số lượng kết cấu hạ
+ angChoPheDuyet                                  tầng chờ phê duyệt
+
+ soLuongKetCauHaT            X       Display     Xem số lượng kết cấu hạ
+ angLuuTam                                       tầng lưu tạm
+ Biểu đồ tài sản kết
+ cấu hạ tầng
+
+ tongSoTaiSan                X       Display     Xem tổng số tài sản
+
+ soLuongTaiSanDaPh X                 Display     Xem số lượng tài sản đã
+ eDuyet                                          phê duyệt
+ soLuongTaiSanDaTu X                 Display     Xem số lượng tài sản đã
+ Choi                                            từ chối
+
+ soLuongTaiSanChoP X                 Display     Xem số lượng tài sản
+ heDuyet                                         chờ phê duyệt
+ soLuongTaiSanLuuT X                 Display     Xem số lượng tài sản
+ am                                              lưu tạm
+
+                                                                            Trang 164
+Tài liệu thiết kế hệ thống                                                               V3.0
+
+   Tên thành phần            Bắt     Định dạng            Vai trò               Ghi chú
+                             buộc
+                             nhập
+                                 ?
+ Chi tiết thông số kỹ thuật kết cấu hạ tầng
+
+ loaiKetCauHaTang            X       Display     Xem loại kết cấu hạ tầng
+ tongSoLuong                 X       Display     Xem tổng số lượng
+ soLuongSuDung               X       Display     Xem số lượng sử dụng
+
+ soLuongKhongSuDu            X       Display     Xem số lượng không sử
+ ng                                              dụng
+
+ Tài liệu
+
+ tenTaiLieu                  X       Display     Xem tên tài liệu
+ ngayBanHanh                 X       Display     Xem ngày ban hành
+
+ Thông báo
+ tenTaiLieu                  X       Display     Xem tên tài liệu
+
+ ngayBanHanh                 X       Display     Xem ngày ban hành
+II.3.3.1.4. Xử lý sự kiện
+
+      Sự kiện                                        Mô tả
+ Màn hình Trang chủ
+
+ Page_Load            Chọn menu → Trang chủ
+                      Hiển thị màn hình trang chủ
+ Chọn năm             Khi chọn năm tại phần Tổng quan thông số kỹ thuật kết cấu hạ tầng,
+                      hệ thống hiển thị các bản đồ theo năm tương ứng
+
+
+ Chọn loại kết        Khi chọn loại kết cấu hạ tầng tại phần Tỷ lệ phê duyệt, hệ thống
+ cấu hạ tầng          hiển thị số lượng kết cấu theo từng trạng thái
+
+ Tìm kiếm             Khi chọn tìm kiếm tại phần Tra cứu bản đồ, hệ thống hiển thị màn
+                      hình chức năng Tra cứu thông tin kết cấu hạ tầng hàng hải trên bản
+                      đồ với điều kiện tìm kiếm tương ứng
+
+ Chi tiết             Khi chọn chi tiết tại phần thông số kỹ thuật kết cấu hạ tầng, hệ
+
+                                                                                  Trang 165
+Tài liệu thiết kế hệ thống                                                               V3.0
+
+      Sự kiện                                       Mô tả
+                      thống hiển thị chức năng tra cứu kết cấu hạ tầng tương ứng
+ Tải xuống            Khi chọn tải xuống, hệ thống thực hiện tải file xuống máy người
+                      dùng
+II.3.3.1.5. Bảng dữ liệu sử dụng
+                    Tên bảng                                     Kiểu
+                                                Insert    Update     Delete        Query
+
+  KCHT_CB                                                                            X
+
+  KCHT_ATHH                                                                          X
+  KCHT_MVT                                                                           X
+
+  KCHT_CC                                                                            X
+
+  TS_QL                                                                              X
+
+II.3.3.1.6. Kiểm soát dữ liệu/các ràng buộc
+- N/A
+
+
+         Tra cứu văn bản pháp lý
+II.3.3.2.1. Luồng màn hình
+
+
+
+
+II.3.3.2.2. Giao diện
+- Màn hình Danh sách
+
+
+
+
+                                                                                   Trang 166
+Tài liệu thiết kế hệ thống                                      V3.0
+
+
+
+
+- Màn hình Xem chi tiết
+
+
+
+
+II.3.3.2.3. Danh sách thành phần giao diện
+   Tên thành phần             Bắt   Định dạng   Vai trò   Ghi chú
+                             buộc
+                             nhập
+                               ?
+ MH Danh sách
+
+                                                           Trang 167
+Tài liệu thiết kế hệ thống                                                           V3.0
+
+   Tên thành phần                Bắt   Định dạng            Vai trò            Ghi chú
+                             buộc
+                             nhập
+                                  ?
+ Chỉ tiêu tìm kiếm
+
+ tenVanBan                   -         Textbox      Nhập tên văn bản
+ soHieuVanBan                -         Textbox      Nhập số hiệu văn bản
+ ngayBanHanh                 -         Datetimera   Chọn ngày ban hành
+                                       nge
+
+ loaiVanBan                  -         Combobox     Chọn loại văn bản
+
+ ngayHieuLuc                 -         Datetimera   Chọn ngày hiệu lực
+                                       nge
+
+ trangThaiHieuLuc            -         Combobox     Chọn trạng thái hiệu lực
+
+ Kết quả tìm kiếm
+
+ stt                         X         Display      Xem STT
+ tenVanBan                   X         Display      Xem tên văn bản
+
+ soHieuVanBan                X         Display      Xem số hiệu văn bản
+
+ ngayBanHanh                 X         Display      Xem ngày ban hành
+
+ loaiVanBan                  X         Display      Xem loại văn bản
+ ngayBatDauHieuLuc           X         Display      Xem ngày bắt đầu hiệu
+                                                    lực
+ ngayKetThucHieuLu           X         Display      Xem ngày kết thúc hiệu
+ c                                                  lực
+
+ trangThaiHieuLuc            X         Display      Xem trạng thái hiệu lực
+
+ trangThai                   X         Display      Xem trạng thái
+
+ ngayCapNhat                 X         Display      Xem ngày cập nhật
+ canBoCapNhat                X         Display      Xem cán bộ cập nhật
+ MH Xem chi tiết
+ Thông tin chung
+
+
+                                                                                Trang 168
+Tài liệu thiết kế hệ thống                                                            V3.0
+
+   Tên thành phần            Bắt     Định dạng           Vai trò              Ghi chú
+                             buộc
+                             nhập
+                                 ?
+ tenVanBan                   X       Display     Xem tên văn bản
+
+ noiBanHanhVanBan            X       Display     Xem nơi ban hành văn
+                                                 bản
+ soHieuVanBan                X       Display     Xem số hiệu văn bản
+ ngayBanHanh                 X       Display     Xem ngày ban hành
+
+ loaiVanBan                  X       Display     Xem loại văn bản
+
+ ngayBatDauHieuLuc           X       Display     Xem ngày bắt đầu hiệu
+                                                 lực
+
+ ngayKetThucHieuLu           X       Display     Xem ngày kết thúc hiệu
+ c                                               lực
+
+ trangThaiHieuLuc            X       Display     Xem trạng thái hiệu lực
+ ghiChu                      X       Display     Xem ghi chú
+
+ trangThai                   X       Display     Xem trạng thái
+
+ ngayCapNhat                 X       Display     Xem ngày cập nhật
+
+ canBoCapNhat                X       Display     Xem cán bộ cập nhật
+ File đính kèm
+
+ stt                         X       Display     Xem STT
+ tenFile                     X       Display     Xem tên file
+II.3.3.2.4. Xử lý sự kiện
+
+       Sự kiện                                       Mô tả
+ Màn hình Danh sách
+
+ Page_Load            Chọn menu → Tra cứu văn bản pháp lý
+                      Hiển thị Màn hình Danh sách văn bản pháp lý
+ Tìm kiếm             Khi chọn Tìm kiếm, hệ thống truy vấn dữ liệu theo chỉ tiêu đã nhập:
+                      + Nếu không thỏa mãn điều kiện tìm kiếm, hệ thống hiển thị thông
+
+
+                                                                                Trang 169
+Tài liệu thiết kế hệ thống                                                              V3.0
+
+      Sự kiện                                         Mô tả
+                      báo “Không có dữ liệu”
+                      + Nếu thỏa mãn điều kiện tìm kiếm, hệ thống hiển thị thông tin dưới
+                      bảng kết quả
+ Nâng cao             Khi chọn Nâng cao, hệ thống mở rộng thêm các điều kiện tìm kiếm
+                      nâng cao
+ Thu gọn              Khi chọn Thu gọn, hệ thống rút gọn về các điều kiện tìm kiếm cơ
+                      bản
+ Xóa tìm kiếm         Khi chọn Xóa tìm kiếm, hệ thống chuyển điều kiện tìm kiếm về giá
+                      trị mặc định và Xóa kết quả tìm kiếm đã có ở grid
+ Chi tiết             Khi chọn Chi tiết tại 1 bản ghi, hệ thống hiển thị Màn hình Xem chi
+                      tiết thông tin bản ghi đó
+ Màn hình Xem chi tiết
+ Quay lại             Khi chọn Quay lại, quay lại Màn hình Danh sách
+
+ Xem chi tiết         Khi chọn Xem chi tiết: hệ thống thông báo lỗi nếu có. Nếu hợp lệ,
+ (file đính kèm)      hệ thống hiển thị file đính kèm
+
+ Tải xuống (file      Khi chọn Tải xuống: hệ thống tải file xuống máy người dùng
+ đính kèm)
+
+ In file đính kèm     Tại màn hình xem chi tiết file đính kèm. Chọn In, hệ thống cho phép
+                      in file đính kèm
+II.3.3.2.5. Bảng dữ liệu sử dụng
+
+                    Tên bảng                                     Kiểu
+                                                  Insert   Update     Delete     Query
+  KCHT_VBPL                                                                        X
+
+  COM_DATA_EXT                                                                     X
+  COM_DATA_LOG                                                                     X
+II.3.3.2.6. Kiểm soát dữ liệu/các ràng buộc
+- Màn hình Danh sách:
++ Khi vào màn hình, mặc định sắp xếp từ gần nhất tới xa nhất theo Ngày ban hành
+
+
+
+                                                                                Trang 170
+Tài liệu thiết kế hệ thống                                                         V3.0
+
++ Cho phép sorting từ gần nhất tới xa nhất hoặc ngược lại theo Ngày ban hành, Ngày bắt
+đầu hiệu lực, Ngày kết thúc hiệu lực, Ngày cập nhật
+
+
+         Tra cứu cảng biển
+II.3.3.3.1. Luồng màn hình
+
+
+
+
+II.3.3.3.2. Giao diện
+- Màn hình Danh sách
+
+
+
+
+- Màn hình Xem chi tiết
+
+
+
+
+                                                                            Trang 171
+Tài liệu thiết kế hệ thống                                                       V3.0
+
+
+
+
+II.3.3.3.3. Danh sách thành phần giao diện
+
+   Tên thành phần             Bắt   Định dạng           Vai trò        Ghi chú
+                             buộc
+                             nhập
+                               ?
+ MH Danh sách
+
+ Chỉ tiêu tìm kiếm
+ donViQuanLy                 X/ M   Display/    Xem/Chọn đơn vị quản
+                                    Combobox    lý
+
+ tenCangBien                 -      Textbox     Nhập tên cảng biển
+ phanCapCangBien             -      Combobox    Chọn phân cấp cảng
+                                                biển
+ maCangBien                  -      Textbox     Nhập mã cảng biển
+
+
+                                                                        Trang 172
+Tài liệu thiết kế hệ thống                                                             V3.0
+
+   Tên thành phần                Bắt   Định dạng            Vai trò          Ghi chú
+                             buộc
+                             nhập
+                                  ?
+ diaDiem                     -         Combobox     Chọn địa điểm
+
+ ngayCapNhat                 -         Datetimera   Chọn ngày cập nhật
+                                       nge
+ Kết quả tìm kiếm
+ stt                         X         Display      Xem STT
+
+ donViQuanLy                 X         Display      Xem đơn vị quản lý
+
+ maCangBien                  X         Display      Xem mã cảng biển
+
+ tenCangBien                 X         Display      Xem tên cảng biển
+ diaDiem                     X         Display      Xem địa điểm
+
+ phanCapCangBien             X         Display      Xem phân cấp cảng biển
+ ngayCapNhat                 X         Display      Xem ngày cập nhật
+
+ canBoCapNhat                X         Display      Xem cán bộ cập nhật
+ MH Chi tiết
+
+ Thông tin chung
+ donViQuanLy                 X         Display      Xem đơn vị quản lý
+
+ maCangBien                  X         Display      Xem mã cảng biển
+
+ tenCangBien                 X         Display      Xem tên cảng biển
+
+ diaDiem                     X         Display      Xem địa điểm
+
+ diaDiemChiTiet              X         Display      Xem địa điểm chi tiết
+ phanCapCangBien             X         Display      Xem phân cấp cảng biển
+
+ ngayCapNhat                 X         Display      Xem ngày cập nhật
+ canBoCapNhat                X         Display      Xem cán bộ cập nhật
+
+ phamViVungNuocC             X         Display      Xem phạm vi vùng nước
+ angBien                                            cảng biển
+ tongSoBenCang               X         Display      Xem tổng số bến cảng
+
+                                                                              Trang 173
+Tài liệu thiết kế hệ thống                                                          V3.0
+
+   Tên thành phần            Bắt     Định dạng           Vai trò          Ghi chú
+                             buộc
+                             nhập
+                                 ?
+ tongSoKhuNeoDauK X                  Display     Xem tổng số khu neo
+ huChuyenTai                                     đậu khu chuyển tải
+ tongSoTuyenLuong            X       Display     Xem tổng số tuyến
+ HangHaiCongCong                                 luồng hàng hải công
+                                                 cộng
+
+ tongSoTuyenLuong            X       Display     Xem tổng số tuyến
+ HangHaiChuyeDung                                luồng hàng hải chuyên
+                                                 dùng
+ tongSoChieuDaiTuy           X       Display     Xem tổng số chiều dài
+ enLuongHangHaiCo                                tuyến luồng hàng hải
+ ngCong                                          công cộng
+
+ tongSochieuDaiTuye          X       Display     Xem tổng số chiều dài
+ nLuongHangHaiChu                                tuyến luồng hàng hải
+ yenDung                                         chuyên dùng
+
+ tongSoPhaoTieuBao X                 Display     Xem tổng số phao tiêu
+ HieuHangHaiTrenLu                               báo hiệu hàng hải trên
+ ong                                             luồng
+
+ tongSoDeKe                  X       Display     Xem tổng số đê kè
+ tongChieuDaiHeTho           X       Display     Xem tổng chiều dài hệ
+ ng                                              thống
+
+ tongSoDenBienDang X                 Display     Xem tổng số đèn biển
+ TieuDocLap                                      đăng tiêu độc lập
+ soLuongBenPhao              X       Display     Xem số lượng bến phao
+
+ soLuongKhuNeoDau X                  Display     Xem số lượng khu neo
+                                                 đậu
+ soLuongKhuChuyen            X       Display     Xem số lượng khu
+ Tai                                             chuyển tải
+ cacKhuNuocVungN             X       Display     Xem các khu nước vùng
+
+
+                                                                           Trang 174
+Tài liệu thiết kế hệ thống                                                            V3.0
+
+   Tên thành phần            Bắt     Định dạng           Vai trò            Ghi chú
+                             buộc
+                             nhập
+                                 ?
+ uocKhac                                         nước khác
+
+ ghiChu                      X       Display     Xem ghi chú
+ Thông tin vị trí
+
+ loaiDoiTuong                X       Display     Xem loại đối tượng
+
+ bieuTuong                   X       Display     Xem biểu tượng
+ heQuyChieu                  X       Display     Xem hệ quy chiếu
+
+ quyTacHienThi               X       Display     Xem quy tắc hiển thị
+
+ stt                         X       Display     Xem STT
+
+ viDo                        X       Display     Xem Vĩ độ
+
+ kinhDo                      X       Display     Xem Kinh độ
+ Thông tin công trình kết cấu hạ tầng khác thuộc cảng biển
+
+ stt                         X       Display     Xem STT
+
+ tenCongTrinh                X       Display     Xem Tên công trình
+
+ soLuong                     X       Display     Xem số lượng
+ File đính kèm
+
+ stt                         X       Display     Xem STT file đính kèm
+ tenFile                     X       Display     Xem tên file đính kèm
+ Danh sách kết cấu hạ tầng thuộc cảng biển
+
+ stt                         X       Display     Xem STT
+ loaiKetCauHaTang            X       Display     Xem loại kết cấu hạ tầng
+
+ maKetCauHaTang              X       Display     Xem mã kết cấu hạ tầng
+ tenKetCauHaTang             X       Display     Xem tên kết cấu hạ tầng
+
+
+
+
+                                                                             Trang 175
+Tài liệu thiết kế hệ thống                                                                V3.0
+
+II.3.3.3.4. Xử lý sự kiện
+
+      Sự kiện                                         Mô tả
+
+Màn hình Danh sách
+
+ Page_Load            Chọn menu → Tra cứu cảng biển
+                      Hiển thị Màn hình Danh sách cảng biển
+ Tìm kiếm             Khi chọn Tìm kiếm, hệ thống truy vấn dữ liệu theo chỉ tiêu đã nhập:
+                      + Nếu không thỏa mãn điều kiện tìm kiếm, hệ thống hiển thị thông
+                      báo “Không có dữ liệu”
+                      + Nếu thỏa mãn điều kiện tìm kiếm, hệ thống hiển thị thông tin dưới
+                      bảng kết quả
+ Xóa tìm kiếm         Khi chọn Xóa tìm kiếm, hệ thống chuyển điều kiện tìm kiếm về giá
+                      trị mặc định và Xóa kết quả tìm kiếm đã có ở grid
+
+ Nâng cao             Khi chọn Nâng cao, hệ thống mở rộng thêm các điều kiện tìm kiếm
+                      nâng cao
+ Thu gọn              Khi chọn Thu gọn, hệ thống rút gọn về các điều kiện tìm kiếm cơ
+                      bản
+
+ Xem chi tiết         Khi chọn Xem chi tiết tại 1 bản ghi, hệ thống hiển thị Màn hình
+                      Xem chi tiết thông tin
+ Màn hình Xem chi tiết
+
+ Quay lại             Khi chọn Quay lại, hệ thống quay lại Màn hình Danh sách
+
+ Xem lịch sử          Khi chọn Xem lịch sử: hệ thống hiển thị Màn hình Lịch sử cảng
+                      biển
+
+ Xem vị trí           Khi chọn Xem vị trí: hiển thị vị trí, biểu tượng trên bản đồ
+
+ Xem chi tiết         Khi chọn Xem chi tiết: hệ thống thông báo lỗi nếu có. Nếu hợp lệ,
+ (file đính kèm)      hệ thống hiển thị file đính kèm
+
+ Tải xuống (file      Khi chọn Tải xuống: hệ thống tải file xuống máy người dùng
+ đính kèm)
+ In file đính kèm     Tại màn hình xem chi tiết file đính kèm. Chọn In, hệ thống cho phép
+                      in file đính kèm
+
+
+
+
+                                                                                     Trang 176
+Tài liệu thiết kế hệ thống                                                            V3.0
+
+II.3.3.3.5. Bảng dữ liệu sử dụng
+
+                    Tên bảng                                  Kiểu
+
+                                              Insert   Update      Delete      Query
+
+  KCHT_CB                                                                         X
+  COM_DATA_EXT                                                                    X
+  COM_DATA_GEO                                                                    X
+  COM_DATA_LOG                                                                    X
+
+II.3.3.3.6. Kiểm soát dữ liệu/các ràng buộc
+- MH Danh sách:
++ Khi vào màn hình, mặc định sắp xếp từ gần nhất tới xa nhất theo Ngày cập nhật
++ Cho phép sorting từ gần nhất tới xa nhất hoặc ngược lại theo Ngày cập nhật
+
+
+         Tra cứu bến cảng
+II.3.3.4.1. Luồng màn hình
+
+
+
+
+II.3.3.4.2. Giao diện
+- Màn hình Danh sách
+
+
+
+
+                                                                               Trang 177
+Tài liệu thiết kế hệ thống        V3.0
+
+
+
+
+- Màn hình Xem chi tiết
+
+
+
+
+                             Trang 178
+Tài liệu thiết kế hệ thống             V3.0
+
+- Màn hình Lịch sử bến cảng
+
+
+
+
+- Màn hình Xem chi tiết lịch sử
+
+
+
+
+                                  Trang 179
+Tài liệu thiết kế hệ thống                                                           V3.0
+
+II.3.3.4.3. Danh sách thành phần giao diện
+
+   Tên thành phần                Bắt   Định dạng            Vai trò        Ghi chú
+                             buộc
+                             nhập
+                                  ?
+ MH Danh sách
+ Chỉ tiêu tìm kiếm
+ donViQuanLy                 X/ M      Display/     Xem/Chọn đơn vị quản
+                                       Combobox     lý
+
+ tenBenCang                  -         Textbox      Nhập tên bến cảng
+ tinhTrang                   -         Combobox     Chọn tình trạng
+
+ thuocCangBien               -         Combobox     Chọn cảng biển
+
+ thuocLuongHangHai           -         Combobox     Chọn luồng hàng hải
+
+ maBenCang                   -         Textbox      Nhập mã bến cảng
+
+ loaiKetCauBenCang           -         Combobox     Chọn loại kết cấu hạ
+                                                    tầng bến cảng
+
+ congNangKhaiThac            -         Combobox     Chọn công năng khai
+                                                    thác
+
+ ngayCapNhat                 -         Datetimera   Chọn ngày cập nhật
+                                       nge
+
+ diaDiem                     -         Combobox     Chọn Địa điểm (Tỉnh/
+                                                    Thành phố)
+ Kết quả tìm kiếm
+ stt                         X         Display      Xem STT
+
+ donViQuanLy                 X         Display      Xem đơn vị quản lý
+ thuocCangBien               X         Display      Xem cảng biển
+ thuocLuongHangHai           X         Display      Xem luồng hàng hải
+
+ maBenCang                   X         Display      Xem mã bến cảng
+
+ tenBenCang                  X         Display      Xem tên bến cảng
+ diaDiem                     X         Display      Xem Địa điểm (Tỉnh/
+
+                                                                            Trang 180
+Tài liệu thiết kế hệ thống                                                            V3.0
+
+   Tên thành phần            Bắt     Định dạng           Vai trò            Ghi chú
+                             buộc
+                             nhập
+                                 ?
+                                                 Thành phố)
+
+ loaiKetCauCauCang           X       Display     Xem loại kết cấu hạ tầng
+ congNangKhaiThac            X       Display     Xem công năng khai
+                                                 thác
+ tinhTrang                   X       Display     Xem tình trạng
+
+ trangThai                   X       Display     Xem trạng thái
+
+ ngayCapNhat                 X       Display     Xem ngày cập nhật
+
+ canBoCapNhat                X       Display     Xem cán bộ cập nhật
+ ngayGuiPheDuyet             X       Display     Xem ngày gửi phê duyệt
+
+ canBoGuiPheDuyet            X       Display     Xem cán bộ gửi phê
+                                                 duyệt
+
+ ngayPheDuyetCapCa X                 Display     Xem ngày gửi phê duyệt
+ ngVuChiCuc                                      cấp cảng vụ/chi cục
+
+ canBoPheDuyetCap            X       Display     Xem cán bộ phê duyệt
+ CangVuChiCuc                                    cấp cảng vụ/chi cục
+
+ ngayPheDuyetCapC            X       Display     Xem ngày phê duyệt cấp
+ uc                                              cục
+
+ canBoPheDuyetCap            X       Display     Xem cán bộ phê duyệt
+ Cuc                                             cấp cục
+
+ MH Chi tiết
+
+ Thông tin chung
+
+ donViQuanLy                 X       Display     Xem đơn vị quản lý
+ thuocCangBien               X       Display     Xem cảng biển
+ thuocLuongHangHai           X       Display     Xem luồng hàng hải
+
+ maBenCang                   X       Display     Xem mã bến cảng
+ tenBenCang                  X       Display     Xem tên bến cảng
+
+
+                                                                             Trang 181
+Tài liệu thiết kế hệ thống                                                           V3.0
+
+   Tên thành phần            Bắt     Định dạng           Vai trò           Ghi chú
+                             buộc
+                             nhập
+                                 ?
+ diaDiem                     X       Display     Xem địa điểm
+
+ diaDiemChiTiet              X       Display     Xem địa điểm chi tiết
+ loaiKetCauCauCang           X       Display     Xem loại kết cấu cầu
+                                                 cảng
+ congNangKhaiThac            X       Display     Xem công năng khai
+                                                 thác
+ donViKhaiThac               X       Display     Xem đơn vị khai thác
+
+ tongDienTich                X       Display     Xem tổng diện tích
+
+ nangLucThongQuaT            X       Display     Xem năng lực thông qua
+ hietKe                                          thiết kế
+
+ nangLucThongQuaH            X       Display     Xem năng lực thông qua
+ ienTrang                                        hiện trạng (tấn/ năm)
+
+ coTauTiepNhanLon            X       Display     Xem cỡ tàu tiếp nhận
+ NhatTheoQuyHoach                                lớn nhất theo quy hoạch
+                                                 (DWT)
+
+ quyHoachNangLucT            X       Display     Xem quy hoạch năng lực
+ hongQua                                         thông qua (tấn/ năm)
+
+ sanLuongHangHoaT            X       Display     Xem sản lượng hàng hóa
+ hucTeThongQuaTro                                thực tế thông qua trong
+ ngNamGanNhat                                    năm gần nhất
+
+ tinhTrang                   X       Display     Xem tình trạng
+
+ trangThai                   X       Display     Xem trạng thái
+ ngayCapNhat                 X       Display     Xem ngày cập nhật
+ canBoCapNhat                X       Display     Xem cán bộ cập nhật
+
+ Thông tin công bố mở, đưa vào sử dụng
+ thoiDiemCongBoMo            X       Display     Xem thời điểm công bố
+ DuaVaoSuDung                                    mở, đưa vào sử dụng
+
+                                                                            Trang 182
+Tài liệu thiết kế hệ thống                                                          V3.0
+
+   Tên thành phần            Bắt     Định dạng           Vai trò          Ghi chú
+                             buộc
+                             nhập
+                                 ?
+ quyetDinhCongBoV            X       Display     Xem quyết định công
+ anBanChoPhepKhai                                bố/ Văn bản cho phép
+ Thac                                            khai thác
+ vanBanThoaThuanD            X       Display     Xem văn bản thỏa thuận
+ auTuXayDung                                     đầu tư xây dựng
+
+ Thông tin vị trí
+ loaiDoiTuong                X       Display     Xem loại đối tượng
+
+ bieuTuong                   X       Display     Xem biểu tượng
+ heQuyChieu                  X       Display     Xem hệ quy chiếu
+ quyTacHienThi               X       Display     Xem quy tắc hiển thị
+
+ stt                         X       Display     Xem STT
+ viDo                        X       Display     Xem Vĩ độ
+
+ kinhDo                      X       Display     Xem Kinh độ
+
+ File đính kèm
+
+ stt                         X       Display     Xem STT file đính kèm
+ tenFile                     X       Display     Xem tên file đính kèm
+
+ Thông tin Cảng vụ/chi cục phê duyệt
+ canBoPheDuyet               X       Display     Xem cán bộ phê duyệt
+ ngayPheDuyet                X       Display     Xem ngày phê duyệt
+
+                             X       Display     Xem chi cục duyệt nội
+ pdChiCucDuyetNoi                                dung
+ Dung
+
+ Thông tin Cục phê duyệt
+
+ canBoPheDuyet               X       Display     Xem cán bộ phê duyệt
+ ngayPheDuyet                X       Display     Xem ngày phê duyệt
+                             X       Display     Xem cục duyệt nội dung
+
+                                                                           Trang 183
+Tài liệu thiết kế hệ thống                                                          V3.0
+
+     Tên thành phần          Bắt     Định dạng           Vai trò          Ghi chú
+                             buộc
+                             nhập
+                                 ?
+ pdCucDuyetNoiDun
+ g
+ MH Lịch sử bến cảng
+ stt                         X       Display     Xem STT
+ ngayCapNhat                 X       Display     Xem ngày cập nhật
+
+ canBoCapNhat                X       Display     Xem cán bộ cập nhật
+
+ ngayGuiPheDuyet             X       Display     Xem ngày gửi phê duyệt
+
+ canBoGuiPheDuyet            X       Display     Xem cán bộ gửi phê
+                                                 duyệt
+
+ ngayPheDuyetCapCa X                 Display     Xem ngày gửi phê duyệt
+ ngVuChiCuc                                      cấp cảng vụ/chi cục
+ canBoPheDuyetCap            X       Display     Xem cán bộ phê duyệt
+ CangVuChiCuc                                    cấp cảng vụ/chi cục
+ ngayPheDuyetCapC            X       Display     Xem ngày phê duyệt cấp
+ uc                                              cục
+ canBoPheDuyetCap            X       Display     Xem cán bộ phê duyệt
+ Cuc                                             cấp cục
+
+ trangThai                   X       Display     Xem trạng thái
+ MH Chi tiết lịch sử
+ Thông tin chung
+
+ donViQuanLy                 X       Display     Xem đơn vị quản lý
+ thuocCangBien               X       Display     Xem cảng biển
+ thuocLuongHangHai           X       Display     Xem luồng hàng hải
+
+ maBenCang                   X       Display     Xem mã bến cảng
+
+ tenBenCang                  X       Display     Xem tên bến cảng
+ diaDiem                     X       Display     Xem địa điểm
+
+
+                                                                           Trang 184
+Tài liệu thiết kế hệ thống                                                          V3.0
+
+   Tên thành phần            Bắt     Định dạng           Vai trò          Ghi chú
+                             buộc
+                             nhập
+                                 ?
+ diaDiemChiTiet              X       Display     Xem địa điểm chi tiết
+
+ loaiKetCauCauCang           X       Display     Xem loại kết cấu cầu
+                                                 cảng
+ congNangKhaiThac            X       Display     Xem công năng khai
+                                                 thác
+
+ tinhTrang                   X       Display     Xem tình trạng
+ trangThai                   X       Display     Xem trạng thái
+
+ ngayCapNhat                 X       Display     Xem ngày cập nhật
+
+ canBoCapNhat                X       Display     Xem cán bộ cập nhật
+
+ Thông tin công bố mở, đưa vào sử dụng
+
+ thoiDiemCongBoMo            X       Display     Xem thời điểm công bố
+ DuaVaoSuDung                                    mở, đưa vào sử dụng
+
+ quyetDinhCongBoV            X       Display     Xem quyết định công
+ anBanChoPhepKhai                                bố/ Văn bản cho phép
+ Thac                                            khai thác
+ vanBanThoaThuanD            X       Display     Xem văn bản thỏa thuận
+ auTuXayDung                                     đầu tư xây dựng
+
+ Thông tin vị trí
+ loaiDoiTuong                X       Display     Xem loại đối tượng
+ bieuTuong                   X       Display     Xem biểu tượng
+
+ heQuyChieu                  X       Display     Xem hệ quy chiếu
+ quyTacHienThi               X       Display     Xem quy tắc hiển thị
+ stt                         X       Display     Xem STT
+
+ viDo                        X       Display     Xem Vĩ độ
+
+ kinhDo                      X       Display     Xem Kinh độ
+ Thông tin Cảng vụ/chi cục phê duyệt
+
+                                                                           Trang 185
+Tài liệu thiết kế hệ thống                                                              V3.0
+
+   Tên thành phần            Bắt     Định dạng           Vai trò              Ghi chú
+                             buộc
+                             nhập
+                                 ?
+ canBoPheDuyet               X       Display     Xem cán bộ phê duyệt
+
+ ngayPheDuyet                X       Display     Xem ngày phê duyệt
+                             X       Display     Xem chi cục duyệt nội
+ pdChiCucDuyetNoi                                dung
+ Dung
+
+ Thông tin Cục phê duyệt
+ canBoPheDuyet               X       Display     Xem cán bộ phê duyệt
+
+ ngayPheDuyet                X       Display     Xem ngày phê duyệt
+
+                             X       Display     Xem cục duyệt nội dung
+ pdCucDuyetNoiDun
+ g
+II.3.3.4.4. Xử lý sự kiện
+
+      Sự kiện                                        Mô tả
+Màn hình Danh sách
+
+ Page_Load            Chọn menu → Tra cứu bến cảng
+                      Hiển thị Màn hình Danh sách bến cảng
+
+ Tìm kiếm             Khi chọn Tìm kiếm, hệ thống truy vấn dữ liệu theo chỉ tiêu đã nhập:
+                      + Nếu không thỏa mãn điều kiện tìm kiếm, hệ thống hiển thị thông
+                      báo “Không có dữ liệu”
+                      + Nếu thỏa mãn điều kiện tìm kiếm, hệ thống hiển thị thông tin dưới
+                      bảng kết quả
+
+ Xóa tìm kiếm         Khi chọn Xóa tìm kiếm, hệ thống chuyển điều kiện tìm kiếm về giá
+                      trị mặc định và Xóa kết quả tìm kiếm đã có ở grid
+ Nâng cao             Khi chọn Nâng cao, hệ thống mở rộng thêm các điều kiện tìm kiếm
+                      nâng cao
+ Thu gọn              Khi chọn Thu gọn, hệ thống rút gọn về các điều kiện tìm kiếm cơ
+                      bản
+
+                                                                                Trang 186
+Tài liệu thiết kế hệ thống                                                                 V3.0
+
+      Sự kiện                                           Mô tả
+
+ Xem chi tiết         Khi chọn Xem chi tiết tại 1 bản ghi, hệ thống hiển thị Màn hình
+                      Xem chi tiết thông tin
+
+ Màn hình Xem chi tiết
+ Quay lại             Khi chọn Quay lại, hệ thống quay lại Màn hình Danh sách
+ Xem lịch sử          Khi chọn Xem lịch sử: hệ thống hiển thị Màn hình Lịch sử bến cảng
+ Xem vị trí           Khi chọn Xem vị trí: hiển thị vị trí, biểu tượng trên bản đồ
+
+ Xem chi tiết         Khi chọn Xem chi tiết: hệ thống thông báo lỗi nếu có. Nếu hợp lệ,
+ (file đính kèm)      hệ thống hiển thị file đính kèm
+
+ Tải xuống (file      Khi chọn Tải xuống: hệ thống tải file xuống máy người dùng
+ đính kèm)
+
+ In file đính kèm     Tại màn hình xem chi tiết file đính kèm. Chọn In, hệ thống cho phép
+                      in file đính kèm
+
+ Màn hình Lịch sử bến cảng
+ Quay lại             Khi chọn Quay lại, hệ thống quay lại màn hình xem chi tiết
+
+ Chi tiết             Khi chọn Chi tiết: hệ thống hiển thị Màn hình Xem chi tiết lịch sử
+ Màn hình Xem chi tiết lịch sử
+
+ Quay lại             Khi chọn Quay lại, hệ thống quay lại Màn hình Lịch sử bến cảng
+II.3.3.4.5. Bảng dữ liệu sử dụng
+
+                    Tên bảng                                       Kiểu
+
+                                                 Insert     Update      Delete       Query
+
+  KCHT_CB                                                                              X
+
+  COM_DATA_EXT                                                                         X
+  COM_DATA_GEO                                                                         X
+
+  COM_DATA_LOG                                                                         X
+II.3.3.4.6. Kiểm soát dữ liệu/các ràng buộc
+- MH Danh sách:
++ Khi vào màn hình, mặc định sắp xếp từ gần nhất tới xa nhất theo Ngày cập nhật
+
+
+
+                                                                                     Trang 187
+Tài liệu thiết kế hệ thống                                                        V3.0
+
++ Cho phép sorting từ gần nhất tới xa nhất hoặc ngược lại theo Ngày cập nhật, Ngày gửi
+phê duyệt, Ngày phê duyệt cấp cảng vụ/chi cục, Ngày phê duyệt cấp Cục
+- MH Lịch sử bến cảng:
++ Khi vào màn hình, mặc định sorting từ ngày gần nhất đến ngày xa nhất theo Ngày cập
+nhật
++ Cho phép sorting từ ngày gần nhất đến ngày xa nhất hoặc ngược lại theo Ngày cập nhật
+
+
+         Tra cứu cầu cảng
+II.3.3.5.1. Luồng màn hình
+
+
+
+
+II.3.3.5.2. Giao diện
+- Màn hình Danh sách
+
+
+
+
+- Màn hình Xem chi tiết
+                                                                            Trang 188
+Tài liệu thiết kế hệ thống         V3.0
+
+
+
+
+- Màn hình Lịch sử cầu cảng
+
+
+
+
+                              Trang 189
+Tài liệu thiết kế hệ thống             V3.0
+
+
+
+
+- Màn hình Xem chi tiết lịch sử
+
+
+
+
+                                  Trang 190
+Tài liệu thiết kế hệ thống                                                       V3.0
+
+
+
+
+II.3.3.5.3. Danh sách thành phần giao diện
+
+   Tên thành phần             Bắt   Định dạng           Vai trò        Ghi chú
+                             buộc
+                             nhập
+                               ?
+
+ MH Danh sách
+
+ Chỉ tiêu tìm kiếm
+ donViQuanLy                 X/ M   Display/    Xem/Chọn đơn vị quản
+                                    Combobox    lý
+
+ tenCauCang                  -      Textbox     Nhập tên cầu cảng
+ tinhTrang                   -      Combobox    Chọn tình trạng
+
+                                                                        Trang 191
+Tài liệu thiết kế hệ thống                                                            V3.0
+
+   Tên thành phần                Bắt   Định dạng            Vai trò         Ghi chú
+                             buộc
+                             nhập
+                                  ?
+ thuocCangBien               -         Combobox     Chọn cảng biển
+
+ thuocBenCang                -         Combobox     Chọn bến cảng
+ thuocLuongHangHai           -         Combobox     Chọn luồng hàng hải
+ maCauCang                   -         Textbox      Nhập mã cầu cảng
+
+ phanCapCongTrinh            -         Combobox     Chọn phân cấp công
+                                                    trình
+
+ loaiKetCauCauCang           -         Combobox     Chọn loại kết cấu cầu
+                                                    cảng
+
+ congNangKhaiThac            -         Combobox     Chọn công năng khai
+                                                    thác
+
+ ngayCapNhat                 -         Datetimera   Chọn ngày cập nhật
+                                       nge
+
+ diaDiem                     -         Combobox     Chọn Địa điểm (Tỉnh/
+                                                    Thành phố)
+
+ Kết quả tìm kiếm
+ stt                         X         Display      Xem STT
+
+ donViQuanLy                 X         Display      Xem đơn vị quản lý
+
+ thuocCangBien               X         Display      Xem cảng biển
+ thuocBenCang                X         Display      Xem bến cảng
+
+ thuocLuongHangHai           X         Display      Xem luồng hàng hải
+
+ maCauCang                   X         Display      Xem mã cầu cảng
+ tenCauCang                  X         Display      Xem tên cầu cảng
+ diaDiem                     X         Display      Xem Địa điểm (Tỉnh/
+                                                    Thành phố)
+
+ phanCapCongTrinh            X         Display      Xem phân cấp công
+                                                    trình
+
+
+                                                                             Trang 192
+Tài liệu thiết kế hệ thống                                                          V3.0
+
+   Tên thành phần            Bắt     Định dạng           Vai trò          Ghi chú
+                             buộc
+                             nhập
+                                 ?
+ loaiKetCauCauCang           X       Display     Xem loại kết cấu cầu
+                                                 cảng
+ congNangKhaiThac            X       Display     Xem công năng khai
+                                                 thác
+
+ tinhTrang                   X       Display     Xem tình trạng
+
+ trangThai                   X       Display     Xem trạng thái
+ ngayCapNhat                 X       Display     Xem ngày cập nhật
+
+ canBoCapNhat                X       Display     Xem cán bộ cập nhật
+
+ ngayGuiPheDuyet             X       Display     Xem ngày gửi phê duyệt
+
+ canBoGuiPheDuyet            X       Display     Xem cán bộ gửi phê
+                                                 duyệt
+ ngayPheDuyetCapCa X                 Display     Xem ngày gửi phê duyệt
+ ngVuChiCuc                                      cấp cảng vụ/chi cục
+ canBoPheDuyetCap            X       Display     Xem cán bộ phê duyệt
+ CangVuChiCuc                                    cấp cảng vụ/chi cục
+ ngayPheDuyetCapC            X       Display     Xem ngày phê duyệt cấp
+ uc                                              cục
+
+ canBoPheDuyetCap            X       Display     Xem cán bộ phê duyệt
+ Cuc                                             cấp cục
+ MH Chi tiết
+
+ Thông tin chung
+ donViQuanLy                 X       Display     Xem đơn vị quản lý
+ thuocCangBien               X       Display     Xem cảng biển
+
+ thuocBenCang                X       Display     Xem bến cảng
+ thuocLuongHangHai           X       Display     Xem luồng hàng hải
+
+ maCauCang                   X       Display     Xem mã cầu cảng
+
+
+                                                                           Trang 193
+Tài liệu thiết kế hệ thống                                                           V3.0
+
+   Tên thành phần            Bắt     Định dạng            Vai trò          Ghi chú
+                             buộc
+                             nhập
+                                 ?
+ tenCauCang                  X       Display     Xem tên cầu cảng
+
+ diaDiem                     X       Display     Xem địa điểm
+ diaDiemChiTiet              X       Display     Xem địa điểm chi tiết
+ phanCapCongTrinh            X       Display     Xem phân cấp công
+                                                 trình
+
+ loaiKetCauCauCang           X       Display     Xem loại kết cấu cầu
+                                                 cảng
+
+ congNangKhaiThac            X       Display     Xem công năng khai
+                                                 thác
+ tinhTrang                   X       Display     Xem tình trạng
+
+ trangThai                   X       Display     Xem trạng thái
+ ngayCapNhat                 X       Display     Xem ngày cập nhật
+
+ canBoCapNhat                X       Display     Xem cán bộ cập nhật
+
+ chieuDai                    X       Display     Xem chiều dài
+
+ chieuRong                   X       Display     Xem chiều rộng
+ doSauKhuNuocHien            X       Display     Xem độ sâu khu nước
+ Tai                                             hiện tại
+
+ caoDoDayBenThiet            X       Display     Xem cao độ đáy bến
+ Ke                                              thiết kế
+
+ coTauKhaiThacTheo           X       Display     Xem cỡ tàu khai thác
+ CongBo                                          theo công bố
+ thoiDiemPheDuyetQ           X       Display     Xem thời điểm phê
+ uyTrinhBaoTriCong                               duyệt quy trình bảo trì
+ Trinh                                           công trình
+ thoiDiemDuocChap X                  Display     Xem thời điểm được
+ ThuanHoSoBaoCao                                 chấp thuận hồ sơ báo
+ DanhGiaAnToanCon                                cáo đánh giá an toàn
+
+                                                                            Trang 194
+Tài liệu thiết kế hệ thống                                                           V3.0
+
+   Tên thành phần            Bắt     Định dạng           Vai trò           Ghi chú
+                             buộc
+                             nhập
+                                 ?
+ gTrinh                                          công trình
+
+ thoiDiemKiemDinh            X       Display     Xem thời điểm kiểm
+ GanNhat                                         định gần nhất
+ soLuongCauCangDa            X       Display     Xem số lượng cầu cảng
+ ngKhaiThac                                      đang khai thác
+
+ soLuongCauCangDa            X       Display     Xem số lượng cầu cảng
+ CongBo                                          đã công bố
+ soLuongCauCangDa            X       Display     Xem số lượng cầu cảng
+ ngDuocThoaThuanD                                đang được thỏa thuận
+ auTuXayDung                                     đầu tư xây dựng
+
+ sanLuongHangThon            X       Display     Xem sản lượng hàng
+ gQua                                            thông qua
+
+ tiepNhanTauCoTron           X       Display     Xem tiếp nhận tàu có
+ gTaiLonHonThongS                                trọng tải lớn hơn thông
+ oTaiQuyetDinhCong                               số tại quyết định công
+ Bo                                              bố
+
+ soVanBan                    X       Display     Xem số văn bản
+ ngayVanBan                  X       Display     Xem ngày văn bản
+
+ Thời điểm công bố mở, đưa vào sử dụng
+
+ thoiDiemCongBoMo            X       Display     Xem thời điểm công bố
+ DuaVaoSuDung                                    mở, đưa vào sử dụng
+
+ quyetDinhCongBoV            X       Display     Xem quyết định công
+ anBanChoPhepKhai                                bố/ Văn bản cho phép
+ Thac                                            khai thác
+ vanBanThoaThuanD            X       Display     Xem văn bản thỏa thuận
+ auTuXayDung                                     đầu tư xây dựng
+ phamViKhuNuocNe             X       Display     Xem phạm vi khu nước
+ oBuocTau                                        neo buộc tàu
+
+                                                                            Trang 195
+Tài liệu thiết kế hệ thống                                                          V3.0
+
+   Tên thành phần            Bắt     Định dạng           Vai trò          Ghi chú
+                             buộc
+                             nhập
+                                 ?
+ Thông tin vị trí
+
+ loaiDoiTuong                X       Display     Xem loại đối tượng
+ bieuTuong                   X       Display     Xem biểu tượng
+ heQuyChieu                  X       Display     Xem hệ quy chiếu
+
+ quyTacHienThi               X       Display     Xem quy tắc hiển thị
+
+ stt                         X       Display     Xem STT
+
+ viDo                        X       Display     Xem Vĩ độ
+
+ kinhDo                      X       Display     Xem Kinh độ
+ File đính kèm
+
+ stt                         X       Display     Xem STT file đính kèm
+
+ tenFile                     X       Display     Xem tên file đính kèm
+
+ Thông tin Cảng vụ/chi cục phê duyệt
+ canBoPheDuyet               X       Display     Xem cán bộ phê duyệt
+
+ ngayPheDuyet                X       Display     Xem ngày phê duyệt
+                             X       Display     Xem chi cục duyệt nội
+ pdChiCucDuyetNoi                                dung
+ Dung
+ Thông tin Cục phê duyệt
+
+ canBoPheDuyet               X       Display     Xem cán bộ phê duyệt
+
+ ngayPheDuyet                X       Display     Xem ngày phê duyệt
+                             X       Display     Xem cục duyệt nội dung
+ pdCucDuyetNoiDun
+ g
+ MH Lịch sử cầu cảng
+ stt                         X       Display     Xem STT
+
+
+                                                                           Trang 196
+Tài liệu thiết kế hệ thống                                                          V3.0
+
+   Tên thành phần            Bắt     Định dạng             Vai trò        Ghi chú
+                             buộc
+                             nhập
+                                 ?
+ ngayCapNhat                 X       Display     Xem ngày cập nhật
+
+ canBoCapNhat                X       Display     Xem cán bộ cập nhật
+ ngayGuiPheDuyet             X       Display     Xem ngày gửi phê duyệt
+ canBoGuiPheDuyet            X       Display     Xem cán bộ gửi phê
+                                                 duyệt
+
+ ngayPheDuyetCapCa X                 Display     Xem ngày gửi phê duyệt
+ ngVuChiCuc                                      cấp cảng vụ/chi cục
+
+ canBoPheDuyetCap            X       Display     Xem cán bộ phê duyệt
+ CangVuChiCuc                                    cấp cảng vụ/chi cục
+ ngayPheDuyetCapC            X       Display     Xem ngày phê duyệt cấp
+ uc                                              cục
+ canBoPheDuyetCap            X       Display     Xem cán bộ phê duyệt
+ Cuc                                             cấp cục
+
+ trangThai                   X       Display     Xem trạng thái
+
+ MH Chi tiết lịch sử
+ Thông tin chung
+
+ donViQuanLy                 X       Display     Xem đơn vị quản lý
+
+ thuocCangBien               X       Display     Xem cảng biển
+ thuocBenCang                X       Display     Xem bến cảng
+
+ thuocLuongHangHai           X       Display     Xem luồng hàng hải
+
+ maCauCang                   X       Display     Xem mã cầu cảng
+ tenCauCang                  X       Display     Xem tên cầu cảng
+
+ diaDiem                     X       Display     Xem địa điểm
+
+ diaDiemChiTiet              X       Display     Xem địa điểm chi tiết
+ phanCapCongTrinh            X       Display     Xem phân cấp công
+                                                 trình
+
+                                                                           Trang 197
+Tài liệu thiết kế hệ thống                                                           V3.0
+
+   Tên thành phần            Bắt     Định dạng            Vai trò          Ghi chú
+                             buộc
+                             nhập
+                                 ?
+ loaiKetCauCauCang           X       Display     Xem loại kết cấu cầu
+                                                 cảng
+ congNangKhaiThac            X       Display     Xem công năng khai
+                                                 thác
+
+ tinhTrang                   X       Display     Xem tình trạng
+
+ trangThai                   X       Display     Xem trạng thái
+ ngayCapNhat                 X       Display     Xem ngày cập nhật
+
+ canBoCapNhat                X       Display     Xem cán bộ cập nhật
+
+ chieuDai                    X       Display     Xem chiều dài
+
+ chieuRong                   X       Display     Xem chiều rộng
+
+ doSauKhuNuocHien            X       Display     Xem độ sâu khu nước
+ Tai                                             hiện tại
+
+ caoDoDayBenThiet            X       Display     Xem cao độ đáy bến
+ Ke                                              thiết kế
+
+ coTauKhaiThacTheo           X       Display     Xem cỡ tàu khai thác
+ CongBo                                          theo công bố
+
+ thoiDiemPheDuyetQ           X       Display     Xem thời điểm phê
+ uyTrinhBaoTriCong                               duyệt quy trình bảo trì
+ Trinh                                           công trình
+ thoiDiemDuocChap            X       Display     Xem thời điểm được
+ ThuanHoSoBaoCao                                 chấp thuận hồ sơ báo
+ DanhGiaAnToanCon                                cáo đánh giá an toàn
+ gTrinh                                          công trình
+ thoiDiemKiemDinh            X       Display     Xem thời điểm kiểm
+ GanNhat                                         định gần nhất
+ soLuongCauCangDa            X       Display     Xem số lượng cầu cảng
+ ngKhaiThac                                      đang khai thác
+
+
+                                                                            Trang 198
+Tài liệu thiết kế hệ thống                                                           V3.0
+
+   Tên thành phần            Bắt     Định dạng           Vai trò           Ghi chú
+                             buộc
+                             nhập
+                                 ?
+ soLuongCauCangDa            X       Display     Xem số lượng cầu cảng
+ CongBo                                          đã công bố
+ soLuongCauCangDa            X       Display     Xem số lượng cầu cảng
+ ngDuocThoaThuanD                                đang được thỏa thuận
+ auTuXayDung                                     đầu tư xây dựng
+
+ sanLuongHangThon            X       Display     Xem sản lượng hàng
+ gQua                                            thông qua
+
+ tiepNhanTauCoTron           X       Display     Xem tiếp nhận tàu có
+ gTaiLonHonThongS                                trọng tải lớn hơn thông
+ oTaiQuyetDinhCong                               số tại quyết định công
+ Bo                                              bố
+
+ soVanBan                    X       Display     Xem số văn bản
+ ngayVanBan                  X       Display     Xem ngày văn bản
+
+ Thời điểm công bố mở, đưa vào sử dụng
+ thoiDiemCongBoMo            X       Display     Xem thời điểm công bố
+ DuaVaoSuDung                                    mở, đưa vào sử dụng
+
+ quyetDinhCongBoV            X       Display     Xem quyết định công
+ anBanChoPhepKhai                                bố/ Văn bản cho phép
+ Thac                                            khai thác
+
+ vanBanThoaThuanD            X       Display     Xem văn bản thỏa thuận
+ auTuXayDung                                     đầu tư xây dựng
+
+ phamViKhuNuocNe             X       Display     Xem phạm vi khu nước
+ oBuocTau                                        neo buộc tàu
+
+ Thông tin vị trí
+
+ loaiDoiTuong                X       Display     Xem loại đối tượng
+ bieuTuong                   X       Display     Xem biểu tượng
+ heQuyChieu                  X       Display     Xem hệ quy chiếu
+
+
+                                                                            Trang 199
+Tài liệu thiết kế hệ thống                                                              V3.0
+
+   Tên thành phần            Bắt     Định dạng           Vai trò              Ghi chú
+                             buộc
+                             nhập
+                                 ?
+ quyTacHienThi               X       Display     Xem quy tắc hiển thị
+
+ stt                         X       Display     Xem STT
+ viDo                        X       Display     Xem Vĩ độ
+ kinhDo                      X       Display     Xem Kinh độ
+
+ Thông tin Cảng vụ/chi cục phê duyệt
+
+ canBoPheDuyet               X       Display     Xem cán bộ phê duyệt
+
+ ngayPheDuyet                X       Display     Xem ngày phê duyệt
+
+                             X       Display     Xem chi cục duyệt nội
+ pdChiCucDuyetNoi                                dung
+ Dung
+
+ Thông tin Cục phê duyệt
+ canBoPheDuyet               X       Display     Xem cán bộ phê duyệt
+
+ ngayPheDuyet                X       Display     Xem ngày phê duyệt
+
+                             X       Display     Xem cục duyệt nội dung
+ pdCucDuyetNoiDun
+ g
+
+II.3.3.5.4. Xử lý sự kiện
+
+       Sự kiện                                       Mô tả
+Màn hình Danh sách
+
+ Page_Load            Chọn menu → Tra cứu cầu cảng
+                      Hiển thị Màn hình Danh sách cầu cảng
+ Tìm kiếm             Khi chọn Tìm kiếm, hệ thống truy vấn dữ liệu theo chỉ tiêu đã nhập:
+                      + Nếu không thỏa mãn điều kiện tìm kiếm, hệ thống hiển thị thông
+                      báo “Không có dữ liệu”
+                      + Nếu thỏa mãn điều kiện tìm kiếm, hệ thống hiển thị thông tin dưới
+                      bảng kết quả
+
+                                                                                Trang 200
+
