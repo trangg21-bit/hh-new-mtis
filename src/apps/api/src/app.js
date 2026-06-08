@@ -126,6 +126,45 @@ app.get('/api/admin/stats', authMiddleware, adminMiddleware, (req, res) => {
   });
 });
 
+// Admin reset DB — soft reset (E2E test helper, only when ENABLE_E2E_TEST_HOOKS=true)
+app.post('/api/admin/reset-db', authMiddleware, adminMiddleware, (req, res) => {
+  if (process.env.ENABLE_E2E_TEST_HOOKS !== 'true') {
+    return res.status(403).json({ error: 'Reset disabled in production' });
+  }
+  const bcrypt = require('bcryptjs');
+  const h = bcrypt.hashSync('admin123', 10);
+  // Disable FK globally for this connection (better-sqlite3 pragma)
+  db.exec('PRAGMA foreign_keys = OFF');
+  db.prepare('DELETE FROM login_log').run();
+  db.prepare('DELETE FROM reset_tokens').run();
+  db.prepare('DELETE FROM password_history').run();
+  db.prepare('DELETE FROM sessions').run();
+  db.prepare('DELETE FROM group_members').run();
+  db.prepare('DELETE FROM group_permissions').run();
+  db.prepare('DELETE FROM user_groups').run();
+  db.prepare('DELETE FROM organizations').run();
+  db.prepare("DELETE FROM users WHERE username!='admin' AND username!='chuyenviem1' AND username!='lanhdao'").run();
+  db.prepare("UPDATE users SET password=?, status=1 WHERE username='admin'").run(h);
+  db.prepare("UPDATE users SET password=?, status=1 WHERE username='chuyenviem1'").run(h);
+  db.prepare("UPDATE users SET password=?, status=1 WHERE username='lanhdao'").run(h);
+  // Re-seed orgs
+  db.prepare('INSERT INTO organizations (name, description) VALUES (?, ?)').run('Cục Hàng hải Việt Nam', 'Cơ quan quản lý nhà nước về hàng hải');
+  db.prepare('INSERT INTO organizations (name, description, parent_id) VALUES (?, ?, ?)').run('Cảng vụ Hàng hải Hải Phòng', 'Đơn vị trực thuộc Cục', 1);
+  // Re-seed groups
+  db.prepare('INSERT INTO user_groups (name, description) VALUES (?, ?)').run('Quản trị hệ thống', 'Nhóm quản trị toàn hệ thống');
+  db.prepare('INSERT INTO user_groups (name, description) VALUES (?, ?)').run('Chuyên viên KCHT', 'Nhân viên quản lý KCHT');
+  db.prepare('INSERT INTO user_groups (name, description) VALUES (?, ?)').run('Lãnh đạo', 'Cấp lãnh đạo phê duyệt');
+  // Re-seed permissions
+  db.prepare('INSERT INTO group_members (group_id, user_id) VALUES (?, ?)').run(1, 1);
+  const fcs = ['user','group','permission','org','login_log','totp','session'];
+  const igp = db.prepare('INSERT INTO group_permissions (group_id, feature_code, can_create, can_read, can_update, can_delete) VALUES (?, ?, ?, ?, ?, ?)');
+  fcs.forEach(fc => igp.run(1, fc, 1, 1, 1, 1));
+  igp.run(3, 'login_log', 0, 1, 0, 0);
+  db.exec('PRAGMA foreign_keys = ON');
+  console.log('E2E reset-db completed');
+  res.json({ ok: true });
+});
+
 // Health check — shallow
 app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', time: new Date().toISOString() });

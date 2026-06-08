@@ -183,6 +183,28 @@ test.describe('F-M01-002 Login — bổ sung', () => {
     await resetDB();
   });
 
+  test('TC-LOGIN-008: GET /api/auth/me trả về user hiện tại', async ({ page }) => {
+    // Need to be on the page first so fetch works
+    await page.goto(`${BASE}/index.html`);
+    const loginRes = await page.evaluate(async () => {
+      const resp = await fetch('http://localhost:3000/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username: 'admin', password: 'admin123' }),
+      });
+      const data = await resp.json();
+      return { token: data.token, user: data.user };
+    });
+    expect(loginRes.token).toBeTruthy();
+    await page.evaluate((token) => {
+      localStorage.setItem('mtis_token', token);
+    }, loginRes.token);
+    const res = await apiFromPage(page, 'GET', '/api/auth/me');
+    expect(res.status).toBe(200);
+    expect(res.data.user?.username).toBe('admin');
+    console.log('/me:', res.data.user?.username);
+  });
+
   test('TC-LOGIN-005: Tài khoản bị khóa (status=2) login trả về 423', async ({ page }) => {
     // Lock chuyenviem1 trước
     await uiLogin(page, 'admin', 'admin123');
@@ -194,15 +216,6 @@ test.describe('F-M01-002 Login — bổ sung', () => {
     const result = await uiLogin(page, 'chuyenviem1', 'admin123');
     console.log(`Locked login: ${result.errorText}`);
     expect(result.errorText).toContain('khóa');
-  });
-
-  test('TC-LOGIN-008: GET /api/auth/me trả về user hiện tại', async ({ page }) => {
-    const login = await loginViaPage(page, 'admin', 'admin123');
-    expect(login.token).toBeTruthy();
-    const res = await apiFromPage(page, 'GET', '/api/auth/me');
-    expect(res.status).toBe(200);
-    expect(res.data.user?.username).toBe('admin');
-    console.log('/me:', res.data.user?.username);
   });
 
   test('TC-LOGIN-009: GET /api/auth/me không token trả về 401', async ({ page }) => {

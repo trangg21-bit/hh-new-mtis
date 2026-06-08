@@ -219,6 +219,13 @@ test.describe('F01-007 Forgot/Reset password', () => {
     await page.click('#reset-btn');
     await page.waitForTimeout(1500);
 
+    // Password đã đổi — sau reset success, SPA chỉ hiện success message với link
+    await expect(page.locator('#reset-success')).toBeVisible({ timeout: 5000 });
+    
+    // Click link "Quay lại đăng nhập" trong success message (link nằm ngoài #reset-form đã bị ẩn)
+    await page.locator('#reset-success a').click();
+    await page.waitForTimeout(500);
+    
     // Password đã đổi, dùng admin/NewPass@123
     const r = await uiLogin(page, 'admin', 'NewPass@123');
     console.log(`After reset: hash=${r.hash}`);

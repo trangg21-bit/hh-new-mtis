@@ -1,25 +1,13 @@
 import { test, expect } from '@playwright/test';
+import { execSync } from 'child_process';
 
 const BASE = 'http://localhost:3000';
 
-// Helper: reset rate limit / lock state via Docker exec
-async function resetDB() {
-  const { execSync } = require('child_process');
-  try {
-    execSync(
-      `docker exec hhnew-api-1 node -e `
-      + `"const D=require('better-sqlite3');const db=new D('/app/data/database.sqlite');`
-      + `db.prepare('DELETE FROM login_log').run();db.prepare('DELETE FROM sessions').run();`
-      + `db.prepare(\\\"UPDATE users SET status=1 WHERE status=2\\\").run();db.close();"`,
-      { stdio: 'pipe', timeout: 5000 }
-    );
-  } catch { /* best-effort */ }
-}
-
 test.describe('DEBUG — Bug hunting: login layout, crash, multi-viewport', () => {
 
-  test.beforeEach(async () => {
-    await resetDB();
+  test.beforeAll(async () => {
+    // Full reset: DB + container restart to clear in-memory rate limiter
+    execSync('node e2e/_reset-db.js', { stdio: 'pipe', timeout: 60000, cwd: process.cwd() });
   });
 
   // ═══════════════════════════════════════════════
@@ -82,21 +70,21 @@ test.describe('DEBUG — Bug hunting: login layout, crash, multi-viewport', () =
   // ═══════════════════════════════════════════════
   // BUG 1C: Login standalone login.html layout
   // ═══════════════════════════════════════════════
-  test('BUG-1C: Standalone login.html layout — card centered', async ({ page }) => {
+  test('BUG-1C: SPA login page layout via index.html — card centered', async ({ page }) => {
     await page.setViewportSize({ width: 1440, height: 900 });
-    await page.goto(`${BASE}/login.html`);
-    await page.waitForSelector('#username', { timeout: 5000 });
+    await page.goto(`${BASE}/index.html`);
+    await page.waitForSelector('#login-username', { timeout: 5000 });
 
     const cardBox = await page.evaluate(() => {
-      const container = document.querySelector('.login-container');
-      if (!container) return null;
-      const r = container.getBoundingClientRect();
+      const card = document.querySelector('.login-card');
+      if (!card) return null;
+      const r = card.getBoundingClientRect();
       return {
         centered: Math.abs(r.x - (window.innerWidth - r.width) / 2) < 2,
         inViewport: r.top >= 0 && r.bottom <= window.innerHeight,
       };
     });
-    console.log('Standalone login layout:', JSON.stringify(cardBox));
+    console.log('SPA login layout:', JSON.stringify(cardBox));
     expect(cardBox).not.toBeNull();
     expect(cardBox.centered).toBeTruthy();
   });
@@ -217,9 +205,9 @@ test.describe('DEBUG — Bug hunting: login layout, crash, multi-viewport', () =
     await expect(page.locator('#login-username')).toBeVisible();
     await expect(page.locator('#login-btn')).toBeVisible();
 
-    await page.goto(`${BASE}/login.html`);
-    await page.waitForSelector('#username', { timeout: 5000 });
-    await expect(page.locator('#username')).toBeVisible();
+    await page.goto(`${BASE}/index.html#login`);
+    await page.waitForSelector('#login-username', { timeout: 5000 });
+    await expect(page.locator('#login-username')).toBeVisible();
     await expect(page.locator('#login-btn')).toBeVisible();
 
     console.log('All entry URLs verified');
