@@ -142,6 +142,9 @@ db.exec(`
 // ─── Seed data ───────────────────────────────────────────
 const count = db.prepare('SELECT COUNT(*) as c FROM users').get().c;
 if (count === 0) {
+  if (process.env.NODE_ENV === 'production') {
+    console.warn(JSON.stringify({ event: 'seed_warning', msg: 'DB seeded in production with default passwords — change immediately' }));
+  }
   const hash = bcrypt.hashSync('admin123', 10);
   db.prepare(`INSERT INTO users (username, password, full_name, email, phone, org_unit, role)
     VALUES (?, ?, ?, ?, ?, ?, ?)`).run('admin', hash, 'Nguyễn Văn A', 'admin@mtis.vn', '0912345678', 'Cục Hàng hải Việt Nam', 'system-admin');

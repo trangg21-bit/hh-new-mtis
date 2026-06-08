@@ -7,18 +7,18 @@ const { getUserPermissions } = require('../middleware/permissionMiddleware');
 const { validatePassword, hashPassword, verifyPassword, checkPasswordHistory, savePasswordHistory, prunePasswordHistory } = require('../services/passwordService');
 const { sendForgotPasswordEmail } = require('../services/emailService');
 const { signToken, signTotpTempToken, verifyToken } = require('../utils/jwt');
-const { generateSecret, generateQrCode, verifyToken: verifyTotp } = require('../services/totpService');
+const { parsePagination } = require('../utils/validation');
+const { generateSecret, generateQrCode, verifyToken: verifyTotp, encrypt: encryptTotpSecret } = require('../services/totpService');
+const { isRateLimited: totpRateLimited, recordAttempt: totpRecord, reset: totpReset } = require('../services/rateLimiter');
 
 const router = express.Router();
 
-// Rate limiter: 5 attempts per 15 min — applied only to login + forgot-password
-const loginLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000,
-  max: 5,
-  standardHeaders: true,
-  legacyHeaders: false,
-  message: { error: 'Quá nhiều yêu cầu, vui lòng thử lại sau 15 phút' }
-});
+// Rate limiters
+const loginLimiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 50, standardHeaders: true, legacyHeaders: false, message: { error: 'Quá nhiều yêu cầu, vui lòng thử lại sau 15 phút' } });
+const passwordChangeLimiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 5, standardHeaders: true, legacyHeaders: false, message: { error: 'Quá nhiều yêu cầu đổi mật khẩu, thử lại sau 15 phút' } });
+const passwordResetLimiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 3, standardHeaders: true, legacyHeaders: false, message: { error: 'Quá nhiều yêu cầu đặt lại mật khẩu, thử lại sau 15 phút' } });
+
+
 
 // ─── POST /api/auth/login ─────────────────────────────
 router.post('/login', loginLimiter, (req, res) => {
@@ -30,7 +30,7 @@ router.post('/login', loginLimiter, (req, res) => {
   const user = db.prepare('SELECT * FROM users WHERE username = ?').get(username);
 
   if (!user) {
-    db.prepare('INSERT INTO login_log (username, status) VALUES (?, ?)').run(username, 'failed');
+    db.prepare('INSERT INTO login_log (username, ip, device, status) VALUES (?, ?, ?, ?)').run(username, req.ip || '', req.headers['user-agent'] || '', 'failed');
     return res.status(401).json({ error: 'Sai tên đăng nhập hoặc mật khẩu' });
   }
 
@@ -42,7 +42,7 @@ router.post('/login', loginLimiter, (req, res) => {
   }
 
   if (!verifyPassword(password, user.password)) {
-    db.prepare('INSERT INTO login_log (username, status) VALUES (?, ?)').run(username, 'failed');
+    db.prepare('INSERT INTO login_log (username, ip, device, status) VALUES (?, ?, ?, ?)').run(username, req.ip || '', req.headers['user-agent'] || '', 'failed');
 
     const recentFails = db.prepare(
       "SELECT COUNT(*) as c FROM login_log WHERE username = ? AND status = 'failed' AND logged_at > datetime('now','-15 minutes','localtime')"
@@ -50,6 +50,7 @@ router.post('/login', loginLimiter, (req, res) => {
 
     if (recentFails >= 5) {
       db.prepare("UPDATE users SET status = 2, updated_at = datetime('now','localtime') WHERE id = ?").run(user.id);
+      db.prepare('DELETE FROM sessions WHERE user_id = ?').run(user.id);
       return res.status(423).json({ error: 'Tài khoản đã bị khóa do đăng nhập sai quá nhiều lần' });
     }
 
@@ -109,31 +110,26 @@ router.post('/login', loginLimiter, (req, res) => {
 });
 
 // ─── GET /api/auth/me ─────────────────────────────────
-router.get('/me', (req, res) => {
-  const auth = req.headers.authorization;
-  if (!auth) return res.status(401).json({ error: 'Chưa đăng nhập' });
-  try {
-    const decoded = verifyToken(auth.replace('Bearer ', ''));
-    const user = db.prepare(
-      'SELECT id, username, full_name, email, phone, org_unit, role, org_id, totp_enabled FROM users WHERE id = ?'
-    ).get(decoded.id);
-    if (!user) return res.status(404).json({ error: 'Không tìm thấy người dùng' });
+router.get('/me', authMiddleware, (req, res) => {
+  const user = db.prepare(
+    'SELECT id, username, full_name, email, phone, org_unit, role, org_id, totp_enabled, status FROM users WHERE id = ?'
+  ).get(req.user.id);
+  if (!user) return res.status(404).json({ error: 'Không tìm thấy người dùng' });
+  if (user.status === 0) return res.status(401).json({ error: 'Tài khoản không tồn tại hoặc đã bị vô hiệu' });
+  if (user.status === 2) return res.status(423).json({ error: 'Tài khoản đã bị khóa. Vui lòng liên hệ quản trị hệ thống' });
 
-    const permissions = user.role === 'system-admin'
-      ? []
-      : getUserPermissions(user.id);
+  const permissions = user.role === 'system-admin'
+    ? []
+    : getUserPermissions(user.id);
 
-    const groups = db.prepare(`
-      SELECT ug.id, ug.name, ug.description
-      FROM group_members gm
-      JOIN user_groups ug ON gm.group_id = ug.id
-      WHERE gm.user_id = ?
-    `).all(user.id);
+  const groups = db.prepare(`
+    SELECT ug.id, ug.name, ug.description
+    FROM group_members gm
+    JOIN user_groups ug ON gm.group_id = ug.id
+    WHERE gm.user_id = ?
+  `).all(user.id);
 
-    res.json({ user, groups, permissions });
-  } catch {
-    res.status(401).json({ error: 'Token không hợp lệ' });
-  }
+  res.json({ user, groups, permissions });
 });
 
 // ─── POST /api/auth/logout ────────────────────────────
@@ -142,11 +138,13 @@ router.post('/logout', authMiddleware, (req, res) => {
   if (jti) {
     db.prepare('DELETE FROM sessions WHERE token_jti = ?').run(jti);
   }
+  db.prepare('INSERT INTO login_log (username, ip, device, status) VALUES (?, ?, ?, ?)')
+    .run(req.user.username, req.ip || '', req.headers['user-agent'] || '', 'logout');
   res.json({ ok: true });
 });
 
 // ─── PUT /api/auth/change-password ─────────────────────
-router.put('/change-password', authMiddleware, (req, res) => {
+router.put('/change-password', authMiddleware, passwordChangeLimiter, (req, res) => {
   const { old_password, new_password } = req.body;
   if (!old_password || !new_password) {
     return res.status(400).json({ error: 'Thiếu mật khẩu cũ hoặc mật khẩu mới' });
@@ -170,7 +168,7 @@ router.put('/change-password', authMiddleware, (req, res) => {
 
   const newHash = hashPassword(new_password);
 
-  if (checkPasswordHistory(user.id, newHash, 3)) {
+  if (checkPasswordHistory(user.id, new_password, 3)) {
     return res.status(400).json({ error: 'Mật khẩu mới không được trùng với 3 mật khẩu gần nhất' });
   }
 
@@ -188,7 +186,7 @@ router.put('/change-password', authMiddleware, (req, res) => {
 // ─── POST /api/auth/forgot-password ────────────────────
 router.post('/forgot-password', loginLimiter, (req, res) => {
   const { email } = req.body;
-  if (!email) return res.status(400).json({ error: 'Thiếu email' });
+  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return res.status(400).json({ error: 'Email không hợp lệ' });
 
   const user = db.prepare('SELECT id, email FROM users WHERE email = ?').get(email);
   if (!user) {
@@ -211,51 +209,64 @@ router.post('/forgot-password', loginLimiter, (req, res) => {
 
   sendForgotPasswordEmail(email, rawToken);
 
-  res.json({ ok: true, message: 'Nếu email tồn tại, bạn sẽ nhận được hướng dẫn đặt lại mật khẩu' });
+  const response = { ok: true, message: 'Nếu email tồn tại, bạn sẽ nhận được hướng dẫn đặt lại mật khẩu' };
+  if (process.env.ENABLE_E2E_TEST_HOOKS === 'true') {
+    response._debug_raw_token = rawToken;
+  }
+  res.json(response);
 });
+
+
 
 // ─── GET /api/auth/login-log ──────────────────────────
 router.get('/login-log', authMiddleware, (req, res) => {
-  const { page = 1, limit = 20, from_date, to_date, username, status } = req.query;
+  const { from_date, to_date, username, status } = req.query;
+  const { page, limit, offset } = parsePagination(req.query);
   const isAdmin = req.user.role === 'system-admin';
 
+  let countSql = 'SELECT COUNT(*) as c FROM login_log WHERE 1=1';
   let sql = 'SELECT id, username, ip, device, status, logged_at FROM login_log WHERE 1=1';
   const params = [];
+  const countParams = [];
 
   if (!isAdmin) {
-    sql += ' AND username = ?';
-    params.push(req.user.username);
+    const clause = ' AND username = ?';
+    sql += clause; countSql += clause;
+    params.push(req.user.username); countParams.push(req.user.username);
   }
 
   if (username && isAdmin) {
-    sql += ' AND username LIKE ?';
-    params.push(`%${username}%`);
+    const clause = ' AND username LIKE ?';
+    sql += clause; countSql += clause;
+    params.push(`%${username}%`); countParams.push(`%${username}%`);
   }
   if (from_date) {
-    sql += ' AND logged_at >= ?';
-    params.push(from_date);
+    const clause = ' AND logged_at >= ?';
+    sql += clause; countSql += clause;
+    params.push(from_date); countParams.push(from_date);
   }
   if (to_date) {
-    sql += ' AND logged_at <= ?';
-    params.push(to_date);
+    const clause = ' AND logged_at <= ?';
+    sql += clause; countSql += clause;
+    params.push(to_date); countParams.push(to_date);
   }
   if (status) {
-    sql += ' AND status = ?';
-    params.push(status);
+    const clause = ' AND status = ?';
+    sql += clause; countSql += clause;
+    params.push(status); countParams.push(status);
   }
 
-  const countSql = sql.replace(/SELECT .*? FROM/, 'SELECT COUNT(*) as c FROM');
-  const total = db.prepare(countSql).get(...params).c;
-
-  const offset = (Number(page) - 1) * Number(limit);
   sql += ' ORDER BY logged_at DESC LIMIT ? OFFSET ?';
-  const logs = db.prepare(sql).all(...params, Number(limit), offset);
+  params.push(limit, offset);
 
-  res.json({ logs, total, page: Number(page), limit: Number(limit) });
+  const total = db.prepare(countSql).get(...countParams).c;
+  const logs = db.prepare(sql).all(...params);
+
+  res.json({ logs, total, page, limit });
 });
 
 // ─── POST /api/auth/reset-password ─────────────────────
-router.post('/reset-password', (req, res) => {
+router.post('/reset-password', passwordResetLimiter, (req, res) => {
   const { token, new_password } = req.body;
   if (!token || !new_password) {
     return res.status(400).json({ error: 'Thiếu token hoặc mật khẩu mới' });
@@ -280,7 +291,7 @@ router.post('/reset-password', (req, res) => {
 
   const newHash = hashPassword(new_password);
 
-  if (checkPasswordHistory(user.id, newHash, 3)) {
+  if (checkPasswordHistory(user.id, new_password, 3)) {
     return res.status(400).json({ error: 'Mật khẩu mới không được trùng với 3 mật khẩu gần nhất' });
   }
 
@@ -312,7 +323,7 @@ router.post('/totp/setup', authMiddleware, (req, res) => {
   const secret = generateSecret();
 
   db.prepare('UPDATE users SET totp_secret = ?, updated_at = datetime(\'now\',\'localtime\') WHERE id = ?')
-    .run(secret, userId);
+    .run(encryptTotpSecret(secret), userId);
 
   generateQrCode(user.username, secret).then(dataUrl => {
     res.json({ secret, qrcode: dataUrl });
@@ -405,10 +416,17 @@ router.post('/totp/verify-login', loginLimiter, (req, res) => {
     return res.status(400).json({ error: 'TOTP chưa được kích hoạt cho tài khoản này' });
   }
 
+  if (totpRateLimited(user.id, 5, 5 * 60 * 1000)) {
+    return res.status(429).json({ error: 'Quá nhiều lần thử xác thực TOTP, vui lòng thử lại sau 5 phút' });
+  }
+
   const isValid = verifyTotp(code, user.totp_secret);
   if (!isValid) {
+    totpRecord(user.id);
     return res.status(400).json({ error: 'Mã xác thực không đúng' });
   }
+
+  totpReset(user.id);
 
   const jti = crypto.randomUUID();
   const token = signToken({ id: user.id, username: user.username, role: user.role, jti });

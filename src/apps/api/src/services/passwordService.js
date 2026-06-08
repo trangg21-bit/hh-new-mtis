@@ -21,12 +21,12 @@ function verifyPassword(password, hash) {
   return bcrypt.compareSync(password, hash);
 }
 
-function checkPasswordHistory(userId, newHash, keepCount) {
+function checkPasswordHistory(userId, newPassword, keepCount) {
   keepCount = keepCount || 3;
   const history = db.prepare(
     'SELECT password_hash FROM password_history WHERE user_id = ? ORDER BY created_at DESC LIMIT ?'
   ).all(userId, keepCount);
-  return history.some(h => h.password_hash === newHash);
+  return history.some(h => bcrypt.compareSync(newPassword, h.password_hash));
 }
 
 function savePasswordHistory(userId, oldHash) {

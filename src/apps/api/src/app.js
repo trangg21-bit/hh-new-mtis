@@ -16,8 +16,30 @@ if (!JWT_SECRET) {
 
 const app = express();
 
-// Security headers (HIGH-03) — CSP disabled for SPA inline event handlers
-app.use(helmet({ contentSecurityPolicy: false }));
+// Correlation ID per request
+app.use((req, res, next) => {
+  const { randomUUID } = require('crypto');
+  req.id = randomUUID();
+  res.setHeader('X-Request-ID', req.id);
+  next();
+});
+
+// Request logging (structured JSON)
+app.use((req, res, next) => {
+  const start = Date.now();
+  res.on('finish', () => {
+    const log = { ts: new Date().toISOString(), rid: req.id, method: req.method, path: req.originalUrl, status: res.statusCode, ms: Date.now() - start };
+    if (res.statusCode >= 400) console.warn(JSON.stringify(log));
+  });
+  next();
+});
+
+// Security headers — CSP disabled for SPA inline event handlers, HSTS for production
+const helmetOpts = { contentSecurityPolicy: false };
+if (process.env.NODE_ENV === 'production') {
+  helmetOpts.hsts = { maxAge: 31536000, includeSubDomains: true };
+}
+app.use(helmet(helmetOpts));
 
 // CORS — restrict to same-origin for production (HIGH-04)
 app.use(cors({
@@ -25,7 +47,7 @@ app.use(cors({
   credentials: true
 }));
 
-app.use(express.json());
+app.use(express.json({ limit: '1mb' }));
 
 // SEC-20: Remove X-Powered-By header
 app.disable('x-powered-by');
@@ -38,15 +60,7 @@ app.use(express.static(path.join(__dirname, '..', 'public')));
 // Auth routes — rate limiter applied per-route inside auth.js
 app.use('/api/auth', require('./routes/auth'));
 
-// Users — auth required; write operations admin-only
-app.use('/api/users', authMiddleware, function writeGuard(req, res, next) {
-  if (['POST', 'PUT', 'DELETE'].includes(req.method) && !req.path.includes('/unlock')) {
-    return adminMiddleware(req, res, next);
-  }
-  next();
-}, require('./routes/users'));
-
-// User Groups — admin-only for mutations
+// User Groups — must be BEFORE /api/users to avoid route conflict
 const groupsRouter = require('./routes/groups');
 app.use('/api/users/groups', authMiddleware, function groupsGuard(req, res, next) {
   if (['POST', 'PUT', 'DELETE'].includes(req.method)) {
@@ -54,6 +68,14 @@ app.use('/api/users/groups', authMiddleware, function groupsGuard(req, res, next
   }
   next();
 }, groupsRouter);
+
+// Users — auth required; write operations admin-only (no bypass, except self-delete)
+app.use('/api/users', authMiddleware, function userWriteGuard(req, res, next) {
+  if (['POST', 'PUT', 'DELETE'].includes(req.method) && req.path !== '/self') {
+    return adminMiddleware(req, res, next);
+  }
+  next();
+}, require('./routes/users'));
 
 // Permissions — GET allowed for all authenticated, PUT admin-only
 const permissionsRouter = require('./routes/permissions');
@@ -74,7 +96,7 @@ app.use('/api/organizations', authMiddleware, function orgGuard(req, res, next) 
 }, orgRouter);
 
 // Admin stats — BE-1.3f dashboard
-app.get('/api/admin/stats', authMiddleware, (req, res) => {
+app.get('/api/admin/stats', authMiddleware, adminMiddleware, (req, res) => {
   const totalUsers = db.prepare('SELECT COUNT(*) as c FROM users WHERE status != 0').get().c;
   const totalGroups = db.prepare('SELECT COUNT(*) as c FROM user_groups').get().c;
   const totalOrgs = db.prepare('SELECT COUNT(*) as c FROM organizations').get().c;
@@ -104,9 +126,19 @@ app.get('/api/admin/stats', authMiddleware, (req, res) => {
   });
 });
 
-// Health check (public)
+// Health check — shallow
 app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', time: new Date().toISOString() });
+});
+
+// Readiness check — deep (DB ping)
+app.get('/api/ready', (req, res) => {
+  try {
+    db.prepare('SELECT 1 as ok').get();
+    res.json({ status: 'ok', db: true, time: new Date().toISOString() });
+  } catch {
+    res.status(503).json({ status: 'degraded', db: false, time: new Date().toISOString() });
+  }
 });
 
 // SPA fallback — serve index.html for all non-API, non-static routes
@@ -122,5 +154,9 @@ app.get('*', (req, res) => {
     }
   });
 });
+
+// Global error handlers
+process.on('uncaughtException', (err) => { console.error(JSON.stringify({ event: 'uncaughtException', error: err.message, stack: err.stack?.split('\n').slice(0,3) })); process.exit(1); });
+process.on('unhandledRejection', (reason) => { console.error(JSON.stringify({ event: 'unhandledRejection', error: reason?.message || String(reason) })); });
 
 module.exports = app;

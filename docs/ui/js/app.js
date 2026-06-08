@@ -58,6 +58,10 @@ const ROUTER = {
 
   resolve() {
     let hash = window.location.hash.replace('#', '') || 'login';
+    // Ensure hash is visible for auth guards + tests (do NOT trigger re-resolve)
+    if (hash === 'login' && window.location.hash !== '#login') {
+      history.replaceState(null, '', '#login');
+    }
     let token = null;
 
     // Parse token/param from dynamic routes: reset-password/<token>, user-detail/<id>

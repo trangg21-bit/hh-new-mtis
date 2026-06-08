@@ -3,6 +3,27 @@ const db = require('../db');
 
 const router = express.Router();
 
+// GET /api/users/groups — list all groups with member count
+router.get('/', (req, res) => {
+  const groups = db.prepare(`
+    SELECT g.*, (SELECT COUNT(*) FROM group_members gm WHERE gm.group_id = g.id) as member_count
+    FROM user_groups g ORDER BY g.name
+  `).all();
+  res.json({ groups });
+});
+
+// POST /api/users/groups — create group
+router.post('/', (req, res) => {
+  const { name, description } = req.body;
+  if (!name) return res.status(400).json({ error: 'Thiếu tên nhóm' });
+  try {
+    const info = db.prepare('INSERT INTO user_groups (name, description) VALUES (?, ?)').run(name, description);
+    res.status(201).json({ id: info.lastInsertRowid });
+  } catch {
+    res.status(500).json({ error: 'Lỗi máy chủ nội bộ' });
+  }
+});
+
 // DELETE /api/users/groups/:id — delete group (fails if has members)
 router.delete('/:id', (req, res) => {
   const groupId = req.params.id;
@@ -23,7 +44,7 @@ router.put('/:id', (req, res) => {
     res.json({ ok: true });
   } catch (e) {
     if (e.message.includes('UNIQUE')) return res.status(409).json({ error: 'Tên nhóm đã tồn tại' });
-    res.status(500).json({ error: e.message });
+    res.status(500).json({ error: 'Lỗi máy chủ nội bộ' });
   }
 });
 
@@ -50,7 +71,7 @@ router.post('/:id/members', (req, res) => {
     res.status(201).json({ ok: true });
   } catch (e) {
     if (e.message.includes('UNIQUE')) return res.status(409).json({ error: 'Thành viên đã tồn tại trong nhóm' });
-    res.status(500).json({ error: e.message });
+    res.status(500).json({ error: 'Lỗi máy chủ nội bộ' });
   }
 });
 

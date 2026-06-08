@@ -1,11 +1,10 @@
 function sendEmail(to, subject, body) {
-  console.log(`[EMAIL] To: ${to} Subject: ${subject}`);
-  console.log(`[EMAIL] Body: ${body}`);
+  const masked = to.replace(/^(.).*(@.*)$/, '$1***$2');
+  console.log(JSON.stringify({ event: 'email_sent', to: masked, subject }));
 }
 
 function sendForgotPasswordEmail(email, token) {
-  const link = `http://localhost:3000/#reset-password/${token}`;
-  sendEmail(email, 'Đặt lại mật khẩu MTIS', `Token: ${token}\nLink: ${link}`);
+  sendEmail(email, 'Đặt lại mật khẩu MTIS', `Token: ${token}`);
 }
 
 module.exports = { sendEmail, sendForgotPasswordEmail };

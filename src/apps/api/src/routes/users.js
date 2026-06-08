@@ -11,7 +11,7 @@ router.get('/', (req, res) => {
   const { page, limit, offset } = parsePagination(req.query);
 
   let countSql = 'SELECT COUNT(*) as c FROM users WHERE 1=1';
-  let sql = 'SELECT id, username, full_name, email, phone, org_unit, org_id, role, status, totp_enabled, created_at FROM users WHERE 1=1';
+  let sql = 'SELECT id, username, full_name, org_unit, org_id, role, status, totp_enabled, created_at FROM users WHERE 1=1';
   const params = [];
   const countParams = [];
 
@@ -66,11 +66,13 @@ router.get('/:id', (req, res) => {
 
   let orgPath = null;
   if (user.org_id) {
+    const allOrgs = db.prepare('SELECT id, name, parent_id FROM organizations').all();
+    const orgMap = new Map(allOrgs.map(o => [o.id, o]));
     const orgs = [];
-    let current = db.prepare('SELECT id, name, parent_id FROM organizations WHERE id = ?').get(user.org_id);
+    let current = orgMap.get(user.org_id);
     while (current) {
       orgs.unshift({ id: current.id, name: current.name });
-      current = current.parent_id ? db.prepare('SELECT id, name, parent_id FROM organizations WHERE id = ?').get(current.parent_id) : null;
+      current = current.parent_id ? orgMap.get(current.parent_id) : null;
     }
     orgPath = orgs.map(o => o.name).join(' › ');
   }
@@ -81,18 +83,24 @@ router.get('/:id', (req, res) => {
 // POST /api/users — create (admin only) — uses passwordService
 router.post('/', (req, res) => {
   const { username, password, full_name, email, phone, org_unit, org_id, role } = req.body;
-  if (!username || !password || !full_name) return res.status(400).json({ error: 'Thiếu trường bắt buộc' });
-  const passwordErrors = validatePassword(password);
+  const safe = (v) => typeof v === 'string' ? v.trim().slice(0, 255) : v;
+  const u = safe(username), p = password, fn = safe(full_name), e = safe(email), ph = safe(phone);
+  const validRoles = ['system-admin', 'Chuyên viên', 'Lãnh đạo Cảng vụ', 'infrastructure-officer', 'port-authority-leader', 'director'];
+  if (!u || !p || !fn) return res.status(400).json({ error: 'Thiếu trường bắt buộc' });
+  if (e && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e)) return res.status(400).json({ error: 'Email không hợp lệ' });
+  if (role && !validRoles.includes(role)) return res.status(400).json({ error: 'Role không hợp lệ' });
+  if (org_id && isNaN(Number(org_id))) return res.status(400).json({ error: 'org_id phải là số' });
+  const passwordErrors = validatePassword(p);
   if (passwordErrors.length > 0) return res.status(400).json({ error: passwordErrors.join('; ') });
-  const hash = hashPassword(password);
+  const hash = hashPassword(p);
   try {
     const info = db.prepare(
       'INSERT INTO users (username, password, full_name, email, phone, org_unit, org_id, role) VALUES (?, ?, ?, ?, ?, ?, ?, ?)'
-    ).run(username, hash, full_name, email, phone, org_unit || 'Cảng vụ Hàng hải Hải Phòng', org_id || null, role || 'Chuyên viên');
+    ).run(u, hash, fn, e || null, ph || null, org_unit || 'Cảng vụ Hàng hải Hải Phòng', org_id || null, role || 'Chuyên viên');
     res.status(201).json({ id: info.lastInsertRowid });
   } catch (e) {
     if (e.message.includes('UNIQUE')) return res.status(409).json({ error: 'Tên đăng nhập đã tồn tại' });
-    res.status(500).json({ error: e.message });
+    res.status(500).json({ error: 'Lỗi máy chủ nội bộ' });
   }
 });
 
@@ -106,7 +114,11 @@ router.put('/:id', (req, res) => {
   if (phone !== undefined) { updates.push('phone = ?'); params.push(phone); }
   if (org_unit !== undefined) { updates.push('org_unit = ?'); params.push(org_unit); }
   if (org_id !== undefined) { updates.push('org_id = ?'); params.push(org_id); }
-  if (status !== undefined) { updates.push('status = ?'); params.push(status); }
+  if (status !== undefined) {
+    if (![0,1,2].includes(Number(status))) return res.status(400).json({ error: 'status không hợp lệ (0/1/2)' });
+    updates.push('status = ?'); params.push(Number(status));
+  }
+  if (email !== undefined && email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return res.status(400).json({ error: 'Email không hợp lệ' });
   if (updates.length === 0) return res.status(400).json({ error: 'Không có trường nào để cập nhật' });
   params.push(req.params.id);
   db.prepare(`UPDATE users SET ${updates.join(', ')}, updated_at = datetime('now','localtime') WHERE id = ?`)
@@ -120,8 +132,17 @@ router.delete('/:id', (req, res) => {
   if (targetId === req.user.id) {
     return res.status(400).json({ error: 'Không thể tự xóa tài khoản của chính mình' });
   }
-  db.prepare("UPDATE users SET status = 0, updated_at = datetime('now','localtime') WHERE id = ?").run(targetId);
-  res.json({ ok: true });
+  const tx = db.transaction(() => {
+    db.prepare("UPDATE users SET status = 0, updated_at = datetime('now','localtime') WHERE id = ?").run(targetId);
+    db.prepare('DELETE FROM group_members WHERE user_id = ?').run(targetId);
+    db.prepare('DELETE FROM sessions WHERE user_id = ?').run(targetId);
+  });
+  try {
+    tx();
+    res.json({ ok: true });
+  } catch {
+    res.status(500).json({ error: 'Lỗi máy chủ nội bộ' });
+  }
 });
 
 // ========== LOCK / UNLOCK (F-M01-008) ==========
@@ -147,25 +168,18 @@ router.put('/:id/unlock', (req, res) => {
   res.json({ ok: true, message: 'Đã mở khóa tài khoản' });
 });
 
-// ========== GROUPS (inline groups list for convenience) ==========
-router.get('/groups/list', (req, res) => {
-  const groups = db.prepare(`
-    SELECT g.*, 
-      (SELECT COUNT(*) FROM group_members gm WHERE gm.group_id = g.id) as member_count
-    FROM user_groups g ORDER BY g.name
-  `).all();
-  res.json({ groups });
-});
-
-router.post('/groups', (req, res) => {
-  const { name, description } = req.body;
-  if (!name) return res.status(400).json({ error: 'Thiếu tên nhóm' });
+// DELETE /api/auth/me — user self-delete (PDPD Art 9)
+router.delete('/self', (req, res) => {
+  const tx = db.transaction(() => {
+    db.prepare("UPDATE users SET status = 0, updated_at = datetime('now','localtime') WHERE id = ?").run(req.user.id);
+    db.prepare('DELETE FROM group_members WHERE user_id = ?').run(req.user.id);
+    db.prepare('DELETE FROM sessions WHERE user_id = ?').run(req.user.id);
+  });
   try {
-    const info = db.prepare('INSERT INTO user_groups (name, description) VALUES (?, ?)').run(name, description);
-    res.status(201).json({ id: info.lastInsertRowid });
-  } catch (e) {
-    if (e.message.includes('UNIQUE')) return res.status(409).json({ error: 'Tên nhóm đã tồn tại' });
-    res.status(500).json({ error: e.message });
+    tx();
+    res.json({ ok: true, message: 'Tài khoản đã được xóa' });
+  } catch {
+    res.status(500).json({ error: 'Lỗi máy chủ nội bộ' });
   }
 });
 

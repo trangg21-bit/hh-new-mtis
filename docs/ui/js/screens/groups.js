@@ -41,7 +41,7 @@ const SCREEN_GROUPS = {
     const tbody = document.getElementById('groups-tbody');
     if (!tbody) return;
     try {
-      const data = await apiGet('/api/users/groups/list');
+      const data = await apiGet('/api/users/groups');
       this._data = data.groups || [];
       if (this._data.length === 0) {
         tbody.innerHTML = '<tr><td colspan="5" class="text-center text-muted">Không có nhóm nào</td></tr>';
