@@ -16,7 +16,8 @@ WORKDIR /app
 COPY --from=builder /app/node_modules ./node_modules
 COPY src/ ./src/
 
-RUN chown -R mtis:mtis /app
+# Fix permissions on data directory for bind-mount compatibility
+RUN mkdir -p /app/data /app/data/backups && chown -R mtis:mtis /app
 
 USER mtis
 
