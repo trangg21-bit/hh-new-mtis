@@ -103,19 +103,41 @@
 .ops-check-item small { display: block; color: var(--color-muted); line-height: 1.45; }
 .empty-row { padding: 38px !important; }
 
-.permission-matrix .perms-check {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  min-width: 44px;
-  padding: 4px 6px;
-  border-radius: 6px;
-  background: #f8fafc;
-  margin: 2px;
-  font-size: var(--font-size-xs);
-}
-
-.permission-matrix input[type="checkbox"] { accent-color: var(--color-primary); }
+.permission-cell { min-width: 245px; }
++.permission-matrix .perms-check {
++  display: inline-flex;
++  align-items: center;
++  gap: 6px;
++  min-width: 52px;
++  padding: 6px 8px;
++  border-radius: 999px;
++  background: #f8fafc;
++  border: 1px solid #e2e8f0;
++  margin: 3px;
++  font-size: var(--font-size-xs);
++  color: #475569;
++  cursor: pointer;
++  user-select: none;
++}
++
++.permission-matrix .perms-check.is-on {
++  background: var(--color-info-bg);
++  border-color: #bfdbfe;
++  color: var(--color-info-text);
++  font-weight: 600;
++}
++
++.permission-matrix .perms-check.danger.is-on {
++  background: var(--color-danger-bg);
++  border-color: #fecaca;
++  color: var(--color-danger-text);
++}
++
++.permission-matrix .perms-check input[type="checkbox"] {
++  width: 14px;
++  height: 14px;
++  accent-color: var(--color-primary);
++}
 
 .org-tree-container { padding: 18px 20px 24px; min-height: 420px; }
 .org-tree .org-node { border: 1px solid transparent; }

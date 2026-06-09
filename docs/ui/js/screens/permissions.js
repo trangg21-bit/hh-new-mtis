@@ -114,11 +114,11 @@ const SCREEN_PERMISSIONS = {
         const perms = row[g.id] || {};
         const prefix = `perms_${fc}_${g.id}`;
         return `
-          <td class="text-center" ${disabledStyle}>
-            <label class="perms-check" title="Tạo"><input type="checkbox" data-group="${g.id}" data-feature="${fc}" data-action="can_create" ${perms.can_create ? 'checked' : ''} ${disabledAttr}> C</label>
-            <label class="perms-check" title="Xem"><input type="checkbox" data-group="${g.id}" data-feature="${fc}" data-action="can_read" ${perms.can_read ? 'checked' : ''} ${disabledAttr}> R</label>
-            <label class="perms-check" title="Sửa"><input type="checkbox" data-group="${g.id}" data-feature="${fc}" data-action="can_update" ${perms.can_update ? 'checked' : ''} ${disabledAttr}> U</label>
-            <label class="perms-check" title="Xóa"><input type="checkbox" data-group="${g.id}" data-feature="${fc}" data-action="can_delete" ${perms.can_delete ? 'checked' : ''} ${disabledAttr}> D</label>
+          <td class="text-center permission-cell" ${disabledStyle}>
+            <label class="perms-check ${perms.can_create ? 'is-on' : ''}" title="Tạo mới dữ liệu"><input type="checkbox" onchange="this.closest('.perms-check').classList.toggle('is-on', this.checked)" data-group="${g.id}" data-feature="${fc}" data-action="can_create" ${perms.can_create ? 'checked' : ''} ${disabledAttr}> <span>Tạo</span></label>
+            <label class="perms-check ${perms.can_read ? 'is-on' : ''}" title="Xem dữ liệu"><input type="checkbox" onchange="this.closest('.perms-check').classList.toggle('is-on', this.checked)" data-group="${g.id}" data-feature="${fc}" data-action="can_read" ${perms.can_read ? 'checked' : ''} ${disabledAttr}> <span>Xem</span></label>
+            <label class="perms-check ${perms.can_update ? 'is-on' : ''}" title="Sửa dữ liệu"><input type="checkbox" onchange="this.closest('.perms-check').classList.toggle('is-on', this.checked)" data-group="${g.id}" data-feature="${fc}" data-action="can_update" ${perms.can_update ? 'checked' : ''} ${disabledAttr}> <span>Sửa</span></label>
+            <label class="perms-check ${perms.can_delete ? 'is-on danger' : 'danger'}" title="Xóa dữ liệu"><input type="checkbox" onchange="this.closest('.perms-check').classList.toggle('is-on', this.checked)" data-group="${g.id}" data-feature="${fc}" data-action="can_delete" ${perms.can_delete ? 'checked' : ''} ${disabledAttr}> <span>Xóa</span></label>
           </td>`;
       }).join('');
       return `<tr><td><strong>${esc(label)}</strong></td>${cells}</tr>`;

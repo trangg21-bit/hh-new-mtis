@@ -138,6 +138,7 @@ const SCREEN_GROUPS = {
         </div>
       </div>`;
     document.body.appendChild(overlay);
+    requestAnimationFrame(() => overlay.classList.add('modal-overlay--visible'));
 
     document.getElementById('form-create-group').addEventListener('submit', async (e) => {
       e.preventDefault();
@@ -192,6 +193,7 @@ const SCREEN_GROUPS = {
         </div>
       </div>`;
     document.body.appendChild(overlay);
+    requestAnimationFrame(() => overlay.classList.add('modal-overlay--visible'));
 
     document.getElementById('form-edit-group').addEventListener('submit', async (e) => {
       e.preventDefault();
@@ -248,6 +250,7 @@ const SCREEN_GROUPS = {
         </div>
       </div>`;
     document.body.appendChild(overlay);
+    requestAnimationFrame(() => overlay.classList.add('modal-overlay--visible'));
 
     const select = document.getElementById('member-add-select');
     const addBtn = document.getElementById('btn-member-add');
