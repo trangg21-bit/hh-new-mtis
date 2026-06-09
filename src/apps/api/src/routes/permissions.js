@@ -72,7 +72,15 @@ router.put('/', (req, res) => {
 
   const txn = db.transaction((items) => {
     for (const p of items) {
-      upsert.run(p.group_id, p.feature_code, p.can_create ?? 0, p.can_read ?? 0, p.can_update ?? 0, p.can_delete ?? 0);
+      const bit = (v) => v === true || v === 1 || v === '1' ? 1 : 0;
+      upsert.run(
+        Number(p.group_id),
+        String(p.feature_code),
+        bit(p.can_create),
+        bit(p.can_read),
+        bit(p.can_update),
+        bit(p.can_delete)
+      );
     }
   });
 
@@ -80,7 +88,8 @@ router.put('/', (req, res) => {
     txn(permissions);
     _catalogCache = null; // invalidate cache on permission change
     res.json({ ok: true });
-  } catch {
+  } catch (e) {
+    console.error(JSON.stringify({ event: 'error', route: 'PUT /api/permissions', error: e.message }));
     res.status(500).json({ error: 'Lỗi máy chủ nội bộ' });
   }
 });

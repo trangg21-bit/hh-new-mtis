@@ -1,4 +1,4 @@
-const { authenticator } = require('otplib');
+const { generateSecret: otplibGenerateSecret, generateURI, verifySync } = require('otplib');
 const QRCode = require('qrcode');
 const crypto = require('crypto');
 
@@ -31,11 +31,11 @@ function decrypt(ciphertext) {
 }
 
 function generateSecret() {
-  return authenticator.generateSecret();
+  return otplibGenerateSecret({ length: 20 });
 }
 
 function generateOtpAuthUrl(username, secret) {
-  return authenticator.keyuri(username, ISSUER, secret);
+  return generateURI({ strategy: 'totp', issuer: ISSUER, label: username, secret, digits: 6, period: 30 });
 }
 
 function generateQrCode(username, secret) {
@@ -45,7 +45,7 @@ function generateQrCode(username, secret) {
 
 function verifyToken(token, secret) {
   if (!secret) return false;
-  return authenticator.verify({ token, secret: decrypt(secret) });
+  return verifySync({ strategy: 'totp', token, secret: decrypt(secret), digits: 6, period: 30, epochTolerance: 1 });
 }
 
 module.exports = { generateSecret, generateOtpAuthUrl, generateQrCode, verifyToken, encrypt, decrypt };

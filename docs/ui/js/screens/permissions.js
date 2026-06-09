@@ -111,7 +111,7 @@ const SCREEN_PERMISSIONS = {
       const row = matrix.find(r => r.feature_code === fc) || {};
       const label = fc.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
       const cells = this._groups.map(g => {
-        const perms = row[g.id] || {};
+        const perms = row[`g${g.id}`] || row[g.id] || {};
         const prefix = `perms_${fc}_${g.id}`;
         return `
           <td class="text-center permission-cell" ${disabledStyle}>
