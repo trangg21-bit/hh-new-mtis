@@ -1,141 +1,93 @@
 /* ================================================================
    MTIS Organization Tree Screen (S-M01-07)
-   Interactive tree with inline create/edit/delete via live API
    ================================================================ */
 
 const SCREEN_ORGANIZATIONS = {
   _orgs: [],
   _loading: false,
   _error: null,
-  // track which org id is being edited (null = no edit); 'new' = create form
   _editId: null,
 
   render() {
     return `
       <div class="content organizations-page">
-        <div class="page-hero">
-          <div>
+        <div class="card data-card">
+          <div class="data-card-header" style="flex-direction:column;align-items:flex-start;gap:12px;padding:24px 24px 20px">
             <div class="breadcrumb">
-              <a href="#dashboard">M01</a> <span class="sep">/</span>
+              <a href="#dashboard">Tổng quan</a> <span class="sep">/</span>
               <span>Đơn vị</span>
             </div>
-            <h2 class="page-title">Cây đơn vị</h2>
-            <p class="page-subtitle users-subtitle">Quản lý cấu trúc Cục / Cảng vụ / đơn vị trực thuộc phục vụ phân quyền, báo cáo và phạm vi dữ liệu.</p>
-          </div>
-          <div class="page-actions">
-            <button class="btn btn-ghost" onclick="SCREEN_ORGANIZATIONS.load()">↻ Làm mới</button>
-            <button class="btn btn-primary" id="org-add-btn" onclick="SCREEN_ORGANIZATIONS.showCreateForm()"><span class="btn-icon">＋</span> Thêm đơn vị</button>
-          </div>
-        </div>
-
-        <div class="ops-kpi-grid users-kpis">
-          <div class="ops-kpi-card"><span class="kpi-label">Tổng đơn vị</span><strong id="org-kpi-total">—</strong><small>Node trong cây tổ chức</small></div>
-          <div class="ops-kpi-card info"><span class="kpi-label">Đơn vị gốc</span><strong id="org-kpi-root">—</strong><small>Cấp cao nhất</small></div>
-          <div class="ops-kpi-card success"><span class="kpi-label">Có mô tả</span><strong id="org-kpi-described">—</strong><small>Thông tin đầy đủ</small></div>
-          <div class="ops-kpi-card danger"><span class="kpi-label">Thiếu mô tả</span><strong id="org-kpi-missing">—</strong><small>Cần bổ sung</small></div>
-        </div>
-
-        <div class="ops-layout">
-          <div class="card data-card">
-            <div class="data-card-header">
-              <div><h3>Cấu trúc tổ chức</h3><p>Thêm, sửa, xóa đơn vị trực tiếp trên cây; mọi thay đổi ghi vào DB.</p></div>
-              <span class="system-pill" id="org-last-updated">Đang tải...</span>
-            </div>
-            <div id="org-tree-container" class="org-tree-container">
-              <div class="text-center text-muted" style="padding:60px">Đang tải...</div>
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;width:100%;gap:16px;flex-wrap:wrap">
+              <div style="min-width:0;flex:1 1 300px">
+                <h1 class="page-title" style="margin-bottom:4px">Cấu trúc tổ chức</h1>
+                <p class="page-subtitle" style="margin-bottom:0;font-size:var(--font-size-sm);color:var(--color-muted)">Quản lý cấu trúc Cục / Cảng vụ / đơn vị trực thuộc phục vụ phân quyền, báo cáo và phạm vi dữ liệu.</p>
+              </div>
+              <div style="display:flex;align-items:center;gap:8px;flex-shrink:0">
+                <button class="btn btn-ghost" onclick="SCREEN_ORGANIZATIONS.load()">↻ Làm mới</button>
+                <button class="btn btn-primary" id="org-add-btn" onclick="SCREEN_ORGANIZATIONS.showCreateForm()">＋ Thêm đơn vị</button>
+              </div>
             </div>
           </div>
-          <aside class="card ops-side-panel">
-            <h3>Quy tắc tổ chức</h3>
-            <div class="ops-check-item ok"><span>✓</span><div><strong>Cây phân cấp thật</strong><small>Parent/child được lưu bằng parent_id.</small></div></div>
-            <div class="ops-check-item ok"><span>✓</span><div><strong>Dùng cho scope dữ liệu</strong><small>Người dùng có thể gắn với org_unit/org_id.</small></div></div>
-            <div class="ops-check-item warn"><span>!</span><div><strong>Không xóa tùy tiện</strong><small>Kiểm tra user liên quan trước khi xóa đơn vị.</small></div></div>
-          </aside>
+
+          <hr class="section-divider" style="margin:0 24px">
+
+          <div class="data-card-header" style="padding:16px 24px;flex-direction:row;align-items:center;justify-content:space-between">
+            <div><h3>Cây cấu trúc</h3><p>Thêm, sửa, xóa đơn vị trực tiếp trên cây; mọi thay đổi ghi vào DB.</p></div>
+            <span class="system-pill" id="org-last-updated">Đang tải...</span>
+          </div>
+
+          <div id="org-tree-container" style="padding:24px;min-height:400px">
+            <div class="text-center text-muted" style="padding:60px">Đang tải...</div>
+          </div>
         </div>
       </div>
     `;
   },
 
-  afterRender() {
-    this.load();
-  },
-
-  /* -- data fetching -------------------------------------------------- */
+  afterRender() { this.load(); },
 
   async load() {
-    this._loading = true;
-    this._error = null;
-    this._editId = null;
+    this._loading = true; this._error = null; this._editId = null;
     const container = document.getElementById('org-tree-container');
     if (!container) return;
-
     container.innerHTML = '<div class="text-center text-muted" style="padding:60px">Đang tải...</div>';
-
     try {
       const data = await apiGet('/api/organizations');
       this._orgs = data.organizations || [];
       this._loading = false;
       this._renderTree(container);
-      this._updateStats();
       const stamp = document.getElementById('org-last-updated');
       if (stamp) stamp.textContent = `Cập nhật ${new Date().toLocaleTimeString('vi-VN')}`;
     } catch (e) {
-      this._loading = false;
-      this._error = e.message;
+      this._loading = false; this._error = e.message;
       container.innerHTML = `<div class="text-center text-danger" style="padding:60px">Lỗi: ${esc(e.message)}</div>`;
     }
   },
 
-  _updateStats() {
-    const total = this._orgs.length;
-    const roots = this._orgs.filter(o => !o.parent_id).length;
-    const described = this._orgs.filter(o => !!(o.description || '').trim()).length;
-    const set = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
-    set('org-kpi-total', total);
-    set('org-kpi-root', roots);
-    set('org-kpi-described', described);
-    set('org-kpi-missing', total - described);
-  },
-
-  /* -- tree building -------------------------------------------------- */
-
   _buildTree(items) {
-    const map = {};
-    const roots = [];
+    const map = {}; const roots = [];
     items.forEach(item => { map[item.id] = { ...item, children: [] }; });
     items.forEach(item => {
       const node = map[item.id];
-      if (item.parent_id && map[item.parent_id]) {
-        map[item.parent_id].children.push(node);
-      } else {
-        roots.push(node);
-      }
+      if (item.parent_id && map[item.parent_id]) { map[item.parent_id].children.push(node); }
+      else { roots.push(node); }
     });
-    // sort by sort_order then name
     const sorter = (a, b) => (a.sort_order || 0) - (b.sort_order || 0) || (a.name || '').localeCompare(b.name || '');
     roots.sort(sorter);
-    const sortChildren = (nodes) => {
-      nodes.sort(sorter);
-      nodes.forEach(n => sortChildren(n.children));
-    };
+    const sortChildren = (nodes) => { nodes.sort(sorter); nodes.forEach(n => sortChildren(n.children)); };
     sortChildren(roots);
     return roots;
   },
 
   _renderTree(container) {
     const roots = this._buildTree(this._orgs);
-
     if (roots.length === 0 && this._editId !== 'new') {
       container.innerHTML = '<div class="text-center text-muted" style="padding:60px">Chưa có đơn vị nào. Nhấn "Thêm đơn vị" để tạo mới.</div>';
       return;
     }
-
     let html = '<ul class="org-tree" style="list-style:none;padding-left:0;margin:0">';
     html += this._renderNodes(roots, 0);
-    // append inline create form if active
-    if (this._editId === 'new') {
-      html += '<li style="padding-left:0">' + this._createFormHtml() + '</li>';
-    }
+    if (this._editId === 'new') html += '<li style="padding-left:0">' + this._createFormHtml() + '</li>';
     html += '</ul>';
     container.innerHTML = html;
   },
@@ -146,9 +98,8 @@ const SCREEN_ORGANIZATIONS = {
     return nodes.map(n => {
       const isEditing = this._editId === n.id;
       let body;
-      if (isEditing) {
-        body = this._editFormHtml(n);
-      } else {
+      if (isEditing) { body = this._editFormHtml(n); }
+      else {
         const desc = n.description ? `<span class="text-muted" style="font-size:0.85em;margin-left:8px">${esc(n.description)}</span>` : '';
         body = `
           <div class="org-node" style="display:flex;align-items:center;gap:8px;padding:6px 12px;border-radius:4px;transition:background 0.15s"
@@ -157,10 +108,8 @@ const SCREEN_ORGANIZATIONS = {
             <span class="org-node-name" style="font-weight:500">${esc(n.name)}</span>
             ${desc}
             <span class="org-node-actions" style="margin-left:auto;display:flex;gap:4px">
-              <button class="btn btn-ghost btn-sm" title="Chỉnh sửa" aria-label="Chỉnh sửa"
-                      onclick="SCREEN_ORGANIZATIONS.showEditForm(${n.id})">✎</button>
-              <button class="btn btn-ghost btn-sm" title="Xóa" aria-label="Xóa"
-                      onclick="SCREEN_ORGANIZATIONS.confirmDelete(${n.id})">🗑</button>
+              <button class="btn btn-ghost btn-sm" title="Chỉnh sửa" aria-label="Chỉnh sửa" onclick="SCREEN_ORGANIZATIONS.showEditForm(${n.id})">✎</button>
+              <button class="btn btn-ghost btn-sm" title="Xóa" aria-label="Xóa" onclick="SCREEN_ORGANIZATIONS.confirmDelete(${n.id})">🗑</button>
             </span>
           </div>`;
       }
@@ -169,17 +118,13 @@ const SCREEN_ORGANIZATIONS = {
     }).join('');
   },
 
-  /* -- parent dropdown helper ---------------------------------------- */
-
   _parentOptions(excludeId) {
     const renderOpts = (items, depth) => {
       return items.map(item => {
         if (item.id === excludeId) return '';
         const prefix = '—'.repeat(depth);
         let opts = `<option value="${item.id}">${prefix} ${esc(item.name)}</option>`;
-        if (item.children && item.children.length) {
-          opts += renderOpts(item.children, depth + 1);
-        }
+        if (item.children && item.children.length) opts += renderOpts(item.children, depth + 1);
         return opts;
       }).join('');
     };
@@ -187,31 +132,16 @@ const SCREEN_ORGANIZATIONS = {
     return '<option value="">(Không — đơn vị gốc)</option>' + renderOpts(roots, 0);
   },
 
-  /* -- create form --------------------------------------------------- */
-
-  showCreateForm() {
-    this._editId = 'new';
-    const container = document.getElementById('org-tree-container');
-    if (container) this._renderTree(container);
-  },
+  showCreateForm() { this._editId = 'new'; const container = document.getElementById('org-tree-container'); if (container) this._renderTree(container); },
 
   _createFormHtml() {
     const opts = this._parentOptions(null);
     return `
       <div class="org-inline-form" style="border:1px solid var(--border,#e0e0e0);border-radius:6px;padding:16px;margin:8px 0;background:var(--bg-card,#fff)">
         <h4 style="margin:0 0 12px 0;font-size:1em">Thêm đơn vị mới</h4>
-        <div class="form-group">
-          <label>Tên đơn vị <span class="text-danger">*</span></label>
-          <input type="text" class="form-control" id="org-new-name" placeholder="Nhập tên đơn vị" autofocus>
-        </div>
-        <div class="form-group">
-          <label>Mô tả</label>
-          <textarea class="form-control" id="org-new-desc" rows="2" placeholder="Mô tả (không bắt buộc)"></textarea>
-        </div>
-        <div class="form-group">
-          <label>Đơn vị cha</label>
-          <select class="form-control" id="org-new-parent">${opts}</select>
-        </div>
+        <div class="form-group"><label>Tên đơn vị <span class="text-danger">*</span></label><input type="text" class="form-control" id="org-new-name" placeholder="Nhập tên đơn vị" autofocus></div>
+        <div class="form-group"><label>Mô tả</label><textarea class="form-control" id="org-new-desc" rows="2" placeholder="Mô tả (không bắt buộc)"></textarea></div>
+        <div class="form-group"><label>Đơn vị cha</label><select class="form-control" id="org-new-parent">${opts}</select></div>
         <div class="form-actions" style="display:flex;gap:8px;margin-top:12px">
           <button class="btn btn-primary" onclick="SCREEN_ORGANIZATIONS.saveCreate()">Lưu</button>
           <button class="btn btn-ghost" onclick="SCREEN_ORGANIZATIONS.cancelForm()">Hủy</button>
@@ -219,11 +149,7 @@ const SCREEN_ORGANIZATIONS = {
       </div>`;
   },
 
-  cancelForm() {
-    this._editId = null;
-    const container = document.getElementById('org-tree-container');
-    if (container) this._renderTree(container);
-  },
+  cancelForm() { this._editId = null; const container = document.getElementById('org-tree-container'); if (container) this._renderTree(container); },
 
   async saveCreate() {
     const name = document.getElementById('org-new-name')?.value.trim();
@@ -232,37 +158,19 @@ const SCREEN_ORGANIZATIONS = {
     const parent_id = document.getElementById('org-new-parent')?.value || undefined;
     try {
       await apiPost('/api/organizations', { name, description, parent_id: parent_id || undefined });
-      this._editId = null;
-      await this.load();
-    } catch (e) {
-      alert('Lỗi khi tạo đơn vị: ' + e.message);
-    }
+      this._editId = null; await this.load();
+    } catch (e) { alert('Lỗi khi tạo đơn vị: ' + e.message); }
   },
 
-  /* -- edit form ----------------------------------------------------- */
-
-  showEditForm(id) {
-    this._editId = id;
-    const container = document.getElementById('org-tree-container');
-    if (container) this._renderTree(container);
-  },
+  showEditForm(id) { this._editId = id; const container = document.getElementById('org-tree-container'); if (container) this._renderTree(container); },
 
   _editFormHtml(org) {
     const opts = this._parentOptions(org.id);
     return `
       <div class="org-inline-form" style="border:1px solid var(--border,#e0e0e0);border-radius:6px;padding:16px;margin:4px 0;background:var(--bg-card,#fff)">
-        <div class="form-group">
-          <label>Tên đơn vị <span class="text-danger">*</span></label>
-          <input type="text" class="form-control" id="org-edit-name-${org.id}" value="${esc(org.name)}" autofocus>
-        </div>
-        <div class="form-group">
-          <label>Mô tả</label>
-          <textarea class="form-control" id="org-edit-desc-${org.id}" rows="2">${esc(org.description || '')}</textarea>
-        </div>
-        <div class="form-group">
-          <label>Đơn vị cha</label>
-          <select class="form-control" id="org-edit-parent-${org.id}">${opts}</select>
-        </div>
+        <div class="form-group"><label>Tên đơn vị <span class="text-danger">*</span></label><input type="text" class="form-control" id="org-edit-name-${org.id}" value="${esc(org.name)}" autofocus></div>
+        <div class="form-group"><label>Mô tả</label><textarea class="form-control" id="org-edit-desc-${org.id}" rows="2">${esc(org.description || '')}</textarea></div>
+        <div class="form-group"><label>Đơn vị cha</label><select class="form-control" id="org-edit-parent-${org.id}">${opts}</select></div>
         <div class="form-actions" style="display:flex;gap:8px;margin-top:12px">
           <button class="btn btn-primary" onclick="SCREEN_ORGANIZATIONS.saveEdit(${org.id})">Lưu</button>
           <button class="btn btn-ghost" onclick="SCREEN_ORGANIZATIONS.cancelForm()">Hủy</button>
@@ -277,24 +185,15 @@ const SCREEN_ORGANIZATIONS = {
     const parent_id = document.getElementById(`org-edit-parent-${id}`)?.value || undefined;
     try {
       await apiPut(`/api/organizations/${id}`, { name, description, parent_id: parent_id || undefined });
-      this._editId = null;
-      await this.load();
-    } catch (e) {
-      alert('Lỗi khi cập nhật đơn vị: ' + e.message);
-    }
+      this._editId = null; await this.load();
+    } catch (e) { alert('Lỗi khi cập nhật đơn vị: ' + e.message); }
   },
-
-  /* -- delete -------------------------------------------------------- */
 
   async confirmDelete(id) {
     const org = this._orgs.find(o => o.id === id);
     if (!org) return;
     if (!confirm(`Bạn có chắc chắn muốn xóa đơn vị "${org.name}"?`)) return;
-    try {
-      await apiDelete(`/api/organizations/${id}`);
-      await this.load();
-    } catch (e) {
-      alert('Lỗi khi xóa đơn vị: ' + e.message);
-    }
+    try { await apiDelete(`/api/organizations/${id}`); await this.load(); }
+    catch (e) { alert('Lỗi khi xóa đơn vị: ' + e.message); }
   },
 };

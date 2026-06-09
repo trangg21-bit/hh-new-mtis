@@ -1,5 +1,5 @@
 /* ================================================================
-   MTIS User List Screen (S-M01-02) — enterprise operations view
+   MTIS User List Screen (S-M01-02) — enterprise operations view (v2)
    ================================================================ */
 
 const SCREEN_USERS = {
@@ -12,55 +12,35 @@ const SCREEN_USERS = {
   render() {
     return `
       <div class="content users-page">
-        <div class="page-hero">
-          <div>
+        <div class="card data-card">
+          <!-- Page Header - inside card -->
+          <div class="data-card-header" style="flex-direction:column;align-items:flex-start;gap:12px;padding:24px 24px 20px">
             <div class="breadcrumb">
               <a href="#dashboard">Tổng quan</a> <span class="sep">/</span>
               <span>Quản lý người dùng</span>
             </div>
-            <h2 class="page-title">Danh sách người dùng</h2>
-            <p class="page-subtitle">Quản lý tài khoản, trạng thái truy cập, phân vai trò và kiểm soát phiên làm việc trên toàn hệ thống.</p>
-          </div>
-          <div class="page-actions">
-            <button class="btn btn-ghost" onclick="SCREEN_USERS.load()">↻ Làm mới</button>
-            <a href="#register" class="btn btn-primary"><span class="btn-icon">＋</span> Thêm người dùng</a>
-          </div>
-        </div>
-
-        <div class="card data-card">
-          <div class="data-card-header">
-            <div>
-              <h3>Danh sách tài khoản</h3>
-              <p>Theo dõi trạng thái và thao tác quản trị người dùng.</p>
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;width:100%;gap:16px;flex-wrap:wrap">
+              <div style="min-width:0;flex:1 1 300px">
+                <h1 class="page-title" style="margin-bottom:4px">Danh sách người dùng</h1>
+                <p class="page-subtitle" style="margin-bottom:0;font-size:var(--font-size-sm);color:var(--color-muted)">Quản lý tài khoản, trạng thái truy cập, phân vai trò và kiểm soát phiên làm việc trên toàn hệ thống.</p>
+              </div>
+              <div style="display:flex;align-items:center;gap:8px;flex-shrink:0">
+                <button class="btn btn-ghost" onclick="SCREEN_USERS.load()" title="Tải lại dữ liệu">↻ Làm mới</button>
+                <a href="#register" class="btn btn-primary" title="Thêm người dùng mới">＋ Thêm người dùng</a>
+              </div>
             </div>
-            <span class="system-pill" id="users-last-updated">Đang tải...</span>
-          </div>
-            <h2 class="page-title">Danh sách người dùng</h2>
-            <p class="page-subtitle">Quản lý tài khoản, trạng thái truy cập, phân vai trò và kiểm soát phiên làm việc trên toàn hệ thống.</p>
-          </div>
-          <div class="page-actions">
-            <button class="btn btn-ghost" onclick="SCREEN_USERS.load()">↻ Làm mới</button>
-            <a href="#register" class="btn btn-primary"><span class="btn-icon">＋</span> Thêm người dùng</a>
-          </div>
-        </div>
-
-        <div class="card data-card">
-          <div class="data-card-header">
-            <div>
-              <h3>Danh sách tài khoản</h3>
-              <p>Theo dõi trạng thái và thao tác quản trị người dùng.</p>
-            </div>
-            <span class="system-pill" id="users-last-updated">Đang tải...</span>
           </div>
 
+          <hr class="section-divider" style="margin:0 24px">
+
+          <!-- Toolbar -->
           <div class="admin-toolbar">
             <div class="toolbar-left">
               <div class="search-field">
-                <span>⌕</span>
-                <input type="text" class="form-control" id="user-search" placeholder="Tìm username, họ tên..."
-                       oninput="SCREEN_USERS.debouncedSearch()" aria-label="Tìm kiếm người dùng">
+                <span>🔍</span>
+                <input type="text" class="form-control" id="user-search" placeholder="Tìm username, họ tên..." oninput="SCREEN_USERS.debouncedSearch()" title="Tìm kiếm trong danh sách">
               </div>
-              <select class="form-control" id="user-status-filter" onchange="SCREEN_USERS.applyFilter()" aria-label="Lọc trạng thái">
+              <select class="form-control" id="user-status-filter" onchange="SCREEN_USERS.applyFilter()" title="Lọc theo trạng thái">
                 <option value="">Tất cả trạng thái</option>
                 <option value="1">Hoạt động</option>
                 <option value="2">Đã khóa</option>
@@ -68,10 +48,11 @@ const SCREEN_USERS = {
               </select>
             </div>
             <div class="toolbar-right">
-              <button class="btn btn-ghost" onclick="SCREEN_USERS.exportCsv()">⇩ Xuất CSV</button>
+              <button class="btn btn-ghost" onclick="SCREEN_USERS.exportExcel()" title="Xuất danh sách ra file">📥 Xuất Excel</button>
             </div>
           </div>
 
+          <!-- Table -->
           <div class="table-wrap enterprise-table-wrap">
             <table class="ant-table" role="table" aria-label="Danh sách người dùng">
               <thead>
@@ -83,7 +64,7 @@ const SCREEN_USERS = {
                   <th>Đơn vị</th>
                   <th>Vai trò</th>
                   <th>Trạng thái</th>
-                  <th class="text-right" style="width:220px">Thao tác</th>
+                  <th class="text-right" style="width:150px">Thao tác</th>
                 </tr>
               </thead>
               <tbody id="users-tbody">
@@ -92,8 +73,9 @@ const SCREEN_USERS = {
             </table>
           </div>
 
+          <!-- Footer -->
           <div class="table-footer flex-between mt-4">
-            <span class="text-muted" id="users-info">Hiển thị ${this._data.length} / ${this._total} người dùng</span>
+            <span class="text-muted" id="users-info">Hiển thị 0 / 0 người dùng</span>
             <div class="pagination" id="users-pagination"></div>
           </div>
         </div>
@@ -155,13 +137,9 @@ const SCREEN_USERS = {
             <td><span class="badge badge-blue">${esc(u.role)}</span></td>
             <td>${statusBadge(u.status)}</td>
             <td class="text-right action-cell">
-              <button class="btn btn-ghost btn-sm" title="Chỉnh sửa" aria-label="Chỉnh sửa">✎ Sửa</button>
-              <button class="btn btn-ghost btn-sm" title="${u.status === 2 ? 'Mở khóa' : u.status === 0 ? '' : 'Khóa'}"
-                      aria-label="${u.status === 2 ? 'Mở khóa' : 'Khóa'}"
-                      onclick="SCREEN_USERS.toggleLock(${u.id}, ${u.status})"
-                      ${u.status === 0 ? 'disabled' : ''}>${u.status === 2 ? '🔓 Mở' : '🔒 Khóa'}</button>
-              <button class="btn btn-ghost btn-sm danger-action" title="Xóa" aria-label="Xóa người dùng"
-                      onclick="SCREEN_USERS.confirmDelete(${u.id})" ${u.status === 0 ? 'disabled' : ''}>🗑 Xóa</button>
+              <button class="btn btn-ghost btn-sm" title="Chỉnh sửa" aria-label="Chỉnh sửa">✎</button>
+              <button class="btn btn-ghost btn-sm" title="${u.status === 2 ? 'Mở khóa' : 'Khóa tài khoản'}" aria-label="${u.status === 2 ? 'Mở khóa' : 'Khóa'}" onclick="SCREEN_USERS.toggleLock(${u.id}, ${u.status})" ${u.status === 0 ? 'disabled' : ''}>${u.status === 2 ? '🔓' : '🔒'}</button>
+              <button class="btn btn-ghost btn-sm danger-action" title="Xóa người dùng" aria-label="Xóa người dùng" onclick="SCREEN_USERS.confirmDelete(${u.id})" ${u.status === 0 ? 'disabled' : ''}>🗑</button>
             </td>
           </tr>
         `).join('');
@@ -169,7 +147,9 @@ const SCREEN_USERS = {
 
       const totalPages = Math.ceil(this._total / 20);
       info.textContent = `Hiển thị ${this._data.length} / ${this._total} người dùng`;
-      document.getElementById('users-last-updated').textContent = `Cập nhật ${new Date().toLocaleTimeString('vi-VN')}`;
+      const stamp = document.getElementById('users-last-updated');
+      if (stamp) stamp.textContent = `Cập nhật ${new Date().toLocaleTimeString('vi-VN')}`;
+      
       this._renderPagination(pag, totalPages);
 
     } catch (e) {
@@ -179,14 +159,8 @@ const SCREEN_USERS = {
   },
 
   _updateStats(stats) {
-    const activeVisible = this._data.filter(u => u.status === 1).length;
-    const lockedVisible = this._data.filter(u => u.status === 2).length;
-    const totpVisible = this._data.filter(u => u.totp_enabled).length;
     const set = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
-    set('users-kpi-total', stats?.total_users ?? this._total);
-    set('users-kpi-active', stats ? Math.max(0, stats.total_users - stats.locked_accounts) : activeVisible);
-    set('users-kpi-locked', stats?.locked_accounts ?? lockedVisible);
-    set('users-kpi-totp', stats?.totp_enabled ?? totpVisible);
+    // We removed KPI cards, so this is now just for internal stats if needed
   },
 
   _renderPagination(container, totalPages) {
@@ -194,34 +168,25 @@ const SCREEN_USERS = {
     const page = this._page;
     let html = '';
 
-    // Prev button
     html += `<button class="page-btn ${page === 1 ? 'disabled' : ''}" ${page === 1 ? 'disabled' : ''} onclick="SCREEN_USERS.goToPage(${page - 1})">‹ Trước</button>`;
 
-    // Smart page range
     let startPage = Math.max(1, page - 2);
     let endPage = Math.min(totalPages, page + 2);
 
-    // Always show 1
     html += `<button class="page-btn ${page === 1 ? 'active' : ''}" onclick="SCREEN_USERS.goToPage(1)">1</button>`;
 
-    if (startPage > 2) {
-      html += `<span class="page-ellipsis">…</span>`;
-    }
+    if (startPage > 2) html += `<span class="page-ellipsis">…</span>`;
 
     for (let i = startPage; i <= endPage; i++) {
       html += `<button class="page-btn ${i === page ? 'active' : ''}" onclick="SCREEN_USERS.goToPage(${i})">${i}</button>`;
     }
 
-    if (endPage < totalPages - 1) {
-      html += `<span class="page-ellipsis">…</span>`;
-    }
+    if (endPage < totalPages - 1) html += `<span class="page-ellipsis">…</span>`;
 
-    // Always show last page (if different from above)
     if (totalPages > 1 && endPage < totalPages) {
       html += `<button class="page-btn ${page === totalPages ? 'active' : ''}" onclick="SCREEN_USERS.goToPage(${totalPages})">${totalPages}</button>`;
     }
 
-    // Next button
     html += `<button class="page-btn ${page === totalPages ? 'disabled' : ''}" ${page === totalPages ? 'disabled' : ''} onclick="SCREEN_USERS.goToPage(${page + 1})">Tiếp ›</button>`;
 
     container.innerHTML = html;
@@ -232,13 +197,39 @@ const SCREEN_USERS = {
     this.load();
   },
 
-  exportCsv() {
-    const rows = [['username','full_name','email','org_unit','role','status'], ...this._data.map(u => [u.username, u.full_name, u.email || '', u.org_unit || '', u.role, u.status])];
-    const csv = rows.map(r => r.map(v => `"${String(v ?? '').replace(/"/g, '""')}"`).join(',')).join('\n');
-    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8' });
+  exportExcel() {
+    if (this._data.length === 0) return alert('Không có dữ liệu để xuất');
+
+    const rows = [
+      ['STT', 'Username', 'Họ tên', 'Email', 'Đơn vị', 'Vai trò', 'Trạng thái'],
+      ...this._data.map((u, i) => [
+        (this._page - 1) * 20 + i + 1,
+        u.username,
+        u.full_name,
+        u.email || '',
+        u.org_unit || '',
+        u.role,
+        {1: 'Hoạt động', 2: 'Đã khóa', 0: 'Đã xóa'}[u.status] || u.status
+      ])
+    ];
+
+    // Create HTML table for Excel compatibility (.xls format)
+    let html = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40">';
+    html += '<head><meta charset="utf-8"><title>Excel Export</title></head><body>';
+    html += '<table border="1">';
+    rows.forEach(row => {
+      html += '<tr>';
+      row.forEach(cell => {
+        html += `<td>${cell}</td>`;
+      });
+      html += '</tr>';
+    });
+    html += '</table></body></html>';
+
+    const blob = new Blob([html], { type: 'application/vnd.ms-excel;charset=utf-8' });
     const a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
-    a.download = 'mtis-users.csv';
+    a.download = 'mtis-users.xls';
     a.click();
     URL.revokeObjectURL(a.href);
   },

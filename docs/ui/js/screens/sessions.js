@@ -1,45 +1,39 @@
 /* ================================================================
    MTIS Active Sessions Management Screen (S-M01-14)
-   Feature F-M01-010 — Multi-Session Management
    ================================================================ */
 
 const SCREEN_SESSIONS = {
-  _data: [],
-  _user: null,
+  _data: [], _user: null,
 
   render() {
     const user = AUTH.getUser();
     this._user = user;
-    const colCount = (user && user.role === 'system-admin') ? 8 : 7;
     return `
       <div class="content">
-        <div class="breadcrumb">
-          <a href="#dashboard">M01</a> <span class="sep">/</span>
-          <span>Phiên đăng nhập</span>
-        </div>
-        <h2 class="page-title">Quản lý phiên đăng nhập</h2>
+        <div class="card data-card">
+          <div class="data-card-header" style="flex-direction:column;align-items:flex-start;gap:12px;padding:24px 24px 20px">
+            <div class="breadcrumb">
+              <a href="#dashboard">Tổng quan</a> <span class="sep">/</span>
+              <span>Phiên đăng nhập</span>
+            </div>
+            <h1 class="page-title" style="margin-bottom:4px">Quản lý phiên đăng nhập</h1>
+          </div>
 
-        <div class="card mt-4">
-          <div class="table-wrap">
+          <hr class="section-divider" style="margin:0 24px">
+
+          <div class="table-wrap enterprise-table-wrap">
             <table class="ant-table" role="table" aria-label="Danh sách phiên đăng nhập">
               <thead>
                 <tr>
                   ${(user && user.role === 'system-admin') ? '<th>User ID</th>' : ''}
-                  <th>Thiết bị</th>
-                  <th>Địa chỉ IP</th>
-                  <th>Ngày tạo</th>
-                  <th>Hết hạn</th>
-                  <th>Hoạt động gần nhất</th>
-                  <th>Trạng thái</th>
-                  <th>Thao tác</th>
+                  <th>Thiết bị</th><th>Địa chỉ IP</th><th>Ngày tạo</th><th>Hết hạn</th><th>Hoạt động gần nhất</th><th>Trạng thái</th><th>Thao tác</th>
                 </tr>
               </thead>
-              <tbody id="sessions-tbody">
-                <tr><td colspan="${colCount}" class="text-center text-muted">Đang tải...</td></tr>
-              </tbody>
+              <tbody id="sessions-tbody"><tr><td colspan="${(user && user.role === 'system-admin') ? '8' : '7'}" class="text-center text-muted">Đang tải...</td></tr></tbody>
             </table>
           </div>
-          <div class="flex-between mt-2">
+
+          <div class="table-footer flex-between mt-4">
             <span class="text-muted" id="sessions-info">Đang tải...</span>
           </div>
         </div>
@@ -47,9 +41,7 @@ const SCREEN_SESSIONS = {
     `;
   },
 
-  afterRender() {
-    this.load();
-  },
+  afterRender() { this.load(); },
 
   async load() {
     const tbody = document.getElementById('sessions-tbody');
@@ -67,29 +59,17 @@ const SCREEN_SESSIONS = {
       }
 
       const isAdmin = this._user && this._user.role === 'system-admin';
-
       tbody.innerHTML = this._data.map(s => {
-        const badge = s.is_current
-          ? '<span class="badge badge-green">Hiện tại</span>'
-          : '<span class="badge badge-gray">Khác</span>';
-
+        const badge = s.is_current ? '<span class="badge badge-green">Hiện tại</span>' : '<span class="badge badge-gray">Khác</span>';
         const canRevoke = !s.is_current;
         const revokeBtn = canRevoke
-          ? `<button class="btn btn-ghost btn-sm" title="Thu hồi phiên" aria-label="Thu hồi phiên" onclick="SCREEN_SESSIONS.revoke('${s.id}')">🗑 Thu hồi</button>`
-          : `<button class="btn btn-ghost btn-sm" disabled title="Không thể thu hồi phiên hiện tại" aria-label="Không thể thu hồi phiên hiện tại">🗑 Thu hồi</button>`;
-
-        return `
-          <tr>
-            ${isAdmin ? `<td>${esc(s.user_id)}</td>` : ''}
-            <td>${esc(s.device)}</td>
-            <td>${esc(s.ip)}</td>
-            <td>${esc(s.created_at)}</td>
-            <td>${esc(s.expires_at)}</td>
-            <td>${esc(s.last_active_at)}</td>
-            <td>${badge}</td>
-            <td>${revokeBtn}</td>
-          </tr>
-        `;
+          ? `<button class="btn btn-ghost btn-sm" title="Thu hồi phiên" aria-label="Thu hồi phiên" onclick="SCREEN_SESSIONS.revoke('${s.id}')">🗑</button>`
+          : `<button class="btn btn-ghost btn-sm" disabled title="Không thể thu hồi phiên hiện tại" aria-label="Không thể thu hồi phiên hiện tại">🗑</button>`;
+        return `<tr>
+          ${isAdmin ? `<td>${esc(s.user_id)}</td>` : ''}
+          <td>${esc(s.device)}</td><td>${esc(s.ip)}</td><td>${esc(s.created_at)}</td><td>${esc(s.expires_at)}</td><td>${esc(s.last_active_at)}</td>
+          <td>${badge}</td><td>${revokeBtn}</td>
+        </tr>`;
       }).join('');
 
       if (info) info.textContent = `Hiển thị ${this._data.length} phiên đăng nhập`;
@@ -105,8 +85,6 @@ const SCREEN_SESSIONS = {
       const res = await apiDelete(`/api/auth/sessions/${id}`);
       alert(res.message || 'Đã thu hồi phiên đăng nhập thành công');
       await this.load();
-    } catch (e) {
-      alert('Lỗi: ' + e.message);
-    }
+    } catch (e) { alert('Lỗi: ' + e.message); }
   },
 };
