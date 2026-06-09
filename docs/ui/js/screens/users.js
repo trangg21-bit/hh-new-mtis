@@ -1,5 +1,5 @@
 /* ================================================================
-   MTIS User List Screen (S-M01-02) — placeholder with data fetch
+   MTIS User List Screen (S-M01-02) — enterprise operations view
    ================================================================ */
 
 const SCREEN_USERS = {
@@ -11,52 +11,110 @@ const SCREEN_USERS = {
 
   render() {
     return `
-      <div class="content">
-        <div class="breadcrumb">
-          <a href="#dashboard">M01</a> <span class="sep">/</span>
-          <span>Người dùng</span>
-        </div>
-        <div class="flex-between">
-          <h2 class="page-title" style="margin-bottom:0">Danh sách người dùng</h2>
-          <a href="#register" class="btn btn-primary"><span class="btn-icon">➕</span> Thêm mới</a>
+      <div class="content users-page">
+        <div class="page-hero">
+          <div>
+            <div class="breadcrumb">
+              <a href="#dashboard">M01</a> <span class="sep">/</span>
+              <span>Quản trị người dùng</span>
+            </div>
+            <h2 class="page-title">Danh sách người dùng</h2>
+            <p class="page-subtitle users-subtitle">Quản lý tài khoản, trạng thái truy cập, phân vai trò và kiểm soát phiên làm việc trên toàn hệ thống MTIS.</p>
+          </div>
+          <div class="page-actions">
+            <button class="btn btn-ghost" onclick="SCREEN_USERS.load()">↻ Làm mới</button>
+            <a href="#register" class="btn btn-primary"><span class="btn-icon">＋</span> Thêm người dùng</a>
+          </div>
         </div>
 
-        <div class="card mt-4">
-          <div class="search-bar">
-            <input type="text" class="form-control" id="user-search" placeholder="Tìm kiếm..."
-                   oninput="SCREEN_USERS.debouncedSearch()" aria-label="Tìm kiếm người dùng">
-            <select class="form-control" id="user-status-filter" onchange="SCREEN_USERS.applyFilter()" aria-label="Lọc trạng thái" style="width:160px">
-              <option value="">Tất cả trạng thái</option>
-              <option value="1">Hoạt động</option>
-              <option value="2">Đã khóa</option>
-              <option value="0">Đã xóa</option>
-            </select>
+        <div class="ops-kpi-grid users-kpis">
+          <div class="ops-kpi-card">
+            <span class="kpi-label">Tổng tài khoản</span>
+            <strong id="users-kpi-total">—</strong>
+            <small>Đang quản lý trong hệ thống</small>
           </div>
-          <div id="users-table-container">
-            <div class="table-wrap">
-              <table class="ant-table" role="table" aria-label="Danh sách người dùng">
-                <thead>
-                  <tr>
-                    <th>STT</th>
-                    <th>Tên đăng nhập</th>
-                    <th>Họ tên</th>
-                    <th>Email</th>
-                    <th>Đơn vị</th>
-                    <th>Vai trò</th>
-                    <th>Trạng thái</th>
-                    <th>Thao tác</th>
-                  </tr>
-                </thead>
-                <tbody id="users-tbody">
-                  <tr><td colspan="8" class="text-center text-muted">Đang tải...</td></tr>
-                </tbody>
-              </table>
+          <div class="ops-kpi-card success">
+            <span class="kpi-label">Đang hoạt động</span>
+            <strong id="users-kpi-active">—</strong>
+            <small>Tài khoản có thể đăng nhập</small>
+          </div>
+          <div class="ops-kpi-card danger">
+            <span class="kpi-label">Bị khóa</span>
+            <strong id="users-kpi-locked">—</strong>
+            <small>Cần quản trị viên xử lý</small>
+          </div>
+          <div class="ops-kpi-card info">
+            <span class="kpi-label">Bật 2FA</span>
+            <strong id="users-kpi-totp">—</strong>
+            <small>Tài khoản đã cấu hình TOTP</small>
+          </div>
+        </div>
+
+        <div class="ops-layout">
+          <div class="card data-card">
+            <div class="data-card-header">
+              <div>
+                <h3>Danh sách tài khoản</h3>
+                <p>Theo dõi trạng thái và thao tác quản trị người dùng.</p>
+              </div>
+              <span class="system-pill" id="users-last-updated">Đang tải...</span>
+            </div>
+
+            <div class="admin-toolbar">
+              <div class="toolbar-left">
+                <div class="search-field">
+                  <span>⌕</span>
+                  <input type="text" class="form-control" id="user-search" placeholder="Tìm username, họ tên..."
+                         oninput="SCREEN_USERS.debouncedSearch()" aria-label="Tìm kiếm người dùng">
+                </div>
+                <select class="form-control" id="user-status-filter" onchange="SCREEN_USERS.applyFilter()" aria-label="Lọc trạng thái">
+                  <option value="">Tất cả trạng thái</option>
+                  <option value="1">Hoạt động</option>
+                  <option value="2">Đã khóa</option>
+                  <option value="0">Đã xóa</option>
+                </select>
+              </div>
+              <div class="toolbar-right">
+                <button class="btn btn-ghost" onclick="SCREEN_USERS.exportCsv()">⇩ Xuất CSV</button>
+              </div>
+            </div>
+
+            <div id="users-table-container">
+              <div class="table-wrap enterprise-table-wrap">
+                <table class="ant-table enterprise-table" role="table" aria-label="Danh sách người dùng">
+                  <thead>
+                    <tr>
+                      <th>STT</th>
+                      <th>Tên đăng nhập</th>
+                      <th>Họ tên</th>
+                      <th>Email</th>
+                      <th>Đơn vị</th>
+                      <th>Vai trò</th>
+                      <th>Trạng thái</th>
+                      <th class="text-right">Thao tác</th>
+                    </tr>
+                  </thead>
+                  <tbody id="users-tbody">
+                    <tr><td colspan="8" class="text-center text-muted">Đang tải...</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="table-footer flex-between mt-4">
+              <span class="text-muted" id="users-info">Đang tải...</span>
+              <div class="pagination" id="users-pagination"></div>
             </div>
           </div>
-          <div class="flex-between mt-4">
-            <span class="text-muted" id="users-info">Đang tải...</span>
-            <div class="pagination" id="users-pagination"></div>
-          </div>
+
+          <aside class="card ops-side-panel">
+            <h3>Trạng thái vận hành</h3>
+            <div class="ops-check-item ok"><span>✓</span><div><strong>RBAC đang bật</strong><small>Quyền tạo/sửa/xóa chỉ dành cho quản trị viên.</small></div></div>
+            <div class="ops-check-item ok"><span>✓</span><div><strong>Auto-lock sau 5 lần sai</strong><small>Tài khoản bị khóa và phiên bị thu hồi.</small></div></div>
+            <div class="ops-check-item warn"><span>!</span><div><strong>Theo dõi 2FA</strong><small>Khuyến nghị bật TOTP cho tài khoản quản trị.</small></div></div>
+            <hr class="section-divider">
+            <p class="text-muted">Mẹo: dùng bộ lọc trạng thái để xử lý nhanh tài khoản bị khóa hoặc đã xóa.</p>
+          </aside>
         </div>
       </div>
     `;
@@ -66,7 +124,11 @@ const SCREEN_USERS = {
     let timer;
     return function() {
       clearTimeout(timer);
-      timer = setTimeout(() => { SCREEN_USERS._search = document.getElementById('user-search').value; SCREEN_USERS._page = 1; SCREEN_USERS.load(); }, 300);
+      timer = setTimeout(() => {
+        SCREEN_USERS._search = document.getElementById('user-search').value;
+        SCREEN_USERS._page = 1;
+        SCREEN_USERS.load();
+      }, 300);
     };
   })(),
 
@@ -87,34 +149,38 @@ const SCREEN_USERS = {
     if (!tbody) return;
 
     try {
-      const data = await apiGet('/api/users', {
-        page: this._page, limit: 20,
-        search: this._search || undefined,
-        status: this._statusFilter || undefined,
-      });
+      const [data, stats] = await Promise.all([
+        apiGet('/api/users', {
+          page: this._page, limit: 20,
+          search: this._search || undefined,
+          status: this._statusFilter || undefined,
+        }),
+        apiGet('/api/admin/stats').catch(() => null),
+      ]);
       this._data = data.users || [];
       this._total = data.total || 0;
+      this._updateStats(stats);
 
       if (this._data.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="8" class="text-center text-muted">Không có dữ liệu</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="8" class="text-center text-muted empty-row">Không có dữ liệu phù hợp bộ lọc</td></tr>';
       } else {
         tbody.innerHTML = this._data.map((u, i) => `
           <tr>
             <td>${(this._page - 1) * 20 + i + 1}</td>
-            <td><strong>${esc(u.username)}</strong></td>
+            <td><strong>${esc(u.username)}</strong><div class="cell-sub">ID: ${u.id}</div></td>
             <td>${esc(u.full_name)}</td>
             <td>${esc(u.email || '—')}</td>
             <td>${esc(u.org_unit || '—')}</td>
             <td><span class="badge badge-blue">${esc(u.role)}</span></td>
             <td>${statusBadge(u.status)}</td>
-            <td>
-              <button class="btn btn-ghost btn-sm" title="Chỉnh sửa" aria-label="Chỉnh sửa">✎</button>
+            <td class="text-right action-cell">
+              <button class="btn btn-ghost btn-sm" title="Chỉnh sửa" aria-label="Chỉnh sửa">✎ Sửa</button>
               <button class="btn btn-ghost btn-sm" title="${u.status === 2 ? 'Mở khóa' : u.status === 0 ? '' : 'Khóa'}"
                       aria-label="${u.status === 2 ? 'Mở khóa' : 'Khóa'}"
                       onclick="SCREEN_USERS.toggleLock(${u.id}, ${u.status})"
-                      ${u.status === 0 ? 'disabled' : ''}>${u.status === 2 ? '🔓' : '🔒'}</button>
-              <button class="btn btn-ghost btn-sm" title="Xóa" aria-label="Xóa người dùng"
-                      onclick="SCREEN_USERS.confirmDelete(${u.id})" ${u.status === 0 ? 'disabled' : ''}>🗑</button>
+                      ${u.status === 0 ? 'disabled' : ''}>${u.status === 2 ? '🔓 Mở' : '🔒 Khóa'}</button>
+              <button class="btn btn-ghost btn-sm danger-action" title="Xóa" aria-label="Xóa người dùng"
+                      onclick="SCREEN_USERS.confirmDelete(${u.id})" ${u.status === 0 ? 'disabled' : ''}>🗑 Xóa</button>
             </td>
           </tr>
         `).join('');
@@ -122,12 +188,24 @@ const SCREEN_USERS = {
 
       const totalPages = Math.ceil(this._total / 20);
       info.textContent = `Hiển thị ${this._data.length} / ${this._total} người dùng`;
+      document.getElementById('users-last-updated').textContent = `Cập nhật ${new Date().toLocaleTimeString('vi-VN')}`;
       this._renderPagination(pag, totalPages);
 
     } catch (e) {
       tbody.innerHTML = `<tr><td colspan="8" class="text-center text-danger">Lỗi: ${esc(e.message)}</td></tr>`;
       info.textContent = 'Lỗi tải dữ liệu';
     }
+  },
+
+  _updateStats(stats) {
+    const activeVisible = this._data.filter(u => u.status === 1).length;
+    const lockedVisible = this._data.filter(u => u.status === 2).length;
+    const totpVisible = this._data.filter(u => u.totp_enabled).length;
+    const set = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
+    set('users-kpi-total', stats?.total_users ?? this._total);
+    set('users-kpi-active', stats ? Math.max(0, stats.total_users - stats.locked_accounts) : activeVisible);
+    set('users-kpi-locked', stats?.locked_accounts ?? lockedVisible);
+    set('users-kpi-totp', stats?.totp_enabled ?? totpVisible);
   },
 
   _renderPagination(container, totalPages) {
@@ -142,6 +220,17 @@ const SCREEN_USERS = {
   goToPage(page) {
     this._page = page;
     this.load();
+  },
+
+  exportCsv() {
+    const rows = [['username','full_name','email','org_unit','role','status'], ...this._data.map(u => [u.username, u.full_name, u.email || '', u.org_unit || '', u.role, u.status])];
+    const csv = rows.map(r => r.map(v => `"${String(v ?? '').replace(/"/g, '""')}"`).join(',')).join('\n');
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'mtis-users.csv';
+    a.click();
+    URL.revokeObjectURL(a.href);
   },
 
   async toggleLock(id, currentStatus) {

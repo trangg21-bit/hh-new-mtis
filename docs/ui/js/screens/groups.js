@@ -7,27 +7,52 @@ const SCREEN_GROUPS = {
 
   render() {
     return `
-      <div class="content">
-        <div class="breadcrumb">
-          <a href="#dashboard">M01</a> <span class="sep">/</span>
-          <span>Nhóm người dùng</span>
-        </div>
-        <div class="flex-between">
-          <h2 class="page-title" style="margin-bottom:0">Nhóm người dùng</h2>
-          <button class="btn btn-primary" onclick="SCREEN_GROUPS.showCreateModal()"><span class="btn-icon">➕</span> Thêm nhóm</button>
+      <div class="content groups-page">
+        <div class="page-hero">
+          <div>
+            <div class="breadcrumb">
+              <a href="#dashboard">M01</a> <span class="sep">/</span>
+              <span>Nhóm người dùng</span>
+            </div>
+            <h2 class="page-title">Nhóm người dùng</h2>
+            <p class="page-subtitle users-subtitle">Quản lý nhóm quyền nghiệp vụ, thành viên và phạm vi truy cập theo từng đơn vị vận hành.</p>
+          </div>
+          <div class="page-actions">
+            <button class="btn btn-ghost" onclick="SCREEN_GROUPS.load()">↻ Làm mới</button>
+            <button class="btn btn-primary" onclick="SCREEN_GROUPS.showCreateModal()"><span class="btn-icon">＋</span> Thêm nhóm</button>
+          </div>
         </div>
 
-        <div class="card mt-4">
-          <div class="table-wrap">
-            <table class="ant-table" role="table" aria-label="Danh sách nhóm">
-              <thead><tr>
-                <th>STT</th><th>Tên nhóm</th><th>Mô tả</th><th>Số thành viên</th><th>Thao tác</th>
-              </tr></thead>
-              <tbody id="groups-tbody">
-                <tr><td colspan="5" class="text-center text-muted">Đang tải...</td></tr>
-              </tbody>
-            </table>
+        <div class="ops-kpi-grid users-kpis">
+          <div class="ops-kpi-card"><span class="kpi-label">Tổng nhóm</span><strong id="groups-kpi-total">—</strong><small>Nhóm quyền đang cấu hình</small></div>
+          <div class="ops-kpi-card info"><span class="kpi-label">Tổng thành viên</span><strong id="groups-kpi-members">—</strong><small>Phân bổ trong các nhóm</small></div>
+          <div class="ops-kpi-card success"><span class="kpi-label">Có thành viên</span><strong id="groups-kpi-active">—</strong><small>Nhóm đang sử dụng</small></div>
+          <div class="ops-kpi-card danger"><span class="kpi-label">Nhóm trống</span><strong id="groups-kpi-empty">—</strong><small>Cần rà soát</small></div>
+        </div>
+
+        <div class="ops-layout">
+          <div class="card data-card">
+            <div class="data-card-header">
+              <div><h3>Danh sách nhóm quyền</h3><p>Thao tác thêm/sửa/xóa nhóm và quản lý thành viên trực tiếp qua API thật.</p></div>
+              <span class="system-pill" id="groups-last-updated">Đang tải...</span>
+            </div>
+            <div class="enterprise-table-wrap">
+              <table class="ant-table enterprise-table" role="table" aria-label="Danh sách nhóm">
+                <thead><tr>
+                  <th>STT</th><th>Tên nhóm</th><th>Mô tả</th><th>Số thành viên</th><th class="text-right">Thao tác</th>
+                </tr></thead>
+                <tbody id="groups-tbody">
+                  <tr><td colspan="5" class="text-center text-muted">Đang tải...</td></tr>
+                </tbody>
+              </table>
+            </div>
           </div>
+          <aside class="card ops-side-panel">
+            <h3>Kiểm soát truy cập</h3>
+            <div class="ops-check-item ok"><span>✓</span><div><strong>Nhóm gắn với ma trận quyền</strong><small>Quyền CRUD được quản trị tại màn Phân quyền.</small></div></div>
+            <div class="ops-check-item ok"><span>✓</span><div><strong>Thành viên quản lý tức thời</strong><small>Thêm/xóa thành viên cập nhật trực tiếp DB.</small></div></div>
+            <div class="ops-check-item warn"><span>!</span><div><strong>Rà soát nhóm trống</strong><small>Nên xóa nhóm không sử dụng để giảm rủi ro cấu hình nhầm.</small></div></div>
+          </aside>
         </div>
       </div>
     `;
@@ -49,23 +74,37 @@ const SCREEN_GROUPS = {
         tbody.innerHTML = this._data.map((g, i) => `
           <tr>
             <td>${i + 1}</td>
-            <td><strong>${esc(g.name)}</strong></td>
+            <td><strong>${esc(g.name)}</strong><div class="cell-sub">ID: ${g.id}</div></td>
             <td>${esc(g.description || '—')}</td>
             <td><span class="badge badge-blue">${g.member_count || 0}</span></td>
-            <td>
+            <td class="text-right action-cell">
               <button class="btn btn-ghost btn-sm" title="Chỉnh sửa" aria-label="Chỉnh sửa nhóm"
-                      onclick="SCREEN_GROUPS.showEditModal(${g.id})">✎</button>
-              <button class="btn btn-ghost btn-sm" title="Xóa" aria-label="Xóa nhóm"
-                      onclick="SCREEN_GROUPS.confirmDelete(${g.id})">🗑</button>
+                      onclick="SCREEN_GROUPS.showEditModal(${g.id})">✎ Sửa</button>
+              <button class="btn btn-ghost btn-sm danger-action" title="Xóa" aria-label="Xóa nhóm"
+                      onclick="SCREEN_GROUPS.confirmDelete(${g.id})">🗑 Xóa</button>
               <button class="btn btn-ghost btn-sm" title="Xem thành viên" aria-label="Xem thành viên"
-                      onclick="SCREEN_GROUPS.showMembersModal(${g.id})">👥</button>
+                      onclick="SCREEN_GROUPS.showMembersModal(${g.id})">👥 Thành viên</button>
             </td>
           </tr>
         `).join('');
       }
+      this._updateStats();
+      const stamp = document.getElementById('groups-last-updated');
+      if (stamp) stamp.textContent = `Cập nhật ${new Date().toLocaleTimeString('vi-VN')}`;
     } catch (e) {
       tbody.innerHTML = `<tr><td colspan="5" class="text-center text-danger">Lỗi: ${esc(e.message)}</td></tr>`;
     }
+  },
+
+  _updateStats() {
+    const total = this._data.length;
+    const members = this._data.reduce((sum, g) => sum + (Number(g.member_count) || 0), 0);
+    const active = this._data.filter(g => (Number(g.member_count) || 0) > 0).length;
+    const set = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
+    set('groups-kpi-total', total);
+    set('groups-kpi-members', members);
+    set('groups-kpi-active', active);
+    set('groups-kpi-empty', total - active);
   },
 
   /* ---------- Create ---------- */

@@ -12,23 +12,45 @@ const SCREEN_ORGANIZATIONS = {
 
   render() {
     return `
-      <div class="content">
-        <div class="breadcrumb">
-          <a href="#dashboard">M01</a> <span class="sep">/</span>
-          <span>Đơn vị</span>
-        </div>
-        <div class="flex-between">
-          <h2 class="page-title" style="margin-bottom:0">Cây đơn vị</h2>
-          <button class="btn btn-primary" id="org-add-btn"
-                  onclick="SCREEN_ORGANIZATIONS.showCreateForm()">
-            <span class="btn-icon">➕</span> Thêm đơn vị
-          </button>
+      <div class="content organizations-page">
+        <div class="page-hero">
+          <div>
+            <div class="breadcrumb">
+              <a href="#dashboard">M01</a> <span class="sep">/</span>
+              <span>Đơn vị</span>
+            </div>
+            <h2 class="page-title">Cây đơn vị</h2>
+            <p class="page-subtitle users-subtitle">Quản lý cấu trúc Cục / Cảng vụ / đơn vị trực thuộc phục vụ phân quyền, báo cáo và phạm vi dữ liệu.</p>
+          </div>
+          <div class="page-actions">
+            <button class="btn btn-ghost" onclick="SCREEN_ORGANIZATIONS.load()">↻ Làm mới</button>
+            <button class="btn btn-primary" id="org-add-btn" onclick="SCREEN_ORGANIZATIONS.showCreateForm()"><span class="btn-icon">＋</span> Thêm đơn vị</button>
+          </div>
         </div>
 
-        <div class="card mt-4">
-          <div id="org-tree-container">
-            <div class="text-center text-muted" style="padding:60px">Đang tải...</div>
+        <div class="ops-kpi-grid users-kpis">
+          <div class="ops-kpi-card"><span class="kpi-label">Tổng đơn vị</span><strong id="org-kpi-total">—</strong><small>Node trong cây tổ chức</small></div>
+          <div class="ops-kpi-card info"><span class="kpi-label">Đơn vị gốc</span><strong id="org-kpi-root">—</strong><small>Cấp cao nhất</small></div>
+          <div class="ops-kpi-card success"><span class="kpi-label">Có mô tả</span><strong id="org-kpi-described">—</strong><small>Thông tin đầy đủ</small></div>
+          <div class="ops-kpi-card danger"><span class="kpi-label">Thiếu mô tả</span><strong id="org-kpi-missing">—</strong><small>Cần bổ sung</small></div>
+        </div>
+
+        <div class="ops-layout">
+          <div class="card data-card">
+            <div class="data-card-header">
+              <div><h3>Cấu trúc tổ chức</h3><p>Thêm, sửa, xóa đơn vị trực tiếp trên cây; mọi thay đổi ghi vào DB.</p></div>
+              <span class="system-pill" id="org-last-updated">Đang tải...</span>
+            </div>
+            <div id="org-tree-container" class="org-tree-container">
+              <div class="text-center text-muted" style="padding:60px">Đang tải...</div>
+            </div>
           </div>
+          <aside class="card ops-side-panel">
+            <h3>Quy tắc tổ chức</h3>
+            <div class="ops-check-item ok"><span>✓</span><div><strong>Cây phân cấp thật</strong><small>Parent/child được lưu bằng parent_id.</small></div></div>
+            <div class="ops-check-item ok"><span>✓</span><div><strong>Dùng cho scope dữ liệu</strong><small>Người dùng có thể gắn với org_unit/org_id.</small></div></div>
+            <div class="ops-check-item warn"><span>!</span><div><strong>Không xóa tùy tiện</strong><small>Kiểm tra user liên quan trước khi xóa đơn vị.</small></div></div>
+          </aside>
         </div>
       </div>
     `;
@@ -54,11 +76,25 @@ const SCREEN_ORGANIZATIONS = {
       this._orgs = data.organizations || [];
       this._loading = false;
       this._renderTree(container);
+      this._updateStats();
+      const stamp = document.getElementById('org-last-updated');
+      if (stamp) stamp.textContent = `Cập nhật ${new Date().toLocaleTimeString('vi-VN')}`;
     } catch (e) {
       this._loading = false;
       this._error = e.message;
       container.innerHTML = `<div class="text-center text-danger" style="padding:60px">Lỗi: ${esc(e.message)}</div>`;
     }
+  },
+
+  _updateStats() {
+    const total = this._orgs.length;
+    const roots = this._orgs.filter(o => !o.parent_id).length;
+    const described = this._orgs.filter(o => !!(o.description || '').trim()).length;
+    const set = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
+    set('org-kpi-total', total);
+    set('org-kpi-root', roots);
+    set('org-kpi-described', described);
+    set('org-kpi-missing', total - described);
   },
 
   /* -- tree building -------------------------------------------------- */

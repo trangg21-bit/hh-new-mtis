@@ -11,36 +11,57 @@ const SCREEN_PERMISSIONS = {
   render() {
     const isAdmin = AUTH.getUser() && AUTH.getUser().role === 'system-admin';
     return `
-      <div class="content">
-        <div class="breadcrumb">
-          <a href="#dashboard">M01</a> <span class="sep">/</span>
-          <span>Phân quyền</span>
-        </div>
-        <div class="flex-between">
-          <h2 class="page-title" style="margin-bottom:0">Phân quyền nhóm người dùng</h2>
-          <div style="display:flex;gap:8px;align-items:center">
-            <div id="perms-feedback" style="display:none"></div>
-            <button class="btn btn-primary btn-sm" id="perms-save-btn" onclick="SCREEN_PERMISSIONS.save()">
-              💾 Lưu thay đổi
-            </button>
+      <div class="content permissions-page">
+        <div class="page-hero">
+          <div>
+            <div class="breadcrumb">
+              <a href="#dashboard">M01</a> <span class="sep">/</span>
+              <span>Phân quyền</span>
+            </div>
+            <h2 class="page-title">Phân quyền nhóm người dùng</h2>
+            <p class="page-subtitle users-subtitle">Thiết lập quyền Create / Read / Update / Delete theo từng nhóm nghiệp vụ. Mọi thay đổi được ghi trực tiếp xuống permission matrix.</p>
           </div>
+          <div class="page-actions">
+            <div id="perms-feedback" style="display:none"></div>
+            <button class="btn btn-ghost" onclick="SCREEN_PERMISSIONS.load()">↻ Tải lại</button>
+            <button class="btn btn-primary" id="perms-save-btn" onclick="SCREEN_PERMISSIONS.save()">💾 Lưu thay đổi</button>
+          </div>
+        </div>
+
+        <div class="ops-kpi-grid users-kpis">
+          <div class="ops-kpi-card"><span class="kpi-label">Nhóm quyền</span><strong id="perms-kpi-groups">—</strong><small>Đối tượng được phân quyền</small></div>
+          <div class="ops-kpi-card info"><span class="kpi-label">Tính năng</span><strong id="perms-kpi-features">—</strong><small>Phạm vi quyền trong M01</small></div>
+          <div class="ops-kpi-card success"><span class="kpi-label">Quyền đã bật</span><strong id="perms-kpi-enabled">—</strong><small>Tổng checkbox đang active</small></div>
+          <div class="ops-kpi-card danger"><span class="kpi-label">Quản trị</span><strong id="perms-kpi-admin">${isAdmin ? 'ON' : 'READ'}</strong><small>${isAdmin ? 'Có quyền lưu thay đổi' : 'Chỉ xem cấu hình'}</small></div>
         </div>
 
         <div id="perms-error" style="display:none"></div>
 
-        <div class="card mt-4">
-          <div class="table-wrap">
-            <table class="ant-table" role="table" aria-label="Ma trận phân quyền">
-              <thead>
-                <tr id="perms-thead-tr">
-                  <th style="min-width:180px">Tính năng</th>
-                </tr>
-              </thead>
-              <tbody id="perms-tbody">
-                <tr><td colspan="10" class="text-center text-muted">Đang tải...</td></tr>
-              </tbody>
-            </table>
+        <div class="ops-layout">
+          <div class="card data-card">
+            <div class="data-card-header">
+              <div><h3>Ma trận quyền CRUD</h3><p>C/R/U/D tương ứng Tạo/Xem/Sửa/Xóa từng tính năng.</p></div>
+              <span class="system-pill" id="perms-last-updated">Đang tải...</span>
+            </div>
+            <div class="enterprise-table-wrap">
+              <table class="ant-table enterprise-table permission-matrix" role="table" aria-label="Ma trận phân quyền">
+                <thead>
+                  <tr id="perms-thead-tr">
+                    <th style="min-width:180px">Tính năng</th>
+                  </tr>
+                </thead>
+                <tbody id="perms-tbody">
+                  <tr><td colspan="10" class="text-center text-muted">Đang tải...</td></tr>
+                </tbody>
+              </table>
+            </div>
           </div>
+          <aside class="card ops-side-panel">
+            <h3>Nguyên tắc an toàn</h3>
+            <div class="ops-check-item ok"><span>✓</span><div><strong>Least privilege</strong><small>Chỉ bật đúng quyền cần thiết theo vai trò.</small></div></div>
+            <div class="ops-check-item ok"><span>✓</span><div><strong>Admin guard</strong><small>Chỉ system-admin được lưu thay đổi.</small></div></div>
+            <div class="ops-check-item warn"><span>!</span><div><strong>Kiểm tra sau khi lưu</strong><small>Đăng nhập bằng user thường để xác minh quyền thực tế.</small></div></div>
+          </aside>
         </div>
       </div>
     `;
@@ -65,6 +86,9 @@ const SCREEN_PERMISSIONS = {
         this._groups.map(g => `<th class="text-center">${esc(g.name)}</th>`).join('');
 
       this.renderMatrix();
+      this._updateStats();
+      const stamp = document.getElementById('perms-last-updated');
+      if (stamp) stamp.textContent = `Cập nhật ${new Date().toLocaleTimeString('vi-VN')}`;
     } catch (e) {
       tbody.innerHTML = `<tr><td colspan="10" class="text-center text-danger">Lỗi tải dữ liệu: ${esc(e.message)}</td></tr>`;
     }
@@ -99,6 +123,21 @@ const SCREEN_PERMISSIONS = {
       }).join('');
       return `<tr><td><strong>${esc(label)}</strong></td>${cells}</tr>`;
     }).join('');
+  },
+
+  _updateStats() {
+    const matrix = this._data?.matrix || [];
+    let enabled = 0;
+    matrix.forEach(row => {
+      this._groups.forEach(g => {
+        const p = row[g.id] || {};
+        enabled += ['can_create','can_read','can_update','can_delete'].filter(k => !!p[k]).length;
+      });
+    });
+    const set = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
+    set('perms-kpi-groups', this._groups.length);
+    set('perms-kpi-features', this._featureCodes.length);
+    set('perms-kpi-enabled', enabled);
   },
 
   showFeedback(msg, type) {
