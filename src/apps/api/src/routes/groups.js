@@ -19,7 +19,8 @@ router.post('/', (req, res) => {
   try {
     const info = db.prepare('INSERT INTO user_groups (name, description) VALUES (?, ?)').run(name, description);
     res.status(201).json({ id: info.lastInsertRowid });
-  } catch {
+  } catch(e) {
+    console.error(JSON.stringify({ event: 'error', route: 'POST /api/users/groups', error: e?.message }));
     res.status(500).json({ error: 'Lỗi máy chủ nội bộ' });
   }
 });

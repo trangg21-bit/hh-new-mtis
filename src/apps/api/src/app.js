@@ -16,6 +16,19 @@ if (!JWT_SECRET) {
 
 const app = express();
 
+// ─── Prometheus metrics (lightweight) ──────────────────────
+const metrics = {
+  requests_total: 0,
+  errors_4xx: 0,
+  errors_5xx: 0,
+};
+
+// ─── Metrics tracking middleware ────────────────────────────
+app.use((req, _res, next) => {
+  metrics.requests_total++;
+  next();
+});
+
 // Correlation ID per request
 app.use((req, res, next) => {
   const { randomUUID } = require('crypto');
@@ -163,6 +176,33 @@ app.post('/api/admin/reset-db', authMiddleware, adminMiddleware, (req, res) => {
   db.exec('PRAGMA foreign_keys = ON');
   console.log('E2E reset-db completed');
   res.json({ ok: true });
+});
+
+// Metrics endpoint — Prometheus-style
+app.get('/api/metrics', (req, res) => {
+  const activeSessions = db.prepare('SELECT COUNT(*) as c FROM sessions').get().c;
+  const totalUsers = db.prepare('SELECT COUNT(*) as c FROM users WHERE status != 0').get().c;
+  const lockedAccounts = db.prepare('SELECT COUNT(*) as c FROM users WHERE status = 2').get().c;
+  const totpEnabled = db.prepare('SELECT COUNT(*) as c FROM users WHERE totp_enabled = 1').get().c;
+  const lines = [
+    `# HELP mtis_requests_total Total HTTP requests`,
+    `# TYPE mtis_requests_total counter`,
+    `mtis_requests_total ${metrics.requests_total}`,
+    `# HELP mtis_active_sessions Active user sessions`,
+    `# TYPE mtis_active_sessions gauge`,
+    `mtis_active_sessions ${activeSessions}`,
+    `# HELP mtis_users_total Active users`,
+    `# TYPE mtis_users_total gauge`,
+    `mtis_users_total ${totalUsers}`,
+    `# HELP mtis_locked_accounts Locked accounts`,
+    `# TYPE mtis_locked_accounts gauge`,
+    `mtis_locked_accounts ${lockedAccounts}`,
+    `# HELP mtis_totp_enabled TOTP-enabled users`,
+    `# TYPE mtis_totp_enabled gauge`,
+    `mtis_totp_enabled ${totpEnabled}`,
+  ];
+  res.set('Content-Type', 'text/plain; version=0.0.4');
+  res.send(lines.join('\n') + '\n');
 });
 
 // Health check — shallow

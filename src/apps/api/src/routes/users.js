@@ -100,6 +100,7 @@ router.post('/', (req, res) => {
     res.status(201).json({ id: info.lastInsertRowid });
   } catch (e) {
     if (e.message.includes('UNIQUE')) return res.status(409).json({ error: 'Tên đăng nhập đã tồn tại' });
+    console.error(JSON.stringify({ event: 'error', route: 'POST /api/users', error: e.message }));
     res.status(500).json({ error: 'Lỗi máy chủ nội bộ' });
   }
 });
@@ -140,7 +141,8 @@ router.delete('/:id', (req, res) => {
   try {
     tx();
     res.json({ ok: true });
-  } catch {
+  } catch(e) {
+    console.error(JSON.stringify({ event: 'error', route: 'DELETE /api/users/:id', error: e?.message }));
     res.status(500).json({ error: 'Lỗi máy chủ nội bộ' });
   }
 });
@@ -178,7 +180,8 @@ router.delete('/self', (req, res) => {
   try {
     tx();
     res.json({ ok: true, message: 'Tài khoản đã được xóa' });
-  } catch {
+  } catch(e) {
+    console.error(JSON.stringify({ event: 'error', route: 'DELETE /api/auth/me', error: e?.message }));
     res.status(500).json({ error: 'Lỗi máy chủ nội bộ' });
   }
 });

@@ -47,4 +47,15 @@ function reset(identifier) {
   registry.delete(getKey(identifier));
 }
 
+// ─── Periodic cleanup (every 5 min) — prevent memory leak ──
+setInterval(() => {
+  const now = Date.now();
+  const maxWindow = 30 * 60 * 1000; // 30 min — longest window we track
+  const cutoff = now - maxWindow;
+  for (const [key, entry] of registry) {
+    entry.attempts = entry.attempts.filter(ts => ts > cutoff);
+    if (entry.attempts.length === 0) registry.delete(key);
+  }
+}, 5 * 60 * 1000);
+
 module.exports = { isRateLimited, recordAttempt, getRemaining, reset };
