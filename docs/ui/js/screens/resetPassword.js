@@ -11,10 +11,10 @@ const SCREEN_RESET_PASSWORD = {
       <div class="login-page">
         <div class="login-card">
           <div class="login-logo">
-            <div class="login-logo-icon">MT</div>
+            <img class="login-logo-img" src="assets/logo-cuc-hang-hai.svg" alt="Cục Hàng hải Việt Nam" onerror="this.style.display='none'">
             <div class="login-logo-text">
-              <strong>MTIS</strong>
-              <small>Quản lý KCHT Hàng hải</small>
+              <strong>Quản lý KCHT Hàng hải</strong>
+              <small>Cục Hàng hải Việt Nam</small>
             </div>
           </div>
           <h1 class="login-title">Đặt lại mật khẩu</h1>

@@ -25,6 +25,7 @@
   max-width: 100%;
 }
 
+.login-logo-img { width: 64px; height: 64px; object-fit: contain; }
 .login-logo {
   display: flex;
   align-items: center;

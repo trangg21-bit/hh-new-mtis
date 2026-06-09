@@ -19,7 +19,7 @@ const SCREEN_USERS = {
               <span>Quản trị người dùng</span>
             </div>
             <h2 class="page-title">Danh sách người dùng</h2>
-            <p class="page-subtitle users-subtitle">Quản lý tài khoản, trạng thái truy cập, phân vai trò và kiểm soát phiên làm việc trên toàn hệ thống MTIS.</p>
+            <p class="page-subtitle users-subtitle">Quản lý tài khoản, trạng thái truy cập, phân vai trò và kiểm soát phiên làm việc trên toàn hệ thống.</p>
           </div>
           <div class="page-actions">
             <button class="btn btn-ghost" onclick="SCREEN_USERS.load()">↻ Làm mới</button>

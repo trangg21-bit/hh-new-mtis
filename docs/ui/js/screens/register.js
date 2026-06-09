@@ -12,7 +12,7 @@ const SCREEN_REGISTER = {
           <span>Thêm người dùng</span>
         </div>
         <h2 class="page-title">Thêm người dùng mới</h2>
-        <p class="page-subtitle">Tạo tài khoản người dùng cho hệ thống MTIS</p>
+        <p class="page-subtitle">Tạo tài khoản người dùng cho hệ thống Quản lý KCHT Hàng hải</p>
 
         <div class="card" style="max-width:640px">
           <div class="card-header"><h3>Thông tin tài khoản</h3></div>

@@ -30,20 +30,20 @@ function validatePasswordStrength(pw) {
 // ─── Route Definitions ──────────────────────────────────────────
 
 const ROUTES = {
-  'login':           { screen: SCREEN_LOGIN,           auth: false,  title: 'Đăng nhập — MTIS' },
-  'register':        { screen: SCREEN_REGISTER,        auth: true,   title: 'Thêm người dùng — MTIS' },
-  'forgot-password': { screen: SCREEN_FORGOT_PASSWORD, auth: false,  title: 'Quên mật khẩu — MTIS' },
-  'reset-password':  { screen: SCREEN_RESET_PASSWORD,  auth: false,  title: 'Đặt lại mật khẩu — MTIS' },
-  'password':        { screen: SCREEN_PASSWORD,        auth: true,   title: 'Đổi mật khẩu — MTIS' },
-  'dashboard':       { screen: SCREEN_DASHBOARD,       auth: true,   title: 'Dashboard — MTIS' },
-  'users':           { screen: SCREEN_USERS,           auth: true,   title: 'Danh sách người dùng — MTIS' },
-  'user-detail':     { screen: SCREEN_USER_DETAIL,     auth: true,   title: 'Chi tiết người dùng — MTIS' },
-  'groups':          { screen: SCREEN_GROUPS,          auth: true,   title: 'Nhóm người dùng — MTIS' },
-  'permissions':     { screen: SCREEN_PERMISSIONS,     auth: true,   title: 'Phân quyền — MTIS' },
-  'login-log':       { screen: SCREEN_LOGIN_LOG,       auth: true,   title: 'Nhật ký đăng nhập — MTIS' },
-  'organizations':   { screen: SCREEN_ORGANIZATIONS,   auth: true,   title: 'Đơn vị — MTIS' },
-  'sessions':        { screen: SCREEN_SESSIONS,        auth: true,   title: 'Phiên đăng nhập — MTIS' },
-  'totp':            { screen: SCREEN_TOTP,            auth: true,   title: 'Cấu hình TOTP — MTIS' },
+  'login':           { screen: SCREEN_LOGIN,           auth: false,  title: 'Đăng nhập — Quản lý KCHT Hàng hải' },
+  'register':        { screen: SCREEN_REGISTER,        auth: true,   title: 'Thêm người dùng — Quản lý KCHT Hàng hải' },
+  'forgot-password': { screen: SCREEN_FORGOT_PASSWORD, auth: false,  title: 'Quên mật khẩu — Quản lý KCHT Hàng hải' },
+  'reset-password':  { screen: SCREEN_RESET_PASSWORD,  auth: false,  title: 'Đặt lại mật khẩu — Quản lý KCHT Hàng hải' },
+  'password':        { screen: SCREEN_PASSWORD,        auth: true,   title: 'Đổi mật khẩu — Quản lý KCHT Hàng hải' },
+  'dashboard':       { screen: SCREEN_DASHBOARD,       auth: true,   title: 'Dashboard — Quản lý KCHT Hàng hải' },
+  'users':           { screen: SCREEN_USERS,           auth: true,   title: 'Danh sách người dùng — Quản lý KCHT Hàng hải' },
+  'user-detail':     { screen: SCREEN_USER_DETAIL,     auth: true,   title: 'Chi tiết người dùng — Quản lý KCHT Hàng hải' },
+  'groups':          { screen: SCREEN_GROUPS,          auth: true,   title: 'Nhóm người dùng — Quản lý KCHT Hàng hải' },
+  'permissions':     { screen: SCREEN_PERMISSIONS,     auth: true,   title: 'Phân quyền — Quản lý KCHT Hàng hải' },
+  'login-log':       { screen: SCREEN_LOGIN_LOG,       auth: true,   title: 'Nhật ký đăng nhập — Quản lý KCHT Hàng hải' },
+  'organizations':   { screen: SCREEN_ORGANIZATIONS,   auth: true,   title: 'Đơn vị — Quản lý KCHT Hàng hải' },
+  'sessions':        { screen: SCREEN_SESSIONS,        auth: true,   title: 'Phiên đăng nhập — Quản lý KCHT Hàng hải' },
+  'totp':            { screen: SCREEN_TOTP,            auth: true,   title: 'Cấu hình TOTP — Quản lý KCHT Hàng hải' },
 };
 
 // ─── Router ──────────────────────────────────────────────────────
@@ -165,10 +165,10 @@ const ROUTER = {
       <!-- Sidebar -->
       <aside class="sidebar" role="navigation" aria-label="Menu chính">
         <div class="sidebar-logo">
-          <div class="logo-icon">MT</div>
+          <img class="logo-img" src="assets/logo-cuc-hang-hai.svg" alt="Cục Hàng hải Việt Nam" onerror="this.style.display='none'">
           <div class="logo-text">
-            <strong>MTIS</strong>
-            <small>KCHT Hàng hải</small>
+            <strong>QL KCHT Hàng hải</strong>
+            <small>Cục Hàng hải Việt Nam</small>
           </div>
         </div>
         <nav class="sidebar-menu">
@@ -183,7 +183,7 @@ const ROUTER = {
       <div class="main-wrapper">
         <!-- Header -->
         <header class="header" role="banner">
-          <h1 id="page-header-title">${ROUTES[active] ? ROUTES[active].title.replace(' — MTIS', '') : ''}</h1>
+          <h1 id="page-header-title">${ROUTES[active] ? ROUTES[active].title.replace(' — Quản lý KCHT Hàng hải', '') : ''}</h1>
           <div class="user-info">
             <div class="user-dropdown" id="user-dropdown">
               <span class="name">${esc(user ? user.full_name || user.username : '')}</span>
@@ -207,7 +207,7 @@ const ROUTER = {
 
         <!-- Footer -->
         <footer class="footer">
-          Hệ thống Quản lý KCHT Giao thông Hàng hải (MTIS) &mdash; Cục Hàng hải Việt Nam
+          Hệ thống Quản lý KCHT Giao thông Hàng hải &mdash; Cục Hàng hải Việt Nam
         </footer>
       </div>
     `;

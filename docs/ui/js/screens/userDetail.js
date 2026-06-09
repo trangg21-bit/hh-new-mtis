@@ -59,7 +59,7 @@ const SCREEN_USER_DETAIL = {
       this._renderView();
       var breadcrumb = document.getElementById('ud-breadcrumb-name');
       if (breadcrumb) breadcrumb.textContent = this._user.full_name;
-      document.title = this._user.full_name + ' — MTIS';
+      document.title = this._user.full_name + ' — QL KCHT Hàng hải';
     } catch (e) {
       var body = document.getElementById('ud-body');
       if (body) body.innerHTML = '<div class="empty-state"><p class="text-danger">Lỗi: ' + esc(e.message) + '</p></div>';

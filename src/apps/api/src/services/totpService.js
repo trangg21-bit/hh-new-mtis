@@ -2,7 +2,7 @@ const { generateSecret: otplibGenerateSecret, generateURI, verifySync } = requir
 const QRCode = require('qrcode');
 const crypto = require('crypto');
 
-const ISSUER = 'MTIS';
+const ISSUER = 'QL KCHT Hàng hải';
 const ENC_KEY = (() => {
   const k = process.env.TOTP_ENCRYPTION_KEY;
   if (k) return crypto.createHash('sha256').update(k).digest();
