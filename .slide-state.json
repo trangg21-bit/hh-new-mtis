@@ -1,0 +1,18 @@
+{
+  "schemaVersion": "slide-state/1",
+  "directory": "/Users/thuytrang/workspace/HH.New",
+  "selectedSlideId": "ai-studio-ba-guide",
+  "activePageIndex": 0,
+  "viewport": {
+    "mode": "present",
+    "zoom": "fit"
+  },
+  "slides": {},
+  "lastIntent": {
+    "by": "llm",
+    "action": "present",
+    "slideId": "ai-studio-ba-guide",
+    "at": 1780999563201
+  },
+  "updatedAt": 1780999563202
+}

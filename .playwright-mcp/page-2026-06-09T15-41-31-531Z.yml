@@ -1,0 +1,20 @@
+- generic [ref=e2]:
+  - generic [ref=e3]:
+    - img "Cục Hàng hải Việt Nam" [ref=e4]
+    - generic [ref=e5]:
+      - strong [ref=e6]: Quản lý KCHT Hàng hải
+      - text: Cục Hàng hải Việt Nam
+  - heading "Đăng nhập hệ thống" [level=1] [ref=e7]
+  - paragraph [ref=e8]: Hệ thống quản lý KCHT Giao thông Hàng hải
+  - generic [ref=e9]:
+    - generic [ref=e10]: Tên đăng nhập
+    - textbox "Tên đăng nhập" [ref=e11]:
+      - /placeholder: Nhập tên đăng nhập
+      - text: admin
+  - generic [ref=e12]:
+    - generic [ref=e13]: Mật khẩu
+    - textbox "Mật khẩu" [ref=e14]:
+      - /placeholder: Nhập mật khẩu
+      - text: admin123
+  - button "Đăng nhập" [ref=e15] [cursor=pointer]
+  - generic [ref=e16]: Cục Hàng hải Việt Nam — Phiên bản 1.0

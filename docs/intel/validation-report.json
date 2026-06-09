@@ -1,0 +1,44 @@
+{
+  "_meta": {
+    "validator": "consulting-intelligence-validator",
+    "mode": "LARGE",
+    "status": "pass-after-fix"
+  },
+  "summary": {
+    "HIGH": 0,
+    "MEDIUM": 11,
+    "LOW": 6
+  },
+  "findings": [
+    {
+      "severity": "MEDIUM",
+      "artifact": "permission-matrix.json",
+      "description": "All permissions use module: \"*\" — no module-level granularity"
+    },
+    {
+      "severity": "MEDIUM",
+      "artifact": "catalog.json",
+      "description": "Feature type conventions vary across modules"
+    },
+    {
+      "severity": "MEDIUM",
+      "artifact": "_phaseC_stats.json",
+      "description": "Entity count may have dedup variance"
+    },
+    {
+      "severity": "MEDIUM",
+      "artifact": "test-evidence.json",
+      "description": "All test cases status = not-executed"
+    },
+    {
+      "severity": "LOW",
+      "artifact": "strategy.json",
+      "description": "Valid — phases A/B/C all done"
+    },
+    {
+      "severity": "LOW",
+      "artifact": "doc-brief.md",
+      "description": "All 11 modules present — valid"
+    }
+  ]
+}
