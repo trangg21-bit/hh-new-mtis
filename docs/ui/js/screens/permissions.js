@@ -20,7 +20,7 @@ const SCREEN_PERMISSIONS = {
             <div style="display:flex;justify-content:space-between;align-items:flex-start;width:100%;gap:16px;flex-wrap:wrap">
               <div style="min-width:0;flex:1 1 300px">
                 <h1 class="page-title" style="margin-bottom:4px">Phân quyền nhóm người dùng</h1>
-                <p class="page-subtitle" style="margin-bottom:0;font-size:var(--font-size-sm);color:var(--color-muted)">Thiết lập quyền Create / Read / Update / Delete theo từng nhóm nghiệp vụ. Mọi thay đổi được ghi trực tiếp xuống permission matrix.</p>
+                <p class="page-subtitle" style="margin-bottom:0;font-size:var(--font-size-sm);color:var(--color-muted)">Thiết lập quyền Tạo / Xem / Sửa / Xóa theo từng nhóm nghiệp vụ và tính năng. Mọi thay đổi được ghi trực tiếp xuống permission matrix.</p>
               </div>
               <div style="display:flex;align-items:center;gap:8px;flex-shrink:0">
                 <div id="perms-feedback" style="display:none"></div>
@@ -34,19 +34,11 @@ const SCREEN_PERMISSIONS = {
 
           <div id="perms-error" style="display:none"></div>
 
-          <div class="data-card-header" style="padding:16px 24px;flex-direction:row;align-items:center;justify-content:space-between">
-            <div>
-              <h3>Ma trận quyền CRUD</h3>
-              <p>Quyền theo nhóm: mỗi hàng là một nhóm, các cột là các thao tác tạo/xem/sửa/xóa.</p>
-            </div>
-            <span class="system-pill" id="perms-last-updated">Đang tải...</span>
-          </div>
-
           <div class="table-wrap enterprise-table-wrap">
             <table class="ant-table" role="table" aria-label="Ma trận phân quyền">
               <thead>
                 <tr id="perms-thead-tr">
-                  <th style="min-width:200px">Nhóm</th>
+                  <th style="min-width:180px">Tính năng</th>
                 </tr>
               </thead>
               <tbody id="perms-tbody">
@@ -71,14 +63,11 @@ const SCREEN_PERMISSIONS = {
       this._groups = data.groups || [];
       this._featureCodes = data.feature_codes || [];
 
-      // Build header: Group | Create | Read | Update | Delete
-      theadTr.innerHTML = '<th style="min-width:200px">Nhóm</th>' +
-        '<th class="text-center">Tạo</th><th class="text-center">Xem</th><th class="text-center">Sửa</th><th class="text-center">Xóa</th>';
+      // Build header: Feature | Group1(T/X/S/X) | Group2(T/X/S/X) | ...
+      theadTr.innerHTML = '<th style="min-width:180px">Tính năng</th>' +
+        this._groups.map(g => `<th class="text-center" style="min-width:180px">${esc(g.name)}</th>`).join('');
 
       this.renderMatrix();
-      this._updateStats();
-      const stamp = document.getElementById('perms-last-updated');
-      if (stamp) stamp.textContent = `Cập nhật ${new Date().toLocaleTimeString('vi-VN')}`;
     } catch (e) {
       tbody.innerHTML = `<tr><td colspan="10" class="text-center text-danger">Lỗi tải dữ liệu: ${esc(e.message)}</td></tr>`;
     }
@@ -92,37 +81,28 @@ const SCREEN_PERMISSIONS = {
     const disabledAttr = isAdmin ? '' : 'disabled';
     const disabledStyle = isAdmin ? '' : 'style="opacity:0.5"';
 
-    if (this._groups.length === 0) {
-      tbody.innerHTML = '<tr><td colspan="5" class="text-center text-muted">Không có dữ liệu phân quyền</td></tr>';
+    if (this._featureCodes.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="10" class="text-center text-muted">Không có dữ liệu phân quyền</td></tr>';
       return;
     }
 
-    tbody.innerHTML = this._groups.map(g => {
-      const row = matrix.find(r => r.group_id === g.id) || {};
-      return `
-        <tr>
-          <td><strong>${esc(g.name)}</strong></td>
+    tbody.innerHTML = this._featureCodes.map(fc => {
+      const row = matrix.find(r => r.feature_code === fc) || {};
+      const label = fc.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+      const cells = this._groups.map(g => {
+        const perms = row[`g${g.id}`] || row[g.id] || {};
+        return `
           <td class="text-center" ${disabledStyle}>
-            <label class="perms-check ${row.can_create ? 'is-on' : ''}" title="Tạo mới"><input type="checkbox" onchange="this.closest('.perms-check').classList.toggle('is-on', this.checked)" data-group="${g.id}" data-action="can_create" ${row.can_create ? 'checked' : ''} ${disabledAttr}><span>Tạo</span></label>
-          </td>
-          <td class="text-center" ${disabledStyle}>
-            <label class="perms-check ${row.can_read ? 'is-on' : ''}" title="Xem"><input type="checkbox" onchange="this.closest('.perms-check').classList.toggle('is-on', this.checked)" data-group="${g.id}" data-action="can_read" ${row.can_read ? 'checked' : ''} ${disabledAttr}><span>Xem</span></label>
-          </td>
-          <td class="text-center" ${disabledStyle}>
-            <label class="perms-check ${row.can_update ? 'is-on' : ''}" title="Sửa"><input type="checkbox" onchange="this.closest('.perms-check').classList.toggle('is-on', this.checked)" data-group="${g.id}" data-action="can_update" ${row.can_update ? 'checked' : ''} ${disabledAttr}><span>Sửa</span></label>
-          </td>
-          <td class="text-center" ${disabledStyle}>
-            <label class="perms-check ${row.can_delete ? 'is-on danger' : 'danger'}" title="Xóa"><input type="checkbox" onchange="this.closest('.perms-check').classList.toggle('is-on', this.checked)" data-group="${g.id}" data-action="can_delete" ${row.can_delete ? 'checked' : ''} ${disabledAttr}><span>Xóa</span></label>
-          </td>
-        </tr>
-      `;
+            <div class="perms-cell">
+              <label class="perms-check ${perms.can_create ? 'is-on' : ''}" title="Tạo mới"><input type="checkbox" onchange="this.closest('.perms-check').classList.toggle('is-on', this.checked)" data-group="${g.id}" data-feature="${fc}" data-action="can_create" ${perms.can_create ? 'checked' : ''} ${disabledAttr}><span>T</span></label>
+              <label class="perms-check ${perms.can_read ? 'is-on' : ''}" title="Xem"><input type="checkbox" onchange="this.closest('.perms-check').classList.toggle('is-on', this.checked)" data-group="${g.id}" data-feature="${fc}" data-action="can_read" ${perms.can_read ? 'checked' : ''} ${disabledAttr}><span>X</span></label>
+              <label class="perms-check ${perms.can_update ? 'is-on' : ''}" title="Sửa"><input type="checkbox" onchange="this.closest('.perms-check').classList.toggle('is-on', this.checked)" data-group="${g.id}" data-feature="${fc}" data-action="can_update" ${perms.can_update ? 'checked' : ''} ${disabledAttr}><span>S</span></label>
+              <label class="perms-check ${perms.can_delete ? 'is-on danger' : 'danger'}" title="Xóa"><input type="checkbox" onchange="this.closest('.perms-check').classList.toggle('is-on', this.checked)" data-group="${g.id}" data-feature="${fc}" data-action="can_delete" ${perms.can_delete ? 'checked' : ''} ${disabledAttr}><span>Xóa</span></label>
+            </div>
+          </td>`;
+      }).join('');
+      return `<tr><td><strong>${esc(label)}</strong></td>${cells}</tr>`;
     }).join('');
-  },
-
-  _updateStats() {
-    const matrix = this._data?.matrix || [];
-    let enabled = 0;
-    matrix.forEach(row => { enabled += ['can_create','can_read','can_update','can_delete'].filter(k => !!row[k]).length; });
   },
 
   showFeedback(msg, type) {
@@ -155,9 +135,13 @@ const SCREEN_PERMISSIONS = {
     const permMap = {};
     checkboxes.forEach(cb => {
       const gid = cb.dataset.group;
+      const fc = cb.dataset.feature;
       const action = cb.dataset.action;
-      if (!permMap[gid]) permMap[gid] = { group_id: parseInt(gid, 10) };
-      permMap[gid][action] = cb.checked;
+      const key = `${gid}_${fc}`;
+      if (!permMap[key]) {
+        permMap[key] = { group_id: parseInt(gid, 10), feature_code: fc };
+      }
+      permMap[key][action] = cb.checked;
     });
 
     const permissions = Object.values(permMap);

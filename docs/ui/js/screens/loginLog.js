@@ -29,7 +29,7 @@ const SCREEN_LOGIN_LOG = {
                 <option value="success" ${this._status === 'success' ? 'selected' : ''}>Thành công</option>
                 <option value="failed" ${this._status === 'failed' ? 'selected' : ''}>Thất bại</option>
               </select>
-              <button class="btn btn-primary" onclick="SCREEN_LOGIN_LOG.applyFilter()">🔍 Lọc</button>
+              <button class="btn btn-ghost btn-sm" onclick="SCREEN_LOGIN_LOG.applyFilter()" title="Lọc dữ liệu">🔍</button>
             </div>
           </div>
 

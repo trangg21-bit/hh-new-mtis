@@ -31,11 +31,6 @@ const SCREEN_ORGANIZATIONS = {
 
           <hr class="section-divider" style="margin:0 24px">
 
-          <div class="data-card-header" style="padding:16px 24px;flex-direction:row;align-items:center;justify-content:space-between">
-            <div><h3>Cây cấu trúc</h3><p>Thêm, sửa, xóa đơn vị trực tiếp trên cây; mọi thay đổi ghi vào DB.</p></div>
-            <span class="system-pill" id="org-last-updated">Đang tải...</span>
-          </div>
-
           <div id="org-tree-container" style="padding:24px;min-height:400px">
             <div class="text-center text-muted" style="padding:60px">Đang tải...</div>
           </div>
@@ -56,8 +51,6 @@ const SCREEN_ORGANIZATIONS = {
       this._orgs = data.organizations || [];
       this._loading = false;
       this._renderTree(container);
-      const stamp = document.getElementById('org-last-updated');
-      if (stamp) stamp.textContent = `Cập nhật ${new Date().toLocaleTimeString('vi-VN')}`;
     } catch (e) {
       this._loading = false; this._error = e.message;
       container.innerHTML = `<div class="text-center text-danger" style="padding:60px">Lỗi: ${esc(e.message)}</div>`;

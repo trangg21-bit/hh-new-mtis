@@ -48,7 +48,7 @@ const SCREEN_USERS = {
               </select>
             </div>
             <div class="toolbar-right">
-              <button class="btn btn-ghost" onclick="SCREEN_USERS.exportExcel()" title="Xuất danh sách ra file">📥 Xuất Excel</button>
+              <button class="btn btn-ghost btn-sm" onclick="SCREEN_USERS.exportExcel()" title="Xuất danh sách ra file">📥</button>
             </div>
           </div>
 
@@ -147,8 +147,6 @@ const SCREEN_USERS = {
 
       const totalPages = Math.ceil(this._total / 20);
       info.textContent = `Hiển thị ${this._data.length} / ${this._total} người dùng`;
-      const stamp = document.getElementById('users-last-updated');
-      if (stamp) stamp.textContent = `Cập nhật ${new Date().toLocaleTimeString('vi-VN')}`;
       
       this._renderPagination(pag, totalPages);
 

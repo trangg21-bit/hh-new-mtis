@@ -28,11 +28,6 @@ const SCREEN_GROUPS = {
 
           <hr class="section-divider" style="margin:0 24px">
 
-          <div class="data-card-header" style="padding:16px 24px;flex-direction:row;align-items:center;justify-content:space-between">
-            <div><h3>Danh sách nhóm quyền</h3><p>Thao tác thêm/sửa/xóa nhóm và quản lý thành viên.</p></div>
-            <span class="system-pill" id="groups-last-updated">Đang tải...</span>
-          </div>
-
           <div class="enterprise-table-wrap">
             <table class="ant-table" role="table" aria-label="Danh sách nhóm">
               <thead><tr>
@@ -75,8 +70,6 @@ const SCREEN_GROUPS = {
           </tr>
         `).join('');
       }
-      const stamp = document.getElementById('groups-last-updated');
-      if (stamp) stamp.textContent = `Cập nhật ${new Date().toLocaleTimeString('vi-VN')}`;
     } catch (e) {
       tbody.innerHTML = `<tr><td colspan="5" class="text-center text-danger">Lỗi: ${esc(e.message)}</td></tr>`;
     }
