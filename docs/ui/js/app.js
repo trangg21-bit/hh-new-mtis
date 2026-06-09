@@ -37,81 +37,75 @@ const SIDEBAR_MENU = [
     ]
   },
   {
-    label: '👤 M01 — Quản lý người dùng',
+    label: 'Quản lý người dùng',
     items: [
       { id: 'users', icon: '👤', label: 'Người dùng', hash: '#users' },
-      { id: 'groups', icon: '👥', label: 'Nhóm người dùng', hash: '#groups' },
+      { id: 'groups', icon: '👥', label: 'Nhóm', hash: '#groups' },
       { id: 'permissions', icon: '🔐', label: 'Phân quyền', hash: '#permissions' },
       { id: 'organizations', icon: '🏢', label: 'Đơn vị', hash: '#organizations' },
       { id: 'login-log', icon: '📋', label: 'Nhật ký đăng nhập', hash: '#login-log' },
-      { id: 'sessions', icon: '🖥', label: 'Phiên đăng nhập', hash: '#sessions' },
-      { id: 'totp', icon: '🔒', label: 'Cấu hình TOTP', hash: '#totp' }
+      { id: 'sessions', icon: '🖥', label: 'Phiên', hash: '#sessions' },
+      { id: 'totp', icon: '🔒', label: 'TOTP', hash: '#totp' }
     ]
   },
   {
-    label: '⚙️ M02 — Quản trị hệ thống',
+    label: 'Quản trị hệ thống',
     items: [
-      { id: 'dashboard', icon: '⚙️', label: 'Cấu hình hệ thống', hash: '#dashboard' }
+      { id: 'dashboard', icon: '⚙️', label: 'Cấu hình', hash: '#dashboard' }
     ]
   },
   {
-    label: '📐 M03 — Thông số kỹ thuật',
+    label: 'Thông số kỹ thuật',
     items: [
       { id: 'dashboard', icon: '📐', label: 'Thông số KCHT', hash: '#dashboard' }
     ]
   },
   {
-    label: '🔧 M04 — Vận hành bảo trì',
+    label: 'Vận hành bảo trì',
     items: [
       { id: 'dashboard', icon: '🔧', label: 'Vận hành & bảo trì', hash: '#dashboard' }
     ]
   },
   {
-    label: '📋 M05 — Quy hoạch',
+    label: 'Quy hoạch',
     items: [
       { id: 'dashboard', icon: '📋', label: 'Quy hoạch KCHT', hash: '#dashboard' }
     ]
   },
   {
-    label: '🏗️ M06 — Quản lý tài sản',
+    label: 'Quản lý tài sản',
     items: [
       { id: 'dashboard', icon: '🏗️', label: 'Quản lý tài sản', hash: '#dashboard' }
     ]
   },
   {
-    label: '🗺️ M07 — Bản đồ GIS',
+    label: 'Bản đồ GIS',
     items: [
       { id: 'dashboard', icon: '🗺️', label: 'Bản đồ GIS', hash: '#dashboard' }
     ]
   },
   {
-    label: '📊 M08 — Báo cáo',
+    label: 'Báo cáo',
     items: [
       { id: 'dashboard', icon: '📊', label: 'Báo cáo thống kê', hash: '#dashboard' }
     ]
   },
   {
-    label: '🔗 M09 — Liên thông',
+    label: 'Liên thông',
     items: [
       { id: 'dashboard', icon: '🔗', label: 'Liên thông dữ liệu', hash: '#dashboard' }
     ]
   },
   {
-    label: '🧭 M10 — Hải đồ',
+    label: 'Hải đồ',
     items: [
       { id: 'dashboard', icon: '🧭', label: 'Biên tập hải đồ', hash: '#dashboard' }
     ]
   },
   {
-    label: '🗄️ M11 — Tạo lập CSDL',
+    label: 'Tạo lập CSDL',
     items: [
       { id: 'dashboard', icon: '🗄️', label: 'Tạo lập CSDL KCHT', hash: '#dashboard' }
-    ]
-  },
-  {
-    label: '🔑 Bảo mật',
-    items: [
-      { id: 'password', icon: '🔑', label: 'Đổi mật khẩu', hash: '#password' }
     ]
   }
 ];

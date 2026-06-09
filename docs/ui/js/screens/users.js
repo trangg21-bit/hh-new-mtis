@@ -15,11 +15,11 @@ const SCREEN_USERS = {
         <div class="page-hero">
           <div>
             <div class="breadcrumb">
-              <a href="#dashboard">M01</a> <span class="sep">/</span>
-              <span>Quản trị người dùng</span>
+              <a href="#dashboard">Tổng quan</a> <span class="sep">/</span>
+              <span>Quản lý người dùng</span>
             </div>
             <h2 class="page-title">Danh sách người dùng</h2>
-            <p class="page-subtitle users-subtitle">Quản lý tài khoản, trạng thái truy cập, phân vai trò và kiểm soát phiên làm việc trên toàn hệ thống.</p>
+            <p class="page-subtitle">Quản lý tài khoản, trạng thái truy cập, phân vai trò và kiểm soát phiên làm việc trên toàn hệ thống.</p>
           </div>
           <div class="page-actions">
             <button class="btn btn-ghost" onclick="SCREEN_USERS.load()">↻ Làm mới</button>
@@ -27,94 +27,75 @@ const SCREEN_USERS = {
           </div>
         </div>
 
-        <div class="ops-kpi-grid users-kpis">
-          <div class="ops-kpi-card">
-            <span class="kpi-label">Tổng tài khoản</span>
-            <strong id="users-kpi-total">—</strong>
-            <small>Đang quản lý trong hệ thống</small>
+        <div class="card data-card">
+          <div class="data-card-header">
+            <div>
+              <h3>Danh sách tài khoản</h3>
+              <p>Theo dõi trạng thái và thao tác quản trị người dùng.</p>
+            </div>
+            <span class="system-pill" id="users-last-updated">Đang tải...</span>
           </div>
-          <div class="ops-kpi-card success">
-            <span class="kpi-label">Đang hoạt động</span>
-            <strong id="users-kpi-active">—</strong>
-            <small>Tài khoản có thể đăng nhập</small>
+            <h2 class="page-title">Danh sách người dùng</h2>
+            <p class="page-subtitle">Quản lý tài khoản, trạng thái truy cập, phân vai trò và kiểm soát phiên làm việc trên toàn hệ thống.</p>
           </div>
-          <div class="ops-kpi-card danger">
-            <span class="kpi-label">Bị khóa</span>
-            <strong id="users-kpi-locked">—</strong>
-            <small>Cần quản trị viên xử lý</small>
-          </div>
-          <div class="ops-kpi-card info">
-            <span class="kpi-label">Bật 2FA</span>
-            <strong id="users-kpi-totp">—</strong>
-            <small>Tài khoản đã cấu hình TOTP</small>
+          <div class="page-actions">
+            <button class="btn btn-ghost" onclick="SCREEN_USERS.load()">↻ Làm mới</button>
+            <a href="#register" class="btn btn-primary"><span class="btn-icon">＋</span> Thêm người dùng</a>
           </div>
         </div>
 
-        <div class="ops-layout">
-          <div class="card data-card">
-            <div class="data-card-header">
-              <div>
-                <h3>Danh sách tài khoản</h3>
-                <p>Theo dõi trạng thái và thao tác quản trị người dùng.</p>
-              </div>
-              <span class="system-pill" id="users-last-updated">Đang tải...</span>
+        <div class="card data-card">
+          <div class="data-card-header">
+            <div>
+              <h3>Danh sách tài khoản</h3>
+              <p>Theo dõi trạng thái và thao tác quản trị người dùng.</p>
             </div>
+            <span class="system-pill" id="users-last-updated">Đang tải...</span>
+          </div>
 
-            <div class="admin-toolbar">
-              <div class="toolbar-left">
-                <div class="search-field">
-                  <span>⌕</span>
-                  <input type="text" class="form-control" id="user-search" placeholder="Tìm username, họ tên..."
-                         oninput="SCREEN_USERS.debouncedSearch()" aria-label="Tìm kiếm người dùng">
-                </div>
-                <select class="form-control" id="user-status-filter" onchange="SCREEN_USERS.applyFilter()" aria-label="Lọc trạng thái">
-                  <option value="">Tất cả trạng thái</option>
-                  <option value="1">Hoạt động</option>
-                  <option value="2">Đã khóa</option>
-                  <option value="0">Đã xóa</option>
-                </select>
+          <div class="admin-toolbar">
+            <div class="toolbar-left">
+              <div class="search-field">
+                <span>⌕</span>
+                <input type="text" class="form-control" id="user-search" placeholder="Tìm username, họ tên..."
+                       oninput="SCREEN_USERS.debouncedSearch()" aria-label="Tìm kiếm người dùng">
               </div>
-              <div class="toolbar-right">
-                <button class="btn btn-ghost" onclick="SCREEN_USERS.exportCsv()">⇩ Xuất CSV</button>
-              </div>
+              <select class="form-control" id="user-status-filter" onchange="SCREEN_USERS.applyFilter()" aria-label="Lọc trạng thái">
+                <option value="">Tất cả trạng thái</option>
+                <option value="1">Hoạt động</option>
+                <option value="2">Đã khóa</option>
+                <option value="0">Đã xóa</option>
+              </select>
             </div>
-
-            <div id="users-table-container">
-              <div class="table-wrap enterprise-table-wrap">
-                <table class="ant-table enterprise-table" role="table" aria-label="Danh sách người dùng">
-                  <thead>
-                    <tr>
-                      <th>STT</th>
-                      <th>Tên đăng nhập</th>
-                      <th>Họ tên</th>
-                      <th>Email</th>
-                      <th>Đơn vị</th>
-                      <th>Vai trò</th>
-                      <th>Trạng thái</th>
-                      <th class="text-right">Thao tác</th>
-                    </tr>
-                  </thead>
-                  <tbody id="users-tbody">
-                    <tr><td colspan="8" class="text-center text-muted">Đang tải...</td></tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-
-            <div class="table-footer flex-between mt-4">
-              <span class="text-muted" id="users-info">Đang tải...</span>
-              <div class="pagination" id="users-pagination"></div>
+            <div class="toolbar-right">
+              <button class="btn btn-ghost" onclick="SCREEN_USERS.exportCsv()">⇩ Xuất CSV</button>
             </div>
           </div>
 
-          <aside class="card ops-side-panel">
-            <h3>Trạng thái vận hành</h3>
-            <div class="ops-check-item ok"><span>✓</span><div><strong>RBAC đang bật</strong><small>Quyền tạo/sửa/xóa chỉ dành cho quản trị viên.</small></div></div>
-            <div class="ops-check-item ok"><span>✓</span><div><strong>Auto-lock sau 5 lần sai</strong><small>Tài khoản bị khóa và phiên bị thu hồi.</small></div></div>
-            <div class="ops-check-item warn"><span>!</span><div><strong>Theo dõi 2FA</strong><small>Khuyến nghị bật TOTP cho tài khoản quản trị.</small></div></div>
-            <hr class="section-divider">
-            <p class="text-muted">Mẹo: dùng bộ lọc trạng thái để xử lý nhanh tài khoản bị khóa hoặc đã xóa.</p>
-          </aside>
+          <div class="table-wrap enterprise-table-wrap">
+            <table class="ant-table" role="table" aria-label="Danh sách người dùng">
+              <thead>
+                <tr>
+                  <th style="width:60px">STT</th>
+                  <th>Tên đăng nhập</th>
+                  <th>Họ tên</th>
+                  <th>Email</th>
+                  <th>Đơn vị</th>
+                  <th>Vai trò</th>
+                  <th>Trạng thái</th>
+                  <th class="text-right" style="width:220px">Thao tác</th>
+                </tr>
+              </thead>
+              <tbody id="users-tbody">
+                <tr><td colspan="8" class="text-center text-muted">Đang tải...</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="table-footer flex-between mt-4">
+            <span class="text-muted" id="users-info">Hiển thị ${this._data.length} / ${this._total} người dùng</span>
+            <div class="pagination" id="users-pagination"></div>
+          </div>
         </div>
       </div>
     `;
@@ -210,10 +191,39 @@ const SCREEN_USERS = {
 
   _renderPagination(container, totalPages) {
     if (totalPages <= 1) { container.innerHTML = ''; return; }
+    const page = this._page;
     let html = '';
-    for (let i = 1; i <= totalPages; i++) {
-      html += `<button class="page-btn ${i === this._page ? 'active' : ''}" onclick="SCREEN_USERS.goToPage(${i})">${i}</button>`;
+
+    // Prev button
+    html += `<button class="page-btn ${page === 1 ? 'disabled' : ''}" ${page === 1 ? 'disabled' : ''} onclick="SCREEN_USERS.goToPage(${page - 1})">‹ Trước</button>`;
+
+    // Smart page range
+    let startPage = Math.max(1, page - 2);
+    let endPage = Math.min(totalPages, page + 2);
+
+    // Always show 1
+    html += `<button class="page-btn ${page === 1 ? 'active' : ''}" onclick="SCREEN_USERS.goToPage(1)">1</button>`;
+
+    if (startPage > 2) {
+      html += `<span class="page-ellipsis">…</span>`;
     }
+
+    for (let i = startPage; i <= endPage; i++) {
+      html += `<button class="page-btn ${i === page ? 'active' : ''}" onclick="SCREEN_USERS.goToPage(${i})">${i}</button>`;
+    }
+
+    if (endPage < totalPages - 1) {
+      html += `<span class="page-ellipsis">…</span>`;
+    }
+
+    // Always show last page (if different from above)
+    if (totalPages > 1 && endPage < totalPages) {
+      html += `<button class="page-btn ${page === totalPages ? 'active' : ''}" onclick="SCREEN_USERS.goToPage(${totalPages})">${totalPages}</button>`;
+    }
+
+    // Next button
+    html += `<button class="page-btn ${page === totalPages ? 'disabled' : ''}" ${page === totalPages ? 'disabled' : ''} onclick="SCREEN_USERS.goToPage(${page + 1})">Tiếp ›</button>`;
+
     container.innerHTML = html;
   },
 

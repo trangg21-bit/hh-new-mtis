@@ -11,11 +11,11 @@ const SCREEN_GROUPS = {
         <div class="page-hero">
           <div>
             <div class="breadcrumb">
-              <a href="#dashboard">M01</a> <span class="sep">/</span>
+              <a href="#dashboard">Tổng quan</a> <span class="sep">/</span>
               <span>Nhóm người dùng</span>
             </div>
             <h2 class="page-title">Nhóm người dùng</h2>
-            <p class="page-subtitle users-subtitle">Quản lý nhóm quyền nghiệp vụ, thành viên và phạm vi truy cập theo từng đơn vị vận hành.</p>
+            <p class="page-subtitle">Quản lý nhóm quyền nghiệp vụ, thành viên và phạm vi truy cập theo từng đơn vị vận hành.</p>
           </div>
           <div class="page-actions">
             <button class="btn btn-ghost" onclick="SCREEN_GROUPS.load()">↻ Làm mới</button>
@@ -23,21 +23,13 @@ const SCREEN_GROUPS = {
           </div>
         </div>
 
-        <div class="ops-kpi-grid users-kpis">
-          <div class="ops-kpi-card"><span class="kpi-label">Tổng nhóm</span><strong id="groups-kpi-total">—</strong><small>Nhóm quyền đang cấu hình</small></div>
-          <div class="ops-kpi-card info"><span class="kpi-label">Tổng thành viên</span><strong id="groups-kpi-members">—</strong><small>Phân bổ trong các nhóm</small></div>
-          <div class="ops-kpi-card success"><span class="kpi-label">Có thành viên</span><strong id="groups-kpi-active">—</strong><small>Nhóm đang sử dụng</small></div>
-          <div class="ops-kpi-card danger"><span class="kpi-label">Nhóm trống</span><strong id="groups-kpi-empty">—</strong><small>Cần rà soát</small></div>
-        </div>
-
-        <div class="ops-layout">
-          <div class="card data-card">
+        <div class="card data-card">
             <div class="data-card-header">
               <div><h3>Danh sách nhóm quyền</h3><p>Thao tác thêm/sửa/xóa nhóm và quản lý thành viên trực tiếp qua API thật.</p></div>
               <span class="system-pill" id="groups-last-updated">Đang tải...</span>
             </div>
             <div class="enterprise-table-wrap">
-              <table class="ant-table enterprise-table" role="table" aria-label="Danh sách nhóm">
+              <table class="ant-table" role="table" aria-label="Danh sách nhóm">
                 <thead><tr>
                   <th>STT</th><th>Tên nhóm</th><th>Mô tả</th><th>Số thành viên</th><th class="text-right">Thao tác</th>
                 </tr></thead>
@@ -47,14 +39,7 @@ const SCREEN_GROUPS = {
               </table>
             </div>
           </div>
-          <aside class="card ops-side-panel">
-            <h3>Kiểm soát truy cập</h3>
-            <div class="ops-check-item ok"><span>✓</span><div><strong>Nhóm gắn với ma trận quyền</strong><small>Quyền CRUD được quản trị tại màn Phân quyền.</small></div></div>
-            <div class="ops-check-item ok"><span>✓</span><div><strong>Thành viên quản lý tức thời</strong><small>Thêm/xóa thành viên cập nhật trực tiếp DB.</small></div></div>
-            <div class="ops-check-item warn"><span>!</span><div><strong>Rà soát nhóm trống</strong><small>Nên xóa nhóm không sử dụng để giảm rủi ro cấu hình nhầm.</small></div></div>
-          </aside>
         </div>
-      </div>
     `;
   },
 
