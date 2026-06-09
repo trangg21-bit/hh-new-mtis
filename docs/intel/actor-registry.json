@@ -160,7 +160,7 @@
         "Gửi thông báo, cảnh báo",
         "Sao lưu định kỳ"
       ],
-      "entry_url": "/system",
+      "entry_url": "/system/internal",
       "permissions_hint": "System-level operations"
     }
   ],

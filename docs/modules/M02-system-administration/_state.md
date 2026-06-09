@@ -1,40 +1,25 @@
 ---
-id: M02
-name: "System Administration"
-status: in-progress
-current-stage: engineering-business-analyst
-stages-queue:
-  - engineering-business-analyst
-  - engineering-ui-ux-designer
-  - engineering-system-architect
-  - utility-security-auditor
-  - engineering-technical-lead
-  - engineering-backend-developer
-  - engineering-frontend-developer
-  - engineering-qa-engineer
-  - engineering-code-reviewer
-pipeline-type: sdlc
-repo-type: mono
-intel-path: docs/intel
-output-mode: lean
-source-type: specification from-doc
-risk-score: 4
-recommended-path: M
+module-id: "M02"
+module-slug: "system-administration"
+module-name: "System Administration"
+module-name-vn: "Quản trị hệ thống"
+purpose: "Quản trị hệ thống, cấu hình, giám sát"
+status: "in-progress"
+current-stage: "engineering-business-analyst"
+stages-queue: ["engineering-ui-ux-designer", "engineering-system-architect", "utility-security-auditor", "engineering-technical-lead", "engineering-backend-developer", "engineering-frontend-developer", "engineering-qa-engineer", "engineering-code-reviewer"]
+pipeline-type: "sdlc"
+output-mode: "lean"
+repo-type: "mono"
+feature-count: 0
+completed-stages: {}
+kpi: {"ba-pass": false, "qa-pass": false, "reviewer-approved": false}
 ---
-# System Administration [M02]
 
-## Business Goal
+# Module M02: Quản trị hệ thống
 
+## Overview
+Quản trị hệ thống, cấu hình, giám sát
 
-## Features (8)
-- docs/modules/M02-system-administration/_features/F-M02-001-unit-management/_feature.md
-- docs/modules/M02-system-administration/_features/F-M02-002-interconnect-configuration/_feature.md
-- docs/modules/M02-system-administration/_features/F-M02-003-admin-account-management/_feature.md
-- docs/modules/M02-system-administration/_features/F-M02-004-approval-management/_feature.md
-- docs/modules/M02-system-administration/_features/F-M02-005-audit-log-viewer/_feature.md
-- docs/modules/M02-system-administration/_features/F-M02-006-system-configuration/_feature.md
-- docs/modules/M02-system-administration/_features/F-M02-007-permission-policy/_feature.md
-- docs/modules/M02-system-administration/_features/F-M02-008-backup-and-restore/_feature.md
+## Features
 
-## Current Status
-Đã phân tích từ tài liệu TKCT. Chờ engineering-business-analyst xử lý.
+<!-- Features will be added by /new-feature or manually -->
