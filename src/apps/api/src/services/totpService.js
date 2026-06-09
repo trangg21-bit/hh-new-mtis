@@ -45,7 +45,11 @@ function generateQrCode(username, secret) {
 
 function verifyToken(token, secret) {
   if (!secret) return false;
-  return verifySync({ strategy: 'totp', token, secret: decrypt(secret), digits: 6, period: 30, epochTolerance: 1 });
+  // RR-02: Fix type coercion — ensure both are strings before comparison
+  const safeToken = String(token);
+  const safeSecret = typeof secret === 'string' ? decrypt(secret) : secret;
+  if (!safeSecret) return false;
+  return verifySync({ strategy: 'totp', token: safeToken, secret: safeSecret, digits: 6, period: 30, epochTolerance: 1 });
 }
 
 module.exports = { generateSecret, generateOtpAuthUrl, generateQrCode, verifyToken, encrypt, decrypt };

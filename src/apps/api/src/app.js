@@ -42,7 +42,9 @@ app.use((req, res, next) => {
   const start = Date.now();
   res.on('finish', () => {
     const log = { ts: new Date().toISOString(), rid: req.id, method: req.method, path: req.originalUrl, status: res.statusCode, ms: Date.now() - start };
-    if (res.statusCode >= 400) console.warn(JSON.stringify(log));
+    // SRE-17: Log ALL requests (not just errors) for full observability
+    console.log(JSON.stringify(log));
+    if (res.statusCode >= 400) console.warn(JSON.stringify({ ...log, level: 'warn' }));
   });
   next();
 });
@@ -57,7 +59,10 @@ app.use(helmet(helmetOpts));
 // CORS — restrict to same-origin for production (HIGH-04)
 app.use(cors({
   origin: process.env.CORS_ORIGIN || false,
-  credentials: true
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Request-ID'],
+  exposedHeaders: ['X-Request-ID'],
 }));
 
 app.use(express.json({ limit: '1mb' }));
@@ -178,8 +183,8 @@ app.post('/api/admin/reset-db', authMiddleware, adminMiddleware, (req, res) => {
   res.json({ ok: true });
 });
 
-// Metrics endpoint — Prometheus-style
-app.get('/api/metrics', (req, res) => {
+// A3-L01/SRE-16: Metrics endpoint requires auth
+app.get('/api/metrics', authMiddleware, (req, res) => {
   const activeSessions = db.prepare('SELECT COUNT(*) as c FROM sessions').get().c;
   const totalUsers = db.prepare('SELECT COUNT(*) as c FROM users WHERE status != 0').get().c;
   const lockedAccounts = db.prepare('SELECT COUNT(*) as c FROM users WHERE status = 2').get().c;
@@ -210,6 +215,16 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', time: new Date().toISOString() });
 });
 
+// Health check — DB check
+app.get('/api/health/db', (req, res) => {
+  try {
+    db.prepare('SELECT 1 as ok').get();
+    res.json({ status: 'ok', db: true, time: new Date().toISOString() });
+  } catch {
+    res.status(503).json({ status: 'degraded', db: false, time: new Date().toISOString() });
+  }
+});
+
 // Readiness check — deep (DB ping)
 app.get('/api/ready', (req, res) => {
   try {
@@ -237,5 +252,29 @@ app.get('*', (req, res) => {
 // Global error handlers
 process.on('uncaughtException', (err) => { console.error(JSON.stringify({ event: 'uncaughtException', error: err.message, stack: err.stack?.split('\n').slice(0,3) })); process.exit(1); });
 process.on('unhandledRejection', (reason) => { console.error(JSON.stringify({ event: 'unhandledRejection', error: reason?.message || String(reason) })); });
+
+// DG-06: Periodic session cleanup cron
+setInterval(() => {
+  try {
+    const deleted = db.prepare("DELETE FROM sessions WHERE expires_at < datetime('now')").run();
+    if (deleted.changes > 0) console.log(JSON.stringify({ event: 'cleanup', type: 'sessions', count: deleted.changes }));
+  } catch {}
+}, 60 * 60 * 1000); // every 1 hour
+
+// DG-05: Periodic reset_tokens cleanup cron
+setInterval(() => {
+  try {
+    const deleted = db.prepare("DELETE FROM reset_tokens WHERE used = 1 OR expires_at < datetime('now', '-24 hours')").run();
+    if (deleted.changes > 0) console.log(JSON.stringify({ event: 'cleanup', type: 'reset_tokens', count: deleted.changes }));
+  } catch {}
+}, 60 * 60 * 1000); // every 1 hour
+
+// DG-04: Periodic login_log cleanup cron (retention 365 days)
+setInterval(() => {
+  try {
+    const deleted = db.prepare("DELETE FROM login_log WHERE logged_at < datetime('now', '-365 days')").run();
+    if (deleted.changes > 0) console.log(JSON.stringify({ event: 'cleanup', type: 'login_log', count: deleted.changes }));
+  } catch {}
+}, 6 * 60 * 60 * 1000); // every 6 hours
 
 module.exports = app;

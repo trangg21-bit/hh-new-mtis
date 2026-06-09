@@ -1,5 +1,5 @@
 /* ================================================================
-   MTIS SPA Router — Hash-based routing with auth guards
+   MTIS SPA Router — Hash-based routing với auth guards
    ================================================================ */
 
 // ─── Helpers ────────────────────────────────────────────────────
@@ -27,26 +27,115 @@ function validatePasswordStrength(pw) {
   return errors;
 }
 
+// ─── Sidebar Menu Configuration (M01-M11) ─────────────────────
+
+const SIDEBAR_MENU = [
+  {
+    label: '🏠 Tổng quan',
+    items: [
+      { id: 'dashboard', icon: '🏠', label: 'Trang chủ', hash: '#dashboard' }
+    ]
+  },
+  {
+    label: '👤 M01 — Quản lý người dùng',
+    items: [
+      { id: 'users', icon: '👤', label: 'Người dùng', hash: '#users' },
+      { id: 'groups', icon: '👥', label: 'Nhóm người dùng', hash: '#groups' },
+      { id: 'permissions', icon: '🔐', label: 'Phân quyền', hash: '#permissions' },
+      { id: 'organizations', icon: '🏢', label: 'Đơn vị', hash: '#organizations' },
+      { id: 'login-log', icon: '📋', label: 'Nhật ký đăng nhập', hash: '#login-log' },
+      { id: 'sessions', icon: '🖥', label: 'Phiên đăng nhập', hash: '#sessions' },
+      { id: 'totp', icon: '🔒', label: 'Cấu hình TOTP', hash: '#totp' }
+    ]
+  },
+  {
+    label: '⚙️ M02 — Quản trị hệ thống',
+    items: [
+      { id: 'dashboard', icon: '⚙️', label: 'Cấu hình hệ thống', hash: '#dashboard' }
+    ]
+  },
+  {
+    label: '📐 M03 — Thông số kỹ thuật',
+    items: [
+      { id: 'dashboard', icon: '📐', label: 'Thông số KCHT', hash: '#dashboard' }
+    ]
+  },
+  {
+    label: '🔧 M04 — Vận hành bảo trì',
+    items: [
+      { id: 'dashboard', icon: '🔧', label: 'Vận hành & bảo trì', hash: '#dashboard' }
+    ]
+  },
+  {
+    label: '📋 M05 — Quy hoạch',
+    items: [
+      { id: 'dashboard', icon: '📋', label: 'Quy hoạch KCHT', hash: '#dashboard' }
+    ]
+  },
+  {
+    label: '🏗️ M06 — Quản lý tài sản',
+    items: [
+      { id: 'dashboard', icon: '🏗️', label: 'Quản lý tài sản', hash: '#dashboard' }
+    ]
+  },
+  {
+    label: '🗺️ M07 — Bản đồ GIS',
+    items: [
+      { id: 'dashboard', icon: '🗺️', label: 'Bản đồ GIS', hash: '#dashboard' }
+    ]
+  },
+  {
+    label: '📊 M08 — Báo cáo',
+    items: [
+      { id: 'dashboard', icon: '📊', label: 'Báo cáo thống kê', hash: '#dashboard' }
+    ]
+  },
+  {
+    label: '🔗 M09 — Liên thông',
+    items: [
+      { id: 'dashboard', icon: '🔗', label: 'Liên thông dữ liệu', hash: '#dashboard' }
+    ]
+  },
+  {
+    label: '🧭 M10 — Hải đồ',
+    items: [
+      { id: 'dashboard', icon: '🧭', label: 'Biên tập hải đồ', hash: '#dashboard' }
+    ]
+  },
+  {
+    label: '🗄️ M11 — Tạo lập CSDL',
+    items: [
+      { id: 'dashboard', icon: '🗄️', label: 'Tạo lập CSDL KCHT', hash: '#dashboard' }
+    ]
+  },
+  {
+    label: '🔑 Bảo mật',
+    items: [
+      { id: 'password', icon: '🔑', label: 'Đổi mật khẩu', hash: '#password' }
+    ]
+  }
+];
+
 // ─── Route Definitions ──────────────────────────────────────────
 
 const ROUTES = {
-  'login':           { screen: SCREEN_LOGIN,           auth: false,  title: 'Đăng nhập — Quản lý KCHT Hàng hải' },
-  'register':        { screen: SCREEN_REGISTER,        auth: true,   title: 'Thêm người dùng — Quản lý KCHT Hàng hải' },
-  'forgot-password': { screen: SCREEN_FORGOT_PASSWORD, auth: false,  title: 'Quên mật khẩu — Quản lý KCHT Hàng hải' },
-  'reset-password':  { screen: SCREEN_RESET_PASSWORD,  auth: false,  title: 'Đặt lại mật khẩu — Quản lý KCHT Hàng hải' },
-  'password':        { screen: SCREEN_PASSWORD,        auth: true,   title: 'Đổi mật khẩu — Quản lý KCHT Hàng hải' },
-  'dashboard':       { screen: SCREEN_DASHBOARD,       auth: true,   title: 'Dashboard — Quản lý KCHT Hàng hải' },
-  'users':           { screen: SCREEN_USERS,           auth: true,   title: 'Danh sách người dùng — Quản lý KCHT Hàng hải' },
-  'user-detail':     { screen: SCREEN_USER_DETAIL,     auth: true,   title: 'Chi tiết người dùng — Quản lý KCHT Hàng hải' },
-  'groups':          { screen: SCREEN_GROUPS,          auth: true,   title: 'Nhóm người dùng — Quản lý KCHT Hàng hải' },
-  'permissions':     { screen: SCREEN_PERMISSIONS,     auth: true,   title: 'Phân quyền — Quản lý KCHT Hàng hải' },
-  'login-log':       { screen: SCREEN_LOGIN_LOG,       auth: true,   title: 'Nhật ký đăng nhập — Quản lý KCHT Hàng hải' },
-  'organizations':   { screen: SCREEN_ORGANIZATIONS,   auth: true,   title: 'Đơn vị — Quản lý KCHT Hàng hải' },
-  'sessions':        { screen: SCREEN_SESSIONS,        auth: true,   title: 'Phiên đăng nhập — Quản lý KCHT Hàng hải' },
-  'totp':            { screen: SCREEN_TOTP,            auth: true,   title: 'Cấu hình TOTP — Quản lý KCHT Hàng hải' },
+  'login':           { screen: SCREEN_LOGIN,           auth: false,  title: 'Đăng nhập — QL KCHT Hàng hải' },
+  'register':        { screen: SCREEN_REGISTER,        auth: true,   title: 'Thêm người dùng — QL KCHT Hàng hải' },
+  'forgot-password': { screen: SCREEN_FORGOT_PASSWORD, auth: false,  title: 'Quên mật khẩu — QL KCHT Hàng hải' },
+  'reset-password':  { screen: SCREEN_RESET_PASSWORD,  auth: false,  title: 'Đặt lại mật khẩu — QL KCHT Hàng hải' },
+  'password':        { screen: SCREEN_PASSWORD,        auth: true,   title: 'Đổi mật khẩu — QL KCHT Hàng hải' },
+  'dashboard':       { screen: SCREEN_DASHBOARD,       auth: true,   title: 'Tổng quan hệ thống — QL KCHT Hàng hải' },
+  'users':           { screen: SCREEN_USERS,           auth: true,   title: 'Danh sách người dùng — QL KCHT Hàng hải' },
+  'user-detail':     { screen: SCREEN_USER_DETAIL,     auth: true,   title: 'Chi tiết người dùng — QL KCHT Hàng hải' },
+  'groups':          { screen: SCREEN_GROUPS,          auth: true,   title: 'Nhóm người dùng — QL KCHT Hàng hải' },
+  'permissions':     { screen: SCREEN_PERMISSIONS,     auth: true,   title: 'Phân quyền — QL KCHT Hàng hải' },
+  'login-log':       { screen: SCREEN_LOGIN_LOG,       auth: true,   title: 'Nhật ký đăng nhập — QL KCHT Hàng hải' },
+  'organizations':   { screen: SCREEN_ORGANIZATIONS,   auth: true,   title: 'Đơn vị — QL KCHT Hàng hải' },
+  'sessions':        { screen: SCREEN_SESSIONS,        auth: true,   title: 'Phiên đăng nhập — QL KCHT Hàng hải' },
+  'totp':            { screen: SCREEN_TOTP,            auth: true,   title: 'Cấu hình TOTP — QL KCHT Hàng hải' },
 };
 
-// ─── Router ──────────────────────────────────────────────────────
+// ─── Router ─────────────────────────────────────────────────────
 
 const ROUTER = {
   _currentRoute: null,
@@ -116,40 +205,8 @@ const ROUTER = {
     const user = AUTH.getUser();
     const active = this._currentRoute;
 
-    // Build sidebar menu
-    const menuSections = [
-      {
-        label: 'Tổng quan',
-        items: [
-          { id: 'dashboard', icon: '📊', label: 'Dashboard', hash: '#dashboard' },
-        ]
-      },
-      {
-        label: 'Quản lý',
-        items: [
-          { id: 'users', icon: '👤', label: 'Người dùng', hash: '#users' },
-          { id: 'groups', icon: '👥', label: 'Nhóm người dùng', hash: '#groups' },
-          { id: 'permissions', icon: '🔐', label: 'Phân quyền', hash: '#permissions' },
-          { id: 'organizations', icon: '🏢', label: 'Đơn vị', hash: '#organizations' },
-        ]
-      },
-      {
-        label: 'Bảo mật',
-        items: [
-          { id: 'password', icon: '🔑', label: 'Đổi mật khẩu', hash: '#password' },
-          { id: 'sessions', icon: '🖥', label: 'Phiên đăng nhập', hash: '#sessions' },
-          { id: 'totp', icon: '🔒', label: 'Cấu hình TOTP', hash: '#totp' },
-        ]
-      },
-      {
-        label: 'Giám sát',
-        items: [
-          { id: 'login-log', icon: '📋', label: 'Nhật ký đăng nhập', hash: '#login-log' },
-        ]
-      },
-    ];
-
-    const menuHtml = menuSections.map(s => `
+    // Build sidebar menu from SIDEBAR_MENU config
+    const menuHtml = SIDEBAR_MENU.map(s => `
       <div class="menu-section">${s.label}</div>
       ${s.items.map(i => `
         <a class="menu-item ${active === i.id ? 'active' : ''}" href="${i.hash}">
@@ -183,7 +240,7 @@ const ROUTER = {
       <div class="main-wrapper">
         <!-- Header -->
         <header class="header" role="banner">
-          <h1 id="page-header-title">${ROUTES[active] ? ROUTES[active].title.replace(' — Quản lý KCHT Hàng hải', '') : ''}</h1>
+          <h1 id="page-header-title">${ROUTES[active] ? ROUTES[active].title.replace(' — QL KCHT Hàng hải', '') : ''}</h1>
           <div class="user-info">
             <div class="user-dropdown" id="user-dropdown">
               <span class="name">${esc(user ? user.full_name || user.username : '')}</span>

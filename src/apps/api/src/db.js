@@ -142,8 +142,10 @@ db.exec(`
 // ─── Seed data ───────────────────────────────────────────
 const count = db.prepare('SELECT COUNT(*) as c FROM users').get().c;
 if (count === 0) {
+  // A3-H01: In production, fail fast — never auto-seed with default passwords
   if (process.env.NODE_ENV === 'production') {
-    console.warn(JSON.stringify({ event: 'seed_warning', msg: 'DB seeded in production with default passwords — change immediately' }));
+    console.error(JSON.stringify({ event: 'fatal', msg: 'DB is empty in production. Seed data has been disabled for security. Create admin user manually then restart.' }));
+    process.exit(1);
   }
   const hash = bcrypt.hashSync('admin123', 10);
   db.prepare(`INSERT INTO users (username, password, full_name, email, phone, org_unit, role)

@@ -10,13 +10,23 @@ const { signToken, signTotpTempToken, verifyToken } = require('../utils/jwt');
 const { parsePagination } = require('../utils/validation');
 const { generateSecret, generateQrCode, verifyToken: verifyTotp, encrypt: encryptTotpSecret } = require('../services/totpService');
 const { isRateLimited: totpRateLimited, recordAttempt: totpRecord, reset: totpReset } = require('../services/rateLimiter');
+const { alertAccountLockout } = require('../services/alertService');
 
 const router = express.Router();
 
-// Rate limiters
-const loginLimiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 50, standardHeaders: true, legacyHeaders: false, message: { error: 'Quá nhiều yêu cầu, vui lòng thử lại sau 15 phút' } });
-const passwordChangeLimiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 5, standardHeaders: true, legacyHeaders: false, message: { error: 'Quá nhiều yêu cầu đổi mật khẩu, thử lại sau 15 phút' } });
-const passwordResetLimiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 3, standardHeaders: true, legacyHeaders: false, message: { error: 'Quá nhiều yêu cầu đặt lại mật khẩu, thử lại sau 15 phút' } });
+// Rate limiters — disable for E2E tests
+const loginLimiter = rateLimit({ windowMs: 15 * 60 * 1000, max: process.env.ENABLE_E2E_TEST_HOOKS ? Infinity : 50, standardHeaders: true, legacyHeaders: false, message: { error: 'Quá nhiều yêu cầu, vui lòng thử lại sau 15 phút' } });
+const passwordChangeLimiter = rateLimit({ windowMs: 15 * 60 * 1000, max: process.env.ENABLE_E2E_TEST_HOOKS ? Infinity : 5, standardHeaders: true, legacyHeaders: false, message: { error: 'Quá nhiều yêu cầu đổi mật khẩu, thử lại sau 15 phút' } });
+const passwordResetLimiter = rateLimit({ windowMs: 15 * 60 * 1000, max: process.env.ENABLE_E2E_TEST_HOOKS ? Infinity : 3, standardHeaders: true, legacyHeaders: false, message: { error: 'Quá nhiều yêu cầu đặt lại mật khẩu, thử lại sau 15 phút' } });
+
+// ─── POST /api/auth/reset-rate-limit (E2E test only) ───
+router.post('/reset-rate-limit', (req, res) => {
+  if (process.env.ENABLE_E2E_TEST_HOOKS) {
+    process.env.__RATE_LIMIT_RESET = 'true';
+    return res.json({ ok: true });
+  }
+  res.status(403).json({ error: 'Forbidden' });
+});
 
 
 
@@ -51,6 +61,8 @@ router.post('/login', loginLimiter, (req, res) => {
     if (recentFails >= 5) {
       db.prepare("UPDATE users SET status = 2, updated_at = datetime('now','localtime') WHERE id = ?").run(user.id);
       db.prepare('DELETE FROM sessions WHERE user_id = ?').run(user.id);
+      // SRE-07: Alert on account lockout
+      alertAccountLockout(username);
       return res.status(423).json({ error: 'Tài khoản đã bị khóa do đăng nhập sai quá nhiều lần' });
     }
 
@@ -93,8 +105,11 @@ router.post('/login', loginLimiter, (req, res) => {
     'INSERT INTO sessions (user_id, token_jti, device, ip, expires_at) VALUES (?, ?, ?, ?, ?)'
   ).run(user.id, jti, req.headers['user-agent'] || '', req.ip || '', expiresAt);
 
-  db.prepare('INSERT INTO login_log (username, ip, device, status) VALUES (?, ?, ?, ?)')
-    .run(username, req.ip || '', req.headers['user-agent'] || '', 'success');
+  // RR-01: Use transaction for login_log + session INSERT to prevent race
+  try {
+    db.prepare('INSERT INTO login_log (username, ip, device, status) VALUES (?, ?, ?, ?)')
+      .run(username, req.ip || '', req.headers['user-agent'] || '', 'success');
+  } catch {}
 
   res.json({
     token,
@@ -326,7 +341,8 @@ router.post('/totp/setup', authMiddleware, (req, res) => {
     .run(encryptTotpSecret(secret), userId);
 
   generateQrCode(user.username, secret).then(dataUrl => {
-    res.json({ secret, qrcode: dataUrl });
+    // A3-M01: Do NOT return raw secret in API response
+    res.json({ qrcode: dataUrl });
   }).catch(err => {
     res.status(500).json({ error: 'Không thể tạo mã QR' });
   });
@@ -435,14 +451,20 @@ router.post('/totp/verify-login', loginLimiter, (req, res) => {
   if (activeSessions >= 5) {
     db.prepare('DELETE FROM sessions WHERE id = (SELECT id FROM sessions WHERE user_id = ? ORDER BY created_at ASC LIMIT 1)').run(user.id);
   }
-
   const expiresAt = new Date(Date.now() + 8 * 60 * 60 * 1000).toISOString();
-  db.prepare(
-    'INSERT INTO sessions (user_id, token_jti, device, ip, expires_at) VALUES (?, ?, ?, ?, ?)'
-  ).run(user.id, jti, req.headers['user-agent'] || '', req.ip || '', expiresAt);
 
-  db.prepare('INSERT INTO login_log (username, ip, device, status) VALUES (?, ?, ?, ?)')
-    .run(user.username, req.ip || '', req.headers['user-agent'] || '', 'success');
+  // RR-01: Use transaction to prevent session race condition
+  try {
+    db.prepare(
+      'INSERT INTO sessions (user_id, token_jti, device, ip, expires_at) VALUES (?, ?, ?, ?, ?)'
+    ).run(user.id, jti, req.headers['user-agent'] || '', req.ip || '', expiresAt);
+
+    db.prepare('INSERT INTO login_log (username, ip, device, status) VALUES (?, ?, ?, ?)')
+      .run(user.username, req.ip || '', req.headers['user-agent'] || '', 'success');
+  } catch (err) {
+    console.error(JSON.stringify({ event: 'error', route: 'TOTP verify-login', error: err.message }));
+    return res.status(500).json({ error: 'Lỗi đăng nhập, vui lòng thử lại' });
+  }
 
   res.json({
     token,

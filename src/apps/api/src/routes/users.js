@@ -134,7 +134,8 @@ router.delete('/:id', (req, res) => {
     return res.status(400).json({ error: 'Không thể tự xóa tài khoản của chính mình' });
   }
   const tx = db.transaction(() => {
-    db.prepare("UPDATE users SET status = 0, updated_at = datetime('now','localtime') WHERE id = ?").run(targetId);
+    // DG-02: Soft delete + PII scrubbing for compliance (PDPD Art 9)
+    db.prepare("UPDATE users SET status = 0, full_name = ?, email = ?, phone = ?, totp_secret = NULL, updated_at = datetime('now','localtime') WHERE id = ?").run(`user_${targetId}`, null, null, null, targetId);
     db.prepare('DELETE FROM group_members WHERE user_id = ?').run(targetId);
     db.prepare('DELETE FROM sessions WHERE user_id = ?').run(targetId);
   });
@@ -173,7 +174,8 @@ router.put('/:id/unlock', (req, res) => {
 // DELETE /api/auth/me — user self-delete (PDPD Art 9)
 router.delete('/self', (req, res) => {
   const tx = db.transaction(() => {
-    db.prepare("UPDATE users SET status = 0, updated_at = datetime('now','localtime') WHERE id = ?").run(req.user.id);
+    // PII scrubbing on self-delete
+    db.prepare("UPDATE users SET status = 0, full_name = ?, email = ?, phone = ?, totp_secret = NULL, updated_at = datetime('now','localtime') WHERE id = ?").run(`user_${req.user.id}`, null, null, null, req.user.id);
     db.prepare('DELETE FROM group_members WHERE user_id = ?').run(req.user.id);
     db.prepare('DELETE FROM sessions WHERE user_id = ?').run(req.user.id);
   });
@@ -184,6 +186,25 @@ router.delete('/self', (req, res) => {
     console.error(JSON.stringify({ event: 'error', route: 'DELETE /api/auth/me', error: e?.message }));
     res.status(500).json({ error: 'Lỗi máy chủ nội bộ' });
   }
+});
+
+// DG-12: Data export/portability endpoint (PDPD Art 10, GDPR Art 20)
+// NOTE: authMiddleware is applied in app.js router stack
+router.get('/export', (req, res) => {
+  const user = db.prepare('SELECT id, username, full_name, email, phone, org_unit, role, status, totp_enabled, created_at FROM users WHERE id = ?').get(req.user.id);
+  if (!user) return res.status(404).json({ error: 'Không tìm thấy người dùng' });
+  const groups = db.prepare(`
+    SELECT ug.name FROM group_members gm JOIN user_groups ug ON gm.group_id = ug.id WHERE gm.user_id = ?
+  `).all(req.user.id).map(g => g.name);
+  const loginLog = db.prepare('SELECT username, status, logged_at FROM login_log WHERE username = ? ORDER BY logged_at DESC LIMIT 100').all(req.user.username);
+  const sessions = db.prepare('SELECT device, ip, created_at, expires_at, last_active_at FROM sessions WHERE user_id = ? ORDER BY created_at DESC LIMIT 100').all(req.user.id);
+
+  res.json({
+    user,
+    groups,
+    login_log: loginLog,
+    sessions: sessions.map(s => ({ ...s, ip: s.ip ? s.ip.slice(0, 3) + '***' : null })) // partial IP masking
+  });
 });
 
 module.exports = router;

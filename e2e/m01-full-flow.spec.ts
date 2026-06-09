@@ -4,6 +4,18 @@ import path from 'path';
 const BASE = 'http://localhost:3000';
 const SS = path.join(__dirname, '..', 'docs', 'modules', 'M01-user-management', 'screenshots');
 
+// Wait for API to be healthy before running tests
+async function waitForAPI(base, maxRetries = 20) {
+  for (let i = 0; i < maxRetries; i++) {
+    try {
+      const resp = await fetch(`${base}/api/health`);
+      if (resp.ok) return true;
+    } catch { /* server not ready yet */ }
+    await new Promise(r => setTimeout(r, 1000));
+  }
+  return false;
+}
+
 test.describe('M01 — Full Flow E2E + Screenshots', () => {
 
   // ══════════════════════════════════════════
@@ -22,7 +34,9 @@ test.describe('M01 — Full Flow E2E + Screenshots', () => {
   // SCREEN 02: Forgot password
   // ══════════════════════════════════════════
   test('02 — Forgot password page', async ({ page }) => {
-    await page.goto(`${BASE}/index.html#forgot-password`);
+    await page.goto(`${BASE}/index.html`);
+    await page.waitForSelector('#login-username', { timeout: 5000 });
+    await page.click('a[href="#forgot-password"]');
     await page.waitForTimeout(800);
     await page.screenshot({ path: `${SS}/02-forgot-password.png`, fullPage: true });
   });

@@ -3,6 +3,13 @@ const db = require('../db');
 
 const BCRYPT_ROUNDS = 10;
 
+// Common weak passwords blocklist (A3-M02)
+const WEAK_PASSWORDS = new Set([
+  'admin123', 'password', '123456', '12345678', 'qwerty', 'abc123',
+  'password1', 'admin', 'welcome', 'monkey', 'master', 'dragon',
+  'login', 'princess', 'football', 'shadow', 'sunshine', 'trustno1'
+]);
+
 function validatePassword(password) {
   const errors = [];
   if (password.length < 8) errors.push('Mật khẩu phải có ít nhất 8 ký tự');
@@ -10,6 +17,10 @@ function validatePassword(password) {
   if (!/[a-z]/.test(password)) errors.push('Mật khẩu phải có ít nhất 1 chữ thường');
   if (!/[0-9]/.test(password)) errors.push('Mật khẩu phải có ít nhất 1 chữ số');
   if (!/[^A-Za-z0-9]/.test(password)) errors.push('Mật khẩu phải có ít nhất 1 ký tự đặc biệt');
+  // A3-M02: Block commonly used weak passwords
+  if (WEAK_PASSWORDS.has(password.toLowerCase())) {
+    errors.push('Mật khẩu quá phổ biến, vui lòng chọn mật khẩu khác');
+  }
   return errors;
 }
 

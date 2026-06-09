@@ -23,6 +23,7 @@ router.post('/', (req, res) => {
   const info = db.prepare(
     'INSERT INTO organizations (name, description, parent_id, sort_order) VALUES (?, ?, ?, ?)'
   ).run(name, description, parent_id || null, sort_order || 0);
+  console.log(JSON.stringify({ event: 'created', entity: 'organization', id: info.lastInsertRowid }));
   res.status(201).json({ id: info.lastInsertRowid });
 });
 
@@ -46,6 +47,7 @@ router.put('/:id', (req, res) => {
   db.prepare(
     "UPDATE organizations SET name = ?, description = ?, parent_id = ?, sort_order = ?, updated_at = datetime('now','localtime') WHERE id = ?"
   ).run(name, description, parent_id || null, sort_order ?? 0, orgId);
+  console.log(JSON.stringify({ event: 'updated', entity: 'organization', id: orgId }));
   res.json({ ok: true });
 });
 
@@ -61,6 +63,7 @@ router.delete('/:id', (req, res) => {
     return res.status(400).json({ error: 'Không thể xóa đơn vị có người dùng trực thuộc' });
   }
   db.prepare('DELETE FROM organizations WHERE id = ?').run(orgId);
+  console.log(JSON.stringify({ event: 'deleted', entity: 'organization', id: orgId }));
   res.json({ ok: true });
 });
 

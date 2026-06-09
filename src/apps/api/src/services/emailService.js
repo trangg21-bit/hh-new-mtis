@@ -20,14 +20,17 @@ function getTransporter() {
 async function sendMail(to, subject, html) {
   if (!process.env.SMTP_HOST) {
     // No SMTP configured — log only (dev/staging mode)
+    // A3-L02: Consistent masking across all log lines
     const masked = to.replace(/^(.).*(@.*)$/, '$1***$2');
-    console.log(JSON.stringify({ event: 'email_stub', to: masked, subject }));
+    console.log(JSON.stringify({ event: 'email_stub', to: masked, subject, level: 'info' }));
     return;
   }
   const from = process.env.SMTP_FROM || 'noreply@mtis.vn';
   const tr = getTransporter();
   const info = await tr.sendMail({ from, to, subject, html });
-  console.log(JSON.stringify({ event: 'email_sent', to, subject, messageId: info.messageId }));
+  // A3-L02: Mask email in success log too
+  const masked = to.replace(/^(.).*(@.*)$/, '$1***$2');
+  console.log(JSON.stringify({ event: 'email_sent', to: masked, subject, messageId: info.messageId, level: 'info' }));
 }
 
 // ─── Forgot Password ────────────────────────────────────────
