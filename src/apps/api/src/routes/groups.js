@@ -23,6 +23,7 @@ router.post('/', (req, res) => {
     console.error(JSON.stringify({ event: 'error', route: 'POST /api/users/groups', error: e?.message }));
     // RR-04: Don't swallow error — log it
     if (e.message.includes('UNIQUE')) return res.status(409).json({ error: 'Tên nhóm đã tồn tại' });
+    console.error(JSON.stringify({ event: 'error', route: 'PUT /api/users/groups/:id', error: e?.message }));
     res.status(500).json({ error: 'Lỗi máy chủ nội bộ' });
   }
 });

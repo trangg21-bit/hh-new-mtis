@@ -154,8 +154,9 @@ router.post('/logout', authMiddleware, (req, res) => {
     db.prepare('DELETE FROM sessions WHERE token_jti = ?').run(jti);
   }
   db.prepare('INSERT INTO login_log (username, ip, device, status) VALUES (?, ?, ?, ?)')
-    .run(req.user.username, req.ip || '', req.headers['user-agent'] || '', 'logout');
-  res.json({ ok: true });
+    .run(req.user.username, req.ip || '', req.headers['user-agent'] || '', 'success');
+
+  res.json({ success: true });
 });
 
 // ─── PUT /api/auth/change-password ─────────────────────
@@ -432,17 +433,19 @@ router.post('/totp/verify-login', loginLimiter, (req, res) => {
     return res.status(400).json({ error: 'TOTP chưa được kích hoạt cho tài khoản này' });
   }
 
-  if (totpRateLimited(user.id, 5, 5 * 60 * 1000)) {
+  // RR-02: Ensure user.id is Number (type coercion fix)
+  const userId = Number(user.id);
+  if (totpRateLimited(userId, 5, 5 * 60 * 1000)) {
     return res.status(429).json({ error: 'Quá nhiều lần thử xác thực TOTP, vui lòng thử lại sau 5 phút' });
   }
 
   const isValid = verifyTotp(code, user.totp_secret);
   if (!isValid) {
-    totpRecord(user.id);
+    totpRecord(userId);
     return res.status(400).json({ error: 'Mã xác thực không đúng' });
   }
 
-  totpReset(user.id);
+  totpReset(userId);
 
   const jti = crypto.randomUUID();
   const token = signToken({ id: user.id, username: user.username, role: user.role, jti });

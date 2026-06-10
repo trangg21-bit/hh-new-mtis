@@ -140,8 +140,9 @@ db.exec(`
 `);
 
 // ─── Seed data ───────────────────────────────────────────
-const count = db.prepare('SELECT COUNT(*) as c FROM users').get().c;
-if (count === 0) {
+// Seed users (if empty)
+const userCount = db.prepare('SELECT COUNT(*) as c FROM users').get().c;
+if (userCount === 0) {
   // A3-H01: In production, fail fast — never auto-seed with default passwords
   if (process.env.NODE_ENV === 'production') {
     console.error(JSON.stringify({ event: 'fatal', msg: 'DB is empty in production. Seed data has been disabled for security. Create admin user manually then restart.' }));
@@ -154,7 +155,11 @@ if (count === 0) {
     VALUES (?, ?, ?, ?, ?, ?, ?)`).run('chuyenviem1', hash, 'Trần Thị B', 'chuyenviem1@mtis.vn', '0987654321', 'Cảng vụ Hàng hải Hải Phòng', 'Chuyên viên');
   db.prepare(`INSERT INTO users (username, password, full_name, email, phone, org_unit, role)
     VALUES (?, ?, ?, ?, ?, ?, ?)`).run('lanhdao', hash, 'Lê Văn C', 'lanhdao@mtis.vn', '0977112233', 'Cảng vụ Hàng hải Hải Phòng', 'Lãnh đạo Cảng vụ');
+}
 
+// Seed user_groups (if empty) — independent of users seed to avoid FK issues on re-runs
+const ugCount = db.prepare('SELECT COUNT(*) as c FROM user_groups').get().c;
+if (ugCount === 0) {
   db.prepare('INSERT INTO user_groups (name, description) VALUES (?, ?)').run('Quản trị hệ thống', 'Nhóm quản trị toàn hệ thống');
   db.prepare('INSERT INTO user_groups (name, description) VALUES (?, ?)').run('Chuyên viên KCHT', 'Nhân viên quản lý KCHT');
   db.prepare('INSERT INTO user_groups (name, description) VALUES (?, ?)').run('Lãnh đạo', 'Cấp lãnh đạo phê duyệt');
@@ -169,7 +174,7 @@ if (orgCount === 0) {
   db.prepare('INSERT INTO organizations (name, description, parent_id) VALUES (?, ?, ?)').run('Phòng KCHT', 'Phòng KCHT trực thuộc Cảng vụ Hải Phòng', 2);
 }
 
-// Seed group_permissions (if empty) — grant full CRUD to admin group only
+// Seed group_permissions (if empty) — independent of users/user_groups seed to avoid FK issues on re-runs
 const gpCount = db.prepare('SELECT COUNT(*) as c FROM group_permissions').get().c;
 if (gpCount === 0) {
   // Admin group (id=1) gets full permissions on all M01 feature codes

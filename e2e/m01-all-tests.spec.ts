@@ -29,14 +29,9 @@ async function uiLogin(page, username, password) {
   return { hash, errorText };
 }
 
-// Helper: API call using Playwright's request API + token from browser localStorage
-async function apiCall(page, method, path, body) {
-  // Get token from browser localStorage
-  const token = await page.evaluate(() => localStorage.getItem('mtis_token') || '');
-  if (!token) {
-    // No token — try to get from login API directly
-    console.warn('apiCall called without token — checking if page has token...');
-  }
+// Helper: API call with auth header
+async function apiCall(page, method, path, body = null) {
+  const token = await page.evaluate(() => localStorage.getItem('mtis_token'));
   const headers = { 'Content-Type': 'application/json' };
   if (token) headers['Authorization'] = 'Bearer ' + token;
 

@@ -133,14 +133,16 @@ router.delete('/:id', (req, res) => {
   if (targetId === req.user.id) {
     return res.status(400).json({ error: 'Không thể tự xóa tài khoản của chính mình' });
   }
-  const tx = db.transaction(() => {
-    // DG-02: Soft delete + PII scrubbing for compliance (PDPD Art 9)
-    db.prepare("UPDATE users SET status = 0, full_name = ?, email = ?, phone = ?, totp_secret = NULL, updated_at = datetime('now','localtime') WHERE id = ?").run(`user_${targetId}`, null, null, null, targetId);
+  const user = db.prepare('SELECT id FROM users WHERE id = ?').get(targetId);
+  if (!user) return res.status(404).json({ error: 'Không tìm thấy người dùng' });
+  try {
+    // Clear foreign key references first to avoid FK constraint in transaction
     db.prepare('DELETE FROM group_members WHERE user_id = ?').run(targetId);
     db.prepare('DELETE FROM sessions WHERE user_id = ?').run(targetId);
-  });
-  try {
-    tx();
+    db.prepare('DELETE FROM password_history WHERE user_id = ?').run(targetId);
+    db.prepare('DELETE FROM reset_tokens WHERE user_id = ?').run(targetId);
+    // Soft delete + PII scrubbing for compliance (PDPD Art 9)
+    db.prepare("UPDATE users SET status = 0, full_name = ?, email = ?, phone = ?, totp_secret = NULL, updated_at = datetime('now','localtime') WHERE id = ?").run(`user_${targetId}`, null, null, targetId);
     res.json({ ok: true });
   } catch(e) {
     console.error(JSON.stringify({ event: 'error', route: 'DELETE /api/users/:id', error: e?.message }));
