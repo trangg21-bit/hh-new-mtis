@@ -7,7 +7,7 @@ const SCREEN_REGISTER = {
     return `
       <div class="content">
         <div class="breadcrumb">
-          <a href="#dashboard">M01</a> <span class="sep">/</span>
+          <a href="#dashboard">Tổng quan</a> <span class="sep">/</span>
           <a href="#users">Người dùng</a> <span class="sep">/</span>
           <span>Thêm người dùng</span>
         </div>

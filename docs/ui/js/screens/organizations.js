@@ -91,7 +91,7 @@ const SCREEN_ORGANIZATIONS = {
             ${n.description ? `<span style="font-size:var(--font-size-xs);color:var(--color-muted);margin-right:12px">${esc(n.description)}</span>` : ''}
             <div style="display:flex;gap:4px;flex-shrink:0">
               <button class="btn btn-ghost btn-sm" title="Chỉnh sửa" onclick="SCREEN_ORGANIZATIONS.showEditModal(${n.id})">✎</button>
-              <button class="btn btn-ghost btn-sm" title="Xóa" onclick="SCREEN_ORGANIZations.confirmDelete(${n.id})">🗑</button>
+              <button class="btn btn-ghost btn-sm" title="Xóa" onclick="SCREEN_ORGANIZATIONS.confirmDelete(${n.id})">🗑</button>
             </div>
           </div>
           ${n.children.length ? this._renderNodes(n.children, depth + 1) : ''}

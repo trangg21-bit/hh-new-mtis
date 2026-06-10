@@ -8,7 +8,7 @@ const SCREEN_PASSWORD = {
     return `
       <div class="content">
         <div class="breadcrumb">
-          <a href="#dashboard">M01</a> <span class="sep">/</span>
+          <a href="#dashboard">Tổng quan</a> <span class="sep">/</span>
           <span>Đổi mật khẩu</span>
         </div>
         <h2 class="page-title">Đổi mật khẩu</h2>

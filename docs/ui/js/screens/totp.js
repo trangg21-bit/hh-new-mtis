@@ -12,7 +12,7 @@ const SCREEN_TOTP = {
     return `
       <div class="content">
         <div class="breadcrumb">
-          <a href="#dashboard">M01</a> <span class="sep">/</span>
+          <a href="#dashboard">Tổng quan</a> <span class="sep">/</span>
           <span>Cấu hình TOTP</span>
         </div>
         <h2 class="page-title">Cấu hình xác thực hai yếu tố (TOTP)</h2>
@@ -28,6 +28,7 @@ const SCREEN_TOTP = {
 
   _bodyHtml() {
     if (this._state === 'setup') return this._setupHtml();
+    if (this._state === 'enabled') return this._enabledHtml();
     return this._idleHtml();
   },
 

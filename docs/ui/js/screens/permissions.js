@@ -79,7 +79,7 @@ const SCREEN_PERMISSIONS = {
           <!-- Footer Actions -->
           <div style="padding:16px 24px;display:flex;justify-content:flex-end;gap:12px;border-top:1px solid var(--color-border-light)">
             <button class="btn btn-ghost" onclick="SCREEN_PERMISSIONS.resetForm()">↻ Làm mới</button>
-            <button class="btn btn-primary" onclick="SCREEN_PERMISSIONS.savePermissions()" id="perms-save-btn" ${!isAdmin ? 'disabled' : ''}>💾 Lưu thay đổi</button>
+            <button class="btn btn-primary" onclick="SCREEN_PERMISSIONS.savePermissions()" id="perms-save-btn">💾 Lưu thay đổi</button>
           </div>
         </div>
       </div>
@@ -198,6 +198,12 @@ const SCREEN_PERMISSIONS = {
       `;
     });
     return html;
+  },
+
+  /* ---------- Tree Logic ---------- */
+  toggleParent(id, checked) {
+    this._recursiveCheck(id, checked);
+    this.renderTree();
   },
 
   /* ---------- Tree Logic ---------- */

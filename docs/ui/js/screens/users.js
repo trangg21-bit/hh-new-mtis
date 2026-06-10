@@ -33,7 +33,7 @@ const SCREEN_USERS = {
               </select>
             </div>
             <div style="display:flex;gap:8px;flex-shrink:0">
-              <button class="btn btn-ghost" onclick="SCREEN_USERS.exportExcel()" title="Xuất Excel">📥</button>
+              <button class="btn btn-ghost" onclick="SCREEN_USERS.exportExcel()" title="Xuất Excel">📥 Xuất Excel</button>
               <button class="btn btn-primary" onclick="SCREEN_USERS.showCreateModal()">＋ Thêm người dùng</button>
             </div>
           </div>
@@ -156,18 +156,15 @@ const SCREEN_USERS = {
   /* ============================================================
      MODAL FORMS (Unified approach for ALL screens)
      ============================================================ */
-  showCreateModal() {
-    this._openUserModal(null);
-  },
-
   showEditModal(id) {
     const user = this._data.find(u => u.id === id);
     if (!user) return;
-    this._openUserModal(user);
+    this._openUserModal(user, id);
   },
 
-  _openUserModal(user) {
+  _openUserModal(user, editId) {
     const isCreate = !user;
+    const userId = isCreate ? '' : editId;
     const overlay = document.createElement('div');
     overlay.className = 'modal-overlay';
     overlay.onclick = (e) => { if (e.target === overlay) overlay.remove(); };
@@ -204,8 +201,10 @@ const SCREEN_USERS = {
               <div class="form-group">
                 <label>Vai trò</label>
                 <select class="form-control" id="user-role">
-                  <option value="infrastructure-officer" ${user?.role === 'infrastructure-officer' ? 'selected' : ''}>Infrastructure Officer</option>
-                  <option value="director" ${user?.role === 'director' ? 'selected' : ''}>Director</option>
+                  <option value="system-admin" ${user?.role === 'system-admin' ? 'selected' : ''}>Quản trị hệ thống</option>
+                  <option value="director" ${user?.role === 'director' ? 'selected' : ''}>Lãnh đạo Cục</option>
+                  <option value="port-authority-leader" ${user?.role === 'port-authority-leader' ? 'selected' : ''}>Lãnh đạo Cảng vụ</option>
+                  <option value="infrastructure-officer" ${user?.role === 'infrastructure-officer' ? 'selected' : ''}>Chuyên viên</option>
                 </select>
               </div>
               <div class="form-group">
@@ -220,7 +219,7 @@ const SCREEN_USERS = {
         </div>
         <div class="modal-footer" style="display:flex;justify-content:flex-end;gap:8px;padding-top:12px;border-top:1px solid var(--color-border-light)">
           <button class="btn btn-ghost" onclick="this.closest('.modal-overlay').remove()">Hủy</button>
-          <button class="btn btn-primary" onclick="SCREEN_USERS.saveForm(${isCreate})">${isCreate ? 'Lưu' : 'Cập nhật'}</button>
+          <button class="btn btn-primary" onclick="SCREEN_USERS.saveForm(${isCreate}, '${userId}')">${isCreate ? 'Lưu' : 'Cập nhật'}</button>
         </div>
       </div>`;
 
@@ -228,7 +227,7 @@ const SCREEN_USERS = {
     requestAnimationFrame(() => overlay.classList.add('modal-overlay--visible'));
   },
 
-  async saveForm(isCreate) {
+  async saveForm(isCreate, userId) {
     const username = document.getElementById('user-username').value.trim();
     const fullname = document.getElementById('user-fullname').value.trim();
     const email = document.getElementById('user-email').value.trim();
@@ -243,7 +242,6 @@ const SCREEN_USERS = {
         if (!password) return alert('⚠ Vui lòng nhập mật khẩu!');
         await apiPost('/api/users', { username, full_name: fullname, email, password, role, status });
       } else {
-        const userId = parseInt(username.split('@')[0] || '0');
         await apiPut(`/api/users/${userId}`, { username, full_name: fullname, email, role, status, password: password || undefined });
       }
       await this.load();
@@ -256,7 +254,7 @@ const SCREEN_USERS = {
     const action = status === 2 ? 'Mở khóa' : 'Khóa';
     if (!confirm(`Bạn có chắc chắn muốn ${action} tài khoản này?`)) return;
     try {
-      await apiPut(`/api/users/${id}`, { status: status === 2 ? 1 : 2 });
+      await apiPut(`/api/users/${id}/${status === 2 ? 'unlock' : 'lock'}`);
       await this.load();
     } catch (e) { alert('❌ Lỗi: ' + e.message); }
   },

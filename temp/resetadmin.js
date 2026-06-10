@@ -1,0 +1,12 @@
+var D=require("better-sqlite3");
+var bc=require("bcryptjs");
+var db=new D("/app/data/database.sqlite");
+var h=bc.hashSync("admin123",10);
+db.prepare("UPDATE users SET password=? WHERE username='admin'").run(h);
+db.prepare("UPDATE users SET password=? WHERE username='chuyenviem1'").run(h);
+db.prepare("UPDATE users SET password=? WHERE username='lanhdao'").run(h);
+db.prepare("DELETE FROM sessions").run();
+var u=db.prepare("SELECT id,username,status FROM users").all();
+u.forEach(function(r){console.log(r.username+" -> status="+r.status)});
+db.close();
+console.log("ALL RESET OK");
