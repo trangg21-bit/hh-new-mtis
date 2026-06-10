@@ -27,86 +27,104 @@ function validatePasswordStrength(pw) {
   return errors;
 }
 
-// ─── Sidebar Menu Configuration (M01-M11) ─────────────────────
+// ─── Sidebar Menu Configuration (M01-M11) — Accordion ────────
 
 const SIDEBAR_MENU = [
   {
-    label: '🏠 Tổng quan',
+    label: '🏠 Trang chủ',
     items: [
-      { id: 'dashboard', icon: '🏠', label: 'Trang chủ', hash: '#dashboard' }
-    ]
+      { id: 'dashboard', icon: '🏠', label: 'Tổng quan', hash: '#dashboard' }
+    ],
+    open: true
   },
   {
-    label: 'Quản lý người dùng',
+    label: '👤 Quản lý người dùng',
+    isParent: true,
     items: [
-      { id: 'users', icon: '👤', label: 'Người dùng', hash: '#users' },
-      { id: 'groups', icon: '👥', label: 'Nhóm', hash: '#groups' },
+      { id: 'users', icon: '👤', label: 'Danh sách người dùng', hash: '#users' },
+      { id: 'groups', icon: '👥', label: 'Nhóm người dùng', hash: '#groups' },
       { id: 'permissions', icon: '🔐', label: 'Phân quyền', hash: '#permissions' },
-      { id: 'organizations', icon: '🏢', label: 'Đơn vị', hash: '#organizations' },
-      { id: 'login-log', icon: '📋', label: 'Nhật ký đăng nhập', hash: '#login-log' },
-      { id: 'sessions', icon: '🖥', label: 'Phiên', hash: '#sessions' },
-      { id: 'totp', icon: '🔒', label: 'TOTP', hash: '#totp' }
-    ]
+      { id: 'organizations', icon: '🏢', label: 'Đơn vị', hash: '#organizations' }
+    ],
+    open: false
   },
   {
-    label: 'Quản trị hệ thống',
+    label: '📋 Nhật ký & Phiên',
+    isParent: true,
     items: [
-      { id: 'dashboard', icon: '⚙️', label: 'Cấu hình', hash: '#dashboard' }
-    ]
+      { id: 'login-log', icon: '📋', label: 'Nhật ký đăng nhập', hash: '#login-log' }
+    ],
+    open: false
   },
   {
-    label: 'Thông số kỹ thuật',
+    label: '⚙️ Quản trị hệ thống',
+    items: [
+      { id: 'dashboard', icon: '📊', label: 'Tổng quan', hash: '#dashboard' }
+    ],
+    open: false
+  },
+  {
+    label: '📐 Thông số kỹ thuật KCHT',
     items: [
       { id: 'dashboard', icon: '📐', label: 'Thông số KCHT', hash: '#dashboard' }
-    ]
+    ],
+    open: false
   },
   {
-    label: 'Vận hành bảo trì',
+    label: '🔧 Vận hành bảo trì',
     items: [
       { id: 'dashboard', icon: '🔧', label: 'Vận hành & bảo trì', hash: '#dashboard' }
-    ]
+    ],
+    open: false
   },
   {
-    label: 'Quy hoạch',
+    label: '📋 Quy hoạch KCHT',
     items: [
-      { id: 'dashboard', icon: '📋', label: 'Quy hoạch KCHT', hash: '#dashboard' }
-    ]
+      { id: 'dashboard', icon: '📋', label: 'Quy hoạch', hash: '#dashboard' }
+    ],
+    open: false
   },
   {
-    label: 'Quản lý tài sản',
+    label: '🏗️ Quản lý tài sản',
     items: [
-      { id: 'dashboard', icon: '🏗️', label: 'Quản lý tài sản', hash: '#dashboard' }
-    ]
+      { id: 'dashboard', icon: '🏗️', label: 'Tài sản KCHT', hash: '#dashboard' }
+    ],
+    open: false
   },
   {
-    label: 'Bản đồ GIS',
+    label: '🗺️ Bản đồ GIS',
     items: [
       { id: 'dashboard', icon: '🗺️', label: 'Bản đồ GIS', hash: '#dashboard' }
-    ]
+    ],
+    open: false
   },
   {
-    label: 'Báo cáo',
+    label: '📊 Báo cáo thống kê',
     items: [
-      { id: 'dashboard', icon: '📊', label: 'Báo cáo thống kê', hash: '#dashboard' }
-    ]
+      { id: 'dashboard', icon: '📊', label: 'Báo cáo', hash: '#dashboard' }
+    ],
+    open: false
   },
   {
-    label: 'Liên thông',
+    label: '🔗 Liên thông dữ liệu',
     items: [
-      { id: 'dashboard', icon: '🔗', label: 'Liên thông dữ liệu', hash: '#dashboard' }
-    ]
+      { id: 'dashboard', icon: '🔗', label: 'Liên thông', hash: '#dashboard' }
+    ],
+    open: false
   },
   {
-    label: 'Hải đồ',
+    label: '🧭 Biên tập hải đồ',
     items: [
-      { id: 'dashboard', icon: '🧭', label: 'Biên tập hải đồ', hash: '#dashboard' }
-    ]
+      { id: 'dashboard', icon: '🧭', label: 'Hải đồ', hash: '#dashboard' }
+    ],
+    open: false
   },
   {
-    label: 'Tạo lập CSDL',
+    label: '🗄️ Tạo lập CSDL',
     items: [
       { id: 'dashboard', icon: '🗄️', label: 'Tạo lập CSDL KCHT', hash: '#dashboard' }
-    ]
+    ],
+    open: false
   }
 ];
 
@@ -125,8 +143,6 @@ const ROUTES = {
   'permissions':     { screen: SCREEN_PERMISSIONS,     auth: true,   title: 'Phân quyền — QL KCHT Hàng hải' },
   'login-log':       { screen: SCREEN_LOGIN_LOG,       auth: true,   title: 'Nhật ký đăng nhập — QL KCHT Hàng hải' },
   'organizations':   { screen: SCREEN_ORGANIZATIONS,   auth: true,   title: 'Đơn vị — QL KCHT Hàng hải' },
-  'sessions':        { screen: SCREEN_SESSIONS,        auth: true,   title: 'Phiên đăng nhập — QL KCHT Hàng hải' },
-  'totp':            { screen: SCREEN_TOTP,            auth: true,   title: 'Cấu hình TOTP — QL KCHT Hàng hải' },
 };
 
 // ─── Router ─────────────────────────────────────────────────────
@@ -199,16 +215,28 @@ const ROUTER = {
     const user = AUTH.getUser();
     const active = this._currentRoute;
 
-    // Build sidebar menu from SIDEBAR_MENU config
-    const menuHtml = SIDEBAR_MENU.map(s => `
-      <div class="menu-section">${s.label}</div>
-      ${s.items.map(i => `
+    // Build sidebar menu from SIDEBAR_MENU config (accordion)
+    const menuHtml = SIDEBAR_MENU.map((section, idx) => {
+      const sectionId = `section-${idx}`;
+      const isOpen = section.open ? 'menu-section-open' : '';
+      const hasChildren = section.items && section.items.length > 1;
+      const toggle = hasChildren ? `onclick="ROUTER.toggleSection('${sectionId}')"` : '';
+      const children = section.items.map(i => `
         <a class="menu-item ${active === i.id ? 'active' : ''}" href="${i.hash}">
           <span class="icon">${i.icon}</span>
           <span>${i.label}</span>
         </a>
-      `).join('')}
-    `).join('');
+      `).join('');
+      return `
+        <div class="menu-section ${isOpen}" id="${sectionId}">
+          <div class="menu-section-header" ${toggle}>
+            <span>${section.label}</span>
+            ${hasChildren ? '<span class="menu-arrow">▼</span>' : ''}
+          </div>
+          <div class="menu-section-body">${children}</div>
+        </div>
+      `;
+    }).join('');
 
     const initials = user ? (user.full_name || user.username).charAt(0).toUpperCase() : '?';
 
@@ -245,7 +273,6 @@ const ROUTER = {
               </div>
               <div class="dropdown-menu" id="dropdown-menu" style="display:none">
                 <a class="dropdown-item" href="#password">🔑 Đổi mật khẩu</a>
-                <a class="dropdown-item" href="#sessions">🖥 Phiên đăng nhập</a>
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item text-danger" href="#" onclick="ROUTER.logout()">🚪 Đăng xuất</a>
               </div>
@@ -267,6 +294,25 @@ const ROUTER = {
   toggleDropdown() {
     const menu = document.getElementById('dropdown-menu');
     if (menu) menu.style.display = menu.style.display === 'none' ? '' : 'none';
+  },
+
+  toggleSection(sectionId) {
+    const section = document.getElementById(sectionId);
+    if (!section) return;
+    const body = section.querySelector('.menu-section-body');
+    if (!body) return;
+    const isOpen = section.classList.contains('menu-section-open');
+    if (isOpen) {
+      section.classList.remove('menu-section-open');
+      body.style.maxHeight = body.scrollHeight + 'px';
+      requestAnimationFrame(() => { body.style.maxHeight = '0'; });
+    } else {
+      section.classList.add('menu-section-open');
+      const h = body.scrollHeight;
+      body.style.maxHeight = '0';
+      requestAnimationFrame(() => { body.style.maxHeight = h + 'px'; });
+      setTimeout(() => { if (section.classList.contains('menu-section-open')) body.style.maxHeight = ''; }, 300);
+    }
   },
 
   logout() {
