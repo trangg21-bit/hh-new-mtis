@@ -253,11 +253,17 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  position: relative;
+  z-index: 1;
 }
 .main-wrapper > #screen-content {
   flex: 1;
   display: flex;
   flex-direction: column;
+}
+.main-wrapper > .header {
+  position: relative;
+  z-index: 50;
 }
 .header {
   background: var(--color-white);
