@@ -1,5 +1,5 @@
 /* ================================================================
-   MTIS User Groups Screen (S-M01-04)
+   MTIS Groups Screen (S-M01-04) — Unified Modal CRUD
    ================================================================ */
 
 const SCREEN_GROUPS = {
@@ -9,33 +9,28 @@ const SCREEN_GROUPS = {
     return `
       <div class="content groups-page">
         <div class="card data-card">
+          <!-- Header -->
           <div class="data-card-header" style="flex-direction:column;align-items:flex-start;gap:12px;padding:24px 24px 20px">
             <div class="breadcrumb">
               <a href="#dashboard">Tổng quan</a> <span class="sep">/</span>
               <span>Nhóm người dùng</span>
             </div>
-            <div style="display:flex;justify-content:space-between;align-items:flex-start;width:100%;gap:16px;flex-wrap:wrap">
-              <div style="min-width:0;flex:1 1 300px">
-                <h1 class="page-title" style="margin-bottom:4px">Nhóm người dùng</h1>
-                <p class="page-subtitle" style="margin-bottom:0;font-size:var(--font-size-sm);color:var(--color-muted)">Quản lý nhóm quyền nghiệp vụ, thành viên và phạm vi truy cập theo từng đơn vị vận hành.</p>
-              </div>
-              <div style="display:flex;align-items:center;gap:8px;flex-shrink:0">
-                <button class="btn btn-ghost" onclick="SCREEN_GROUPS.load()">↻ Làm mới</button>
-                <button class="btn btn-primary" onclick="SCREEN_GROUPS.showCreateModal()">＋ Thêm nhóm</button>
-              </div>
-            </div>
+            <h1 class="page-title" style="margin-bottom:4px">Nhóm người dùng</h1>
           </div>
 
           <hr class="section-divider" style="margin:0 24px">
 
-          <div class="enterprise-table-wrap">
-            <table class="ant-table" role="table" aria-label="Danh sách nhóm">
-              <thead><tr>
-                <th>STT</th><th>Tên nhóm</th><th>Mô tả</th><th>Số thành viên</th><th class="text-right">Thao tác</th>
-              </tr></thead>
-              <tbody id="groups-tbody">
-                <tr><td colspan="5" class="text-center text-muted">Đang tải...</td></tr>
-              </tbody>
+          <!-- Toolbar -->
+          <div class="admin-toolbar" style="padding:16px 24px;justify-content:space-between">
+            <div><h3 style="margin:0;font-size:1rem">Danh sách nhóm quyền</h3></div>
+            <button class="btn btn-primary" onclick="SCREEN_GROUPS.showCreateModal()">＋ Thêm nhóm</button>
+          </div>
+
+          <!-- Table -->
+          <div class="table-wrap enterprise-table-wrap">
+            <table class="ant-table" role="table">
+              <thead><tr><th>STT</th><th>Tên nhóm</th><th>Mô tả</th><th>Thành viên</th><th class="text-right">Thao tác</th></tr></thead>
+              <tbody id="groups-tbody"><tr><td colspan="5" class="text-center text-muted">Đang tải...</td></tr></tbody>
             </table>
           </div>
         </div>
@@ -43,9 +38,7 @@ const SCREEN_GROUPS = {
     `;
   },
 
-  async afterRender() {
-    await this.load();
-  },
+  async afterRender() { await this.load(); },
 
   async load() {
     const tbody = document.getElementById('groups-tbody');
@@ -53,7 +46,7 @@ const SCREEN_GROUPS = {
     try {
       const data = await apiGet('/api/users/groups');
       this._data = data.groups || [];
-      if (this._data.length === 0) {
+      if (!this._data.length) {
         tbody.innerHTML = '<tr><td colspan="5" class="text-center text-muted">Không có nhóm nào</td></tr>';
       } else {
         tbody.innerHTML = this._data.map((g, i) => `
@@ -63,217 +56,162 @@ const SCREEN_GROUPS = {
             <td>${esc(g.description || '—')}</td>
             <td><span class="badge badge-blue">${g.member_count || 0}</span></td>
             <td class="text-right action-cell">
-              <button class="btn btn-ghost btn-sm" title="Chỉnh sửa" aria-label="Chỉnh sửa nhóm" onclick="SCREEN_GROUPS.showEditModal(${g.id})">✎</button>
-              <button class="btn btn-ghost btn-sm danger-action" title="Xóa" aria-label="Xóa nhóm" onclick="SCREEN_GROUPS.confirmDelete(${g.id})">🗑</button>
-              <button class="btn btn-ghost btn-sm" title="Xem thành viên" aria-label="Xem thành viên" onclick="SCREEN_GROUPS.showMembersModal(${g.id})">👥</button>
+              <button class="btn btn-ghost btn-sm" title="Chỉnh sửa" onclick="SCREEN_GROUPS.showEditModal(${g.id})">✎</button>
+              <button class="btn btn-ghost btn-sm" title="Thành viên" onclick="SCREEN_GROUPS.showMembersModal(${g.id})">👥</button>
+              <button class="btn btn-ghost btn-sm danger-action" title="Xóa" onclick="SCREEN_GROUPS.confirmDelete(${g.id})">🗑</button>
             </td>
-          </tr>
-        `).join('');
+          </tr>`).join('');
       }
     } catch (e) {
       tbody.innerHTML = `<tr><td colspan="5" class="text-center text-danger">Lỗi: ${esc(e.message)}</td></tr>`;
     }
   },
 
-  /* ---------- Create ---------- */
-  showCreateModal() {
+  /* ============================================================
+     MODAL FORMS (Unified approach for ALL screens)
+     ============================================================ */
+  showCreateModal() { this._openFormModal(null); },
+  showEditModal(id) { const g = this._data.find(x => x.id === id); if (g) this._openFormModal(g); },
+
+  _openFormModal(group) {
+    const isCreate = !group;
     const overlay = document.createElement('div');
     overlay.className = 'modal-overlay';
-    overlay.onclick = function (e) { if (e.target === this) this.remove(); };
+    overlay.onclick = (e) => { if (e.target === overlay) overlay.remove(); };
+
     overlay.innerHTML = `
       <div class="modal-card">
         <div class="modal-header">
-          <h3>Thêm nhóm mới</h3>
+          <h3>${isCreate ? 'Thêm nhóm mới' : 'Chỉnh sửa nhóm'}</h3>
           <button class="modal-close" onclick="this.closest('.modal-overlay').remove()">✕</button>
         </div>
         <div class="modal-body">
-          <form id="form-create-group" onsubmit="return false">
+          <form id="group-form" onsubmit="return false">
             <div class="form-group">
-              <label for="create-group-name">Tên nhóm <span class="text-danger">*</span></label>
-              <input type="text" id="create-group-name" class="form-control" required maxlength="100" placeholder="Nhập tên nhóm" autofocus />
+              <label>Tên nhóm <span class="text-danger">*</span></label>
+              <input type="text" class="form-control" id="group-name" value="${esc(group?.name || '')}" placeholder="Nhập tên nhóm" required autofocus>
             </div>
             <div class="form-group">
-              <label for="create-group-desc">Mô tả</label>
-              <textarea id="create-group-desc" class="form-control" rows="3" maxlength="500" placeholder="Nhập mô tả (không bắt buộc)"></textarea>
-            </div>
-            <div class="form-actions">
-              <button type="button" class="btn btn-default" onclick="this.closest('.modal-overlay').remove()">Hủy</button>
-              <button type="submit" class="btn btn-primary" id="btn-create-save">Lưu</button>
+              <label>Mô tả</label>
+              <textarea class="form-control" id="group-desc" rows="2" placeholder="Mô tả (không bắt buộc)">${esc(group?.description || '')}</textarea>
             </div>
           </form>
         </div>
+        <div class="modal-footer" style="display:flex;justify-content:flex-end;gap:8px;padding-top:12px;border-top:1px solid var(--color-border-light)">
+          <button class="btn btn-ghost" onclick="this.closest('.modal-overlay').remove()">Hủy</button>
+          <button class="btn btn-primary" onclick="SCREEN_GROUPS.saveForm(${isCreate}, ${group?.id || ''})">${isCreate ? 'Lưu' : 'Cập nhật'}</button>
+        </div>
       </div>`;
+
     document.body.appendChild(overlay);
     requestAnimationFrame(() => overlay.classList.add('modal-overlay--visible'));
-
-    document.getElementById('form-create-group').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const name = document.getElementById('create-group-name').value.trim();
-      const description = document.getElementById('create-group-desc').value.trim();
-      const btn = document.getElementById('btn-create-save');
-      btn.disabled = true; btn.textContent = 'Đang lưu...';
-      try {
-        await apiPost('/api/users/groups', { name, description });
-        overlay.remove(); await this.load();
-      } catch (err) { alert('Lỗi: ' + err.message); }
-      finally { btn.disabled = false; btn.textContent = 'Lưu'; }
-    });
   },
 
-  /* ---------- Edit ---------- */
-  async showEditModal(groupId) {
-    const group = this._data.find(g => g.id === groupId);
-    if (!group) return;
-
-    const overlay = document.createElement('div');
-    overlay.className = 'modal-overlay';
-    overlay.onclick = function (e) { if (e.target === this) this.remove(); };
-    overlay.innerHTML = `
-      <div class="modal-card">
-        <div class="modal-header">
-          <h3>Chỉnh sửa nhóm</h3>
-          <button class="modal-close" onclick="this.closest('.modal-overlay').remove()">✕</button>
-        </div>
-        <div class="modal-body">
-          <form id="form-edit-group" onsubmit="return false">
-            <div class="form-group">
-              <label for="edit-group-name">Tên nhóm <span class="text-danger">*</span></label>
-              <input type="text" id="edit-group-name" class="form-control" required maxlength="100" value="${esc(group.name)}" autofocus />
-            </div>
-            <div class="form-group">
-              <label for="edit-group-desc">Mô tả</label>
-              <textarea id="edit-group-desc" class="form-control" rows="3" maxlength="500">${esc(group.description || '')}</textarea>
-            </div>
-            <div class="form-actions">
-              <button type="button" class="btn btn-default" onclick="this.closest('.modal-overlay').remove()">Hủy</button>
-              <button type="submit" class="btn btn-primary" id="btn-edit-save">Lưu</button>
-            </div>
-          </form>
-        </div>
-      </div>`;
-    document.body.appendChild(overlay);
-    requestAnimationFrame(() => overlay.classList.add('modal-overlay--visible'));
-
-    document.getElementById('form-edit-group').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const name = document.getElementById('edit-group-name').value.trim();
-      const description = document.getElementById('edit-group-desc').value.trim();
-      const btn = document.getElementById('btn-edit-save');
-      btn.disabled = true; btn.textContent = 'Đang lưu...';
-      try {
-        await apiPut(`/api/users/groups/${groupId}`, { name, description });
-        overlay.remove(); await this.load();
-      } catch (err) { alert('Lỗi: ' + err.message); }
-      finally { btn.disabled = false; btn.textContent = 'Lưu'; }
-    });
-  },
-
-  /* ---------- Members ---------- */
-  async showMembersModal(groupId) {
-    const group = this._data.find(g => g.id === groupId);
-    const groupName = group ? esc(group.name) : '#' + groupId;
-
-    const overlay = document.createElement('div');
-    overlay.className = 'modal-overlay modal-overlay--wide';
-    overlay.onclick = function (e) { if (e.target === this) this.remove(); };
-    overlay.innerHTML = `
-      <div class="modal-card">
-        <div class="modal-header">
-          <h3>Thành viên — ${groupName}</h3>
-          <button class="modal-close" onclick="this.closest('.modal-overlay').remove()">✕</button>
-        </div>
-        <div class="modal-body">
-          <div class="form-inline mb-3" style="display:flex;gap:8px;align-items:end">
-            <div class="form-group" style="flex:1">
-              <label for="member-add-select">Thêm thành viên</label>
-              <select id="member-add-select" class="form-control"><option value="">— Chọn người dùng —</option></select>
-            </div>
-            <button class="btn btn-primary" id="btn-member-add" disabled>Thêm</button>
-          </div>
-          <div class="table-wrap">
-            <table class="ant-table" role="table" aria-label="Danh sách thành viên">
-              <thead><tr><th>STT</th><th>Username</th><th>Họ tên</th><th>Email</th><th>Vai trò</th><th>Thao tác</th></tr></thead>
-              <tbody id="members-tbody"><tr><td colspan="6" class="text-center text-muted">Đang tải...</td></tr></tbody>
-            </table>
-          </div>
-        </div>
-      </div>`;
-    document.body.appendChild(overlay);
-    requestAnimationFrame(() => overlay.classList.add('modal-overlay--visible'));
-
-    const select = document.getElementById('member-add-select');
-    const addBtn = document.getElementById('btn-member-add');
-    select.addEventListener('change', () => { addBtn.disabled = !select.value; });
+  async saveForm(isCreate, editId) {
+    const name = document.getElementById('group-name').value.trim();
+    const desc = document.getElementById('group-desc').value.trim();
+    if (!name) return alert('⚠ Vui lòng nhập tên nhóm!');
 
     try {
-      const usersRes = await apiGet('/api/users?limit=999');
-      const allUsers = usersRes.users || usersRes.data || [];
-      allUsers.forEach(u => {
-        const opt = document.createElement('option');
-        opt.value = u.id; opt.textContent = `${esc(u.username)} — ${esc(u.full_name || u.fullName || '')}`;
-        select.appendChild(opt);
-      });
-    } catch (_) {}
+      if (isCreate) {
+        await apiPost('/api/users/groups', { name, description: desc });
+      } else {
+        await apiPut(`/api/users/groups/${editId}`, { name, description: desc });
+      }
+      await this.load();
+    } catch (e) { alert('❌ Lỗi: ' + e.message); }
+  },
 
-    const renderMembers = async () => {
+  async confirmDelete(id) {
+    if (!confirm('Bạn có chắc chắn muốn xóa nhóm này?')) return;
+    try {
+      await apiDelete(`/api/users/groups/${id}`);
+      await this.load();
+    } catch (e) { alert('❌ Lỗi: ' + e.message); }
+  },
+
+  async showMembersModal(groupId) {
+    const group = this._data.find(g => g.id === groupId);
+    const name = group ? group.name : '#' + groupId;
+
+    const overlay = document.createElement('div');
+    overlay.className = 'modal-overlay';
+    overlay.onclick = (e) => { if (e.target === overlay) overlay.remove(); };
+
+    overlay.innerHTML = `
+      <div class="modal-card modal-lg">
+        <div class="modal-header">
+          <h3>Thành viên — ${esc(name)}</h3>
+          <button class="modal-close" onclick="this.closest('.modal-overlay').remove()">✕</button>
+        </div>
+        <div class="modal-body">
+          <div style="display:flex;gap:8px;margin-bottom:16px;align-items:flex-end">
+            <div style="flex:1">
+              <label style="font-size:var(--font-size-xs);color:var(--color-muted);margin-bottom:4px;display:block">Thêm thành viên</label>
+              <select class="form-control" id="member-select"><option value="">— Chọn —</option></select>
+            </div>
+            <button class="btn btn-primary" id="member-add-btn" disabled>Thêm</button>
+          </div>
+          <table class="ant-table" role="table">
+            <thead><tr><th>STT</th><th>Username</th><th>Họ tên</th><th>Email</th><th>Vai trò</th><th>Thao tác</th></tr></thead>
+            <tbody id="members-tbody"><tr><td colspan="6" class="text-center text-muted">Đang tải...</td></tr></tbody>
+          </table>
+        </div>
+      </div>`;
+
+    document.body.appendChild(overlay);
+    requestAnimationFrame(() => overlay.classList.add('modal-overlay--visible'));
+
+    // Load users for dropdown
+    try {
+      const users = (await apiGet('/api/users?limit=999')).users || [];
+      const sel = document.getElementById('member-select');
+      users.forEach(u => {
+        const opt = document.createElement('option');
+        opt.value = u.id; opt.textContent = `${u.username} — ${u.full_name}`;
+        sel.appendChild(opt);
+      });
+    } catch {}
+
+    const render = async () => {
       try {
         const res = await apiGet(`/api/users/groups/${groupId}/members`);
         const members = res.members || [];
-        if (members.length === 0) {
-          document.getElementById('members-tbody').innerHTML = '<tr><td colspan="6" class="text-center text-muted">Nhóm chưa có thành viên</td></tr>';
+        const tbody = document.getElementById('members-tbody');
+        if (!members.length) {
+          tbody.innerHTML = '<tr><td colspan="6" class="text-center text-muted">Chưa có thành viên</td></tr>';
         } else {
-          document.getElementById('members-tbody').innerHTML = members.map((m, i) => `
+          tbody.innerHTML = members.map((m, i) => `
             <tr>
               <td>${i + 1}</td><td><strong>${esc(m.username)}</strong></td>
-              <td>${esc(m.full_name || m.fullName || '—')}</td><td>${esc(m.email || '—')}</td>
+              <td>${esc(m.full_name || '—')}</td><td>${esc(m.email || '—')}</td>
               <td>${esc(m.role || '—')}</td>
-              <td><button class="btn btn-ghost btn-sm" title="Xóa khỏi nhóm" aria-label="Xóa thành viên" onclick="SCREEN_GROUPS._removeMember(${groupId}, ${m.id})">🗑</button></td>
-            </tr>
-          `).join('');
+              <td><button class="btn btn-ghost btn-sm" onclick="SCREEN_GROUPS._removeMember(${groupId}, ${m.id})">🗑</button></td>
+            </tr>`).join('');
         }
       } catch (e) {
         document.getElementById('members-tbody').innerHTML = `<tr><td colspan="6" class="text-center text-danger">Lỗi: ${esc(e.message)}</td></tr>`;
       }
     };
-    await renderMembers();
+    await render();
 
-    addBtn.addEventListener('click', async () => {
-      const userId = select.value;
-      if (!userId) return;
-      addBtn.disabled = true; addBtn.textContent = 'Đang thêm...';
+    const sel = document.getElementById('member-select');
+    sel.addEventListener('change', () => { document.getElementById('member-add-btn').disabled = !sel.value; });
+    document.getElementById('member-add-btn').addEventListener('click', async () => {
+      const userId = sel.value; if (!userId) return;
       try {
         await apiPost(`/api/users/groups/${groupId}/members`, { user_id: Number(userId) });
-        select.value = ''; addBtn.disabled = true;
-        await renderMembers();
-      } catch (err) { alert('Lỗi: ' + err.message); }
-      finally { addBtn.textContent = 'Thêm'; }
+        sel.value = ''; document.getElementById('member-add-btn').disabled = true;
+        await render();
+      } catch (e) { alert('❌ Lỗi: ' + e.message); }
     });
   },
 
   async _removeMember(groupId, userId) {
-    if (!confirm('Bạn có chắc chắn muốn xóa thành viên này khỏi nhóm?')) return;
+    if (!confirm('Xóa thành viên khỏi nhóm?')) return;
     try {
       await apiDelete(`/api/users/groups/${groupId}/members/${userId}`);
-      const res = await apiGet(`/api/users/groups/${groupId}/members`);
-      const tbody = document.getElementById('members-tbody');
-      const members = res.members || [];
-      if (members.length === 0) { tbody.innerHTML = '<tr><td colspan="6" class="text-center text-muted">Nhóm chưa có thành viên</td></tr>'; }
-      else {
-        tbody.innerHTML = members.map((m, i) => `
-          <tr>
-            <td>${i + 1}</td><td><strong>${esc(m.username)}</strong></td>
-            <td>${esc(m.full_name || m.fullName || '—')}</td><td>${esc(m.email || '—')}</td>
-            <td>${esc(m.role || '—')}</td>
-            <td><button class="btn btn-ghost btn-sm" title="Xóa khỏi nhóm" onclick="SCREEN_GROUPS._removeMember(${groupId}, ${m.id})">🗑</button></td>
-          </tr>
-        `).join('');
-      }
-    } catch (e) { alert('Lỗi: ' + e.message); }
-  },
-
-  async confirmDelete(id) {
-    if (!confirm('Bạn có chắc chắn muốn xóa nhóm này?')) return;
-    try { await apiDelete(`/api/users/groups/${id}`); await this.load(); }
-    catch (e) { alert('Lỗi: ' + e.message); }
-  },
+      await this.load();
+    } catch (e) { alert('❌ Lỗi: ' + e.message); }
+  }
 };
