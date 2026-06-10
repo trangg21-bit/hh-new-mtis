@@ -244,10 +244,11 @@ const ROUTER = {
       <!-- Sidebar -->
       <aside class="sidebar" role="navigation" aria-label="Menu chính">
         <div class="sidebar-logo">
-          <img class="logo-img" src="assets/logo-cuc-hang-hai.svg" alt="Cục Hàng hải Việt Nam" onerror="this.style.display='none'">
+          <img class="logo-img" src="assets/logo-vimawa.png" alt="VIMAWA" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+          <div class="logo-icon" style="display:none; width:48px; height:48px; background:var(--color-primary); border-radius:8px; align-items:center; justify-content:center; color:white; font-weight:700; font-size:20px;">V</div>
           <div class="logo-text">
-            <strong>QL KCHT Hàng hải</strong>
-            <small>Cục Hàng hải Việt Nam</small>
+            <strong>HỆ THỐNG THÔNG TIN QUẢN LÝ KẾT CẤU HẠ TẦNG GIAO THÔNG HÀNG HẢI</strong>
+            <small>VIMAWA — Cục Hàng hải Việt Nam</small>
           </div>
         </div>
         <nav class="sidebar-menu">
@@ -262,7 +263,7 @@ const ROUTER = {
       <div class="main-wrapper">
         <!-- Header -->
         <header class="header" role="banner">
-          <h1 id="page-header-title">${ROUTES[active] ? ROUTES[active].title.replace(' — QL KCHT Hàng hải', '') : ''}</h1>
+          <h1 id="page-header-title">${ROUTES[active] ? ROUTES[active].title.replace(' — Hệ thống thông tin quản lý KCHT GTVT Hàng hải', '') : ''}</h1>
           <div class="user-info">
             <div class="user-dropdown" id="user-dropdown">
               <span class="name">${esc(user ? user.full_name || user.username : '')}</span>
@@ -301,18 +302,7 @@ const ROUTER = {
     if (!section) return;
     const body = section.querySelector('.menu-section-body');
     if (!body) return;
-    const isOpen = section.classList.contains('menu-section-open');
-    if (isOpen) {
-      section.classList.remove('menu-section-open');
-      body.style.maxHeight = body.scrollHeight + 'px';
-      requestAnimationFrame(() => { body.style.maxHeight = '0'; });
-    } else {
-      section.classList.add('menu-section-open');
-      const h = body.scrollHeight;
-      body.style.maxHeight = '0';
-      requestAnimationFrame(() => { body.style.maxHeight = h + 'px'; });
-      setTimeout(() => { if (section.classList.contains('menu-section-open')) body.style.maxHeight = ''; }, 300);
-    }
+    section.classList.toggle('menu-section-open');
   },
 
   logout() {
