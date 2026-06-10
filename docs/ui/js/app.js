@@ -300,8 +300,6 @@ const ROUTER = {
   toggleSection(sectionId) {
     const section = document.getElementById(sectionId);
     if (!section) return;
-    const body = section.querySelector('.menu-section-body');
-    if (!body) return;
     section.classList.toggle('menu-section-open');
   },
 
