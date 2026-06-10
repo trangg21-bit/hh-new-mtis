@@ -253,8 +253,6 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  position: relative;
-  z-index: 1;
 }
 .main-wrapper > #screen-content {
   flex: 1;
@@ -262,7 +260,8 @@ body {
   flex-direction: column;
 }
 .main-wrapper > .header {
-  position: relative;
+  position: sticky;
+  top: 0;
   z-index: 50;
 }
 .header {
