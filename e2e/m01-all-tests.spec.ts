@@ -1,33 +1,5 @@
 import { test, expect } from '@playwright/test';
-
-const BASE = 'http://localhost:3000';
-
-// Helper: UI login that also stores token in localStorage
-async function uiLogin(page, username, password) {
-  await page.goto(BASE);
-  await page.waitForSelector('#login-username', { timeout: 5000 });
-  await page.fill('#login-username', username);
-  await page.fill('#login-password', password);
-  await page.click('#login-btn');
-  await page.waitForTimeout(2000);
-
-  // Login success means hash became #dashboard
-  const hash = await page.evaluate(() => window.location.hash);
-  if (hash === '#dashboard') {
-    // Token should already be stored by SPA's AUTH module
-    const token = await page.evaluate(() => localStorage.getItem('mtis_token'));
-    if (token) {
-      console.log(`Login OK: ${username}, token stored`);
-    }
-  }
-
-  const errEl = page.locator('#login-error');
-  let errorText = '';
-  if (await errEl.isVisible().catch(() => false)) {
-    errorText = (await errEl.textContent()) || '';
-  }
-  return { hash, errorText };
-}
+import { apiLogin, BASE } from './m01-setup';
 
 // Helper: API call with auth header
 async function apiCall(page, method, path, body = null) {
@@ -61,8 +33,7 @@ test.describe.configure({ mode: 'serial' });
 
 test.describe('F-M01-001 Registration', () => {
   test('TC-REG-001: GET /api/users returns user list (admin)', async ({ page }) => {
-    const r = await uiLogin(page, 'admin', 'admin123');
-    expect(r.hash).toBe('#dashboard');
+    await apiLogin(page, 'admin', 'admin123');
     const res = await apiCall(page, 'GET', '/api/users');
     expect(res.status).toBe(200);
     expect(Array.isArray(res.data.users)).toBeTruthy();
@@ -71,8 +42,7 @@ test.describe('F-M01-001 Registration', () => {
   });
 
   test('TC-REG-002: Tạo user qua form UI trả về 201', async ({ page }) => {
-    const r = await uiLogin(page, 'admin', 'admin123');
-    expect(r.hash).toBe('#dashboard');
+    await apiLogin(page, 'admin', 'admin123');
     await page.goto(BASE + '#register');
     await page.waitForSelector('#reg-username', { timeout: 5000 });
     const u = `reg${Date.now()}`;
@@ -89,8 +59,7 @@ test.describe('F-M01-001 Registration', () => {
   });
 
   test('TC-REG-003: Tạo user trùng username trả về 409', async ({ page }) => {
-    const r = await uiLogin(page, 'admin', 'admin123');
-    expect(r.hash).toBe('#dashboard');
+    await apiLogin(page, 'admin', 'admin123');
     await page.goto(BASE + '#register');
     await page.waitForSelector('#reg-username', { timeout: 5000 });
     await page.fill('#reg-username', 'admin');

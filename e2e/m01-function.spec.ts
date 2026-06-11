@@ -12,17 +12,11 @@ const CRED = {
 // ─── Helpers ──────────────────────────────────────────────
 
 async function loginAdminAsPage(page: import('@playwright/test').Page) {
-  const token = await apiLogin(page, CRED.admin.username, CRED.admin.password);
-  await page.goto(BASE);
-  await page.evaluate((tok) => localStorage.setItem('mtis_token', tok), token);
-  await page.waitForTimeout(1000);
+  await apiLogin(page, CRED.admin.username, CRED.admin.password);
 }
 
 async function loginNonAdminAsPage(page: import('@playwright/test').Page, username: string) {
-  const token = await apiLogin(page, username, CRED.chuyenviem.password);
-  await page.goto(BASE);
-  await page.evaluate((tok) => localStorage.setItem('mtis_token', tok), token);
-  await page.waitForTimeout(1000);
+  await apiLogin(page, username, CRED.chuyenviem.password);
 }
 
 // ─── Permission Enforcement ───────────────────────────────
@@ -351,7 +345,7 @@ test.describe('Group Management', () => {
     const res = await apiCall(page, 'GET', '/api/users/groups');
     expect(res.status).toBe(200);
     expect(Array.isArray(res.data.groups)).toBeTruthy();
-    expect(res.data.total).toBeGreaterThanOrEqual(3);
+    expect(res.data.groups.length).toBeGreaterThanOrEqual(3);
   });
 
   test('TC-F-GRP-02: GET /api/users/groups/:id/members', async ({ page }) => {

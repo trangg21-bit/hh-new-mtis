@@ -242,15 +242,10 @@ const ROUTER = {
 
     return `
       <!-- Sidebar -->
-      <aside class="sidebar" role="navigation" aria-label="Menu chính">
-        <div class="sidebar-logo">
-          <img class="logo-img" src="assets/logo-vimawa.png" alt="VIMAWA" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-          <div class="logo-icon" style="display:none; width:48px; height:48px; background:var(--color-primary); border-radius:8px; align-items:center; justify-content:center; color:white; font-weight:700; font-size:20px;">V</div>
-          <div class="logo-text">
-            <strong>HỆ THỐNG THÔNG TIN QUẢN LÝ KẾT CẤU HẠ TẦNG GIAO THÔNG HÀNG HẢI</strong>
-            <small>VIMAWA — Cục Hàng hải Việt Nam</small>
+        <aside class="sidebar" role="navigation" aria-label="Menu chính">
+          <div class="sidebar-logo">
+            <img class="logo-img" src="assets/logo-cuc-hang-hai.svg" alt="Cục Hàng hải Việt Nam">
           </div>
-        </div>
         <nav class="sidebar-menu">
           ${menuHtml}
         </nav>
@@ -263,7 +258,10 @@ const ROUTER = {
       <div class="main-wrapper">
         <!-- Header -->
         <header class="header" role="banner">
-          <h1 id="page-header-title">${ROUTES[active] ? ROUTES[active].title.replace(' — Hệ thống thông tin quản lý KCHT GTVT Hàng hải', '') : ''}</h1>
+          <div class="header-brand">
+            <strong>HỆ THỐNG THÔNG TIN QUẢN LÝ KẾT CẤU HẠ TẦNG GIAO THÔNG HÀNG HẢI</strong>
+            <small>Cục Hàng hải Việt Nam</small>
+          </div>
           <div class="user-info">
             <div class="user-dropdown" id="user-dropdown">
               <span class="name">${esc(user ? user.full_name || user.username : '')}</span>
@@ -286,7 +284,7 @@ const ROUTER = {
 
         <!-- Footer -->
         <footer class="footer">
-          Hệ thống Quản lý KCHT Giao thông Hàng hải &mdash; Cục Hàng hải Việt Nam
+          Hệ thống QL KCHT Hàng hải — Cục Hàng hải Việt Nam
         </footer>
       </div>
     `;

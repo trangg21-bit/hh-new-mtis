@@ -113,6 +113,7 @@ body {
 .sidebar-logo {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 12px;
   padding: 16px 12px;
   border-bottom: 1px solid var(--color-border);
@@ -273,7 +274,9 @@ body {
   display: flex; align-items: center; justify-content: space-between;
   position: sticky; top: 0; z-index: 50;
 }
-.header h1 { font-size: 15px; font-weight: 600; color: var(--color-body-text); }
+.header .header-brand { display: flex; flex-direction: column; gap: 2px; flex-shrink: 0; }
+.header .header-brand strong { font-size: 13px; font-weight: 700; color: var(--color-heading); line-height: 1.2; }
+.header .header-brand small { font-size: 11px; color: var(--color-muted); line-height: 1.2; }
 .header .user-info { display: flex; align-items: center; gap: 16px; }
 .header .user-info .avatar {
   width: 34px; height: 34px; border-radius: 50%;

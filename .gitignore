@@ -20,3 +20,4 @@ docs/inputs/*.docx
 push_to_github.sh
 push_debug.sh
 check_github.sh
+test-results/

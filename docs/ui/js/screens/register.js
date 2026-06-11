@@ -20,24 +20,24 @@ const SCREEN_REGISTER = {
             <div id="reg-error" class="alert alert-danger" style="display:none" role="alert"></div>
             <div id="reg-success" class="alert alert-success" style="display:none" role="alert"></div>
 
-            <form id="reg-form" onsubmit="return SCREEN_REGISTER.submit(event)">
+            <form id="reg-form">
               <div class="grid-2">
                 <div class="form-group">
                   <label for="reg-fullname" class="required">Họ và tên</label>
                   <input type="text" id="reg-fullname" class="form-control" placeholder="Nguyễn Văn A"
-                         required aria-required="true" autofocus>
+                         aria-required="true" autofocus>
                 </div>
                 <div class="form-group">
                   <label for="reg-username" class="required">Tên đăng nhập</label>
                   <input type="text" id="reg-username" class="form-control" placeholder="nguyen.van.a"
-                         required aria-required="true" autocomplete="off">
+                         aria-required="true" autocomplete="off" maxlength="10">
                 </div>
               </div>
               <div class="grid-2">
                 <div class="form-group">
                   <label for="reg-email">Email</label>
                   <input type="email" id="reg-email" class="form-control" placeholder="nguyen.van.a@example.com"
-                         autocomplete="email">
+                         autocomplete="email" maxlength="20">
                 </div>
                 <div class="form-group">
                   <label for="reg-phone">Số điện thoại</label>
@@ -48,16 +48,16 @@ const SCREEN_REGISTER = {
                 <div class="form-group">
                   <label for="reg-org" class="required">Đơn vị</label>
                   <input type="text" id="reg-org" class="form-control" value="Cảng vụ Hàng hải Hải Phòng"
-                         required aria-required="true">
+                         aria-required="true">
                 </div>
                 <div class="form-group">
                   <label for="reg-role" class="required">Vai trò</label>
-                  <select id="reg-role" class="form-control" required aria-required="true">
+                  <select id="reg-role" class="form-control" aria-required="true">
                     <option value="">Chọn vai trò</option>
-                    <option value="system-admin">Quản trị hệ thống</option>
-                    <option value="director">Lãnh đạo Cục</option>
-                    <option value="port-authority-leader">Lãnh đạo Cảng vụ</option>
                     <option value="infrastructure-officer" selected>Chuyên viên</option>
+                    <option value="port-authority-leader">Lãnh đạo Cảng vụ</option>
+                    <option value="director">Lãnh đạo Cục</option>
+                    <option value="system-admin">Quản trị hệ thống</option>
                   </select>
                 </div>
               </div>
@@ -66,7 +66,7 @@ const SCREEN_REGISTER = {
                 <div class="form-group">
                   <label for="reg-password" class="required">Mật khẩu</label>
                   <input type="password" id="reg-password" class="form-control" placeholder="Tối thiểu 8 ký tự"
-                         minlength="8" required aria-required="true" autocomplete="new-password"
+                         aria-required="true" autocomplete="new-password"
                          oninput="SCREEN_REGISTER.updateStrength()">
                   <div id="reg-strength" class="password-strength mt-2" style="display:none">
                     <div class="strength-bar"><div id="reg-strength-fill" class="strength-fill"></div></div>
@@ -76,7 +76,7 @@ const SCREEN_REGISTER = {
                 <div class="form-group">
                   <label for="reg-confirm" class="required">Xác nhận mật khẩu</label>
                   <input type="password" id="reg-confirm" class="form-control" placeholder="Nhập lại mật khẩu"
-                         minlength="8" required aria-required="true" autocomplete="new-password">
+                         aria-required="true" autocomplete="new-password">
                 </div>
               </div>
               <div class="password-requirements mb-4">
@@ -128,9 +128,11 @@ const SCREEN_REGISTER = {
     }
   },
 
-  async submit(e) {
-    e.preventDefault();
+  async submit(event) {
+    if (event) event.preventDefault();
+    // Re-query elements each time to avoid stale refs
     const btn = document.getElementById('reg-btn');
+    if (!btn || btn.disabled) return false;
     const errEl = document.getElementById('reg-error');
     const successEl = document.getElementById('reg-success');
 
@@ -167,16 +169,17 @@ const SCREEN_REGISTER = {
     btn.innerHTML = '<span class="spinner"></span> Đang tạo...';
 
     try {
-      const data = await apiPost('/api/users', {
+      await apiPost('/api/users', {
         username, password, full_name: fullName, email: email || undefined,
         phone: phone || undefined, org_unit: orgUnit, role,
       });
-      document.getElementById('reg-form').reset();
+      errEl.style.display = 'none';
       successEl.innerHTML = '<strong>✔</strong> Tạo tài khoản thành công! <a href="#users">Quay lại danh sách</a>';
-      successEl.style.display = '';
+      successEl.style.display = 'block';
+      document.getElementById('reg-form').reset();
     } catch (e) {
       errEl.textContent = e.message || 'Không thể tạo tài khoản';
-      errEl.style.display = '';
+      errEl.style.display = 'block';
     }
 
     btn.disabled = false;
@@ -187,5 +190,7 @@ const SCREEN_REGISTER = {
   afterRender() {
     const el = document.getElementById('reg-fullname');
     if (el) el.focus();
+    const form = document.getElementById('reg-form');
+    if (form) form.addEventListener('submit', (e) => this.submit(e));
   },
 };

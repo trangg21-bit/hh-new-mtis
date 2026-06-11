@@ -81,12 +81,13 @@ const SCREEN_ORGANIZATIONS = {
 
   _renderNodes(nodes, depth) {
     return nodes.map(n => {
-      const indent = depth * 28;
+      const hasChildren = n.children && n.children.length > 0;
       return `
-        <li style="padding-left:${indent}px;margin:4px 0">
+        <li style="margin:2px 0;position:relative">
           <div class="org-node" style="display:flex;align-items:center;gap:10px;padding:8px 12px;border-radius:6px;border:1px solid var(--color-border-light);background:#fff;transition:background 0.15s"
                onmouseover="this.style.background='#f9fafb'" onmouseout="this.style.background='#fff'">
-            <span style="flex-shrink:0;color:var(--color-muted)">📁</span>
+            <span style="flex-shrink:0;color:var(--color-muted);font-family:monospace;width:${depth * 20}px;text-align:right">${depth > 0 ? '└─' : ''}</span>
+            <span style="flex-shrink:0;color:var(--color-muted)">${hasChildren ? '📂' : '📁'}</span>
             <span style="flex:1;font-weight:500">${esc(n.name)}</span>
             ${n.description ? `<span style="font-size:var(--font-size-xs);color:var(--color-muted);margin-right:12px">${esc(n.description)}</span>` : ''}
             <div style="display:flex;gap:4px;flex-shrink:0">
@@ -94,7 +95,7 @@ const SCREEN_ORGANIZATIONS = {
               <button class="btn btn-ghost btn-sm" title="Xóa" onclick="SCREEN_ORGANIZATIONS.confirmDelete(${n.id})">🗑</button>
             </div>
           </div>
-          ${n.children.length ? this._renderNodes(n.children, depth + 1) : ''}
+          ${hasChildren ? `<ul style="list-style:none;padding:0;margin:0">${this._renderNodes(n.children, depth + 1)}</ul>` : ''}
         </li>`;
     }).join('');
   },
@@ -160,8 +161,8 @@ const SCREEN_ORGANIZATIONS = {
     const render = (nodes, depth) => {
       return nodes.map(n => {
         if (n.id === excludeId) return '';
-        const prefix = '—'.repeat(depth);
-        let html = `<option value="${n.id}">${prefix} ${esc(n.name)}</option>`;
+        const prefix = depth === 0 ? '' : '└─ '.repeat(depth);
+        let html = `<option value="${n.id}">${prefix}${esc(n.name)}</option>`;
         if (n.children.length) html += render(n.children, depth + 1);
         return html;
       }).join('');

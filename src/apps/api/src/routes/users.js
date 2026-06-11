@@ -5,22 +5,33 @@ const { parsePagination } = require('../utils/validation');
 
 const router = express.Router();
 
+// GET /api/users/roles
+router.get('/roles', (req, res) => {
+  res.json({ roles: ['system-admin', 'director', 'port-authority-leader', 'infrastructure-officer'] });
+});
+
 // GET /api/users — list all users with pagination, search, filter by org_id
 router.get('/', (req, res) => {
-  const { search, role, status, org_id } = req.query;
+  const { search, role, status, org_id, full_name } = req.query;
   const { page, limit, offset } = parsePagination(req.query);
 
   let countSql = 'SELECT COUNT(*) as c FROM users WHERE 1=1';
-  let sql = 'SELECT id, username, full_name, org_unit, org_id, role, status, totp_enabled, created_at FROM users WHERE 1=1';
+  let sql = 'SELECT id, username, full_name, email, org_unit, org_id, role, status, totp_enabled, created_at FROM users WHERE 1=1';
   const params = [];
   const countParams = [];
 
   if (search) {
-    const clause = ' AND (full_name LIKE ? OR username LIKE ?)';
+    const clause = ' AND (full_name LIKE ? OR username LIKE ? OR email LIKE ?)';
     sql += clause;
     countSql += clause;
-    params.push(`%${search}%`, `%${search}%`);
-    countParams.push(`%${search}%`, `%${search}%`);
+    params.push(`%${search}%`, `%${search}%`, `%${search}%`);
+    countParams.push(`%${search}%`, `%${search}%`, `%${search}%`);
+  }
+  if (full_name) {
+    sql += ' AND full_name LIKE ?';
+    countSql += ' AND full_name LIKE ?';
+    params.push(`%${full_name}%`);
+    countParams.push(`%${full_name}%`);
   }
   if (role) {
     sql += ' AND role = ?';
@@ -87,6 +98,8 @@ router.post('/', (req, res) => {
   const u = safe(username), p = password, fn = safe(full_name), e = safe(email), ph = safe(phone);
   const validRoles = ['system-admin', 'Chuyên viên', 'Lãnh đạo Cảng vụ', 'infrastructure-officer', 'port-authority-leader', 'director'];
   if (!u || !p || !fn) return res.status(400).json({ error: 'Thiếu trường bắt buộc' });
+  if (u.length > 10) return res.status(400).json({ error: 'Tên đăng nhập tối đa 10 ký tự' });
+  if (e && e.length > 20) return res.status(400).json({ error: 'Email tối đa 20 ký tự' });
   if (e && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e)) return res.status(400).json({ error: 'Email không hợp lệ' });
   if (role && !validRoles.includes(role)) return res.status(400).json({ error: 'Role không hợp lệ' });
   if (org_id && isNaN(Number(org_id))) return res.status(400).json({ error: 'org_id phải là số' });

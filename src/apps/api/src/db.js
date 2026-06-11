@@ -134,6 +134,10 @@ db.exec(`
   CREATE INDEX IF NOT EXISTS idx_users_status ON users(status);
   CREATE INDEX IF NOT EXISTS idx_users_org_id ON users(org_id);
 
+  -- Email unique constraint (fill null emails existing in seed data)
+  UPDATE users SET email = 'user_' || id || '@mtis.local' WHERE email IS NULL OR email = '';
+  CREATE UNIQUE INDEX IF NOT EXISTS idx_users_email ON users(email);
+
   CREATE INDEX IF NOT EXISTS idx_login_log_username ON login_log(username);
   CREATE INDEX IF NOT EXISTS idx_login_log_logged_at ON login_log(logged_at);
   CREATE INDEX IF NOT EXISTS idx_login_log_status ON login_log(status);

@@ -16,21 +16,16 @@ export async function apiLogin(page: Page, username: string, password: string): 
   const resp = await page.request.post(`${BASE}/api/auth/login`, {
     data: { username, password },
   });
-  const data = await resp.json() as { token: string };
-  // Load SPA page (sets correct origin for localStorage)
-  await page.goto(BASE);
-  // Store token in localStorage (correct origin)
-  await page.evaluate((tok) => localStorage.setItem('mtis_token', tok), data.token);
-  // SPA reloads and initializes. By default it loads #login (no sidebar).
-  // Force it to dashboard (auth route with sidebar) by dispatching hashchange manually.
-  await page.evaluate(() => {
-    window.location.hash = 'dashboard';
-    // In Playwright, hashchange events don't fire from evaluate() — dispatch manually
-    window.dispatchEvent(new HashChangeEvent('hashchange'));
-  });
-  // Wait for SPA router to process hashchange and render sidebar
+  const { token, user } = await resp.json() as { token: string; user?: { id: number; username: string; full_name: string; role: string } };
+  // Use addInitScript to inject token + user BEFORE any page script runs
+  await page.addInitScript(({ tok, usr }) => {
+    localStorage.setItem('mtis_token', tok);
+    if (usr) localStorage.setItem('mtis_user', JSON.stringify(usr));
+  }, { tok: token, usr: user || { id: 1, username, full_name: username, role: 'system-admin' } });
+  // Navigate directly to dashboard — router sees token on first resolve()
+  await page.goto(BASE + '#dashboard');
   await page.waitForSelector('.sidebar', { timeout: 10000 });
-  return data.token;
+  return token;
 }
 
 /** Login via API without storing in browser — returns raw token */

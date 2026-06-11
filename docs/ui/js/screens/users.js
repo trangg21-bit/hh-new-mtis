@@ -1,9 +1,11 @@
 /* ================================================================
    MTIS User List Screen (S-M01-02) — Enterprise + Unified Modal
+   Filter bar: search (username/email/name), role, status, đơn vị
    ================================================================ */
 
 const SCREEN_USERS = {
-  _data: [], _page: 1, _total: 0, _search: '', _statusFilter: '',
+  _data: [], _page: 1, _total: 0,
+  _filters: { search: '', role: '', status: '', org_id: '' },
 
   render() {
     return `
@@ -19,37 +21,60 @@ const SCREEN_USERS = {
 
           <hr class="section-divider" style="margin:0 24px">
 
-          <div class="admin-toolbar" style="padding:16px 24px;justify-content:space-between;flex-wrap:wrap;gap:12px">
-            <div style="display:flex;gap:12px;flex-wrap:wrap;flex:1">
-              <div class="search-field" style="flex:1;min-width:250px">
-                <span>🔍</span>
-                <input type="text" class="form-control" id="user-search" placeholder="Tìm username, họ tên..." oninput="SCREEN_USERS.debouncedSearch()">
+          <!-- Filter bar -->
+          <div class="filter-bar" style="padding:16px 24px;display:flex;flex-wrap:wrap;gap:10px;align-items:end">
+            <div class="filter-group" style="flex:2;min-width:200px">
+              <label class="filter-label" style="display:block;font-size:11px;color:var(--color-muted);margin-bottom:4px">Tìm kiếm</label>
+              <div class="search-field" style="display:flex;align-items:center;border:1px solid var(--color-border-input);border-radius:var(--radius-input);background:var(--color-white);padding:0 10px">
+                <span style="color:var(--color-muted);font-size:14px">🔍</span>
+                <input type="text" class="form-control" id="user-search" placeholder="Username, email, họ tên..." style="border:none;padding:8px 8px" oninput="SCREEN_USERS.debouncedSearch()">
               </div>
-              <select class="form-control" id="user-status-filter" style="width:150px" onchange="SCREEN_USERS.applyFilter()">
+            </div>
+            <div class="filter-group" style="flex:1;min-width:140px">
+              <label class="filter-label" style="display:block;font-size:11px;color:var(--color-muted);margin-bottom:4px">Vai trò</label>
+              <select class="form-control" id="user-role-filter" onchange="SCREEN_USERS.applyFilter()">
+                <option value="">Tất cả vai trò</option>
+                <option value="system-admin">Quản trị hệ thống</option>
+                <option value="director">Lãnh đạo Cục</option>
+                <option value="port-authority-leader">Lãnh đạo Cảng vụ</option>
+                <option value="infrastructure-officer">Chuyên viên</option>
+              </select>
+            </div>
+            <div class="filter-group" style="flex:1;min-width:120px">
+              <label class="filter-label" style="display:block;font-size:11px;color:var(--color-muted);margin-bottom:4px">Trạng thái</label>
+              <select class="form-control" id="user-status-filter" onchange="SCREEN_USERS.applyFilter()">
                 <option value="">Tất cả</option>
                 <option value="1">Hoạt động</option>
                 <option value="2">Đã khóa</option>
                 <option value="0">Đã xóa</option>
               </select>
             </div>
-            <div style="display:flex;gap:8px;flex-shrink:0">
-              <button class="btn btn-ghost" onclick="SCREEN_USERS.exportExcel()" title="Xuất Excel">📥 Xuất Excel</button>
-              <button class="btn btn-primary" onclick="SCREEN_USERS.showCreateModal()">＋ Thêm người dùng</button>
+            <div class="filter-group" style="flex:1;min-width:140px">
+              <label class="filter-label" style="display:block;font-size:11px;color:var(--color-muted);margin-bottom:4px">Đơn vị</label>
+              <select class="form-control" id="user-org-filter" onchange="SCREEN_USERS.applyFilter()">
+                <option value="">Tất cả đơn vị</option>
+              </select>
+            </div>
+            <div class="filter-group" style="display:flex;gap:8px;align-items:end;flex-shrink:0">
+              <button class="btn btn-ghost" onclick="SCREEN_USERS.clearFilters()" title="Xóa bộ lọc">✕ Xóa lọc</button>
+              <button class="btn btn-ghost" onclick="SCREEN_USERS.exportExcel()" title="Xuất Excel">📥 Excel</button>
+              <button class="btn btn-primary" onclick="SCREEN_USERS.showCreateModal()">＋ Thêm</button>
             </div>
           </div>
 
+          <!-- Table -->
           <div class="table-wrap enterprise-table-wrap">
             <table class="ant-table" role="table" aria-label="Danh sách người dùng">
               <thead>
                 <tr>
-                  <th style="width:60px">STT</th>
+                  <th style="width:50px">STT</th>
                   <th>Tên đăng nhập</th>
                   <th>Họ tên</th>
                   <th>Email</th>
                   <th>Đơn vị</th>
                   <th>Vai trò</th>
                   <th>Trạng thái</th>
-                  <th class="text-right" style="width:150px">Thao tác</th>
+                  <th class="text-right" style="width:140px">Thao tác</th>
                 </tr>
               </thead>
               <tbody id="users-tbody">
@@ -58,6 +83,7 @@ const SCREEN_USERS = {
             </table>
           </div>
 
+          <!-- Footer -->
           <div class="table-footer flex-between mt-4" style="padding:16px 24px">
             <span class="text-muted" id="users-info">Hiển thị 0 / 0 người dùng</span>
             <div class="pagination" id="users-pagination"></div>
@@ -70,17 +96,58 @@ const SCREEN_USERS = {
   debouncedSearch() {
     clearTimeout(this._searchTimer);
     this._searchTimer = setTimeout(() => {
-      this._search = document.getElementById('user-search').value;
+      this._filters.search = document.getElementById('user-search').value;
       this._page = 1; this.load();
     }, 300);
   },
 
   applyFilter() {
-    this._statusFilter = document.getElementById('user-status-filter').value;
+    this._filters.role = document.getElementById('user-role-filter').value;
+    this._filters.status = document.getElementById('user-status-filter').value;
+    this._filters.org_id = document.getElementById('user-org-filter').value;
     this._page = 1; this.load();
   },
 
-  afterRender() { this.load(); },
+  clearFilters() {
+    document.getElementById('user-search').value = '';
+    document.getElementById('user-role-filter').value = '';
+    document.getElementById('user-status-filter').value = '';
+    document.getElementById('user-org-filter').value = '';
+    this._filters = { search: '', role: '', status: '', org_id: '' };
+    this._page = 1; this.load();
+  },
+
+  afterRender() {
+    this._loadOrgs();
+    this.load();
+  },
+
+  async _loadOrgs() {
+    try {
+      const data = await apiGet('/api/organizations');
+      const orgs = data.organizations || [];
+      const select = document.getElementById('user-org-filter');
+      if (!select) return;
+      // Build tree options
+      const buildOptions = (items, depth) => {
+        items.forEach(o => {
+          const opt = document.createElement('option');
+          opt.value = o.id;
+          opt.textContent = (depth > 0 ? '└─ '.repeat(depth) : '') + o.name;
+          select.appendChild(opt);
+          if (o.children && o.children.length) buildOptions(o.children, depth + 1);
+        });
+      };
+      const map = {};
+      const roots = [];
+      orgs.forEach(o => { map[o.id] = { ...o, children: [] }; });
+      orgs.forEach(o => {
+        if (o.parent_id && map[o.parent_id]) map[o.parent_id].children.push(map[o.id]);
+        else roots.push(map[o.id]);
+      });
+      buildOptions(roots, 0);
+    } catch (e) { /* silent */ }
+  },
 
   async load() {
     const tbody = document.getElementById('users-tbody');
@@ -89,11 +156,14 @@ const SCREEN_USERS = {
     if (!tbody) return;
 
     try {
-      const data = await apiGet('/api/users', {
+      const params = {
         page: this._page, limit: 20,
-        search: this._search || undefined,
-        status: this._statusFilter || undefined,
-      });
+        search: this._filters.search || undefined,
+        role: this._filters.role || undefined,
+        status: this._filters.status || undefined,
+        org_id: this._filters.org_id || undefined,
+      };
+      const data = await apiGet('/api/users', params);
       this._data = data.users || [];
       this._total = data.total || 0;
 
@@ -122,7 +192,6 @@ const SCREEN_USERS = {
       this._renderPagination(pag, totalPages);
     } catch (e) {
       tbody.innerHTML = `<tr><td colspan="8" class="text-center text-danger">Lỗi: ${esc(e.message)}</td></tr>`;
-      info.textContent = 'Lỗi tải dữ liệu';
     }
   },
 
@@ -130,12 +199,16 @@ const SCREEN_USERS = {
     if (totalPages <= 1) { container.innerHTML = ''; return; }
     const page = this._page;
     let html = `<button class="page-btn" onclick="SCREEN_USERS.goToPage(${page - 1})" ${page === 1 ? 'disabled' : ''}>‹ Trước</button>`;
-    let start = Math.max(1, page - 2), end = Math.min(totalPages, page + 2);
-    html += `<button class="page-btn ${page === 1 ? 'active' : ''}" onclick="SCREEN_USERS.goToPage(1)">1</button>`;
-    if (start > 2) html += `<span class="page-ellipsis">…</span>`;
-    for (let i = start; i <= end; i++) html += `<button class="page-btn ${i === page ? 'active' : ''}" onclick="SCREEN_USERS.goToPage(${i})">${i}</button>`;
-    if (end < totalPages - 1) html += `<span class="page-ellipsis">…</span>`;
-    if (totalPages > 1 && end < totalPages) html += `<button class="page-btn ${page === totalPages ? 'active' : ''}" onclick="SCREEN_USERS.goToPage(${totalPages})">${totalPages}</button>`;
+    if (totalPages <= 7) {
+      for (let i = 1; i <= totalPages; i++) html += `<button class="page-btn ${i === page ? 'active' : ''}" onclick="SCREEN_USERS.goToPage(${i})">${i}</button>`;
+    } else {
+      html += `<button class="page-btn ${page === 1 ? 'active' : ''}" onclick="SCREEN_USERS.goToPage(1)">1</button>`;
+      let start = Math.max(2, page - 1), end = Math.min(totalPages - 1, page + 1);
+      if (start > 2) html += '<span class="page-ellipsis">…</span>';
+      for (let i = start; i <= end; i++) html += `<button class="page-btn ${i === page ? 'active' : ''}" onclick="SCREEN_USERS.goToPage(${i})">${i}</button>`;
+      if (end < totalPages - 1) html += '<span class="page-ellipsis">…</span>';
+      html += `<button class="page-btn ${page === totalPages ? 'active' : ''}" onclick="SCREEN_USERS.goToPage(${totalPages})">${totalPages}</button>`;
+    }
     html += `<button class="page-btn" onclick="SCREEN_USERS.goToPage(${page + 1})" ${page === totalPages ? 'disabled' : ''}>Tiếp ›</button>`;
     container.innerHTML = html;
   },
