@@ -17,13 +17,20 @@ export async function apiLogin(page: Page, username: string, password: string): 
     data: { username, password },
   });
   const { token, user } = await resp.json() as { token: string; user?: { id: number; username: string; full_name: string; role: string } };
-  // Use addInitScript to inject token + user BEFORE any page script runs
-  await page.addInitScript(({ tok, usr }) => {
+  // Step 1: Navigate to SPA page first (sets correct origin)
+  await page.goto(BASE);
+  // Step 2: Set token + user in localStorage (correct origin, after page loads)
+  await page.evaluate(({ tok, usr }) => {
     localStorage.setItem('mtis_token', tok);
     if (usr) localStorage.setItem('mtis_user', JSON.stringify(usr));
   }, { tok: token, usr: user || { id: 1, username, full_name: username, role: 'system-admin' } });
-  // Navigate directly to dashboard — router sees token on first resolve()
-  await page.goto(BASE + '#dashboard');
+  // Step 3: Set hash to #dashboard AND dispatch hashchange to trigger SPA router
+  // SPA router only renders auth layout (with sidebar) on hashchange, not on initial page load
+  await page.evaluate(() => {
+    window.location.hash = 'dashboard';
+    window.dispatchEvent(new HashChangeEvent('hashchange'));
+  });
+  // Step 4: SPA router needs time to render sidebar
   await page.waitForSelector('.sidebar', { timeout: 10000 });
   return token;
 }
