@@ -1,0 +1,1269 @@
+{
+  "_meta": {
+    "producer": "consulting-intelligence-extractor",
+    "mode": "from-doc",
+    "total_features": 105
+  },
+  "testEvidence": [
+    {
+      "feature_id": "F-M01-001",
+      "test_cases": [
+        {
+          "id": "TC-F-M01-001-001",
+          "description": "Test User Registration - basic flow",
+          "status": "not-executed",
+          "source": "synthesized"
+        }
+      ],
+      "status": "not-executed"
+    },
+    {
+      "feature_id": "F-M01-002",
+      "test_cases": [
+        {
+          "id": "TC-F-M01-002-001",
+          "description": "Test User Login - basic flow",
+          "status": "not-executed",
+          "source": "synthesized"
+        }
+      ],
+      "status": "not-executed"
+    },
+    {
+      "feature_id": "F-M01-003",
+      "test_cases": [
+        {
+          "id": "TC-F-M01-003-001",
+          "description": "Test Password Management - basic flow",
+          "status": "not-executed",
+          "source": "synthesized"
+        }
+      ],
+      "status": "not-executed"
+    },
+    {
+      "feature_id": "F-M01-004",
+      "test_cases": [
+        {
+          "id": "TC-F-M01-004-001",
+          "description": "Test User Group Management - basic flow",
+          "status": "not-executed",
+          "source": "synthesized"
+        }
+      ],
+      "status": "not-executed"
+    },
+    {
+      "feature_id": "F-M01-005",
+      "test_cases": [
+        {
+          "id": "TC-F-M01-005-001",
+          "description": "Test Permission Role Management - basic flow",
+          "status": "not-executed",
+          "source": "synthesized"
+        }
+      ],
+      "status": "not-executed"
+    },
+    {
+      "feature_id": "F-M01-006",
+      "test_cases": [
+        {
+          "id": "TC-F-M01-006-001",
+          "description": "Test Audit User Logins - basic flow",
+          "status": "not-executed",
+          "source": "synthesized"
+        }
+      ],
+      "status": "not-executed"
+    },
+    {
+      "feature_id": "F-M01-007",
+      "test_cases": [
+        {
+          "id": "TC-F-M01-007-001",
+          "description": "Test Organization Management - basic flow",
+          "status": "not-executed",
+          "source": "synthesized"
+        }
+      ],
+      "status": "not-executed"
+    },
+    {
+      "feature_id": "F-M01-008",
+      "test_cases": [
+        {
+          "id": "TC-F-M01-008-001",
+          "description": "Test Account Lock/Unlock - basic flow",
+          "status": "not-executed",
+          "source": "synthesized"
+        }
+      ],
+      "status": "not-executed"
+    },
+    {
+      "feature_id": "F-M01-009",
+      "test_cases": [
+        {
+          "id": "TC-F-M01-009-001",
+          "description": "Test TOTP Two-Factor Auth - basic flow",
+          "status": "not-executed",
+          "source": "synthesized"
+        }
+      ],
+      "status": "not-executed"
+    },
+    {
+      "feature_id": "F-M01-010",
+      "test_cases": [
+        {
+          "id": "TC-F-M01-010-001",
+          "description": "Test Multi-Session Management - basic flow",
+          "status": "not-executed",
+          "source": "synthesized"
+        }
+      ],
+      "status": "not-executed"
+    },
+    {
+      "feature_id": "F-M02-001",
+      "test_cases": [
+        {
+          "id": "TC-F-M02-001-001",
+          "description": "Test Unit Management - basic flow",
+          "status": "not-executed",
+          "source": "synthesized"
+        }
+      ],
+      "status": "not-executed"
+    },
+    {
+      "feature_id": "F-M02-002",
+      "test_cases": [
+        {
+          "id": "TC-F-M02-002-001",
+          "description": "Test Interconnect Configuration - basic flow",
+          "status": "not-executed",
+          "source": "synthesized"
+        }
+      ],
+      "status": "not-executed"
+    },
+    {
+      "feature_id": "F-M02-003",
+      "test_cases": [
+        {
+          "id": "TC-F-M02-003-001",
+          "description": "Test Admin Account Management - basic flow",
+          "status": "not-executed",
+          "source": "synthesized"
+        }
+      ],
+      "status": "not-executed"
+    },
+    {
+      "feature_id": "F-M02-004",
+      "test_cases": [
+        {
+          "id": "TC-F-M02-004-001",
+          "description": "Test Approval Management - basic flow",
+          "status": "not-executed",
+          "source": "synthesized"
+        }
+      ],
+      "status": "not-executed"
+    },
+    {
+      "feature_id": "F-M02-005",
+      "test_cases": [
+        {
+          "id": "TC-F-M02-005-001",
+          "description": "Test Audit Log Viewer - basic flow",
+          "status": "not-executed",
+          "source": "synthesized"
+        }
+      ],
+      "status": "not-executed"
+    },
+    {
+      "feature_id": "F-M02-006",
+      "test_cases": [
+        {
+          "id": "TC-F-M02-006-001",
+          "description": "Test System Configuration - basic flow",
+          "status": "not-executed",
+          "source": "synthesized"
+        }
+      ],
+      "status": "not-executed"
+    },
+    {
+      "feature_id": "F-M02-007",
+      "test_cases": [
+        {
+          "id": "TC-F-M02-007-001",
+          "description": "Test Permission Policy - basic flow",
+          "status": "not-executed",
+          "source": "synthesized"
+        }
+      ],
+      "status": "not-executed"
+    },
+    {
+      "feature_id": "F-M02-008",
+      "test_cases": [
+        {
+          "id": "TC-F-M02-008-001",
+          "description": "Test Backup & Restore - basic flow",
+          "status": "not-executed",
+          "source": "synthesized"
+        }
+      ],
+      "status": "not-executed"
+    },
+    {
+      "feature_id": "F-M03-001",
+      "test_cases": [
+        {
+          "id": "TC-F-M03-001-001",
+          "description": "Test Dashboard - basic flow",
+          "status": "not-executed",
+          "source": "synthesized"
+        }
+      ],
+      "status": "not-executed"
+    },
+    {
+      "feature_id": "F-M03-002",
+      "test_cases": [
+        {
+          "id": "TC-F-M03-002-001",
+          "description": "Test Port Management - basic flow",
+          "status": "not-executed",
+          "source": "synthesized"
+        }
+      ],
+      "status": "not-executed"
+    },
+    {
+      "feature_id": "F-M03-003",
+      "test_cases": [
+        {
+          "id": "TC-F-M03-003-001",
+          "description": "Test Berth Management - basic flow",
+          "status": "not-executed",
+          "source": "synthesized"
+        }
+      ],
+      "status": "not-executed"
+    },
+    {
+      "feature_id": "F-M03-004",
+      "test_cases": [
+        {
+          "id": "TC-F-M03-004-001",
+          "description": "Test Channel Management - basic flow",
+          "status": "not-executed",
+          "source": "synthesized"
+        }
+      ],
+      "status": "not-executed"
+    },
+    {
+      "feature_id": "F-M03-005",
+      "test_cases": [
+        {
+          "id": "TC-F-M03-005-001",
+          "description": "Test Anchorage Management - basic flow",
+          "status": "not-executed",
+          "source": "synthesized"
+        }
+      ],
+      "status": "not-executed"
+    },
+    {
+      "feature_id": "F-M03-006",
+      "test_cases": [
+        {
+          "id": "TC-F-M03-006-001",
+          "description": "Test Buoy Management - basic flow",
+          "status": "not-executed",
+          "source": "synthesized"
+        }
+      ],
+      "status": "not-executed"
+    },
+    {
+      "feature_id": "F-M03-007",
+      "test_cases": [
+        {
+          "id": "TC-F-M03-007-001",
+          "description": "Test Lighthouse Management - basic flow",
+          "status": "not-executed",
+          "source": "synthesized"
+        }
+      ],
+      "status": "not-executed"
+    },
+    {
+      "feature_id": "F-M03-008",
+      "test_cases": [
+        {
+          "id": "TC-F-M03-008-001",
+          "description": "Test Dike/Breakwater Management - basic flow",
+          "status": "not-executed",
+          "source": "synthesized"
+        }
+      ],
+      "status": "not-executed"
+    },
+    {
+      "feature_id": "F-M03-009",
+      "test_cases": [
+        {
+          "id": "TC-F-M03-009-001",
+          "description": "Test Port Water Area Management - basic flow",
+          "status": "not-executed",
+          "source": "synthesized"
+        }
+      ],
+      "status": "not-executed"
+    },
+    {
+      "feature_id": "F-M03-010",
+      "test_cases": [
+        {
+          "id": "TC-F-M03-010-001",
+          "description": "Test VTS/AIS Station Management - basic flow",
+          "status": "not-executed",
+          "source": "synthesized"
+        }
+      ],
+      "status": "not-executed"
+    },
+    {
+      "feature_id": "F-M03-011",
+      "test_cases": [
+        {
+          "id": "TC-F-M03-011-001",
+          "description": "Test CCTV/SCADA Management - basic flow",
+          "status": "not-executed",
+          "source": "synthesized"
+        }
+      ],
+      "status": "not-executed"
+    },
+    {
+      "feature_id": "F-M03-012",
+      "test_cases": [
+        {
+          "id": "TC-F-M03-012-001",
+          "description": "Test Data Approval Workflow - basic flow",
+          "status": "not-executed",
+          "source": "synthesized"
+        }
+      ],
+      "status": "not-executed"
+    },
+    {
+      "feature_id": "F-M03-013",
+      "test_cases": [
+        {
+          "id": "TC-F-M03-013-001",
+          "description": "Test Historical Data Tracking - basic flow",
+          "status": "not-executed",
+          "source": "synthesized"
+        }
+      ],
+      "status": "not-executed"
+    },
+    {
+      "feature_id": "F-M03-014",
+      "test_cases": [
+        {
+          "id": "TC-F-M03-014-001",
+          "description": "Test Document Attachment - basic flow",
+          "status": "not-executed",
+          "source": "synthesized"
+        }
+      ],
+      "status": "not-executed"
+    },
+    {
+      "feature_id": "F-M03-015",
+      "test_cases": [
+        {
+          "id": "TC-F-M03-015-001",
+          "description": "Test Map Preview Integration - basic flow",
+          "status": "not-executed",
+          "source": "synthesized"
+        }
+      ],
+      "status": "not-executed"
+    },
+    {
+      "feature_id": "F-M03-016",
+      "test_cases": [
+        {
+          "id": "TC-F-M03-016-001",
+          "description": "Test Traffic Separation Scheme Mgmt - basic flow",
+          "status": "not-executed",
+          "source": "synthesized"
+        }
+      ],
+      "status": "not-executed"
+    },
+    {
+      "feature_id": "F-M03-017",
+      "test_cases": [
+        {
+          "id": "TC-F-M03-017-001",
+          "description": "Test Meteorological Station Mgmt - basic flow",
+          "status": "not-executed",
+          "source": "synthesized"
+        }
+      ],
+      "status": "not-executed"
+    },
+    {
+      "feature_id": "F-M03-018",
+      "test_cases": [
+        {
+          "id": "TC-F-M03-018-001",
+          "description": "Test Electronic Fence Mgmt - basic flow",
+          "status": "not-executed",
+          "source": "synthesized"
+        }
+      ],
+      "status": "not-executed"
+    },
+    {
+      "feature_id": "F-M03-019",
+      "test_cases": [
+        {
+          "id": "TC-F-M03-019-001",
+          "description": "Test Data Import/Export - basic flow",
+          "status": "not-executed",
+          "source": "synthesized"
+        }
+      ],
+      "status": "not-executed"
+    },
+    {
+      "feature_id": "F-M03-020",
+      "test_cases": [
+        {
+          "id": "TC-F-M03-020-001",
+          "description": "Test Search & Filter - basic flow",
+          "status": "not-executed",
+          "source": "synthesized"
+        }
+      ],
+      "status": "not-executed"
+    },
+    {
+      "feature_id": "F-M03-021",
+      "test_cases": [
+        {
+          "id": "TC-F-M03-021-001",
+          "description": "Test VTS Sensor Data Feed - basic flow",
+          "status": "not-executed",
+          "source": "synthesized"
+        }
+      ],
+      "status": "not-executed"
+    },
+    {
+      "feature_id": "F-M03-022",
+      "test_cases": [
+        {
+          "id": "TC-F-M03-022-001",
+          "description": "Test Signal Station Management - basic flow",
+          "status": "not-executed",
+          "source": "synthesized"
+        }
+      ],
+      "status": "not-executed"
+    },
+    {
+      "feature_id": "F-M03-023",
+      "test_cases": [
+        {
+          "id": "TC-F-M03-023-001",
+          "description": "Test Pilot Boarding Station Mgmt - basic flow",
+          "status": "not-executed",
+          "source": "synthesized"
+        }
+      ],
+      "status": "not-executed"
+    },
+    {
+      "feature_id": "F-M03-024",
+      "test_cases": [
+        {
+          "id": "TC-F-M03-024-001",
+          "description": "Test Maritime Security Monitoring - basic flow",
+          "status": "not-executed",
+          "source": "synthesized"
+        }
+      ],
+      "status": "not-executed"
+    },
+    {
+      "feature_id": "F-M03-025",
+      "test_cases": [
+        {
+          "id": "TC-F-M03-025-001",
+          "description": "Test Data Validation Rule Engine - basic flow",
+          "status": "not-executed",
+          "source": "synthesized"
+        }
+      ],
+      "status": "not-executed"
+    },
+    {
+      "feature_id": "F-M03-026",
+      "test_cases": [
+        {
+          "id": "TC-F-M03-026-001",
+          "description": "Test GPS Buoy Tracking - basic flow",
+          "status": "not-executed",
+          "source": "synthesized"
+        }
+      ],
+      "status": "not-executed"
+    },
+    {
+      "feature_id": "F-M04-001",
+      "test_cases": [
+        {
+          "id": "TC-F-M04-001-001",
+          "description": "Test Operational Plan Update - basic flow",
+          "status": "not-executed",
+          "source": "synthesized"
+        }
+      ],
+      "status": "not-executed"
+    },
+    {
+      "feature_id": "F-M04-002",
+      "test_cases": [
+        {
+          "id": "TC-F-M04-002-001",
+          "description": "Test Maintenance Plan Update - basic flow",
+          "status": "not-executed",
+          "source": "synthesized"
+        }
+      ],
+      "status": "not-executed"
+    },
+    {
+      "feature_id": "F-M04-003",
+      "test_cases": [
+        {
+          "id": "TC-F-M04-003-001",
+          "description": "Test Incident Management - basic flow",
+          "status": "not-executed",
+          "source": "synthesized"
+        }
+      ],
+      "status": "not-executed"
+    },
+    {
+      "feature_id": "F-M04-004",
+      "test_cases": [
+        {
+          "id": "TC-F-M04-004-001",
+          "description": "Test Operational Info Lookup - basic flow",
+          "status": "not-executed",
+          "source": "synthesized"
+        }
+      ],
+      "status": "not-executed"
+    },
+    {
+      "feature_id": "F-M04-005",
+      "test_cases": [
+        {
+          "id": "TC-F-M04-005-001",
+          "description": "Test Maintenance Info Lookup - basic flow",
+          "status": "not-executed",
+          "source": "synthesized"
+        }
+      ],
+      "status": "not-executed"
+    },
+    {
+      "feature_id": "F-M04-006",
+      "test_cases": [
+        {
+          "id": "TC-F-M04-006-001",
+          "description": "Test Incident Lookup - basic flow",
+          "status": "not-executed",
+          "source": "synthesized"
+        }
+      ],
+      "status": "not-executed"
+    },
+    {
+      "feature_id": "F-M04-007",
+      "test_cases": [
+        {
+          "id": "TC-F-M04-007-001",
+          "description": "Test History Tracking - basic flow",
+          "status": "not-executed",
+          "source": "synthesized"
+        }
+      ],
+      "status": "not-executed"
+    },
+    {
+      "feature_id": "F-M04-008",
+      "test_cases": [
+        {
+          "id": "TC-F-M04-008-001",
+          "description": "Test Ops/Maintenance Reports - basic flow",
+          "status": "not-executed",
+          "source": "synthesized"
+        }
+      ],
+      "status": "not-executed"
+    },
+    {
+      "feature_id": "F-M05-001",
+      "test_cases": [
+        {
+          "id": "TC-F-M05-001-001",
+          "description": "Test Planning List Management - basic flow",
+          "status": "not-executed",
+          "source": "synthesized"
+        }
+      ],
+      "status": "not-executed"
+    },
+    {
+      "feature_id": "F-M05-002",
+      "test_cases": [
+        {
+          "id": "TC-F-M05-002-001",
+          "description": "Test Planning Info Lookup - basic flow",
+          "status": "not-executed",
+          "source": "synthesized"
+        }
+      ],
+      "status": "not-executed"
+    },
+    {
+      "feature_id": "F-M05-003",
+      "test_cases": [
+        {
+          "id": "TC-F-M05-003-001",
+          "description": "Test Planning Update - basic flow",
+          "status": "not-executed",
+          "source": "synthesized"
+        }
+      ],
+      "status": "not-executed"
+    },
+    {
+      "feature_id": "F-M06-001",
+      "test_cases": [
+        {
+          "id": "TC-F-M06-001-001",
+          "description": "Test Infrastructure Asset Records - basic flow",
+          "status": "not-executed",
+          "source": "synthesized"
+        }
+      ],
+      "status": "not-executed"
+    },
+    {
+      "feature_id": "F-M06-002",
+      "test_cases": [
+        {
+          "id": "TC-F-M06-002-001",
+          "description": "Test Asset Classification - basic flow",
+          "status": "not-executed",
+          "source": "synthesized"
+        }
+      ],
+      "status": "not-executed"
+    },
+    {
+      "feature_id": "F-M06-003",
+      "test_cases": [
+        {
+          "id": "TC-F-M06-003-001",
+          "description": "Test Asset Addition - basic flow",
+          "status": "not-executed",
+          "source": "synthesized"
+        }
+      ],
+      "status": "not-executed"
+    },
+    {
+      "feature_id": "F-M06-004",
+      "test_cases": [
+        {
+          "id": "TC-F-M06-004-001",
+          "description": "Test Asset Depreciation - basic flow",
+          "status": "not-executed",
+          "source": "synthesized"
+        }
+      ],
+      "status": "not-executed"
+    },
+    {
+      "feature_id": "F-M06-005",
+      "test_cases": [
+        {
+          "id": "TC-F-M06-005-001",
+          "description": "Test Asset Revaluation - basic flow",
+          "status": "not-executed",
+          "source": "synthesized"
+        }
+      ],
+      "status": "not-executed"
+    },
+    {
+      "feature_id": "F-M06-006",
+      "test_cases": [
+        {
+          "id": "TC-F-M06-006-001",
+          "description": "Test Asset Disposal/Liquidation - basic flow",
+          "status": "not-executed",
+          "source": "synthesized"
+        }
+      ],
+      "status": "not-executed"
+    },
+    {
+      "feature_id": "F-M06-007",
+      "test_cases": [
+        {
+          "id": "TC-F-M06-007-001",
+          "description": "Test Asset Inventory - basic flow",
+          "status": "not-executed",
+          "source": "synthesized"
+        }
+      ],
+      "status": "not-executed"
+    },
+    {
+      "feature_id": "F-M06-008",
+      "test_cases": [
+        {
+          "id": "TC-F-M06-008-001",
+          "description": "Test Asset Exploitation - basic flow",
+          "status": "not-executed",
+          "source": "synthesized"
+        }
+      ],
+      "status": "not-executed"
+    },
+    {
+      "feature_id": "F-M06-009",
+      "test_cases": [
+        {
+          "id": "TC-F-M06-009-001",
+          "description": "Test Asset Fluctuation Tracking - basic flow",
+          "status": "not-executed",
+          "source": "synthesized"
+        }
+      ],
+      "status": "not-executed"
+    },
+    {
+      "feature_id": "F-M06-010",
+      "test_cases": [
+        {
+          "id": "TC-F-M06-010-001",
+          "description": "Test Asset Depreciation Report - basic flow",
+          "status": "not-executed",
+          "source": "synthesized"
+        }
+      ],
+      "status": "not-executed"
+    },
+    {
+      "feature_id": "F-M06-011",
+      "test_cases": [
+        {
+          "id": "TC-F-M06-011-001",
+          "description": "Test Asset Inventory Report - basic flow",
+          "status": "not-executed",
+          "source": "synthesized"
+        }
+      ],
+      "status": "not-executed"
+    },
+    {
+      "feature_id": "F-M06-012",
+      "test_cases": [
+        {
+          "id": "TC-F-M06-012-001",
+          "description": "Test Asset History - basic flow",
+          "status": "not-executed",
+          "source": "synthesized"
+        }
+      ],
+      "status": "not-executed"
+    },
+    {
+      "feature_id": "F-M06-013",
+      "test_cases": [
+        {
+          "id": "TC-F-M06-013-001",
+          "description": "Test Asset Data Import/Export - basic flow",
+          "status": "not-executed",
+          "source": "synthesized"
+        }
+      ],
+      "status": "not-executed"
+    },
+    {
+      "feature_id": "F-M06-014",
+      "test_cases": [
+        {
+          "id": "TC-F-M06-014-001",
+          "description": "Test Asset GIS Map View - basic flow",
+          "status": "not-executed",
+          "source": "synthesized"
+        }
+      ],
+      "status": "not-executed"
+    },
+    {
+      "feature_id": "F-M07-001",
+      "test_cases": [
+        {
+          "id": "TC-F-M07-001-001",
+          "description": "Test Point Object CRUD - basic flow",
+          "status": "not-executed",
+          "source": "synthesized"
+        }
+      ],
+      "status": "not-executed"
+    },
+    {
+      "feature_id": "F-M07-002",
+      "test_cases": [
+        {
+          "id": "TC-F-M07-002-001",
+          "description": "Test Line Object CRUD - basic flow",
+          "status": "not-executed",
+          "source": "synthesized"
+        }
+      ],
+      "status": "not-executed"
+    },
+    {
+      "feature_id": "F-M07-003",
+      "test_cases": [
+        {
+          "id": "TC-F-M07-003-001",
+          "description": "Test Polygon Object CRUD - basic flow",
+          "status": "not-executed",
+          "source": "synthesized"
+        }
+      ],
+      "status": "not-executed"
+    },
+    {
+      "feature_id": "F-M07-004",
+      "test_cases": [
+        {
+          "id": "TC-F-M07-004-001",
+          "description": "Test Map Viewer - basic flow",
+          "status": "not-executed",
+          "source": "synthesized"
+        }
+      ],
+      "status": "not-executed"
+    },
+    {
+      "feature_id": "F-M07-005",
+      "test_cases": [
+        {
+          "id": "TC-F-M07-005-001",
+          "description": "Test Map Search - basic flow",
+          "status": "not-executed",
+          "source": "synthesized"
+        }
+      ],
+      "status": "not-executed"
+    },
+    {
+      "feature_id": "F-M07-006",
+      "test_cases": [
+        {
+          "id": "TC-F-M07-006-001",
+          "description": "Test Symbol Management - basic flow",
+          "status": "not-executed",
+          "source": "synthesized"
+        }
+      ],
+      "status": "not-executed"
+    },
+    {
+      "feature_id": "F-M07-007",
+      "test_cases": [
+        {
+          "id": "TC-F-M07-007-001",
+          "description": "Test ENC Chart Integration - basic flow",
+          "status": "not-executed",
+          "source": "synthesized"
+        }
+      ],
+      "status": "not-executed"
+    },
+    {
+      "feature_id": "F-M07-008",
+      "test_cases": [
+        {
+          "id": "TC-F-M07-008-001",
+          "description": "Test Layer Management - basic flow",
+          "status": "not-executed",
+          "source": "synthesized"
+        }
+      ],
+      "status": "not-executed"
+    },
+    {
+      "feature_id": "F-M08-001",
+      "test_cases": [
+        {
+          "id": "TC-F-M08-001-001",
+          "description": "Test Asset Reports - basic flow",
+          "status": "not-executed",
+          "source": "synthesized"
+        }
+      ],
+      "status": "not-executed"
+    },
+    {
+      "feature_id": "F-M08-002",
+      "test_cases": [
+        {
+          "id": "TC-F-M08-002-001",
+          "description": "Test Infrastructure Reports - basic flow",
+          "status": "not-executed",
+          "source": "synthesized"
+        }
+      ],
+      "status": "not-executed"
+    },
+    {
+      "feature_id": "F-M08-003",
+      "test_cases": [
+        {
+          "id": "TC-F-M08-003-001",
+          "description": "Test Port Throughput Reports - basic flow",
+          "status": "not-executed",
+          "source": "synthesized"
+        }
+      ],
+      "status": "not-executed"
+    },
+    {
+      "feature_id": "F-M08-004",
+      "test_cases": [
+        {
+          "id": "TC-F-M08-004-001",
+          "description": "Test Safety Reports - basic flow",
+          "status": "not-executed",
+          "source": "synthesized"
+        }
+      ],
+      "status": "not-executed"
+    },
+    {
+      "feature_id": "F-M08-005",
+      "test_cases": [
+        {
+          "id": "TC-F-M08-005-001",
+          "description": "Test Crew/Employee Reports - basic flow",
+          "status": "not-executed",
+          "source": "synthesized"
+        }
+      ],
+      "status": "not-executed"
+    },
+    {
+      "feature_id": "F-M08-006",
+      "test_cases": [
+        {
+          "id": "TC-F-M08-006-001",
+          "description": "Test Circular 48 Reports - basic flow",
+          "status": "not-executed",
+          "source": "synthesized"
+        }
+      ],
+      "status": "not-executed"
+    },
+    {
+      "feature_id": "F-M08-007",
+      "test_cases": [
+        {
+          "id": "TC-F-M08-007-001",
+          "description": "Test Multi-condition Filter - basic flow",
+          "status": "not-executed",
+          "source": "synthesized"
+        }
+      ],
+      "status": "not-executed"
+    },
+    {
+      "feature_id": "F-M08-008",
+      "test_cases": [
+        {
+          "id": "TC-F-M08-008-001",
+          "description": "Test PDF/Excel Export - basic flow",
+          "status": "not-executed",
+          "source": "synthesized"
+        }
+      ],
+      "status": "not-executed"
+    },
+    {
+      "feature_id": "F-M09-001",
+      "test_cases": [
+        {
+          "id": "TC-F-M09-001-001",
+          "description": "Test LGSP Sync - basic flow",
+          "status": "not-executed",
+          "source": "synthesized"
+        }
+      ],
+      "status": "not-executed"
+    },
+    {
+      "feature_id": "F-M09-002",
+      "test_cases": [
+        {
+          "id": "TC-F-M09-002-001",
+          "description": "Test NDXP Integration - basic flow",
+          "status": "not-executed",
+          "source": "synthesized"
+        }
+      ],
+      "status": "not-executed"
+    },
+    {
+      "feature_id": "F-M09-003",
+      "test_cases": [
+        {
+          "id": "TC-F-M09-003-001",
+          "description": "Test Web API Gateway - basic flow",
+          "status": "not-executed",
+          "source": "synthesized"
+        }
+      ],
+      "status": "not-executed"
+    },
+    {
+      "feature_id": "F-M09-004",
+      "test_cases": [
+        {
+          "id": "TC-F-M09-004-001",
+          "description": "Test Bộ GTVT Shared DB Sync - basic flow",
+          "status": "not-executed",
+          "source": "synthesized"
+        }
+      ],
+      "status": "not-executed"
+    },
+    {
+      "feature_id": "F-M09-005",
+      "test_cases": [
+        {
+          "id": "TC-F-M09-005-001",
+          "description": "Test External Query Service - basic flow",
+          "status": "not-executed",
+          "source": "synthesized"
+        }
+      ],
+      "status": "not-executed"
+    },
+    {
+      "feature_id": "F-M09-006",
+      "test_cases": [
+        {
+          "id": "TC-F-M09-006-001",
+          "description": "Test Connection Monitoring - basic flow",
+          "status": "not-executed",
+          "source": "synthesized"
+        }
+      ],
+      "status": "not-executed"
+    },
+    {
+      "feature_id": "F-M10-001",
+      "test_cases": [
+        {
+          "id": "TC-F-M10-001-001",
+          "description": "Test ENC Chart Import - basic flow",
+          "status": "not-executed",
+          "source": "synthesized"
+        }
+      ],
+      "status": "not-executed"
+    },
+    {
+      "feature_id": "F-M10-002",
+      "test_cases": [
+        {
+          "id": "TC-F-M10-002-001",
+          "description": "Test Chart Editing UI - basic flow",
+          "status": "not-executed",
+          "source": "synthesized"
+        }
+      ],
+      "status": "not-executed"
+    },
+    {
+      "feature_id": "F-M10-003",
+      "test_cases": [
+        {
+          "id": "TC-F-M10-003-001",
+          "description": "Test S-57/S-100 Compliance - basic flow",
+          "status": "not-executed",
+          "source": "synthesized"
+        }
+      ],
+      "status": "not-executed"
+    },
+    {
+      "feature_id": "F-M10-004",
+      "test_cases": [
+        {
+          "id": "TC-F-M10-004-001",
+          "description": "Test Data Conversion Pipeline - basic flow",
+          "status": "not-executed",
+          "source": "synthesized"
+        }
+      ],
+      "status": "not-executed"
+    },
+    {
+      "feature_id": "F-M10-005",
+      "test_cases": [
+        {
+          "id": "TC-F-M10-005-001",
+          "description": "Test ENC Catalog Management - basic flow",
+          "status": "not-executed",
+          "source": "synthesized"
+        }
+      ],
+      "status": "not-executed"
+    },
+    {
+      "feature_id": "F-M10-006",
+      "test_cases": [
+        {
+          "id": "TC-F-M10-006-001",
+          "description": "Test Chart Version History - basic flow",
+          "status": "not-executed",
+          "source": "synthesized"
+        }
+      ],
+      "status": "not-executed"
+    },
+    {
+      "feature_id": "F-M10-007",
+      "test_cases": [
+        {
+          "id": "TC-F-M10-007-001",
+          "description": "Test Chart Validation - basic flow",
+          "status": "not-executed",
+          "source": "synthesized"
+        }
+      ],
+      "status": "not-executed"
+    },
+    {
+      "feature_id": "F-M10-008",
+      "test_cases": [
+        {
+          "id": "TC-F-M10-008-001",
+          "description": "Test Chart Export/Publication - basic flow",
+          "status": "not-executed",
+          "source": "synthesized"
+        }
+      ],
+      "status": "not-executed"
+    },
+    {
+      "feature_id": "F-M10-009",
+      "test_cases": [
+        {
+          "id": "TC-F-M10-009-001",
+          "description": "Test Spatial DB Sync - basic flow",
+          "status": "not-executed",
+          "source": "synthesized"
+        }
+      ],
+      "status": "not-executed"
+    },
+    {
+      "feature_id": "F-M10-010",
+      "test_cases": [
+        {
+          "id": "TC-F-M10-010-001",
+          "description": "Test Chart Annotations - basic flow",
+          "status": "not-executed",
+          "source": "synthesized"
+        }
+      ],
+      "status": "not-executed"
+    },
+    {
+      "feature_id": "F-M11-001",
+      "test_cases": [
+        {
+          "id": "TC-F-M11-001-001",
+          "description": "Test Document Digitization - basic flow",
+          "status": "not-executed",
+          "source": "synthesized"
+        }
+      ],
+      "status": "not-executed"
+    },
+    {
+      "feature_id": "F-M11-002",
+      "test_cases": [
+        {
+          "id": "TC-F-M11-002-001",
+          "description": "Test Data Validation - basic flow",
+          "status": "not-executed",
+          "source": "synthesized"
+        }
+      ],
+      "status": "not-executed"
+    },
+    {
+      "feature_id": "F-M11-003",
+      "test_cases": [
+        {
+          "id": "TC-F-M11-003-001",
+          "description": "Test Data Import to MTIS DB - basic flow",
+          "status": "not-executed",
+          "source": "synthesized"
+        }
+      ],
+      "status": "not-executed"
+    },
+    {
+      "feature_id": "F-M11-004",
+      "test_cases": [
+        {
+          "id": "TC-F-M11-004-001",
+          "description": "Test Data Version Management - basic flow",
+          "status": "not-executed",
+          "source": "synthesized"
+        }
+      ],
+      "status": "not-executed"
+    }
+  ]
+}

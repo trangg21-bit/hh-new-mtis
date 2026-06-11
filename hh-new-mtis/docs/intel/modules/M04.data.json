@@ -1,0 +1,598 @@
+{
+  "_meta": {
+    "source_file": "1.TKCT-Cuc HH-KetCauHaTangGiaoThong 13.11.2024 ban in final (1).docx",
+    "module_id": "M04",
+    "module_name": "Operations & Maintenance Management (Quản lý vận hành khai thác, bảo trì)",
+    "module_name_en": "Operations-Maintenance-Management",
+    "extracted_at": "2026-06-05T20:00:00+07:00",
+    "status": "complete",
+    "end_marker": "module-analysis-complete",
+    "total_requirements": 28,
+    "note": "M04 covers operational plans, maintenance plans, incident management, document attachment, history tracking for all KCHT entities. Para range 1103-1117, Appendix 01 'QUẢN LÝ THÔNG TIN VẬN HÀNH KHAI THÁC, BẢO TRÌ' section."
+  },
+  "business_rules": [
+    {
+      "id": "BR-M04-001",
+      "description": "Kế hoạch vận hành khai thác phải được cập nhật cho từng KCHT, bao gồm thông tin kế hoạch và thông tin vận hành thực tế",
+      "type": "policy",
+      "severity": "high",
+      "source_quote": "Cập nhật kế hoạch vận hành khai thác, Cập nhật thông tin vận hành khai thác"
+    },
+    {
+      "id": "BR-M04-002",
+      "description": "Lịch sử vận hành khai thác của từng KCHT phải được lưu trữ đầy đủ và có thể tra cứu",
+      "type": "audit",
+      "severity": "high",
+      "source_quote": "Xem lịch sử vận hành khai thác của KCHT"
+    },
+    {
+      "id": "BR-M04-003",
+      "description": "Kế hoạch bảo trì phải được cập nhật cho từng KCHT, bao gồm kế hoạch bảo trì định kỳ và thông tin bảo trì thực tế",
+      "type": "policy",
+      "severity": "high",
+      "source_quote": "Cập nhật kế hoạch bảo trì, Cập nhật thông tin bảo trì"
+    },
+    {
+      "id": "BR-M04-004",
+      "description": "Lịch sử bảo trì của từng KCHT phải được lưu trữ đầy đủ và có thể tra cứu",
+      "type": "audit",
+      "severity": "high",
+      "source_quote": "Xem lịch sử bảo trì của KCHT"
+    },
+    {
+      "id": "BR-M04-005",
+      "description": "Mỗi sự cố KCHT phải có biên bản sự cố đính kèm và văn bản chỉ đạo xử lý sự cố",
+      "type": "policy",
+      "severity": "critical",
+      "source_quote": "Đính kèm biên bản sự cố KCHTGTHH, Đính kèm văn bản chỉ đạo xử lý sự cố"
+    },
+    {
+      "id": "BR-M04-006",
+      "description": "Kết quả xử lý sự cố phải được cập nhật sau khi sự cố được xử lý xong",
+      "type": "workflow",
+      "severity": "high",
+      "source_quote": "Cập nhật kết quả xử lý sự cố"
+    },
+    {
+      "id": "BR-M04-007",
+      "description": "Lịch sử sự cố của từng KCHT phải được lưu trữ và có thể tra cứu theo thời gian",
+      "type": "audit",
+      "severity": "high",
+      "source_quote": "Xem lịch sử sự cố của KCHTGTHH"
+    },
+    {
+      "id": "BR-M04-008",
+      "description": "Người dùng có thể xem nội dung văn bản đính kèm (biên bản sự cố, văn bản chỉ đạo) trực tiếp trên hệ thống, tải về máy và in ấn",
+      "type": "functional",
+      "severity": "medium",
+      "source_quote": "Xem nội dung văn bản đính kèm, tải văn bản đính kèm về máy tính, in nội dung văn bản đính kèm"
+    },
+    {
+      "id": "BR-M04-009",
+      "description": "Kế hoạch vận hành và thông tin vận hành khai thác phải được lưu trữ có phiên bản, hỗ trợ xem lịch sử thay đổi",
+      "type": "audit",
+      "severity": "medium",
+      "source_quote": "Xem lịch sử vận hành khai thác của KCHT"
+    },
+    {
+      "id": "BR-M04-010",
+      "description": "Kế hoạch bảo trì và thông tin bảo trì phải được lưu trữ có phiên bản, hỗ trợ xem lịch sử thay đổi",
+      "type": "audit",
+      "severity": "medium",
+      "source_quote": "Xem lịch sử bảo trì của KCHT"
+    },
+    {
+      "id": "BR-M04-011",
+      "description": "Sự cố KCHT phải được phân loại theo mức độ nghiêm trọng và loại sự cố",
+      "type": "data",
+      "severity": "high",
+      "source_quote": "Phân loại sự cố KCHTGTHH"
+    },
+    {
+      "id": "BR-M04-012",
+      "description": "Tra cứu vận hành khai thác cho phép xem danh sách, tìm kiếm, xem chi tiết thông tin vận hành và lịch sử vận hành",
+      "type": "functional",
+      "severity": "medium",
+      "source_quote": "Tra cứu thông tin vận hành khai thác"
+    },
+    {
+      "id": "BR-M04-013",
+      "description": "Tra cứu bảo trì cho phép xem danh sách, tìm kiếm, xem chi tiết thông tin bảo trì và lịch sử bảo trì",
+      "type": "functional",
+      "severity": "medium",
+      "source_quote": "Tra cứu thông tin bảo trì"
+    },
+    {
+      "id": "BR-M04-014",
+      "description": "Tra cứu sự cố cho phép xem danh sách, tìm kiếm, xem chi tiết thông tin sự cố, biên bản, văn bản chỉ đạo và lịch sử xử lý",
+      "type": "functional",
+      "severity": "medium",
+      "source_quote": "Tra cứu sự cố KCHTGTHH"
+    },
+    {
+      "id": "BR-M04-015",
+      "description": "Báo cáo thống kê về vận hành khai thác, bảo trì và sự cố hỗ trợ tổng hợp theo nhiều điều kiện và kết xuất PDF/Excel",
+      "type": "functional",
+      "severity": "medium",
+      "source_quote": "Kết xuất báo cáo theo định dạng PDF/ Excel"
+    },
+    {
+      "id": "BR-M04-016",
+      "description": "Thông tin vận hành khai thác, bảo trì và sự cố phải được liên kết với KCHT tương ứng",
+      "type": "data",
+      "severity": "critical",
+      "source_quote": "Quản lý thông tin vận hành khai thác, bảo trì của KCHT"
+    },
+    {
+      "id": "BR-M04-017",
+      "description": "Chuyên viên có quyền cập nhật thông tin vận hành, bảo trì, sự cố. Lãnh đạo có quyền xem và phê duyệt báo cáo",
+      "type": "authorization",
+      "severity": "high",
+      "source_quote": "Chuyên viên cập nhật kế hoạch vận hành, bảo trì"
+    },
+    {
+      "id": "BR-M04-018",
+      "description": "Thông tin sự cố phải bao gồm ít nhất: thời gian phát sinh, loại sự cố, mức độ nghiêm trọng, KCHT liên quan, mô tả sự cố, biên bản đính kèm",
+      "type": "data",
+      "severity": "critical",
+      "source_quote": "Đính kèm biên bản sự cố KCHTGTHH"
+    }
+  ],
+  "features": [
+    {
+      "name": "Cập nhật kế hoạch và thông tin vận hành khai thác",
+      "description": "Cho phép Chuyên viên cập nhật kế hoạch vận hành khai thác cho từng KCHT (cảng biển, bến cảng, luồng hàng hải, khu neo đậu, đèn biển, phao tiêu, đê kè, VTS, radar, AIS, CCTV), cập nhật thông tin vận hành khai thác thực tế, và xem lịch sử cập nhật vận hành khai thác.",
+      "type": "CRUD",
+      "priority": "P1",
+      "actors": ["Chuyên viên"],
+      "entities": ["OperationPlan", "OperationRecord", "OperationHistory"],
+      "key_fields": ["kcht_id", "kcht_type", "plan_start_date", "plan_end_date", "operation_status", "actual_start_date", "actual_end_date", "notes", "updated_by", "updated_at"],
+      "validations": [
+        "Kế hoạch vận hành phải gắn với một KCHT cụ thể",
+        "Ngày kết thúc kế hoạch phải sau ngày bắt đầu"
+      ],
+      "screens": ["/operations/plan", "/operations/plan/add", "/operations/plan/edit", "/operations/history"],
+      "workflow": {
+        "transitions": [
+          "Xem danh sách KCHT > Chọn KCHT > Cập nhật kế hoạch vận hành > Nhập thông tin > Lưu",
+          "Cập nhật thông tin vận hành thực tế > Lưu thay đổi > Ghi nhật ký lịch sử",
+          "Xem lịch sử vận hành > Hiển thị danh sách các thay đổi theo thời gian"
+        ]
+      },
+      "source_quotes": ["Cập nhật kế hoạch vận hành khai thác", "Cập nhật thông tin vận hành khai thác", "Xem lịch sử vận hành khai thác của KCHT"]
+    },
+    {
+      "name": "Cập nhật kế hoạch và thông tin bảo trì",
+      "description": "Cho phép Chuyên viên cập nhật kế hoạch bảo trì (định kỳ/đột xuất) cho từng KCHT, cập nhật thông tin bảo trì thực tế (ngày thực hiện, nội dung, đơn vị thực hiện, chi phí), đính kèm biên bản nghiệm thu bảo trì, và xem lịch sử bảo trì.",
+      "type": "CRUD",
+      "priority": "P1",
+      "actors": ["Chuyên viên"],
+      "entities": ["MaintenancePlan", "MaintenanceRecord", "MaintenanceHistory"],
+      "key_fields": ["kcht_id", "kcht_type", "maintenance_type", "plan_date", "actual_date", "content", "performer", "cost", "acceptance_doc", "status", "updated_by", "updated_at"],
+      "validations": [
+        "Kế hoạch bảo trì phải gắn với một KCHT cụ thể",
+        "Bảo trì định kỳ phải có chu kỳ lặp lại"
+      ],
+      "screens": ["/maintenance/plan", "/maintenance/plan/add", "/maintenance/plan/edit", "/maintenance/history"],
+      "workflow": {
+        "transitions": [
+          "Xem danh sách KCHT > Chọn KCHT > Cập nhật kế hoạch bảo trì > Nhập thông tin > Lưu",
+          "Cập nhật thông tin bảo trì thực tế > Đính kèm biên bản nghiệm thu > Lưu > Ghi lịch sử",
+          "Xem lịch sử bảo trì > Hiển thị danh sách các lần bảo trì và kết quả"
+        ]
+      },
+      "source_quotes": ["Cập nhật kế hoạch bảo trì", "Cập nhật thông tin bảo trì", "Xem lịch sử bảo trì của KCHT"]
+    },
+    {
+      "name": "Quản lý sự cố KCHT",
+      "description": "Cho phép Chuyên viên quản lý thông tin sự cố KCHT: thêm mới sự cố (nhập thông tin, chọn KCHT, phân loại, mức độ), đính kèm biên bản sự cố, đính kèm văn bản chỉ đạo xử lý sự cố, cập nhật kết quả xử lý sự cố, xem lịch sử sự cố.",
+      "type": "CRUD",
+      "priority": "P1",
+      "actors": ["Chuyên viên"],
+      "entities": ["Incident", "IncidentAttachment", "IncidentHistory"],
+      "key_fields": ["incident_id", "kcht_id", "kcht_type", "incident_type", "severity", "occurred_at", "description", "minutes_file", "directive_file", "resolution", "resolution_status", "resolved_at", "updated_by", "updated_at"],
+      "validations": [
+        "Phải đính kèm biên bản sự cố",
+        "Phải đính kèm văn bản chỉ đạo xử lý sự cố",
+        "Kết quả xử lý chỉ được cập nhật khi có biên bản và văn bản chỉ đạo"
+      ],
+      "screens": ["/incidents", "/incidents/add", "/incidents/edit", "/incidents/history"],
+      "workflow": {
+        "transitions": [
+          "Thêm mới sự cố > Chọn KCHT > Nhập thông tin > Đính kèm biên bản > Đính kèm văn bản chỉ đạo > Lưu",
+          "Cập nhật kết quả xử lý > Nhập kết quả > Cập nhật trạng thái > Lưu",
+          "Xem lịch sử sự cố > Hiển thị danh sách sự cố theo KCHT/thời gian"
+        ]
+      },
+      "source_quotes": ["Đính kèm biên bản sự cố KCHTGTHH", "Đính kèm văn bản chỉ đạo xử lý sự cố", "Cập nhật kết quả xử lý sự cố", "Xem lịch sử sự cố của KCHTGTHH"]
+    },
+    {
+      "name": "Tra cứu thông tin vận hành khai thác",
+      "description": "Cho phép người dùng tra cứu thông tin vận hành khai thác KCHT: xem danh sách kế hoạch vận hành theo từng KCHT, tìm kiếm theo KCHT/thời gian/trạng thái, xem chi tiết thông tin vận hành, xem lịch sử cập nhật vận hành, tải về/in ấn.",
+      "type": "Read",
+      "priority": "P2",
+      "actors": ["Lãnh đạo", "Chuyên viên", "Người dùng tại Cảng"],
+      "entities": ["OperationPlan", "OperationRecord"],
+      "key_fields": ["kcht_name", "kcht_type", "plan_date_range", "operation_status", "actual_info", "updated_by", "updated_at"],
+      "validations": [],
+      "screens": ["/operations/plan", "/operations/plan/detail", "/operations/history"],
+      "workflow": {
+        "transitions": ["Xem danh sách > Tìm kiếm > Xem chi tiết > Xem lịch sử > Tải/In"]
+      },
+      "source_quotes": ["Tra cứu thông tin vận hành khai thác"]
+    },
+    {
+      "name": "Tra cứu thông tin bảo trì",
+      "description": "Cho phép người dùng tra cứu thông tin bảo trì KCHT: xem danh sách kế hoạch bảo trì theo từng KCHT, tìm kiếm theo KCHT/loại bảo trì/thời gian/trạng thái, xem chi tiết thông tin bảo trì, xem biên bản nghiệm thu đính kèm, xem lịch sử bảo trì, tải về/in ấn.",
+      "type": "Read",
+      "priority": "P2",
+      "actors": ["Lãnh đạo", "Chuyên viên", "Người dùng tại Cảng"],
+      "entities": ["MaintenancePlan", "MaintenanceRecord"],
+      "key_fields": ["kcht_name", "kcht_type", "maintenance_type", "plan_date", "actual_date", "content", "performer", "status"],
+      "validations": [],
+      "screens": ["/maintenance/plan", "/maintenance/plan/detail", "/maintenance/history"],
+      "workflow": {
+        "transitions": ["Xem danh sách > Tìm kiếm > Xem chi tiết > Xem biên bản > Xem lịch sử > Tải/In"]
+      },
+      "source_quotes": ["Tra cứu thông tin bảo trì"]
+    },
+    {
+      "name": "Tra cứu sự cố KCHT",
+      "description": "Cho phép người dùng tra cứu sự cố KCHT: xem danh sách sự cố, tìm kiếm theo KCHT/loại sự cố/mức độ/thời gian/trạng thái xử lý, xem chi tiết sự cố (biên bản, văn bản chỉ đạo, kết quả xử lý), xem lịch sử xử lý sự cố, tải về/in ấn.",
+      "type": "Read",
+      "priority": "P2",
+      "actors": ["Lãnh đạo", "Chuyên viên", "Người dùng tại Cảng"],
+      "entities": ["Incident", "IncidentAttachment"],
+      "key_fields": ["kcht_name", "kcht_type", "incident_type", "severity", "occurred_at", "status", "resolution_status"],
+      "validations": [],
+      "screens": ["/incidents", "/incidents/detail", "/incidents/history"],
+      "workflow": {
+        "transitions": ["Xem danh sách > Tìm kiếm/Lọc > Xem chi tiết > Xem biên bản/văn bản > Xem lịch sử > Tải/In"]
+      },
+      "source_quotes": ["Tra cứu sự cố KCHTGTHH"]
+    },
+    {
+      "name": "Xem lịch sử vận hành khai thác, bảo trì và sự cố",
+      "description": "Cho phép người dùng xem lịch sử thay đổi của tất cả các thao tác liên quan đến vận hành khai thác, bảo trì và sự cố của từng KCHT theo dòng thời gian. Hiển thị thông tin: thời điểm thay đổi, người thực hiện, nội dung thay đổi, trạng thái trước/sau.",
+      "type": "Read",
+      "priority": "P2",
+      "actors": ["Lãnh đạo", "Chuyên viên"],
+      "entities": ["OperationHistory", "MaintenanceHistory", "IncidentHistory"],
+      "key_fields": ["kcht_id", "kcht_type", "change_type", "changed_at", "changed_by", "old_value", "new_value"],
+      "validations": [
+        "Tất cả các thay đổi phải được ghi nhận vào lịch sử",
+        "Lịch sử không được phép chỉnh sửa hoặc xóa"
+      ],
+      "screens": ["/operations/history", "/maintenance/history", "/incidents/history"],
+      "workflow": {
+        "transitions": ["Chọn KCHT > Chọn loại (vận hành/bảo trì/sự cố) > Hiển thị lịch sử theo thời gian > Xem chi tiết thay đổi"]
+      },
+      "source_quotes": ["Xem lịch sử vận hành khai thác của KCHT", "Xem lịch sử bảo trì của KCHT", "Xem lịch sử sự cố của KCHTGTHH"]
+    },
+    {
+      "name": "Báo cáo thống kê vận hành, bảo trì và sự cố",
+      "description": "Cho phép Lãnh đạo, Chuyên viên tổng hợp báo cáo thống kê về tình hình vận hành khai thác, bảo trì và sự cố KCHT. Hỗ trợ lọc theo KCHT, thời gian, loại hình, trạng thái. Kết xuất báo cáo PDF/Excel.",
+      "type": "Report",
+      "priority": "P2",
+      "actors": ["Lãnh đạo", "Chuyên viên"],
+      "entities": ["OperationPlan", "MaintenancePlan", "Incident"],
+      "key_fields": ["report_type", "kcht_filter", "time_range", "status_filter", "output_format"],
+      "validations": [],
+      "screens": ["/reports/operations", "/reports/maintenance", "/reports/incidents", "/reports/export"],
+      "workflow": {
+        "transitions": ["Chọn loại báo cáo > Chọn KCHT/điều kiện lọc > Tổng hợp > Xem kết quả > Kết xuất PDF/Excel"]
+      },
+      "source_quotes": ["Tổng hợp thông tin báo cáo theo nhiều điều kiện tìm kiếm khác nhau", "Kết xuất báo cáo theo định dạng PDF/ Excel"]
+    }
+  ],
+  "entities": [
+    {
+      "name": "OperationPlan",
+      "display_name": "Kế hoạch vận hành khai thác",
+      "description": "Kế hoạch vận hành khai thác cho từng KCHT",
+      "key_fields": ["plan_id", "kcht_id", "kcht_type", "plan_name", "plan_start_date", "plan_end_date", "operation_frequency", "notes", "status", "created_by", "created_at", "updated_at"],
+      "field_types": {
+        "plan_id": "UUID",
+        "kcht_id": "UUID (FK -> KCHT entity)",
+        "kcht_type": "enum [seaport, berth, channel, anchorage, lighthouse, buoy, dike, vts, radar, ais, cctv]",
+        "plan_name": "string",
+        "plan_start_date": "date",
+        "plan_end_date": "date",
+        "operation_frequency": "enum [daily, weekly, monthly, quarterly, yearly, adhoc]",
+        "notes": "text",
+        "status": "enum [draft, active, completed, cancelled]",
+        "created_by": "UUID",
+        "created_at": "datetime",
+        "updated_at": "datetime"
+      },
+      "pii_fields": [],
+      "source": "TKCT Part II Sec II - P1103-P1117, Phu luc 01"
+    },
+    {
+      "name": "OperationRecord",
+      "display_name": "Thông tin vận hành khai thác thực tế",
+      "description": "Thông tin vận hành khai thác thực tế được cập nhật cho từng KCHT",
+      "key_fields": ["record_id", "plan_id", "kcht_id", "kcht_type", "actual_start_date", "actual_end_date", "operation_status", "output_quantity", "notes", "updated_by", "updated_at"],
+      "field_types": {
+        "record_id": "UUID",
+        "plan_id": "UUID (FK -> OperationPlan)",
+        "kcht_id": "UUID (FK -> KCHT entity)",
+        "kcht_type": "string",
+        "actual_start_date": "date",
+        "actual_end_date": "date",
+        "operation_status": "enum [dang_van_hanh, tam_dung, da_ket_thuc]",
+        "output_quantity": "float",
+        "notes": "text",
+        "updated_by": "UUID",
+        "updated_at": "datetime"
+      },
+      "pii_fields": [],
+      "source": "TKCT Part II Sec II - P1103-P1117, Phu luc 01"
+    },
+    {
+      "name": "MaintenancePlan",
+      "display_name": "Kế hoạch bảo trì",
+      "description": "Kế hoạch bảo trì định kỳ/đột xuất cho từng KCHT",
+      "key_fields": ["plan_id", "kcht_id", "kcht_type", "maintenance_type", "maintenance_cycle", "planned_date", "content", "estimated_cost", "performer", "notes", "status", "created_by", "created_at", "updated_at"],
+      "field_types": {
+        "plan_id": "UUID",
+        "kcht_id": "UUID (FK -> KCHT entity)",
+        "kcht_type": "string",
+        "maintenance_type": "enum [dinh_ky, dot_xuat, sua_chua_lon, bao_duong]",
+        "maintenance_cycle": "enum [monthly, quarterly, semi_annual, annual, biennial, adhoc]",
+        "planned_date": "date",
+        "content": "text",
+        "estimated_cost": "float (VNĐ)",
+        "performer": "string",
+        "notes": "text",
+        "status": "enum [draft, planned, in_progress, completed, cancelled]",
+        "created_by": "UUID",
+        "created_at": "datetime",
+        "updated_at": "datetime"
+      },
+      "pii_fields": [],
+      "source": "TKCT Part II Sec II - P1103-P1117, Phu luc 01"
+    },
+    {
+      "name": "MaintenanceRecord",
+      "display_name": "Thông tin bảo trì thực tế",
+      "description": "Thông tin bảo trì thực tế đã thực hiện cho từng KCHT",
+      "key_fields": ["record_id", "plan_id", "kcht_id", "kcht_type", "actual_date", "content_performed", "actual_cost", "performer", "acceptance_doc_url", "result", "notes", "updated_by", "updated_at"],
+      "field_types": {
+        "record_id": "UUID",
+        "plan_id": "UUID (FK -> MaintenancePlan)",
+        "kcht_id": "UUID (FK -> KCHT entity)",
+        "kcht_type": "string",
+        "actual_date": "date",
+        "content_performed": "text",
+        "actual_cost": "float (VNĐ)",
+        "performer": "string",
+        "acceptance_doc_url": "string (file URL)",
+        "result": "enum [dat, khong_dat, mot_phan]",
+        "notes": "text",
+        "updated_by": "UUID",
+        "updated_at": "datetime"
+      },
+      "pii_fields": [],
+      "source": "TKCT Part II Sec II - P1103-P1117, Phu luc 01"
+    },
+    {
+      "name": "Incident",
+      "display_name": "Sự cố KCHT",
+      "description": "Thông tin sự cố xảy ra đối với KCHT",
+      "key_fields": ["incident_id", "kcht_id", "kcht_type", "incident_type", "incident_code", "severity", "occurred_at", "detected_at", "description", "cause", "resolution", "resolution_status", "resolved_at", "reported_by", "status", "created_at", "updated_at"],
+      "field_types": {
+        "incident_id": "UUID",
+        "kcht_id": "UUID (FK -> KCHT entity)",
+        "kcht_type": "string",
+        "incident_type": "enum [hu_hong_ket_cau, hu_hong_thiet_bi, su_co_moi_truong, tai_nan, khac]",
+        "incident_code": "string (unique)",
+        "severity": "enum [nhe, trung_binh, nghiem_trong, dac_biet_nghiem_trong]",
+        "occurred_at": "datetime",
+        "detected_at": "datetime",
+        "description": "text",
+        "cause": "text",
+        "resolution": "text",
+        "resolution_status": "enum [chua_xu_ly, dang_xu_ly, da_xu_ly, tam_thoi_khac_phuc]",
+        "resolved_at": "datetime",
+        "reported_by": "UUID",
+        "status": "enum [active, resolved, closed]",
+        "created_at": "datetime",
+        "updated_at": "datetime"
+      },
+      "pii_fields": [],
+      "source": "TKCT Part II Sec II - P1103-P1117, Phu luc 01"
+    },
+    {
+      "name": "IncidentAttachment",
+      "display_name": "Tài liệu đính kèm sự cố",
+      "description": "Biên bản sự cố và văn bản chỉ đạo xử lý sự cố đính kèm",
+      "key_fields": ["attachment_id", "incident_id", "document_type", "file_name", "file_url", "file_size", "mime_type", "uploaded_by", "uploaded_at"],
+      "field_types": {
+        "attachment_id": "UUID",
+        "incident_id": "UUID (FK -> Incident)",
+        "document_type": "enum [bien_ban_su_co, van_ban_chi_dao, bao_cao_xu_ly, hinh_anh, khac]",
+        "file_name": "string",
+        "file_url": "string",
+        "file_size": "integer (bytes)",
+        "mime_type": "string",
+        "uploaded_by": "UUID",
+        "uploaded_at": "datetime"
+      },
+      "pii_fields": [],
+      "source": "TKCT Part II Sec II - P1103-P1117, Phu luc 01"
+    },
+    {
+      "name": "OperationHistory",
+      "display_name": "Lịch sử vận hành khai thác",
+      "description": "Lưu trữ lịch sử thay đổi thông tin vận hành khai thác",
+      "key_fields": ["history_id", "kcht_id", "kcht_type", "change_type", "old_value", "new_value", "changed_at", "changed_by", "notes"],
+      "field_types": {
+        "history_id": "UUID",
+        "kcht_id": "UUID",
+        "kcht_type": "string",
+        "change_type": "enum [plan_created, plan_updated, record_updated, status_changed]",
+        "old_value": "json",
+        "new_value": "json",
+        "changed_at": "datetime",
+        "changed_by": "UUID",
+        "notes": "text"
+      },
+      "pii_fields": [],
+      "source": "TKCT Part II Sec II, Phu luc 01"
+    },
+    {
+      "name": "MaintenanceHistory",
+      "display_name": "Lịch sử bảo trì",
+      "description": "Lưu trữ lịch sử thay đổi thông tin bảo trì",
+      "key_fields": ["history_id", "kcht_id", "kcht_type", "change_type", "old_value", "new_value", "changed_at", "changed_by", "notes"],
+      "field_types": {
+        "history_id": "UUID",
+        "kcht_id": "UUID",
+        "kcht_type": "string",
+        "change_type": "enum [plan_created, plan_updated, record_updated, status_changed, doc_attached]",
+        "old_value": "json",
+        "new_value": "json",
+        "changed_at": "datetime",
+        "changed_by": "UUID",
+        "notes": "text"
+      },
+      "pii_fields": [],
+      "source": "TKCT Part II Sec II, Phu luc 01"
+    },
+    {
+      "name": "IncidentHistory",
+      "display_name": "Lịch sử sự cố",
+      "description": "Lưu trữ lịch sử thay đổi thông tin sự cố và quá trình xử lý",
+      "key_fields": ["history_id", "incident_id", "change_type", "old_value", "new_value", "changed_at", "changed_by", "notes"],
+      "field_types": {
+        "history_id": "UUID",
+        "incident_id": "UUID (FK -> Incident)",
+        "change_type": "enum [incident_created, doc_attached, resolution_updated, status_changed, incident_closed]",
+        "old_value": "json",
+        "new_value": "json",
+        "changed_at": "datetime",
+        "changed_by": "UUID",
+        "notes": "text"
+      },
+      "pii_fields": [],
+      "source": "TKCT Part II Sec II, Phu luc 01"
+    }
+  ],
+  "screens": [
+    {
+      "path": "/operations/plan",
+      "title": "Kế hoạch vận hành khai thác",
+      "type": "list",
+      "visible_to_roles": ["Chuyên viên", "Lãnh đạo"],
+      "key_fields": ["KCHT", "kế hoạch", "ngày bắt đầu", "ngày kết thúc", "trạng thái"],
+      "actions": ["Xem danh sách", "Tìm kiếm", "Cập nhật kế hoạch", "Cập nhật thông tin vận hành", "Xem lịch sử"]
+    },
+    {
+      "path": "/operations/plan/detail",
+      "title": "Chi tiết kế hoạch vận hành",
+      "type": "form",
+      "visible_to_roles": ["Chuyên viên", "Lãnh đạo"],
+      "key_fields": ["thông tin KCHT", "kế hoạch vận hành", "thông tin thực tế", "lịch sử cập nhật"],
+      "actions": ["Xem chi tiết", "Cập nhật", "Tải về", "In ấn"]
+    },
+    {
+      "path": "/operations/history",
+      "title": "Lịch sử vận hành khai thác",
+      "type": "list",
+      "visible_to_roles": ["Chuyên viên", "Lãnh đạo"],
+      "key_fields": ["KCHT", "thời gian", "người thực hiện", "nội dung thay đổi", "trạng thái"],
+      "actions": ["Xem danh sách", "Tìm kiếm", "Lọc theo KCHT/thời gian", "Xem chi tiết"]
+    },
+    {
+      "path": "/maintenance/plan",
+      "title": "Kế hoạch bảo trì",
+      "type": "list",
+      "visible_to_roles": ["Chuyên viên", "Lãnh đạo"],
+      "key_fields": ["KCHT", "loại bảo trì", "ngày dự kiến", "đơn vị thực hiện", "trạng thái"],
+      "actions": ["Xem danh sách", "Tìm kiếm", "Cập nhật kế hoạch", "Cập nhật thông tin bảo trì", "Xem lịch sử"]
+    },
+    {
+      "path": "/maintenance/plan/detail",
+      "title": "Chi tiết bảo trì",
+      "type": "form",
+      "visible_to_roles": ["Chuyên viên", "Lãnh đạo"],
+      "key_fields": ["thông tin KCHT", "kế hoạch bảo trì", "kết quả thực tế", "biên bản nghiệm thu", "chi phí"],
+      "actions": ["Xem chi tiết", "Cập nhật", "Xem biên bản", "Tải về", "In ấn"]
+    },
+    {
+      "path": "/maintenance/history",
+      "title": "Lịch sử bảo trì",
+      "type": "list",
+      "visible_to_roles": ["Chuyên viên", "Lãnh đạo"],
+      "key_fields": ["KCHT", "thời gian", "loại bảo trì", "kết quả", "người thực hiện"],
+      "actions": ["Xem danh sách", "Tìm kiếm", "Lọc theo KCHT/loại bảo trì", "Xem chi tiết"]
+    },
+    {
+      "path": "/incidents",
+      "title": "Danh sách sự cố KCHT",
+      "type": "list",
+      "visible_to_roles": ["Chuyên viên", "Lãnh đạo"],
+      "key_fields": ["mã sự cố", "KCHT", "loại sự cố", "mức độ", "thời gian", "trạng thái xử lý"],
+      "actions": ["Xem danh sách", "Tìm kiếm", "Thêm mới", "Cập nhật kết quả xử lý", "Xem lịch sử"]
+    },
+    {
+      "path": "/incidents/detail",
+      "title": "Chi tiết sự cố",
+      "type": "form",
+      "visible_to_roles": ["Chuyên viên", "Lãnh đạo"],
+      "key_fields": ["thông tin sự cố", "biên bản sự cố", "văn bản chỉ đạo", "kết quả xử lý", "lịch sử"],
+      "actions": ["Xem chi tiết", "Đính kèm biên bản", "Đính kèm văn bản", "Cập nhật kết quả", "Tải về", "In ấn"]
+    },
+    {
+      "path": "/incidents/history",
+      "title": "Lịch sử sự cố",
+      "type": "list",
+      "visible_to_roles": ["Chuyên viên", "Lãnh đạo"],
+      "key_fields": ["KCHT", "thời gian", "loại sự cố", "diễn biến xử lý", "trạng thái"],
+      "actions": ["Xem danh sách", "Tìm kiếm", "Lọc theo KCHT/thời gian/loại", "Xem chi tiết"]
+    },
+    {
+      "path": "/reports/operations",
+      "title": "Báo cáo vận hành khai thác",
+      "type": "list",
+      "visible_to_roles": ["Lãnh đạo", "Chuyên viên"],
+      "key_fields": ["KCHT", "thời gian", "tình trạng vận hành", "sản lượng"],
+      "actions": ["Xem báo cáo", "Kết xuất PDF", "Kết xuất Excel"]
+    },
+    {
+      "path": "/reports/maintenance",
+      "title": "Báo cáo bảo trì",
+      "type": "list",
+      "visible_to_roles": ["Lãnh đạo", "Chuyên viên"],
+      "key_fields": ["KCHT", "loại bảo trì", "thời gian", "chi phí", "kết quả"],
+      "actions": ["Xem báo cáo", "Kết xuất PDF", "Kết xuất Excel"]
+    },
+    {
+      "path": "/reports/incidents",
+      "title": "Báo cáo sự cố",
+      "type": "list",
+      "visible_to_roles": ["Lãnh đạo", "Chuyên viên"],
+      "key_fields": ["KCHT", "loại sự cố", "mức độ", "thời gian", "trạng thái xử lý"],
+      "actions": ["Xem báo cáo", "Kết xuất PDF", "Kết xuất Excel"]
+    }
+  ],
+  "integrations": [
+    {
+      "name": "CSDL nền tảng dùng chung Bộ GTVT (LGSP)",
+      "description": "Đồng bộ thông tin vận hành khai thác, bảo trì và sự cố KCHT lên CSDL nền tảng dùng chung của Bộ GTVT qua trục LGSP",
+      "type": "outbound",
+      "protocol": "API/Webservice qua LGSP",
+      "data_exchanged": ["thong_tin_van_hanh", "thong_tin_bao_tri", "thong_tin_su_co"],
+      "security": "HTTPS, mã hóa dữ liệu truyền"
+    },
+    {
+      "name": "CSDL TCT BĐATHH miền Bắc và miền Nam",
+      "description": "Tích hợp thông tin bảo trì và sự cố từ các Tổng công ty Bảo đảm an toàn hàng hải (đèn biển, phao tiêu, luồng)",
+      "type": "inbound",
+      "protocol": "API, VPN Site-to-Site",
+      "data_exchanged": ["bao_tri_den_bien", "bao_tri_phao_tieu", "su_co_luong"],
+      "security": "VPN mã hóa, HTTPS"
+    }
+  ]
+}

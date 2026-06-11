@@ -1,0 +1,91 @@
+{
+  "title": "Hệ thống thông tin quản lý kết cấu hạ tầng giao thông hàng hải (MTIS)",
+  "documents": [
+    {
+      "filename": "DD_raw.txt",
+      "type": "Thiết kế hệ thống",
+      "purpose": "Tài liệu thiết kế hệ thống V3.0 (VMD_MTIS_DD), bao gồm thiết kế kiến trúc, thiết kế CSDL và thiết kế chức năng chi tiết cho toàn bộ hệ thống MTIS"
+    },
+    {
+      "filename": "TH_raw_text.txt",
+      "type": "Tài liệu kỹ thuật",
+      "purpose": "Tài liệu tích hợp hải đồ và tạo lập cơ sở dữ liệu V1.0 (VMD_MTIS_TH), mô tả quy trình tích hợp hải đồ điện tử và tạo lập CSDL kết cấu hạ tầng từ dữ liệu có cấu trúc và quét hồ sơ"
+    },
+    {
+      "filename": "URD_raw.txt",
+      "type": "Yêu cầu người dùng (PDF)",
+      "purpose": "Tài liệu yêu cầu người dùng V3.0 (VMD_MTIS_URD), chứa toàn bộ yêu cầu chức năng phi chức năng, danh sách usecase, quy trình nghiệp vụ, phân hệ chi tiết với màn hình, dữ liệu vào/ra"
+    },
+    {
+      "filename": "URD_docx_raw.txt",
+      "type": "Yêu cầu người dùng (docx)",
+      "purpose": "Bản docx của tài liệu URD, cùng nội dung nhưng định dạng khác, bao gồm chi tiết mô tả chức năng, ràng buộc, dữ liệu đầu vào/ra cho từng màn hình"
+    },
+    {
+      "filename": "TKCT_raw.txt",
+      "type": "Thiết kế chi tiết và dự toán",
+      "purpose": "Thiết kế chi tiết đối với hạ tầng mạng, phần mềm nội bộ, biên tập hải đồ, tạo lập CSDL, an toàn thông tin cấp độ 3, kế hoạch triển khai và dự toán 22.446.571.000 VNĐ"
+    },
+    {
+      "filename": "Survey_raw.txt",
+      "type": "Báo cáo khảo sát",
+      "purpose": "Báo cáo khảo sát V1.0 (VMD_MTIS_2024_BC KS), tổng hợp kết quả khảo sát 16 đơn vị, danh sách 285+ usecase phân loại theo BMT và độ phức tạp, yêu cầu phi chức năng"
+    },
+    {
+      "filename": "SurveyAppendix_raw.txt",
+      "type": "Phụ lục khảo sát",
+      "purpose": "Phụ lục kết quả khảo sát, phiếu phỏng vấn chi tiết theo từng phòng/ban: Phòng KH-CN & MT, Phòng Kế hoạch đầu tư, Phòng Vận tải & DV hàng hải, với câu trả lời chi tiết về nghiệp vụ"
+    }
+  ],
+  "owner": "Cục Hàng hải Việt Nam - Bộ Giao thông Vận tải",
+  "systemName": "MTIS (Maritime Transportation Infrastructure System)",
+  "purpose": "Xây dựng hệ thống thông tin quản lý kết cấu hạ tầng giao thông hàng hải nhằm: (1) Bảo đảm dữ liệu tập trung, đồng nhất để hình thành cơ sở dữ liệu chuyên ngành Hàng hải; (2) Nâng cao năng suất và hiệu quả công tác báo cáo, thống kê; (3) Nâng cao hiệu quả hoạt động quản lý, chỉ đạo điều hành của Bộ GTVT và Cục Hàng hải Việt Nam; (4) Hỗ trợ kiến trúc Chính phủ điện tử hướng tới Chính phủ số giai đoạn 2021-2025, định hướng đến 2030",
+  "scope": "Phát triển phần mềm nội bộ trong khuôn khổ gói thầu \"Mua sắm thiết bị phần cứng và phần mềm thương mại; xây dựng phần mềm nội bộ và tạo lập cơ sở dữ liệu; đào tạo, chuyển giao công nghệ\" thuộc dự án \"Xây dựng Hệ thống thông tin quản lý kết cấu hạ tầng giao thông hàng hải\". Phạm vi bao gồm 9 phân hệ chức năng chính, tích hợp hải đồ điện tử (49 mảnh), tạo lập CSDL từ 18 đơn vị cung cấp (4.503 bản ghi có cấu trúc + 1.121 trang hồ sơ quét), liên thông với CSDL dùng chung cấp Bộ GTVT qua trục LGSP, kết nối VPN với các đơn vị bên ngoài.",
+  "keyFindings": [
+    "Tổng đầu tư: 22.446.571.000 VNĐ, nguồn vốn ngân sách nhà nước, thời gian thực hiện 2021-2025",
+    "Thu thập 4.503 bản ghi dữ liệu có cấu trúc từ 18 đơn vị (Cục Hàng hải, Cảng vụ 11 nơi, VISHIPEL, 2 TCT BĐATHH, CMB, TEDI...), với 653 bản ghi trùng cần hợp nhất",
+    "Quét và số hóa 1.121 trang hồ sơ từ 16 loại hồ sơ khác nhau (hồ sơ công bố mở cảng, bến cảng, cầu cảng, luồng hàng hải, vùng đón trả hoa tiêu...)",
+    "Tích hợp 49 mảnh hải đồ điện tử (định dạng .000) vào PostGIS thông qua GDAL, tổ chức thành layers trên GeoServer với WMS/WFS/WMTS",
+    "Hệ thống gồm 285+ usecase, phân loại: ~40usecase Quản lý người dùng & Quản trị hệ thống, ~160usecase Quản lý thông số KCHTGTHH, ~30usecase Vận hành/Bảo trì, ~6usecase Quy hoạch, ~60usecase Quản lý tài sản, 5usecase GIS, ~50usecase Báo cáo thống kê, ~60usecase Liên thông chia sẻ dữ liệu",
+    "Cơ chế phê duyệt 3 cấp: Cảng vụ/Chi cục → Cục, với trạng thái tạm lưu, gửi duyệt, phê duyệt, từ chối",
+    "Phân quyền theo 3 cấp tổ chức: Cục (trực thuộc), Cảng vụ/Chi cục/Trung tâm, Doanh nghiệp cảng",
+    "Đối tượng dùng hệ thống: 9 nhóm - Quản trị hệ thống, Lãnh đạo Cục, Lãnh đạo Chi cục, Lãnh đạo Cảng vụ, Chuyên viên Cục, Chuyên viên Chi cục, Chuyên viên cảng vụ, Cá nhân/tổ chức bên ngoài, Người dùng tại cảng",
+    "CSDL phân chia 4 schema: VMD_MTIS (nghiệp vụ), VMD_MTIS_IAM (quản trị), VMD_MTIS_META (siêu dữ liệu), VMD_MTIS_LGSP (trao đổi)",
+    "24+ bảng nghiệp vụ, 13+ bảng quản trị, 3+ bảng siêu dữ liệu, 4+ bảng trao đổi liên thông",
+    "Yêu cầu an toàn thông tin cấp độ 3 theo Nghị định 85/2016/NĐ-CP và Thông tư 12/2022/TT-BTTTT",
+    "Triển khai tại Trung tâm dữ liệu Cục Hàng hải Việt Nam, hệ thống vận hành phạm vi toàn quốc",
+    "Hợp đồng 09/2024/HĐKT/CHHVN-ETC hiệu lực 30/12/2024, nhà thầu ETC, tư vấn thiết kế bởi Trung tâm Công nghệ số Quốc gia"
+  ],
+  "structure": {
+    "sections": [
+      "I. Tổng quan tài liệu (Mục đích, Phạm vi, Tài liệu liên quan, Thuật ngữ)",
+      "II. Nội dung - Thiết kế kiến trúc hệ thống (Mô hình tổng quan, Kiến trúc nghiệp vụ, Kiến trúc dữ liệu, Kiến trúc ứng dụng, Kiến trúc kỹ thuật công nghệ, Mô hình vật lý)",
+      "II.3. Thiết kế dữ liệu (CSDL nghiệp vụ 24 bảng, CSDL quản trị 13 bảng, CSDL siêu dữ liệu 3 bảng, CSDL trao đổi 4 bảng, Thiết kế chi tiết từng bảng với trường/kiểu/ràng buộc)",
+      "II.3. Thiết kế chức năng - Phân hệ Quản lý người dùng (Quản lý tài khoản, Quản lý nhóm người dùng)",
+      "II.3. Thiết kế chức năng - Phân hệ Quản trị hệ thống (Quản lý đơn vị, Admin, Log, Biểu tượng bản đồ, Kết nối liên thông)",
+      "II.3. Thiết kế chức năng - Phân hệ Quản lý thông số kỹ thuật KCHTGTHH (Trang chủ, Văn bản pháp lý, 27+ chức năng tra cứu/quản lý đối tượng hạ tầng)",
+      "II.3. Thiết kế chức năng - Phân hệ Vận hành khai thác/Bảo trì (Vận hành, Bảo trì, Sự cố)",
+      "II.3. Thiết kế chức năng - Phân hệ Quy hoạch (Danh sách quy hoạch, Tra cứu, Cập nhật)",
+      "II.3. Thiết kế chức năng - Phân hệ Quản lý tài sản (36+ chức năng QL/PD tài sản theo từng loại KCHT, Đề nghị xử lý, Sản lượng, Kiểm kê)",
+      "II.3. Thiết kế chức năng - Phân hệ GIS (Danh mục đối tượng điểm/đường/vùng, Thông tin trên bản đồ, Tra cứu bản đồ)",
+      "II.3. Thiết kế chức năng - Phân hệ Báo cáo thống kê (7 nhóm chỉ tiêu: chung, KCHT, đo lường, phương tiện/thuyền viên, doanh nghiệp, thông tư 48, bảo đảm)",
+      "II.3. Thiết kế chức năng - Phân hệ Liên thông chia sẻ dữ liệu (Chia sẻ 36+ loại KCHT, Tích hợp dữ liệu bên ngoài)",
+      "II.3. Thiết kế yêu cầu phi chức năng (Xác thực, Kiểm soát truy cập, Nhật ký, Sao lưu dự phòng)",
+      "TH: Tích hợp hải đồ điện tử (49 mảnh, GDAL, PostGIS, GeoServer layers), Tạo lập CSDL (quy trình có cấu trúc + quét hồ sơ)",
+      "TKCT: Thiết kế chi tiết hạ tầng mạng (Firewall HA, Core Switch, SAN), Máy chủ (9 server: 2 App, 2 DB, 1 GIS, 2 SIEM, 2 Proxy), SAN Storage, UPS, SIEM",
+      "Survey: 285+ usecase, 16 đơn vị khảo sát, quy trình nghiệp vụ 3 loại"
+    ]
+  },
+  "recommendations": [
+    "Cần tiếp tục hợp nhất 653 bản ghi trùng trong dữ liệu đã thu thập trước khi đồng bộ vào CSDL chính",
+    "Triển khai kiểm thử toàn bộ 285+ usecase theo ma trận yêu cầu-chức năng-kịch bản đã xác định trong tài liệu",
+    "Đảm bảo tuân thủ yêu cầu an toàn thông tin cấp độ 3 cho toàn bộ hệ thống",
+    "Cần hoàn thiện quy trình đào tạo chuyển giao công nghệ cho 16+ đơn vị sử dụng theo hợp đồng",
+    "Tích hợp đầy đủ 49 mảnh hải đồ điện tử và cấu hình GeoServer WMS/WFS/WMTS trước khi bàn giao",
+    "Thiết lập cơ chế giám sát SIEM thu thập log từ tất cả thiết bị mạng, máy chủ, ứng dụng và thiết bị bảo mật",
+    "Kiểm tra và xác nhận kết nối VPN Site-to-Site với các đơn vị bên ngoài (VMSN, VMSS, VISHIPEL) trước khi triển khai chính thức",
+    "Cập nhật cấu hình Always On Failover Cluster cho SQL Server để đảm bảo HA ở Database Zone",
+    "Triển khai phân vùng mạng DMZ/App/DB với firewall HA Active-Standby theo thiết kế TKCT",
+    "Chuẩn bị kịch bản disaster recovery với UPS 2x10kVA, SAN redundancy, và sao lưu định kỳ"
+  ]
+}

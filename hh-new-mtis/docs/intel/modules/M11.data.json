@@ -1,0 +1,593 @@
+{
+  "_meta": {
+    "source_file": "1.TKCT-Cuc HH-KetCauHaTangGiaoThong 13.11.2024 ban in final (1).docx",
+    "module_id": "M11",
+    "module_name": "Infrastructure Database Creation (Tạo lập CSDL KCHTGTHH)",
+    "extracted_at": "2026-06-05T12:00:00+07:00",
+    "status": "complete",
+    "end_marker": "module-analysis-complete",
+    "tkct_section": "Phần II, Mục III - Tạo lập CSDL kết cấu hạ tầng giao thông hàng hải",
+    "tkct_page_range": "P1331-P1364 (approx)",
+    "appendix_referenced": [
+      "Phụ lục 05 - Dữ liệu tạo lập CSDL kết cấu hạ tầng hàng hải",
+      "Phụ lục 06 - Các trường thông tin phục vụ quản lý tài sản KCHTGTHH"
+    ]
+  },
+  "module_info": {
+    "chuc_nang_chinh": "Thực hiện số hóa, chuẩn hóa, chuyển đổi dữ liệu truyền thống (hồ sơ giấy) sang hồ sơ điện tử; tạo lập CSDL thuộc tính và CSDL không gian cho các đối tượng kết cấu hạ tầng giao thông hàng hải (cảng biển, bến cảng, cầu cảng, luồng hàng hải, phao tiêu, đèn biển, đê kè, VTS/AIS, CCTV) phục vụ Hệ thống MTIS",
+    "tieu_chuan_ap_dung": [
+      "Quyết định 1595/QĐ-BTTTT ngày 03/10/2011 - Định mức tạo lập CSDL",
+      "TCVN 12200:2018 - Quy trình số hóa và tạo lập dữ liệu đặc tả cho đối tượng 2D",
+      "Văn bản 8294/BGTVT-TTCNTT - Biểu mẫu thông tin CSDL dùng chung Bộ GTVT",
+      "DG ECHO L07-SEC - An toàn thông tin cấp độ 3"
+    ],
+    "pham_vi_du_lieu": {
+      "ho_so_co_cau_truc": {
+        "mo_ta": "Hồ sơ công bố mở/đóng các đối tượng KCHT hàng hải",
+        "tong_so_ho_so": 1048,
+        "tong_so_trang_A4": 5240,
+        "cac_loai": [
+          "Hồ sơ công bố mở cảng biển (301 HS)",
+          "Hồ sơ công bố mở cầu cảng (614 HS)",
+          "Hồ sơ công bố mở khu nước, vùng nước (77 HS)",
+          "Hồ sơ công bố mở luồng hàng hải công cộng (45 HS)",
+          "Hồ sơ công bố mở luồng hàng hải chuyên dùng (11 HS)",
+          "Hồ sơ công bố đóng (bến cảng/cầu cảng/khu nước/luồng)"
+        ]
+      },
+      "quet_ho_so": {
+        "mo_ta": "Quét (scan) hồ sơ giấy sang định dạng PDF màu, 300dpi",
+        "yeu_cau_ky_thuat": "Ảnh màu, độ phân giải tối thiểu 300dpi, định dạng PDF >= 1.4, tỷ lệ số hóa 100%"
+      }
+    },
+    "doi_tuong_quan_ly": [
+      "Cảng biển (Seaport)",
+      "Bến cảng (Berth)",
+      "Cầu cảng (Jetty/Dock)",
+      "Bến phao (Buoy berth)",
+      "Khu chuyển tải (Transshipment area)",
+      "Khu tránh trú bão (Storm shelter)",
+      "Khu neo đậu (Anchorage)",
+      "Vùng quay trở (Turning basin)",
+      "Vùng đón trả hoa tiêu (Pilot boarding area)",
+      "Luồng hàng hải (Navigation channel)",
+      "Phao tiêu báo hiệu trên luồng (Buoy/navigation mark)",
+      "Đèn biển (Lighthouse)",
+      "Đê, kè (Breakwater/embankment)",
+      "Đài thông tin duyên hải (Coastal radio station)",
+      "Trạm VTS/AIS/CCTV"
+    ]
+  },
+  "features": [
+    {
+      "name": "Số hóa và nhập liệu hồ sơ KCHTGTHH",
+      "description": "Quy trình số hóa tài liệu giấy -> PDF (màu, >=300dpi) kết hợp nhập liệu có cấu trúc theo các trường dữ liệu tại Phụ lục 05. Đầu vào là 1.048 hồ sơ giấy (~5.240 trang A4). Xử lý qua các bước: tiếp nhận hồ sơ, phân loại, scan, nhập liệu, kiểm tra, đóng gói.",
+      "type": "Process",
+      "priority": "P0",
+      "actors": [
+        "Nhân viên nhập liệu (tối thiểu 02)",
+        "Cán bộ kỹ thuật (tối thiểu 02)",
+        "Quản lý chung (tối thiểu 01)"
+      ],
+      "entities": [
+        "DigitizationJob",
+        "ScannedDocument",
+        "StructuredRecord",
+        "DataEntryBatch"
+      ],
+      "key_fields": [
+        "job_id",
+        "document_type",
+        "source_format",
+        "target_format",
+        "scan_resolution",
+        "page_count",
+        "operator",
+        "status",
+        "verified_at"
+      ],
+      "validations": [
+        "Chất lượng ảnh rõ nét, đọc được dễ dàng, trung thực với bản gốc",
+        "Đảm bảo tính bảo mật, giữ bản quyền của đơn vị thực hiện",
+        "Có đầy đủ thông tin phục vụ quản lý và khai thác tư liệu",
+        "File đầu ra PDF >= phiên bản 1.4"
+      ],
+      "screens": [
+        "/digitization/jobs",
+        "/digitization/jobs/{id}",
+        "/digitization/batches"
+      ],
+      "workflow": {
+        "transitions": [
+          "Tiếp nhận hồ sơ giấy > Phân loại theo loại KCHT > Scan (màu, 300dpi, PDF 1.4+) > Nhập liệu có cấu trúc theo Phụ lục 05 > Kiểm tra chất lượng > Đóng gói, đánh chỉ mục > Lưu trữ CSDL"
+        ]
+      }
+    },
+    {
+      "name": "Kiểm tra và xác thực dữ liệu sau tạo lập",
+      "description": "Thực hiện kiểm thử toàn diện dữ liệu sau khi tạo lập để đảm bảo tính chính xác: kiểm tra tính đầy đủ trường dữ liệu bắt buộc, kiểm tra liên kết giữa CSDL thuộc tính và CSDL không gian, kiểm tra tính hợp lệ của geometry, đối soát với hồ sơ gốc.",
+      "type": "Process",
+      "priority": "P0",
+      "actors": [
+        "Cán bộ kỹ thuật",
+        "Chuyên viên quản lý CSDL"
+      ],
+      "entities": [
+        "ValidationRule",
+        "ValidationRun",
+        "ValidationResult",
+        "DataIssue"
+      ],
+      "key_fields": [
+        "validation_id",
+        "entity_type",
+        "rule_id",
+        "result_status",
+        "records_checked",
+        "records_passed",
+        "records_failed",
+        "error_detail",
+        "checked_by",
+        "checked_at"
+      ],
+      "validations": [
+        "Kiểm tra dữ liệu thuộc tính đầy đủ theo các trường yêu cầu tại Phụ lục 05",
+        "Geometry phải là đối tượng không gian hợp lệ (không self-intersect, đúng hệ quy chiếu VN-2000/WGS-84)",
+        "Mỗi đối tượng phải có mã định danh duy nhất (không trùng lặp)",
+        "Liên kết giữa đối tượng con và đối tượng cha phải hợp lệ",
+        "Kiểm tra tính trung thực với bản gốc sau số hóa"
+      ],
+      "screens": [
+        "/data-validation/runs",
+        "/data-validation/runs/{id}",
+        "/data-validation/issues"
+      ],
+      "workflow": {
+        "transitions": [
+          "Chọn loại đối tượng KCHT > Chạy bộ quy tắc kiểm tra > Hệ thống đối chiếu dữ liệu > Xuất kết quả (pass/fail/warning) > Xử lý lỗi > Chạy lại kiểm tra > Xác nhận đạt"
+        ]
+      }
+    },
+    {
+      "name": "Nhập dữ liệu vào CSDL MTIS và đồng bộ liên thông",
+      "description": "Sau khi số hóa và kiểm tra, dữ liệu được nhập (import) vào CSDL chính thức của hệ thống MTIS, tổ chức thành hai phần: CSDL thuộc tính lưu thông tin quản lý nhà nước, CSDL không gian lưu thông tin địa lý. Đồng bộ liên thông dữ liệu KCHTHH lên CSDL dùng chung của Bộ GTVT theo VB 8294/BGTVT-TTCNTT.",
+      "type": "Integration",
+      "priority": "P0",
+      "actors": [
+        "Chuyên viên quản lý CSDL",
+        "Hệ thống (tự động)"
+      ],
+      "entities": [
+        "ImportJob",
+        "ImportBatch",
+        "SyncJob",
+        "SyncLog"
+      ],
+      "key_fields": [
+        "import_id",
+        "batch_id",
+        "entity_type",
+        "records_imported",
+        "records_failed",
+        "import_status",
+        "sync_target",
+        "sync_status",
+        "error_detail",
+        "imported_at"
+      ],
+      "validations": [
+        "Dữ liệu phải đạt kiểm tra chất lượng trước khi import",
+        "Dữ liệu import đúng schema thuộc tính và không gian",
+        "Xác thực truy cập qua LGSP trước khi đồng bộ Bộ GTVT",
+        "Ghi log chi tiết mỗi lần import và đồng bộ",
+        "Dữ liệu CSDL thuộc tính và CSDL không gian phải đồng bộ với nhau"
+      ],
+      "screens": [
+        "/data-import/batches",
+        "/data-import/batches/{id}",
+        "/data-import/history"
+      ],
+      "workflow": {
+        "transitions": [
+          "Kiểm tra dữ liệu đạt yêu cầu > Chọn batch nhập liệu > Import vào CSDL thuộc tính > Import vào CSDL không gian > Xác nhận kết quả import > Đồng bộ lên CSDL Bộ GTVT (qua LGSP) > Ghi nhận log đồng bộ"
+        ]
+      }
+    },
+    {
+      "name": "Quản lý phiên bản dữ liệu KCHT và cập nhật định kỳ",
+      "description": "Quản lý phiên bản dữ liệu KCHT hàng hải, cho phép cập nhật định kỳ khi có thay đổi về tình trạng hoạt động, bảo trì công trình, cập nhật thông báo hàng hải (TBHH), kết quả kiểm định an toàn. Khối lượng và chi phí cập nhật sẽ theo thực tế khối lượng hoàn thành.",
+      "type": "CRUD",
+      "priority": "P1",
+      "actors": [
+        "Chuyên viên quản lý CSDL",
+        "Chuyên viên quản lý hải đồ"
+      ],
+      "entities": [
+        "AssetVersion",
+        "AssetUpdateHistory",
+        "MaintenanceRecord"
+      ],
+      "key_fields": [
+        "version_id",
+        "asset_id",
+        "version_number",
+        "changed_fields",
+        "change_reason",
+        "updated_by",
+        "updated_at",
+        "tbhh_applied"
+      ],
+      "validations": [
+        "Mỗi lần cập nhật tạo phiên bản mới (không ghi đè)",
+        "Chỉ người có quyền mới được cập nhật dữ liệu",
+        "Cập nhật có thể là điều chỉnh nhỏ không ảnh hưởng thiết kế hệ thống"
+      ],
+      "screens": [
+        "/asset-version/history/{asset_id}",
+        "/asset-version/compare"
+      ],
+      "workflow": {
+        "transitions": [
+          "Chọn tài sản KCHT > Xem phiên bản hiện tại > Cập nhật thông tin (bảo trì, TBHH, tình trạng) > Lưu > Hệ thống tạo phiên bản mới > Đồng bộ thay đổi"
+        ]
+      }
+    }
+  ],
+  "business_rules": [
+    {
+      "id": "BR-M11-001",
+      "description": "Số hóa tài liệu phải đạt chất lượng: ảnh màu, độ phân giải tối thiểu 300dpi, định dạng PDF phiên bản 1.4 trở lên, tỷ lệ số hóa 100%, ảnh rõ nét trung thực với bản gốc",
+      "type": "standard",
+      "severity": "critical",
+      "source_quote": "Độ phân giải tối thiểu là 300 dpi; Định dạng file đầu ra: PDF phiên bản 1.4 trở lên; Tỷ lệ số hóa: 100%; Chất lượng ảnh rõ nét, đọc được dễ dàng, trung thực với bản gốc"
+    },
+    {
+      "id": "BR-M11-002",
+      "description": "Tài liệu, dữ liệu số hóa phải đảm bảo an ninh, an toàn và bảo mật thông tin; giữ được bản quyền của đơn vị thực hiện",
+      "type": "security",
+      "severity": "critical",
+      "source_quote": "Tài liệu, dữ liệu phải đảm bảo an ninh, an toàn và bảo mật thông tin; Đảm bảo tính bảo mật, giữ được bản quyền của đơn vị thực hiện"
+    },
+    {
+      "id": "BR-M11-003",
+      "description": "Quy trình tạo lập CSDL phải tuân thủ Quyết định 1595/QĐ-BTTTT ngày 03/10/2011 của Bộ TT&TT và Tiêu chuẩn Quốc gia TCVN 12200:2018",
+      "type": "standard",
+      "severity": "critical",
+      "source_quote": "Việc tạo lập Cơ sở dữ liệu được thực hiện theo quy trình được quy định tại Quyết định số 1595/QĐ-BTTTT ngày 03/10/2011 của Bộ TT&TT và đáp ứng theo Tiêu chuẩn Quốc gia TCVN 12200:2018"
+    },
+    {
+      "id": "BR-M11-004",
+      "description": "Dữ liệu thuộc tính phải đầy đủ theo các trường yêu cầu tại Phụ lục 05 (gồm 13 nhóm đối tượng KCHT: cảng biển, bến cảng, cầu cảng, bến phao, khu chuyển tải, khu neo đậu, khu tránh bão, vùng quay trở, vùng đón trả hoa tiêu, luồng hàng hải, phao tiêu/báo hiệu, đèn biển, đê/kè)",
+      "type": "validation",
+      "severity": "critical",
+      "source_quote": "(Thông tin chi tiết về các trường dữ liệu tại Phụ lục 05 kèm theo)"
+    },
+    {
+      "id": "BR-M11-005",
+      "description": "CSDL kết cấu hạ tầng giao thông hàng hải được vận hành dựa trên hai CSDL: CSDL thuộc tính (quản lý nhà nước) và CSDL không gian (vị trí địa lý), thể hiện mối liên hệ của các đối tượng trong ngành Hàng hải với Hệ sinh thái tổng thể ngành GTVT",
+      "type": "architecture",
+      "severity": "critical",
+      "source_quote": "Đối tượng quản lý trong CSDL kết cấu hạ tầng giao thông Hàng hải được vận hành dựa trên hai CSDL là CSDL thuộc tính và CSDL không gian"
+    },
+    {
+      "id": "BR-M11-006",
+      "description": "Số liệu khối lượng trong thiết kế là tại thời điểm tháng 10/2024; khi tổ chức thi công, Chủ đầu tư và đơn vị thi công sẽ cập nhật lại, chi phí thực hiện theo thực tế khối lượng hoàn thành",
+      "type": "contract",
+      "severity": "high",
+      "source_quote": "Các số liệu trong thiết kế là các số liệu tại thời điểm tháng 10/2024, khi tổ chức thi công Chủ đầu tư và đơn vị thi công sẽ cập nhật lại và chi phí thực hiện sẽ theo thực tế khối lượng hoàn thành"
+    },
+    {
+      "id": "BR-M11-007",
+      "description": "Dữ liệu KCHTGTHH phải được đồng bộ liên thông lên CSDL dùng chung của Bộ GTVT theo biểu mẫu thông tin tại Văn bản số 8294/BGTVT-TTCNTT ngày 30/08/2019",
+      "type": "integration",
+      "severity": "high",
+      "source_quote": "Dữ liệu kết cấu hạ tầng giao thông hàng hải sẽ được đồng bộ liên thông lên hệ thống CSDL dùng chung của của bộ GTVT theo quy định tạm thời tại văn bản số 8294/BGTVT-TTCNTT"
+    },
+    {
+      "id": "BR-M11-008",
+      "description": "Trang thiết bị tối thiểu cho công tác tạo lập CSDL: 02 máy tính, 02 máy scan A4, 01 máy chủ lưu trữ tạm thời",
+      "type": "resource",
+      "severity": "high",
+      "source_quote": "Máy tính (Hoạt động tốt, dùng để: nhập liệu, biên mục, scan...); Số lượng tối thiểu: 02. Máy scan A4 (Hoạt động tốt, dùng để: scan tài liệu...); Số lượng tối thiểu: 02. Máy chủ; Số lượng tối thiểu: 01"
+    },
+    {
+      "id": "BR-M11-009",
+      "description": "Nhân sự tối thiểu cho công tác tạo lập CSDL: 01 Quản lý chung, 02 Cán bộ kỹ thuật (tổng tối thiểu 03 người)",
+      "type": "resource",
+      "severity": "high",
+      "source_quote": "Quản lý chung: Số lượng tối thiểu: 01; Cán bộ kỹ thuật: Số lượng tối thiểu 02"
+    }
+  ],
+  "entities": [
+    {
+      "name": "DigitizationJob",
+      "description": "Phiên số hóa tài liệu KCHT - quản lý tiến trình scan và nhập liệu từng lô hồ sơ",
+      "key_fields": [
+        "job_id",
+        "batch_code",
+        "document_type",
+        "total_pages",
+        "scanned_pages",
+        "scan_resolution",
+        "output_format",
+        "operator",
+        "status",
+        "started_at",
+        "completed_at"
+      ],
+      "field_types": {
+        "job_id": "UUID",
+        "batch_code": "string (mã lô)",
+        "document_type": "enum [cảng biển, bến cảng, cầu cảng, khu nước, luồng HH, phao tiêu, đèn biển, đê kè]",
+        "total_pages": "integer",
+        "scanned_pages": "integer",
+        "scan_resolution": "integer (dpi)",
+        "output_format": "enum [PDF, PDF/A]",
+        "operator": "string",
+        "status": "enum [pending, scanning, data_entry, verifying, completed, failed]",
+        "started_at": "datetime",
+        "completed_at": "datetime"
+      },
+      "pii_fields": [],
+      "source": "TKCT Part II Section III - Yêu cầu số hóa tài liệu"
+    },
+    {
+      "name": "ScannedDocument",
+      "description": "Tài liệu đã scan (file PDF) từ hồ sơ giấy KCHT",
+      "key_fields": [
+        "doc_id",
+        "job_id",
+        "document_code",
+        "file_name",
+        "file_path",
+        "file_size_bytes",
+        "page_count",
+        "checksum",
+        "scan_date",
+        "operator"
+      ],
+      "field_types": {
+        "doc_id": "UUID",
+        "job_id": "UUID (FK->DigitizationJob)",
+        "document_code": "string (mã hồ sơ)",
+        "file_name": "string",
+        "file_path": "string",
+        "file_size_bytes": "bigint",
+        "page_count": "integer",
+        "checksum": "string (SHA-256)",
+        "scan_date": "datetime",
+        "operator": "string"
+      },
+      "pii_fields": [],
+      "source": "TKCT Part II Section III - Yêu cầu số hóa"
+    },
+    {
+      "name": "StructuredRecord",
+      "description": "Bản ghi dữ liệu có cấu trúc theo Phụ lục 05 cho từng đối tượng KCHT (thông tin thuộc tính nhập từ hồ sơ)",
+      "key_fields": [
+        "record_id",
+        "job_id",
+        "asset_type",
+        "asset_code",
+        "asset_name",
+        "fields_json",
+        "status",
+        "entry_operator",
+        "verified_by",
+        "verified_at"
+      ],
+      "field_types": {
+        "record_id": "UUID",
+        "job_id": "UUID (FK->DigitizationJob)",
+        "asset_type": "enum [cang_bien, ben_cang, cau_cang, ben_phao, khu_chuyen_tai, khu_neo_dau, luong_hang_hai, phao_tieu, den_bien, de_ke]",
+        "asset_code": "string",
+        "asset_name": "string",
+        "fields_json": "jsonb (theo schema Phụ lục 05)",
+        "status": "enum [draft, verified, rejected]",
+        "entry_operator": "string",
+        "verified_by": "string",
+        "verified_at": "datetime"
+      },
+      "pii_fields": [],
+      "source": "Phụ lục 05 - Dữ liệu tạo lập CSDL kết cấu hạ tầng hàng hải"
+    },
+    {
+      "name": "DataEntryBatch",
+      "description": "Lô nhập liệu được đóng gói trước khi import vào CSDL MTIS",
+      "key_fields": [
+        "batch_id",
+        "batch_code",
+        "record_count",
+        "asset_types",
+        "validation_status",
+        "import_status",
+        "created_by",
+        "created_at",
+        "imported_at"
+      ],
+      "field_types": {
+        "batch_id": "UUID",
+        "batch_code": "string",
+        "record_count": "integer",
+        "asset_types": "json (danh sách loại)",
+        "validation_status": "enum [pending, passed, failed]",
+        "import_status": "enum [pending, importing, imported, failed]",
+        "created_by": "string",
+        "created_at": "datetime",
+        "imported_at": "datetime"
+      },
+      "pii_fields": [],
+      "source": "TKCT Part II Section III - Quy trình tạo lập CSDL"
+    },
+    {
+      "name": "AssetUpdateHistory",
+      "description": "Lịch sử cập nhật dữ liệu KCHT sau khi đưa vào vận hành",
+      "key_fields": [
+        "history_id",
+        "asset_id",
+        "asset_type",
+        "version",
+        "changed_by",
+        "changed_at",
+        "change_reason",
+        "changes_json",
+        "tbhh_reference"
+      ],
+      "field_types": {
+        "history_id": "UUID",
+        "asset_id": "UUID",
+        "asset_type": "string",
+        "version": "integer",
+        "changed_by": "string",
+        "changed_at": "datetime",
+        "change_reason": "text",
+        "changes_json": "jsonb",
+        "tbhh_reference": "string (số TBHH nếu có)"
+      },
+      "pii_fields": [],
+      "source": "TKCT Part II Section III - Cập nhật dữ liệu KCHT"
+    }
+  ],
+  "integrations": [
+    {
+      "name": "Hệ thống lưu trữ tài liệu điện tử",
+      "description": "Lưu trữ và quản lý tài liệu PDF đã scan, phân loại theo loại KCHT, hỗ trợ tra cứu và tải xuống",
+      "type": "internal",
+      "protocol": "File System / Object Storage",
+      "data_exchanged": [
+        "scanned_documents (PDF)",
+        "document_metadata",
+        "index_data"
+      ],
+      "security": "Mã hóa lưu trữ, phân quyền truy cập theo vai trò"
+    },
+    {
+      "name": "LGSP - Đồng bộ CSDL dùng chung Bộ GTVT",
+      "description": "Đồng bộ dữ liệu KCHTGTHH lên CSDL dùng chung Bộ GTVT theo VB 8294/BGTVT-TTCNTT, gồm các biểu: tổng hợp KCHT, bảo trì KCHT, cảng biển, bến cảng/cầu cảng, luồng HH, khu chuyển tải, phao tiêu, đèn biển, đê kè",
+      "type": "outbound",
+      "protocol": "LGSP/API",
+      "data_exchanged": [
+        "tổng hợp KCHT",
+        "bảo trì KCHT",
+        "cảng biển",
+        "bến cảng/cầu cảng",
+        "luồng hàng hải",
+        "khu chuyển tải/neo đậu",
+        "phao tiêu báo hiệu",
+        "đèn biển",
+        "đê kè",
+        "auth_tokens"
+      ],
+      "security": "Xác thực qua LGSP, HTTPS TLS 1.2+"
+    },
+    {
+      "name": "CSDL không gian (GIS Database)",
+      "description": "Lưu trữ dữ liệu không gian của các đối tượng KCHT (geometry, tọa độ VN-2000/WGS-84)",
+      "type": "internal",
+      "protocol": "PostGIS/WFS",
+      "data_exchanged": [
+        "spatial_features",
+        "attribute_data",
+        "geometry (Point/Line/Polygon)"
+      ],
+      "security": "Truy cập qua ứng dụng, không truy cập trực tiếp CSDL"
+    }
+  ],
+  "appendix_05_field_groups": {
+    "cang_bien": [
+      "Tên Cảng vụ hàng hải",
+      "Tên cảng biển",
+      "Địa điểm",
+      "Xếp loại cảng biển",
+      "Thời điểm công bố mở",
+      "Quy hoạch năng lực thông qua",
+      "Năng lực thông qua hiện trạng",
+      "Cỡ tàu tiếp nhận lớn nhất (DWT)",
+      "Tổng số bến cảng",
+      "Tổng số khu neo đậu",
+      "Tổng số tuyến luồng",
+      "Tổng chiều dài luồng",
+      "Tổng số phao tiêu",
+      "Tổng số đê kè",
+      "Tổng số đèn biển"
+    ],
+    "ben_cang": [
+      "Đơn vị quản lý khai thác",
+      "Thuộc vùng nước cảng biển",
+      "Tên bến cảng",
+      "Địa điểm",
+      "Thời điểm công bố mở",
+      "Công năng khai thác",
+      "Chiều dài cầu (m)",
+      "Chiều rộng cầu (m)",
+      "Cỡ tàu (DWT)",
+      "Tình trạng hoạt động",
+      "Năng lực thông qua",
+      "Độ sâu khu nước"
+    ],
+    "cau_cang": [
+      "Đơn vị quản lý",
+      "Tên cầu cảng",
+      "Địa điểm",
+      "Công năng",
+      "Chiều dài/rộng",
+      "Cỡ tàu (DWT)",
+      "Tình trạng",
+      "Năng lực thiết kế",
+      "Độ sâu khu nước"
+    ],
+    "luong_hang_hai": [
+      "Tên luồng",
+      "Chiều dài thiết kế (km)",
+      "Chiều rộng lớn nhất (m)",
+      "Chiều rộng nhỏ nhất (m)",
+      "Độ sâu thiết kế (m)",
+      "Mái dốc thiết kế",
+      "Loại tuyến luồng",
+      "Trạm quản lý",
+      "Độ sâu hiện tại",
+      "Năm bảo trì gần nhất",
+      "Khối lượng nạo vét",
+      "Tình trạng"
+    ],
+    "phao_tieu": [
+      "Tên phao tiêu",
+      "Vị trí tọa độ",
+      "Hình dáng",
+      "Kết cấu",
+      "Chiều cao thân phao",
+      "Chiều cao tâm sáng",
+      "Chủng loại đèn",
+      "Màu sắc",
+      "Nguồn năng lượng",
+      "Thời điểm đưa vào sử dụng",
+      "Tình trạng",
+      "Đơn vị vận hành"
+    ],
+    "den_bien": [
+      "Tên đèn biển",
+      "Địa điểm",
+      "Hình dạng",
+      "Kết cấu",
+      "Chiều cao tháp đèn",
+      "Chiều cao tâm sáng",
+      "Tầm hiệu lực địa lý",
+      "Tầm hiệu lực ánh sáng",
+      "Chủng loại đèn chính/dự phòng",
+      "Màu sắc tháp",
+      "Nguồn năng lượng",
+      "Tình trạng",
+      "Đơn vị quản lý"
+    ],
+    "de_ke": [
+      "Tên đê/kè",
+      "Địa điểm vị trí",
+      "Thời điểm xây dựng",
+      "Chiều dài",
+      "Cao trình đỉnh đê",
+      "Tình trạng",
+      "Năm bảo trì",
+      "Đơn vị vận hành"
+    ]
+  }
+}

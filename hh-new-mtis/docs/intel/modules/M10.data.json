@@ -1,0 +1,963 @@
+{
+  "_meta": {
+    "source_file": "1.TKCT-Cuc HH-KetCauHaTangGiaoThong 13.11.2024 ban in final (1).docx",
+    "module_id": "M10",
+    "module_name": "Nautical Chart Editing (Biên tập hải đồ điện tử)",
+    "extracted_at": "2026-06-05T12:00:00+07:00",
+    "status": "complete",
+    "end_marker": "module-analysis-complete",
+    "tkct_section": "Phần II, Mục III - Biên tập hải đồ điện tử & Tạo lập CSDL kết cấu hạ tầng giao thông hàng hải",
+    "tkct_page_range": "P1299-P1364 (approx)",
+    "appendix_referenced": [
+      "Phụ lục 04 - Các mảnh hải đồ điện tử cần tích hợp",
+      "Phụ lục 05 - Dữ liệu tạo lập CSDL KCHT hàng hải"
+    ]
+  },
+  "module_info": {
+    "chuc_nang_chinh": "Biên tập, tích hợp và quản lý các mảnh hải đồ điện tử (ENC) theo tiêu chuẩn S-57/S-100 vào hệ thống GIS của Cục Hàng hải Việt Nam; xây dựng CSDL không gian kết cấu hạ tầng giao thông hàng hải",
+    "tieu_chuan_ap_dung": [
+      "S-57 (IHO Transfer Standard for Digital Hydrographic Data)",
+      "S-52 (ECDIS Display Standard)",
+      "S-63 (ENC Data Protection Scheme)",
+      "S-58 (ENC Validation Checks)",
+      "S-62 (Producer Code List)",
+      "S-100 (Universal Hydrographic Data Model - future)"
+    ],
+    "nguon_du_lieu": [
+      "Tổng công ty Bảo đảm an toàn hàng hải miền Bắc - 51 cells ENC (Quảng Ninh đến Quảng Ngãi)",
+      "Tổng công ty Bảo đảm an toàn hàng hải miền Nam - 57 cells ENC (từ Quảng Ngãi trở vào)"
+    ],
+    "tong_so_manh_hai_do": 108,
+    "cac_buoc_tich_hop": [
+      "1. Chuẩn bị dữ liệu (thu thập, kiểm tra chất lượng, chuẩn hóa hệ tọa độ)",
+      "2. Chuyển đổi dữ liệu (S57 -> Shapefile/GeoPackage, bảo toàn thuộc tính & metadata)",
+      "3. Tích hợp vào GIS (import, tổ chức lớp logic, thiết lập quan hệ không gian)",
+      "4. Xây dựng CSDL không gian (thiết kế schema, tích hợp với lớp GIS khác)",
+      "5. Phát triển giao diện người dùng (hiển thị, tương tác, cập nhật)",
+      "6. Kiểm thử và đánh giá (tính chính xác dữ liệu sau tích hợp)"
+    ]
+  },
+  "features": [
+    {
+      "name": "Xem danh sách mảnh hải đồ điện tử",
+      "description": "Người dùng xem danh sách tất cả các mảnh hải đồ điện tử (ENC cells) đã được tích hợp từ hai Tổng công ty Bảo đảm an toàn hàng hải miền Bắc và miền Nam. Hệ thống hiển thị danh sách kèm thông tin cơ bản (mã cell, tỷ lệ, khu vực, tọa độ khung).",
+      "type": "CRUD",
+      "priority": "P0",
+      "actors": [
+        "Chuyên viên quản lý hải đồ",
+        "Lãnh đạo Cục Hàng hải"
+      ],
+      "entities": [
+        "ENCCell",
+        "ENCDataSource"
+      ],
+      "key_fields": [
+        "cell_id",
+        "cell_code",
+        "scale",
+        "region",
+        "frame_sw_lat",
+        "frame_sw_lon",
+        "frame_ne_lat",
+        "frame_ne_lon",
+        "producer",
+        "status",
+        "imported_at"
+      ],
+      "validations": [
+        "Chỉ hiển thị các cell đã được import thành công",
+        "Thông tin đầy đủ theo chuẩn S-62"
+      ],
+      "screens": [
+        "/chart-catalog",
+        "/chart-catalog/list"
+      ],
+      "workflow": {
+        "transitions": [
+          "Vào chức năng > Hệ thống truy vấn danh sách cell ENC > Hiển thị bảng danh sách > Người dùng có thể lọc theo khu vực/tỷ lệ"
+        ]
+      }
+    },
+    {
+      "name": "Tìm kiếm mảnh hải đồ điện tử",
+      "description": "Người dùng tìm kiếm mảnh hải đồ điện tử theo mã cell, khu vực địa lý, tỷ lệ, đơn vị quản lý hoặc tọa độ. Hệ thống hỗ trợ tìm kiếm nâng cao tích hợp bản đồ GIS để khoanh vùng tìm kiếm theo không gian.",
+      "type": "CRUD",
+      "priority": "P0",
+      "actors": [
+        "Chuyên viên quản lý hải đồ",
+        "Lãnh đạo Cục Hàng hải"
+      ],
+      "entities": [
+        "ENCCell"
+      ],
+      "key_fields": [
+        "keyword",
+        "bounding_box",
+        "cell_code",
+        "region",
+        "scale_min",
+        "scale_max",
+        "producer"
+      ],
+      "validations": [
+        "Tọa độ bounding box phải hợp lệ (SW < NE)",
+        "Mã cell theo chuẩn S-62"
+      ],
+      "screens": [
+        "/chart-catalog/search"
+      ],
+      "workflow": {
+        "transitions": [
+          "Nhập từ khóa/điều kiện tìm kiếm > Hệ thống truy vấn CSDL không gian > Hiển thị kết quả dạng danh sách + bản đồ"
+        ]
+      }
+    },
+    {
+      "name": "Cập nhật thông tin mảnh hải đồ điện tử",
+      "description": "Cho phép người dùng cập nhật thông tin nghiệp vụ của mảnh hải đồ: tên, tỷ lệ, đơn vị quản lý, trạng thái, ghi chú. Khi có thay đổi từ các Tổng công ty, người dùng cập nhật metadata và tải lên bản ENC mới.",
+      "type": "CRUD",
+      "priority": "P1",
+      "actors": [
+        "Chuyên viên quản lý hải đồ",
+        "Chuyên viên Tổng công ty Bảo đảm AT HH"
+      ],
+      "entities": [
+        "ENCCell",
+        "ENCUpdateHistory"
+      ],
+      "key_fields": [
+        "cell_id",
+        "cell_code",
+        "cell_name",
+        "scale",
+        "producer",
+        "status",
+        "notes",
+        "updated_by",
+        "updated_at"
+      ],
+      "validations": [
+        "Các thay đổi phải được ghi log lịch sử",
+        "Chỉ người có quyền mới được cập nhật"
+      ],
+      "screens": [
+        "/chart-catalog/edit/{id}"
+      ],
+      "workflow": {
+        "transitions": [
+          "Chọn mảnh hải đồ > Chỉnh sửa thông tin > Nhập ghi chú thay đổi > Lưu > Hệ thống ghi nhận lịch sử cập nhật"
+        ]
+      }
+    },
+    {
+      "name": "Đính kèm/Import tệp mảnh hải đồ điện tử",
+      "description": "Cho phép người dùng chọn và tải lên tệp mảnh hải đồ điện tử (định dạng S-57 .000, S-63 encrypted, hoặc Shapefile/GeoPackage). Hệ thống giải mã (nếu S-63), kiểm tra tính hợp lệ theo S-58, chuyển đổi sang định dạng GIS nội bộ và tích hợp vào CSDL không gian.",
+      "type": "CRUD",
+      "priority": "P0",
+      "actors": [
+        "Chuyên viên quản lý hải đồ"
+      ],
+      "entities": [
+        "ENCCell",
+        "ENCRawFile",
+        "GISLayer"
+      ],
+      "key_fields": [
+        "file_name",
+        "file_type",
+        "cell_code",
+        "file_size",
+        "checksum",
+        "import_status",
+        "validation_result",
+        "imported_at"
+      ],
+      "validations": [
+        "Định dạng tệp phải là S-57 (.000), S-63, Shapefile (.shp) hoặc GeoPackage (.gpkg)",
+        "Dữ liệu S-63 phải được giải mã thành công trước khi import",
+        "Kiểm tra ENC theo tiêu chuẩn S-58 trước khi tích hợp",
+        "Kiểm tra trùng lặp mã cell trong CSDL"
+      ],
+      "screens": [
+        "/chart-catalog/import",
+        "/chart-catalog/import/{id}/validation"
+      ],
+      "workflow": {
+        "transitions": [
+          "Chọn tệp > Tải lên server > Giải mã S-63 (nếu có) > Validate S-58 > Kiểm tra trùng lặp > Chuyển đổi S57 -> Shapefile/GeoPackage > Import vào CSDL không gian > Thông báo kết quả"
+        ]
+      }
+    },
+    {
+      "name": "Xem thông tin chi tiết mảnh hải đồ điện tử",
+      "description": "Xem thông tin đầy đủ của mảnh hải đồ trên bản đồ GIS: metadata (mã cell, tỷ lệ, khu vực, đơn vị sản xuất, tọa độ khung), các lớp dữ liệu (đường bờ, độ sâu, đèn biển, phao tiêu, chướng ngại vật...), và hiển thị trực quan trên nền bản đồ nền.",
+      "type": "CRUD",
+      "priority": "P0",
+      "actors": [
+        "Chuyên viên quản lý hải đồ",
+        "Lãnh đạo Cục Hàng hải",
+        "Cá nhân/tổ chức khai thác dữ liệu"
+      ],
+      "entities": [
+        "ENCCell",
+        "GISLayer",
+        "ENCObject"
+      ],
+      "key_fields": [
+        "cell_code",
+        "scale",
+        "frame_sw",
+        "frame_ne",
+        "producer",
+        "product_type",
+        "issue_date",
+        "update_date",
+        "status",
+        "object_count"
+      ],
+      "validations": [
+        "Hiển thị tọa độ đúng hệ quy chiếu (VN-2000/WGS-84)",
+        "Hiển thị đúng ký hiệu theo chuẩn S-52"
+      ],
+      "screens": [
+        "/chart-catalog/detail/{id}",
+        "/chart-catalog/map/{id}"
+      ],
+      "workflow": {
+        "transitions": [
+          "Chọn cell từ danh sách > Xem metadata > Chuyển qua tab bản đồ > Hệ thống render các đối tượng hải đồ trên nền GIS > Tương tác (zoom, chọn đối tượng, xem thuộc tính)"
+        ]
+      }
+    },
+    {
+      "name": "Xem lịch sử cập nhật mảnh hải đồ điện tử",
+      "description": "Xem nhật ký cập nhật của từng mảnh hải đồ: thời gian, nội dung thay đổi, người thực hiện, phiên bản ENC. Hỗ trợ so sánh giữa các phiên bản và theo dõi các thông báo hàng hải (Notice to Mariners) đã được áp dụng.",
+      "type": "CRUD",
+      "priority": "P1",
+      "actors": [
+        "Chuyên viên quản lý hải đồ"
+      ],
+      "entities": [
+        "ENCUpdateHistory",
+        "ENCCell"
+      ],
+      "key_fields": [
+        "cell_id",
+        "version",
+        "updated_at",
+        "updated_by",
+        "change_description",
+        "notices_applied"
+      ],
+      "validations": [
+        "Không thể xóa lịch sử cập nhật",
+        "Thông tin phiên bản tăng dần"
+      ],
+      "screens": [
+        "/chart-catalog/history/{id}"
+      ],
+      "workflow": {
+        "transitions": [
+          "Chọn mảnh hải đồ > Xem lịch sử > Hệ thống truy vấn các bản ghi update_history > Hiển thị timeline"
+        ]
+      }
+    },
+    {
+      "name": "Chuyển đổi dữ liệu S-57 sang định dạng GIS",
+      "description": "Tự động chuyển đổi dữ liệu hải đồ từ định dạng S-57 (ISO 8211) sang các định dạng tương thích GIS (Shapefile, GeoPackage, GeoJSON). Bảo toàn cấu trúc đối tượng, thuộc tính (acronym, code, value) và metadata. Ánh xạ các lớp S-57 (M_COVR, DEPARE, LNDARE, SOUNDG, LIGHTS...) sang các lớp GIS tương ứng.",
+      "type": "Process",
+      "priority": "P0",
+      "actors": [
+        "Chuyên viên quản lý hải đồ",
+        "Hệ thống (tự động)"
+      ],
+      "entities": [
+        "ENCCell",
+        "ENCRawFile",
+        "GISLayer",
+        "S57Object"
+      ],
+      "key_fields": [
+        "source_format",
+        "target_format",
+        "object_class",
+        "attribute_acronym",
+        "geometry_type",
+        "conversion_status"
+      ],
+      "validations": [
+        "Tất cả thuộc tính S-57 phải được bảo toàn trong quá trình chuyển đổi",
+        "Metadata của ENC (cell_name, scale, producer) không được mất",
+        "Geometry phải đúng hệ quy chiếu (WGS-84)"
+      ],
+      "screens": [],
+      "workflow": {
+        "transitions": [
+          "Đọc file S-57 (.000) > Parse ISO 8211 encoding > Trích xuất đối tượng và thuộc tính > Ánh xạ sang schema GIS đích > Tạo file Shapefile/GeoPackage > Kiểm tra tính toàn vẹn dữ liệu"
+        ]
+      }
+    },
+    {
+      "name": "Hiển thị hải đồ trên nền GIS",
+      "description": "Hiển thị các lớp hải đồ điện tử trên giao diện bản đồ GIS với các symbol theo chuẩn S-52 (IHO ECDIS Presentation Library). Hỗ trợ: zoom theo tỷ lệ, bật/tắt lớp, chọn đối tượng xem thuộc tính, đo khoảng cách/diện tích, tìm kiếm đối tượng trên hải đồ.",
+      "type": "UI",
+      "priority": "P0",
+      "actors": [
+        "Chuyên viên quản lý hải đồ",
+        "Lãnh đạo Cục Hàng hải",
+        "Cá nhân/tổ chức khai thác dữ liệu"
+      ],
+      "entities": [
+        "GISLayer",
+        "ENCObject",
+        "MapView"
+      ],
+      "key_fields": [
+        "layer_id",
+        "layer_name",
+        "layer_type",
+        "visible",
+        "zoom_range_min",
+        "zoom_range_max",
+        "symbol_library"
+      ],
+      "validations": [
+        "Hiển thị đúng ký hiệu S-52 trên mọi tỷ lệ",
+        "Dữ liệu cập nhật theo thời gian thực nếu có thay đổi"
+      ],
+      "screens": [
+        "/map-viewer",
+        "/map-viewer/chart/{id}"
+      ],
+      "workflow": {
+        "transitions": [
+          "Mở bản đồ > Chọn lớp hải đồ > Render các đối tượng với symbol S-52 > Tương tác (zoom, pan, identify, measure)"
+        ]
+      }
+    },
+    {
+      "name": "Tạo lập CSDL kết cấu hạ tầng giao thông hàng hải",
+      "description": "Xây dựng và quản lý CSDL không gian và thuộc tính cho các đối tượng kết cấu hạ tầng hàng hải gồm: cảng biển, bến cảng, cầu cảng, bến phao, khu neo đậu, luồng hàng hải, đê/kè, phao tiêu báo hiệu, đèn biển, đài thông tin duyên hải, VTS, AIS, CCTV. Thực hiện theo Quyết định 1595/QĐ-BTTTT.",
+      "type": "CRUD",
+      "priority": "P0",
+      "actors": [
+        "Chuyên viên quản lý CSDL",
+        "Chuyên viên quản lý hải đồ"
+      ],
+      "entities": [
+        "MaritimePort",
+        "Berth",
+        "Jetty",
+        "Buoy",
+        "NavigationChannel",
+        "Breakwater",
+        "VTSStation",
+        "AISStation",
+        "Beacon"
+      ],
+      "key_fields": [
+        "object_id",
+        "object_code",
+        "object_name",
+        "object_type",
+        "geometry",
+        "attributes_json",
+        "status",
+        "created_at",
+        "updated_at"
+      ],
+      "validations": [
+        "Dữ liệu thuộc tính đầy đủ theo các trường yêu cầu tại Phụ lục 05",
+        "Geometry phải là đối tượng không gian hợp lệ",
+        "Mỗi đối tượng phải có mã định danh duy nhất"
+      ],
+      "screens": [
+        "/database/asset-list",
+        "/database/asset-detail/{id}"
+      ],
+      "workflow": {
+        "transitions": [
+          "Thu thập dữ liệu > Phân loại > Xây dựng cấu trúc dữ liệu đặc tả > Nhập liệu (có cấu trúc + quét hồ sơ) > Kiểm tra dữ liệu sau tạo lập > Đưa vào vận hành"
+        ]
+      }
+    },
+    {
+      "name": "Đồng bộ dữ liệu hải đồ với CSDL dùng chung Bộ GTVT",
+      "description": "Đồng bộ dữ liệu kết cấu hạ tầng giao thông hàng hải lên CSDL dùng chung của Bộ GTVT theo Văn bản 8294/BGTVT-TTCNTT. Đảm bảo dữ liệu được liên thông giữa hệ thống MTIS của Cục Hàng hải và hệ thống của Bộ GTVT, các Bộ ngành liên quan.",
+      "type": "Integration",
+      "priority": "P1",
+      "actors": [
+        "Hệ thống (tự động)",
+        "Chuyên viên quản lý CSDL"
+      ],
+      "entities": [
+        "SyncJob",
+        "SyncLog"
+      ],
+      "key_fields": [
+        "sync_id",
+        "target_system",
+        "data_type",
+        "sync_status",
+        "records_synced",
+        "last_sync_at",
+        "error_detail"
+      ],
+      "validations": [
+        "Xác thực truy cập qua LGSP trước khi đồng bộ",
+        "Chỉ đồng bộ dữ liệu đã được phê duyệt",
+        "Ghi log chi tiết mỗi lần đồng bộ"
+      ],
+      "screens": [],
+      "workflow": {
+        "transitions": [
+          "Hệ thống gửi xác thực qua LGSP > Kết nối CSDL dùng chung Bộ GTVT > Đồng bộ incremental/full > Ghi nhận kết quả > Xử lý lỗi nếu có"
+        ]
+      }
+    }
+  ],
+  "business_rules": [
+    {
+      "id": "BR-M10-001",
+      "description": "Dữ liệu hải đồ điện tử ENC phải tuân thủ tiêu chuẩn S-57 (IHO Transfer Standard for Digital Hydrographic Data) để đảm bảo khả năng tương thích và trao đổi dữ liệu",
+      "type": "standard",
+      "severity": "critical",
+      "source_quote": "Hải đồ điện tử được sản xuất, biên tập, cập nhật đáp ứng yêu cầu kỹ thuật theo các tiêu chuẩn S-57"
+    },
+    {
+      "id": "BR-M10-002",
+      "description": "Dữ liệu mã hóa S-63 phải được giải mã thành công trước khi import vào hệ thống GIS, chỉ cho phép người dùng có thẩm quyền truy cập dữ liệu giải mã",
+      "type": "security",
+      "severity": "critical",
+      "source_quote": "Các hải đồ điện tử do Tổng công ty sản xuất theo tiêu chuẩn S-57 và được mã hóa theo tiêu chuẩn S-63"
+    },
+    {
+      "id": "BR-M10-003",
+      "description": "Trước khi tích hợp vào CSDL không gian, mỗi mảnh ENC phải được kiểm tra tính hợp lệ theo tiêu chuẩn S-58 (ENC Validation Checks)",
+      "type": "validation",
+      "severity": "critical",
+      "source_quote": "Tiêu chuẩn S-58 (Tiêu chuẩn về kiểm tra ENC)"
+    },
+    {
+      "id": "BR-M10-004",
+      "description": "Hệ quy chiếu và hệ tọa độ dữ liệu hải đồ phải được chuẩn hóa để phù hợp với GIS đích (VN-2000 hoặc WGS-84) trước khi tích hợp",
+      "type": "standard",
+      "severity": "high",
+      "source_quote": "Chuẩn hóa hệ quy chiếu và hệ tọa độ để phù hợp với GIS đích"
+    },
+    {
+      "id": "BR-M10-005",
+      "description": "Quá trình chuyển đổi từ S-57 sang Shapefile/GeoPackage phải bảo toàn đầy đủ các thuộc tính và metadata quan trọng (mã cell, tỷ lệ, acronym, code, value)",
+      "type": "validation",
+      "severity": "high",
+      "source_quote": "Bảo toàn các thuộc tính và metadata quan trọng trong quá trình chuyển đổi"
+    },
+    {
+      "id": "BR-M10-006",
+      "description": "Mỗi mảnh hải đồ điện tử phải có mã cell duy nhất trong hệ thống theo danh mục mã nhà sản xuất S-62; không cho phép import trùng mã cell",
+      "type": "validation",
+      "severity": "high",
+      "source_quote": "Tiêu chuẩn S-62 (Danh sách mã nhà sản xuất)"
+    },
+    {
+      "id": "BR-M10-007",
+      "description": "Tất cả các thay đổi thông tin mảnh hải đồ điện tử phải được ghi lại lịch sử cập nhật (update history) bao gồm người thực hiện, thời gian, nội dung thay đổi",
+      "type": "audit",
+      "severity": "high",
+      "source_quote": "Người dùng thực hiện xem lịch sử cập nhật mảnh hải đồ điện tử. Hệ thống hiển thị lịch sử cập nhật mảnh hải đồ điện tử"
+    },
+    {
+      "id": "BR-M10-008",
+      "description": "Data được tổ chức thành các lớp không gian logic theo chức năng (đường bờ, độ sâu, đèn biển, phao tiêu, chướng ngại vật, luồng hàng hải...) trên nền GIS",
+      "type": "standard",
+      "severity": "medium",
+      "source_quote": "Tổ chức dữ liệu thành các lớp logic (ví dụ: đường bờ, độ sâu, đèn biển, v.v.)"
+    },
+    {
+      "id": "BR-M10-009",
+      "description": "Màn hình hiển thị hải đồ trên GIS phải tuân thủ ký hiệu theo tiêu chuẩn S-52 (IHO ECDIS Presentation Library)",
+      "type": "standard",
+      "severity": "high",
+      "source_quote": "Tiêu chuẩn về hiển thị S-52 (Thông số kỹ thuật cho Nội dung biểu đồ và các khía cạnh hiển thị của ECDIS)"
+    },
+    {
+      "id": "BR-M10-010",
+      "description": "Việc tạo lập CSDL kết cấu hạ tầng giao thông hàng hải phải tuân theo quy trình tại Quyết định 1595/QĐ-BTTTT ngày 03/10/2011 của Bộ TT&TT",
+      "type": "standard",
+      "severity": "high",
+      "source_quote": "Việc tạo lập Cơ sở dữ liệu được thực hiện theo quy trình được quy định tại Quyết định số 1595/QĐ-BTTTT"
+    },
+    {
+      "id": "BR-M10-011",
+      "description": "Dữ liệu hải đồ phải được đồng bộ liên thông lên CSDL dùng chung của Bộ GTVT theo Văn bản 8294/BGTVT-TTCNTT",
+      "type": "integration",
+      "severity": "medium",
+      "source_quote": "Dữ liệu kết cấu hạ tầng giao thông hàng hải sẽ được đồng bộ liên thông lên hệ thống CSDL dùng chung của Bộ GTVT"
+    },
+    {
+      "id": "BR-M10-012",
+      "description": "Hệ thống hỗ trợ cả CSDL thuộc tính (quản lý nhà nước) và CSDL không gian (vị trí địa lý) cho mỗi đối tượng kết cấu hạ tầng",
+      "type": "architecture",
+      "severity": "high",
+      "source_quote": "CSDL kết cấu hạ tầng giao thông Hàng hải được vận hành dựa trên hai CSDL là CSDL thuộc tính và CSDL không gian"
+    },
+    {
+      "id": "BR-M10-013",
+      "description": "Kiểm tra tính đầy đủ và chất lượng dữ liệu ENC trước khi tiến hành chuyển đổi và tích hợp",
+      "type": "validation",
+      "severity": "high",
+      "source_quote": "Kiểm tra tính đầy đủ và chất lượng của dữ liệu"
+    },
+    {
+      "id": "BR-M10-014",
+      "description": "Chỉ cho phép người dùng có phân quyền phù hợp thực hiện cập nhật, import, xóa dữ liệu hải đồ; quyền xem danh sách mở rộng cho tất cả người dùng",
+      "type": "authorization",
+      "severity": "critical",
+      "source_quote": "Phân quyền truy cập, giới hạn quyền sử dụng tài nguyên theo từng người dùng hoặc nhóm người dùng"
+    }
+  ],
+  "entities": [
+    {
+      "name": "ENCCell",
+      "description": "Mảnh hải đồ điện tử (Electronic Navigational Chart) - đơn vị dữ liệu cơ bản của hải đồ điện tử theo chuẩn S-57",
+      "key_fields": [
+        "cell_id",
+        "cell_code",
+        "cell_name",
+        "scale",
+        "region",
+        "producer",
+        "product_type",
+        "frame_sw_lat",
+        "frame_sw_lon",
+        "frame_ne_lat",
+        "frame_ne_lon",
+        "issue_date",
+        "update_date",
+        "edition_number",
+        "status",
+        "checksum",
+        "imported_at"
+      ],
+      "field_types": {
+        "cell_id": "UUID",
+        "cell_code": "string (S-62 format: V24xxxxx)",
+        "cell_name": "string",
+        "scale": "integer (ratio, e.g. 10000)",
+        "region": "string",
+        "producer": "string",
+        "product_type": "enum [hải đồ luồng, hải đồ ven biển, hải đồ nhập bờ, vùng nước cảng biển]",
+        "frame_sw_lat": "decimal (latitude SW corner)",
+        "frame_sw_lon": "decimal (longitude SW corner)",
+        "frame_ne_lat": "decimal (latitude NE corner)",
+        "frame_ne_lon": "decimal (longitude NE corner)",
+        "issue_date": "date",
+        "update_date": "date",
+        "edition_number": "integer",
+        "status": "enum [active, outdated, superseded]",
+        "checksum": "string (SHA-256)",
+        "imported_at": "datetime"
+      },
+      "pii_fields": [],
+      "source": "Phụ lục 04 - Các mảnh hải đồ điện tử cần tích hợp"
+    },
+    {
+      "name": "ENCUpdateHistory",
+      "description": "Lịch sử cập nhật của từng mảnh ENC",
+      "key_fields": [
+        "history_id",
+        "cell_id",
+        "version",
+        "updated_by",
+        "updated_at",
+        "change_description",
+        "notices_applied",
+        "previous_checksum",
+        "new_checksum"
+      ],
+      "field_types": {
+        "history_id": "UUID",
+        "cell_id": "UUID (FK->ENCCell)",
+        "version": "integer",
+        "updated_by": "string",
+        "updated_at": "datetime",
+        "change_description": "text",
+        "notices_applied": "json",
+        "previous_checksum": "string",
+        "new_checksum": "string"
+      },
+      "pii_fields": [],
+      "source": "TKCT Part II Section III - Use case: Xem lịch sử cập nhật mảnh hải đồ điện tử"
+    },
+    {
+      "name": "S57Object",
+      "description": "Đối tượng địa lý trong ENC theo chuẩn S-57 (Feature/Object Class)",
+      "key_fields": [
+        "object_id",
+        "cell_id",
+        "object_class",
+        "acronym",
+        "geometry_type",
+        "geometry",
+        "attributes_json"
+      ],
+      "field_types": {
+        "object_id": "UUID",
+        "cell_id": "UUID (FK->ENCCell)",
+        "object_class": "string (S-57 class name)",
+        "acronym": "string (S-57 3-letter/5-letter code)",
+        "geometry_type": "enum [Point, Line, Area]",
+        "geometry": "geometry (PostGIS/GeoJSON)",
+        "attributes_json": "jsonb"
+      },
+      "pii_fields": [],
+      "source": "S-57 IHO Transfer Standard"
+    },
+    {
+      "name": "GISLayer",
+      "description": "Lớp dữ liệu không gian trong CSDL GIS, tổ chức từ dữ liệu ENC đã chuyển đổi",
+      "key_fields": [
+        "layer_id",
+        "layer_name",
+        "layer_type",
+        "layer_acronym",
+        "source_cell_id",
+        "geometry_type",
+        "symbol_library",
+        "visible",
+        "zoom_min",
+        "zoom_max",
+        "style_json"
+      ],
+      "field_types": {
+        "layer_id": "UUID",
+        "layer_name": "string",
+        "layer_type": "enum [coastline, depth, light, buoy, obstruction, anchor, channel, landmark]",
+        "layer_acronym": "string (S-57 acronym)",
+        "source_cell_id": "UUID (FK->ENCCell)",
+        "geometry_type": "enum [Point, Line, Polygon, MultiGeometry]",
+        "symbol_library": "string (S-52 reference)",
+        "visible": "boolean",
+        "zoom_min": "integer",
+        "zoom_max": "integer",
+        "style_json": "jsonb"
+      },
+      "pii_fields": [],
+      "source": "TKCT Part II Section III - Tích hợp vào GIS, Tổ chức dữ liệu thành các lớp logic"
+    },
+    {
+      "name": "ENCRawFile",
+      "description": "Tệp tin ENC gốc (S-57 .000 / S-63 encrypted) được tải lên hệ thống",
+      "key_fields": [
+        "file_id",
+        "cell_code",
+        "file_name",
+        "file_type",
+        "file_size_bytes",
+        "original_format",
+        "storage_path",
+        "checksum",
+        "uploaded_by",
+        "uploaded_at",
+        "validation_status",
+        "validation_detail"
+      ],
+      "field_types": {
+        "file_id": "UUID",
+        "cell_code": "string",
+        "file_name": "string",
+        "file_type": "enum [S57_000, S63_encrypted, Shapefile, GeoPackage, GeoJSON]",
+        "file_size_bytes": "bigint",
+        "original_format": "string",
+        "storage_path": "string",
+        "checksum": "string (SHA-256)",
+        "uploaded_by": "string",
+        "uploaded_at": "datetime",
+        "validation_status": "enum [pending, valid, invalid]",
+        "validation_detail": "jsonb"
+      },
+      "pii_fields": [],
+      "source": "TKCT Part II Section III - Chọn tệp mảnh hải đồ điện tử"
+    },
+    {
+      "name": "MaritimeAsset",
+      "description": "Đối tượng kết cấu hạ tầng giao thông hàng hải (cảng biển, bến cảng, luồng, phao tiêu, đèn biển, VTS...)",
+      "key_fields": [
+        "asset_id",
+        "asset_code",
+        "asset_name",
+        "asset_type",
+        "parent_id",
+        "geometry",
+        "address",
+        "status",
+        "attributes_json",
+        "created_at",
+        "updated_at"
+      ],
+      "field_types": {
+        "asset_id": "UUID",
+        "asset_code": "string",
+        "asset_name": "string",
+        "asset_type": "enum [cang_bien, ben_cang, cau_cang, ben_phao, khu_neo_dau, khu_chuyen_tai, luong_hang_hai, de_ke, phao_tieu, den_bien, vts, ais, cctv, dai_thong_tin]",
+        "parent_id": "UUID (nullable)",
+        "geometry": "geometry",
+        "address": "string",
+        "status": "enum [active, inactive, under_construction, planned]",
+        "attributes_json": "jsonb",
+        "created_at": "datetime",
+        "updated_at": "datetime"
+      },
+      "pii_fields": [],
+      "source": "Phụ lục 05 - Dữ liệu tạo lập CSDL kết cấu hạ tầng hàng hải"
+    },
+    {
+      "name": "SyncJob",
+      "description": "Lịch sử đồng bộ dữ liệu với CSDL dùng chung Bộ GTVT",
+      "key_fields": [
+        "sync_id",
+        "target_system",
+        "data_type",
+        "sync_type",
+        "records_total",
+        "records_synced",
+        "records_failed",
+        "sync_status",
+        "error_detail",
+        "started_at",
+        "completed_at"
+      ],
+      "field_types": {
+        "sync_id": "UUID",
+        "target_system": "string",
+        "data_type": "string",
+        "sync_type": "enum [full, incremental]",
+        "records_total": "integer",
+        "records_synced": "integer",
+        "records_failed": "integer",
+        "sync_status": "enum [running, success, failed, partial]",
+        "error_detail": "jsonb",
+        "started_at": "datetime",
+        "completed_at": "datetime"
+      },
+      "pii_fields": [],
+      "source": "TKCT - Mô hình liên thông dữ liệu với CSDL dùng chung của Bộ GTVT"
+    }
+  ],
+  "screens": [
+    {
+      "path": "/chart-catalog",
+      "title": "Danh mục mảnh hải đồ điện tử",
+      "type": "list",
+      "visible_to_roles": [
+        "Chuyên viên quản lý hải đồ",
+        "Lãnh đạo Cục Hàng hải",
+        "Cá nhân/tổ chức khai thác dữ liệu"
+      ],
+      "key_fields": [
+        "mã cell",
+        "tên mảnh hải đồ",
+        "tỷ lệ",
+        "khu vực",
+        "đơn vị quản lý",
+        "trạng thái",
+        "ngày cập nhật"
+      ],
+      "actions": [
+        "Xem danh sách",
+        "Tìm kiếm",
+        "Xem chi tiết",
+        "Import",
+        "Cập nhật",
+        "Xem lịch sử"
+      ]
+    },
+    {
+      "path": "/chart-catalog/detail/{id}",
+      "title": "Chi tiết mảnh hải đồ điện tử",
+      "type": "detail",
+      "visible_to_roles": [
+        "Chuyên viên quản lý hải đồ",
+        "Lãnh đạo Cục Hàng hải",
+        "Cá nhân/tổ chức khai thác dữ liệu"
+      ],
+      "key_fields": [
+        "mã cell",
+        "tên",
+        "tỷ lệ",
+        "tọa độ khung SW-NE",
+        "đơn vị sản xuất",
+        "ngày phát hành",
+        "ngày cập nhật",
+        "số ấn bản",
+        "bản đồ hiển thị GIS"
+      ],
+      "actions": [
+        "Xem bản đồ",
+        "Xem thuộc tính",
+        "Xem lịch sử",
+        "Cập nhật",
+        "Tải xuống"
+      ]
+    },
+    {
+      "path": "/chart-catalog/import",
+      "title": "Import mảnh hải đồ điện tử",
+      "type": "form",
+      "visible_to_roles": [
+        "Chuyên viên quản lý hải đồ"
+      ],
+      "key_fields": [
+        "chọn tệp (.000/.gpkg/.shp)",
+        "mã cell",
+        "tên mảnh hải đồ",
+        "kết quả kiểm tra S-58"
+      ],
+      "actions": [
+        "Chọn tệp",
+        "Kiểm tra (Validate)",
+        "Import",
+        "Hủy"
+      ]
+    },
+    {
+      "path": "/chart-catalog/history/{id}",
+      "title": "Lịch sử cập nhật mảnh hải đồ",
+      "type": "list",
+      "visible_to_roles": [
+        "Chuyên viên quản lý hải đồ"
+      ],
+      "key_fields": [
+        "phiên bản",
+        "người cập nhật",
+        "thời gian",
+        "nội dung thay đổi",
+        "thông báo hàng hải áp dụng"
+      ],
+      "actions": [
+        "Xem danh sách",
+        "So sánh phiên bản"
+      ]
+    },
+    {
+      "path": "/map-viewer",
+      "title": "Bản đồ GIS - Hải đồ điện tử",
+      "type": "map",
+      "visible_to_roles": [
+        "Chuyên viên quản lý hải đồ",
+        "Lãnh đạo Cục Hàng hải",
+        "Cá nhân/tổ chức khai thác dữ liệu"
+      ],
+      "key_fields": [
+        "bản đồ nền",
+        "lớp hải đồ (on/off)",
+        "công cụ: zoom, pan, identify, measure"
+      ],
+      "actions": [
+        "Bật/tắt lớp",
+        "Chọn đối tượng",
+        "Xem thuộc tính",
+        "Đo khoảng cách",
+        "Đo diện tích",
+        "Tìm kiếm đối tượng"
+      ]
+    },
+    {
+      "path": "/database/asset-list",
+      "title": "Danh mục kết cấu hạ tầng hàng hải",
+      "type": "list",
+      "visible_to_roles": [
+        "Chuyên viên quản lý CSDL",
+        "Chuyên viên quản lý hải đồ",
+        "Lãnh đạo Cục Hàng hải"
+      ],
+      "key_fields": [
+        "mã tài sản",
+        "tên",
+        "loại",
+        "vị trí",
+        "trạng thái",
+        "ngày cập nhật"
+      ],
+      "actions": [
+        "Xem danh sách",
+        "Tìm kiếm",
+        "Xem chi tiết",
+        "Thêm mới",
+        "Sửa",
+        "Xóa"
+      ]
+    }
+  ],
+  "integrations": [
+    {
+      "name": "LGSP - Hệ thống kết nối liên thông Bộ GTVT",
+      "description": "Kết nối qua trục LGSP để đồng bộ dữ liệu kết cấu hạ tầng hàng hải lên CSDL dùng chung của Bộ GTVT",
+      "type": "outbound",
+      "protocol": "LGSP/API",
+      "data_exchanged": [
+        "maritime_assets",
+        "ENC_metadata",
+        "sync_status",
+        "auth_tokens"
+      ],
+      "security": "Xác thực qua LGSP, mã hóa HTTPS, TLS 1.2+"
+    },
+    {
+      "name": "GIS Engine (GeoServer/MapServer)",
+      "description": "Tích hợp với nền tảng GIS để lưu trữ, quản lý và phân phối dữ liệu không gian hải đồ",
+      "type": "internal",
+      "protocol": "WMS/WFS/PostGIS",
+      "data_exchanged": [
+        "spatial_layers",
+        "feature_data",
+        "map_tiles",
+        "symbol_library"
+      ],
+      "security": "Truy cập qua ứng dụng, không cho phép truy cập trực tiếp CSDL không gian"
+    },
+    {
+      "name": "Hệ thống mã hóa/giải mã S-63",
+      "description": "Module giải mã dữ liệu ENC được bảo vệ bởi S-63 Data Protection Scheme trước khi import và xử lý",
+      "type": "internal",
+      "protocol": "S-63 SDK/API",
+      "data_exchanged": [
+        "encrypted_cell",
+        "decrypted_cell",
+        "decryption_key",
+        "permit"
+      ],
+      "security": "Khóa giải mã được quản lý bảo mật, chỉ cấp cho người dùng có thẩm quyền"
+    },
+    {
+      "name": "Cổng dữ liệu Tổng công ty Bảo đảm AT HH",
+      "description": "Kết nối với hai Tổng công ty để tiếp nhận dữ liệu ENC cập nhật định kỳ",
+      "type": "inbound",
+      "protocol": "SFTP/API",
+      "data_exchanged": [
+        "ENC_cells_S57",
+        "ENC_cells_S63",
+        "update_notices"
+      ],
+      "security": "SFTP với xác thực key-based, kiểm tra checksum sau truyền nhận"
+    }
+  ],
+  "appendix_04_referenced_cells": {
+    "north_producer": "Tổng công ty Bảo đảm an toàn hàng hải miền Bắc - 51 cells (Quảng Ninh đến Quảng Ngãi)",
+    "south_producer": "Xí nghiệp Khảo sát hàng hải miền Nam - 57 cells (từ Quảng Ngãi trở vào)",
+    "total_cells": 108,
+    "categories": [
+      "hải đồ luồng hàng hải (54 cells)",
+      "hải đồ ven biển tỷ lệ 1:45000-1:179999",
+      "hải đồ nhập bờ",
+      "hải đồ vùng nước cảng biển (3 cells)"
+    ],
+    "sample_regions": [
+      "Luồng Quy Nhơn (V24QN001)",
+      "Luồng Vũng Tàu-Thị Vải (V24TV001/V24TV002)",
+      "Luồng Sài Gòn-Vũng Tàu (V24SG002/V24SG003)",
+      "Luồng Sông Hậu (V24HG001-V24HG013)",
+      "Luồng Soài Rạp (V24SR001/V24SR002)"
+    ]
+  }
+}

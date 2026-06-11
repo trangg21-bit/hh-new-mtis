@@ -1,0 +1,194 @@
+{
+  "architecture": "Hệ thống được thiết kế theo kiến trúc Microservices phân tầng với 5 lớp: (1) Presentation Layer - ReactJS/HTML5/CSS3/JavaScript với Leaflet cho bản đồ; (2) Application Layer - Java Spring Boot framework, deploy trên Docker containers; (3) Data Layer - MSSQL Server Always On Failover Cluster cho nghiệp vụ, PostGIS cho dữ liệu không gian, MinIO cho file storage; (4) Integration Layer - Nginx API Gateway, RESTful JSON APIs qua HTTPS, tích hợp LGSP/NGSP; (5) Infrastructure Layer - 9 physical servers, Windows Server, SAN Storage Fibre Channel 32Gbps. Mô hình phân vùng mạng 3 tầng: DMZ (Proxy/Nginx), App Zone (Application Server, GIS Server), Database Zone (SQL Server, SAN). An ninh qua Firewall HA Active-Standby, SIEM cho giám sát bảo mật, VPN Site-to-Site cho kết nối bên ngoài.",
+  "technologyStack": {
+    "frontend": "ReactJS, HTML5, CSS3, JavaScript, Leaflet (web mapping library), Responsive Web Design (Chrome, Firefox, Edge, Safari)",
+    "backend": "Java Spring Boot framework, Docker containers, Microservices architecture, RESTful APIs (JSON over HTTPS)",
+    "database": "MSSQL Server 2022 Standard Edition (Always On Failover Cluster, Active-Standby), PostGIS (for spatial data integration from electronic charts), MinIO (object storage for files/images)",
+    "other": [
+      "Nginx (reverse proxy/API gateway, Docker)",
+      "GeoServer (OGC services: WMS, WFS, WMTS for GIS)",
+      "GDAL/OGR (electronic chart data conversion from .000 format to PostGIS)",
+      "Docker (containerization for app services)",
+      "SAN Storage with Fibre Channel 32Gbps",
+      "SIEM (Security Information and Event Management, cluster 2 servers)",
+      "Fortinet Firewall HA Active-Standby (replacing Fortigate 301E)",
+      "Cisco Catalyst 9300-48T (Core Switch with stacking)",
+      "LACP link aggregation for switch redundancy",
+      "UPS Online Double Conversion 2x10kVA",
+      "Windows Server 2022 Standard (16 Core) with 25 UserCAL",
+      "Windows Event Forwarding, Syslog for SIEM",
+      "Agent and Agentless log collection",
+      "Cisco MDT9706 SAN Switch (2 units for FC zoning)"
+    ]
+  },
+  "modules": [
+    {
+      "id": "M-001",
+      "name": "Quản lý người dùng",
+      "description": "Quản lý tài khoản người dùng (đăng ký, đăng nhập, đăng xuất, quên mật khẩu qua email, đổi mật khẩu), quản lý nhóm người dùng (thêm/sửa/xóa, khóa/mở khóa, phân quyền nhóm, thêm người dùng vào nhóm), phân quyền theo 3 cấp tổ chức và vai trò (Admin, Lãnh đạo, Chuyên viên, Người dùng ngoài)"
+    },
+    {
+      "id": "M-002",
+      "name": "Quản trị hệ thống",
+      "description": "Quản lý đơn vị (CRUD), quản lý tài khoản admin (tạo, phê duyệt cấp tài khoản, phân quyền, khóa/mở), quản lý log truy cập (xem, tìm kiếm, sắp xếp theo thời gian), quản lý biểu tượng bản đồ, quản lý kết nối liên thông chia sẻ dữ liệu (cấu hình tham số, lịch sử kết nối)"
+    },
+    {
+      "id": "M-003",
+      "name": "Quản lý thông số kỹ thuật KCHTGTHH",
+      "description": "Dashboard trang chủ, tra cứu/quản lý 27+ loại đối tượng: Cảng biển, Bến cảng, Cầu cảng, Cảng cạn, Bến phao, Khu tránh/trú bão, Khu chuyển tải, Khu neo đậu, Cơ sở sửa chữa/đóng tàu, Đèn biển/Nhà trạm, Phao tiêu/Nhà trạm, Hệ thống VTS, Trung tâm điều hành VTS, Trạm Radar, Hệ thống AIS, CCTV, SCADA, Hệ thống truyền dẫn, Hệ thống phụ trợ VTS, Hệ thống VHF, Đê chắn sóng/kè, Luồng hàng hải, Đài TTDH, Đài Inmarsat, Đài Cospas-Sarsat, Đài LRIT, Đài TTDH Hà Nội, Văn bản pháp lý. Mỗi đối tượng có tra cứu và quản lý với phê duyệt 3 cấp (Cảng vụ/Chi cục → Cục)"
+    },
+    {
+      "id": "M-004",
+      "name": "Quản lý vận hành khai thác và bảo trì",
+      "description": "Quản lý thông tin vận hành khai thác (theo dõi trạng thái hoạt động của các KCHTGTHH), quản lý thông tin bảo trì (định kỳ và đột xuất), quản lý thông tin sự cố (ghi nhận, xử lý sự cố) - sử dụng bảng dbo.VH_KT_BT_SC"
+    },
+    {
+      "id": "M-005",
+      "name": "Quản lý quy hoạch KCHTGTHH",
+      "description": "Quản lý danh sách thông tin quy hoạch bến cảng hàng hải (theo quyết định quy hoạch), tra cứu thông tin quy hoạch, cập nhật quy hoạch với các chỉ tiêu: mục tiêu, dự báo, nội dung, nhu cầu đất/mặt nước, vốn đầu tư, kế hoạch chi tiết, danh mục hàng hóa thông qua cảng, file đính kèm. Hiển thị trên bản đồ số"
+    },
+    {
+      "id": "M-006",
+      "name": "Quản lý tài sản",
+      "description": "Quản lý tài sản cho 27+ loại KCHT: xem/thêm/sửa/xóa tài sản, phê duyệt, đính kèm tài liệu, lưu tạm, lịch sử hình thành, đề nghị xử lý tài sản, kiểm kê tài sản, quản lý sản lượng cảng biển, quản lý tăng/giảm nguyên giá (TS_QL_KK, TS_QL_SL_CB, TS_QL_TG_NG, TS_QL_DN_XL_KCHT). Vòng đời tài sản từ khi giao quản lý đến xử lý"
+    },
+    {
+      "id": "M-007",
+      "name": "Quản lý thông tin GIS trên bản đồ",
+      "description": "Quản lý danh mục đối tượng điểm/đường/vùng (KCHT_GIS_DOI_TUONG), hiển thị thông tin KCHTGTHH trên bản đồ tích hợp GeoServer (WMS/WFS), tra cứu thông tin trên bản đồ với 49 mảnh hải đồ điện tử tích hợp PostGIS. Hệ quy chiếu, quy tắc hiển thị, biểu tượng bản đồ"
+    },
+    {
+      "id": "M-008",
+      "name": "Báo cáo thống kê",
+      "description": "7 nhóm báo cáo: (1) Báo cáo chung (tăng giảm tài sản, B03/CCTT, mẫu 02-06); (2) Nhóm chỉ tiêu KCHT (Biểu 01-10: năng lực thông qua, thống kê cầu cảng, luồng hàng hải, VTS, đài thông tin, đê kè); (3) Nhóm chỉ tiêu đo lường (Biểu 11-17: báo cáo tàu biển, hàng hóa, hành khách); (4) Phương tiện và thuyền viên (Biểu 21-23); (5) Doanh nghiệp (Biểu 31, 45); (6) Thông tư 48/2017/TT-BGTVT (Biểu 06, 07, 28, 29, 33); (7) Chuyên ngành bảo đảm (Biểu tổng hợp). Kết xuất Excel"
+    },
+    {
+      "id": "M-009",
+      "name": "Liên thông chia sẻ dữ liệu",
+      "description": "Chia sẻ dữ liệu cho 36+ loại KCHT với CSDL dùng chung cấp Bộ qua trục LGSP (MSG_INBOX, MSG_OUTBOX, COM_SYNC). Tích hợp dữ liệu từ bên ngoài: hệ thống VMSN, VMSS, VISHIPEL, Doanh nghiệp cảng qua API (HTTPS), hệ thống đăng ký tàu biển, quản lý thuyền viên qua API. Tích hợp hải đồ điện tử. Tích hợp dữ liệu tàu biển, thuyền viên, hàng hóa, sản lượng cảng"
+    },
+    {
+      "id": "M-010",
+      "name": "Tích hợp hải đồ và tạo lập CSDL",
+      "description": "Tích hợp 49 mảnh hải đồ điện tử (định dạng .000) vào PostGIS sử dụng GDAL/OGR, mỗi mảnh là 1 schema riêng. Tạo view chung từ schema riêng. Tổ chức dữ liệu thành layers trên GeoServer (Store PostGIS, Layer Publish, Style SLD, Tile Caching). Tạo lập CSDL từ 18 đơn vị cung cấp: quy trình có cấu trúc (Excel → TEMP_TAO_LAP_CSDL → chuẩn hóa → đồng bộ bảng chính) và quy trình quét hồ sơ (PDF 300dpi, scan → upload CSDL QLHS)"
+    }
+  ],
+  "dataModels": [
+    {
+      "name": "dbo.KCHT_CB (KCHT Cảng biển)",
+      "fields": ["ID (bigint)", "FK_DON_VI_QL (varchar 20)", "FK_DON_VI_VH (varchar 20)", "FK_CANG_BIEN (varchar 50)", "FK_LUONG_HH (varchar 50)", "FK_BEN_PHAO (varchar 50)", "FK_CAU_CANG (varchar 50)", "FK_BEN_CANG (varchar 50)", "NHOM (varchar 10: CB/BC/CC/BP/TTB/CT/ND/CSSCDT/LHH)", "MA (varchar 50)", "TEN (nvarchar 255)", "TINH_TRANG (int)", "LOAI_DOI_TUONG (int)", "BIEU_TUONG (varchar 10)", "HE_QUY_CHIEU (int)", "QUY_TAC_HIEN_THI (int)", "DIA_DIEM (varchar 6)", "DIA_DIEM_CHI_TIET (nvarchar 500)", "PHAN_CAP (int)", "LOAI_KET_CAU (int)", "CONG_NANG_KHAI_THAC (varchar 50)", "NHOM_CANG_BIEN (int)", "PD_GUI_DUYET_NGAY (datetime)", "PD_GUI_DUYET_NGUOI (varchar 50)", "PD_CHI_CUC_DUYET_NGAY (datetime)", "PD_CHI_CUC_DUYET_NGUOI (varchar 50)", "PD_CUC_DUYET_NGAY (datetime)", "PD_CUC_DUYET_NGUOI (varchar 50)", "STATUS (int)", "CREATED_DATE/USER", "UPDATED_DATE/USER"],
+      "relationships": ["FK_DON_VI_QL → AUTH_ORG (đơn vị quản lý)", "FK_CANG_BIEN → KCHT_CB (cảng biển cha)", "FK_BEN_CANG → KCHT_CB (bến cảng con)", "FK_CAU_CANG → KCHT_CB (cầu cảng con)", "FK_LUONG_HH → KCHT_CB (luồng hàng hải)", "QUY_TAC_HIEN_THI → QTHT_BIEU_TUONG_BAN_DO (biểu tượng bản đồ)", "Phê duyệt: 3 cấp Cảng vụ/Chi Cục → Cục"]
+    },
+    {
+      "name": "dbo.KCHT_ATHH (KCHT Đảm bảo an toàn hàng hải)",
+      "fields": ["ID (bigint)", "FK_DON_VI_QL (varchar 20)", "FK_DON_VI_VH (varchar 20)", "FK_DON_VI_KT (varchar 20)", "FK_HT_VTS (varchar 50)", "FK_TT_DH_VTS (varchar 50)", "FK_CANG_BIEN (varchar 50)", "FK_NHA_TRAM (varchar 50)", "FK_LUONG_HH (varchar 50)", "FK_LUONG_HH_TUYEN (varchar 50)", "NHOM (varchar 10: DBNT/NT/VTS/TTDH/RADAR/AIS/CCTV/SCA/TRD/PTVTS/DK)", "MA (varchar 50)", "TEN (nvarchar 255)", "TINH_TRANG (int)", "LOAI_DOI_TUONG (int)", "BIEU_TUONG (varchar 10)", "HE_QUY_CHIEU (int)", "QUY_TAC_HIEN_THI (int)", "DIA_DIEM (varchar 6)", "DIA_DIEM_CHI_TIET (nvarchar 500)", "DON_VI_TINH (varchar 5)", "SO_LUONG (int)", "NAM_DUA_VAO_SU_DUNG (int)", "NGAY_BD (date)", "NGAY_SC (date)", "LOAI_KET_CAU_CONG_TRINH (int)", "CHUNG_LOAI_DEN_CHINH (nvarchar 100)", "CHUNG_LOAI_DEN_DU_PHONG (nvarchar 100)", "CAP_TRAM_DEN (int)", "PD_GUI_DUYET_NGAY (datetime)", "PD_GUI_DUYET_NGUOI (varchar 50)", "PD_CHI_CUC_DUYET_NGAY (datetime)", "PD_CHI_CUC_DUYET_NGUOI (varchar 50)", "PD_CUC_DUYET_NGAY (datetime)", "PD_CUC_DUYET_NGUOI (varchar 50)", "STATUS", "CREATED/UPDATED fields"],
+      "relationships": ["FK_HT_VTS → KCHT_ATHH (hệ thống VTS cha)", "FK_TT_DH_VTS → KCHT_ATHH (trung tâm điều hành VTS)", "FK_CANG_BIEN → KCHT_CB (cảng biển liên quan)", "FK_NHA_TRAM → KCHT_ATHH (nhà trạm)", "FK_LUONG_HH → KCHT_CB (luồng hàng hải)", "Phê duyệt 3 cấp tương tự KCHT_CB"]
+    },
+    {
+      "name": "dbo.KCHT_MVT (Mạng viễn thông hàng hải)",
+      "fields": ["ID (bigint)", "FK_DON_VI_QL (varchar 20)", "FK_DON_VI_KT (varchar 20)", "FK_TT_DH_VTS (varchar 50)", "NHOM (varchar 10: VHF/DTTDH/INMARSAT/SARSAT/LRIT/TTXLTT)", "MA (varchar 50)", "TEN (nvarchar 255)", "TINH_TRANG (int)", "LOAI_DOI_TUONG (int)", "BIEU_TUONG (varchar 10)", "HE_QUY_CHIEU (int)", "QUY_TAC_HIEN_THI (int)", "DIA_DIEM (varchar 6)", "DIA_DIEM_CHI_TIET (nvarchar 500)", "TAN_SO_LIEN_LAC (nvarchar 255)", "DICH_VU_CUNG_CAP (varchar 50)", "PHAN_LOAI_DAI (int)", "DON_VI_TINH (varchar 5)", "SO_LUONG (int)", "MODEL (varchar 20)", "HANG_SAN_XUAT (nvarchar 50)", "NAM_DUA_VAO_SU_DUNG (int)", "Phê duyệt 3 cấp", "STATUS", "CREATED/UPDATED fields"],
+      "relationships": ["FK_TT_DH_VTS → KCHT_ATHH (trung tâm điều hành VTS)", "FK_DON_VI_QL → AUTH_ORG (đơn vị quản lý)", "Phân loại: Đài TTDH, Inmarsat, Cospas-Sarsat, LRIT, Đài trung tâm xử lý TT hàng hải Hà Nội"]
+    },
+    {
+      "name": "dbo.KCHT_CC (KCHT Cảng cạn)",
+      "fields": ["ID (bigint)", "FK_DON_VI_QL (varchar 20)", "FK_DON_VI_KT (varchar 20)", "NHOM (varchar 10: CCAN)", "MA (varchar 50)", "TEN (nvarchar 255)", "TINH_TRANG (int)", "LOAI_DOI_TUONG (int)", "BIEU_TUONG (varchar 10)", "HE_QUY_CHIEU (int)", "QUY_TAC_HIEN_THI (int)", "DIA_DIEM (varchar 6)", "DIA_DIEM_CHI_TIET (nvarchar 500)", "HANH_LANG_VAN_TAI (varchar 1)", "KHU_VUC (nvarchar 100)", "Phê duyệt 3 cấp", "STATUS", "CREATED/UPDATED fields"],
+      "relationships": ["FK_DON_VI_QL → AUTH_ORG (đơn vị quản lý)", "HANH_LANG_VAN_TAI: hàng lang vận tải"]
+    },
+    {
+      "name": "dbo.AUTH_USER (Quản trị người dùng)",
+      "fields": ["ID (bigint)", "USERNAME (varchar)", "PASSWORD_HASH (varchar)", "EMAIL (varchar)", "FULL_NAME (nvarchar)", "PHONE (varchar)", "ORG_ID (varchar 20)", "ROLE_CODE (varchar)", "STATUS (int)", "TEMP_PASSWORD (varchar)", "LOCKED_DATE (datetime)", "LOCKED_DURATION (int)", "LAST_LOGIN (datetime)", "CREATED_DATE", "UPDATED_DATE"],
+      "relationships": ["ORG_ID → AUTH_ORG (đơn vị)", "ROLE_CODE → AUTH_MENU (phân quyền chức năng)", "AUTH_USER_GROUP → AUTH_GROUP (nhóm)", "AUTH_USER_PERMISSION → AUTH_MENU (quyền riêng)"]
+    },
+    {
+      "name": "dbo.AUTH_GROUP (Nhóm người dùng)",
+      "fields": ["ID (bigint)", "GROUP_NAME (nvarchar)", "DESCRIPTION (nvarchar)", "STATUS (int)", "CREATED_DATE", "UPDATED_DATE"],
+      "relationships": ["AUTH_GROUP_PERMISSION → AUTH_MENU (phân quyền nhóm)", "AUTH_USER_GROUP ↔ AUTH_USER (thành viên nhóm)"]
+    },
+    {
+      "name": "dbo.AUTH_ORG (Đơn vị tổ chức)",
+      "fields": ["ID (varchar 20)", "PARENT_ID (varchar 20)", "ORG_NAME (nvarchar)", "ORG_CODE (varchar)", "LEVEL_CODE (int: 1=Cục, 2=Chi cục/Cảng vụ, 3=Doanh nghiệp)", "ADDRESS (nvarchar)", "PHONE (varchar)", "EMAIL (varchar)", "STATUS (int)", "CREATED_DATE", "UPDATED_DATE"],
+      "relationships": ["PARENT_ID → AUTH_ORG.self (cấp cha con: Cục→Chi cục/Cảng vụ→Doanh nghiệp)", "FK_DON_VI_QL → AUTH_ORG (tất cả bảng KCHT)", "AUTH_USER.ORG_ID → AUTH_ORG"]
+    },
+    {
+      "name": "dbo.COM_SYNC (Đồng bộ LGSP)",
+      "fields": ["ID (bigint PK)", "TABLE_NAME (varchar 50)", "TABLE_ID (bigint)", "SYNC_STATUS (int)", "SYNC_DATE (datetime)", "REQ_TYPE (varchar 50)", "UPDATED_USER", "REQ_ID (varchar 50)", "REQ_TIME (datetime)", "REQ_ACTION (varchar 50: 1=Tạo lập/2=Sửa đổi/3=Xóa hiệu lực)", "REQ_FILE_LOG (nvarchar 2000)", "RES_TIME (datetime)", "RES_CODE (varchar 50)", "RES_CONTENT (nvarchar 2000)", "RES_FILE_LOG (nvarchar 2000)"],
+      "relationships": ["TABLE_NAME + TABLE_ID → various KCHT tables (đồng bộ từng loại đối tượng)", "Chia sẻ qua trục LGSP cấp Bộ"]
+    },
+    {
+      "name": "dbo.VH_KT_BT_SC (Vận hành/Khai thác/Bảo trì/Sự cố)",
+      "fields": ["ID (bigint)", "FK_KCHT_TYPE (varchar 10)", "FK_KCHT_ID (varchar 50)", "VANHANG_TRANGTHAI (int)", "BAOTRI_LOAI (int: định kỳ/đột xuất)", "BAOTRI_NGAY (date)", "SUCO_MOTA (nvarchar)", "SUCO_TRANGTHAI (int)", "NGAY_VH (date)", "NGAY_BAOTRI (date)", "NGAY_SUCO (date)", "CREATED_DATE", "UPDATED_DATE", "STATUS"],
+      "relationships": ["FK_KCHT_TYPE + FK_KCHT_ID → various KCHT tables (liên kết đối tượng hạ tầng)", "VANHANG_TRANGTHAI: trạng thái vận hành", "BAOTRI_LOAI: loại bảo trì", "SUCO_TRANGTHAI: trạng thái sự cố"]
+    },
+    {
+      "name": "dbo.QLHS (Quản lý hồ sơ - quét)",
+      "fields": ["ID (bigint)", "LOAI_HO_SO (int)", "TEN_HO_SO (nvarchar)", "SO_QUYET_DINH (varchar)", "NGAY_QUYET_DINH (date)", "FILE_PATH (nvarchar 2000)", "FILE_SIZE (bigint)", "FILE_TYPE (varchar)", "SCAN_DATE (date)", "STATUS (int)", "CREATED_DATE", "UPDATED_DATE"],
+      "relationships": ["LOAI_HO_SO: 16 loại hồ sơ (công bố mở cảng, bến, cầu, luồng, vùng nước, vùng đón trả hoa tiêu...)", "FILE_PATH → MinIO storage"]
+    },
+    {
+      "name": "dbo.QTHT_HAI_DO_DIEN_TU (Hải đồ điện tử)",
+      "fields": ["ID (bigint)", "SO_HAI_DO (varchar 20 PK)", "TIEU_DE (nvarchar 255)", "DAI_SU_DUNG (nvarchar 20)", "AN_PHAM (int)", "TY_LE (nvarchar 20)", "NGAY_PHAT_HANH (date)", "GHI_CHU (nvarchar 2000)", "STATUS (int)", "CREATED_DATE", "UPDATED_DATE"],
+      "relationships": ["49 mảnh hải đồ tích hợp: V24CD001.000 ~ VN4HP007.000", "PostGIS schema per chart → common view → GeoServer layers"]
+    },
+    {
+      "name": "dbo.QH_BEN_CANG (Quy hoạch bến cảng)",
+      "fields": ["ID (bigint)", "FK_DON_VI_QL (varchar 20)", "FK_CANG_BIEN (varchar 50)", "QUYET_DINH_SO (varchar 20)", "QUYET_DINH_NGAY (date)", "MUC_TIEU (nvarchar)", "DU_BAO_DAN_NAM (int)", "NOI_DUNG (nvarchar)", "NHU_CAU_DAT (nvarchar)", "NHU_CAU_VON (nvarchar)", "KE_HOACH_CHI_TIET (json)", "DANH_MUC_HANG_HOA (json)", "STATUS (int)", "CREATED_DATE", "UPDATED_DATE"],
+      "relationships": ["FK_CANG_BIEN → KCHT_CB (cảng biển quy hoạch)", "FK_DON_VI_QL → AUTH_ORG (đơn vị)", "Quy hoạch theo quyết định, mỗi quyết định có thể bao gồm nhiều bến/cầu cảng"]
+    }
+  ],
+  "apiPatterns": "RESTful API với định dạng JSON qua HTTPS. API Gateway/Nginx phân phối request đến các microservice trên Docker. Tất cả CRUD operations cho 27+ loại đối tượng KCHTGTHH qua các endpoint: GET/POST/PUT/DELETE /api/kcht/{type}/{id}. Phê duyệt workflow: POST /api/kcht/{type}/submit → POST /api/kcht/{type}/approve-chicuc → POST /api/kcht/{type}/approve-cuc. Tích hợp bên ngoài: API nhận dữ liệu từ VMSN/VMSS/VISHIPEL qua HTTPS/VPN. Chia sẻ dữ liệu: API gửi dữ liệu lên trục LGSP của Bộ GTVT theo tiêu chuẩn thông tư. GIS API: WMS/WFS/WMTS từ GeoServer cho dữ liệu không gian. File upload API: POST multipart/form-data lên MinIO với path pattern {TABLE}/{ID}/{OBJ_CODE}/{SEQ}/{FILENAME}. Authentication: JWT token hoặc session-based qua reverse proxy. Rate limiting và SSL termination tại Nginx proxy.",
+  "securityMechanisms": [
+    "Firewall HA Active-Standby (Fortinet) tại biên mạng và giữa các vùng DMZ/App/DB",
+    "Phân vùng mạng vật lý: DMZ (Proxy), App Zone (Application/GIS servers), Database Zone (SQL Server/SAN) với VLAN",
+    "Always On Failover Cluster cho SQL Server Database",
+    "TLS/SSL termination tại Nginx reverse proxy",
+    "Mật khẩu mã hóa, hiển thị/ẩn mật khẩu (eye icon)",
+    "Khóa tài khoản sau 5 lần đăng nhập sai (block 5 phút, tăng dần)",
+    "Phân quyền theo vai trò (RBAC): Admin, Lãnh đạo, Chuyên viên, Người dùng ngoài",
+    "Phân quyền theo tổ chức 3 cấp: Cục → Chi cục/Cảng vụ → Doanh nghiệp cảng",
+    "Nhật ký truy cập (AUTH_USER_ACCESS) ghi nhận toàn bộ thao tác",
+    "SIEM giám sát an ninh tập trung: thu thập log từ firewall, switch, server, application (500 EPS)",
+    "An toàn thông tin cấp độ 3 theo Nghị định 85/2016/NĐ-CP và Thông tư 12/2022/TT-BTTTT",
+    "VPN Site-to-Site mã hóa cho kết nối với VMSN, VMSS, VISHIPEL",
+    "Chứng thực số, chữ ký số cho tích hợp LGSP/NGSP",
+    "Phân quyền file storage MinIO theo bảng/bản ghi",
+    "Audit log: COM_DATA_LOG ghi nhận mọi thay đổi dữ liệu",
+    "Bảng phân quyền chi tiết: AUTH_GROUP_PERMISSION, AUTH_USER_PERMISSION"
+  ],
+  "deployment": "Triển khai tập trung tại Trung tâm dữ liệu Cục Hàng hải Việt Nam (Hà Nội). 9 máy chủ vật lý rackmount: 2 Application Servers (Spring Boot + ReactJS + Docker), 2 Database Servers (SQL Server Always On Cluster), 1 GIS Server (GeoServer + PostGIS), 2 SIEM Servers (cluster), 2 Proxy Servers (Nginx HA). SAN Storage 24x2.4TB SAS 10K với 2 controller, kết nối FC 32Gbps qua Cisco SAN Switch (zoning). Core Switch Cisco C9300-48T stacking, Distribute Switch stacking. LACP link aggregation. UPS Online Double Conversion 2x10kVA. Hệ thống vận hành phạm vi toàn quốc. Người dùng truy cập qua trình duyệt web (Chrome/Firefox/Edge/Safari). Đào tạo 1 lớp tại Cục Hàng hải Việt Nam. Bảo hành 12 tháng. Dự toán 22.446.571.000 VNĐ. Windows Server 2022 (5 license 16 Core + 25 UserCAL), SQL Server 2022 (2 license Standard + 10 UserCAL).",
+  "infrastructure": [
+    "9 physical rackmount servers: 2 App, 2 DB, 1 GIS, 2 SIEM, 2 Proxy",
+    "Firewall cluster HA Active-Standby (Fortinet, 2 units, 1Gbps HA ports)",
+    "Core switch Cisco Catalyst 9300-48T with stacking",
+    "Distribute switch stack (2 units, 4x1Gbps LACP uplinks to core)",
+    "SAN Storage: 24x2.4TB SAS 10K, 2 controllers, 1 unified admin IP",
+    "SAN Switch: Cisco MDT9706 (2 units, FC 32Gbps zoning)",
+    "Proxy Server: Nginx reverse proxy, HA cluster, SSL termination",
+    "1Gbps network connectivity between all servers and switches",
+    "FC 32Gbps Fibre Channel between servers and SAN",
+    "UPS Online Double Conversion: 2x10kVA (for 16.758W load)",
+    "AC: 2x46000 BTU + 2x30000 BTU cooling units",
+    "Fire suppression: CO2/dry powder extinguishers, automatic smoke/heat sensors",
+    "Lightning protection: existing building protection + new rack protection",
+    "IP/VLAN规划: separated VLANs for DMZ, App Zone, DB Zone",
+    "Windows Server 2022 Standard 16-Core (5 licenses + 25 UserCAL)",
+    "SQL Server 2022 Standard (2 licenses + 10 UserCAL)",
+    "MinIO object storage for file management",
+    "GeoServer for OGC map services (WMS/WFS/WMTS)",
+    "PostGIS for spatial data from electronic charts",
+    "SIEM cluster (2 servers, Agent + Agentless collection, 6-month log retention ~3.1TB)"
+  ],
+  "integrations": [
+    "CSDL dùng chung cấp Bộ GTVT qua trục LGSP (MSG_INBOX/MSG_OUTBOX/COM_SYNC)",
+    "Tổng công ty Bảo đảm an toàn hàng hải miền Bắc (VMSN/VMS-N) qua API + VPN Site-to-Site",
+    "Tổng công ty Bảo đảm an toàn hàng hải miền Nam (VMSS/VMS-S) qua API + VPN Site-to-Site",
+    "Công ty TNHH MTV Thông tin điện tử hàng hải Việt Nam (VISHIPEL) qua API + VPN Site-to-Site",
+    "Hệ thống đăng ký tàu biển qua API",
+    "Hệ thống quản lý thuyền viên qua API",
+    "Doanh nghiệp cảng (DN Cảng) qua API/Internet - cấp tài khoản phân quyền",
+    "Cục Quản lý tài sản công - Bộ Tài chính (qua LGSP)",
+    "49 mảnh hải đồ điện tử (.000 format) → PostGIS → GeoServer layers",
+    "18 đơn vị cung cấp dữ liệu có cấu trúc: Cảng vụ (Cần Thơ, Đà Nẵng, Đồng Nai, Hà Tĩnh, Hải Phòng, HCM, Kiên Giang, Nghệ An, Quảng Ngãi, Thanh Hóa), Chi cục ĐTPB/ĐTPN, VISHIPEL, 2 TCT BĐATHH, CMB, TEDI, Phòng KCHT",
+    "1.121 trang hồ sơ quét (PDF 300dpi) → QLHS table → MinIO storage",
+    "Trục tích hợp LGSP: JSON, HTTPS, chứng thực số theo quy định Bộ GTVT/VPCP"
+  ]
+}

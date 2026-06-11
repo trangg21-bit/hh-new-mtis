@@ -1,0 +1,58 @@
+{
+  "$schema": "https://ai-studio.etc.vn/schemas/findings.json",
+  "phase": "A",
+  "status": "COMPLETE",
+  "primarySourceAnalysis": {
+    "document": "1.TKCT-Cuc HH-KetCauHaTangGiaoThong 13.11.2024 ban in final (1).docx",
+    "totalParagraphs": 1870,
+    "totalTables": 83,
+    "headingStructureFound": true,
+    "keySections": {
+      "PartI_GeneralInfo": {"paras": "73-148", "headingCount": 8},
+      "PartII_SecI_Hardware": {"paras": "149-675", "headingCount": 78, "tables": 40},
+      "PartII_SecII_Software": {"paras": "675-1298", "headingCount": 82, "softwareModules": 9},
+      "PartII_SecIII_ChartEditing": {"paras": "1299-1364", "headingCount": 15, "softwareModules": 2},
+      "PartII_SecIV_Training": {"paras": "1365-1434", "headingCount": 6},
+      "PartII_SecV_Compliance": {"paras": "1435-1490", "headingCount": 5},
+      "PartII_SecVI_Security": {"paras": "1491-1665", "headingCount": 35},
+      "PartII_SecVII_Budget": {"paras": "1666-1752", "headingCount": 18},
+      "Appendix01_FuncReqs": {"tableRows": 1978, "modules": 9, "totalRequirements": 1682},
+      "Appendix02_UsecaseMap": {"paras": "1753-1760", "headingCount": 3},
+      "Appendix03_06_DBFields": {"paras": "1761-1868", "tables": 12, "entityDefinitions": 13}
+    }
+  },
+  "supplementaryAnalysis": {
+    "URD_PDF": {"fileSize": "10.2 MB", "type": "User Requirements v3.0", "revisionHistoryFound": "CV 1684/CV-VIC updates", "relevance": "high"},
+    "DD_PDF": {"fileSize": "134 MB (largest)", "type": "Detailed Design v3.0", "revisionHistoryFound": "CV 1785/CV-VIC updates", "relevance": "high"},
+    "Survey_PDF": {"fileSize": "107 MB", "type": "Internal Software Survey v1.0", "relevance": "medium"},
+    "SurveyAppendix_PDF": {"fileSize": "14.7 MB", "type": "Survey Appendix v1.0 (964 pages)", "relevance": "low", "recommendation": "skip full extraction, sample only"}
+  },
+  "moduleSummary": {
+    "totalSoftwareModules": 11,
+    "totalFunctionalRequirements": 1682,
+    "largestModule": "M03-TechnicalParameters (688 reqs, 40.9%)",
+    "secondLargest": "M06-AssetManagement (482 reqs, 28.7%)",
+    "integrationModule": "M09-DataInterconnection (287 reqs)",
+    "gisModule": "M07-GIS (18 reqs + M10-ChartEditing 30 reqs)",
+    "reportingModule": "M08-Reporting (128 reqs)",
+    "adminModules": "M01-User (13) + M02-Admin (25) combined 38 reqs",
+    "opsModules": "M04-OpsMaintenance (28) + M05-Planning (13) combined 41 reqs",
+    "dataModule": "M11-InfraDB_Creation (digitization effort, no functional reqs)"
+  },
+  "keyActorsIdentified": [
+    {"id": "ACT-01", "name": "Quản trị hệ thống (System Admin)", "source": "Table 53,56"},
+    {"id": "ACT-02", "name": "Lãnh đạo (Leadership - Cục, Chi cục, Cảng vụ)", "source": "Table 53,56"},
+    {"id": "ACT-03", "name": "Chuyên viên (Specialist/Officer)", "source": "Table 53,56"},
+    {"id": "ACT-04", "name": "Cá nhân, tổ chức bên ngoài (External entities)", "source": "Table 53,56"},
+    {"id": "ACT-05", "name": "Người dùng tại cảng (Port users)", "source": "Table 53"},
+    {"id": "ACT-06", "name": "Hệ thống thông tin đơn vị HTTT-ĐV (External IT systems)", "source": "Table 56"}
+  ],
+  "technologyIndicators": {
+    "os": "Linux (app/gis/proxy), Windows Server (DB/SIEM)",
+    "database": "SQL Server",
+    "architecture": "Docker, MinIO, RESTful API, JSON",
+    "security": "TLS/HTTPS, Level 3 compliance, SIEM",
+    "integration": "LGSP (provincial data bus), NDXP (national data exchange), Web API",
+    "gis": "S-57/S-100 standards, spatial DB"
+  }
+}

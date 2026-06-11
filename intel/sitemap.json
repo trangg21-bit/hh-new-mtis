@@ -1,0 +1,711 @@
+{
+  "pages": [
+    {
+      "route": "/",
+      "title": "Trang chủ - Dashboard",
+      "description": "Dashboard hiển thị thông tin tổng quan hệ thống KCHTGTHH",
+      "accessControl": "all-authenticated",
+      "parent": null
+    },
+    {
+      "route": "/auth/login",
+      "title": "Đăng nhập",
+      "description": "Màn hình đăng nhập hệ thống",
+      "accessControl": "public",
+      "parent": null
+    },
+    {
+      "route": "/auth/register",
+      "title": "Đăng ký tài khoản",
+      "description": "Màn hình đăng ký tài khoản người dùng",
+      "accessControl": "public",
+      "parent": "/auth"
+    },
+    {
+      "route": "/auth/forgot-password",
+      "title": "Quên mật khẩu",
+      "description": "Màn hình yêu cầu đặt lại mật khẩu qua email",
+      "accessControl": "public",
+      "parent": "/auth"
+    },
+    {
+      "route": "/auth/change-password",
+      "title": "Đổi mật khẩu",
+      "description": "Màn hình đổi mật khẩu",
+      "accessControl": "authenticated",
+      "parent": "/auth"
+    },
+    {
+      "route": "/auth/profile",
+      "title": "Thông tin cá nhân",
+      "description": "Màn hình thông tin cá nhân người dùng",
+      "accessControl": "authenticated",
+      "parent": "/auth"
+    },
+    {
+      "route": "/admin/users",
+      "title": "Quản lý tài khoản người dùng",
+      "description": "Quản lý tài khoản: đăng nhập, đăng xuất, quên mật khẩu, đổi mật khẩu",
+      "accessControl": "system-admin",
+      "parent": "/admin"
+    },
+    {
+      "route": "/admin/groups",
+      "title": "Quản lý nhóm người dùng",
+      "description": "CRUD nhóm người dùng, khóa/mở khóa, phân quyền nhóm, thêm người dùng vào nhóm",
+      "accessControl": "system-admin",
+      "parent": "/admin"
+    },
+    {
+      "route": "/admin/organizations",
+      "title": "Quản lý đơn vị",
+      "description": "CRUD đơn vị tổ chức (Cục, Chi cục, Cảng vụ, Doanh nghiệp)",
+      "accessControl": "system-admin",
+      "parent": "/admin"
+    },
+    {
+      "route": "/admin/admin-accounts",
+      "title": "Quản lý tài khoản admin",
+      "description": "Tạo, phê duyệt cấp tài khoản, phân quyền, khóa/mở tài khoản admin",
+      "accessControl": "system-admin",
+      "parent": "/admin"
+    },
+    {
+      "route": "/admin/access-logs",
+      "title": "Quản lý log truy cập",
+      "description": "Xem, tìm kiếm, sắp xếp log truy cập hệ thống theo thời gian",
+      "accessControl": "system-admin",
+      "parent": "/admin"
+    },
+    {
+      "route": "/admin/map-symbols",
+      "title": "Quản lý biểu tượng bản đồ",
+      "description": "CRUD biểu tượng trên bản đồ (QTHT_BIEU_TUONG_BAN_DO)",
+      "accessControl": "system-admin",
+      "parent": "/admin"
+    },
+    {
+      "route": "/admin/integration",
+      "title": "Quản lý kết nối liên thông chia sẻ dữ liệu",
+      "description": "Cấu hình tham số kết nối, xem lịch sử kết nối liên thông",
+      "accessControl": "system-admin",
+      "parent": "/admin"
+    },
+    {
+      "route": "/kcht/search/cảng-biển",
+      "title": "Tra cứu cảng biển",
+      "description": "Tìm kiếm, xem danh sách, xem chi tiết cảng biển",
+      "accessControl": "all-authenticated",
+      "parent": "/kcht"
+    },
+    {
+      "route": "/kcht/search/bến-cảng",
+      "title": "Tra cứu bến cảng",
+      "description": "Tìm kiếm, xem danh sách, xem chi tiết, xem lịch sử bến cảng",
+      "accessControl": "all-authenticated",
+      "parent": "/kcht"
+    },
+    {
+      "route": "/kcht/search/cầu-cảng",
+      "title": "Tra cứu cầu cảng",
+      "description": "Tìm kiếm, xem danh sách, xem chi tiết, xem lịch sử cầu cảng",
+      "accessControl": "all-authenticated",
+      "parent": "/kcht"
+    },
+    {
+      "route": "/kcht/search/cảng-cạn",
+      "title": "Tra cứu cảng cạn",
+      "description": "Tìm kiếm, xem danh sách, xem chi tiết cảng cạn",
+      "accessControl": "all-authenticated",
+      "parent": "/kcht"
+    },
+    {
+      "route": "/kcht/search/bến-phao",
+      "title": "Tra cứu bến phao",
+      "description": "Tìm kiếm, xem danh sách, xem chi tiết, xem lịch sử bến phao",
+      "accessControl": "all-authenticated",
+      "parent": "/kcht"
+    },
+    {
+      "route": "/kcht/search/khu-tránh-bão",
+      "title": "Tra cứu khu tránh trú bão",
+      "description": "Tìm kiếm, xem danh sách, xem chi tiết khu tránh trú bão",
+      "accessControl": "all-authenticated",
+      "parent": "/kcht"
+    },
+    {
+      "route": "/kcht/search/khu-chuyển-tải",
+      "title": "Tra cứu khu chuyển tải",
+      "description": "Tìm kiếm, xem danh sách, xem chi tiết khu chuyển tải",
+      "accessControl": "all-authenticated",
+      "parent": "/kcht"
+    },
+    {
+      "route": "/kcht/search/khu-neo-đậu",
+      "title": "Tra cứu khu neo đậu",
+      "description": "Tìm kiếm, xem danh sách, xem chi tiết khu neo đậu",
+      "accessControl": "all-authenticated",
+      "parent": "/kcht"
+    },
+    {
+      "route": "/kcht/search/cơ-sở-sửa-chữa",
+      "title": "Tra cứu cơ sở sửa chữa đóng tàu",
+      "description": "Tìm kiếm, xem danh sách, xem chi tiết cơ sở sửa chữa đóng tàu",
+      "accessControl": "all-authenticated",
+      "parent": "/kcht"
+    },
+    {
+      "route": "/kcht/search/đèn-biển",
+      "title": "Tra cứu đèn biển và nhà trạm",
+      "description": "Tìm kiếm, xem danh sách, xem chi tiết đèn biển và nhà trạm gắn liền",
+      "accessControl": "all-authenticated",
+      "parent": "/kcht"
+    },
+    {
+      "route": "/kcht/search/phao-tiêu",
+      "title": "Tra cứu phao tiêu và nhà trạm",
+      "description": "Tìm kiếm, xem danh sách, xem chi tiết phao tiêu và nhà trạm quản lý vận hành",
+      "accessControl": "all-authenticated",
+      "parent": "/kcht"
+    },
+    {
+      "route": "/kcht/search/vts",
+      "title": "Tra cứu hệ thống VTS",
+      "description": "Tìm kiếm, xem danh sách, xem chi tiết hệ thống VTS, vùng VTS",
+      "accessControl": "all-authenticated",
+      "parent": "/kcht"
+    },
+    {
+      "route": "/kcht/search/vts-center",
+      "title": "Tra cứu trung tâm điều hành VTS",
+      "description": "Tìm kiếm, xem danh sách, xem chi tiết trung tâm điều hành VTS",
+      "accessControl": "all-authenticated",
+      "parent": "/kcht"
+    },
+    {
+      "route": "/kcht/search/radar",
+      "title": "Tra cứu trạm radar",
+      "description": "Tìm kiếm, xem danh sách, xem chi tiết trạm radar",
+      "accessControl": "all-authenticated",
+      "parent": "/kcht"
+    },
+    {
+      "route": "/kcht/search/ais",
+      "title": "Tra cứu hệ thống AIS",
+      "description": "Tìm kiếm, xem danh sách, xem chi tiết hệ thống AIS",
+      "accessControl": "all-authenticated",
+      "parent": "/kcht"
+    },
+    {
+      "route": "/kcht/search/cctv",
+      "title": "Tra cứu hệ thống CCTV",
+      "description": "Tìm kiếm, xem danh sách, xem chi tiết hệ thống CCTV",
+      "accessControl": "all-authenticated",
+      "parent": "/kcht"
+    },
+    {
+      "route": "/kcht/search/scada",
+      "title": "Tra cứu hệ thống SCADA",
+      "description": "Tìm kiếm, xem danh sách, xem chi tiết hệ thống SCADA",
+      "accessControl": "all-authenticated",
+      "parent": "/kcht"
+    },
+    {
+      "route": "/kcht/search/vhf",
+      "title": "Tra cứu hệ thống VHF",
+      "description": "Tìm kiếm, xem danh sách, xem chi tiết hệ thống thông tin liên lạc VHF",
+      "accessControl": "all-authenticated",
+      "parent": "/kcht"
+    },
+    {
+      "route": "/kcht/search/tranding",
+      "title": "Tra cứu hệ thống truyền dẫn",
+      "description": "Tìm kiếm, xem danh sách, xem chi tiết hệ thống truyền dẫn",
+      "accessControl": "all-authenticated",
+      "parent": "/kcht"
+    },
+    {
+      "route": "/kcht/search/ptvts",
+      "title": "Tra cứu hệ thống phụ trợ VTS",
+      "description": "Tìm kiếm, xem danh sách, xem chi tiết hệ thống phụ trợ VTS",
+      "accessControl": "all-authenticated",
+      "parent": "/kcht"
+    },
+    {
+      "route": "/kcht/search/đê-kè",
+      "title": "Tra cứu đê chắn sóng, kè",
+      "description": "Tìm kiếm, xem danh sách, xem chi tiết đê chắn sóng, đê chắn cát, kè hướng dòng, kè bảo vệ bờ",
+      "accessControl": "all-authenticated",
+      "parent": "/kcht"
+    },
+    {
+      "route": "/kcht/search/luồng-hàng-hải",
+      "title": "Tra cứu luồng hàng hải",
+      "description": "Tìm kiếm, xem danh sách, xem chi tiết luồng hàng hải",
+      "accessControl": "all-authenticated",
+      "parent": "/kcht"
+    },
+    {
+      "route": "/kcht/search/ttdh",
+      "title": "Tra cứu đài TTDH",
+      "description": "Tìm kiếm, xem danh sách, xem chi tiết đài thông tin duyên hải TTDH",
+      "accessControl": "all-authenticated",
+      "parent": "/kcht"
+    },
+    {
+      "route": "/kcht/search/inmarsat",
+      "title": "Tra cứu đài Inmarsat Hải Phòng",
+      "description": "Tìm kiếm, xem danh sách, xem chi tiết đài thông tin vệ tinh Inmarsat Hải Phòng",
+      "accessControl": "all-authenticated",
+      "parent": "/kcht"
+    },
+    {
+      "route": "/kcht/search/cospas-sarsat",
+      "title": "Tra cứu đài Cospas-Sarsat",
+      "description": "Tìm kiếm, xem danh sách, xem chi tiết đài thông tin vệ tinh Cospas-Sarsat Việt Nam",
+      "accessControl": "all-authenticated",
+      "parent": "/kcht"
+    },
+    {
+      "route": "/kcht/search/lrit",
+      "title": "Tra cứu đài LRIT",
+      "description": "Tìm kiếm, xem danh sách, xem chi tiết đài thông tin nhận dạng và truy theo tầm xa LRIT",
+      "accessControl": "all-authenticated",
+      "parent": "/kcht"
+    },
+    {
+      "route": "/kcht/search/hanoi-center",
+      "title": "Tra cứu đài TTDH Hà Nội",
+      "description": "Tìm kiếm, xem danh sách, xem chi tiết đài trung tâm xử lý thông tin hàng hải Hà Nội",
+      "accessControl": "all-authenticated",
+      "parent": "/kcht"
+    },
+    {
+      "route": "/kcht/legal",
+      "title": "Tra cứu văn bản pháp lý",
+      "description": "Tìm kiếm, xem danh sách, xem chi tiết, tải văn bản pháp lý",
+      "accessControl": "all-authenticated",
+      "parent": "/kcht"
+    },
+    {
+      "route": "/kcht/manage/cảng-biển",
+      "title": "Quản lý cảng biển",
+      "description": "CRUD quản lý cảng biển với phê duyệt 3 cấp",
+      "accessControl": "port-authority-specialist|enterprise-staff|department-specialist",
+      "parent": "/kcht/manage"
+    },
+    {
+      "route": "/kcht/manage/bến-cảng",
+      "title": "Quản lý bến cảng",
+      "description": "CRUD quản lý bến cảng với phê duyệt 3 cấp",
+      "accessControl": "port-authority-specialist|enterprise-staff|department-specialist",
+      "parent": "/kcht/manage"
+    },
+    {
+      "route": "/kcht/manage/cầu-cảng",
+      "title": "Quản lý cầu cảng",
+      "description": "CRUD quản lý cầu cảng với phê duyệt 3 cấp",
+      "accessControl": "port-authority-specialist|enterprise-staff|department-specialist",
+      "parent": "/kcht/manage"
+    },
+    {
+      "route": "/kcht/manage/bến-phao",
+      "title": "Quản lý bến phao",
+      "description": "CRUD quản lý bến phao với phê duyệt 3 cấp",
+      "accessControl": "port-authority-specialist|enterprise-staff|department-specialist",
+      "parent": "/kcht/manage"
+    },
+    {
+      "route": "/kcht/manage/khu-tránh-bão",
+      "title": "Quản lý khu tránh trú bão",
+      "description": "CRUD quản lý khu tránh trú bão với phê duyệt 3 cấp",
+      "accessControl": "port-authority-specialist|enterprise-staff|department-specialist",
+      "parent": "/kcht/manage"
+    },
+    {
+      "route": "/kcht/manage/khu-chuyển-tải",
+      "title": "Quản lý khu chuyển tải",
+      "description": "CRUD quản lý khu chuyển tải với phê duyệt 3 cấp",
+      "accessControl": "port-authority-specialist|enterprise-staff|department-specialist",
+      "parent": "/kcht/manage"
+    },
+    {
+      "route": "/kcht/manage/khu-neo-đậu",
+      "title": "Quản lý khu neo đậu",
+      "description": "CRUD quản lý khu neo đậu với phê duyệt 3 cấp",
+      "accessControl": "port-authority-specialist|enterprise-staff|department-specialist",
+      "parent": "/kcht/manage"
+    },
+    {
+      "route": "/kcht/manage/cơ-sở-sửa-chữa",
+      "title": "Quản lý cơ sở sửa chữa đóng tàu",
+      "description": "CRUD quản lý cơ sở sửa chữa đóng tàu với phê duyệt 3 cấp",
+      "accessControl": "port-authority-specialist|enterprise-staff|department-specialist",
+      "parent": "/kcht/manage"
+    },
+    {
+      "route": "/kcht/manage/đèn-biển",
+      "title": "Quản lý đèn biển và nhà trạm",
+      "description": "CRUD quản lý đèn biển và nhà trạm với phê duyệt 3 cấp",
+      "accessControl": "port-authority-specialist|enterprise-staff|department-specialist",
+      "parent": "/kcht/manage"
+    },
+    {
+      "route": "/kcht/manage/phao-tiêu",
+      "title": "Quản lý phao tiêu và nhà trạm",
+      "description": "CRUD quản lý phao tiêu và nhà trạm với phê duyệt 3 cấp",
+      "accessControl": "port-authority-specialist|enterprise-staff|department-specialist",
+      "parent": "/kcht/manage"
+    },
+    {
+      "route": "/kcht/manage/vts",
+      "title": "Quản lý hệ thống VTS",
+      "description": "CRUD quản lý hệ thống VTS với phê duyệt 3 cấp",
+      "accessControl": "port-authority-specialist|enterprise-staff|department-specialist",
+      "parent": "/kcht/manage"
+    },
+    {
+      "route": "/kcht/manage/vts-center",
+      "title": "Quản lý trung tâm điều hành VTS",
+      "description": "CRUD quản lý trung tâm điều hành VTS với phê duyệt 3 cấp",
+      "accessControl": "port-authority-specialist|enterprise-staff|department-specialist",
+      "parent": "/kcht/manage"
+    },
+    {
+      "route": "/kcht/manage/radar",
+      "title": "Quản lý trạm radar",
+      "description": "CRUD quản lý trạm radar với phê duyệt 3 cấp",
+      "accessControl": "port-authority-specialist|enterprise-staff|department-specialist",
+      "parent": "/kcht/manage"
+    },
+    {
+      "route": "/kcht/manage/ais",
+      "title": "Quản lý hệ thống AIS",
+      "description": "CRUD quản lý hệ thống AIS với phê duyệt 3 cấp",
+      "accessControl": "port-authority-specialist|enterprise-staff|department-specialist",
+      "parent": "/kcht/manage"
+    },
+    {
+      "route": "/kcht/manage/cctv",
+      "title": "Quản lý hệ thống CCTV",
+      "description": "CRUD quản lý hệ thống CCTV với phê duyệt 3 cấp",
+      "accessControl": "port-authority-specialist|enterprise-staff|department-specialist",
+      "parent": "/kcht/manage"
+    },
+    {
+      "route": "/kcht/manage/scada",
+      "title": "Quản lý hệ thống SCADA",
+      "description": "CRUD quản lý hệ thống SCADA với phê duyệt 3 cấp",
+      "accessControl": "port-authority-specialist|enterprise-staff|department-specialist",
+      "parent": "/kcht/manage"
+    },
+    {
+      "route": "/kcht/manage/vhf",
+      "title": "Quản lý hệ thống VHF",
+      "description": "CRUD quản lý hệ thống VHF với phê duyệt 3 cấp",
+      "accessControl": "port-authority-specialist|enterprise-staff|department-specialist",
+      "parent": "/kcht/manage"
+    },
+    {
+      "route": "/kcht/manage/tranding",
+      "title": "Quản lý hệ thống truyền dẫn",
+      "description": "CRUD quản lý hệ thống truyền dẫn với phê duyệt 3 cấp",
+      "accessControl": "port-authority-specialist|enterprise-staff|department-specialist",
+      "parent": "/kcht/manage"
+    },
+    {
+      "route": "/kcht/manage/ptvts",
+      "title": "Quản lý hệ thống phụ trợ VTS",
+      "description": "CRUD quản lý hệ thống phụ trợ VTS với phê duyệt 3 cấp",
+      "accessControl": "port-authority-specialist|enterprise-staff|department-specialist",
+      "parent": "/kcht/manage"
+    },
+    {
+      "route": "/kcht/manage/đê-kè",
+      "title": "Quản lý đê chắn sóng, kè",
+      "description": "CRUD quản lý đê chắn sóng, đê chắn cát, kè hướng dòng, kè bảo vệ bờ",
+      "accessControl": "port-authority-specialist|enterprise-staff|department-specialist",
+      "parent": "/kcht/manage"
+    },
+    {
+      "route": "/kcht/manage/luồng-hàng-hải",
+      "title": "Quản lý luồng hàng hải",
+      "description": "CRUD quản lý luồng hàng hải với phê duyệt 3 cấp",
+      "accessControl": "port-authority-specialist|enterprise-staff|department-specialist",
+      "parent": "/kcht/manage"
+    },
+    {
+      "route": "/kcht/manage/ttdh",
+      "title": "Quản lý đài TTDH",
+      "description": "CRUD quản lý đài thông tin duyên hải TTDH",
+      "accessControl": "port-authority-specialist|enterprise-staff|department-specialist",
+      "parent": "/kcht/manage"
+    },
+    {
+      "route": "/kcht/manage/inmarsat",
+      "title": "Quản lý đài Inmarsat Hải Phòng",
+      "description": "CRUD quản lý đài thông tin vệ tinh Inmarsat Hải Phòng",
+      "accessControl": "port-authority-specialist|enterprise-staff|department-specialist",
+      "parent": "/kcht/manage"
+    },
+    {
+      "route": "/kcht/manage/cospas-sarsat",
+      "title": "Quản lý đài Cospas-Sarsat",
+      "description": "CRUD quản lý đài Cospas-Sarsat Việt Nam",
+      "accessControl": "port-authority-specialist|enterprise-staff|department-specialist",
+      "parent": "/kcht/manage"
+    },
+    {
+      "route": "/kcht/manage/lrit",
+      "title": "Quản lý đài LRIT",
+      "description": "CRUD quản lý đài LRIT",
+      "accessControl": "port-authority-specialist|enterprise-staff|department-specialist",
+      "parent": "/kcht/manage"
+    },
+    {
+      "route": "/kcht/manage/hanoi-center",
+      "title": "Quản lý đài TTDH Hà Nội",
+      "description": "CRUD quản lý đài trung tâm xử lý thông tin hàng hải Hà Nội",
+      "accessControl": "port-authority-specialist|enterprise-staff|department-specialist",
+      "parent": "/kcht/manage"
+    },
+    {
+      "route": "/kcht/manage/cảng-cạn",
+      "title": "Quản lý cảng cạn",
+      "description": "CRUD quản lý cảng cạn với phê duyệt 3 cấp",
+      "accessControl": "port-authority-specialist|enterprise-staff|department-specialist",
+      "parent": "/kcht/manage"
+    },
+    {
+      "route": "/kcht/manage/van-ban-phap-ly",
+      "title": "Quản lý văn bản pháp lý",
+      "description": "Quản lý thông tin văn bản pháp lý (CRUD)",
+      "accessControl": "department-specialist",
+      "parent": "/kcht/manage"
+    },
+    {
+      "route": "/kcht/approve/bến-cảng",
+      "title": "Phê duyệt bến cảng",
+      "description": "Phê duyệt/từ chối thông tin bến cảng ở cấp Cảng vụ/Chi cục và Cục",
+      "accessControl": "port-authority-manager|director",
+      "parent": "/kcht/approve"
+    },
+    {
+      "route": "/kcht/approve/cầu-cảng",
+      "title": "Phê duyệt cầu cảng",
+      "description": "Phê duyệt/từ chối thông tin cầu cảng ở cấp Cảng vụ/Chi cục và Cục",
+      "accessControl": "port-authority-manager|director",
+      "parent": "/kcht/approve"
+    },
+    {
+      "route": "/kcht/approve/bến-phao",
+      "title": "Phê duyệt bến phao",
+      "description": "Phê duyệt/từ chối thông tin bến phao ở cấp Cảng vụ/Chi cục và Cục",
+      "accessControl": "port-authority-manager|director",
+      "parent": "/kcht/approve"
+    },
+    {
+      "route": "/kcht/approve/khu-tránh-bão",
+      "title": "Phê duyệt khu tránh trú bão",
+      "description": "Phê duyệt/từ chối thông tin khu tránh trú bão",
+      "accessControl": "port-authority-manager|director",
+      "parent": "/kcht/approve"
+    },
+    {
+      "route": "/kcht/approve/khu-chuyển-tải",
+      "title": "Phê duyệt khu chuyển tải",
+      "description": "Phê duyệt/từ chối thông tin khu chuyển tải",
+      "accessControl": "port-authority-manager|director",
+      "parent": "/kcht/approve"
+    },
+    {
+      "route": "/kcht/approve/khu-neo-đậu",
+      "title": "Phê duyệt khu neo đậu",
+      "description": "Phê duyệt/từ chối thông tin khu neo đậu",
+      "accessControl": "port-authority-manager|director",
+      "parent": "/kcht/approve"
+    },
+    {
+      "route": "/vhx/khao-thac",
+      "title": "Quản lý vận hành khai thác",
+      "description": "Quản lý thông tin vận hành khai thác các KCHTGTHH",
+      "accessControl": "port-authority-specialist|department-specialist",
+      "parent": "/vhx"
+    },
+    {
+      "route": "/vhx/bao-tri",
+      "title": "Quản lý bảo trì",
+      "description": "Quản lý thông tin bảo trì định kỳ và đột xuất",
+      "accessControl": "port-authority-specialist|department-specialist",
+      "parent": "/vhx"
+    },
+    {
+      "route": "/vhx/su-co",
+      "title": "Quản lý sự cố",
+      "description": "Quản lý thông tin sự cố, ghi nhận và xử lý sự cố",
+      "accessControl": "port-authority-specialist|department-specialist",
+      "parent": "/vhx"
+    },
+    {
+      "route": "/quy-hoach/bien-cang",
+      "title": "Quản lý quy hoạch bến cảng",
+      "description": "Quản lý danh sách thông tin quy hoạch bến cảng hàng hải",
+      "accessControl": "port-authority-specialist|planning-investment-department",
+      "parent": "/quy-hoach"
+    },
+    {
+      "route": "/quy-hoach/tra-cuu",
+      "title": "Tra cứu quy hoạch bến cảng",
+      "description": "Tra cứu thông tin quy hoạch bến cảng hàng hải",
+      "accessControl": "all-authenticated",
+      "parent": "/quy-hoach"
+    },
+    {
+      "route": "/quy-hoach/cap-nhat",
+      "title": "Cập nhật quy hoạch bến cảng",
+      "description": "Cập nhật quy hoạch bến cảng với các chỉ tiêu chi tiết",
+      "accessControl": "port-authority-specialist|planning-investment-department",
+      "parent": "/quy-hoach"
+    },
+    {
+      "route": "/tai-san/bien-cang",
+      "title": "Quản lý tài sản bến cảng",
+      "description": "Quản lý tài sản bến cảng: CRUD, phê duyệt, đính kèm tài liệu, lịch sử",
+      "accessControl": "port-authority-specialist|department-specialist",
+      "parent": "/tai-san"
+    },
+    {
+      "route": "/tai-san/approve/bien-cang",
+      "title": "Phê duyệt tài sản bến cảng",
+      "description": "Phê duyệt thông tin tài sản bến cảng",
+      "accessControl": "port-authority-manager|director",
+      "parent": "/tai-san"
+    },
+    {
+      "route": "/tai-san/san-luong",
+      "title": "Quản lý sản lượng cảng biển",
+      "description": "Quản lý sản lượng cảng biển với phê duyệt",
+      "accessControl": "port-authority-specialist|department-specialist",
+      "parent": "/tai-san"
+    },
+    {
+      "route": "/tai-san/kiem-ke",
+      "title": "Kiểm kê tài sản",
+      "description": "Kiểm kê tài sản kết cấu hạ tầng",
+      "accessControl": "port-authority-specialist|finance-department",
+      "parent": "/tai-san"
+    },
+    {
+      "route": "/tai-san/de-nghi-xu-ly",
+      "title": "Đề nghị xử lý tài sản",
+      "description": "Quản lý đề nghị xử lý tài sản KCHTGTHH",
+      "accessControl": "port-authority-specialist|department-specialist",
+      "parent": "/tai-san"
+    },
+    {
+      "route": "/gis/map",
+      "title": "Bản đồ GIS - Thông tin KCHTGTHH",
+      "description": "Hiển thị thông tin KCHTGTHH trên bản đồ tích hợp GeoServer (WMS/WFS)",
+      "accessControl": "all-authenticated",
+      "parent": "/gis"
+    },
+    {
+      "route": "/gis/objects",
+      "title": "Quản lý danh mục đối tượng GIS",
+      "description": "Quản lý danh mục đối tượng điểm/đường/vùng trên bản đồ",
+      "accessControl": "system-admin",
+      "parent": "/gis"
+    },
+    {
+      "route": "/gis/search",
+      "title": "Tra cứu trên bản đồ",
+      "description": "Tra cứu thông tin KCHTGTHH trên bản đồ",
+      "accessControl": "all-authenticated",
+      "parent": "/gis"
+    },
+    {
+      "route": "/gis/ha-do",
+      "title": "Quản lý hải đồ điện tử",
+      "description": "Quản lý 49 mảnh hải đồ điện tử tích hợp PostGIS",
+      "accessControl": "system-admin",
+      "parent": "/gis"
+    },
+    {
+      "route": "/bao-cao/tong-quan",
+      "title": "Báo cáo thống kê chung",
+      "description": "Báo cáo tăng giảm tài sản, mẫu B03/CCTT, mẫu 02-06",
+      "accessControl": "all-authenticated",
+      "parent": "/bao-cao"
+    },
+    {
+      "route": "/bao-cao/chi-tieu-kcht",
+      "title": "Báo cáo chỉ tiêu KCHT",
+      "description": "Biểu 01-10: năng lực thông qua, thống kê cầu cảng, luồng hàng hải, VTS, đài thông tin, đê kè",
+      "accessControl": "all-authenticated",
+      "parent": "/bao-cao"
+    },
+    {
+      "route": "/bao-cao/chi-tieu-do-luong",
+      "title": "Báo cáo chỉ tiêu đo lường",
+      "description": "Biểu 11-17: báo cáo tàu biển, hàng hóa, hành khách",
+      "accessControl": "all-authenticated",
+      "parent": "/bao-cao"
+    },
+    {
+      "route": "/bao-cao/phuong-tien-thuyen-vien",
+      "title": "Báo cáo phương tiện và thuyền viên",
+      "description": "Biểu 21-23: thuyền viên, hoa tiêu, tàu biển, tàu lai dắt",
+      "accessControl": "all-authenticated",
+      "parent": "/bao-cao"
+    },
+    {
+      "route": "/bao-cao/doanh-nghiep",
+      "title": "Báo cáo doanh nghiệp",
+      "description": "Biểu 31, 45: cơ sở đóng mới, tổng hợp hàng hóa",
+      "accessControl": "all-authenticated",
+      "parent": "/bao-cao"
+    },
+    {
+      "route": "/bao-cao/thong-tu-48",
+      "title": "Báo cáo thông tư 48/2017",
+      "description": "Biểu 06, 07, 28, 29, 33 theo thông tư 48/2017/TT-BGTVT",
+      "accessControl": "all-authenticated",
+      "parent": "/bao-cao"
+    },
+    {
+      "route": "/bao-cao/bao-dam",
+      "title": "Báo cáo chuyên ngành bảo đảm",
+      "description": "Biểu tổng hợp: thông tin chung, KCHT, bảo trì KCHT",
+      "accessControl": "all-authenticated",
+      "parent": "/bao-cao"
+    },
+    {
+      "route": "/lien-thong/tra-cuu",
+      "title": "Tra cứu kết nối liên thông",
+      "description": "Xem danh sách kết nối liên thông chia sẻ dữ liệu",
+      "accessControl": "system-admin",
+      "parent": "/lien-thong"
+    },
+    {
+      "route": "/lien-thong/lich-su",
+      "title": "Lịch sử kết nối liên thông",
+      "description": "Xem lịch sử kết nối liên thông chia sẻ dữ liệu",
+      "accessControl": "system-admin",
+      "parent": "/lien-thong"
+    },
+    {
+      "route": "/tich-hop",
+      "title": "Tích hợp dữ liệu",
+      "description": "Quản lý tích hợp dữ liệu từ hệ thống bên ngoài (VMSN, VMSS, VISHIPEL, doanh nghiệp)",
+      "accessControl": "system-admin",
+      "parent": null
+    },
+    {
+      "route": "/hdsd",
+      "title": "Hướng dẫn sử dụng",
+      "description": "Tài liệu hướng dẫn sử dụng hệ thống",
+      "accessControl": "all-authenticated",
+      "parent": null
+    }
+  ]
+}

@@ -1,0 +1,2022 @@
+{
+  "features": [
+    {
+      "id": "F-001",
+      "name": "Đăng nhập hệ thống",
+      "description": "Người dùng đăng nhập vào hệ thống MTIS bằng email, mật khẩu và mã captcha. Hệ thống xác thực, kiểm tra trạng thái tài khoản, đếm số lần đăng nhập sai.",
+      "acceptance_criteria": [
+        "Người dùng nhập email và mật khẩu hợp lệ → hiển thị màn hình trang chủ",
+        "Nhập sai mật khẩu ≥5 lần → block user 5 phút, hiển thị thông báo lỗi",
+        "Nhập sai ≥6 lần → block 10 phút, cứ thế tăng dần thời gian",
+        "Mật khẩu hiển thị/ẩn qua icon mắt",
+        "Đăng nhập lần đầu bắt buộc đổi mật khẩu"
+      ],
+      "business_rules": [
+        "Mật khẩu phải được mã hóa khi lưu",
+        "Captcha được sinh tự động và hết hạn sau 5 phút",
+        "Tài khoản do cán bộ QTHT tạo → đăng nhập lần đầu phải đổi mật khẩu"
+      ],
+      "module": "M-001",
+      "status": "proposed",
+      "related_screens": ["S-001", "S-002"]
+    },
+    {
+      "id": "F-002",
+      "name": "Đăng ký tài khoản",
+      "description": "Người dùng đăng ký tài khoản mới bằng cách điền thông tin cá nhân, chọn đơn vị, phòng ban, chức vụ. Tài khoản chờ phê duyệt cấp admin.",
+      "acceptance_criteria": [
+        "Đầy đủ các trường: đơn vị, email, họ tên, điện thoại, mã công chức, phòng ban, chức vụ, địa chỉ, mật khẩu, captcha",
+        "Sau đăng ký thành công → thông báo chờ phê duyệt",
+        "Email đã tồn tại → hiển thị lỗi"
+      ],
+      "business_rules": [
+        "Đơn vị phải tồn tại trong AUTH_ORG",
+        "Tài khoản mới tạo có trạng thái chờ duyệt",
+        "Mật khẩu phải thỏa mãn chính sách độ phức tạp"
+      ],
+      "module": "M-001",
+      "status": "proposed",
+      "related_screens": ["S-003"]
+    },
+    {
+      "id": "F-003",
+      "name": "Quên mật khẩu",
+      "description": "Người dùng gửi yêu cầu đặt lại mật khẩu qua email. Hệ thống gửi link đặt lại mật khẩu vào email đã đăng ký.",
+      "acceptance_criteria": [
+        "Nhập email hợp lệ → gửi link đặt lại mật khẩu",
+        "Email không tồn tại → vẫn hiển thị thông báo thành công (security best practice)",
+        "Link đặt lại mật khẩu có thời gian hết hạn"
+      ],
+      "business_rules": [
+        "Link đặt lại mật khẩu phải có token ngẫu nhiên có thời hạn",
+        "Chỉ gửi tối đa 3 yêu cầu/giờ cho 1 email"
+      ],
+      "module": "M-001",
+      "status": "proposed",
+      "related_screens": ["S-004"]
+    },
+    {
+      "id": "F-004",
+      "name": "Đổi mật khẩu",
+      "description": "Người dùng đã đăng nhập thay đổi mật khẩu hiện tại bằng cách nhập mật khẩu cũ, mật khẩu mới và xác nhận mật khẩu mới kèm mã OTP.",
+      "acceptance_criteria": [
+        "Mật khẩu cũ không đúng → hiển thị lỗi",
+        "Mật khẩu mới xác nhận không khớp → hiển thị lỗi",
+        "Đổi mật khẩu thành công → quay lại màn hình đang nhập",
+        "Yêu cầu mã OTP cho xác thực"
+      ],
+      "business_rules": [
+        "Mật khẩu mới không được trùng với mật khẩu cũ",
+        "Mật khẩu phải thỏa mãn độ phức tạp tối thiểu"
+      ],
+      "module": "M-001",
+      "status": "proposed",
+      "related_screens": ["S-005"]
+    },
+    {
+      "id": "F-005",
+      "name": "Đặt lại mật khẩu",
+      "description": "Đặt lại mật khẩu từ link email quên mật khẩu hoặc từ popup đặt lại mật khẩu.",
+      "acceptance_criteria": [
+        "Hiển thị email hiện tại không cho sửa",
+        "Nhập mật khẩu mới và xác nhận → thành công",
+        "Sau khi đặt lại → chuyển về màn hình đăng nhập"
+      ],
+      "business_rules": [
+        "Token đặt lại mật khẩu chỉ dùng được 1 lần",
+        "Token hết hạn → yêu cầu gửi lại link"
+      ],
+      "module": "M-001",
+      "status": "proposed",
+      "related_screens": ["S-006"]
+    },
+    {
+      "id": "F-006",
+      "name": "Đăng xuất hệ thống",
+      "description": "Người dùng đăng xuất khỏi hệ thống, hệ thống lưu log đăng xuất và xóa session.",
+      "acceptance_criteria": [
+        "Click đăng xuất → quay về màn hình đăng nhập",
+        "Log đăng xuất được ghi nhận"
+      ],
+      "business_rules": [
+        "Session bị hủy trên server sau đăng xuất",
+        "JWT token bị blacklist"
+      ],
+      "module": "M-001",
+      "status": "proposed",
+      "related_screens": ["S-001"]
+    },
+    {
+      "id": "F-007",
+      "name": "Thông tin cá nhân",
+      "description": "Xem và cập nhật thông tin cá nhân của người dùng đã đăng nhập.",
+      "acceptance_criteria": [
+        "Hiển thị đầy đủ thông tin: họ tên, email, điện thoại, địa chỉ, đơn vị, chức vụ",
+        "Cho phép chỉnh sửa một số trường nhất định"
+      ],
+      "business_rules": [
+        "Chỉ hiển thị thông tin của chính mình",
+        "Thay đổi thông tin cơ bản cần admin xác nhận"
+      ],
+      "module": "M-001",
+      "status": "proposed",
+      "related_screens": ["S-007"]
+    },
+    {
+      "id": "F-008",
+      "name": "Quản lý nhóm người dùng",
+      "description": "Quản lý CRUD nhóm người dùng: thêm/sửa/xóa, khóa/mở khóa, phân quyền nhóm, thêm người dùng vào nhóm.",
+      "acceptance_criteria": [
+        "Tìm kiếm theo mã ứng dụng, đơn vị, mã nhóm, tên nhóm, trạng thái",
+        "Thêm mới nhóm với đầy đủ thông tin",
+        "Sửa thông tin nhóm",
+        "Phân quyền chức năng cho nhóm qua checkbox",
+        "Thêm người dùng vào nhóm qua checkbox",
+        "Khóa/mở khóa nhóm"
+      ],
+      "business_rules": [
+        "Mã nhóm phải unique trong cùng ứng dụng",
+        "Nhóm không được xóa nếu còn người dùng trong nhóm",
+        "Phân quyền theo cấp đơn vị được sử dụng"
+      ],
+      "module": "M-001",
+      "status": "proposed",
+      "related_screens": ["S-008", "S-009", "S-010", "S-011", "S-012", "S-013"]
+    },
+    {
+      "id": "F-009",
+      "name": "Quản lý đơn vị tổ chức",
+      "description": "Quản lý CRUD đơn vị tổ chức (Cục, Chi cục, Cảng vụ, Doanh nghiệp) với phân cấp cha-con.",
+      "acceptance_criteria": [
+        "Tìm kiếm theo mã đơn vị, tên đơn vị, trạng thái",
+        "Thêm mới: mã cấp 1, cấp 2, cấp 3, tên, cấp đơn vị, địa điểm, SĐT, trạng thái",
+        "Sửa thông tin đơn vị",
+        "Xem chi tiết đơn vị với thông tin cán bộ cập nhật",
+        "Xóa đơn vị với xác nhận"
+      ],
+      "business_rules": [
+        "Phân cấp 3 mức: Cục (1) → Chi cục/Cảng vụ (2) → Doanh nghiệp (3)",
+        "Mã đơn vị unique toàn hệ thống",
+        "Đơn vị cha phải tồn tại trước khi thêm con"
+      ],
+      "module": "M-002",
+      "status": "proposed",
+      "related_screens": ["S-014", "S-015", "S-016", "S-017"]
+    },
+    {
+      "id": "F-010",
+      "name": "Quản lý tài khoản admin",
+      "description": "Quản lý tài khoản admin: tạo, chỉnh sửa, xem chi tiết, phân quyền, phê duyệt cấp tài khoản, khóa/mở khóa.",
+      "acceptance_criteria": [
+        "Tìm kiếm theo email, họ tên, đơn vị, trạng thái",
+        "Thêm admin với thông tin đầy đủ: đơn vị, họ tên, SĐT, địa chỉ, mã công chức, phòng ban, chức vụ",
+        "Phân quyền chức năng cho admin",
+        "Phê duyệt cấp tài khoản với nội dung phê duyệt",
+        "Khóa/mở tài khoản admin"
+      ],
+      "business_rules": [
+        "Tài khoản admin tạo ra với trạng thái chờ phê duyệt",
+        "Admin không thể xóa chính mình",
+        "Phân quyền theo cấp đơn vị"
+      ],
+      "module": "M-002",
+      "status": "proposed",
+      "related_screens": ["S-018", "S-019", "S-020", "S-021", "S-022"]
+    },
+    {
+      "id": "F-011",
+      "name": "Quản lý log truy cập",
+      "description": "Xem, tìm kiếm, sắp xếp log truy cập hệ thống theo thời gian, ghi nhận toàn bộ thao tác người dùng.",
+      "acceptance_criteria": [
+        "Hiển thị danh sách log với STT, user, chức năng, thời gian, IP",
+        "Tìm kiếm theo ngày, user, chức năng",
+        "Sắp xếp theo thời gian giảm dần",
+        "Xuất báo cáo log ra Excel"
+      ],
+      "business_rules": [
+        "Log được ghi tự động cho mọi thao tác quan trọng",
+        "Log lưu tối thiểu 6 tháng",
+        "Chỉ admin cấp cao có quyền xem"
+      ],
+      "module": "M-002",
+      "status": "proposed",
+      "related_screens": ["S-023"]
+    },
+    {
+      "id": "F-012",
+      "name": "Quản lý biểu tượng bản đồ",
+      "description": "Quản lý CRUD biểu tượng trên bản đồ (QTHT_BIEU_TUONG_BAN_DO): thêm/sửa/xóa biểu tượng cho các loại đối tượng KCHT.",
+      "acceptance_criteria": [
+        "Thêm mới biểu tượng với tên, mã, hình ảnh, loại đối tượng áp dụng",
+        "Sửa/xóa biểu tượng",
+        "Chọn biểu tượng cho từng loại kết cấu hạ tầng"
+      ],
+      "business_rules": [
+        "Mã biểu tượng unique",
+        "Biểu tượng phải là file ảnh định dạng PNG/SVG",
+        "Liên kết với quy tắc hiển thị bản đồ"
+      ],
+      "module": "M-002",
+      "status": "proposed",
+      "related_screens": ["S-024"]
+    },
+    {
+      "id": "F-013",
+      "name": "Quản lý kết nối liên thông chia sẻ dữ liệu",
+      "description": "Cấu hình tham số kết nối liên thông, xem lịch sử kết nối chia sẻ dữ liệu qua trục LGSP.",
+      "acceptance_criteria": [
+        "Thêm/sửa cấu hình kết nối: URL endpoint, chứng thực, tần suất sync",
+        "Xem lịch sử kết nối thành công/thất bại",
+        "Test kết nối trước khi lưu"
+      ],
+      "business_rules": [
+        "Kết nối qua HTTPS với chứng thực số",
+        "VPN Site-to-Site cho kết nối với VMSN, VMSS, VISHIPEL",
+        "Ghi log mọi lần kết nối thành công/thất bại"
+      ],
+      "module": "M-002",
+      "status": "proposed",
+      "related_screens": ["S-025", "S-026"]
+    },
+    {
+      "id": "F-014",
+      "name": "Dashboard trang chủ",
+      "description": "Dashboard hiển thị tổng quan thông số kỹ thuật KCHTGTHH: số lượng theo năm, tỷ lệ phê duyệt, biểu đồ tròn và biểu đồ đường.",
+      "acceptance_criteria": [
+        "Hiển thị tổng số lượng kết cấu hạ tầng",
+        "Số lượng KCHT đang sử dụng và không sử dụng",
+        "Biểu đồ tỷ lệ phê duyệt: đã duyệt, đã từ chối, chờ duyệt",
+        "Chọn năm và loại KCHT để lọc",
+        "Tra cứu bản đồ từ dashboard"
+      ],
+      "business_rules": [
+        "Dữ liệu dashboard cập nhật real-time",
+        "Tùy hiển thị theo quyền của người dùng (xem theo đơn vị phân quyền)"
+      ],
+      "module": "M-003",
+      "status": "proposed",
+      "related_screens": ["S-027"]
+    },
+    {
+      "id": "F-015",
+      "name": "Tra cứu văn bản pháp lý",
+      "description": "Tìm kiếm, xem danh sách, xem chi tiết, tải văn bản pháp lý liên quan đến KCHTGTHH.",
+      "acceptance_criteria": [
+        "Tìm kiếm theo tiêu đề, số văn bản, ngày ban hành",
+        "Xem danh sách văn bản có phân trang",
+        "Xem chi tiết nội dung văn bản",
+        "Tải file đính kèm"
+      ],
+      "business_rules": [
+        "Văn bản pháp lý phải còn hiệu lực (không hết hạn)",
+        "Người dùng ngoài chỉ xem được văn bản công khai"
+      ],
+      "module": "M-003",
+      "status": "proposed",
+      "related_screens": ["S-028", "S-029", "S-030"]
+    },
+    {
+      "id": "F-016",
+      "name": "Tra cứu cảng biển",
+      "description": "Tìm kiếm, xem danh sách, xem chi tiết cảng biển với thông tin: mã, tên, địa điểm, tình trạng, năng lực khai thác, phân cấp.",
+      "acceptance_criteria": [
+        "Tìm kiếm theo mã, tên, địa điểm, tình trạng",
+        "Xem danh sách với phân trang, sorting",
+        "Xem chi tiết thông tin cảng biển",
+        "Xem vị trí trên bản đồ",
+        "Xem lịch sử thay đổi"
+      ],
+      "business_rules": [
+        "Cảng biển có thể có bến cảng, cầu cảng con",
+        "Mã cảng biển unique trong hệ thống",
+        "Phân cấp: Loại I, II, III, IV, V"
+      ],
+      "module": "M-003",
+      "status": "proposed",
+      "related_screens": ["S-031", "S-032", "S-033"]
+    },
+    {
+      "id": "F-017",
+      "name": "Tra cứu bến cảng",
+      "description": "Tìm kiếm, xem danh sách, xem chi tiết, xem lịch sử bến cảng.",
+      "acceptance_criteria": [
+        "Tìm kiếm theo mã, tên, cảng biển cha, địa điểm",
+        "Xem chi tiết và lịch sử thay đổi",
+        "Xem vị trí trên bản đồ"
+      ],
+      "business_rules": [
+        "Bến cảng thuộc 1 cảng biển",
+        "Bến cảng có thể có nhiều cầu cảng"
+      ],
+      "module": "M-003",
+      "status": "proposed",
+      "related_screens": ["S-034", "S-035", "S-036"]
+    },
+    {
+      "id": "F-018",
+      "name": "Tra cứu cầu cảng",
+      "description": "Tìm kiếm, xem danh sách, xem chi tiết, xem lịch sử cầu cảng.",
+      "acceptance_criteria": [
+        "Tìm kiếm theo mã, tên, bến cảng cha, loại kết cấu",
+        "Xem chi tiết thông tin",
+        "Xem lịch sử"
+      ],
+      "business_rules": [
+        "Cầu cảng thuộc 1 bến cảng",
+        "Có loại kết cấu: bê tông, sắt thép, gỗ, phao"
+      ],
+      "module": "M-003",
+      "status": "proposed",
+      "related_screens": ["S-037", "S-038", "S-039"]
+    },
+    {
+      "id": "F-019",
+      "name": "Tra cứu cảng cạn",
+      "description": "Tìm kiếm, xem danh sách, xem chi tiết cảng cạn với thông tin hành lang vận tải, khu vực.",
+      "acceptance_criteria": [
+        "Tìm kiếm theo mã, tên, hành lang vận tải, khu vực",
+        "Xem chi tiết",
+        "Xem vị trí trên bản đồ"
+      ],
+      "business_rules": [
+        "Cảng cạn liên kết với hành lang vận tải đường bộ/sắt"
+      ],
+      "module": "M-003",
+      "status": "proposed",
+      "related_screens": ["S-040", "S-041", "S-042"]
+    },
+    {
+      "id": "F-020",
+      "name": "Tra cứu bến phao",
+      "description": "Tìm kiếm, xem danh sách, xem chi tiết, xem lịch sử bến phao.",
+      "acceptance_criteria": [
+        "Tìm kiếm theo mã, tên, địa điểm",
+        "Xem chi tiết và lịch sử",
+        "Xem vị trí trên bản đồ"
+      ],
+      "business_rules": [
+        "Bến phao có hệ quy chiếu riêng",
+        "Trạng thái: hoạt động/ngừng hoạt động"
+      ],
+      "module": "M-003",
+      "status": "proposed",
+      "related_screens": ["S-043", "S-044", "S-045"]
+    },
+    {
+      "id": "F-021",
+      "name": "Tra cứu khu tránh trú bão",
+      "description": "Tìm kiếm, xem danh sách, xem chi tiết khu tránh trú bão.",
+      "acceptance_criteria": [
+        "Tìm kiếm theo mã, tên, địa điểm",
+        "Xem chi tiết thông tin",
+        "Xem vị trí trên bản đồ"
+      ],
+      "business_rules": [
+        "Khu tránh trú bão có diện tích tối thiểu quy định",
+        "Có khả năng chứa số lượng tàu tối thiểu"
+      ],
+      "module": "M-003",
+      "status": "proposed",
+      "related_screens": ["S-046", "S-047", "S-048"]
+    },
+    {
+      "id": "F-022",
+      "name": "Tra cứu khu chuyển tải",
+      "description": "Tìm kiếm, xem danh sách, xem chi tiết khu chuyển tải.",
+      "acceptance_criteria": [
+        "Tìm kiếm theo mã, tên, địa điểm",
+        "Xem chi tiết",
+        "Xem vị trí trên bản đồ"
+      ],
+      "business_rules": [
+        "Khu chuyển tải phải có diện tích tối thiểu"
+      ],
+      "module": "M-003",
+      "status": "proposed",
+      "related_screens": ["S-049", "S-050", "S-051"]
+    },
+    {
+      "id": "F-023",
+      "name": "Tra cứu khu neo đậu",
+      "description": "Tìm kiếm, xem danh sách, xem chi tiết khu neo đậu.",
+      "acceptance_criteria": [
+        "Tìm kiếm theo mã, tên, địa điểm",
+        "Xem chi tiết",
+        "Xem vị trí trên bản đồ"
+      ],
+      "business_rules": [
+        "Khu neo đậu có sâu nước tối thiểu quy định"
+      ],
+      "module": "M-003",
+      "status": "proposed",
+      "related_screens": ["S-052", "S-053", "S-054"]
+    },
+    {
+      "id": "F-024",
+      "name": "Tra cứu cơ sở sửa chữa đóng tàu",
+      "description": "Tìm kiếm, xem danh sách, xem chi tiết cơ sở sửa chữa đóng tàu.",
+      "acceptance_criteria": [
+        "Tìm kiếm theo mã, tên, địa điểm, loại công trình",
+        "Xem chi tiết",
+        "Xem vị trí trên bản đồ"
+      ],
+      "business_rules": [
+        "Cơ sở phải có giấy phép hoạt động",
+        "Phân loại: sửa chữa tàu nhỏ, sửa chữa tàu lớn, đóng mới"
+      ],
+      "module": "M-003",
+      "status": "proposed",
+      "related_screens": ["S-055", "S-056", "S-057"]
+    },
+    {
+      "id": "F-025",
+      "name": "Tra cứu đèn biển và nhà trạm",
+      "description": "Tìm kiếm, xem danh sách, xem chi tiết đèn biển và nhà trạm gắn liền. Bao gồm thông tin chung loại đèn, đèn dự phòng, cấp trạm.",
+      "acceptance_criteria": [
+        "Tìm kiếm theo mã, tên, địa điểm",
+        "Xem chi tiết với thông tin đèn chính, đèn dự phòng, cấp trạm",
+        "Xem vị trí trên bản đồ",
+        "Xem danh sách phao, tiêu tại màn hình chi tiết (theo update v3.0)"
+      ],
+      "business_rules": [
+        "Đèn biển có đèn chính và đèn dự phòng",
+        "Cấp trạm đèn: I, II, III, IV, V",
+        "Phụ thuộc vào nhà trạm quản lý"
+      ],
+      "module": "M-003",
+      "status": "proposed",
+      "related_screens": ["S-058", "S-059", "S-060"]
+    },
+    {
+      "id": "F-026",
+      "name": "Tra cứu phao tiêu và nhà trạm",
+      "description": "Tìm kiếm, xem danh sách, xem chi tiết phao tiêu và nhà trạm quản lý vận hành phao tiêu.",
+      "acceptance_criteria": [
+        "Tìm kiếm theo mã, tên, địa điểm",
+        "Xem chi tiết",
+        "Xem vị trí trên bản đồ"
+      ],
+      "business_rules": [
+        "Phao tiêu có loại, màu sắc, tần số ánh sáng riêng"
+      ],
+      "module": "M-003",
+      "status": "proposed",
+      "related_screens": ["S-061", "S-062", "S-063"]
+    },
+    {
+      "id": "F-027",
+      "name": "Tra cứu hệ thống VTS",
+      "description": "Tìm kiếm, xem danh sách, xem chi tiết hệ thống VTS, vùng VTS.",
+      "acceptance_criteria": [
+        "Tìm kiếm theo mã, tên, địa điểm",
+        "Xem chi tiết thông tin hệ thống VTS",
+        "Xem vị trí trên bản đồ"
+      ],
+      "business_rules": [
+        "Hệ thống VTS có vùng bao phủ xác định",
+        "Phụ thuộc vào trung tâm điều hành VTS"
+      ],
+      "module": "M-003",
+      "status": "proposed",
+      "related_screens": ["S-064", "S-065", "S-066"]
+    },
+    {
+      "id": "F-028",
+      "name": "Tra cứu trung tâm điều hành VTS",
+      "description": "Tìm kiếm, xem danh sách, xem chi tiết trung tâm điều hành VTS.",
+      "acceptance_criteria": [
+        "Tìm kiếm theo mã, tên, địa điểm",
+        "Xem chi tiết",
+        "Xem vị trí trên bản đồ"
+      ],
+      "business_rules": [
+        "Trung tâm điều hành VTS quản lý nhiều trạm radar"
+      ],
+      "module": "M-003",
+      "status": "proposed",
+      "related_screens": ["S-067", "S-068", "S-069"]
+    },
+    {
+      "id": "F-029",
+      "name": "Tra cứu trạm radar",
+      "description": "Tìm kiếm, xem danh sách, xem chi tiết trạm radar.",
+      "acceptance_criteria": [
+        "Tìm kiếm theo mã, tên, địa điểm",
+        "Xem chi tiết",
+        "Xem vị trí trên bản đồ"
+      ],
+      "business_rules": [
+        "Trạm radar có bán kính hoạt động xác định",
+        "Thuộc hệ thống VTS hoặc trung tâm điều hành VTS"
+      ],
+      "module": "M-003",
+      "status": "proposed",
+      "related_screens": ["S-070", "S-071", "S-072"]
+    },
+    {
+      "id": "F-030",
+      "name": "Tra cứu hệ thống AIS",
+      "description": "Tìm kiếm, xem danh sách, xem chi tiết hệ thống AIS.",
+      "acceptance_criteria": [
+        "Tìm kiếm theo mã, tên, địa điểm",
+        "Xem chi tiết",
+        "Xem vị trí trên bản đồ"
+      ],
+      "business_rules": [
+        "AIS có tần số hoạt động, công suất phát xác định"
+      ],
+      "module": "M-003",
+      "status": "proposed",
+      "related_screens": ["S-073", "S-074", "S-075"]
+    },
+    {
+      "id": "F-031",
+      "name": "Tra cứu hệ thống CCTV",
+      "description": "Tìm kiếm, xem danh sách, xem chi tiết hệ thống CCTV.",
+      "acceptance_criteria": [
+        "Tìm kiếm theo mã, tên, địa điểm",
+        "Xem chi tiết",
+        "Xem vị trí trên bản đồ"
+      ],
+      "business_rules": [
+        "Số lượng camera tại mỗi trạm"
+      ],
+      "module": "M-003",
+      "status": "proposed",
+      "related_screens": ["S-076", "S-077", "S-078"]
+    },
+    {
+      "id": "F-032",
+      "name": "Tra cứu hệ thống SCADA",
+      "description": "Tìm kiếm, xem danh sách, xem chi tiết hệ thống SCADA.",
+      "acceptance_criteria": [
+        "Tìm kiếm theo mã, tên, địa điểm",
+        "Xem chi tiết",
+        "Xem vị trí trên bản đồ"
+      ],
+      "business_rules": [
+        "SCADA có dải tần và công suất xác định"
+      ],
+      "module": "M-003",
+      "status": "proposed",
+      "related_screens": ["S-079", "S-080", "S-081"]
+    },
+    {
+      "id": "F-033",
+      "name": "Tra cứu hệ thống VHF",
+      "description": "Tìm kiếm, xem danh sách, xem chi tiết hệ thống thông tin liên lạc VHF.",
+      "acceptance_criteria": [
+        "Tìm kiếm theo mã, tên, địa điểm",
+        "Xem chi tiết tần số liên lạc, dịch vụ cung cấp",
+        "Xem vị trí trên bản đồ"
+      ],
+      "business_rules": [
+        "VHF có tần số liên lạc cố định (156-174 MHz)",
+        "Có phân loại đài: loại I, II, III"
+      ],
+      "module": "M-003",
+      "status": "proposed",
+      "related_screens": ["S-082", "S-083", "S-084"]
+    },
+    {
+      "id": "F-034",
+      "name": "Tra cứu hệ thống truyền dẫn",
+      "description": "Tìm kiếm, xem danh sách, xem chi tiết hệ thống truyền dẫn.",
+      "acceptance_criteria": [
+        "Tìm kiếm theo mã, tên, địa điểm",
+        "Xem chi tiết",
+        "Xem vị trí trên bản đồ"
+      ],
+      "business_rules": [
+        "Hệ thống truyền dẫn có công nghệ: vi ba, cáp quang, vệ tinh"
+      ],
+      "module": "M-003",
+      "status": "proposed",
+      "related_screens": ["S-085", "S-086", "S-087"]
+    },
+    {
+      "id": "F-035",
+      "name": "Tra cứu hệ thống phụ trợ VTS",
+      "description": "Tìm kiếm, xem danh sách, xem chi tiết hệ thống phụ trợ VTS.",
+      "acceptance_criteria": [
+        "Tìm kiếm theo mã, tên, địa điểm",
+        "Xem chi tiết",
+        "Xem vị trí trên bản đồ"
+      ],
+      "business_rules": [
+        "Phụ trợ VTS bao gồm các hệ thống hỗ trợ: điện, thông tin, nhà trạm"
+      ],
+      "module": "M-003",
+      "status": "proposed",
+      "related_screens": ["S-088", "S-089", "S-090"]
+    },
+    {
+      "id": "F-036",
+      "name": "Tra cứu đê chắn sóng, kè",
+      "description": "Tìm kiếm, xem danh sách, xem chi tiết đê chắn sóng, đê chắn cát, kè hướng dòng, kè bảo vệ bờ.",
+      "acceptance_criteria": [
+        "Tìm kiếm theo mã, tên, loại, địa điểm",
+        "Xem chi tiết thông tin kỹ thuật",
+        "Xem vị trí trên bản đồ"
+      ],
+      "business_rules": [
+        "Có 4 loại: đê chắn sóng, đê chắn cát, kè hướng dòng, kè bảo vệ bờ",
+        "Đê chắn sóng có chiều dài, chiều cao, loại kết cấu"
+      ],
+      "module": "M-003",
+      "status": "proposed",
+      "related_screens": ["S-091", "S-092", "S-093"]
+    },
+    {
+      "id": "F-037",
+      "name": "Tra cứu luồng hàng hải",
+      "description": "Tìm kiếm, xem danh sách, xem chi tiết luồng hàng hải.",
+      "acceptance_criteria": [
+        "Tìm kiếm theo mã, tên, cảng biển",
+        "Xem chi tiết thông số kỹ thuật luồng",
+        "Xem vị trí trên bản đồ"
+      ],
+      "business_rules": [
+        "Luồng hàng hải có sâu nước duy trì, chiều rộng, bán kính cua"
+      ],
+      "module": "M-003",
+      "status": "proposed",
+      "related_screens": ["S-094", "S-095", "S-096"]
+    },
+    {
+      "id": "F-038",
+      "name": "Tra cứu đài TTDH",
+      "description": "Tìm kiếm, xem danh sách, xem chi tiết đài thông tin duyên hải TTDH.",
+      "acceptance_criteria": [
+        "Tìm kiếm theo mã, tên, địa điểm",
+        "Xem chi tiết",
+        "Xem vị trí trên bản đồ"
+      ],
+      "business_rules": [
+        "Đài TTDH có tần số, dịch vụ cung cấp xác định"
+      ],
+      "module": "M-003",
+      "status": "proposed",
+      "related_screens": ["S-097", "S-098", "S-099"]
+    },
+    {
+      "id": "F-039",
+      "name": "Tra cứu đài Inmarsat Hải Phòng",
+      "description": "Tìm kiếm, xem danh sách, xem chi tiết đài thông tin vệ tinh Inmarsat Hải Phòng.",
+      "acceptance_criteria": [
+        "Tìm kiếm theo mã, tên",
+        "Xem chi tiết thông số vệ tinh",
+        "Xem vị trí trên bản đồ"
+      ],
+      "business_rules": [
+        "Inmarsat có vùng phủ sóng xác định"
+      ],
+      "module": "M-003",
+      "status": "proposed",
+      "related_screens": ["S-100", "S-101", "S-102"]
+    },
+    {
+      "id": "F-040",
+      "name": "Tra cứu đài Cospas-Sarsat",
+      "description": "Tìm kiếm, xem danh sách, xem chi tiết đài thông tin vệ tinh Cospas-Sarsat Việt Nam.",
+      "acceptance_criteria": [
+        "Tìm kiếm theo mã, tên",
+        "Xem chi tiết",
+        "Xem vị trí trên bản đồ"
+      ],
+      "business_rules": [
+        "Cospas-Sarsat có tần số hoạt động 406 MHz"
+      ],
+      "module": "M-003",
+      "status": "proposed",
+      "related_screens": ["S-103", "S-104", "S-105"]
+    },
+    {
+      "id": "F-041",
+      "name": "Tra cứu đài LRIT",
+      "description": "Tìm kiếm, xem danh sách, xem chi tiết đài thông tin nhận dạng và truy theo tầm xa LRIT.",
+      "acceptance_criteria": [
+        "Tìm kiếm theo mã, tên",
+        "Xem chi tiết",
+        "Xem vị trí trên bản đồ"
+      ],
+      "business_rules": [
+        "LRIT có tần suất gửi vị trí xác định (6 giờ/lần)"
+      ],
+      "module": "M-003",
+      "status": "proposed",
+      "related_screens": ["S-106", "S-107", "S-108"]
+    },
+    {
+      "id": "F-042",
+      "name": "Tra cứu đài TTDH Hà Nội",
+      "description": "Tìm kiếm, xem danh sách, xem chi tiết đài trung tâm xử lý thông tin hàng hải Hà Nội.",
+      "acceptance_criteria": [
+        "Tìm kiếm theo mã, tên",
+        "Xem chi tiết",
+        "Xem vị trí trên bản đồ"
+      ],
+      "business_rules": [
+        "Trung tâm xử lý TT hàng hải có vai trò đặc biệt"
+      ],
+      "module": "M-003",
+      "status": "proposed",
+      "related_screens": ["S-109", "S-110", "S-111"]
+    },
+    {
+      "id": "F-043",
+      "name": "Quản lý cảng biển (CRUD)",
+      "description": "CRUD quản lý cảng biển với phê duyệt 3 cấp (Cảng vụ/Chi cục → Cục). Tạo/sửa/xóa thông tin cảng biển.",
+      "acceptance_criteria": [
+        "Thêm mới với đầy đủ trường: mã, tên, địa điểm, phân cấp, loại kết cấu, công năng khai thác, nhòm cảng biển/bến cảng/cầu cảng/bến phao",
+        "Lưu tạm (nháp)",
+        "Gửi phê duyệt → chuyển trạng thái chờ duyệt",
+        "Xem lại thông tin đã gửi",
+        "Hiệu chỉnh thông tin (chỉ khi từ chối)"
+      ],
+      "business_rules": [
+        "Phê duyệt 3 cấp: Chuyên viên gửi → Lãnh đạo Cảng vụ/Chi cục duyệt → Lãnh đạo Cục phê duyệt cuối",
+        "Mã cảng biển phải unique",
+        "Trạng thái: nháp, chờ duyệt cảng vụ, chờ duyệt cục, đã duyệt, bị từ chối",
+        "Chỉ admin và chuyên viên mới được tạo/sửa"
+      ],
+      "module": "M-003",
+      "status": "proposed",
+      "related_screens": ["S-112", "S-113", "S-114", "S-115"]
+    },
+    {
+      "id": "F-044",
+      "name": "Quản lý bến cảng (CRUD)",
+      "description": "CRUD quản lý bến cảng với phê duyệt 3 cấp.",
+      "acceptance_criteria": [
+        "Thêm mới với thông tin: mã, tên, cảng biển cha, địa điểm, phân cấp, công năng",
+        "Lưu tạm, gửi phê duyệt",
+        "Hiệu chỉnh khi từ chối"
+      ],
+      "business_rules": [
+        "Bến cảng thuộc 1 cảng biển duy nhất",
+        "Phê duyệt 3 cấp tương tự cảng biển"
+      ],
+      "module": "M-003",
+      "status": "proposed",
+      "related_screens": ["S-116", "S-117", "S-118"]
+    },
+    {
+      "id": "F-045",
+      "name": "Phê duyệt bến cảng",
+      "description": "Phê duyệt/từ chối thông tin bến cảng ở cấp Cảng vụ/Chi cục và Cục.",
+      "acceptance_criteria": [
+        "Xem danh sách bến cảng chờ duyệt",
+        "Xem chi tiết và phê duyệt/từ chối với lý do",
+        "Cấp Cảng vụ → Cấp Cục"
+      ],
+      "business_rules": [
+        "Chỉ lãnh đạo Cảng vụ/Chi cục và Cục mới có quyền phê duyệt",
+        "Lý do từ chối bắt buộc"
+      ],
+      "module": "M-003",
+      "status": "proposed",
+      "related_screens": ["S-119", "S-120"]
+    },
+    {
+      "id": "F-046",
+      "name": "Quản lý cầu cảng (CRUD)",
+      "description": "CRUD quản lý cầu cảng với phê duyệt 3 cấp.",
+      "acceptance_criteria": [
+        "Thêm mới với thông tin: mã, tên, bến cảng cha, loại kết cấu, chiều dài, tải trọng",
+        "Lưu tạm, gửi phê duyệt"
+      ],
+      "business_rules": [
+        "Cầu cảng thuộc 1 bến cảng",
+        "Phê duyệt 3 cấp"
+      ],
+      "module": "M-003",
+      "status": "proposed",
+      "related_screens": ["S-121", "S-122", "S-123"]
+    },
+    {
+      "id": "F-047",
+      "name": "Phê duyệt cầu cảng",
+      "description": "Phê duyệt/từ chối thông tin cầu cảng ở cấp Cảng vụ/Chi cục và Cục.",
+      "acceptance_criteria": [
+        "Xem danh sách cầu cảng chờ duyệt",
+        "Phê duyệt/từ chối với lý do"
+      ],
+      "business_rules": [
+        "Quy trình phê duyệt 3 cấp"
+      ],
+      "module": "M-003",
+      "status": "proposed",
+      "related_screens": ["S-124", "S-125"]
+    },
+    {
+      "id": "F-048",
+      "name": "Quản lý bến phao (CRUD)",
+      "description": "CRUD quản lý bến phao với phê duyệt 3 cấp.",
+      "acceptance_criteria": [
+        "Thêm mới với thông tin: mã, tên, địa điểm, hệ quy chiếu, quy tắc hiển thị",
+        "Lưu tạm, gửi phê duyệt"
+      ],
+      "business_rules": [
+        "Phê duyệt 3 cấp"
+      ],
+      "module": "M-003",
+      "status": "proposed",
+      "related_screens": ["S-126", "S-127", "S-128"]
+    },
+    {
+      "id": "F-049",
+      "name": "Phê duyệt bến phao",
+      "description": "Phê duyệt/từ chối thông tin bến phao ở cấp Cảng vụ/Chi cục và Cục.",
+      "acceptance_criteria": [
+        "Xem danh sách chờ duyệt",
+        "Phê duyệt/từ chối với lý do"
+      ],
+      "business_rules": [
+        "Quy trình phê duyệt 3 cấp"
+      ],
+      "module": "M-003",
+      "status": "proposed",
+      "related_screens": ["S-129", "S-130"]
+    },
+    {
+      "id": "F-050",
+      "name": "Quản lý khu tránh trú bão (CRUD)",
+      "description": "CRUD quản lý khu tránh trú bão với phê duyệt 3 cấp.",
+      "acceptance_criteria": [
+        "Thêm mới với thông tin: mã, tên, diện tích, vị trí, sức chứa tối đa",
+        "Lưu tạm, gửi phê duyệt"
+      ],
+      "business_rules": [
+        "Diện tích tối thiểu 1 ha",
+        "Sức chứa tối thiểu theo quy định"
+      ],
+      "module": "M-003",
+      "status": "proposed",
+      "related_screens": ["S-131", "S-132", "S-133"]
+    },
+    {
+      "id": "F-051",
+      "name": "Phê duyệt khu tránh trú bão",
+      "description": "Phê duyệt/từ chối thông tin khu tránh trú bão.",
+      "acceptance_criteria": [
+        "Xem danh sách chờ duyệt",
+        "Phê duyệt/từ chối với lý do"
+      ],
+      "business_rules": [
+        "Quy trình phê duyệt 3 cấp"
+      ],
+      "module": "M-003",
+      "status": "proposed",
+      "related_screens": ["S-134", "S-135"]
+    },
+    {
+      "id": "F-052",
+      "name": "Quản lý khu chuyển tải (CRUD)",
+      "description": "CRUD quản lý khu chuyển tải với phê duyệt 3 cấp.",
+      "acceptance_criteria": [
+        "Thêm mới với thông tin: mã, tên, diện tích, địa điểm",
+        "Lưu tạm, gửi phê duyệt"
+      ],
+      "business_rules": [
+        "Diện tích tối thiểu theo quy định"
+      ],
+      "module": "M-003",
+      "status": "proposed",
+      "related_screens": ["S-136", "S-137", "S-138"]
+    },
+    {
+      "id": "F-053",
+      "name": "Phê duyệt khu chuyển tải",
+      "description": "Phê duyệt/từ chối thông tin khu chuyển tải.",
+      "acceptance_criteria": [
+        "Xem danh sách chờ duyệt",
+        "Phê duyệt/từ chối với lý do"
+      ],
+      "business_rules": [
+        "Quy trình phê duyệt 3 cấp"
+      ],
+      "module": "M-003",
+      "status": "proposed",
+      "related_screens": ["S-139", "S-140"]
+    },
+    {
+      "id": "F-054",
+      "name": "Quản lý khu neo đậu (CRUD)",
+      "description": "CRUD quản lý khu neo đậu với phê duyệt 3 cấp.",
+      "acceptance_criteria": [
+        "Thêm mới với thông tin: mã, tên, sâu nước tối thiểu, diện tích",
+        "Lưu tạm, gửi phê duyệt"
+      ],
+      "business_rules": [
+        "Sâu nước tối thiểu theo quy định hàng hải"
+      ],
+      "module": "M-003",
+      "status": "proposed",
+      "related_screens": ["S-141", "S-142", "S-143"]
+    },
+    {
+      "id": "F-055",
+      "name": "Phê duyệt khu neo đậu",
+      "description": "Phê duyệt/từ chối thông tin khu neo đậu.",
+      "acceptance_criteria": [
+        "Xem danh sách chờ duyệt",
+        "Phê duyệt/từ chối với lý do"
+      ],
+      "business_rules": [
+        "Quy trình phê duyệt 3 cấp"
+      ],
+      "module": "M-003",
+      "status": "proposed",
+      "related_screens": ["S-144", "S-145"]
+    },
+    {
+      "id": "F-056",
+      "name": "Quản lý cơ sở sửa chữa đóng tàu (CRUD)",
+      "description": "CRUD quản lý cơ sở sửa chữa đóng tàu với phê duyệt 3 cấp.",
+      "acceptance_criteria": [
+        "Thêm mới với thông tin: mã, tên, địa điểm, loại công trình, năng lực",
+        "Lưu tạm, gửi phê duyệt"
+      ],
+      "business_rules": [
+        "Cơ sở phải có giấy phép hoạt động",
+        "Phê duyệt 3 cấp"
+      ],
+      "module": "M-003",
+      "status": "proposed",
+      "related_screens": ["S-146", "S-147", "S-148"]
+    },
+    {
+      "id": "F-057",
+      "name": "Phê duyệt cơ sở sửa chữa đóng tàu",
+      "description": "Phê duyệt/từ chối thông tin cơ sở sửa chữa đóng tàu.",
+      "acceptance_criteria": [
+        "Xem danh sách chờ duyệt",
+        "Phê duyệt/từ chối với lý do"
+      ],
+      "business_rules": [
+        "Quy trình phê duyệt 3 cấp"
+      ],
+      "module": "M-003",
+      "status": "proposed",
+      "related_screens": ["S-149", "S-150"]
+    },
+    {
+      "id": "F-058",
+      "name": "Quản lý đèn biển và nhà trạm (CRUD)",
+      "description": "CRUD quản lý đèn biển và nhà trạm với phê duyệt 3 cấp. Bao gồm thêm nút Thêm mới và hiển thị danh sách phao, tiêu tại màn hình chi tiết.",
+      "acceptance_criteria": [
+        "Thêm mới với thông tin: mã, tên, địa điểm, đèn chính, đèn dự phòng, cấp trạm",
+        "Hiển thị danh sách phao, tiêu tại màn hình chi tiết (update v3.0)",
+        "Lưu tạm, gửi phê duyệt"
+      ],
+      "business_rules": [
+        "Đèn biển có đèn chính và đèn dự phòng",
+        "Phê duyệt 3 cấp"
+      ],
+      "module": "M-003",
+      "status": "proposed",
+      "related_screens": ["S-151", "S-152", "S-153"]
+    },
+    {
+      "id": "F-059",
+      "name": "Phê duyệt đèn biển và nhà trạm",
+      "description": "Phê duyệt/từ chối thông tin đèn biển và nhà trạm.",
+      "acceptance_criteria": [
+        "Xem danh sách chờ duyệt",
+        "Phê duyệt/từ chối với lý do"
+      ],
+      "business_rules": [
+        "Quy trình phê duyệt 3 cấp"
+      ],
+      "module": "M-003",
+      "status": "proposed",
+      "related_screens": ["S-154", "S-155"]
+    },
+    {
+      "id": "F-060",
+      "name": "Quản lý phao tiêu và nhà trạm (CRUD)",
+      "description": "CRUD quản lý phao tiêu và nhà trạm quản lý vận hành phao tiêu với phê duyệt 3 cấp.",
+      "acceptance_criteria": [
+        "Thêm mới với thông tin: mã, tên, địa điểm, loại phao, màu sắc, tần số",
+        "Lưu tạm, gửi phê duyệt"
+      ],
+      "business_rules": [
+        "Phê duyệt 3 cấp"
+      ],
+      "module": "M-003",
+      "status": "proposed",
+      "related_screens": ["S-156", "S-157", "S-158"]
+    },
+    {
+      "id": "F-061",
+      "name": "Phê duyệt phao tiêu và nhà trạm",
+      "description": "Phê duyệt/từ chối thông tin phao tiêu và nhà trạm.",
+      "acceptance_criteria": [
+        "Xem danh sách chờ duyệt",
+        "Phê duyệt/từ chối với lý do"
+      ],
+      "business_rules": [
+        "Quy trình phê duyệt 3 cấp"
+      ],
+      "module": "M-003",
+      "status": "proposed",
+      "related_screens": ["S-159", "S-160"]
+    },
+    {
+      "id": "F-062",
+      "name": "Quản lý hệ thống VTS (CRUD)",
+      "description": "CRUD quản lý hệ thống VTS với phê duyệt 3 cấp.",
+      "acceptance_criteria": [
+        "Thêm mới với thông tin: mã, tên, địa điểm, vùng bao phủ, công nghệ",
+        "Lưu tạm, gửi phê duyệt"
+      ],
+      "business_rules": [
+        "Phê duyệt 3 cấp"
+      ],
+      "module": "M-003",
+      "status": "proposed",
+      "related_screens": ["S-161", "S-162", "S-163"]
+    },
+    {
+      "id": "F-063",
+      "name": "Phê duyệt hệ thống VTS",
+      "description": "Phê duyệt/từ chối thông tin hệ thống VTS.",
+      "acceptance_criteria": [
+        "Xem danh sách chờ duyệt",
+        "Phê duyệt/từ chối với lý do"
+      ],
+      "business_rules": [
+        "Quy trình phê duyệt 3 cấp"
+      ],
+      "module": "M-003",
+      "status": "proposed",
+      "related_screens": ["S-164", "S-165"]
+    },
+    {
+      "id": "F-064",
+      "name": "Quản lý trung tâm điều hành VTS (CRUD)",
+      "description": "CRUD quản lý trung tâm điều hành VTS với phê duyệt 3 cấp.",
+      "acceptance_criteria": [
+        "Thêm mới với thông tin: mã, tên, địa điểm, khu vực phụ trách",
+        "Lưu tạm, gửi phê duyệt"
+      ],
+      "business_rules": [
+        "Phê duyệt 3 cấp"
+      ],
+      "module": "M-003",
+      "status": "proposed",
+      "related_screens": ["S-166", "S-167", "S-168"]
+    },
+    {
+      "id": "F-065",
+      "name": "Phê duyệt trung tâm điều hành VTS",
+      "description": "Phê duyệt/từ chối thông tin trung tâm điều hành VTS.",
+      "acceptance_criteria": [
+        "Xem danh sách chờ duyệt",
+        "Phê duyệt/từ chối với lý do"
+      ],
+      "business_rules": [
+        "Quy trình phê duyệt 3 cấp"
+      ],
+      "module": "M-003",
+      "status": "proposed",
+      "related_screens": ["S-169", "S-170"]
+    },
+    {
+      "id": "F-066",
+      "name": "Quản lý trạm radar (CRUD)",
+      "description": "CRUD quản lý trạm radar với phê duyệt 3 cấp.",
+      "acceptance_criteria": [
+        "Thêm mới với thông tin: mã, tên, địa điểm, bán kính, công nghệ",
+        "Lưu tạm, gửi phê duyệt"
+      ],
+      "business_rules": [
+        "Phê duyệt 3 cấp"
+      ],
+      "module": "M-003",
+      "status": "proposed",
+      "related_screens": ["S-171", "S-172", "S-173"]
+    },
+    {
+      "id": "F-067",
+      "name": "Phê duyệt trạm radar",
+      "description": "Phê duyệt/từ chối thông tin trạm radar.",
+      "acceptance_criteria": [
+        "Xem danh sách chờ duyệt",
+        "Phê duyệt/từ chối với lý do"
+      ],
+      "business_rules": [
+        "Quy trình phê duyệt 3 cấp"
+      ],
+      "module": "M-003",
+      "status": "proposed",
+      "related_screens": ["S-174", "S-175"]
+    },
+    {
+      "id": "F-068",
+      "name": "Quản lý hệ thống AIS (CRUD)",
+      "description": "CRUD quản lý hệ thống AIS với phê duyệt 3 cấp.",
+      "acceptance_criteria": [
+        "Thêm mới với thông tin: mã, tên, địa điểm, tần số, công suất",
+        "Lưu tạm, gửi phê duyệt"
+      ],
+      "business_rules": [
+        "Phê duyệt 3 cấp"
+      ],
+      "module": "M-003",
+      "status": "proposed",
+      "related_screens": ["S-176", "S-177", "S-178"]
+    },
+    {
+      "id": "F-069",
+      "name": "Phê duyệt hệ thống AIS",
+      "description": "Phê duyệt/từ chối thông tin hệ thống AIS.",
+      "acceptance_criteria": [
+        "Xem danh sách chờ duyệt",
+        "Phê duyệt/từ chối với lý do"
+      ],
+      "business_rules": [
+        "Quy trình phê duyệt 3 cấp"
+      ],
+      "module": "M-003",
+      "status": "proposed",
+      "related_screens": ["S-179", "S-180"]
+    },
+    {
+      "id": "F-070",
+      "name": "Quản lý hệ thống CCTV (CRUD)",
+      "description": "CRUD quản lý hệ thống CCTV với phê duyệt 3 cấp.",
+      "acceptance_criteria": [
+        "Thêm mới với thông tin: mã, tên, địa điểm, số lượng camera",
+        "Lưu tạm, gửi phê duyệt"
+      ],
+      "business_rules": [
+        "Phê duyệt 3 cấp"
+      ],
+      "module": "M-003",
+      "status": "proposed",
+      "related_screens": ["S-181", "S-182", "S-183"]
+    },
+    {
+      "id": "F-071",
+      "name": "Phê duyệt hệ thống CCTV",
+      "description": "Phê duyệt/từ chối thông tin hệ thống CCTV.",
+      "acceptance_criteria": [
+        "Xem danh sách chờ duyệt",
+        "Phê duyệt/từ chối với lý do"
+      ],
+      "business_rules": [
+        "Quy trình phê duyệt 3 cấp"
+      ],
+      "module": "M-003",
+      "status": "proposed",
+      "related_screens": ["S-184", "S-185"]
+    },
+    {
+      "id": "F-072",
+      "name": "Quản lý hệ thống SCADA (CRUD)",
+      "description": "CRUD quản lý hệ thống SCADA với phê duyệt 3 cấp.",
+      "acceptance_criteria": [
+        "Thêm mới với thông tin: mã, tên, địa điểm, dải tần, công suất",
+        "Lưu tạm, gửi phê duyệt"
+      ],
+      "business_rules": [
+        "Phê duyệt 3 cấp"
+      ],
+      "module": "M-003",
+      "status": "proposed",
+      "related_screens": ["S-186", "S-187", "S-188"]
+    },
+    {
+      "id": "F-073",
+      "name": "Phê duyệt hệ thống SCADA",
+      "description": "Phê duyệt/từ chối thông tin hệ thống SCADA.",
+      "acceptance_criteria": [
+        "Xem danh sách chờ duyệt",
+        "Phê duyệt/từ chối với lý do"
+      ],
+      "business_rules": [
+        "Quy trình phê duyệt 3 cấp"
+      ],
+      "module": "M-003",
+      "status": "proposed",
+      "related_screens": ["S-189", "S-190"]
+    },
+    {
+      "id": "F-074",
+      "name": "Quản lý hệ thống VHF (CRUD)",
+      "description": "CRUD quản lý hệ thống VHF với phê duyệt 3 cấp.",
+      "acceptance_criteria": [
+        "Thêm mới với thông tin: mã, tên, tần số liên lạc, dịch vụ cung cấp, phân loại",
+        "Lưu tạm, gửi phê duyệt"
+      ],
+      "business_rules": [
+        "Phê duyệt 3 cấp"
+      ],
+      "module": "M-003",
+      "status": "proposed",
+      "related_screens": ["S-191", "S-192", "S-193"]
+    },
+    {
+      "id": "F-075",
+      "name": "Phê duyệt hệ thống VHF",
+      "description": "Phê duyệt/từ chối thông tin hệ thống VHF.",
+      "acceptance_criteria": [
+        "Xem danh sách chờ duyệt",
+        "Phê duyệt/từ chối với lý do"
+      ],
+      "business_rules": [
+        "Quy trình phê duyệt 3 cấp"
+      ],
+      "module": "M-003",
+      "status": "proposed",
+      "related_screens": ["S-194", "S-195"]
+    },
+    {
+      "id": "F-076",
+      "name": "Quản lý hệ thống truyền dẫn (CRUD)",
+      "description": "CRUD quản lý hệ thống truyền dẫn với phê duyệt 3 cấp.",
+      "acceptance_criteria": [
+        "Thêm mới với thông tin: mã, tên, địa điểm, công nghệ truyền dẫn",
+        "Lưu tạm, gửi phê duyệt"
+      ],
+      "business_rules": [
+        "Phê duyệt 3 cấp"
+      ],
+      "module": "M-003",
+      "status": "proposed",
+      "related_screens": ["S-196", "S-197", "S-198"]
+    },
+    {
+      "id": "F-077",
+      "name": "Phê duyệt hệ thống truyền dẫn",
+      "description": "Phê duyệt/từ chối thông tin hệ thống truyền dẫn.",
+      "acceptance_criteria": [
+        "Xem danh sách chờ duyệt",
+        "Phê duyệt/từ chối với lý do"
+      ],
+      "business_rules": [
+        "Quy trình phê duyệt 3 cấp"
+      ],
+      "module": "M-003",
+      "status": "proposed",
+      "related_screens": ["S-199", "S-200"]
+    },
+    {
+      "id": "F-078",
+      "name": "Quản lý hệ thống phụ trợ VTS (CRUD)",
+      "description": "CRUD quản lý hệ thống phụ trợ VTS với phê duyệt 3 cấp.",
+      "acceptance_criteria": [
+        "Thêm mới với thông tin: mã, tên, địa điểm, loại phụ trợ",
+        "Lưu tạm, gửi phê duyệt"
+      ],
+      "business_rules": [
+        "Phê duyệt 3 cấp"
+      ],
+      "module": "M-003",
+      "status": "proposed",
+      "related_screens": ["S-201", "S-202", "S-203"]
+    },
+    {
+      "id": "F-079",
+      "name": "Phê duyệt hệ thống phụ trợ VTS",
+      "description": "Phê duyệt/từ chối thông tin hệ thống phụ trợ VTS.",
+      "acceptance_criteria": [
+        "Xem danh sách chờ duyệt",
+        "Phê duyệt/từ chối với lý do"
+      ],
+      "business_rules": [
+        "Quy trình phê duyệt 3 cấp"
+      ],
+      "module": "M-003",
+      "status": "proposed",
+      "related_screens": ["S-204", "S-205"]
+    },
+    {
+      "id": "F-080",
+      "name": "Quản lý đê chắn sóng, kè (CRUD)",
+      "description": "CRUD quản lý đê chắn sóng, đê chắn cát, kè hướng dòng, kè bảo vệ bờ với phê duyệt 3 cấp.",
+      "acceptance_criteria": [
+        "Thêm mới với thông tin: mã, tên, loại, chiều dài, chiều cao, loại kết cấu",
+        "Lưu tạm, gửi phê duyệt"
+      ],
+      "business_rules": [
+        "Có 4 loại: đê chắn sóng, đê chắn cát, kè hướng dòng, kè bảo vệ bờ",
+        "Phê duyệt 3 cấp"
+      ],
+      "module": "M-003",
+      "status": "proposed",
+      "related_screens": ["S-206", "S-207", "S-208"]
+    },
+    {
+      "id": "F-081",
+      "name": "Phê duyệt đê chắn sóng, kè",
+      "description": "Phê duyệt/từ chối thông tin đê chắn sóng, kè.",
+      "acceptance_criteria": [
+        "Xem danh sách chờ duyệt",
+        "Phê duyệt/từ chối với lý do"
+      ],
+      "business_rules": [
+        "Quy trình phê duyệt 3 cấp"
+      ],
+      "module": "M-003",
+      "status": "proposed",
+      "related_screens": ["S-209", "S-210"]
+    },
+    {
+      "id": "F-082",
+      "name": "Quản lý luồng hàng hải (CRUD)",
+      "description": "CRUD quản lý luồng hàng hải với phê duyệt 3 cấp.",
+      "acceptance_criteria": [
+        "Thêm mới với thông tin: mã, tên, cảng biển, sâu nước duy trì, chiều rộng, bán kính cua",
+        "Lưu tạm, gửi phê duyệt"
+      ],
+      "business_rules": [
+        "Phê duyệt 3 cấp"
+      ],
+      "module": "M-003",
+      "status": "proposed",
+      "related_screens": ["S-211", "S-212", "S-213"]
+    },
+    {
+      "id": "F-083",
+      "name": "Phê duyệt luồng hàng hải",
+      "description": "Phê duyệt/từ chối thông tin luồng hàng hải.",
+      "acceptance_criteria": [
+        "Xem danh sách chờ duyệt",
+        "Phê duyệt/từ chối với lý do"
+      ],
+      "business_rules": [
+        "Quy trình phê duyệt 3 cấp"
+      ],
+      "module": "M-003",
+      "status": "proposed",
+      "related_screens": ["S-214", "S-215"]
+    },
+    {
+      "id": "F-084",
+      "name": "Quản lý đài TTDH (CRUD)",
+      "description": "CRUD quản lý đài thông tin duyên hải TTDH với phê duyệt 3 cấp.",
+      "acceptance_criteria": [
+        "Thêm mới với thông tin: mã, tên, tần số, dịch vụ",
+        "Lưu tạm, gửi phê duyệt"
+      ],
+      "business_rules": [
+        "Phê duyệt 3 cấp"
+      ],
+      "module": "M-003",
+      "status": "proposed",
+      "related_screens": ["S-216", "S-217", "S-218"]
+    },
+    {
+      "id": "F-085",
+      "name": "Phê duyệt đài TTDH",
+      "description": "Phê duyệt/từ chối thông tin đài TTDH.",
+      "acceptance_criteria": [
+        "Xem danh sách chờ duyệt",
+        "Phê duyệt/từ chối với lý do"
+      ],
+      "business_rules": [
+        "Quy trình phê duyệt 3 cấp"
+      ],
+      "module": "M-003",
+      "status": "proposed",
+      "related_screens": ["S-219", "S-220"]
+    },
+    {
+      "id": "F-086",
+      "name": "Quản lý đài Inmarsat (CRUD)",
+      "description": "CRUD quản lý đài thông tin vệ tinh Inmarsat Hải Phòng với phê duyệt 3 cấp.",
+      "acceptance_criteria": [
+        "Thêm mới với thông tin: mã, tên, vùng phủ sóng",
+        "Lưu tạm, gửi phê duyệt"
+      ],
+      "business_rules": [
+        "Phê duyệt 3 cấp"
+      ],
+      "module": "M-003",
+      "status": "proposed",
+      "related_screens": ["S-221", "S-222", "S-223"]
+    },
+    {
+      "id": "F-087",
+      "name": "Phê duyệt đài Inmarsat",
+      "description": "Phê duyệt/từ chối thông tin đài Inmarsat.",
+      "acceptance_criteria": [
+        "Xem danh sách chờ duyệt",
+        "Phê duyệt/từ chối với lý do"
+      ],
+      "business_rules": [
+        "Quy trình phê duyệt 3 cấp"
+      ],
+      "module": "M-003",
+      "status": "proposed",
+      "related_screens": ["S-224", "S-225"]
+    },
+    {
+      "id": "F-088",
+      "name": "Quản lý đài Cospas-Sarsat (CRUD)",
+      "description": "CRUD quản lý đài Cospas-Sarsat Việt Nam với phê duyệt 3 cấp.",
+      "acceptance_criteria": [
+        "Thêm mới với thông tin: mã, tên, tần số 406 MHz",
+        "Lưu tạm, gửi phê duyệt"
+      ],
+      "business_rules": [
+        "Phê duyệt 3 cấp"
+      ],
+      "module": "M-003",
+      "status": "proposed",
+      "related_screens": ["S-226", "S-227", "S-228"]
+    },
+    {
+      "id": "F-089",
+      "name": "Phê duyệt đài Cospas-Sarsat",
+      "description": "Phê duyệt/từ chối thông tin đài Cospas-Sarsat.",
+      "acceptance_criteria": [
+        "Xem danh sách chờ duyệt",
+        "Phê duyệt/từ chối với lý do"
+      ],
+      "business_rules": [
+        "Quy trình phê duyệt 3 cấp"
+      ],
+      "module": "M-003",
+      "status": "proposed",
+      "related_screens": ["S-229", "S-230"]
+    },
+    {
+      "id": "F-090",
+      "name": "Quản lý đài LRIT (CRUD)",
+      "description": "CRUD quản lý đài LRIT với phê duyệt 3 cấp.",
+      "acceptance_criteria": [
+        "Thêm mới với thông tin: mã, tên, tần suất gửi vị trí",
+        "Lưu tạm, gửi phê duyệt"
+      ],
+      "business_rules": [
+        "Phê duyệt 3 cấp"
+      ],
+      "module": "M-003",
+      "status": "proposed",
+      "related_screens": ["S-231", "S-232", "S-233"]
+    },
+    {
+      "id": "F-091",
+      "name": "Phê duyệt đài LRIT",
+      "description": "Phê duyệt/từ chối thông tin đài LRIT.",
+      "acceptance_criteria": [
+        "Xem danh sách chờ duyệt",
+        "Phê duyệt/từ chối với lý do"
+      ],
+      "business_rules": [
+        "Quy trình phê duyệt 3 cấp"
+      ],
+      "module": "M-003",
+      "status": "proposed",
+      "related_screens": ["S-234", "S-235"]
+    },
+    {
+      "id": "F-092",
+      "name": "Quản lý đài TTDH Hà Nội (CRUD)",
+      "description": "CRUD quản lý đài trung tâm xử lý thông tin hàng hải Hà Nội với phê duyệt 3 cấp.",
+      "acceptance_criteria": [
+        "Thêm mới với thông tin: mã, tên, vai trò",
+        "Lưu tạm, gửi phê duyệt"
+      ],
+      "business_rules": [
+        "Phê duyệt 3 cấp"
+      ],
+      "module": "M-003",
+      "status": "proposed",
+      "related_screens": ["S-236", "S-237", "S-238"]
+    },
+    {
+      "id": "F-093",
+      "name": "Phê duyệt đài TTDH Hà Nội",
+      "description": "Phê duyệt/từ chối thông tin đài TTDH Hà Nội.",
+      "acceptance_criteria": [
+        "Xem danh sách chờ duyệt",
+        "Phê duyệt/từ chối với lý do"
+      ],
+      "business_rules": [
+        "Quy trình phê duyệt 3 cấp"
+      ],
+      "module": "M-003",
+      "status": "proposed",
+      "related_screens": ["S-239", "S-240"]
+    },
+    {
+      "id": "F-094",
+      "name": "Quản lý cảng cạn (CRUD)",
+      "description": "CRUD quản lý cảng cạn với phê duyệt 3 cấp.",
+      "acceptance_criteria": [
+        "Thêm mới với thông tin: mã, tên, hành lang vận tải, khu vực",
+        "Lưu tạm, gửi phê duyệt"
+      ],
+      "business_rules": [
+        "Phê duyệt 3 cấp"
+      ],
+      "module": "M-003",
+      "status": "proposed",
+      "related_screens": ["S-241", "S-242", "S-243"]
+    },
+    {
+      "id": "F-095",
+      "name": "Quản lý văn bản pháp lý",
+      "description": "Quản lý thông tin văn bản pháp lý (CRUD) - chỉ chuyên viên Cục mới thực hiện.",
+      "acceptance_criteria": [
+        "Thêm mới với thông tin: tiêu đề, số văn bản, ngày ban hành, cơ quan ban hành, nội dung, file đính kèm",
+        "Sửa, xóa văn bản",
+        "Tìm kiếm văn bản"
+      ],
+      "business_rules": [
+        "Chỉ chuyên viên Cục mới được quản lý văn bản pháp lý",
+        "Văn bản phải còn hiệu lực"
+      ],
+      "module": "M-003",
+      "status": "proposed",
+      "related_screens": ["S-244", "S-245", "S-246"]
+    },
+    {
+      "id": "F-096",
+      "name": "Quản lý vận hành khai thác",
+      "description": "Quản lý thông tin vận hành khai thác (theo dõi trạng thái hoạt động của KCHTGTHH) - bảng VH_KT_BT_SC.",
+      "acceptance_criteria": [
+        "Thêm/sửa thông tin vận hành: ngày vận hành, trạng thái",
+        "Ghi nhận trạng thái hoạt động của từng KCHT",
+        "Lọc theo loại KCHT, đơn vị, trạng thái"
+      ],
+      "business_rules": [
+        "Trạng thái vận hành: hoạt động bình thường, ngừng hoạt động, bảo trì",
+        "Chỉ chuyên viên mới thực hiện"
+      ],
+      "module": "M-004",
+      "status": "proposed",
+      "related_screens": ["S-247"]
+    },
+    {
+      "id": "F-097",
+      "name": "Quản lý bảo trì",
+      "description": "Quản lý thông tin bảo trì định kỳ và đột xuất - bảng VH_KT_BT_SC.",
+      "acceptance_criteria": [
+        "Thêm mới bảo trì với loại (định kỳ/đột xuất), ngày bảo trì, mô tả",
+        "Xem danh sách bảo trì theo KCHT",
+        "Cập nhật trạng thái bảo trì"
+      ],
+      "business_rules": [
+        "Loại bảo trì: định kỳ và đột xuất",
+        "Bảo trì định kỳ theo chu kỳ cố định"
+      ],
+      "module": "M-004",
+      "status": "proposed",
+      "related_screens": ["S-248"]
+    },
+    {
+      "id": "F-098",
+      "name": "Quản lý sự cố",
+      "description": "Quản lý thông tin sự cố, ghi nhận và xử lý sự cố - bảng VH_KT_BT_SC.",
+      "acceptance_criteria": [
+        "Ghi nhận sự cố: ngày sự cố, mô tả, trạng thái",
+        "Cập nhật trạng thái xử lý sự cố",
+        "Xem lịch sử sự cố theo KCHT"
+      ],
+      "business_rules": [
+        "Trạng thái sự cố: mới ghi nhận, đang xử lý, đã khắc phục",
+        "Sự cố nghiêm trọng cần báo cáo lên cấp trên"
+      ],
+      "module": "M-004",
+      "status": "proposed",
+      "related_screens": ["S-249"]
+    },
+    {
+      "id": "F-099",
+      "name": "Quản lý quy hoạch bến cảng",
+      "description": "Quản lý danh sách thông tin quy hoạch bến cảng hàng hải theo quyết định quy hoạch.",
+      "acceptance_criteria": [
+        "Thêm mới quy hoạch: số quyết định, ngày, mục tiêu, dự báo dân năm, nội dung",
+        "Danh mục hàng hóa thông qua cảng (JSON)",
+        "Kế hoạch chi tiết (JSON)",
+        "File đính kèm"
+      ],
+      "business_rules": [
+        "Quy hoạch gắn với 1 cảng biển",
+        "Mỗi quyết định có thể bao gồm nhiều bến/cầu cảng"
+      ],
+      "module": "M-005",
+      "status": "proposed",
+      "related_screens": ["S-250"]
+    },
+    {
+      "id": "F-100",
+      "name": "Tra cứu quy hoạch bến cảng",
+      "description": "Tra cứu thông tin quy hoạch bến cảng hàng hải.",
+      "acceptance_criteria": [
+        "Tìm kiếm theo số quyết định, cảng biển",
+        "Xem chi tiết quy hoạch",
+        "Hiển thị trên bản đồ số"
+      ],
+      "business_rules": [
+        "Chỉ xem được, không chỉnh sửa"
+      ],
+      "module": "M-005",
+      "status": "proposed",
+      "related_screens": ["S-251"]
+    },
+    {
+      "id": "F-101",
+      "name": "Cập nhật quy hoạch bến cảng",
+      "description": "Cập nhật quy hoạch bến cảng với các chỉ tiêu: mục tiêu, dự báo, nội dung, nhu cầu đất/mặt nước, vốn đầu tư, kế hoạch chi tiết.",
+      "acceptance_criteria": [
+        "Cập nhật tất cả các chỉ tiêu quy hoạch",
+        "Lưu thay đổi",
+        "Hiển thị trên bản đồ số"
+      ],
+      "business_rules": [
+        "Chỉ lãnh đạo chuyên môn mới được cập nhật",
+        "Thay đổi quy hoạch cần phê duyệt"
+      ],
+      "module": "M-005",
+      "status": "proposed",
+      "related_screens": ["S-252"]
+    },
+    {
+      "id": "F-102",
+      "name": "Quản lý tài sản - CRUD",
+      "description": "Quản lý tài sản cho 27+ loại KCHT: xem/thêm/sửa/xóa tài sản, phê duyệt, đính kèm tài liệu, lưu tạm, lịch sử hình thành, bảng TS_QL.",
+      "acceptance_criteria": [
+        "Thêm mới tài sản với thông tin đầy đủ",
+        "Sửa, xóa tài sản",
+        "Đính kèm tài liệu",
+        "Lưu tạm (nháp)",
+        "Xem lịch sử hình thành tài sản"
+      ],
+      "business_rules": [
+        "Mỗi loại KCHT có bảng tài sản riêng (TS_QL_KK, TS_QL_SL_CB, TS_QL_TG_NG, TS_QL_DN_XL_KCHT)",
+        "Phê duyệt tài sản theo quy trình 3 cấp",
+        "Vòng đời tài sản: giao quản lý → khai thác → bảo trì → xử lý"
+      ],
+      "module": "M-006",
+      "status": "proposed",
+      "related_screens": ["S-253", "S-254", "S-255", "S-256"]
+    },
+    {
+      "id": "F-103",
+      "name": "Phê duyệt tài sản",
+      "description": "Phê duyệt thông tin tài sản cho 27+ loại KCHT ở cấp Cảng vụ/Chi cục và Cục.",
+      "acceptance_criteria": [
+        "Xem danh sách tài sản chờ duyệt",
+        "Phê duyệt/từ chối với lý do",
+        "Cấp Cảng vụ → Cấp Cục"
+      ],
+      "business_rules": [
+        "Chỉ lãnh đạo có quyền phê duyệt",
+        "Lý do từ chối bắt buộc"
+      ],
+      "module": "M-006",
+      "status": "proposed",
+      "related_screens": ["S-257", "S-258"]
+    },
+    {
+      "id": "F-104",
+      "name": "Đề nghị xử lý tài sản",
+      "description": "Quản lý đề nghị xử lý tài sản KCHTGTHH.",
+      "acceptance_criteria": [
+        "Tạo đề nghị xử lý: bán, nhượng, thanh lý, hủy",
+        "Phê duyệt đề nghị xử lý",
+        "Xem lịch sử xử lý"
+      ],
+      "business_rules": [
+        "Đề nghị xử lý phải có lý do và chứng từ đi kèm",
+        "Quy trình phê duyệt đề nghị xử lý riêng"
+      ],
+      "module": "M-006",
+      "status": "proposed",
+      "related_screens": ["S-259", "S-260"]
+    },
+    {
+      "id": "F-105",
+      "name": "Kiểm kê tài sản",
+      "description": "Kiểm kê tài sản kết cấu hạ tầng.",
+      "acceptance_criteria": [
+        "Tạo phiếu kiểm kê theo loại KCHT",
+        "Nhập kết quả kiểm kê thực tế",
+        "So sánh với sổ sách",
+        "Xuất báo cáo kiểm kê"
+      ],
+      "business_rules": [
+        "Phòng Tài chính tham gia kiểm kê",
+        "Kiểm kê định kỳ hàng năm"
+      ],
+      "module": "M-006",
+      "status": "proposed",
+      "related_screens": ["S-261"]
+    },
+    {
+      "id": "F-106",
+      "name": "Quản lý sản lượng cảng biển",
+      "description": "Quản lý sản lượng cảng biển với phê duyệt.",
+      "acceptance_criteria": [
+        "Nhập sản lượng: hàng hóa (xuất/nhập), hành khách",
+        "Phê duyệt sản lượng",
+        "Xem báo cáo sản lượng theo tháng/năm"
+      ],
+      "business_rules": [
+        "Sản lượng theo tháng và năm",
+        "Phê duyệt theo quy trình 3 cấp"
+      ],
+      "module": "M-006",
+      "status": "proposed",
+      "related_screens": ["S-262", "S-263"]
+    },
+    {
+      "id": "F-107",
+      "name": "Quản lý danh mục đối tượng điểm GIS",
+      "description": "Quản lý danh mục đối tượng điểm trên bản đồ GIS (KCHT_GIS_DOI_TUONG).",
+      "acceptance_criteria": [
+        "Thêm/sửa/xóa danh mục đối tượng điểm",
+        "Phân loại theo nhóm đối tượng KCHT",
+        "Liên kết với biểu tượng bản đồ"
+      ],
+      "business_rules": [
+        "Danh mục phải tồn tại trước khi gán cho đối tượng GIS"
+      ],
+      "module": "M-007",
+      "status": "proposed",
+      "related_screens": ["S-264"]
+    },
+    {
+      "id": "F-108",
+      "name": "Quản lý danh mục đối tượng đường GIS",
+      "description": "Quản lý danh mục đối tượng đường trên bản đồ GIS.",
+      "acceptance_criteria": [
+        "Thêm/sửa/xóa danh mục đối tượng đường",
+        "Phân loại theo nhóm (luồng hàng hải, hành lang vận tải)"
+      ],
+      "business_rules": [
+        "Danh mục phải tồn tại trước khi gán"
+      ],
+      "module": "M-007",
+      "status": "proposed",
+      "related_screens": ["S-265"]
+    },
+    {
+      "id": "F-109",
+      "name": "Quản lý danh mục đối tượng vùng GIS",
+      "description": "Quản lý danh mục đối tượng vùng trên bản đồ GIS.",
+      "acceptance_criteria": [
+        "Thêm/sửa/xóa danh mục đối tượng vùng",
+        "Phân loại theo nhóm (khu tránh trú bão, khu neo đậu)"
+      ],
+      "business_rules": [
+        "Danh mục phải tồn tại trước khi gán"
+      ],
+      "module": "M-007",
+      "status": "proposed",
+      "related_screens": ["S-266"]
+    },
+    {
+      "id": "F-110",
+      "name": "Hiển thị KCHTGTHH trên bản đồ GIS",
+      "description": "Hiển thị thông tin KCHTGTHH trên bản đồ tích hợp GeoServer (WMS/WFS).",
+      "acceptance_criteria": [
+        "Hiển thị các đối tượng KCHT trên bản đồ Leaflet",
+        "Click vào đối tượng → hiển thị popup thông tin chi tiết",
+        "Lọc theo loại đối tượng",
+        "Zoom, pan bản đồ",
+        "Hiển thị 49 mảnh hải đồ điện tử"
+      ],
+      "business_rules": [
+        "Dữ liệu bản đồ từ PostGIS qua GeoServer",
+        "WMS cho hiển thị ảnh, WFS cho dữ liệu vector",
+        "Hệ quy chiếu VN-2000"
+      ],
+      "module": "M-007",
+      "status": "proposed",
+      "related_screens": ["S-267"]
+    },
+    {
+      "id": "F-111",
+      "name": "Tra cứu trên bản đồ GIS",
+      "description": "Tra cứu thông tin KCHTGTHH trên bản đồ với công cụ tìm kiếm.",
+      "acceptance_criteria": [
+        "Tìm kiếm theo tên/mã KCHT trên bản đồ",
+        "Hiển thị kết quả tìm kiếm với danh sách + vị trí trên bản đồ",
+        "Xem chi tiết từ kết quả"
+      ],
+      "business_rules": [
+        "Tra cứu cho tất cả người dùng đã đăng nhập"
+      ],
+      "module": "M-007",
+      "status": "proposed",
+      "related_screens": ["S-268"]
+    },
+    {
+      "id": "F-112",
+      "name": "Báo cáo thống kê chung",
+      "description": "Báo cáo tăng giảm tài sản, mẫu B03/CCTT, mẫu 02-06.",
+      "acceptance_criteria": [
+        "Hiển thị báo cáo tăng giảm tài sản theo kỳ",
+        "Xuất mẫu B03/CCTT",
+        "Xuất mẫu 02-06",
+        "Kết xuất Excel"
+      ],
+      "business_rules": [
+        "Báo cáo theo kỳ (tháng/quý/năm)",
+        "Phân loại theo đơn vị quản lý"
+      ],
+      "module": "M-008",
+      "status": "proposed",
+      "related_screens": ["S-269"]
+    },
+    {
+      "id": "F-113",
+      "name": "Báo cáo chỉ tiêu KCHT (Biểu 01-10)",
+      "description": "Nhóm báo cáo chỉ tiêu kết cấu hạ tầng: năng lực thông qua, thống kê cầu cảng, luồng hàng hải, VTS, đài thông tin, đê kè.",
+      "acceptance_criteria": [
+        "Biểu 01: Năng lực thông qua cảng",
+        "Biểu 02-10: Thống kê chi tiết từng loại KCHT",
+        "Kết xuất Excel"
+      ],
+      "business_rules": [
+        "Chỉ tiêu theo kỳ báo cáo",
+        "Tổng hợp theo vùng miền"
+      ],
+      "module": "M-008",
+      "status": "proposed",
+      "related_screens": ["S-270"]
+    },
+    {
+      "id": "F-114",
+      "name": "Báo cáo chỉ tiêu đo lường (Biểu 11-17)",
+      "description": "Nhóm báo cáo chỉ tiêu đo lường: tàu biển, hàng hóa, hành khách thông qua.",
+      "acceptance_criteria": [
+        "Biểu 11-17: số lượng tàu biển, hàng hóa, hành khách",
+        "Kết xuất Excel"
+      ],
+      "business_rules": [
+        "Chỉ tiêu đo lường theo tháng/năm"
+      ],
+      "module": "M-008",
+      "status": "proposed",
+      "related_screens": ["S-271"]
+    },
+    {
+      "id": "F-115",
+      "name": "Báo cáo phương tiện và thuyền viên (Biểu 21-23)",
+      "description": "Nhóm báo cáo: thuyền viên, hoa tiêu, tàu biển, tàu lai dắt.",
+      "acceptance_criteria": [
+        "Biểu 21-23: số lượng thuyền viên, hoa tiêu, tàu biển",
+        "Kết xuất Excel"
+      ],
+      "business_rules": [
+        "Tổng hợp theo đơn vị quản lý"
+      ],
+      "module": "M-008",
+      "status": "proposed",
+      "related_screens": ["S-272"]
+    },
+    {
+      "id": "F-116",
+      "name": "Báo cáo doanh nghiệp (Biểu 31, 45)",
+      "description": "Báo cáo: cơ sở đóng mới, tổng hợp hàng hóa.",
+      "acceptance_criteria": [
+        "Biểu 31, 45: thông tin doanh nghiệp",
+        "Kết xuất Excel"
+      ],
+      "business_rules": [
+        "Phân loại theo loại hình doanh nghiệp"
+      ],
+      "module": "M-008",
+      "status": "proposed",
+      "related_screens": ["S-273"]
+    },
+    {
+      "id": "F-117",
+      "name": "Báo cáo thông tư 48 (Biểu 06, 07, 28, 29, 33)",
+      "description": "Báo cáo theo thông tư 48/2017/TT-BGTVT.",
+      "acceptance_criteria": [
+        "Biểu 06, 07, 28, 29, 33 theo đúng mẫu",
+        "Kết xuất Excel"
+      ],
+      "business_rules": [
+        "Tuân thủ đúng mẫu quy định"
+      ],
+      "module": "M-008",
+      "status": "proposed",
+      "related_screens": ["S-274"]
+    },
+    {
+      "id": "F-118",
+      "name": "Báo cáo chuyên ngành bảo đảm (Biểu tổng hợp)",
+      "description": "Nhóm báo cáo tổng hợp: thông tin chung, KCHT, bảo trì KCHT.",
+      "acceptance_criteria": [
+        "Biểu tổng hợp thông tin chung",
+        "Biểu tổng hợp KCHT",
+        "Biểu tổng hợp bảo trì KCHT",
+        "Kết xuất Excel"
+      ],
+      "business_rules": [
+        "Dữ liệu tự động lấy từ các bảng nghiệp vụ"
+      ],
+      "module": "M-008",
+      "status": "proposed",
+      "related_screens": ["S-275"]
+    },
+    {
+      "id": "F-119",
+      "name": "Chia sẻ dữ liệu KCHT qua trục LGSP",
+      "description": "Chia sẻ dữ liệu cho 36+ loại KCHT với CSDL dùng chung cấp Bộ qua trục LGSP (MSG_INBOX, MSG_OUTBOX, COM_SYNC).",
+      "acceptance_criteria": [
+        "Dữ liệu KCHT đã phê duyệt tự động gửi qua LGSP",
+        "Xem trạng thái đồng bộ (COM_SYNC)",
+        "Xem inbox/outbox tin nhắn LGSP",
+        "Test kết nối chia sẻ"
+      ],
+      "business_rules": [
+        "Chỉ dữ liệu đã phê duyệt mới được chia sẻ",
+        "JSON format qua HTTPS",
+        "Chứng thực số theo quy định Bộ GTVT/VPCP",
+        "3 req action: Tạo lập/Sửa đổi/Xóa hiệu lực"
+      ],
+      "module": "M-009",
+      "status": "proposed",
+      "related_screens": ["S-276", "S-277"]
+    },
+    {
+      "id": "F-120",
+      "name": "Tích hợp dữ liệu bên ngoài",
+      "description": "Tích hợp dữ liệu từ hệ thống bên ngoài: VMSN, VMSS, VISHIPEL, doanh nghiệp cảng qua API HTTPS, hệ thống đăng ký tàu biển, quản lý thuyền viên.",
+      "acceptance_criteria": [
+        "Nhận dữ liệu từ VMSN/VMSS qua VPN Site-to-Site",
+        "Nhận dữ liệu từ VISHIPEL qua API",
+        "Doanh nghiệp cảng cấp tài khoản phân quyền",
+        "Đồng bộ dữ liệu tàu biển, thuyền viên, hàng hóa, sản lượng"
+      ],
+      "business_rules": [
+        "Kết nối qua HTTPS với chứng thực số",
+        "VPN Site-to-Site cho kết nối bên ngoài",
+        "Dữ liệu nhận về lưu tạm, cần kiểm tra chất lượng"
+      ],
+      "module": "M-009",
+      "status": "proposed",
+      "related_screens": ["S-278"]
+    },
+    {
+      "id": "F-121",
+      "name": "Tích hợp hải đồ điện tử",
+      "description": "Tích hợp 49 mảnh hải đồ điện tử (định dạng .000) vào PostGIS sử dụng GDAL/OGR, tổ chức layers trên GeoServer.",
+      "acceptance_criteria": [
+        "Mỗi mảnh hải đồ là 1 PostGIS schema riêng",
+        "Tạo view chung từ các schema riêng",
+        "Layers trên GeoServer (WMS/WFS/WMTS)",
+        "Tile caching",
+        "SLD style cho hiển thị"
+      ],
+      "business_rules": [
+        "49 mảnh từ V24CD001.000 đến VN4HP007.000",
+        "GDAL/OGR chuyển đổi từ .000 → PostGIS",
+        "Hệ quy chiếu VN-2000"
+      ],
+      "module": "M-010",
+      "status": "proposed",
+      "related_screens": ["S-267", "S-279"]
+    },
+    {
+      "id": "F-122",
+      "name": "Tạo lập CSDL từ dữ liệu có cấu trúc",
+      "description": "Tạo lập CSDL kết cấu hạ tầng từ 18 đơn vị cung cấp: quy trình có cấu trúc (Excel → TEMP_TAO_LAP_CSDL → chuẩn hóa → đồng bộ).",
+      "acceptance_criteria": [
+        "Nhập liệu từ Excel template",
+        "Kiểm tra chất lượng dữ liệu",
+        "Chuẩn hóa dữ liệu vào TEMP_TAO_LAP_CSDL",
+        "Đồng bộ vào bảng chính",
+        "Thông báo bản ghi trùng → hợp nhất"
+      ],
+      "business_rules": [
+        "653 bản ghi trùng cần hợp nhất",
+        "4.503 bản ghi có cấu trúc từ 18 đơn vị",
+        "Quy trình có cấu trúc trước, quét hồ sơ sau"
+      ],
+      "module": "M-010",
+      "status": "proposed",
+      "related_screens": ["S-280"]
+    },
+    {
+      "id": "F-123",
+      "name": "Quét hồ sơ và upload CSDL",
+      "description": "Quét và số hóa 1.121 trang hồ sơ từ 16 loại hồ sơ khác nhau (PDF 300dpi), upload vào CSDL QLHS → MinIO storage.",
+      "acceptance_criteria": [
+        "Scan hồ sơ PDF 300dpi",
+        "Điền metadata: loại hồ sơ, số quyết định, ngày",
+        "Upload lên MinIO storage",
+        "Liên kết với bảng QLHS"
+      ],
+      "business_rules": [
+        "16 loại hồ sơ: công bố mở cảng, bến, cầu, luồng, vùng nước, vùng đón trả hoa tiêu...",
+        "File lưu tại MinIO với path pattern {TABLE}/{ID}/{OBJ_CODE}/{SEQ}/{FILENAME}"
+      ],
+      "module": "M-010",
+      "status": "proposed",
+      "related_screens": ["S-281"]
+    }
+  ]
+}

@@ -1,0 +1,2252 @@
+{
+  "screens": [
+    {
+      "id": "S-001",
+      "name": "Màn hình Đăng nhập",
+      "description": "Màn hình đăng nhập hệ thống MTIS. Người dùng nhập email, mật khẩu và mã captcha để đăng nhập.",
+      "route": "/auth/login",
+      "components": ["Textbox (email)", "Textbox (mật khẩu với icon mắt)", "Textbox (captcha)", "Image (captcha)", "Button (Đăng nhập)", "Link (Quên mật khẩu)", "Link (Đăng ký)", "Popup thông tin"],
+      "interactions": ["User clicks Đăng nhập → xác thực, kiểm tra block thời gian", "User clicks Quên mật khẩu → chuyển sang màn hình quên mật khẩu", "User clicks Đăng ký → chuyển sang màn hình đăng ký", "User clicks icon mắt → hiện/ẩn mật khẩu", "Sai mật khẩu ≥5 lần → block 5 phút, hiển thị thông báo", "Đăng nhập thành công → chuyển đến trang chủ"]
+    },
+    {
+      "id": "S-002",
+      "name": "Màn hình Đăng xuất",
+      "description": "Xử lý đăng xuất: xóa session, lưu log, chuyển về màn hình đăng nhập.",
+      "route": null,
+      "components": ["Button (Đăng xuất)", "Popup xác nhận"],
+      "interactions": ["User clicks Đăng xuất → xác nhận, lưu log, hủy session, quay về đăng nhập"]
+    },
+    {
+      "id": "S-003",
+      "name": "Màn hình Đăng ký tài khoản",
+      "description": "Form đăng ký tài khoản người dùng mới với đầy đủ thông tin cá nhân và đơn vị.",
+      "route": "/auth/register",
+      "components": ["Combobox (đơn vị)", "Textbox (email)", "Textbox (họ và tên)", "Textbox (số điện thoại)", "Textbox (mã công chức)", "Combobox (phòng ban)", "Combobox (chức vụ)", "Textarea (địa chỉ)", "Textbox (mật khẩu)", "Textbox (nhập lại mật khẩu)", "Textbox (captcha)", "Button (Đăng ký)"],
+      "interactions": ["User chọn đơn vị từ combobox", "User nhập đầy đủ thông tin → validate → gửi đăng ký", "Email tồn tại → hiển thị lỗi", "Đăng ký thành công → thông báo chờ phê duyệt"]
+    },
+    {
+      "id": "S-004",
+      "name": "Màn hình Quên mật khẩu",
+      "description": "Người dùng nhập email để nhận link đặt lại mật khẩu.",
+      "route": "/auth/forgot-password",
+      "components": ["Textbox (email)", "Textbox (captcha)", "Button (Gửi yêu cầu)"],
+      "interactions": ["User nhập email và captcha → gửi link đặt lại mật khẩu", "Link được gửi qua email → mở popup Đặt lại mật khẩu"]
+    },
+    {
+      "id": "S-005",
+      "name": "Màn hình Đổi mật khẩu",
+      "description": "Form đổi mật khẩu cho người dùng đã đăng nhập. Nhập mật khẩu cũ, mật khẩu mới và xác nhận với OTP.",
+      "route": "/auth/change-password",
+      "components": ["Textbox (mật khẩu cũ)", "Textbox (mật khẩu mới)", "Textbox (xác nhận mật khẩu)", "Textbox (mã OTP)", "Button (Đổi mật khẩu)"],
+      "interactions": ["User nhập mật khẩu cũ → validate", "User nhập mật khẩu mới và xác nhận → khớp → gửi OTP", "User nhập OTP → đổi mật khẩu thành công → quay lại màn hình đang nhập"]
+    },
+    {
+      "id": "S-006",
+      "name": "Popup Đặt lại mật khẩu",
+      "description": "Popup đặt lại mật khẩu từ link email quên mật khẩu.",
+      "route": null,
+      "components": ["Display (email)", "Textbox (mật khẩu mới)", "Textbox (nhập lại mật khẩu mới)", "Button (Đặt lại)"],
+      "interactions": ["User nhập mật khẩu mới và xác nhận → thành công → chuyển về màn hình đăng nhập"]
+    },
+    {
+      "id": "S-007",
+      "name": "Popup Thông tin cá nhân",
+      "description": "Hiển thị thông tin cá nhân của người dùng đã đăng nhập.",
+      "route": "/auth/profile",
+      "components": ["Display (họ tên)", "Display (email)", "Display (số điện thoại)", "Display (đơn vị)", "Display (chức vụ)", "Textbox (địa chỉ)", "Button (Chỉnh sửa)"],
+      "interactions": ["User xem thông tin cá nhân", "User clicks Chỉnh sửa → sửa một số trường nhất định"]
+    },
+    {
+      "id": "S-008",
+      "name": "Màn hình Tìm kiếm nhóm người dùng",
+      "description": "Màn hình tìm kiếm nhóm người dùng với các tiêu chí: mã ứng dụng, đơn vị, mã nhóm, tên nhóm, trạng thái.",
+      "route": "/admin/groups",
+      "components": ["Combobox (mã ứng dụng)", "Combobox (đơn vị)", "Textbox (mã nhóm)", "Textbox (tên nhóm)", "Combobox (trạng thái)", "Button (Tìm kiếm)", "Button (Xóa tìm kiếm)", "Button (Nâng cao)", "Button (Thu gọn)", "Table (kết quả tìm kiếm)", "Button (Thêm mới)", "Button (Sửa)", "Button (Xem chi tiết)", "Button (Phân quyền)", "Button (Khóa/Mở khóa)"],
+      "interactions": ["User nhập điều kiện tìm kiếm → hệ thống hiển thị kết quả", "Không có dữ liệu → thông báo", "User clicks Thêm mới → mở form thêm nhóm", "User clicks Phân quyền → mở màn hình phân quyền nhóm", "User clicks Khóa/Mở khóa → xác nhận, cập nhật trạng thái"]
+    },
+    {
+      "id": "S-009",
+      "name": "Màn hình Thêm mới nhóm người dùng",
+      "description": "Form thêm mới nhóm người dùng với thông tin: mã ứng dụng, đơn vị, mã nhóm, tên nhóm, trạng thái, mô tả.",
+      "route": "/admin/groups/create",
+      "components": ["Combobox (mã ứng dụng)", "Combobox (đơn vị)", "Textbox (mã nhóm)", "Textarea (tên nhóm)", "Combobox (trạng thái)", "Textarea (mô tả)", "Button (Lưu)", "Button (Quay lại)"],
+      "interactions": ["User điền đầy đủ thông tin → Lưu → thông báo thêm mới thành công", "User clicks Quay lại → trở về màn hình tìm kiếm"]
+    },
+    {
+      "id": "S-010",
+      "name": "Màn hình Sửa nhóm người dùng",
+      "description": "Form sửa thông tin nhóm người dùng đã tồn tại.",
+      "route": "/admin/groups/edit",
+      "components": ["Textbox (mã ứng dụng - readonly)", "Textbox (đơn vị - readonly)", "Textbox (mã nhóm - readonly)", "Textarea (tên nhóm)", "Combobox (trạng thái)", "Textarea (mô tả)", "Button (Lưu)", "Button (Quay lại)"],
+      "interactions": ["User sửa thông tin → Lưu → thông báo cập nhật thành công", "User clicks Quay lại → trở về màn hình tìm kiếm"]
+    },
+    {
+      "id": "S-011",
+      "name": "Màn hình Xem chi tiết nhóm người dùng",
+      "description": "Hiển thị thông tin chi tiết nhóm người dùng và cán bộ cập nhật.",
+      "route": "/admin/groups/detail",
+      "components": ["Display (mã ứng dụng)", "Display (đơn vị)", "Display (mã nhóm)", "Display (tên nhóm)", "Display (trạng thái)", "Display (mô tả)", "Display (ngày cập nhật)", "Display (cán bộ cập nhật)", "Button (Đóng)"],
+      "interactions": ["User xem thông tin chi tiết", "User clicks Đóng → trở về màn hình tìm kiếm"]
+    },
+    {
+      "id": "S-012",
+      "name": "Màn hình Phân quyền nhóm người dùng",
+      "description": "Phân quyền chức năng cho nhóm người dùng qua checkbox với tìm kiếm tên chức năng.",
+      "route": "/admin/groups/permissions",
+      "components": ["Display (mã ứng dụng)", "Display (mã nhóm)", "Display (cấp đơn vị được sử dụng)", "Textbox (tìm tên chức năng)", "Table (danh sách chức năng với checkbox)", "Button (Lưu phân quyền)"],
+      "interactions": ["User tìm tên chức năng → lọc danh sách", "User tích/bỏ tích checkbox để phân quyền", "User clicks Lưu phân quyền → cập nhật AUTH_GROUP_PERMISSION"]
+    },
+    {
+      "id": "S-013",
+      "name": "Màn hình Thêm người dùng vào nhóm",
+      "description": "Chọn người dùng chưa vào nhóm để thêm vào nhóm hiện tại.",
+      "route": "/admin/groups/add-users",
+      "components": ["Display (đơn vị)", "Textbox (tìm kiếm cán bộ)", "Table (danh sách cán bộ chưa vào nhóm với checkbox)", "Button (Thêm vào nhóm)"],
+      "interactions": ["User tìm kiếm cán bộ", "User tích checkbox chọn cán bộ → thêm vào nhóm", "Thông báo thêm thành công"]
+    },
+    {
+      "id": "S-014",
+      "name": "Màn hình Tìm kiếm đơn vị",
+      "description": "Màn hình tìm kiếm đơn vị tổ chức với sắp xếp alphabet mặc định theo tên đơn vị.",
+      "route": "/admin/organizations",
+      "components": ["Textbox (mã đơn vị)", "Textbox (tên đơn vị)", "Combobox (trạng thái)", "Button (Tìm kiếm)", "Button (Xóa tìm kiếm)", "Button (Nâng cao)", "Button (Thu gọn)", "Button (Thêm mới)", "Table (kết quả với sorting)", "Button (Sửa)", "Button (Xem chi tiết)", "Button (Xóa)"],
+      "interactions": ["Page_Load → hiển thị danh sách sắp xếp alphabet theo tên đơn vị", "User nhập điều kiện → Tìm kiếm → hiển thị kết quả", "Không có dữ liệu → thông báo", "User clicks Sorting trên Mã/Tên đơn vị → sắp xếp alphabet", "User clicks Xóa tìm kiếm → reset về giá trị mặc định", "User clicks Nâng cao → mở rộng điều kiện tìm kiếm", "User clicks Thu gọn → rút gọn điều kiện"]
+    },
+    {
+      "id": "S-015",
+      "name": "Màn hình Thêm mới đơn vị",
+      "description": "Form thêm mới đơn vị tổ chức với phân cấp 3 mức.",
+      "route": "/admin/organizations/create",
+      "components": ["Textbox (mã cấp 1)", "Textbox (mã cấp 2)", "Textbox (mã cấp 3)", "Display (đơn vị)", "Textarea (tên đơn vị)", "Combobox (cấp đơn vị)", "Combobox (địa điểm)", "Textarea (địa điểm chi tiết)", "Textbox (số điện thoại)", "Combobox (trạng thái)", "Textarea (ghi chú)", "Button (Lưu)", "Button (Quay lại)"],
+      "interactions": ["User điền thông tin → Lưu → thông báo thêm mới thành công", "User clicks Quay lại → trở về màn hình tìm kiếm"]
+    },
+    {
+      "id": "S-016",
+      "name": "Màn hình Sửa đơn vị",
+      "description": "Form sửa thông tin đơn vị tổ chức.",
+      "route": "/admin/organizations/edit",
+      "components": ["Display (mã cấp 1)", "Display (mã cấp 2)", "Display (mã cấp 3)", "Display (mã đơn vị)", "Textarea (tên đơn vị)", "Combobox (cấp đơn vị)", "Combobox (địa điểm)", "Textarea (địa điểm chi tiết)", "Textbox (số điện thoại)", "Combobox (trạng thái)", "Textarea (ghi chú)", "Button (Lưu)", "Button (Quay lại)"],
+      "interactions": ["User sửa thông tin → Lưu → thông báo cập nhật thành công", "User clicks Quay lại → trở về màn hình tìm kiếm"]
+    },
+    {
+      "id": "S-017",
+      "name": "Màn hình Xem chi tiết đơn vị",
+      "description": "Hiển thị thông tin chi tiết đơn vị tổ chức và thông tin cập nhật.",
+      "route": "/admin/organizations/detail",
+      "components": ["Display (mã cấp 1)", "Display (mã cấp 2)", "Display (mã cấp 3)", "Display (mã đơn vị)", "Display (tên đơn vị)", "Display (cấp đơn vị)", "Display (địa điểm)", "Display (địa điểm chi tiết)", "Display (số điện thoại)", "Display (trạng thái)", "Display (ghi chú)", "Display (cán bộ cập nhật)", "Display (ngày cập nhật)", "Button (Đóng)"],
+      "interactions": ["User xem thông tin chi tiết", "User clicks Đóng → trở về màn hình tìm kiếm"]
+    },
+    {
+      "id": "S-018",
+      "name": "Màn hình Tìm kiếm tài khoản admin",
+      "description": "Tìm kiếm tài khoản admin với các tiêu chí: email, họ tên, đơn vị, trạng thái.",
+      "route": "/admin/admin-accounts",
+      "components": ["Textbox (email)", "Textbox (họ và tên)", "Combobox (đơn vị)", "Combobox (trạng thái)", "Button (Tìm kiếm)", "Button (Xóa tìm kiếm)", "Button (Nâng cao)", "Button (Thu gọn)", "Button (Thêm mới)", "Table (kết quả)", "Button (Sửa)", "Button (Xem chi tiết)", "Button (Phân quyền)", "Button (Phê duyệt cấp tài khoản)", "Button (Khóa/Mở tài khoản)"],
+      "interactions": ["User nhập điều kiện → Tìm kiếm → hiển thị kết quả", "User clicks Thêm mới → form thêm admin", "User clicks Phân quyền → form phân quyền chức năng", "User clicks Phê duyệt cấp tài khoản → form phê duyệt", "User clicks Khóa/Mở → xác nhận, cập nhật trạng thái"]
+    },
+    {
+      "id": "S-019",
+      "name": "Màn hình Thêm mới tài khoản admin",
+      "description": "Form tạo tài khoản admin mới với thông tin đầy đủ.",
+      "route": "/admin/admin-accounts/create",
+      "components": ["Combobox (đơn vị)", "Display (email)", "Textbox (họ và tên)", "Textbox (số điện thoại)", "Textarea (địa chỉ)", "Textbox (mã công chức)", "Combobox (phòng ban)", "Combobox (chức vụ)", "Combobox (trạng thái)", "Textarea (ghi chú)", "Button (Lưu)", "Button (Quay lại)"],
+      "interactions": ["User điền thông tin → Lưu → tạo tài khoản admin chờ phê duyệt", "User clicks Quay lại → trở về màn hình tìm kiếm"]
+    },
+    {
+      "id": "S-020",
+      "name": "Màn hình Xem chi tiết admin - Tab Thông tin",
+      "description": "Hiển thị thông tin chi tiết tài khoản admin với tab thông tin cá nhân.",
+      "route": "/admin/admin-accounts/detail",
+      "components": ["Display (đơn vị)", "Display (email)", "Display (họ và tên)", "Display (số điện thoại)", "Display (địa chỉ)", "Display (mã công chức)", "Display (phòng ban)", "Display (chức vụ)", "Display (trạng thái)", "Display (ghi chú)", "Display (cán bộ cập nhật)", "Display (ngày cập nhật)", "Display (nội dung phê duyệt)", "Display (cán bộ phê duyệt)", "Display (ngày phê duyệt)", "Tab (Thông tin)", "Tab (Chức năng đã phân quyền)"],
+      "interactions": ["User xem thông tin cá nhân và phê duyệt", "User chuyển Tab → xem chức năng đã phân quyền"]
+    },
+    {
+      "id": "S-021",
+      "name": "Màn hình Xem chi tiết admin - Tab Chức năng đã phân quyền",
+      "description": "Tab hiển thị danh sách chức năng đã phân quyền cho admin.",
+      "route": "/admin/admin-accounts/detail/permissions",
+      "components": ["Display (mã ứng dụng)", "Table (danh sách chức năng đã phân quyền)"],
+      "interactions": ["User xem danh sách chức năng đã phân quyền"]
+    },
+    {
+      "id": "S-022",
+      "name": "Màn hình Phân quyền admin",
+      "description": "Phân quyền chức năng cho tài khoản admin.",
+      "route": "/admin/admin-accounts/permissions",
+      "components": ["Combobox (mã ứng dụng)", "Display (cấp đơn vị được sử dụng)", "Textbox (tìm tên chức năng)", "Table (danh sách chức năng với checkbox)", "Button (Lưu phân quyền)"],
+      "interactions": ["User chọn mã ứng dụng → hiển thị danh sách chức năng", "User tích/bỏ tích checkbox để phân quyền", "User clicks Lưu → cập nhật AUTH_USER_PERMISSION"]
+    },
+    {
+      "id": "S-023",
+      "name": "Màn hình Quản lý log truy cập",
+      "description": "Xem, tìm kiếm, sắp xếp log truy cập hệ thống theo thời gian.",
+      "route": "/admin/access-logs",
+      "components": ["Datepicker (từ ngày)", "Datepicker (đến ngày)", "Textbox (user)", "Textbox (chức năng)", "Button (Tìm kiếm)", "Table (danh sách log với STT, user, chức năng, thời gian, IP)", "Button (Xuất Excel)"],
+      "interactions": ["User nhập khoảng thời gian → Tìm kiếm → hiển thị log", "Sắp xếp theo thời gian giảm dần", "Xuất báo cáo log ra Excel"]
+    },
+    {
+      "id": "S-024",
+      "name": "Màn hình Quản lý biểu tượng bản đồ",
+      "description": "CRUD biểu tượng trên bản đồ (QTHT_BIEU_TUONG_BAN_DO).",
+      "route": "/admin/map-symbols",
+      "components": ["Table (danh sách biểu tượng)", "Button (Thêm mới)", "Button (Sửa)", "Button (Xóa)", "File upload (hình ảnh biểu tượng)", "Combobox (loại đối tượng áp dụng)"],
+      "interactions": ["User thêm mới biểu tượng với tên, mã, hình ảnh", "User sửa/xóa biểu tượng", "Chọn biểu tượng cho từng loại kết cấu hạ tầng"]
+    },
+    {
+      "id": "S-025",
+      "name": "Màn hình Cấu hình kết nối liên thông",
+      "description": "Cấu hình tham số kết nối liên thông chia sẻ dữ liệu qua trục LGSP.",
+      "route": "/admin/integration",
+      "components": ["Textbox (URL endpoint)", "Textbox (chứng thực)", "Combobox (tần suất sync)", "Button (Test kết nối)", "Button (Lưu)", "Table (danh sách cấu hình)"],
+      "interactions": ["User cấu hình tham số kết nối", "User clicks Test kết nối → xác nhận thành công/thất bại", "User clicks Lưu → lưu cấu hình"]
+    },
+    {
+      "id": "S-026",
+      "name": "Màn hình Lịch sử kết nối liên thông",
+      "description": "Xem lịch sử kết nối liên thông chia sẻ dữ liệu thành công/thất bại.",
+      "route": "/lien-thong/lich-su",
+      "components": ["Datepicker (từ ngày)", "Datepicker (đến ngày)", "Combobox (trạng thái)", "Table (danh sách kết nối với kết quả thành công/thất bại)"],
+      "interactions": ["User lọc theo ngày và trạng thái → hiển thị lịch sử kết nối"]
+    },
+    {
+      "id": "S-027",
+      "name": "Màn hình Trang chủ Dashboard",
+      "description": "Dashboard hiển thị tổng quan thông số kỹ thuật KCHTGTHH với biểu đồ tròn và biểu đồ đường.",
+      "route": "/",
+      "components": ["Combobox (năm)", "Combobox (loại KCHT)", "Display (tổng số lượng kết cấu hạ tầng)", "Display (số lượng đang sử dụng)", "Display (số lượng không sử dụng)", "Biểu đồ tròn (tỷ lệ phê duyệt)", "Biểu đồ đường (xu hướng)", "Display (đã duyệt)", "Display (đã từ chối)", "Display (chờ duyệt)", "Combobox (loại KCHT tra cứu)", "Combobox (mã KCHT tra cứu)", "Nút (Tra cứu bản đồ)"],
+      "interactions": ["User chọn năm và loại KCHT → cập nhật dashboard", "Biểu đồ tròn → hiển thị tỷ lệ phê duyệt", "Biểu đồ đường → hiển thị xu hướng theo năm", "User clicks Tra cứu bản đồ → chuyển sang màn hình bản đồ GIS"]
+    },
+    {
+      "id": "S-028",
+      "name": "Màn hình Tìm kiếm văn bản pháp lý",
+      "description": "Tìm kiếm văn bản pháp lý liên quan đến KCHTGTHH.",
+      "route": "/kcht/search/van-ban-phap-ly",
+      "components": ["Textbox (tiêu đề)", "Textbox (số văn bản)", "Datepicker (ngày ban hành)", "Button (Tìm kiếm)", "Table (kết quả tìm kiếm với phân trang)", "Button (Xem chi tiết)"],
+      "interactions": ["User nhập điều kiện tìm kiếm → hiển thị kết quả", "Không có dữ liệu → thông báo", "User clicks Xem chi tiết → mở màn hình chi tiết"]
+    },
+    {
+      "id": "S-029",
+      "name": "Màn hình Xem chi tiết văn bản pháp lý",
+      "description": "Hiển thị nội dung chi tiết văn bản pháp lý.",
+      "route": "/kcht/search/van-ban-phap-ly/detail",
+      "components": ["Display (tiêu đề)", "Display (số văn bản)", "Display (ngày ban hành)", "Display (cơ quan ban hành)", "Rich text (nội dung)", "Button (Tải file đính kèm)"],
+      "interactions": ["User xem nội dung văn bản", "User clicks Tải file → tải file đính kèm"]
+    },
+    {
+      "id": "S-030",
+      "name": "Màn hình Quản lý văn bản pháp lý",
+      "description": "CRUD quản lý văn bản pháp lý - chỉ chuyên viên Cục.",
+      "route": "/kcht/manage/van-ban-phap-ly",
+      "components": ["Textbox (tiêu đề)", "Textbox (số văn bản)", "Datepicker (ngày ban hành)", "Textbox (cơ quan ban hành)", "Rich text editor (nội dung)", "File upload (đính kèm)", "Button (Lưu)", "Button (Xóa)"],
+      "interactions": ["User thêm mới văn bản pháp lý → lưu vào dbo.KCHT_VBPL", "User sửa, xóa văn bản", "Chỉ chuyên viên Cục mới thực hiện được"]
+    },
+    {
+      "id": "S-031",
+      "name": "Màn hình Tìm kiếm cảng biển",
+      "description": "Tìm kiếm cảng biển theo mã, tên, địa điểm, tình trạng.",
+      "route": "/kcht/search/cảng-biển",
+      "components": ["Textbox (mã)", "Textbox (tên)", "Textbox (địa điểm)", "Combobox (tình trạng)", "Button (Tìm kiếm)", "Table (kết quả)", "Button (Xem chi tiết)", "Button (Xem bản đồ)"],
+      "interactions": ["User nhập điều kiện → Tìm kiếm → hiển thị kết quả", "User clicks Xem chi tiết → màn hình chi tiết", "User clicks Xem bản đồ → hiển thị vị trí trên bản đồ"]
+    },
+    {
+      "id": "S-032",
+      "name": "Màn hình Xem chi tiết cảng biển",
+      "description": "Hiển thị thông tin chi tiết cảng biển: mã, tên, địa điểm, tình trạng, năng lực khai thác, phân cấp.",
+      "route": "/kcht/search/cảng-biển/detail",
+      "components": ["Display (mã)", "Display (tên)", "Display (địa điểm)", "Display (địa điểm chi tiết)", "Display (tình trạng)", "Display (năng lực khai thác)", "Display (phân cấp)", "Display (loại kết cấu)", "Display (nhóm cảng biển)", "Table (bến cảng con)", "Table (cầu cảng con)", "Display (lịch sử thay đổi)"],
+      "interactions": ["User xem thông tin chi tiết cảng biển", "User xem danh sách bến cảng, cầu cảng con", "User xem lịch sử thay đổi"]
+    },
+    {
+      "id": "S-033",
+      "name": "Màn hình Xem cảng biển trên bản đồ",
+      "description": "Hiển thị vị trí cảng biển trên bản đồ GIS.",
+      "route": "/kcht/search/cảng-biển/map",
+      "components": ["Map (Leaflet)", "Marker (vị trí cảng biển)", "Popup (thông tin cảng biển)", "Button (Xem chi tiết)"],
+      "interactions": ["User xem vị trí cảng biển trên bản đồ", "User clicks vào marker → hiển thị popup thông tin", "User clicks Xem chi tiết → chuyển sang màn hình chi tiết"]
+    },
+    {
+      "id": "S-034",
+      "name": "Màn hình Tìm kiếm bến cảng",
+      "description": "Tìm kiếm bến cảng theo mã, tên, cảng biển cha, địa điểm.",
+      "route": "/kcht/search/bến-cảng",
+      "components": ["Textbox (mã)", "Textbox (tên)", "Combobox (cảng biển cha)", "Textbox (địa điểm)", "Button (Tìm kiếm)", "Table (kết quả)", "Button (Xem chi tiết)", "Button (Xem bản đồ)"],
+      "interactions": ["User nhập điều kiện → Tìm kiếm → hiển thị kết quả", "User clicks Xem chi tiết → màn hình chi tiết"]
+    },
+    {
+      "id": "S-035",
+      "name": "Màn hình Xem chi tiết bến cảng",
+      "description": "Hiển thị thông tin chi tiết bến cảng.",
+      "route": "/kcht/search/bến-cảng/detail",
+      "components": ["Display (mã)", "Display (tên)", "Display (cảng biển cha)", "Display (địa điểm)", "Table (cầu cảng con)", "Display (lịch sử thay đổi)"],
+      "interactions": ["User xem thông tin chi tiết bến cảng", "User xem danh sách cầu cảng con"]
+    },
+    {
+      "id": "S-036",
+      "name": "Màn hình Xem bến cảng trên bản đồ",
+      "description": "Hiển thị vị trí bến cảng trên bản đồ GIS.",
+      "route": "/kcht/search/bến-cảng/map",
+      "components": ["Map (Leaflet)", "Marker (vị trí bến cảng)", "Popup (thông tin bến cảng)"],
+      "interactions": ["User xem vị trí trên bản đồ", "User clicks vào marker → hiển thị popup thông tin"]
+    },
+    {
+      "id": "S-037",
+      "name": "Màn hình Tìm kiếm cầu cảng",
+      "description": "Tìm kiếm cầu cảng theo mã, tên, bến cảng cha, loại kết cấu.",
+      "route": "/kcht/search/cầu-cảng",
+      "components": ["Textbox (mã)", "Textbox (tên)", "Combobox (bến cảng cha)", "Combobox (loại kết cấu)", "Button (Tìm kiếm)", "Table (kết quả)", "Button (Xem chi tiết)"],
+      "interactions": ["User nhập điều kiện → Tìm kiếm → hiển thị kết quả"]
+    },
+    {
+      "id": "S-038",
+      "name": "Màn hình Xem chi tiết cầu cảng",
+      "description": "Hiển thị thông tin chi tiết cầu cảng.",
+      "route": "/kcht/search/cầu-cảng/detail",
+      "components": ["Display (mã)", "Display (tên)", "Display (bến cảng cha)", "Display (loại kết cấu)", "Display (chiều dài)", "Display (tải trọng)"],
+      "interactions": ["User xem thông tin chi tiết cầu cảng"]
+    },
+    {
+      "id": "S-039",
+      "name": "Màn hình Xem cầu cảng trên bản đồ",
+      "description": "Hiển thị vị trí cầu cảng trên bản đồ GIS.",
+      "route": "/kcht/search/cầu-cảng/map",
+      "components": ["Map (Leaflet)", "Marker (vị trí cầu cảng)", "Popup (thông tin cầu cảng)"],
+      "interactions": ["User xem vị trí trên bản đồ", "User clicks vào marker → hiển thị popup thông tin"]
+    },
+    {
+      "id": "S-040",
+      "name": "Màn hình Tìm kiếm cảng cạn",
+      "description": "Tìm kiếm cảng cạn theo mã, tên, hành lang vận tải, khu vực.",
+      "route": "/kcht/search/cảng-cạn",
+      "components": ["Textbox (mã)", "Textbox (tên)", "Combobox (hành lang vận tải)", "Textbox (khu vực)", "Button (Tìm kiếm)", "Table (kết quả)", "Button (Xem chi tiết)"],
+      "interactions": ["User nhập điều kiện → Tìm kiếm → hiển thị kết quả"]
+    },
+    {
+      "id": "S-041",
+      "name": "Màn hình Xem chi tiết cảng cạn",
+      "description": "Hiển thị thông tin chi tiết cảng cạn.",
+      "route": "/kcht/search/cảng-cạn/detail",
+      "components": ["Display (mã)", "Display (tên)", "Display (hành lang vận tải)", "Display (khu vực)", "Display (địa điểm)"],
+      "interactions": ["User xem thông tin chi tiết cảng cạn"]
+    },
+    {
+      "id": "S-042",
+      "name": "Màn hình Xem cảng cạn trên bản đồ",
+      "description": "Hiển thị vị trí cảng cạn trên bản đồ GIS.",
+      "route": "/kcht/search/cảng-cạn/map",
+      "components": ["Map (Leaflet)", "Marker (vị trí cảng cạn)", "Popup (thông tin cảng cạn)"],
+      "interactions": ["User xem vị trí trên bản đồ"]
+    },
+    {
+      "id": "S-043",
+      "name": "Màn hình Tìm kiếm bến phao",
+      "description": "Tìm kiếm bến phao theo mã, tên, địa điểm.",
+      "route": "/kcht/search/bến-phao",
+      "components": ["Textbox (mã)", "Textbox (tên)", "Textbox (địa điểm)", "Button (Tìm kiếm)", "Table (kết quả)", "Button (Xem chi tiết)"],
+      "interactions": ["User nhập điều kiện → Tìm kiếm → hiển thị kết quả"]
+    },
+    {
+      "id": "S-044",
+      "name": "Màn hình Xem chi tiết bến phao",
+      "description": "Hiển thị thông tin chi tiết bến phao.",
+      "route": "/kcht/search/bến-phao/detail",
+      "components": ["Display (mã)", "Display (tên)", "Display (địa điểm)", "Display (hệ quy chiếu)", "Display (quy tắc hiển thị)", "Display (trạng thái)"],
+      "interactions": ["User xem thông tin chi tiết bến phao"]
+    },
+    {
+      "id": "S-045",
+      "name": "Màn hình Xem bến phao trên bản đồ",
+      "description": "Hiển thị vị trí bến phao trên bản đồ GIS.",
+      "route": "/kcht/search/bến-phao/map",
+      "components": ["Map (Leaflet)", "Marker (vị trí bến phao)", "Popup (thông tin bến phao)"],
+      "interactions": ["User xem vị trí trên bản đồ"]
+    },
+    {
+      "id": "S-046",
+      "name": "Màn hình Tìm kiếm khu tránh trú bão",
+      "description": "Tìm kiếm khu tránh trú bão theo mã, tên, địa điểm.",
+      "route": "/kcht/search/khu-tránh-bão",
+      "components": ["Textbox (mã)", "Textbox (tên)", "Textbox (địa điểm)", "Button (Tìm kiếm)", "Table (kết quả)", "Button (Xem chi tiết)"],
+      "interactions": ["User nhập điều kiện → Tìm kiếm → hiển thị kết quả"]
+    },
+    {
+      "id": "S-047",
+      "name": "Màn hình Xem chi tiết khu tránh trú bão",
+      "description": "Hiển thị thông tin chi tiết khu tránh trú bão: diện tích, vị trí, sức chứa.",
+      "route": "/kcht/search/khu-tránh-bão/detail",
+      "components": ["Display (mã)", "Display (tên)", "Display (địa điểm)", "Display (diện tích)", "Display (sức chứa tối đa)"],
+      "interactions": ["User xem thông tin chi tiết khu tránh trú bão"]
+    },
+    {
+      "id": "S-048",
+      "name": "Màn hình Xem khu tránh trú bão trên bản đồ",
+      "description": "Hiển thị khu tránh trú bão trên bản đồ GIS (đối tượng vùng).",
+      "route": "/kcht/search/khu-tránh-bão/map",
+      "components": ["Map (Leaflet)", "Polygon (vùng tránh trú bão)", "Popup (thông tin khu tránh trú bão)"],
+      "interactions": ["User xem vùng tránh trú bão trên bản đồ", "User clicks vào polygon → hiển thị popup thông tin"]
+    },
+    {
+      "id": "S-049",
+      "name": "Màn hình Tìm kiếm khu chuyển tải",
+      "description": "Tìm kiếm khu chuyển tải theo mã, tên, địa điểm.",
+      "route": "/kcht/search/khu-chuyển-tải",
+      "components": ["Textbox (mã)", "Textbox (tên)", "Textbox (địa điểm)", "Button (Tìm kiếm)", "Table (kết quả)", "Button (Xem chi tiết)"],
+      "interactions": ["User nhập điều kiện → Tìm kiếm → hiển thị kết quả"]
+    },
+    {
+      "id": "S-050",
+      "name": "Màn hình Xem chi tiết khu chuyển tải",
+      "description": "Hiển thị thông tin chi tiết khu chuyển tải.",
+      "route": "/kcht/search/khu-chuyển-tải/detail",
+      "components": ["Display (mã)", "Display (tên)", "Display (địa điểm)", "Display (diện tích)"],
+      "interactions": ["User xem thông tin chi tiết khu chuyển tải"]
+    },
+    {
+      "id": "S-051",
+      "name": "Màn hình Xem khu chuyển tải trên bản đồ",
+      "description": "Hiển thị khu chuyển tải trên bản đồ GIS (đối tượng vùng).",
+      "route": "/kcht/search/khu-chuyển-tải/map",
+      "components": ["Map (Leaflet)", "Polygon (vùng chuyển tải)", "Popup (thông tin khu chuyển tải)"],
+      "interactions": ["User xem vùng chuyển tải trên bản đồ"]
+    },
+    {
+      "id": "S-052",
+      "name": "Màn hình Tìm kiếm khu neo đậu",
+      "description": "Tìm kiếm khu neo đậu theo mã, tên, địa điểm.",
+      "route": "/kcht/search/khu-neo-đậu",
+      "components": ["Textbox (mã)", "Textbox (tên)", "Textbox (địa điểm)", "Button (Tìm kiếm)", "Table (kết quả)", "Button (Xem chi tiết)"],
+      "interactions": ["User nhập điều kiện → Tìm kiếm → hiển thị kết quả"]
+    },
+    {
+      "id": "S-053",
+      "name": "Màn hình Xem chi tiết khu neo đậu",
+      "description": "Hiển thị thông tin chi tiết khu neo đậu: sâu nước, diện tích.",
+      "route": "/kcht/search/khu-neo-đậu/detail",
+      "components": ["Display (mã)", "Display (tên)", "Display (địa điểm)", "Display (sâu nước tối thiểu)", "Display (diện tích)"],
+      "interactions": ["User xem thông tin chi tiết khu neo đậu"]
+    },
+    {
+      "id": "S-054",
+      "name": "Màn hình Xem khu neo đậu trên bản đồ",
+      "description": "Hiển thị khu neo đậu trên bản đồ GIS (đối tượng vùng).",
+      "route": "/kcht/search/khu-neo-đậu/map",
+      "components": ["Map (Leaflet)", "Polygon (vùng neo đậu)", "Popup (thông tin khu neo đậu)"],
+      "interactions": ["User xem vùng neo đậu trên bản đồ"]
+    },
+    {
+      "id": "S-055",
+      "name": "Màn hình Tìm kiếm cơ sở sửa chữa đóng tàu",
+      "description": "Tìm kiếm cơ sở sửa chữa đóng tàu theo mã, tên, loại công trình.",
+      "route": "/kcht/search/cơ-sở-sửa-chữa",
+      "components": ["Textbox (mã)", "Textbox (tên)", "Combobox (loại công trình)", "Button (Tìm kiếm)", "Table (kết quả)", "Button (Xem chi tiết)"],
+      "interactions": ["User nhập điều kiện → Tìm kiếm → hiển thị kết quả"]
+    },
+    {
+      "id": "S-056",
+      "name": "Màn hình Xem chi tiết cơ sở sửa chữa đóng tàu",
+      "description": "Hiển thị thông tin chi tiết cơ sở sửa chữa đóng tàu.",
+      "route": "/kcht/search/cơ-sở-sửa-chữa/detail",
+      "components": ["Display (mã)", "Display (tên)", "Display (địa điểm)", "Display (loại công trình)", "Display (năng lực)", "Display (giấy phép hoạt động)"],
+      "interactions": ["User xem thông tin chi tiết cơ sở"]
+    },
+    {
+      "id": "S-057",
+      "name": "Màn hình Xem cơ sở sửa chữa đóng tàu trên bản đồ",
+      "description": "Hiển thị vị trí cơ sở sửa chữa đóng tàu trên bản đồ GIS.",
+      "route": "/kcht/search/cơ-sở-sửa-chữa/map",
+      "components": ["Map (Leaflet)", "Marker (vị trí cơ sở)", "Popup (thông tin cơ sở)"],
+      "interactions": ["User xem vị trí trên bản đồ"]
+    },
+    {
+      "id": "S-058",
+      "name": "Màn hình Tìm kiếm đèn biển và nhà trạm",
+      "description": "Tìm kiếm đèn biển và nhà trạm gắn liền theo mã, tên, địa điểm.",
+      "route": "/kcht/search/đèn-biển",
+      "components": ["Textbox (mã)", "Textbox (tên)", "Textbox (địa điểm)", "Button (Tìm kiếm)", "Table (kết quả)", "Button (Xem chi tiết)"],
+      "interactions": ["User nhập điều kiện → Tìm kiếm → hiển thị kết quả"]
+    },
+    {
+      "id": "S-059",
+      "name": "Màn hình Xem chi tiết đèn biển và nhà trạm",
+      "description": "Hiển thị thông tin chi tiết đèn biển và nhà trạm: đèn chính, đèn dự phòng, cấp trạm, danh sách phao tiêu.",
+      "route": "/kcht/search/đèn-biển/detail",
+      "components": ["Display (mã)", "Display (tên)", "Display (địa điểm)", "Display (đèn chính)", "Display (đèn dự phòng)", "Display (cấp trạm đèn)", "Table (danh sách phao, tiêu quản lý vận hành)"],
+      "interactions": ["User xem thông tin chi tiết đèn biển", "User xem danh sách phao, tiêu tại màn hình chi tiết (update v3.0)"]
+    },
+    {
+      "id": "S-060",
+      "name": "Màn hình Xem đèn biển trên bản đồ",
+      "description": "Hiển thị vị trí đèn biển trên bản đồ GIS.",
+      "route": "/kcht/search/đèn-biển/map",
+      "components": ["Map (Leaflet)", "Marker (vị trí đèn biển)", "Popup (thông tin đèn biển)"],
+      "interactions": ["User xem vị trí trên bản đồ"]
+    },
+    {
+      "id": "S-061",
+      "name": "Màn hình Tìm kiếm phao tiêu và nhà trạm",
+      "description": "Tìm kiếm phao tiêu và nhà trạm quản lý vận hành theo mã, tên, địa điểm.",
+      "route": "/kcht/search/phao-tiêu",
+      "components": ["Textbox (mã)", "Textbox (tên)", "Textbox (địa điểm)", "Button (Tìm kiếm)", "Table (kết quả)", "Button (Xem chi tiết)"],
+      "interactions": ["User nhập điều kiện → Tìm kiếm → hiển thị kết quả"]
+    },
+    {
+      "id": "S-062",
+      "name": "Màn hình Xem chi tiết phao tiêu và nhà trạm",
+      "description": "Hiển thị thông tin chi tiết phao tiêu: loại, màu sắc, tần số ánh sáng.",
+      "route": "/kcht/search/phao-tiêu/detail",
+      "components": ["Display (mã)", "Display (tên)", "Display (địa điểm)", "Display (loại phao)", "Display (màu sắc)", "Display (tần số ánh sáng)"],
+      "interactions": ["User xem thông tin chi tiết phao tiêu"]
+    },
+    {
+      "id": "S-063",
+      "name": "Màn hình Xem phao tiêu trên bản đồ",
+      "description": "Hiển thị vị trí phao tiêu trên bản đồ GIS.",
+      "route": "/kcht/search/phao-tiêu/map",
+      "components": ["Map (Leaflet)", "Marker (vị trí phao tiêu)", "Popup (thông tin phao tiêu)"],
+      "interactions": ["User xem vị trí trên bản đồ"]
+    },
+    {
+      "id": "S-064",
+      "name": "Màn hình Tìm kiếm hệ thống VTS",
+      "description": "Tìm kiếm hệ thống VTS theo mã, tên, địa điểm.",
+      "route": "/kcht/search/vts",
+      "components": ["Textbox (mã)", "Textbox (tên)", "Textbox (địa điểm)", "Button (Tìm kiếm)", "Table (kết quả)", "Button (Xem chi tiết)"],
+      "interactions": ["User nhập điều kiện → Tìm kiếm → hiển thị kết quả"]
+    },
+    {
+      "id": "S-065",
+      "name": "Màn hình Xem chi tiết hệ thống VTS",
+      "description": "Hiển thị thông tin chi tiết hệ thống VTS: vùng bao phủ, công nghệ.",
+      "route": "/kcht/search/vts/detail",
+      "components": ["Display (mã)", "Display (tên)", "Display (địa điểm)", "Display (vùng bao phủ)", "Display (công nghệ)"],
+      "interactions": ["User xem thông tin chi tiết hệ thống VTS"]
+    },
+    {
+      "id": "S-066",
+      "name": "Màn hình Xem hệ thống VTS trên bản đồ",
+      "description": "Hiển thị vị trí hệ thống VTS trên bản đồ GIS.",
+      "route": "/kcht/search/vts/map",
+      "components": ["Map (Leaflet)", "Marker (vị trí VTS)", "Polygon (vùng bao phủ)", "Popup (thông tin VTS)"],
+      "interactions": ["User xem vị trí và vùng bao phủ trên bản đồ"]
+    },
+    {
+      "id": "S-067",
+      "name": "Màn hình Tìm kiếm trung tâm điều hành VTS",
+      "description": "Tìm kiếm trung tâm điều hành VTS theo mã, tên, địa điểm.",
+      "route": "/kcht/search/vts-center",
+      "components": ["Textbox (mã)", "Textbox (tên)", "Textbox (địa điểm)", "Button (Tìm kiếm)", "Table (kết quả)", "Button (Xem chi tiết)"],
+      "interactions": ["User nhập điều kiện → Tìm kiếm → hiển thị kết quả"]
+    },
+    {
+      "id": "S-068",
+      "name": "Màn hình Xem chi tiết trung tâm điều hành VTS",
+      "description": "Hiển thị thông tin chi tiết trung tâm điều hành VTS.",
+      "route": "/kcht/search/vts-center/detail",
+      "components": ["Display (mã)", "Display (tên)", "Display (địa điểm)", "Display (khu vực phụ trách)"],
+      "interactions": ["User xem thông tin chi tiết"]
+    },
+    {
+      "id": "S-069",
+      "name": "Màn hình Xem trung tâm điều hành VTS trên bản đồ",
+      "description": "Hiển thị vị trí trung tâm điều hành VTS trên bản đồ GIS.",
+      "route": "/kcht/search/vts-center/map",
+      "components": ["Map (Leaflet)", "Marker (vị trí trung tâm)", "Popup (thông tin trung tâm)"],
+      "interactions": ["User xem vị trí trên bản đồ"]
+    },
+    {
+      "id": "S-070",
+      "name": "Màn hình Tìm kiếm trạm radar",
+      "description": "Tìm kiếm trạm radar theo mã, tên, địa điểm.",
+      "route": "/kcht/search/radar",
+      "components": ["Textbox (mã)", "Textbox (tên)", "Textbox (địa điểm)", "Button (Tìm kiếm)", "Table (kết quả)", "Button (Xem chi tiết)"],
+      "interactions": ["User nhập điều kiện → Tìm kiếm → hiển thị kết quả"]
+    },
+    {
+      "id": "S-071",
+      "name": "Màn hình Xem chi tiết trạm radar",
+      "description": "Hiển thị thông tin chi tiết trạm radar: bán kính, công nghệ.",
+      "route": "/kcht/search/radar/detail",
+      "components": ["Display (mã)", "Display (tên)", "Display (địa điểm)", "Display (bán kính hoạt động)", "Display (công nghệ)"],
+      "interactions": ["User xem thông tin chi tiết trạm radar"]
+    },
+    {
+      "id": "S-072",
+      "name": "Màn hình Xem trạm radar trên bản đồ",
+      "description": "Hiển thị vị trí trạm radar trên bản đồ GIS.",
+      "route": "/kcht/search/radar/map",
+      "components": ["Map (Leaflet)", "Marker (vị trí radar)", "Popup (thông tin radar)"],
+      "interactions": ["User xem vị trí trên bản đồ"]
+    },
+    {
+      "id": "S-073",
+      "name": "Màn hình Tìm kiếm hệ thống AIS",
+      "description": "Tìm kiếm hệ thống AIS theo mã, tên, địa điểm.",
+      "route": "/kcht/search/ais",
+      "components": ["Textbox (mã)", "Textbox (tên)", "Textbox (địa điểm)", "Button (Tìm kiếm)", "Table (kết quả)", "Button (Xem chi tiết)"],
+      "interactions": ["User nhập điều kiện → Tìm kiếm → hiển thị kết quả"]
+    },
+    {
+      "id": "S-074",
+      "name": "Màn hình Xem chi tiết hệ thống AIS",
+      "description": "Hiển thị thông tin chi tiết hệ thống AIS: tần số, công suất.",
+      "route": "/kcht/search/ais/detail",
+      "components": ["Display (mã)", "Display (tên)", "Display (địa điểm)", "Display (tần số)", "Display (công suất)"],
+      "interactions": ["User xem thông tin chi tiết hệ thống AIS"]
+    },
+    {
+      "id": "S-075",
+      "name": "Màn hình Xem hệ thống AIS trên bản đồ",
+      "description": "Hiển thị vị trí hệ thống AIS trên bản đồ GIS.",
+      "route": "/kcht/search/ais/map",
+      "components": ["Map (Leaflet)", "Marker (vị trí AIS)", "Popup (thông tin AIS)"],
+      "interactions": ["User xem vị trí trên bản đồ"]
+    },
+    {
+      "id": "S-076",
+      "name": "Màn hình Tìm kiếm hệ thống CCTV",
+      "description": "Tìm kiếm hệ thống CCTV theo mã, tên, địa điểm.",
+      "route": "/kcht/search/cctv",
+      "components": ["Textbox (mã)", "Textbox (tên)", "Textbox (địa điểm)", "Button (Tìm kiếm)", "Table (kết quả)", "Button (Xem chi tiết)"],
+      "interactions": ["User nhập điều kiện → Tìm kiếm → hiển thị kết quả"]
+    },
+    {
+      "id": "S-077",
+      "name": "Màn hình Xem chi tiết hệ thống CCTV",
+      "description": "Hiển thị thông tin chi tiết hệ thống CCTV: số lượng camera.",
+      "route": "/kcht/search/cctv/detail",
+      "components": ["Display (mã)", "Display (tên)", "Display (địa điểm)", "Display (số lượng camera)"],
+      "interactions": ["User xem thông tin chi tiết hệ thống CCTV"]
+    },
+    {
+      "id": "S-078",
+      "name": "Màn hình Xem hệ thống CCTV trên bản đồ",
+      "description": "Hiển thị vị trí hệ thống CCTV trên bản đồ GIS.",
+      "route": "/kcht/search/cctv/map",
+      "components": ["Map (Leaflet)", "Marker (vị trí CCTV)", "Popup (thông tin CCTV)"],
+      "interactions": ["User xem vị trí trên bản đồ"]
+    },
+    {
+      "id": "S-079",
+      "name": "Màn hình Tìm kiếm hệ thống SCADA",
+      "description": "Tìm kiếm hệ thống SCADA theo mã, tên, địa điểm.",
+      "route": "/kcht/search/scada",
+      "components": ["Textbox (mã)", "Textbox (tên)", "Textbox (địa điểm)", "Button (Tìm kiếm)", "Table (kết quả)", "Button (Xem chi tiết)"],
+      "interactions": ["User nhập điều kiện → Tìm kiếm → hiển thị kết quả"]
+    },
+    {
+      "id": "S-080",
+      "name": "Màn hình Xem chi tiết hệ thống SCADA",
+      "description": "Hiển thị thông tin chi tiết hệ thống SCADA: dải tần, công suất.",
+      "route": "/kcht/search/scada/detail",
+      "components": ["Display (mã)", "Display (tên)", "Display (địa điểm)", "Display (dải tần)", "Display (công suất)"],
+      "interactions": ["User xem thông tin chi tiết hệ thống SCADA"]
+    },
+    {
+      "id": "S-081",
+      "name": "Màn hình Xem hệ thống SCADA trên bản đồ",
+      "description": "Hiển thị vị trí hệ thống SCADA trên bản đồ GIS.",
+      "route": "/kcht/search/scada/map",
+      "components": ["Map (Leaflet)", "Marker (vị trí SCADA)", "Popup (thông tin SCADA)"],
+      "interactions": ["User xem vị trí trên bản đồ"]
+    },
+    {
+      "id": "S-082",
+      "name": "Màn hình Tìm kiếm hệ thống VHF",
+      "description": "Tìm kiếm hệ thống VHF theo mã, tên, địa điểm.",
+      "route": "/kcht/search/vhf",
+      "components": ["Textbox (mã)", "Textbox (tên)", "Textbox (địa điểm)", "Button (Tìm kiếm)", "Table (kết quả)", "Button (Xem chi tiết)"],
+      "interactions": ["User nhập điều kiện → Tìm kiếm → hiển thị kết quả"]
+    },
+    {
+      "id": "S-083",
+      "name": "Màn hình Xem chi tiết hệ thống VHF",
+      "description": "Hiển thị thông tin chi tiết hệ thống VHF: tần số liên lạc, dịch vụ cung cấp, phân loại đài.",
+      "route": "/kcht/search/vhf/detail",
+      "components": ["Display (mã)", "Display (tên)", "Display (địa điểm)", "Display (tần số liên lạc)", "Display (dịch vụ cung cấp)", "Display (phân loại đài)"],
+      "interactions": ["User xem thông tin chi tiết hệ thống VHF"]
+    },
+    {
+      "id": "S-084",
+      "name": "Màn hình Xem hệ thống VHF trên bản đồ",
+      "description": "Hiển thị vị trí hệ thống VHF trên bản đồ GIS.",
+      "route": "/kcht/search/vhf/map",
+      "components": ["Map (Leaflet)", "Marker (vị trí VHF)", "Popup (thông tin VHF)"],
+      "interactions": ["User xem vị trí trên bản đồ"]
+    },
+    {
+      "id": "S-085",
+      "name": "Màn hình Tìm kiếm hệ thống truyền dẫn",
+      "description": "Tìm kiếm hệ thống truyền dẫn theo mã, tên, địa điểm.",
+      "route": "/kcht/search/tranding",
+      "components": ["Textbox (mã)", "Textbox (tên)", "Textbox (địa điểm)", "Button (Tìm kiếm)", "Table (kết quả)", "Button (Xem chi tiết)"],
+      "interactions": ["User nhập điều kiện → Tìm kiếm → hiển thị kết quả"]
+    },
+    {
+      "id": "S-086",
+      "name": "Màn hình Xem chi tiết hệ thống truyền dẫn",
+      "description": "Hiển thị thông tin chi tiết hệ thống truyền dẫn: công nghệ (vi ba, cáp quang, vệ tinh).",
+      "route": "/kcht/search/tranding/detail",
+      "components": ["Display (mã)", "Display (tên)", "Display (địa điểm)", "Display (công nghệ truyền dẫn)"],
+      "interactions": ["User xem thông tin chi tiết"]
+    },
+    {
+      "id": "S-087",
+      "name": "Màn hình Xem hệ thống truyền dẫn trên bản đồ",
+      "description": "Hiển thị vị trí hệ thống truyền dẫn trên bản đồ GIS.",
+      "route": "/kcht/search/tranding/map",
+      "components": ["Map (Leaflet)", "Marker (vị trí truyền dẫn)", "Popup (thông tin truyền dẫn)"],
+      "interactions": ["User xem vị trí trên bản đồ"]
+    },
+    {
+      "id": "S-088",
+      "name": "Màn hình Tìm kiếm hệ thống phụ trợ VTS",
+      "description": "Tìm kiếm hệ thống phụ trợ VTS theo mã, tên, địa điểm.",
+      "route": "/kcht/search/ptvts",
+      "components": ["Textbox (mã)", "Textbox (tên)", "Textbox (địa điểm)", "Button (Tìm kiếm)", "Table (kết quả)", "Button (Xem chi tiết)"],
+      "interactions": ["User nhập điều kiện → Tìm kiếm → hiển thị kết quả"]
+    },
+    {
+      "id": "S-089",
+      "name": "Màn hình Xem chi tiết hệ thống phụ trợ VTS",
+      "description": "Hiển thị thông tin chi tiết hệ thống phụ trợ VTS.",
+      "route": "/kcht/search/ptvts/detail",
+      "components": ["Display (mã)", "Display (tên)", "Display (địa điểm)", "Display (loại phụ trợ)"],
+      "interactions": ["User xem thông tin chi tiết"]
+    },
+    {
+      "id": "S-090",
+      "name": "Màn hình Xem hệ thống phụ trợ VTS trên bản đồ",
+      "description": "Hiển thị vị trí hệ thống phụ trợ VTS trên bản đồ GIS.",
+      "route": "/kcht/search/ptvts/map",
+      "components": ["Map (Leaflet)", "Marker (vị trí phụ trợ)", "Popup (thông tin phụ trợ)"],
+      "interactions": ["User xem vị trí trên bản đồ"]
+    },
+    {
+      "id": "S-091",
+      "name": "Màn hình Tìm kiếm đê chắn sóng, kè",
+      "description": "Tìm kiếm đê chắn sóng, kè theo mã, tên, loại, địa điểm.",
+      "route": "/kcht/search/đê-kè",
+      "components": ["Textbox (mã)", "Textbox (tên)", "Combobox (loại)", "Textbox (địa điểm)", "Button (Tìm kiếm)", "Table (kết quả)", "Button (Xem chi tiết)"],
+      "interactions": ["User nhập điều kiện → Tìm kiếm → hiển thị kết quả"]
+    },
+    {
+      "id": "S-092",
+      "name": "Màn hình Xem chi tiết đê chắn sóng, kè",
+      "description": "Hiển thị thông tin chi tiết: loại, chiều dài, chiều cao, loại kết cấu.",
+      "route": "/kcht/search/đê-kè/detail",
+      "components": ["Display (mã)", "Display (tên)", "Display (địa điểm)", "Display (loại: đê chắn sóng/đê chắn cát/kè hướng dòng/kè bảo vệ bờ)", "Display (chiều dài)", "Display (chiều cao)", "Display (loại kết cấu)"],
+      "interactions": ["User xem thông tin chi tiết"]
+    },
+    {
+      "id": "S-093",
+      "name": "Màn hình Xem đê chắn sóng, kè trên bản đồ",
+      "description": "Hiển thị vị trí đê chắn sóng, kè trên bản đồ GIS.",
+      "route": "/kcht/search/đê-kè/map",
+      "components": ["Map (Leaflet)", "Line (đường đê)", "Popup (thông tin đê/kè)"],
+      "interactions": ["User xem vị trí trên bản đồ"]
+    },
+    {
+      "id": "S-094",
+      "name": "Màn hình Tìm kiếm luồng hàng hải",
+      "description": "Tìm kiếm luồng hàng hải theo mã, tên, cảng biển.",
+      "route": "/kcht/search/luồng-hàng-hải",
+      "components": ["Textbox (mã)", "Textbox (tên)", "Combobox (cảng biển)", "Button (Tìm kiếm)", "Table (kết quả)", "Button (Xem chi tiết)"],
+      "interactions": ["User nhập điều kiện → Tìm kiếm → hiển thị kết quả"]
+    },
+    {
+      "id": "S-095",
+      "name": "Màn hình Xem chi tiết luồng hàng hải",
+      "description": "Hiển thị thông tin chi tiết luồng hàng hải: sâu nước duy trì, chiều rộng, bán kính cua.",
+      "route": "/kcht/search/luồng-hàng-hải/detail",
+      "components": ["Display (mã)", "Display (tên)", "Display (cảng biển)", "Display (sâu nước duy trì)", "Display (chiều rộng)", "Display (bán kính cua)"],
+      "interactions": ["User xem thông tin chi tiết luồng hàng hải"]
+    },
+    {
+      "id": "S-096",
+      "name": "Màn hình Xem luồng hàng hải trên bản đồ",
+      "description": "Hiển thị luồng hàng hải trên bản đồ GIS (đối tượng đường).",
+      "route": "/kcht/search/luồng-hàng-hải/map",
+      "components": ["Map (Leaflet)", "Line (luồng hàng hải)", "Popup (thông tin luồng)"],
+      "interactions": ["User xem luồng hàng hải trên bản đồ"]
+    },
+    {
+      "id": "S-097",
+      "name": "Màn hình Tìm kiếm đài TTDH",
+      "description": "Tìm kiếm đài thông tin duyên hải TTDH theo mã, tên, địa điểm.",
+      "route": "/kcht/search/ttdh",
+      "components": ["Textbox (mã)", "Textbox (tên)", "Textbox (địa điểm)", "Button (Tìm kiếm)", "Table (kết quả)", "Button (Xem chi tiết)"],
+      "interactions": ["User nhập điều kiện → Tìm kiếm → hiển thị kết quả"]
+    },
+    {
+      "id": "S-098",
+      "name": "Màn hình Xem chi tiết đài TTDH",
+      "description": "Hiển thị thông tin chi tiết đài TTDH: tần số, dịch vụ cung cấp.",
+      "route": "/kcht/search/ttdh/detail",
+      "components": ["Display (mã)", "Display (tên)", "Display (địa điểm)", "Display (tần số liên lạc)", "Display (dịch vụ cung cấp)"],
+      "interactions": ["User xem thông tin chi tiết đài TTDH"]
+    },
+    {
+      "id": "S-099",
+      "name": "Màn hình Xem đài TTDH trên bản đồ",
+      "description": "Hiển thị vị trí đài TTDH trên bản đồ GIS.",
+      "route": "/kcht/search/ttdh/map",
+      "components": ["Map (Leaflet)", "Marker (vị trí đài TTDH)", "Popup (thông tin đài)"],
+      "interactions": ["User xem vị trí trên bản đồ"]
+    },
+    {
+      "id": "S-100",
+      "name": "Màn hình Tìm kiếm đài Inmarsat",
+      "description": "Tìm kiếm đài Inmarsat Hải Phòng theo mã, tên.",
+      "route": "/kcht/search/inmarsat",
+      "components": ["Textbox (mã)", "Textbox (tên)", "Button (Tìm kiếm)", "Table (kết quả)", "Button (Xem chi tiết)"],
+      "interactions": ["User nhập điều kiện → Tìm kiếm → hiển thị kết quả"]
+    },
+    {
+      "id": "S-101",
+      "name": "Màn hình Xem chi tiết đài Inmarsat",
+      "description": "Hiển thị thông tin chi tiết đài Inmarsat: vùng phủ sóng.",
+      "route": "/kcht/search/inmarsat/detail",
+      "components": ["Display (mã)", "Display (tên)", "Display (vùng phủ sóng)"],
+      "interactions": ["User xem thông tin chi tiết đài Inmarsat"]
+    },
+    {
+      "id": "S-102",
+      "name": "Màn hình Xem đài Inmarsat trên bản đồ",
+      "description": "Hiển thị vị trí đài Inmarsat trên bản đồ GIS.",
+      "route": "/kcht/search/inmarsat/map",
+      "components": ["Map (Leaflet)", "Marker (vị trí Inmarsat)", "Popup (thông tin Inmarsat)"],
+      "interactions": ["User xem vị trí trên bản đồ"]
+    },
+    {
+      "id": "S-103",
+      "name": "Màn hình Tìm kiếm đài Cospas-Sarsat",
+      "description": "Tìm kiếm đài Cospas-Sarsat Việt Nam theo mã, tên.",
+      "route": "/kcht/search/cospas-sarsat",
+      "components": ["Textbox (mã)", "Textbox (tên)", "Button (Tìm kiếm)", "Table (kết quả)", "Button (Xem chi tiết)"],
+      "interactions": ["User nhập điều kiện → Tìm kiếm → hiển thị kết quả"]
+    },
+    {
+      "id": "S-104",
+      "name": "Màn hình Xem chi tiết đài Cospas-Sarsat",
+      "description": "Hiển thị thông tin chi tiết đài Cospas-Sarsat: tần số 406 MHz.",
+      "route": "/kcht/search/cospas-sarsat/detail",
+      "components": ["Display (mã)", "Display (tên)", "Display (tần số 406 MHz)"],
+      "interactions": ["User xem thông tin chi tiết"]
+    },
+    {
+      "id": "S-105",
+      "name": "Màn hình Xem đài Cospas-Sarsat trên bản đồ",
+      "description": "Hiển thị vị trí đài Cospas-Sarsat trên bản đồ GIS.",
+      "route": "/kcht/search/cospas-sarsat/map",
+      "components": ["Map (Leaflet)", "Marker (vị trí Cospas-Sarsat)", "Popup (thông tin)"],
+      "interactions": ["User xem vị trí trên bản đồ"]
+    },
+    {
+      "id": "S-106",
+      "name": "Màn hình Tìm kiếm đài LRIT",
+      "description": "Tìm kiếm đài LRIT theo mã, tên.",
+      "route": "/kcht/search/lrit",
+      "components": ["Textbox (mã)", "Textbox (tên)", "Button (Tìm kiếm)", "Table (kết quả)", "Button (Xem chi tiết)"],
+      "interactions": ["User nhập điều kiện → Tìm kiếm → hiển thị kết quả"]
+    },
+    {
+      "id": "S-107",
+      "name": "Màn hình Xem chi tiết đài LRIT",
+      "description": "Hiển thị thông tin chi tiết đài LRIT: tần suất gửi vị trí (6 giờ/lần).",
+      "route": "/kcht/search/lrit/detail",
+      "components": ["Display (mã)", "Display (tên)", "Display (tần suất gửi vị trí)"],
+      "interactions": ["User xem thông tin chi tiết"]
+    },
+    {
+      "id": "S-108",
+      "name": "Màn hình Xem đài LRIT trên bản đồ",
+      "description": "Hiển thị vị trí đài LRIT trên bản đồ GIS.",
+      "route": "/kcht/search/lrit/map",
+      "components": ["Map (Leaflet)", "Marker (vị trí LRIT)", "Popup (thông tin LRIT)"],
+      "interactions": ["User xem vị trí trên bản đồ"]
+    },
+    {
+      "id": "S-109",
+      "name": "Màn hình Tìm kiếm đài TTDH Hà Nội",
+      "description": "Tìm kiếm đài trung tâm xử lý thông tin hàng hải Hà Nội theo mã, tên.",
+      "route": "/kcht/search/hanoi-center",
+      "components": ["Textbox (mã)", "Textbox (tên)", "Button (Tìm kiếm)", "Table (kết quả)", "Button (Xem chi tiết)"],
+      "interactions": ["User nhập điều kiện → Tìm kiếm → hiển thị kết quả"]
+    },
+    {
+      "id": "S-110",
+      "name": "Màn hình Xem chi tiết đài TTDH Hà Nội",
+      "description": "Hiển thị thông tin chi tiết đài TTDH Hà Nội.",
+      "route": "/kcht/search/hanoi-center/detail",
+      "components": ["Display (mã)", "Display (tên)", "Display (vai trò)"],
+      "interactions": ["User xem thông tin chi tiết"]
+    },
+    {
+      "id": "S-111",
+      "name": "Màn hình Xem đài TTDH Hà Nội trên bản đồ",
+      "description": "Hiển thị vị trí đài TTDH Hà Nội trên bản đồ GIS.",
+      "route": "/kcht/search/hanoi-center/map",
+      "components": ["Map (Leaflet)", "Marker (vị trí Hà Nội center)", "Popup (thông tin)"],
+      "interactions": ["User xem vị trí trên bản đồ"]
+    },
+    {
+      "id": "S-112",
+      "name": "Màn hình Thêm mới cảng biển",
+      "description": "Form thêm mới cảng biển: mã, tên, địa điểm, phân cấp, loại kết cấu, công năng khai thác, nhòm cảng biển/bến cảng/cầu cảng/bến phao.",
+      "route": "/kcht/manage/cảng-biển/create",
+      "components": ["Textbox (mã)", "Textbox (tên)", "Combobox (địa điểm)", "Textarea (địa điểm chi tiết)", "Combobox (phân cấp)", "Combobox (loại kết cấu)", "Textbox (công năng khai thác)", "Combobox (nhóm cảng biển)", "Combobox (cảng biển cha)", "Combobox (bến cảng con)", "Combobox (cầu cảng con)", "Combobox (bến phao con)", "Combobox (luồng hàng hải)", "File upload (đính kèm)", "Button (Lưu tạm)", "Button (Lưu & Gửi duyệt)", "Button (Hủy)"],
+      "interactions": ["User điền thông tin → Lưu tạm → trạng thái nháp", "User điền thông tin → Lưu & Gửi duyệt → gửi phê duyệt cấp 1", "Validation: mã unique, trường bắt buộc phải nhập", "File upload lên MinIO storage"]
+    },
+    {
+      "id": "S-113",
+      "name": "Màn hình Sửa cảng biển",
+      "description": "Form sửa thông tin cảng biển đã tồn tại.",
+      "route": "/kcht/manage/cảng-biển/edit",
+      "components": ["Textbox (mã - readonly)", "Textbox (tên)", "Combobox (địa điểm)", "Textarea (địa điểm chi tiết)", "Combobox (phân cấp)", "Combobox (loại kết cấu)", "Textbox (công năng khai thác)", "Combobox (nhóm cảng biển)", "File upload (đính kèm)", "Button (Lưu tạm)", "Button (Lưu & Gửi duyệt)", "Button (Hủy)"],
+      "interactions": ["User sửa thông tin → Lưu tạm/Lưu & Gửi duyệt", "Chỉ sửa được khi ở trạng thái nháp hoặc bị từ chối"]
+    },
+    {
+      "id": "S-114",
+      "name": "Màn hình Xem chi tiết cảng biển",
+      "description": "Hiển thị thông tin chi tiết cảng biển với các tab thông tin chính, bến cảng con, cầu cảng con, lịch sử.",
+      "route": "/kcht/manage/cảng-biển/detail",
+      "components": ["Display (mã)", "Display (tên)", "Display (địa điểm)", "Display (tình trạng)", "Display (phân cấp)", "Display (loại kết cấu)", "Display (công năng khai thác)", "Table (bến cảng con)", "Table (cầu cảng con)", "Table (lịch sử thay đổi)", "Tab (Thông tin chính)", "Tab (Bến cảng)", "Tab (Cầu cảng)", "Tab (Lịch sử)", "Button (Chỉnh sửa)", "Button (Xóa)"],
+      "interactions": ["User xem thông tin chi tiết", "User chuyển Tab để xem các phần thông tin khác nhau", "User clicks Chỉnh sửa → mở form sửa khi trạng thái cho phép", "User clicks Xóa → xác nhận xóa"]
+    },
+    {
+      "id": "S-115",
+      "name": "Màn hình Hiệu chỉnh cảng biển (khi từ chối)",
+      "description": "Form hiệu chỉnh thông tin cảng biển khi bị từ chối phê duyệt.",
+      "route": "/kcht/manage/cảng-biển/fix",
+      "components": ["Textbox (mã - readonly)", "Textbox (tên)", "Combobox (địa điểm)", "Textarea (địa điểm chi tiết)", "Display (lý do từ chối)", "Button (Lưu & Gửi lại duyệt)", "Button (Hủy)"],
+      "interactions": ["User xem lý do từ chối", "User chỉnh sửa thông tin", "User clicks Lưu & Gửi lại duyệt → gửi lại quy trình phê duyệt"]
+    },
+    {
+      "id": "S-116",
+      "name": "Màn hình Tìm kiếm bến cảng chờ duyệt",
+      "description": "Danh sách bến cảng chờ phê duyệt cấp Cảng vụ/Chi cục hoặc Cục.",
+      "route": "/kcht/approve/bến-cảng",
+      "components": ["Datepicker (từ ngày gửi)", "Datepicker (đến ngày gửi)", "Textbox (mã)", "Textbox (tên)", "Combobox (cấp duyệt)", "Table (danh sách chờ duyệt với thông tin gửi duyệt)", "Button (Xem chi tiết)"],
+      "interactions": ["User lọc theo cấp duyệt và ngày", "User clicks Xem chi tiết → mở màn hình phê duyệt"]
+    },
+    {
+      "id": "S-117",
+      "name": "Màn hình Phê duyệt/Từ chối bến cảng",
+      "description": "Phê duyệt hoặc từ chối thông tin bến cảng với lý do.",
+      "route": "/kcht/approve/bến-cảng/detail",
+      "components": ["Display (thông tin bến cảng)", "Textarea (lý do phê duyệt/từ chối - bắt buộc nếu từ chối)", "Button (Phê duyệt)", "Button (Từ chối)", "Button (Quay lại)"],
+      "interactions": ["User xem chi tiết bến cảng", "User nhập lý do phê duyệt → clicks Phê duyệt → chuyển sang cấp phê duyệt tiếp theo", "User nhập lý do từ chối → clicks Từ chối → trả về cho người gửi", "Chỉ lãnh đạo Cảng vụ/Chi cục và Cục mới có quyền phê duyệt"]
+    },
+    {
+      "id": "S-118",
+      "name": "Màn hình Tìm kiếm cầu cảng chờ duyệt",
+      "description": "Danh sách cầu cảng chờ phê duyệt cấp Cảng vụ/Chi cục hoặc Cục.",
+      "route": "/kcht/approve/cầu-cảng",
+      "components": ["Datepicker (từ ngày gửi)", "Datepicker (đến ngày gửi)", "Textbox (mã)", "Textbox (tên)", "Combobox (cấp duyệt)", "Table (danh sách chờ duyệt)", "Button (Xem chi tiết)"],
+      "interactions": ["User lọc và xem danh sách chờ duyệt"]
+    },
+    {
+      "id": "S-119",
+      "name": "Màn hình Phê duyệt/Từ chối cầu cảng",
+      "description": "Phê duyệt hoặc từ chối thông tin cầu cảng với lý do.",
+      "route": "/kcht/approve/cầu-cảng/detail",
+      "components": ["Display (thông tin cầu cảng)", "Textarea (lý do phê duyệt/từ chối)", "Button (Phê duyệt)", "Button (Từ chối)", "Button (Quay lại)"],
+      "interactions": ["User phê duyệt/từ chối với lý do → cập nhật trạng thái"]
+    },
+    {
+      "id": "S-120",
+      "name": "Màn hình Tìm kiếm bến phao chờ duyệt",
+      "description": "Danh sách bến phao chờ phê duyệt cấp Cảng vụ/Chi cục hoặc Cục.",
+      "route": "/kcht/approve/bến-phao",
+      "components": ["Datepicker (từ ngày gửi)", "Datepicker (đến ngày gửi)", "Textbox (mã)", "Textbox (tên)", "Combobox (cấp duyệt)", "Table (danh sách chờ duyệt)", "Button (Xem chi tiết)"],
+      "interactions": ["User lọc và xem danh sách chờ duyệt"]
+    },
+    {
+      "id": "S-121",
+      "name": "Màn hình Phê duyệt/Từ chối bến phao",
+      "description": "Phê duyệt hoặc từ chối thông tin bến phao với lý do.",
+      "route": "/kcht/approve/bến-phao/detail",
+      "components": ["Display (thông tin bến phao)", "Textarea (lý do phê duyệt/từ chối)", "Button (Phê duyệt)", "Button (Từ chối)", "Button (Quay lại)"],
+      "interactions": ["User phê duyệt/từ chối với lý do → cập nhật trạng thái"]
+    },
+    {
+      "id": "S-122",
+      "name": "Màn hình Tìm kiếm khu tránh trú bão chờ duyệt",
+      "description": "Danh sách khu tránh trú bão chờ phê duyệt.",
+      "route": "/kcht/approve/khu-tránh-bão",
+      "components": ["Datepicker (từ ngày gửi)", "Datepicker (đến ngày gửi)", "Textbox (mã)", "Textbox (tên)", "Combobox (cấp duyệt)", "Table (danh sách chờ duyệt)", "Button (Xem chi tiết)"],
+      "interactions": ["User lọc và xem danh sách chờ duyệt"]
+    },
+    {
+      "id": "S-123",
+      "name": "Màn hình Phê duyệt/Từ chối khu tránh trú bão",
+      "description": "Phê duyệt hoặc từ chối thông tin khu tránh trú bão với lý do.",
+      "route": "/kcht/approve/khu-tránh-bão/detail",
+      "components": ["Display (thông tin khu tránh trú bão)", "Textarea (lý do phê duyệt/từ chối)", "Button (Phê duyệt)", "Button (Từ chối)", "Button (Quay lại)"],
+      "interactions": ["User phê duyệt/từ chối với lý do → cập nhật trạng thái"]
+    },
+    {
+      "id": "S-124",
+      "name": "Màn hình Tìm kiếm khu chuyển tải chờ duyệt",
+      "description": "Danh sách khu chuyển tải chờ phê duyệt.",
+      "route": "/kcht/approve/khu-chuyển-tải",
+      "components": ["Datepicker (từ ngày gửi)", "Datepicker (đến ngày gửi)", "Textbox (mã)", "Textbox (tên)", "Combobox (cấp duyệt)", "Table (danh sách chờ duyệt)", "Button (Xem chi tiết)"],
+      "interactions": ["User lọc và xem danh sách chờ duyệt"]
+    },
+    {
+      "id": "S-125",
+      "name": "Màn hình Phê duyệt/Từ chối khu chuyển tải",
+      "description": "Phê duyệt hoặc từ chối thông tin khu chuyển tải với lý do.",
+      "route": "/kcht/approve/khu-chuyển-tải/detail",
+      "components": ["Display (thông tin khu chuyển tải)", "Textarea (lý do phê duyệt/từ chối)", "Button (Phê duyệt)", "Button (Từ chối)", "Button (Quay lại)"],
+      "interactions": ["User phê duyệt/từ chối với lý do → cập nhật trạng thái"]
+    },
+    {
+      "id": "S-126",
+      "name": "Màn hình Tìm kiếm khu neo đậu chờ duyệt",
+      "description": "Danh sách khu neo đậu chờ phê duyệt.",
+      "route": "/kcht/approve/khu-neo-đậu",
+      "components": ["Datepicker (từ ngày gửi)", "Datepicker (đến ngày gửi)", "Textbox (mã)", "Textbox (tên)", "Combobox (cấp duyệt)", "Table (danh sách chờ duyệt)", "Button (Xem chi tiết)"],
+      "interactions": ["User lọc và xem danh sách chờ duyệt"]
+    },
+    {
+      "id": "S-127",
+      "name": "Màn hình Phê duyệt/Từ chối khu neo đậu",
+      "description": "Phê duyệt hoặc từ chối thông tin khu neo đậu với lý do.",
+      "route": "/kcht/approve/khu-neo-đậu/detail",
+      "components": ["Display (thông tin khu neo đậu)", "Textarea (lý do phê duyệt/từ chối)", "Button (Phê duyệt)", "Button (Từ chối)", "Button (Quay lại)"],
+      "interactions": ["User phê duyệt/từ chối với lý do → cập nhật trạng thái"]
+    },
+    {
+      "id": "S-128",
+      "name": "Màn hình Tìm kiếm cơ sở sửa chữa đóng tàu chờ duyệt",
+      "description": "Danh sách cơ sở sửa chữa đóng tàu chờ phê duyệt.",
+      "route": "/kcht/approve/cơ-sở-sửa-chữa",
+      "components": ["Datepicker (từ ngày gửi)", "Datepicker (đến ngày gửi)", "Textbox (mã)", "Textbox (tên)", "Combobox (cấp duyệt)", "Table (danh sách chờ duyệt)", "Button (Xem chi tiết)"],
+      "interactions": ["User lọc và xem danh sách chờ duyệt"]
+    },
+    {
+      "id": "S-129",
+      "name": "Màn hình Phê duyệt/Từ chối cơ sở sửa chữa đóng tàu",
+      "description": "Phê duyệt hoặc từ chối thông tin cơ sở sửa chữa đóng tàu với lý do.",
+      "route": "/kcht/approve/cơ-sở-sửa-chữa/detail",
+      "components": ["Display (thông tin cơ sở)", "Textarea (lý do phê duyệt/từ chối)", "Button (Phê duyệt)", "Button (Từ chối)", "Button (Quay lại)"],
+      "interactions": ["User phê duyệt/từ chối với lý do → cập nhật trạng thái"]
+    },
+    {
+      "id": "S-130",
+      "name": "Màn hình Tìm kiếm đèn biển và nhà trạm chờ duyệt",
+      "description": "Danh sách đèn biển và nhà trạm chờ phê duyệt.",
+      "route": "/kcht/approve/đèn-biển",
+      "components": ["Datepicker (từ ngày gửi)", "Datepicker (đến ngày gửi)", "Textbox (mã)", "Textbox (tên)", "Combobox (cấp duyệt)", "Table (danh sách chờ duyệt)", "Button (Xem chi tiết)"],
+      "interactions": ["User lọc và xem danh sách chờ duyệt"]
+    },
+    {
+      "id": "S-131",
+      "name": "Màn hình Phê duyệt/Từ chối đèn biển và nhà trạm",
+      "description": "Phê duyệt hoặc từ chối thông tin đèn biển và nhà trạm với lý do.",
+      "route": "/kcht/approve/đèn-biển/detail",
+      "components": ["Display (thông tin đèn biển)", "Textarea (lý do phê duyệt/từ chối)", "Button (Phê duyệt)", "Button (Từ chối)", "Button (Quay lại)"],
+      "interactions": ["User phê duyệt/từ chối với lý do → cập nhật trạng thái"]
+    },
+    {
+      "id": "S-132",
+      "name": "Màn hình Tìm kiếm phao tiêu và nhà trạm chờ duyệt",
+      "description": "Danh sách phao tiêu và nhà trạm chờ phê duyệt.",
+      "route": "/kcht/approve/phao-tiêu",
+      "components": ["Datepicker (từ ngày gửi)", "Datepicker (đến ngày gửi)", "Textbox (mã)", "Textbox (tên)", "Combobox (cấp duyệt)", "Table (danh sách chờ duyệt)", "Button (Xem chi tiết)"],
+      "interactions": ["User lọc và xem danh sách chờ duyệt"]
+    },
+    {
+      "id": "S-133",
+      "name": "Màn hình Phê duyệt/Từ chối phao tiêu và nhà trạm",
+      "description": "Phê duyệt hoặc từ chối thông tin phao tiêu và nhà trạm với lý do.",
+      "route": "/kcht/approve/phao-tiêu/detail",
+      "components": ["Display (thông tin phao tiêu)", "Textarea (lý do phê duyệt/từ chối)", "Button (Phê duyệt)", "Button (Từ chối)", "Button (Quay lại)"],
+      "interactions": ["User phê duyệt/từ chối với lý do → cập nhật trạng thái"]
+    },
+    {
+      "id": "S-134",
+      "name": "Màn hình Tìm kiếm VTS chờ duyệt",
+      "description": "Danh sách hệ thống VTS chờ phê duyệt.",
+      "route": "/kcht/approve/vts",
+      "components": ["Datepicker (từ ngày gửi)", "Datepicker (đến ngày gửi)", "Textbox (mã)", "Textbox (tên)", "Combobox (cấp duyệt)", "Table (danh sách chờ duyệt)", "Button (Xem chi tiết)"],
+      "interactions": ["User lọc và xem danh sách chờ duyệt"]
+    },
+    {
+      "id": "S-135",
+      "name": "Màn hình Phê duyệt/Từ chối hệ thống VTS",
+      "description": "Phê duyệt hoặc từ chối thông tin hệ thống VTS với lý do.",
+      "route": "/kcht/approve/vts/detail",
+      "components": ["Display (thông tin VTS)", "Textarea (lý do phê duyệt/từ chối)", "Button (Phê duyệt)", "Button (Từ chối)", "Button (Quay lại)"],
+      "interactions": ["User phê duyệt/từ chối với lý do → cập nhật trạng thái"]
+    },
+    {
+      "id": "S-136",
+      "name": "Màn hình Tìm kiếm trung tâm điều hành VTS chờ duyệt",
+      "description": "Danh sách trung tâm điều hành VTS chờ phê duyệt.",
+      "route": "/kcht/approve/vts-center",
+      "components": ["Datepicker (từ ngày gửi)", "Datepicker (đến ngày gửi)", "Textbox (mã)", "Textbox (tên)", "Combobox (cấp duyệt)", "Table (danh sách chờ duyệt)", "Button (Xem chi tiết)"],
+      "interactions": ["User lọc và xem danh sách chờ duyệt"]
+    },
+    {
+      "id": "S-137",
+      "name": "Màn hình Phê duyệt/Từ chối trung tâm điều hành VTS",
+      "description": "Phê duyệt hoặc từ chối thông tin trung tâm điều hành VTS với lý do.",
+      "route": "/kcht/approve/vts-center/detail",
+      "components": ["Display (thông tin TT điều hành VTS)", "Textarea (lý do phê duyệt/từ chối)", "Button (Phê duyệt)", "Button (Từ chối)", "Button (Quay lại)"],
+      "interactions": ["User phê duyệt/từ chối với lý do → cập nhật trạng thái"]
+    },
+    {
+      "id": "S-138",
+      "name": "Màn hình Tìm kiếm trạm radar chờ duyệt",
+      "description": "Danh sách trạm radar chờ phê duyệt.",
+      "route": "/kcht/approve/radar",
+      "components": ["Datepicker (từ ngày gửi)", "Datepicker (đến ngày gửi)", "Textbox (mã)", "Textbox (tên)", "Combobox (cấp duyệt)", "Table (danh sách chờ duyệt)", "Button (Xem chi tiết)"],
+      "interactions": ["User lọc và xem danh sách chờ duyệt"]
+    },
+    {
+      "id": "S-139",
+      "name": "Màn hình Phê duyệt/Từ chối trạm radar",
+      "description": "Phê duyệt hoặc từ chối thông tin trạm radar với lý do.",
+      "route": "/kcht/approve/radar/detail",
+      "components": ["Display (thông tin trạm radar)", "Textarea (lý do phê duyệt/từ chối)", "Button (Phê duyệt)", "Button (Từ chối)", "Button (Quay lại)"],
+      "interactions": ["User phê duyệt/từ chối với lý do → cập nhật trạng thái"]
+    },
+    {
+      "id": "S-140",
+      "name": "Màn hình Tìm kiếm AIS chờ duyệt",
+      "description": "Danh sách hệ thống AIS chờ phê duyệt.",
+      "route": "/kcht/approve/ais",
+      "components": ["Datepicker (từ ngày gửi)", "Datepicker (đến ngày gửi)", "Textbox (mã)", "Textbox (tên)", "Combobox (cấp duyệt)", "Table (danh sách chờ duyệt)", "Button (Xem chi tiết)"],
+      "interactions": ["User lọc và xem danh sách chờ duyệt"]
+    },
+    {
+      "id": "S-141",
+      "name": "Màn hình Phê duyệt/Từ chối hệ thống AIS",
+      "description": "Phê duyệt hoặc từ chối thông tin hệ thống AIS với lý do.",
+      "route": "/kcht/approve/ais/detail",
+      "components": ["Display (thông tin AIS)", "Textarea (lý do phê duyệt/từ chối)", "Button (Phê duyệt)", "Button (Từ chối)", "Button (Quay lại)"],
+      "interactions": ["User phê duyệt/từ chối với lý do → cập nhật trạng thái"]
+    },
+    {
+      "id": "S-142",
+      "name": "Màn hình Tìm kiếm CCTV chờ duyệt",
+      "description": "Danh sách hệ thống CCTV chờ phê duyệt.",
+      "route": "/kcht/approve/cctv",
+      "components": ["Datepicker (từ ngày gửi)", "Datepicker (đến ngày gửi)", "Textbox (mã)", "Textbox (tên)", "Combobox (cấp duyệt)", "Table (danh sách chờ duyệt)", "Button (Xem chi tiết)"],
+      "interactions": ["User lọc và xem danh sách chờ duyệt"]
+    },
+    {
+      "id": "S-143",
+      "name": "Màn hình Phê duyệt/Từ chối hệ thống CCTV",
+      "description": "Phê duyệt hoặc từ chối thông tin hệ thống CCTV với lý do.",
+      "route": "/kcht/approve/cctv/detail",
+      "components": ["Display (thông tin CCTV)", "Textarea (lý do phê duyệt/từ chối)", "Button (Phê duyệt)", "Button (Từ chối)", "Button (Quay lại)"],
+      "interactions": ["User phê duyệt/từ chối với lý do → cập nhật trạng thái"]
+    },
+    {
+      "id": "S-144",
+      "name": "Màn hình Tìm kiếm SCADA chờ duyệt",
+      "description": "Danh sách hệ thống SCADA chờ phê duyệt.",
+      "route": "/kcht/approve/scada",
+      "components": ["Datepicker (từ ngày gửi)", "Datepicker (đến ngày gửi)", "Textbox (mã)", "Textbox (tên)", "Combobox (cấp duyệt)", "Table (danh sách chờ duyệt)", "Button (Xem chi tiết)"],
+      "interactions": ["User lọc và xem danh sách chờ duyệt"]
+    },
+    {
+      "id": "S-145",
+      "name": "Màn hình Phê duyệt/Từ chối hệ thống SCADA",
+      "description": "Phê duyệt hoặc từ chối thông tin hệ thống SCADA với lý do.",
+      "route": "/kcht/approve/scada/detail",
+      "components": ["Display (thông tin SCADA)", "Textarea (lý do phê duyệt/từ chối)", "Button (Phê duyệt)", "Button (Từ chối)", "Button (Quay lại)"],
+      "interactions": ["User phê duyệt/từ chối với lý do → cập nhật trạng thái"]
+    },
+    {
+      "id": "S-146",
+      "name": "Màn hình Tìm kiếm VHF chờ duyệt",
+      "description": "Danh sách hệ thống VHF chờ phê duyệt.",
+      "route": "/kcht/approve/vhf",
+      "components": ["Datepicker (từ ngày gửi)", "Datepicker (đến ngày gửi)", "Textbox (mã)", "Textbox (tên)", "Combobox (cấp duyệt)", "Table (danh sách chờ duyệt)", "Button (Xem chi tiết)"],
+      "interactions": ["User lọc và xem danh sách chờ duyệt"]
+    },
+    {
+      "id": "S-147",
+      "name": "Màn hình Phê duyệt/Từ chối hệ thống VHF",
+      "description": "Phê duyệt hoặc từ chối thông tin hệ thống VHF với lý do.",
+      "route": "/kcht/approve/vhf/detail",
+      "components": ["Display (thông tin VHF)", "Textarea (lý do phê duyệt/từ chối)", "Button (Phê duyệt)", "Button (Từ chối)", "Button (Quay lại)"],
+      "interactions": ["User phê duyệt/từ chối với lý do → cập nhật trạng thái"]
+    },
+    {
+      "id": "S-148",
+      "name": "Màn hình Tìm kiếm truyền dẫn chờ duyệt",
+      "description": "Danh sách hệ thống truyền dẫn chờ phê duyệt.",
+      "route": "/kcht/approve/tranding",
+      "components": ["Datepicker (từ ngày gửi)", "Datepicker (đến ngày gửi)", "Textbox (mã)", "Textbox (tên)", "Combobox (cấp duyệt)", "Table (danh sách chờ duyệt)", "Button (Xem chi tiết)"],
+      "interactions": ["User lọc và xem danh sách chờ duyệt"]
+    },
+    {
+      "id": "S-149",
+      "name": "Màn hình Phê duyệt/Từ chối hệ thống truyền dẫn",
+      "description": "Phê duyệt hoặc từ chối thông tin hệ thống truyền dẫn với lý do.",
+      "route": "/kcht/approve/tranding/detail",
+      "components": ["Display (thông tin truyền dẫn)", "Textarea (lý do phê duyệt/từ chối)", "Button (Phê duyệt)", "Button (Từ chối)", "Button (Quay lại)"],
+      "interactions": ["User phê duyệt/từ chối với lý do → cập nhật trạng thái"]
+    },
+    {
+      "id": "S-150",
+      "name": "Màn hình Tìm kiếm phụ trợ VTS chờ duyệt",
+      "description": "Danh sách hệ thống phụ trợ VTS chờ phê duyệt.",
+      "route": "/kcht/approve/ptvts",
+      "components": ["Datepicker (từ ngày gửi)", "Datepicker (đến ngày gửi)", "Textbox (mã)", "Textbox (tên)", "Combobox (cấp duyệt)", "Table (danh sách chờ duyệt)", "Button (Xem chi tiết)"],
+      "interactions": ["User lọc và xem danh sách chờ duyệt"]
+    },
+    {
+      "id": "S-151",
+      "name": "Màn hình Phê duyệt/Từ chối hệ thống phụ trợ VTS",
+      "description": "Phê duyệt hoặc từ chối thông tin hệ thống phụ trợ VTS với lý do.",
+      "route": "/kcht/approve/ptvts/detail",
+      "components": ["Display (thông tin phụ trợ VTS)", "Textarea (lý do phê duyệt/từ chối)", "Button (Phê duyệt)", "Button (Từ chối)", "Button (Quay lại)"],
+      "interactions": ["User phê duyệt/từ chối với lý do → cập nhật trạng thái"]
+    },
+    {
+      "id": "S-152",
+      "name": "Màn hình Tìm kiếm đê chắn sóng, kè chờ duyệt",
+      "description": "Danh sách đê chắn sóng, kè chờ phê duyệt.",
+      "route": "/kcht/approve/đê-kè",
+      "components": ["Datepicker (từ ngày gửi)", "Datepicker (đến ngày gửi)", "Textbox (mã)", "Textbox (tên)", "Combobox (cấp duyệt)", "Table (danh sách chờ duyệt)", "Button (Xem chi tiết)"],
+      "interactions": ["User lọc và xem danh sách chờ duyệt"]
+    },
+    {
+      "id": "S-153",
+      "name": "Màn hình Phê duyệt/Từ chối đê chắn sóng, kè",
+      "description": "Phê duyệt hoặc từ chối thông tin đê chắn sóng, kè với lý do.",
+      "route": "/kcht/approve/đê-kè/detail",
+      "components": ["Display (thông tin đê/kè)", "Textarea (lý do phê duyệt/từ chối)", "Button (Phê duyệt)", "Button (Từ chối)", "Button (Quay lại)"],
+      "interactions": ["User phê duyệt/từ chối với lý do → cập nhật trạng thái"]
+    },
+    {
+      "id": "S-154",
+      "name": "Màn hình Tìm kiếm luồng hàng hải chờ duyệt",
+      "description": "Danh sách luồng hàng hải chờ phê duyệt.",
+      "route": "/kcht/approve/luồng-hàng-hải",
+      "components": ["Datepicker (từ ngày gửi)", "Datepicker (đến ngày gửi)", "Textbox (mã)", "Textbox (tên)", "Combobox (cấp duyệt)", "Table (danh sách chờ duyệt)", "Button (Xem chi tiết)"],
+      "interactions": ["User lọc và xem danh sách chờ duyệt"]
+    },
+    {
+      "id": "S-155",
+      "name": "Màn hình Phê duyệt/Từ chối luồng hàng hải",
+      "description": "Phê duyệt hoặc từ chối thông tin luồng hàng hải với lý do.",
+      "route": "/kcht/approve/luồng-hàng-hải/detail",
+      "components": ["Display (thông tin luồng hàng hải)", "Textarea (lý do phê duyệt/từ chối)", "Button (Phê duyệt)", "Button (Từ chối)", "Button (Quay lại)"],
+      "interactions": ["User phê duyệt/từ chối với lý do → cập nhật trạng thái"]
+    },
+    {
+      "id": "S-156",
+      "name": "Màn hình Tìm kiếm đài TTDH chờ duyệt",
+      "description": "Danh sách đài TTDH chờ phê duyệt.",
+      "route": "/kcht/approve/ttdh",
+      "components": ["Datepicker (từ ngày gửi)", "Datepicker (đến ngày gửi)", "Textbox (mã)", "Textbox (tên)", "Combobox (cấp duyệt)", "Table (danh sách chờ duyệt)", "Button (Xem chi tiết)"],
+      "interactions": ["User lọc và xem danh sách chờ duyệt"]
+    },
+    {
+      "id": "S-157",
+      "name": "Màn hình Phê duyệt/Từ chối đài TTDH",
+      "description": "Phê duyệt hoặc từ chối thông tin đài TTDH với lý do.",
+      "route": "/kcht/approve/ttdh/detail",
+      "components": ["Display (thông tin đài TTDH)", "Textarea (lý do phê duyệt/từ chối)", "Button (Phê duyệt)", "Button (Từ chối)", "Button (Quay lại)"],
+      "interactions": ["User phê duyệt/từ chối với lý do → cập nhật trạng thái"]
+    },
+    {
+      "id": "S-158",
+      "name": "Màn hình Tìm kiếm đài Inmarsat chờ duyệt",
+      "description": "Danh sách đài Inmarsat chờ phê duyệt.",
+      "route": "/kcht/approve/inmarsat",
+      "components": ["Datepicker (từ ngày gửi)", "Datepicker (đến ngày gửi)", "Textbox (mã)", "Textbox (tên)", "Combobox (cấp duyệt)", "Table (danh sách chờ duyệt)", "Button (Xem chi tiết)"],
+      "interactions": ["User lọc và xem danh sách chờ duyệt"]
+    },
+    {
+      "id": "S-159",
+      "name": "Màn hình Phê duyệt/Từ chối đài Inmarsat",
+      "description": "Phê duyệt hoặc từ chối thông tin đài Inmarsat với lý do.",
+      "route": "/kcht/approve/inmarsat/detail",
+      "components": ["Display (thông tin đài Inmarsat)", "Textarea (lý do phê duyệt/từ chối)", "Button (Phê duyệt)", "Button (Từ chối)", "Button (Quay lại)"],
+      "interactions": ["User phê duyệt/từ chối với lý do → cập nhật trạng thái"]
+    },
+    {
+      "id": "S-160",
+      "name": "Màn hình Tìm kiếm đài Cospas-Sarsat chờ duyệt",
+      "description": "Danh sách đài Cospas-Sarsat chờ phê duyệt.",
+      "route": "/kcht/approve/cospas-sarsat",
+      "components": ["Datepicker (từ ngày gửi)", "Datepicker (đến ngày gửi)", "Textbox (mã)", "Textbox (tên)", "Combobox (cấp duyệt)", "Table (danh sách chờ duyệt)", "Button (Xem chi tiết)"],
+      "interactions": ["User lọc và xem danh sách chờ duyệt"]
+    },
+    {
+      "id": "S-161",
+      "name": "Màn hình Phê duyệt/Từ chối đài Cospas-Sarsat",
+      "description": "Phê duyệt hoặc từ chối thông tin đài Cospas-Sarsat với lý do.",
+      "route": "/kcht/approve/cospas-sarsat/detail",
+      "components": ["Display (thông tin đài Cospas-Sarsat)", "Textarea (lý do phê duyệt/từ chối)", "Button (Phê duyệt)", "Button (Từ chối)", "Button (Quay lại)"],
+      "interactions": ["User phê duyệt/từ chối với lý do → cập nhật trạng thái"]
+    },
+    {
+      "id": "S-162",
+      "name": "Màn hình Tìm kiếm đài LRIT chờ duyệt",
+      "description": "Danh sách đài LRIT chờ phê duyệt.",
+      "route": "/kcht/approve/lrit",
+      "components": ["Datepicker (từ ngày gửi)", "Datepicker (đến ngày gửi)", "Textbox (mã)", "Textbox (tên)", "Combobox (cấp duyệt)", "Table (danh sách chờ duyệt)", "Button (Xem chi tiết)"],
+      "interactions": ["User lọc và xem danh sách chờ duyệt"]
+    },
+    {
+      "id": "S-163",
+      "name": "Màn hình Phê duyệt/Từ chối đài LRIT",
+      "description": "Phê duyệt hoặc từ chối thông tin đài LRIT với lý do.",
+      "route": "/kcht/approve/lrit/detail",
+      "components": ["Display (thông tin đài LRIT)", "Textarea (lý do phê duyệt/từ chối)", "Button (Phê duyệt)", "Button (Từ chối)", "Button (Quay lại)"],
+      "interactions": ["User phê duyệt/từ chối với lý do → cập nhật trạng thái"]
+    },
+    {
+      "id": "S-164",
+      "name": "Màn hình Tìm kiếm đài TTDH Hà Nội chờ duyệt",
+      "description": "Danh sách đài TTDH Hà Nội chờ phê duyệt.",
+      "route": "/kcht/approve/hanoi-center",
+      "components": ["Datepicker (từ ngày gửi)", "Datepicker (đến ngày gửi)", "Textbox (mã)", "Textbox (tên)", "Combobox (cấp duyệt)", "Table (danh sách chờ duyệt)", "Button (Xem chi tiết)"],
+      "interactions": ["User lọc và xem danh sách chờ duyệt"]
+    },
+    {
+      "id": "S-165",
+      "name": "Màn hình Phê duyệt/Từ chối đài TTDH Hà Nội",
+      "description": "Phê duyệt hoặc từ chối thông tin đài TTDH Hà Nội với lý do.",
+      "route": "/kcht/approve/hanoi-center/detail",
+      "components": ["Display (thông tin đài TTDH Hà Nội)", "Textarea (lý do phê duyệt/từ chối)", "Button (Phê duyệt)", "Button (Từ chối)", "Button (Quay lại)"],
+      "interactions": ["User phê duyệt/từ chối với lý do → cập nhật trạng thái"]
+    },
+    {
+      "id": "S-166",
+      "name": "Màn hình Quản lý vận hành khai thác",
+      "description": "Quản lý thông tin vận hành khai thác: ngày vận hành, trạng thái, theo dõi hoạt động KCHT.",
+      "route": "/vhx/khao-thac",
+      "components": ["Combobox (loại KCHT)", "Combobox (đơn vị)", "Datepicker (ngày vận hành)", "Combobox (trạng thái vận hành)", "Table (danh sách vận hành)", "Button (Thêm mới)", "Button (Sửa)", "Button (Xóa)"],
+      "interactions": ["User thêm mới thông tin vận hành", "User sửa, xóa thông tin vận hành", "Lọc theo loại KCHT, đơn vị, trạng thái", "Trạng thái: hoạt động bình thường, ngừng hoạt động, bảo trì"]
+    },
+    {
+      "id": "S-167",
+      "name": "Màn hình Quản lý bảo trì",
+      "description": "Quản lý thông tin bảo trì định kỳ và đột xuất.",
+      "route": "/vhx/bao-tri",
+      "components": ["Combobox (loại KCHT)", "Combobox (loại bảo trì)", "Datepicker (ngày bảo trì)", "Textarea (mô tả)", "Table (danh sách bảo trì)", "Button (Thêm mới)", "Button (Sửa)", "Button (Xóa)"],
+      "interactions": ["User thêm mới bảo trì: loại (định kỳ/đột xuất), ngày, mô tả", "User sửa, xóa thông tin bảo trì", "Cập nhật trạng thái bảo trì"]
+    },
+    {
+      "id": "S-168",
+      "name": "Màn hình Quản lý sự cố",
+      "description": "Quản lý thông tin sự cố: ghi nhận, xử lý, cập nhật trạng thái.",
+      "route": "/vhx/su-co",
+      "components": ["Combobox (loại KCHT)", "Datepicker (ngày sự cố)", "Textarea (mô tả sự cố)", "Combobox (trạng thái sự cố)", "Table (danh sách sự cố)", "Button (Thêm mới)", "Button (Sửa)", "Button (Xóa)"],
+      "interactions": ["User ghi nhận sự cố: ngày, mô tả, trạng thái", "User cập nhật trạng thái xử lý sự cố", "Lọc theo KCHT và trạng thái", "Sự cố nghiêm trọng → báo cáo lên cấp trên"]
+    },
+    {
+      "id": "S-169",
+      "name": "Màn hình Quản lý quy hoạch bến cảng",
+      "description": "Quản lý danh sách thông tin quy hoạch bến cảng theo quyết định.",
+      "route": "/quy-hoach/bien-cang",
+      "components": ["Textbox (số quyết định)", "Textbox (tên cảng biển)", "Datepicker (ngày quyết định)", "Table (danh sách quy hoạch)", "Button (Thêm mới)", "Button (Xem chi tiết)", "Button (Cập nhật)"],
+      "interactions": ["User thêm mới quy hoạch: số quyết định, ngày, mục tiêu, dự báo dân năm, nội dung", "Danh mục hàng hóa thông qua (JSON)", "Kế hoạch chi tiết (JSON)", "File đính kèm lên MinIO"]
+    },
+    {
+      "id": "S-170",
+      "name": "Màn hình Tra cứu quy hoạch bến cảng",
+      "description": "Tra cứu thông tin quy hoạch bến cảng hàng hải, hiển thị trên bản đồ số.",
+      "route": "/quy-hoach/tra-cuu",
+      "components": ["Textbox (số quyết định)", "Combobox (cảng biển)", "Button (Tìm kiếm)", "Table (kết quả)", "Button (Xem chi tiết)", "Map (bản đồ số)"],
+      "interactions": ["User tìm kiếm theo số quyết định, cảng biển", "User clicks Xem chi tiết → hiển thị thông tin chi tiết", "Hiển thị vị trí quy hoạch trên bản đồ số"]
+    },
+    {
+      "id": "S-171",
+      "name": "Màn hình Cập nhật quy hoạch bến cảng",
+      "description": "Cập nhật quy hoạch bến cảng với các chỉ tiêu chi tiết.",
+      "route": "/quy-hoach/cap-nhat",
+      "components": ["Textbox (số quyết định)", "Datepicker (ngày quyết định)", "Textarea (mục tiêu)", "Textarea (nội dung)", "Textbox (dự báo dân năm)", "Textarea (nhu cầu đất/mặt nước)", "Textarea (nhu cầu vốn)", "JSON editor (kế hoạch chi tiết)", "JSON editor (danh mục hàng hóa)", "File upload (đính kèm)", "Button (Lưu)", "Map (bản đồ số)"],
+      "interactions": ["User cập nhật các chỉ tiêu quy hoạch", "User clicks Lưu → cập nhật vào dbo.QH_BEN_CANG", "Hiển thị trên bản đồ số"]
+    },
+    {
+      "id": "S-172",
+      "name": "Màn hình Quản lý tài sản bến cảng",
+      "description": "Quản lý tài sản bến cảng: CRUD, phê duyệt, đính kèm tài liệu, lịch sử hình thành.",
+      "route": "/tai-san/bien-cang",
+      "components": ["Textbox (mã tài sản)", "Textbox (tên tài sản)", "Datepicker (ngày giao quản lý)", "Textarea (giá trị nguyên giá)", "File upload (tài liệu đính kèm)", "Table (danh sách tài sản)", "Button (Thêm mới)", "Button (Sửa)", "Button (Xóa)", "Button (Lưu tạm)", "Button (Gửi duyệt)"],
+      "interactions": ["User thêm mới tài sản: thông tin, đính kèm tài liệu", "Lưu tạm (nháp) hoặc gửi phê duyệt", "Xem lịch sử hình thành tài sản", "Phê duyệt theo quy trình 3 cấp"]
+    },
+    {
+      "id": "S-173",
+      "name": "Màn hình Phê duyệt tài sản bến cảng",
+      "description": "Phê duyệt thông tin tài sản bến cảng.",
+      "route": "/tai-san/approve/bien-cang",
+      "components": ["Display (thông tin tài sản)", "Textarea (lý do phê duyệt/từ chối)", "Button (Phê duyệt)", "Button (Từ chối)", "Button (Quay lại)"],
+      "interactions": ["User xem danh sách tài sản chờ duyệt", "User phê duyệt/từ chối với lý do → cập nhật trạng thái"]
+    },
+    {
+      "id": "S-174",
+      "name": "Màn hình Đề nghị xử lý tài sản",
+      "description": "Quản lý đề nghị xử lý tài sản KCHTGTHH: bán, nhượng, thanh lý, hủy.",
+      "route": "/tai-san/de-nghi-xu-ly",
+      "components": ["Textbox (mã tài sản)", "Combobox (loại xử lý)", "Textarea (lý do xử lý)", "File upload (chứng từ đi kèm)", "Table (danh sách đề nghị)", "Button (Thêm mới)", "Button (Phê duyệt)", "Button (Từ chối)"],
+      "interactions": ["User tạo đề nghị xử lý: bán/nhượng/thanh lý/hủy", "Phê duyệt đề nghị xử lý theo quy trình riêng", "Xem lịch sử xử lý"]
+    },
+    {
+      "id": "S-175",
+      "name": "Màn hình Kiểm kê tài sản",
+      "description": "Kiểm kê tài sản kết cấu hạ tầng.",
+      "route": "/tai-san/kiem-ke",
+      "components": ["Combobox (loại KCHT)", "Datepicker (ngày kiểm kê)", "Table (danh sách tài sản cần kiểm kê)", "Textbox (số lượng thực tế)", "Button (Tạo phiếu kiểm kê)", "Button (Lưu kết quả)", "Button (Xuất báo cáo)"],
+      "interactions": ["User tạo phiếu kiểm kê theo loại KCHT", "Nhập kết quả kiểm kê thực tế", "So sánh với sổ sách", "Xuất báo cáo kiểm kê ra Excel", "Phòng Tài chính tham gia kiểm kê"]
+    },
+    {
+      "id": "S-176",
+      "name": "Màn hình Quản lý sản lượng cảng biển",
+      "description": "Quản lý sản lượng cảng biển: hàng hóa xuất/nhập, hành khách theo tháng/năm.",
+      "route": "/tai-san/san-luong",
+      "components": ["Combobox (cảng biển)", "Datepicker (tháng/năm)", "Textbox (hàng hóa xuất)", "Textbox (hàng hóa nhập)", "Textbox (hành khách)", "Button (Lưu)", "Button (Gửi duyệt)", "Table (sản lượng lịch sử)"],
+      "interactions": ["User nhập sản lượng hàng hóa và hành khách", "Gửi duyệt sản lượng theo quy trình 3 cấp", "Xem báo cáo sản lượng theo tháng/năm"]
+    },
+    {
+      "id": "S-177",
+      "name": "Màn hình Phê duyệt sản lượng cảng biển",
+      "description": "Phê duyệt sản lượng cảng biển.",
+      "route": "/tai-san/san-luong/approve",
+      "components": ["Display (thông tin sản lượng)", "Textarea (lý do phê duyệt/từ chối)", "Button (Phê duyệt)", "Button (Từ chối)", "Button (Quay lại)"],
+      "interactions": ["User xem danh sách sản lượng chờ duyệt", "User phê duyệt/từ chối với lý do → cập nhật trạng thái"]
+    },
+    {
+      "id": "S-178",
+      "name": "Màn hình Quản lý danh mục đối tượng điểm GIS",
+      "description": "Quản lý danh mục đối tượng điểm trên bản đồ GIS.",
+      "route": "/gis/objects",
+      "components": ["Textbox (mã danh mục)", "Textbox (tên danh mục)", "Combobox (nhóm đối tượng)", "File upload (biểu tượng)", "Table (danh sách danh mục)", "Button (Thêm mới)", "Button (Sửa)", "Button (Xóa)"],
+      "interactions": ["User thêm/sửa/xóa danh mục đối tượng điểm", "Phân loại theo nhóm KCHT", "Liên kết với biểu tượng bản đồ"]
+    },
+    {
+      "id": "S-179",
+      "name": "Màn hình Quản lý danh mục đối tượng đường GIS",
+      "description": "Quản lý danh mục đối tượng đường trên bản đồ GIS.",
+      "route": "/gis/objects/line",
+      "components": ["Textbox (mã danh mục)", "Textbox (tên danh mục)", "Combobox (nhóm đối tượng)", "Table (danh sách danh mục)", "Button (Thêm mới)", "Button (Sửa)", "Button (Xóa)"],
+      "interactions": ["User thêm/sửa/xóa danh mục đối tượng đường", "Phân loại theo nhóm (luồng hàng hải, hành lang vận tải)"]
+    },
+    {
+      "id": "S-180",
+      "name": "Màn hình Quản lý danh mục đối tượng vùng GIS",
+      "description": "Quản lý danh mục đối tượng vùng trên bản đồ GIS.",
+      "route": "/gis/objects/region",
+      "components": ["Textbox (mã danh mục)", "Textbox (tên danh mục)", "Combobox (nhóm đối tượng)", "Table (danh sách danh mục)", "Button (Thêm mới)", "Button (Sửa)", "Button (Xóa)"],
+      "interactions": ["User thêm/sửa/xóa danh mục đối tượng vùng", "Phân loại theo nhóm (khu tránh trú bão, khu neo đậu)"]
+    },
+    {
+      "id": "S-181",
+      "name": "Màn hình Bản đồ GIS - Thông tin KCHTGTHH",
+      "description": "Hiển thị thông tin KCHTGTHH trên bản đồ tích hợp GeoServer (WMS/WFS), 49 mảnh hải đồ điện tử.",
+      "route": "/gis/map",
+      "components": ["Map (Leaflet)", "Layer control (danh sách layers)", "Search bar (tìm kiếm vị trí)", "Combobox (loại đối tượng)", "Combobox (mảnh hải đồ)", "Control (zoom in/out)", "Control (pan)", "Popup (thông tin chi tiết khi click vào đối tượng)", "Legend (chú giải)", "Scale bar (thước tỷ lệ)", "49 mảnh hải đồ .000 qua PostGIS"],
+      "interactions": ["User xem các đối tượng KCHT trên bản đồ", "User clicks vào đối tượng → hiển thị popup thông tin chi tiết", "User lọc theo loại đối tượng", "User zoom, pan bản đồ", "User chọn mảnh hải đồ từ danh sách", "Hiển thị WMS/WFS từ GeoServer", "Hệ quy chiếu VN-2000"]
+    },
+    {
+      "id": "S-182",
+      "name": "Màn hình Tra cứu trên bản đồ GIS",
+      "description": "Tra cứu thông tin KCHTGTHH trên bản đồ với công cụ tìm kiếm.",
+      "route": "/gis/search",
+      "components": ["Search bar (tìm kiếm theo tên/mã)", "Map (Leaflet)", "Table (kết quả tìm kiếm)", "List (danh sách kết quả)", "Button (Xem chi tiết)", "Button (Hiển thị trên bản đồ)"],
+      "interactions": ["User nhập tên/mã KCHT → tìm kiếm", "Hiển thị kết quả tìm kiếm trong danh sách + vị trí trên bản đồ", "User clicks Xem chi tiết → màn hình chi tiết"]
+    },
+    {
+      "id": "S-183",
+      "name": "Màn hình Quản lý hải đồ điện tử",
+      "description": "Quản lý 49 mảnh hải đồ điện tử tích hợp PostGIS.",
+      "route": "/gis/ha-do",
+      "components": ["Table (danh sách 49 mảnh hải đồ)", "Textbox (số hải đồ)", "Textbox (tiêu đề)", "Datepicker (ngày phát hành)", "Display (tỷ lệ)", "Display (đại sử dụng)", "Button (Thêm mới)", "Button (Sửa)", "Button (Xóa)"],
+      "interactions": ["User xem danh sách 49 mảnh hải đồ", "User thêm/sửa/xóa hải đồ", "Hiển thị thông tin hải đồ: V24CD001.000 ~ VN4HP007.000"]
+    },
+    {
+      "id": "S-184",
+      "name": "Màn hình Báo cáo thống kê chung",
+      "description": "Báo cáo tăng giảm tài sản, mẫu B03/CCTT, mẫu 02-06.",
+      "route": "/bao-cao/tong-quan",
+      "components": ["Combobox (ký báo cáo)", "Datepicker (từ ngày)", "Datepicker (đến ngày)", "Table (tăng giảm tài sản)", "Button (Xuất B03/CCTT)", "Button (Xuất mẫu 02-06)", "Button (Kết xuất Excel)"],
+      "interactions": ["User chọn kỳ báo cáo (tháng/quý/năm)", "Hiển thị báo cáo tăng giảm tài sản theo kỳ", "Xuất mẫu B03/CCTT", "Xuất mẫu 02-06", "Kết xuất Excel"]
+    },
+    {
+      "id": "S-185",
+      "name": "Màn hình Báo cáo chỉ tiêu KCHT (Biểu 01-10)",
+      "description": "Nhóm báo cáo: năng lực thông qua, thống kê cầu cảng, luồng hàng hải, VTS, đài thông tin, đê kè.",
+      "route": "/bao-cao/chi-tieu-kcht",
+      "components": ["Datepicker (từ ngày)", "Datepicker (đến ngày)", "Table (Biểu 01: năng lực thông qua)", "Table (Biểu 02-10: thống kê chi tiết)", "Button (Kết xuất Excel)"],
+      "interactions": ["User chọn kỳ báo cáo", "Hiển thị Biểu 01: năng lực thông qua cảng", "Hiển thị Biểu 02-10: thống kê từng loại KCHT", "Kết xuất Excel"]
+    },
+    {
+      "id": "S-186",
+      "name": "Màn hình Báo cáo chỉ tiêu đo lường (Biểu 11-17)",
+      "description": "Nhóm báo cáo: tàu biển, hàng hóa, hành khách thông qua.",
+      "route": "/bao-cao/chi-tieu-do-luong",
+      "components": ["Datepicker (từ ngày)", "Datepicker (đến ngày)", "Table (Biểu 11-17)", "Button (Kết xuất Excel)"],
+      "interactions": ["User chọn kỳ báo cáo", "Hiển thị số lượng tàu biển, hàng hóa, hành khách", "Kết xuất Excel"]
+    },
+    {
+      "id": "S-187",
+      "name": "Màn hình Báo cáo phương tiện và thuyền viên (Biểu 21-23)",
+      "description": "Nhóm báo cáo: thuyền viên, hoa tiêu, tàu biển, tàu lai dắt.",
+      "route": "/bao-cao/phuong-tien-thuyen-vien",
+      "components": ["Datepicker (từ ngày)", "Datepicker (đến ngày)", "Table (Biểu 21-23)", "Button (Kết xuất Excel)"],
+      "interactions": ["User chọn kỳ báo cáo", "Hiển thị số lượng thuyền viên, hoa tiêu, tàu biển", "Kết xuất Excel"]
+    },
+    {
+      "id": "S-188",
+      "name": "Màn hình Báo cáo doanh nghiệp (Biểu 31, 45)",
+      "description": "Báo cáo: cơ sở đóng mới, tổng hợp hàng hóa.",
+      "route": "/bao-cao/doanh-nghiep",
+      "components": ["Datepicker (từ ngày)", "Datepicker (đến ngày)", "Table (Biểu 31, 45)", "Button (Kết xuất Excel)"],
+      "interactions": ["User chọn kỳ báo cáo", "Hiển thị thông tin doanh nghiệp theo Biểu 31, 45", "Kết xuất Excel"]
+    },
+    {
+      "id": "S-189",
+      "name": "Màn hình Báo cáo thông tư 48 (Biểu 06, 07, 28, 29, 33)",
+      "description": "Báo cáo theo thông tư 48/2017/TT-BGTVT.",
+      "route": "/bao-cao/thong-tu-48",
+      "components": ["Datepicker (từ ngày)", "Datepicker (đến ngày)", "Table (Biểu 06, 07, 28, 29, 33)", "Button (Kết xuất Excel)"],
+      "interactions": ["User chọn kỳ báo cáo", "Hiển thị theo đúng mẫu quy định", "Kết xuất Excel"]
+    },
+    {
+      "id": "S-190",
+      "name": "Màn hình Báo cáo chuyên ngành bảo đảm (Biểu tổng hợp)",
+      "description": "Nhóm báo cáo tổng hợp: thông tin chung, KCHT, bảo trì KCHT.",
+      "route": "/bao-cao/bao-dam",
+      "components": ["Datepicker (từ ngày)", "Datepicker (đến ngày)", "Table (Biểu tổng hợp thông tin chung)", "Table (Biểu tổng hợp KCHT)", "Table (Biểu tổng hợp bảo trì KCHT)", "Button (Kết xuất Excel)"],
+      "interactions": ["User chọn kỳ báo cáo", "Dữ liệu tự động lấy từ các bảng nghiệp vụ", "Kết xuất Excel"]
+    },
+    {
+      "id": "S-191",
+      "name": "Màn hình Tra cứu kết nối liên thông",
+      "description": "Xem danh sách kết nối liên thông chia sẻ dữ liệu qua trục LGSP.",
+      "route": "/lien-thong/tra-cuu",
+      "components": ["Table (danh sách kết nối)", "Display (trạng thái đồng bộ)", "Display (kết quả COM_SYNC)", "Datepicker (từ ngày)", "Datepicker (đến ngày)", "Button (Test kết nối)"],
+      "interactions": ["User xem danh sách kết nối liên thông", "User xem trạng thái đồng bộ (COM_SYNC)", "User xem inbox/outbox tin nhắn LGSP", "User clicks Test kết nối → xác nhận thành công/thất bại"]
+    },
+    {
+      "id": "S-192",
+      "name": "Màn hình Tích hợp dữ liệu bên ngoài",
+      "description": "Quản lý tích hợp dữ liệu từ hệ thống bên ngoài (VMSN, VMSS, VISHIPEL, doanh nghiệp).",
+      "route": "/tich-hop",
+      "components": ["Textbox (URL endpoint)", "Combobox (hệ thống nguồn)", "Textbox (chứng thực)", "Datepicker (từ ngày sync)", "Datepicker (đến ngày sync)", "Table (lịch sử tích hợp)", "Button (Test kết nối)", "Button (Đồng bộ ngay)"],
+      "interactions": ["User cấu hình tham số kết nối với VMSN/VMSS/VISHIPEL/Doanh nghiệp", "User clicks Test kết nối → xác nhận qua HTTPS/VPN", "User clicks Đồng bộ ngay → bắt đầu đồng bộ dữ liệu", "Dữ liệu nhận về lưu tạm, cần kiểm tra chất lượng", "Kết nối qua HTTPS với chứng thực số, VPN Site-to-Site"]
+    },
+    {
+      "id": "S-193",
+      "name": "Màn hình Tích hợp hải đồ điện tử",
+      "description": "Quản lý 49 mảnh hải đồ điện tử, chuyển đổi từ .000 → PostGIS qua GDAL, tổ chức layers trên GeoServer.",
+      "route": "/gis/ha-do/manage",
+      "components": ["Table (danh sách hải đồ)", "File upload (.000 format)", "Combobox (chuyển đổi trạng thái)", "Display (schema PostGIS)", "Display (WMS/WFS/WMTS layers)", "Display (tile caching)"],
+      "interactions": ["User upload file hải đồ .000 → GDAL chuyển đổi → PostGIS", "Tạo view chung từ schema riêng", "Publish layers trên GeoServer (Store PostGIS, Layer Publish, Style SLD, Tile Caching)", "49 mảnh từ V24CD001.000 đến VN4HP007.000", "Hệ quy chiếu VN-2000"]
+    },
+    {
+      "id": "S-194",
+      "name": "Màn hình Tạo lập CSDL từ dữ liệu có cấu trúc",
+      "description": "Tạo lập CSDL từ 18 đơn vị: Excel → TEMP_TAO_LAP_CSDL → chuẩn hóa → đồng bộ. Hợp nhất 653 bản ghi trùng.",
+      "route": "/tich-hop/data-import",
+      "components": ["File upload (Excel template)", "Table (danh sách đơn vị cung cấp)", "Table (bản ghi trùng cần hợp nhất)", "Table (dữ liệu đã chuẩn hóa)", "Table (bảng chính)", "Button (Import)", "Button (Kiểm tra chất lượng)", "Button (Chuẩn hóa)", "Button (Đồng bộ)"],
+      "interactions": ["User upload Excel template → kiểm tra chất lượng", "Chuẩn hóa dữ liệu vào TEMP_TAO_LAP_CSDL", "Thông báo 653 bản ghi trùng → user hợp nhất", "Đồng bộ vào bảng chính", "4.503 bản ghi từ 18 đơn vị"]
+    },
+    {
+      "id": "S-195",
+      "name": "Màn hình Quét hồ sơ và upload CSDL",
+      "description": "Quét hồ sơ PDF 300dpi, upload vào CSDL QLHS → MinIO storage. 1.121 trang từ 16 loại hồ sơ.",
+      "route": "/tich-hop/scan",
+      "components": ["File upload (PDF scan 300dpi)", "Combobox (loại hồ sơ)", "Textbox (số quyết định)", "Datepicker (ngày quyết định)", "Table (danh sách đã quét)", "Button (Upload)", "Display (file path MinIO)"],
+      "interactions": ["User scan hồ sơ PDF 300dpi → upload", "Điền metadata: loại hồ sơ, số quyết định, ngày", "Upload lên MinIO storage với path {TABLE}/{ID}/{OBJ_CODE}/{SEQ}/{FILENAME}", "Liên kết với bảng QLHS", "16 loại hồ sơ: công bố mở cảng, bến, cầu, luồng..."]
+    },
+    {
+      "id": "S-196",
+      "name": "Màn hình Thêm mới hệ thống truyền dẫn",
+      "description": "Form thêm mới hệ thống truyền dẫn: mã, tên, địa điểm, công nghệ truyền dẫn (vi ba, cáp quang, vệ tinh).",
+      "route": "/kcht/manage/tranding/create",
+      "components": ["Textbox (mã)", "Textbox (tên)", "Combobox (địa điểm)", "Combobox (công nghệ truyền dẫn)", "File upload (đính kèm)", "Button (Lưu tạm)", "Button (Lưu & Gửi duyệt)", "Button (Hủy)"],
+      "interactions": ["User điền thông tin → Lưu tạm → trạng thái nháp", "User điền thông tin → Lưu & Gửi duyệt → gửi phê duyệt cấp 1", "Validation: mã unique, trường bắt buộc phải nhập"]
+    },
+    {
+      "id": "S-197",
+      "name": "Màn hình Sửa hệ thống truyền dẫn",
+      "description": "Form sửa thông tin hệ thống truyền dẫn đã tồn tại.",
+      "route": "/kcht/manage/tranding/edit",
+      "components": ["Textbox (mã - readonly)", "Textbox (tên)", "Combobox (địa điểm)", "Combobox (công nghệ truyền dẫn)", "File upload (đính kèm)", "Button (Lưu tạm)", "Button (Lưu & Gửi duyệt)", "Button (Hủy)"],
+      "interactions": ["User sửa thông tin → Lưu tạm/Lưu & Gửi duyệt", "Chỉ sửa được khi ở trạng thái nháp hoặc bị từ chối"]
+    },
+    {
+      "id": "S-198",
+      "name": "Màn hình Xem chi tiết hệ thống truyền dẫn",
+      "description": "Hiển thị thông tin chi tiết hệ thống truyền dẫn: mã, tên, địa điểm, công nghệ truyền dẫn.",
+      "route": "/kcht/manage/tranding/detail",
+      "components": ["Display (mã)", "Display (tên)", "Display (địa điểm)", "Display (công nghệ truyền dẫn)", "Display (trạng thái)", "Display (lịch sử thay đổi)", "Button (Chỉnh sửa)", "Button (Xóa)", "Button (Đóng)"],
+      "interactions": ["User xem thông tin chi tiết", "User clicks Chỉnh sửa → mở form sửa khi trạng thái cho phép", "User clicks Xóa → xác nhận xóa"]
+    },
+    {
+      "id": "S-199",
+      "name": "Màn hình Tìm kiếm hệ thống truyền dẫn chờ duyệt",
+      "description": "Danh sách hệ thống truyền dẫn chờ phê duyệt cấp Cảng vụ/Chi cục hoặc Cục.",
+      "route": "/kcht/approve/tranding-new",
+      "components": ["Datepicker (từ ngày gửi)", "Datepicker (đến ngày gửi)", "Textbox (mã)", "Textbox (tên)", "Combobox (cấp duyệt)", "Table (danh sách chờ duyệt)", "Button (Xem chi tiết)"],
+      "interactions": ["User lọc và xem danh sách chờ duyệt", "User clicks Xem chi tiết → mở màn hình phê duyệt"]
+    },
+    {
+      "id": "S-200",
+      "name": "Màn hình Phê duyệt/Từ chối hệ thống truyền dẫn",
+      "description": "Phê duyệt hoặc từ chối thông tin hệ thống truyền dẫn với lý do.",
+      "route": "/kcht/approve/tranding-new/detail",
+      "components": ["Display (thông tin truyền dẫn)", "Textarea (lý do phê duyệt/từ chối)", "Button (Phê duyệt)", "Button (Từ chối)", "Button (Quay lại)"],
+      "interactions": ["User xem chi tiết hệ thống truyền dẫn", "User nhập lý do phê duyệt → clicks Phê duyệt → chuyển sang cấp phê duyệt tiếp theo", "User nhập lý do từ chối → clicks Từ chối → trả về cho người gửi"]
+    },
+    {
+      "id": "S-201",
+      "name": "Màn hình Thêm mới hệ thống phụ trợ VTS",
+      "description": "Form thêm mới hệ thống phụ trợ VTS: mã, tên, địa điểm, loại phụ trợ.",
+      "route": "/kcht/manage/ptvts/create",
+      "components": ["Textbox (mã)", "Textbox (tên)", "Combobox (địa điểm)", "Combobox (loại phụ trợ)", "File upload (đính kèm)", "Button (Lưu tạm)", "Button (Lưu & Gửi duyệt)", "Button (Hủy)"],
+      "interactions": ["User điền thông tin → Lưu tạm → trạng thái nháp", "User điền thông tin → Lưu & Gửi duyệt → gửi phê duyệt cấp 1", "Validation: mã unique, trường bắt buộc phải nhập"]
+    },
+    {
+      "id": "S-202",
+      "name": "Màn hình Sửa hệ thống phụ trợ VTS",
+      "description": "Form sửa thông tin hệ thống phụ trợ VTS đã tồn tại.",
+      "route": "/kcht/manage/ptvts/edit",
+      "components": ["Textbox (mã - readonly)", "Textbox (tên)", "Combobox (địa điểm)", "Combobox (loại phụ trợ)", "File upload (đính kèm)", "Button (Lưu tạm)", "Button (Lưu & Gửi duyệt)", "Button (Hủy)"],
+      "interactions": ["User sửa thông tin → Lưu tạm/Lưu & Gửi duyệt", "Chỉ sửa được khi ở trạng thái nháp hoặc bị từ chối"]
+    },
+    {
+      "id": "S-203",
+      "name": "Màn hình Xem chi tiết hệ thống phụ trợ VTS",
+      "description": "Hiển thị thông tin chi tiết hệ thống phụ trợ VTS: mã, tên, địa điểm, loại phụ trợ.",
+      "route": "/kcht/manage/ptvts/detail",
+      "components": ["Display (mã)", "Display (tên)", "Display (địa điểm)", "Display (loại phụ trợ)", "Display (trạng thái)", "Display (lịch sử thay đổi)", "Button (Chỉnh sửa)", "Button (Xóa)", "Button (Đóng)"],
+      "interactions": ["User xem thông tin chi tiết", "User clicks Chỉnh sửa → mở form sửa khi trạng thái cho phép", "User clicks Xóa → xác nhận xóa"]
+    },
+    {
+      "id": "S-204",
+      "name": "Màn hình Tìm kiếm hệ thống phụ trợ VTS chờ duyệt",
+      "description": "Danh sách hệ thống phụ trợ VTS chờ phê duyệt cấp Cảng vụ/Chi cục hoặc Cục.",
+      "route": "/kcht/approve/ptvts-new",
+      "components": ["Datepicker (từ ngày gửi)", "Datepicker (đến ngày gửi)", "Textbox (mã)", "Textbox (tên)", "Combobox (cấp duyệt)", "Table (danh sách chờ duyệt)", "Button (Xem chi tiết)"],
+      "interactions": ["User lọc và xem danh sách chờ duyệt", "User clicks Xem chi tiết → mở màn hình phê duyệt"]
+    },
+    {
+      "id": "S-205",
+      "name": "Màn hình Phê duyệt/Từ chối hệ thống phụ trợ VTS",
+      "description": "Phê duyệt hoặc từ chối thông tin hệ thống phụ trợ VTS với lý do.",
+      "route": "/kcht/approve/ptvts-new/detail",
+      "components": ["Display (thông tin phụ trợ VTS)", "Textarea (lý do phê duyệt/từ chối)", "Button (Phê duyệt)", "Button (Từ chối)", "Button (Quay lại)"],
+      "interactions": ["User xem chi tiết hệ thống phụ trợ VTS", "User nhập lý do phê duyệt → clicks Phê duyệt → chuyển sang cấp phê duyệt tiếp theo", "User nhập lý do từ chối → clicks Từ chối → trả về cho người gửi"]
+    },
+    {
+      "id": "S-206",
+      "name": "Màn hình Thêm mới đê chắn sóng, kè",
+      "description": "Form thêm mới đê chắn sóng/kè: mã, tên, loại, chiều dài, chiều cao, loại kết cấu.",
+      "route": "/kcht/manage/de-ke/create",
+      "components": ["Textbox (mã)", "Textbox (tên)", "Combobox (địa điểm)", "Combobox (loại: đê chắn sóng/đê chắn cát/kè hướng dòng/kè bảo vệ bờ)", "Textbox (chiều dài)", "Textbox (chiều cao)", "Combobox (loại kết cấu)", "File upload (đính kèm)", "Button (Lưu tạm)", "Button (Lưu & Gửi duyệt)", "Button (Hủy)"],
+      "interactions": ["User điền thông tin → Lưu tạm → trạng thái nháp", "User điền thông tin → Lưu & Gửi duyệt → gửi phê duyệt cấp 1", "Validation: mã unique, trường bắt buộc phải nhập"]
+    },
+    {
+      "id": "S-207",
+      "name": "Màn hình Sửa đê chắn sóng, kè",
+      "description": "Form sửa thông tin đê chắn sóng/kè đã tồn tại.",
+      "route": "/kcht/manage/de-ke/edit",
+      "components": ["Textbox (mã - readonly)", "Textbox (tên)", "Combobox (địa điểm)", "Combobox (loại: đê chắn sóng/đê chắn cát/kè hướng dòng/kè bảo vệ bờ)", "Textbox (chiều dài)", "Textbox (chiều cao)", "Combobox (loại kết cấu)", "File upload (đính kèm)", "Button (Lưu tạm)", "Button (Lưu & Gửi duyệt)", "Button (Hủy)"],
+      "interactions": ["User sửa thông tin → Lưu tạm/Lưu & Gửi duyệt", "Chỉ sửa được khi ở trạng thái nháp hoặc bị từ chối"]
+    },
+    {
+      "id": "S-208",
+      "name": "Màn hình Xem chi tiết đê chắn sóng, kè",
+      "description": "Hiển thị thông tin chi tiết đê chắn sóng/kè: mã, tên, loại, chiều dài, chiều cao, loại kết cấu.",
+      "route": "/kcht/manage/de-ke/detail",
+      "components": ["Display (mã)", "Display (tên)", "Display (địa điểm)", "Display (loại: đê chắn sóng/đê chắn cát/kè hướng dòng/kè bảo vệ bờ)", "Display (chiều dài)", "Display (chiều cao)", "Display (loại kết cấu)", "Display (trạng thái)", "Display (lịch sử thay đổi)", "Button (Chỉnh sửa)", "Button (Xóa)", "Button (Đóng)"],
+      "interactions": ["User xem thông tin chi tiết", "User clicks Chỉnh sửa → mở form sửa khi trạng thái cho phép", "User clicks Xóa → xác nhận xóa"]
+    },
+    {
+      "id": "S-209",
+      "name": "Màn hình Tìm kiếm đê chắn sóng, kè chờ duyệt",
+      "description": "Danh sách đê chắn sóng/kè chờ phê duyệt cấp Cảng vụ/Chi cục hoặc Cục.",
+      "route": "/kcht/approve/de-ke-new",
+      "components": ["Datepicker (từ ngày gửi)", "Datepicker (đến ngày gửi)", "Textbox (mã)", "Textbox (tên)", "Combobox (cấp duyệt)", "Table (danh sách chờ duyệt)", "Button (Xem chi tiết)"],
+      "interactions": ["User lọc và xem danh sách chờ duyệt", "User clicks Xem chi tiết → mở màn hình phê duyệt"]
+    },
+    {
+      "id": "S-210",
+      "name": "Màn hình Phê duyệt/Từ chối đê chắn sóng, kè",
+      "description": "Phê duyệt hoặc từ chối thông tin đê chắn sóng/kè với lý do.",
+      "route": "/kcht/approve/de-ke-new/detail",
+      "components": ["Display (thông tin đê/kè)", "Textarea (lý do phê duyệt/từ chối)", "Button (Phê duyệt)", "Button (Từ chối)", "Button (Quay lại)"],
+      "interactions": ["User xem chi tiết đê chắn sóng/kè", "User nhập lý do phê duyệt → clicks Phê duyệt → chuyển sang cấp phê duyệt tiếp theo", "User nhập lý do từ chối → clicks Từ chối → trả về cho người gửi"]
+    },
+    {
+      "id": "S-211",
+      "name": "Màn hình Thêm mới luồng hàng hải",
+      "description": "Form thêm mới luồng hàng hải: mã, tên, cảng biển, sâu nước duy trì, chiều rộng, bán kính cua.",
+      "route": "/kcht/manage/luong-hang-hai/create",
+      "components": ["Textbox (mã)", "Textbox (tên)", "Combobox (cảng biển)", "Textbox (sâu nước duy trì)", "Textbox (chiều rộng)", "Textbox (bán kính cua)", "File upload (đính kèm)", "Button (Lưu tạm)", "Button (Lưu & Gửi duyệt)", "Button (Hủy)"],
+      "interactions": ["User điền thông tin → Lưu tạm → trạng thái nháp", "User điền thông tin → Lưu & Gửi duyệt → gửi phê duyệt cấp 1", "Validation: mã unique, trường bắt buộc phải nhập"]
+    },
+    {
+      "id": "S-212",
+      "name": "Màn hình Sửa luồng hàng hải",
+      "description": "Form sửa thông tin luồng hàng hải đã tồn tại.",
+      "route": "/kcht/manage/luong-hang-hai/edit",
+      "components": ["Textbox (mã - readonly)", "Textbox (tên)", "Combobox (cảng biển)", "Textbox (sâu nước duy trì)", "Textbox (chiều rộng)", "Textbox (bán kính cua)", "File upload (đính kèm)", "Button (Lưu tạm)", "Button (Lưu & Gửi duyệt)", "Button (Hủy)"],
+      "interactions": ["User sửa thông tin → Lưu tạm/Lưu & Gửi duyệt", "Chỉ sửa được khi ở trạng thái nháp hoặc bị từ chối"]
+    },
+    {
+      "id": "S-213",
+      "name": "Màn hình Xem chi tiết luồng hàng hải",
+      "description": "Hiển thị thông tin chi tiết luồng hàng hải: mã, tên, cảng biển, sâu nước duy trì, chiều rộng, bán kính cua.",
+      "route": "/kcht/manage/luong-hang-hai/detail",
+      "components": ["Display (mã)", "Display (tên)", "Display (cảng biển)", "Display (sâu nước duy trì)", "Display (chiều rộng)", "Display (bán kính cua)", "Display (trạng thái)", "Display (lịch sử thay đổi)", "Button (Chỉnh sửa)", "Button (Xóa)", "Button (Đóng)"],
+      "interactions": ["User xem thông tin chi tiết", "User clicks Chỉnh sửa → mở form sửa khi trạng thái cho phép", "User clicks Xóa → xác nhận xóa"]
+    },
+    {
+      "id": "S-214",
+      "name": "Màn hình Tìm kiếm luồng hàng hải chờ duyệt",
+      "description": "Danh sách luồng hàng hải chờ phê duyệt cấp Cảng vụ/Chi cục hoặc Cục.",
+      "route": "/kcht/approve/luong-hang-hai-new",
+      "components": ["Datepicker (từ ngày gửi)", "Datepicker (đến ngày gửi)", "Textbox (mã)", "Textbox (tên)", "Combobox (cấp duyệt)", "Table (danh sách chờ duyệt)", "Button (Xem chi tiết)"],
+      "interactions": ["User lọc và xem danh sách chờ duyệt", "User clicks Xem chi tiết → mở màn hình phê duyệt"]
+    },
+    {
+      "id": "S-215",
+      "name": "Màn hình Phê duyệt/Từ chối luồng hàng hải",
+      "description": "Phê duyệt hoặc từ chối thông tin luồng hàng hải với lý do.",
+      "route": "/kcht/approve/luong-hang-hai-new/detail",
+      "components": ["Display (thông tin luồng hàng hải)", "Textarea (lý do phê duyệt/từ chối)", "Button (Phê duyệt)", "Button (Từ chối)", "Button (Quay lại)"],
+      "interactions": ["User xem chi tiết luồng hàng hải", "User nhập lý do phê duyệt → clicks Phê duyệt → chuyển sang cấp phê duyệt tiếp theo", "User nhập lý do từ chối → clicks Từ chối → trả về cho người gửi"]
+    },
+    {
+      "id": "S-216",
+      "name": "Màn hình Thêm mới đài TTDH",
+      "description": "Form thêm mới đài thông tin duyên hải TTDH: mã, tên, địa điểm, tần số, dịch vụ cung cấp.",
+      "route": "/kcht/manage/ttdh/create",
+      "components": ["Textbox (mã)", "Textbox (tên)", "Combobox (địa điểm)", "Textbox (tần số liên lạc)", "Textbox (dịch vụ cung cấp)", "File upload (đính kèm)", "Button (Lưu tạm)", "Button (Lưu & Gửi duyệt)", "Button (Hủy)"],
+      "interactions": ["User điền thông tin → Lưu tạm → trạng thái nháp", "User điền thông tin → Lưu & Gửi duyệt → gửi phê duyệt cấp 1", "Validation: mã unique, trường bắt buộc phải nhập"]
+    },
+    {
+      "id": "S-217",
+      "name": "Màn hình Sửa đài TTDH",
+      "description": "Form sửa thông tin đài TTDH đã tồn tại.",
+      "route": "/kcht/manage/ttdh/edit",
+      "components": ["Textbox (mã - readonly)", "Textbox (tên)", "Combobox (địa điểm)", "Textbox (tần số liên lạc)", "Textbox (dịch vụ cung cấp)", "File upload (đính kèm)", "Button (Lưu tạm)", "Button (Lưu & Gửi duyệt)", "Button (Hủy)"],
+      "interactions": ["User sửa thông tin → Lưu tạm/Lưu & Gửi duyệt", "Chỉ sửa được khi ở trạng thái nháp hoặc bị từ chối"]
+    },
+    {
+      "id": "S-218",
+      "name": "Màn hình Xem chi tiết đài TTDH",
+      "description": "Hiển thị thông tin chi tiết đài TTDH: mã, tên, địa điểm, tần số liên lạc, dịch vụ cung cấp.",
+      "route": "/kcht/manage/ttdh/detail",
+      "components": ["Display (mã)", "Display (tên)", "Display (địa điểm)", "Display (tần số liên lạc)", "Display (dịch vụ cung cấp)", "Display (trạng thái)", "Display (lịch sử thay đổi)", "Button (Chỉnh sửa)", "Button (Xóa)", "Button (Đóng)"],
+      "interactions": ["User xem thông tin chi tiết", "User clicks Chỉnh sửa → mở form sửa khi trạng thái cho phép", "User clicks Xóa → xác nhận xóa"]
+    },
+    {
+      "id": "S-219",
+      "name": "Màn hình Tìm kiếm đài TTDH chờ duyệt",
+      "description": "Danh sách đài TTDH chờ phê duyệt cấp Cảng vụ/Chi cục hoặc Cục.",
+      "route": "/kcht/approve/ttdh-new",
+      "components": ["Datepicker (từ ngày gửi)", "Datepicker (đến ngày gửi)", "Textbox (mã)", "Textbox (tên)", "Combobox (cấp duyệt)", "Table (danh sách chờ duyệt)", "Button (Xem chi tiết)"],
+      "interactions": ["User lọc và xem danh sách chờ duyệt", "User clicks Xem chi tiết → mở màn hình phê duyệt"]
+    },
+    {
+      "id": "S-220",
+      "name": "Màn hình Phê duyệt/Từ chối đài TTDH",
+      "description": "Phê duyệt hoặc từ chối thông tin đài TTDH với lý do.",
+      "route": "/kcht/approve/ttdh-new/detail",
+      "components": ["Display (thông tin đài TTDH)", "Textarea (lý do phê duyệt/từ chối)", "Button (Phê duyệt)", "Button (Từ chối)", "Button (Quay lại)"],
+      "interactions": ["User xem chi tiết đài TTDH", "User nhập lý do phê duyệt → clicks Phê duyệt → chuyển sang cấp phê duyệt tiếp theo", "User nhập lý do từ chối → clicks Từ chối → trả về cho người gửi"]
+    },
+    {
+      "id": "S-221",
+      "name": "Màn hình Thêm mới đài Inmarsat",
+      "description": "Form thêm mới đài thông tin vệ tinh Inmarsat Hải Phòng: mã, tên, vùng phủ sóng.",
+      "route": "/kcht/manage/inmarsat/create",
+      "components": ["Textbox (mã)", "Textbox (tên)", "Textbox (vùng phủ sóng)", "File upload (đính kèm)", "Button (Lưu tạm)", "Button (Lưu & Gửi duyệt)", "Button (Hủy)"],
+      "interactions": ["User điền thông tin → Lưu tạm → trạng thái nháp", "User điền thông tin → Lưu & Gửi duyệt → gửi phê duyệt cấp 1", "Validation: mã unique, trường bắt buộc phải nhập"]
+    },
+    {
+      "id": "S-222",
+      "name": "Màn hình Sửa đài Inmarsat",
+      "description": "Form sửa thông tin đài Inmarsat đã tồn tại.",
+      "route": "/kcht/manage/inmarsat/edit",
+      "components": ["Textbox (mã - readonly)", "Textbox (tên)", "Textbox (vùng phủ sóng)", "File upload (đính kèm)", "Button (Lưu tạm)", "Button (Lưu & Gửi duyệt)", "Button (Hủy)"],
+      "interactions": ["User sửa thông tin → Lưu tạm/Lưu & Gửi duyệt", "Chỉ sửa được khi ở trạng thái nháp hoặc bị từ chối"]
+    },
+    {
+      "id": "S-223",
+      "name": "Màn hình Xem chi tiết đài Inmarsat",
+      "description": "Hiển thị thông tin chi tiết đài Inmarsat: mã, tên, vùng phủ sóng.",
+      "route": "/kcht/manage/inmarsat/detail",
+      "components": ["Display (mã)", "Display (tên)", "Display (vùng phủ sóng)", "Display (trạng thái)", "Display (lịch sử thay đổi)", "Button (Chỉnh sửa)", "Button (Xóa)", "Button (Đóng)"],
+      "interactions": ["User xem thông tin chi tiết", "User clicks Chỉnh sửa → mở form sửa khi trạng thái cho phép", "User clicks Xóa → xác nhận xóa"]
+    },
+    {
+      "id": "S-224",
+      "name": "Màn hình Tìm kiếm đài Inmarsat chờ duyệt",
+      "description": "Danh sách đài Inmarsat chờ phê duyệt cấp Cảng vụ/Chi cục hoặc Cục.",
+      "route": "/kcht/approve/inmarsat-new",
+      "components": ["Datepicker (từ ngày gửi)", "Datepicker (đến ngày gửi)", "Textbox (mã)", "Textbox (tên)", "Combobox (cấp duyệt)", "Table (danh sách chờ duyệt)", "Button (Xem chi tiết)"],
+      "interactions": ["User lọc và xem danh sách chờ duyệt", "User clicks Xem chi tiết → mở màn hình phê duyệt"]
+    },
+    {
+      "id": "S-225",
+      "name": "Màn hình Phê duyệt/Từ chối đài Inmarsat",
+      "description": "Phê duyệt hoặc từ chối thông tin đài Inmarsat với lý do.",
+      "route": "/kcht/approve/inmarsat-new/detail",
+      "components": ["Display (thông tin đài Inmarsat)", "Textarea (lý do phê duyệt/từ chối)", "Button (Phê duyệt)", "Button (Từ chối)", "Button (Quay lại)"],
+      "interactions": ["User xem chi tiết đài Inmarsat", "User nhập lý do phê duyệt → clicks Phê duyệt → chuyển sang cấp phê duyệt tiếp theo", "User nhập lý do từ chối → clicks Từ chối → trả về cho người gửi"]
+    },
+    {
+      "id": "S-226",
+      "name": "Màn hình Thêm mới đài Cospas-Sarsat",
+      "description": "Form thêm mới đài Cospas-Sarsat Việt Nam: mã, tên, tần số 406 MHz.",
+      "route": "/kcht/manage/cospas-sarsat/create",
+      "components": ["Textbox (mã)", "Textbox (tên)", "Display (tần số 406 MHz)", "File upload (đính kèm)", "Button (Lưu tạm)", "Button (Lưu & Gửi duyệt)", "Button (Hủy)"],
+      "interactions": ["User điền thông tin → Lưu tạm → trạng thái nháp", "User điền thông tin → Lưu & Gửi duyệt → gửi phê duyệt cấp 1", "Validation: mã unique, trường bắt buộc phải nhập"]
+    },
+    {
+      "id": "S-227",
+      "name": "Màn hình Sửa đài Cospas-Sarsat",
+      "description": "Form sửa thông tin đài Cospas-Sarsat đã tồn tại.",
+      "route": "/kcht/manage/cospas-sarsat/edit",
+      "components": ["Textbox (mã - readonly)", "Textbox (tên)", "Display (tần số 406 MHz)", "File upload (đính kèm)", "Button (Lưu tạm)", "Button (Lưu & Gửi duyệt)", "Button (Hủy)"],
+      "interactions": ["User sửa thông tin → Lưu tạm/Lưu & Gửi duyệt", "Chỉ sửa được khi ở trạng thái nháp hoặc bị từ chối"]
+    },
+    {
+      "id": "S-228",
+      "name": "Màn hình Xem chi tiết đài Cospas-Sarsat",
+      "description": "Hiển thị thông tin chi tiết đài Cospas-Sarsat: mã, tên, tần số 406 MHz.",
+      "route": "/kcht/manage/cospas-sarsat/detail",
+      "components": ["Display (mã)", "Display (tên)", "Display (tần số 406 MHz)", "Display (trạng thái)", "Display (lịch sử thay đổi)", "Button (Chỉnh sửa)", "Button (Xóa)", "Button (Đóng)"],
+      "interactions": ["User xem thông tin chi tiết", "User clicks Chỉnh sửa → mở form sửa khi trạng thái cho phép", "User clicks Xóa → xác nhận xóa"]
+    },
+    {
+      "id": "S-229",
+      "name": "Màn hình Tìm kiếm đài Cospas-Sarsat chờ duyệt",
+      "description": "Danh sách đài Cospas-Sarsat chờ phê duyệt cấp Cảng vụ/Chi cục hoặc Cục.",
+      "route": "/kcht/approve/cospas-sarsat-new",
+      "components": ["Datepicker (từ ngày gửi)", "Datepicker (đến ngày gửi)", "Textbox (mã)", "Textbox (tên)", "Combobox (cấp duyệt)", "Table (danh sách chờ duyệt)", "Button (Xem chi tiết)"],
+      "interactions": ["User lọc và xem danh sách chờ duyệt", "User clicks Xem chi tiết → mở màn hình phê duyệt"]
+    },
+    {
+      "id": "S-230",
+      "name": "Màn hình Phê duyệt/Từ chối đài Cospas-Sarsat",
+      "description": "Phê duyệt hoặc từ chối thông tin đài Cospas-Sarsat với lý do.",
+      "route": "/kcht/approve/cospas-sarsat-new/detail",
+      "components": ["Display (thông tin đài Cospas-Sarsat)", "Textarea (lý do phê duyệt/từ chối)", "Button (Phê duyệt)", "Button (Từ chối)", "Button (Quay lại)"],
+      "interactions": ["User xem chi tiết đài Cospas-Sarsat", "User nhập lý do phê duyệt → clicks Phê duyệt → chuyển sang cấp phê duyệt tiếp theo", "User nhập lý do từ chối → clicks Từ chối → trả về cho người gửi"]
+    },
+    {
+      "id": "S-231",
+      "name": "Màn hình Thêm mới đài LRIT",
+      "description": "Form thêm mới đài LRIT: mã, tên, tần suất gửi vị trí.",
+      "route": "/kcht/manage/lrit/create",
+      "components": ["Textbox (mã)", "Textbox (tên)", "Textbox (tần suất gửi vị trí)", "File upload (đính kèm)", "Button (Lưu tạm)", "Button (Lưu & Gửi duyệt)", "Button (Hủy)"],
+      "interactions": ["User điền thông tin → Lưu tạm → trạng thái nháp", "User điền thông tin → Lưu & Gửi duyệt → gửi phê duyệt cấp 1", "Validation: mã unique, trường bắt buộc phải nhập"]
+    },
+    {
+      "id": "S-232",
+      "name": "Màn hình Sửa đài LRIT",
+      "description": "Form sửa thông tin đài LRIT đã tồn tại.",
+      "route": "/kcht/manage/lrit/edit",
+      "components": ["Textbox (mã - readonly)", "Textbox (tên)", "Textbox (tần suất gửi vị trí)", "File upload (đính kèm)", "Button (Lưu tạm)", "Button (Lưu & Gửi duyệt)", "Button (Hủy)"],
+      "interactions": ["User sửa thông tin → Lưu tạm/Lưu & Gửi duyệt", "Chỉ sửa được khi ở trạng thái nháp hoặc bị từ chối"]
+    },
+    {
+      "id": "S-233",
+      "name": "Màn hình Xem chi tiết đài LRIT",
+      "description": "Hiển thị thông tin chi tiết đài LRIT: mã, tên, tần suất gửi vị trí.",
+      "route": "/kcht/manage/lrit/detail",
+      "components": ["Display (mã)", "Display (tên)", "Display (tần suất gửi vị trí)", "Display (trạng thái)", "Display (lịch sử thay đổi)", "Button (Chỉnh sửa)", "Button (Xóa)", "Button (Đóng)"],
+      "interactions": ["User xem thông tin chi tiết", "User clicks Chỉnh sửa → mở form sửa khi trạng thái cho phép", "User clicks Xóa → xác nhận xóa"]
+    },
+    {
+      "id": "S-234",
+      "name": "Màn hình Tìm kiếm đài LRIT chờ duyệt",
+      "description": "Danh sách đài LRIT chờ phê duyệt cấp Cảng vụ/Chi cục hoặc Cục.",
+      "route": "/kcht/approve/lrit-new",
+      "components": ["Datepicker (từ ngày gửi)", "Datepicker (đến ngày gửi)", "Textbox (mã)", "Textbox (tên)", "Combobox (cấp duyệt)", "Table (danh sách chờ duyệt)", "Button (Xem chi tiết)"],
+      "interactions": ["User lọc và xem danh sách chờ duyệt", "User clicks Xem chi tiết → mở màn hình phê duyệt"]
+    },
+    {
+      "id": "S-235",
+      "name": "Màn hình Phê duyệt/Từ chối đài LRIT",
+      "description": "Phê duyệt hoặc từ chối thông tin đài LRIT với lý do.",
+      "route": "/kcht/approve/lrit-new/detail",
+      "components": ["Display (thông tin đài LRIT)", "Textarea (lý do phê duyệt/từ chối)", "Button (Phê duyệt)", "Button (Từ chối)", "Button (Quay lại)"],
+      "interactions": ["User xem chi tiết đài LRIT", "User nhập lý do phê duyệt → clicks Phê duyệt → chuyển sang cấp phê duyệt tiếp theo", "User nhập lý do từ chối → clicks Từ chối → trả về cho người gửi"]
+    },
+    {
+      "id": "S-236",
+      "name": "Màn hình Thêm mới đài TTDH Hà Nội",
+      "description": "Form thêm mới đài trung tâm xử lý thông tin hàng hải Hà Nội: mã, tên, vai trò.",
+      "route": "/kcht/manage/hanoi-center/create",
+      "components": ["Textbox (mã)", "Textbox (tên)", "Textbox (vai trò)", "File upload (đính kèm)", "Button (Lưu tạm)", "Button (Lưu & Gửi duyệt)", "Button (Hủy)"],
+      "interactions": ["User điền thông tin → Lưu tạm → trạng thái nháp", "User điền thông tin → Lưu & Gửi duyệt → gửi phê duyệt cấp 1", "Validation: mã unique, trường bắt buộc phải nhập"]
+    },
+    {
+      "id": "S-237",
+      "name": "Màn hình Sửa đài TTDH Hà Nội",
+      "description": "Form sửa thông tin đài TTDH Hà Nội đã tồn tại.",
+      "route": "/kcht/manage/hanoi-center/edit",
+      "components": ["Textbox (mã - readonly)", "Textbox (tên)", "Textbox (vai trò)", "File upload (đính kèm)", "Button (Lưu tạm)", "Button (Lưu & Gửi duyệt)", "Button (Hủy)"],
+      "interactions": ["User sửa thông tin → Lưu tạm/Lưu & Gửi duyệt", "Chỉ sửa được khi ở trạng thái nháp hoặc bị từ chối"]
+    },
+    {
+      "id": "S-238",
+      "name": "Màn hình Xem chi tiết đài TTDH Hà Nội",
+      "description": "Hiển thị thông tin chi tiết đài TTDH Hà Nội: mã, tên, vai trò.",
+      "route": "/kcht/manage/hanoi-center/detail",
+      "components": ["Display (mã)", "Display (tên)", "Display (vai trò)", "Display (trạng thái)", "Display (lịch sử thay đổi)", "Button (Chỉnh sửa)", "Button (Xóa)", "Button (Đóng)"],
+      "interactions": ["User xem thông tin chi tiết", "User clicks Chỉnh sửa → mở form sửa khi trạng thái cho phép", "User clicks Xóa → xác nhận xóa"]
+    },
+    {
+      "id": "S-239",
+      "name": "Màn hình Tìm kiếm đài TTDH Hà Nội chờ duyệt",
+      "description": "Danh sách đài TTDH Hà Nội chờ phê duyệt cấp Cảng vụ/Chi cục hoặc Cục.",
+      "route": "/kcht/approve/hanoi-center-new",
+      "components": ["Datepicker (từ ngày gửi)", "Datepicker (đến ngày gửi)", "Textbox (mã)", "Textbox (tên)", "Combobox (cấp duyệt)", "Table (danh sách chờ duyệt)", "Button (Xem chi tiết)"],
+      "interactions": ["User lọc và xem danh sách chờ duyệt", "User clicks Xem chi tiết → mở màn hình phê duyệt"]
+    },
+    {
+      "id": "S-240",
+      "name": "Màn hình Phê duyệt/Từ chối đài TTDH Hà Nội",
+      "description": "Phê duyệt hoặc từ chối thông tin đài TTDH Hà Nội với lý do.",
+      "route": "/kcht/approve/hanoi-center-new/detail",
+      "components": ["Display (thông tin đài TTDH Hà Nội)", "Textarea (lý do phê duyệt/từ chối)", "Button (Phê duyệt)", "Button (Từ chối)", "Button (Quay lại)"],
+      "interactions": ["User xem chi tiết đài TTDH Hà Nội", "User nhập lý do phê duyệt → clicks Phê duyệt → chuyển sang cấp phê duyệt tiếp theo", "User nhập lý do từ chối → clicks Từ chối → trả về cho người gửi"]
+    },
+    {
+      "id": "S-241",
+      "name": "Màn hình Thêm mới cảng cạn",
+      "description": "Form thêm mới cảng cạn: mã, tên, hành lang vận tải, khu vực.",
+      "route": "/kcht/manage/cang-can/create",
+      "components": ["Textbox (mã)", "Textbox (tên)", "Combobox (hành lang vận tải)", "Textbox (khu vực)", "File upload (đính kèm)", "Button (Lưu tạm)", "Button (Lưu & Gửi duyệt)", "Button (Hủy)"],
+      "interactions": ["User điền thông tin → Lưu tạm → trạng thái nháp", "User điền thông tin → Lưu & Gửi duyệt → gửi phê duyệt cấp 1", "Validation: mã unique, trường bắt buộc phải nhập"]
+    },
+    {
+      "id": "S-242",
+      "name": "Màn hình Sửa cảng cạn",
+      "description": "Form sửa thông tin cảng cạn đã tồn tại.",
+      "route": "/kcht/manage/cang-can/edit",
+      "components": ["Textbox (mã - readonly)", "Textbox (tên)", "Combobox (hành lang vận tải)", "Textbox (khu vực)", "File upload (đính kèm)", "Button (Lưu tạm)", "Button (Lưu & Gửi duyệt)", "Button (Hủy)"],
+      "interactions": ["User sửa thông tin → Lưu tạm/Lưu & Gửi duyệt", "Chỉ sửa được khi ở trạng thái nháp hoặc bị từ chối"]
+    },
+    {
+      "id": "S-243",
+      "name": "Màn hình Xem chi tiết cảng cạn",
+      "description": "Hiển thị thông tin chi tiết cảng cạn: mã, tên, hành lang vận tải, khu vực.",
+      "route": "/kcht/manage/cang-can/detail",
+      "components": ["Display (mã)", "Display (tên)", "Display (hành lang vận tải)", "Display (khu vực)", "Display (trạng thái)", "Display (lịch sử thay đổi)", "Button (Chỉnh sửa)", "Button (Xóa)", "Button (Đóng)"],
+      "interactions": ["User xem thông tin chi tiết", "User clicks Chỉnh sửa → mở form sửa khi trạng thái cho phép", "User clicks Xóa → xác nhận xóa"]
+    },
+    {
+      "id": "S-244",
+      "name": "Màn hình Thêm mới văn bản pháp lý",
+      "description": "Form thêm mới văn bản pháp lý: tiêu đề, số văn bản, ngày ban hành, cơ quan ban hành, nội dung, file đính kèm.",
+      "route": "/kcht/manage/van-ban-phap-ly/create",
+      "components": ["Textbox (tiêu đề)", "Textbox (số văn bản)", "Datepicker (ngày ban hành)", "Textbox (cơ quan ban hành)", "Rich text editor (nội dung)", "File upload (đính kèm)", "Button (Lưu)", "Button (Xóa)"],
+      "interactions": ["User thêm mới văn bản pháp lý → lưu vào dbo.KCHT_VBPL", "User clicks Lưu → lưu thành công", "Chỉ chuyên viên Cục mới thực hiện được"]
+    },
+    {
+      "id": "S-245",
+      "name": "Màn hình Sửa văn bản pháp lý",
+      "description": "Form sửa thông tin văn bản pháp lý đã tồn tại.",
+      "route": "/kcht/manage/van-ban-phap-ly/edit",
+      "components": ["Textbox (tiêu đề)", "Textbox (số văn bản)", "Datepicker (ngày ban hành)", "Textbox (cơ quan ban hành)", "Rich text editor (nội dung)", "File upload (đính kèm)", "Button (Lưu)", "Button (Xóa)"],
+      "interactions": ["User sửa thông tin văn bản", "User clicks Lưu → cập nhật thành công", "Chỉ chuyên viên Cục mới thực hiện được"]
+    },
+    {
+      "id": "S-246",
+      "name": "Màn hình Xem chi tiết văn bản pháp lý",
+      "description": "Hiển thị thông tin chi tiết văn bản pháp lý: tiêu đề, số văn bản, ngày ban hành, cơ quan ban hành, nội dung.",
+      "route": "/kcht/manage/van-ban-phap-ly/detail",
+      "components": ["Display (tiêu đề)", "Display (số văn bản)", "Display (ngày ban hành)", "Display (cơ quan ban hành)", "Rich text (nội dung)", "Button (Tải file đính kèm)", "Button (Đóng)"],
+      "interactions": ["User xem nội dung văn bản", "User clicks Tải file → tải file đính kèm"]
+    },
+    {
+      "id": "S-247",
+      "name": "Màn hình Quản lý vận hành khai thác",
+      "description": "Quản lý thông tin vận hành khai thác: ngày vận hành, trạng thái, ghi nhận hoạt động của KCHT.",
+      "route": "/vhx/khao-thac",
+      "components": ["Combobox (loại KCHT)", "Combobox (đơn vị)", "Datepicker (ngày vận hành)", "Combobox (trạng thái vận hành)", "Table (danh sách vận hành)", "Button (Thêm mới)", "Button (Sửa)", "Button (Xóa)"],
+      "interactions": ["User thêm mới thông tin vận hành", "User sửa, xóa thông tin vận hành", "Lọc theo loại KCHT, đơn vị, trạng thái", "Trạng thái: hoạt động bình thường, ngừng hoạt động, bảo trì"]
+    },
+    {
+      "id": "S-248",
+      "name": "Màn hình Quản lý bảo trì",
+      "description": "Quản lý thông tin bảo trì định kỳ và đột xuất.",
+      "route": "/vhx/bao-tri",
+      "components": ["Combobox (loại KCHT)", "Combobox (loại bảo trì)", "Datepicker (ngày bảo trì)", "Textarea (mô tả)", "Table (danh sách bảo trì)", "Button (Thêm mới)", "Button (Sửa)", "Button (Xóa)"],
+      "interactions": ["User thêm mới bảo trì: loại (định kỳ/đột xuất), ngày, mô tả", "User sửa, xóa thông tin bảo trì", "Cập nhật trạng thái bảo trì"]
+    },
+    {
+      "id": "S-249",
+      "name": "Màn hình Quản lý sự cố",
+      "description": "Quản lý thông tin sự cố: ghi nhận, xử lý, cập nhật trạng thái.",
+      "route": "/vhx/su-co",
+      "components": ["Combobox (loại KCHT)", "Datepicker (ngày sự cố)", "Textarea (mô tả sự cố)", "Combobox (trạng thái sự cố)", "Table (danh sách sự cố)", "Button (Thêm mới)", "Button (Sửa)", "Button (Xóa)"],
+      "interactions": ["User ghi nhận sự cố: ngày, mô tả, trạng thái", "User cập nhật trạng thái xử lý sự cố", "Lọc theo KCHT và trạng thái", "Sự cố nghiêm trọng → báo cáo lên cấp trên"]
+    },
+    {
+      "id": "S-250",
+      "name": "Màn hình Quản lý quy hoạch bến cảng",
+      "description": "Quản lý danh sách thông tin quy hoạch bến cảng hàng hải theo quyết định quy hoạch.",
+      "route": "/quy-hoach/bien-cang",
+      "components": ["Textbox (số quyết định)", "Textbox (tên cảng biển)", "Datepicker (ngày quyết định)", "Table (danh sách quy hoạch)", "Button (Thêm mới)", "Button (Xem chi tiết)", "Button (Cập nhật)"],
+      "interactions": ["User thêm mới quy hoạch: số quyết định, ngày, mục tiêu, dự báo dân năm, nội dung", "Danh mục hàng hóa thông qua (JSON)", "Kế hoạch chi tiết (JSON)", "File đính kèm lên MinIO"]
+    },
+    {
+      "id": "S-251",
+      "name": "Màn hình Tra cứu quy hoạch bến cảng",
+      "description": "Tra cứu thông tin quy hoạch bến cảng hàng hải, hiển thị trên bản đồ số.",
+      "route": "/quy-hoach/tra-cuu",
+      "components": ["Textbox (số quyết định)", "Combobox (cảng biển)", "Button (Tìm kiếm)", "Table (kết quả)", "Button (Xem chi tiết)", "Map (bản đồ số)"],
+      "interactions": ["User tìm kiếm theo số quyết định, cảng biển", "User clicks Xem chi tiết → hiển thị thông tin chi tiết", "Hiển thị vị trí quy hoạch trên bản đồ số"]
+    },
+    {
+      "id": "S-252",
+      "name": "Màn hình Cập nhật quy hoạch bến cảng",
+      "description": "Cập nhật quy hoạch bến cảng với các chỉ tiêu: mục tiêu, dự báo, nội dung, nhu cầu đất/mặt nước, vốn đầu tư, kế hoạch chi tiết.",
+      "route": "/quy-hoach/cap-nhat",
+      "components": ["Textbox (số quyết định)", "Datepicker (ngày quyết định)", "Textarea (mục tiêu)", "Textarea (nội dung)", "Textbox (dự báo dân năm)", "Textarea (nhu cầu đất/mặt nước)", "Textarea (nhu cầu vốn)", "JSON editor (kế hoạch chi tiết)", "JSON editor (danh mục hàng hóa)", "File upload (đính kèm)", "Button (Lưu)", "Map (bản đồ số)"],
+      "interactions": ["User cập nhật các chỉ tiêu quy hoạch", "User clicks Lưu → cập nhật vào dbo.QH_BEN_CANG", "Hiển thị trên bản đồ số"]
+    },
+    {
+      "id": "S-253",
+      "name": "Màn hình Thêm mới tài sản KCHT",
+      "description": "Form thêm mới tài sản cho 27+ loại KCHT: mã, tên, ngày giao quản lý, giá trị nguyên giá, tài liệu đính kèm.",
+      "route": "/tai-san/create",
+      "components": ["Textbox (mã tài sản)", "Textbox (tên tài sản)", "Datepicker (ngày giao quản lý)", "Textarea (giá trị nguyên giá)", "File upload (tài liệu đính kèm)", "Combobox (loại KCHT)", "Combobox (trạng thái)", "Button (Lưu tạm)", "Button (Gửi duyệt)", "Button (Hủy)"],
+      "interactions": ["User điền thông tin → Lưu tạm → trạng thái nháp", "User điền thông tin → Gửi duyệt → gửi phê duyệt cấp 1", "Mỗi loại KCHT có bảng tài sản riêng (TS_QL_KK, TS_QL_SL_CB, TS_QL_TG_NG, TS_QL_DN_XL_KCHT)"]
+    },
+    {
+      "id": "S-254",
+      "name": "Màn hình Sửa tài sản KCHT",
+      "description": "Form sửa thông tin tài sản KCHT đã tồn tại.",
+      "route": "/tai-san/edit",
+      "components": ["Textbox (mã tài sản - readonly)", "Textbox (tên tài sản)", "Datepicker (ngày giao quản lý)", "Textarea (giá trị nguyên giá)", "File upload (tài liệu đính kèm)", "Button (Lưu tạm)", "Button (Gửi duyệt)", "Button (Hủy)"],
+      "interactions": ["User sửa thông tin → Lưu tạm/Lưu & Gửi duyệt", "Chỉ sửa được khi ở trạng thái nháp hoặc bị từ chối"]
+    },
+    {
+      "id": "S-255",
+      "name": "Màn hình Xem chi tiết tài sản KCHT",
+      "description": "Hiển thị thông tin chi tiết tài sản KCHT: mã, tên, ngày giao quản lý, giá trị nguyên giá, lịch sử hình thành.",
+      "route": "/tai-san/detail",
+      "components": ["Display (mã tài sản)", "Display (tên tài sản)", "Display (ngày giao quản lý)", "Display (giá trị nguyên giá)", "Display (loại KCHT)", "Display (trạng thái)", "Table (tài liệu đính kèm)", "Table (lịch sử hình thành)", "Button (Chỉnh sửa)", "Button (Xóa)", "Button (Đóng)"],
+      "interactions": ["User xem thông tin chi tiết tài sản", "User xem danh sách tài liệu đính kèm", "User xem lịch sử hình thành tài sản", "User clicks Chỉnh sửa → mở form sửa khi trạng thái cho phép"]
+    },
+    {
+      "id": "S-256",
+      "name": "Màn hình Tìm kiếm tài sản KCHT",
+      "description": "Tìm kiếm tài sản KCHT theo mã, tên, loại KCHT, trạng thái.",
+      "route": "/tai-san/search",
+      "components": ["Textbox (mã tài sản)", "Textbox (tên tài sản)", "Combobox (loại KCHT)", "Combobox (trạng thái)", "Button (Tìm kiếm)", "Table (kết quả tìm kiếm)", "Button (Xem chi tiết)"],
+      "interactions": ["User nhập điều kiện tìm kiếm → hiển thị kết quả", "Không có dữ liệu → thông báo", "User clicks Xem chi tiết → mở màn hình chi tiết"]
+    },
+    {
+      "id": "S-257",
+      "name": "Màn hình Tìm kiếm tài sản KCHT chờ duyệt",
+      "description": "Danh sách tài sản KCHT chờ phê duyệt cấp Cảng vụ/Chi cục hoặc Cục.",
+      "route": "/tai-san/approve",
+      "components": ["Datepicker (từ ngày gửi)", "Datepicker (đến ngày gửi)", "Textbox (mã tài sản)", "Textbox (tên tài sản)", "Combobox (loại KCHT)", "Combobox (cấp duyệt)", "Table (danh sách chờ duyệt)", "Button (Xem chi tiết)"],
+      "interactions": ["User lọc theo cấp duyệt và ngày", "User clicks Xem chi tiết → mở màn hình phê duyệt"]
+    },
+    {
+      "id": "S-258",
+      "name": "Màn hình Phê duyệt/Từ chối tài sản KCHT",
+      "description": "Phê duyệt hoặc từ chối thông tin tài sản KCHT với lý do.",
+      "route": "/tai-san/approve/detail",
+      "components": ["Display (thông tin tài sản)", "Textarea (lý do phê duyệt/từ chối)", "Button (Phê duyệt)", "Button (Từ chối)", "Button (Quay lại)"],
+      "interactions": ["User xem chi tiết tài sản KCHT", "User nhập lý do phê duyệt → clicks Phê duyệt → chuyển sang cấp phê duyệt tiếp theo", "User nhập lý do từ chối → clicks Từ chối → trả về cho người gửi", "Chỉ lãnh đạo Cảng vụ/Chi cục và Cục mới có quyền phê duyệt"]
+    },
+    {
+      "id": "S-259",
+      "name": "Màn hình Thêm mới đề nghị xử lý tài sản",
+      "description": "Form thêm mới đề nghị xử lý tài sản KCHTGTHH: bán, nhượng, thanh lý, hủy.",
+      "route": "/tai-san/de-nghi-xu-ly/create",
+      "components": ["Combobox (loại xử lý: bán/nhượng/thanh lý/hủy)", "Textbox (mã tài sản)", "Textarea (lý do xử lý)", "File upload (chứng từ đi kèm)", "Button (Lưu)", "Button (Gửi duyệt)"],
+      "interactions": ["User chọn loại xử lý, điền thông tin → Lưu/Gửi duyệt", "Xác nhận yêu cầu xử lý"]
+    },
+    {
+      "id": "S-260",
+      "name": "Màn hình Xem chi tiết đề nghị xử lý tài sản",
+      "description": "Hiển thị thông tin chi tiết đề nghị xử lý tài sản KCHTGTHH.",
+      "route": "/tai-san/de-nghi-xu-ly/detail",
+      "components": ["Display (mã tài sản)", "Display (loại xử lý)", "Display (lý do xử lý)", "Display (trạng thái)", "Button (Phê duyệt)", "Button (Từ chối)", "Button (Tải chứng từ)"],
+      "interactions": ["User xem thông tin đề nghị xử lý", "User clicks Phê duyệt → xác nhận", "User clicks Từ chối → nhập lý do từ chối"]
+    },
+    {
+      "id": "S-261",
+      "name": "Màn hình Kiểm kê tài sản",
+      "description": "Kiểm kê tài sản kết cấu hạ tầng: tạo phiếu kiểm kê, nhập kết quả thực tế, so sánh sổ sách.",
+      "route": "/tai-san/kiem-ke",
+      "components": ["Combobox (loại KCHT)", "Datepicker (ngày kiểm kê)", "Table (danh sách tài sản cần kiểm kê)", "Textbox (số lượng thực tế)", "Button (Tạo phiếu kiểm kê)", "Button (Lưu kết quả)", "Button (Xuất báo cáo)"],
+      "interactions": ["User tạo phiếu kiểm kê theo loại KCHT", "Nhập kết quả kiểm kê thực tế", "So sánh với sổ sách", "Xuất báo cáo kiểm kê ra Excel", "Phòng Tài chính tham gia kiểm kê"]
+    },
+    {
+      "id": "S-262",
+      "name": "Màn hình Quản lý sản lượng cảng biển",
+      "description": "Quản lý sản lượng cảng biển: hàng hóa xuất/nhập, hành khách theo tháng/năm.",
+      "route": "/tai-san/san-luong",
+      "components": ["Combobox (cảng biển)", "Datepicker (tháng/năm)", "Textbox (hàng hóa xuất)", "Textbox (hàng hóa nhập)", "Textbox (hành khách)", "Button (Lưu)", "Button (Gửi duyệt)", "Table (sản lượng lịch sử)"],
+      "interactions": ["User nhập sản lượng hàng hóa và hành khách", "Gửi duyệt sản lượng theo quy trình 3 cấp", "Xem báo cáo sản lượng theo tháng/năm"]
+    },
+    {
+      "id": "S-263",
+      "name": "Màn hình Phê duyệt sản lượng cảng biển",
+      "description": "Phê duyệt hoặc từ chối sản lượng cảng biển với lý do.",
+      "route": "/tai-san/san-luong/approve",
+      "components": ["Display (thông tin sản lượng)", "Textarea (lý do phê duyệt/từ chối)", "Button (Phê duyệt)", "Button (Từ chối)", "Button (Quay lại)"],
+      "interactions": ["User xem danh sách sản lượng chờ duyệt", "User phê duyệt/từ chối với lý do → cập nhật trạng thái"]
+    },
+    {
+      "id": "S-264",
+      "name": "Màn hình Quản lý danh mục đối tượng điểm GIS",
+      "description": "Quản lý danh mục đối tượng điểm trên bản đồ GIS (KCHT_GIS_DOI_TUONG): thêm/sửa/xóa, phân loại theo nhóm KCHT.",
+      "route": "/gis/objects",
+      "components": ["Textbox (mã danh mục)", "Textbox (tên danh mục)", "Combobox (nhóm đối tượng)", "File upload (biểu tượng)", "Table (danh sách danh mục)", "Button (Thêm mới)", "Button (Sửa)", "Button (Xóa)"],
+      "interactions": ["User thêm/sửa/xóa danh mục đối tượng điểm", "Phân loại theo nhóm KCHT", "Liên kết với biểu tượng bản đồ"]
+    },
+    {
+      "id": "S-265",
+      "name": "Màn hình Quản lý danh mục đối tượng đường GIS",
+      "description": "Quản lý danh mục đối tượng đường trên bản đồ GIS: thêm/sửa/xóa, phân loại theo nhóm luồng hàng hải, hành lang vận tải.",
+      "route": "/gis/objects/line",
+      "components": ["Textbox (mã danh mục)", "Textbox (tên danh mục)", "Combobox (nhóm đối tượng)", "Table (danh sách danh mục)", "Button (Thêm mới)", "Button (Sửa)", "Button (Xóa)"],
+      "interactions": ["User thêm/sửa/xóa danh mục đối tượng đường", "Phân loại theo nhóm (luồng hàng hải, hành lang vận tải)"]
+    },
+    {
+      "id": "S-266",
+      "name": "Màn hình Quản lý danh mục đối tượng vùng GIS",
+      "description": "Quản lý danh mục đối tượng vùng trên bản đồ GIS: thêm/sửa/xóa, phân loại theo nhóm khu tránh trú bão, khu neo đậu.",
+      "route": "/gis/objects/region",
+      "components": ["Textbox (mã danh mục)", "Textbox (tên danh mục)", "Combobox (nhóm đối tượng)", "Table (danh sách danh mục)", "Button (Thêm mới)", "Button (Sửa)", "Button (Xóa)"],
+      "interactions": ["User thêm/sửa/xóa danh mục đối tượng vùng", "Phân loại theo nhóm (khu tránh trú bão, khu neo đậu)"]
+    },
+    {
+      "id": "S-267",
+      "name": "Màn hình Bản đồ GIS - Thông tin KCHTGTHH",
+      "description": "Hiển thị thông tin KCHTGTHH trên bản đồ tích hợp GeoServer (WMS/WFS), 49 mảnh hải đồ điện tử.",
+      "route": "/gis/map",
+      "components": ["Map (Leaflet)", "Layer control (danh sách layers)", "Search bar (tìm kiếm vị trí)", "Combobox (loại đối tượng)", "Combobox (mảnh hải đồ)", "Control (zoom in/out)", "Control (pan)", "Popup (thông tin chi tiết khi click vào đối tượng)", "Legend (chú giải)", "Scale bar (thước tỷ lệ)", "49 mảnh hải đồ .000 qua PostGIS"],
+      "interactions": ["User xem các đối tượng KCHT trên bản đồ", "User clicks vào đối tượng → hiển thị popup thông tin chi tiết", "User lọc theo loại đối tượng", "User zoom, pan bản đồ", "User chọn mảnh hải đồ từ danh sách", "Hiển thị WMS/WFS từ GeoServer", "Hệ quy chiếu VN-2000"]
+    },
+    {
+      "id": "S-268",
+      "name": "Màn hình Tra cứu trên bản đồ GIS",
+      "description": "Tra cứu thông tin KCHTGTHH trên bản đồ với công cụ tìm kiếm theo tên/mã.",
+      "route": "/gis/search",
+      "components": ["Search bar (tìm kiếm theo tên/mã)", "Map (Leaflet)", "Table (kết quả tìm kiếm)", "List (danh sách kết quả)", "Button (Xem chi tiết)", "Button (Hiển thị trên bản đồ)"],
+      "interactions": ["User nhập tên/mã KCHT → tìm kiếm", "Hiển thị kết quả tìm kiếm trong danh sách + vị trí trên bản đồ", "User clicks Xem chi tiết → màn hình chi tiết"]
+    },
+    {
+      "id": "S-269",
+      "name": "Màn hình Báo cáo thống kê chung",
+      "description": "Báo cáo tăng giảm tài sản, mẫu B03/CCTT, mẫu 02-06 theo kỳ báo cáo.",
+      "route": "/bao-cao/tong-quan",
+      "components": ["Combobox (ký báo cáo)", "Datepicker (từ ngày)", "Datepicker (đến ngày)", "Table (tăng giảm tài sản)", "Button (Xuất B03/CCTT)", "Button (Xuất mẫu 02-06)", "Button (Kết xuất Excel)"],
+      "interactions": ["User chọn kỳ báo cáo (tháng/quý/năm)", "Hiển thị báo cáo tăng giảm tài sản theo kỳ", "Xuất mẫu B03/CCTT", "Xuất mẫu 02-06", "Kết xuất Excel"]
+    },
+    {
+      "id": "S-270",
+      "name": "Màn hình Báo cáo chỉ tiêu KCHT (Biểu 01-10)",
+      "description": "Nhóm báo cáo: năng lực thông qua (Biểu 01), thống kê cầu cảng, luồng hàng hải, VTS, đài thông tin, đê kè.",
+      "route": "/bao-cao/chi-tieu-kcht",
+      "components": ["Datepicker (từ ngày)", "Datepicker (đến ngày)", "Table (Biểu 01: năng lực thông qua)", "Table (Biểu 02-10: thống kê chi tiết)", "Button (Kết xuất Excel)"],
+      "interactions": ["User chọn kỳ báo cáo", "Hiển thị Biểu 01: năng lực thông qua cảng", "Hiển thị Biểu 02-10: thống kê từng loại KCHT", "Kết xuất Excel"]
+    },
+    {
+      "id": "S-271",
+      "name": "Màn hình Báo cáo chỉ tiêu đo lường (Biểu 11-17)",
+      "description": "Nhóm báo cáo: tàu biển, hàng hóa, hành khách thông qua.",
+      "route": "/bao-cao/chi-tieu-do-luong",
+      "components": ["Datepicker (từ ngày)", "Datepicker (đến ngày)", "Table (Biểu 11-17)", "Button (Kết xuất Excel)"],
+      "interactions": ["User chọn kỳ báo cáo", "Hiển thị số lượng tàu biển, hàng hóa, hành khách", "Kết xuất Excel"]
+    },
+    {
+      "id": "S-272",
+      "name": "Màn hình Báo cáo phương tiện và thuyền viên (Biểu 21-23)",
+      "description": "Nhóm báo cáo: thuyền viên, hoa tiêu, tàu biển, tàu lai dắt.",
+      "route": "/bao-cao/phuong-tien-thuyen-vien",
+      "components": ["Datepicker (từ ngày)", "Datepicker (đến ngày)", "Table (Biểu 21-23)", "Button (Kết xuất Excel)"],
+      "interactions": ["User chọn kỳ báo cáo", "Hiển thị số lượng thuyền viên, hoa tiêu, tàu biển", "Kết xuất Excel"]
+    },
+    {
+      "id": "S-273",
+      "name": "Màn hình Báo cáo doanh nghiệp (Biểu 31, 45)",
+      "description": "Báo cáo: cơ sở đóng mới, tổng hợp hàng hóa.",
+      "route": "/bao-cao/doanh-nghiep",
+      "components": ["Datepicker (từ ngày)", "Datepicker (đến ngày)", "Table (Biểu 31, 45)", "Button (Kết xuất Excel)"],
+      "interactions": ["User chọn kỳ báo cáo", "Hiển thị thông tin doanh nghiệp theo Biểu 31, 45", "Kết xuất Excel"]
+    },
+    {
+      "id": "S-274",
+      "name": "Màn hình Báo cáo thông tư 48 (Biểu 06, 07, 28, 29, 33)",
+      "description": "Báo cáo theo thông tư 48/2017/TT-BGTVT.",
+      "route": "/bao-cao/thong-tu-48",
+      "components": ["Datepicker (từ ngày)", "Datepicker (đến ngày)", "Table (Biểu 06, 07, 28, 29, 33)", "Button (Kết xuất Excel)"],
+      "interactions": ["User chọn kỳ báo cáo", "Hiển thị theo đúng mẫu quy định", "Kết xuất Excel"]
+    },
+    {
+      "id": "S-275",
+      "name": "Màn hình Báo cáo chuyên ngành bảo đảm (Biểu tổng hợp)",
+      "description": "Nhóm báo cáo tổng hợp: thông tin chung, KCHT, bảo trì KCHT.",
+      "route": "/bao-cao/bao-dam",
+      "components": ["Datepicker (từ ngày)", "Datepicker (đến ngày)", "Table (Biểu tổng hợp thông tin chung)", "Table (Biểu tổng hợp KCHT)", "Table (Biểu tổng hợp bảo trì KCHT)", "Button (Kết xuất Excel)"],
+      "interactions": ["User chọn kỳ báo cáo", "Dữ liệu tự động lấy từ các bảng nghiệp vụ", "Kết xuất Excel"]
+    },
+    {
+      "id": "S-276",
+      "name": "Màn hình Chia sẻ dữ liệu KCHT qua trục LGSP",
+      "description": "Chia sẻ dữ liệu KCHT đã phê duyệt cho CSDL dùng chung cấp Bộ qua trục LGSP (MSG_INBOX, MSG_OUTBOX, COM_SYNC).",
+      "route": "/lien-thong/chia-sinh",
+      "components": ["Table (danh sách kết nối liên thông)", "Display (trạng thái đồng bộ COM_SYNC)", "Datepicker (từ ngày)", "Datepicker (đến ngày)", "Button (Test kết nối)", "Button (Đồng bộ ngay)"],
+      "interactions": ["User xem danh sách kết nối liên thông", "User xem trạng thái đồng bộ (COM_SYNC)", "User xem inbox/outbox tin nhắn LGSP", "User clicks Test kết nối → xác nhận thành công/thất bại", "User clicks Đồng bộ ngay → gửi dữ liệu đã phê duyệt qua LGSP"]
+    },
+    {
+      "id": "S-277",
+      "name": "Màn hình Lịch sử kết nối liên thông (chi tiết)",
+      "description": "Xem chi tiết lịch sử kết nối liên thông chia sẻ dữ liệu thành công/thất bại qua trục LGSP.",
+      "route": "/lien-thong/lich-su-chi-tiet",
+      "components": ["Datepicker (từ ngày)", "Datepicker (đến ngày)", "Combobox (trạng thái)", "Table (danh sách kết nối với kết quả thành công/thất bại)", "Button (Xem chi tiết)"],
+      "interactions": ["User lọc theo ngày và trạng thái → hiển thị lịch sử kết nối", "User clicks Xem chi tiết → xem chi tiết từng lần kết nối"]
+    },
+    {
+      "id": "S-278",
+      "name": "Màn hình Tích hợp dữ liệu bên ngoài",
+      "description": "Quản lý tích hợp dữ liệu từ hệ thống bên ngoài: VMSN, VMSS, VISHIPEL, doanh nghiệp cảng qua API HTTPS.",
+      "route": "/tich-hop",
+      "components": ["Textbox (URL endpoint)", "Combobox (hệ thống nguồn)", "Textbox (chứng thực)", "Datepicker (từ ngày sync)", "Datepicker (đến ngày sync)", "Table (lịch sử tích hợp)", "Button (Test kết nối)", "Button (Đồng bộ ngay)"],
+      "interactions": ["User cấu hình tham số kết nối với VMSN/VMSS/VISHIPEL/Doanh nghiệp", "User clicks Test kết nối → xác nhận qua HTTPS/VPN", "User clicks Đồng bộ ngay → bắt đầu đồng bộ dữ liệu", "Dữ liệu nhận về lưu tạm, cần kiểm tra chất lượng"]
+    },
+    {
+      "id": "S-279",
+      "name": "Màn hình Tích hợp hải đồ điện tử",
+      "description": "Quản lý 49 mảnh hải đồ điện tử, chuyển đổi từ .000 → PostGIS qua GDAL, tổ chức layers trên GeoServer.",
+      "route": "/gis/ha-do/manage",
+      "components": ["Table (danh sách hải đồ)", "File upload (.000 format)", "Combobox (chuyển đổi trạng thái)", "Display (schema PostGIS)", "Display (WMS/WFS/WMTS layers)", "Display (tile caching)"],
+      "interactions": ["User upload file hải đồ .000 → GDAL chuyển đổi → PostGIS", "Tạo view chung từ schema riêng", "Publish layers trên GeoServer (Store PostGIS, Layer Publish, Style SLD, Tile Caching)", "49 mảnh từ V24CD001.000 đến VN4HP007.000", "Hệ quy chiếu VN-2000"]
+    },
+    {
+      "id": "S-280",
+      "name": "Màn hình Tạo lập CSDL từ dữ liệu có cấu trúc",
+      "description": "Tạo lập CSDL từ 18 đơn vị: Excel → TEMP_TAO_LAP_CSDL → chuẩn hóa → đồng bộ. Hợp nhất 653 bản ghi trùng.",
+      "route": "/tich-hop/data-import",
+      "components": ["File upload (Excel template)", "Table (danh sách đơn vị cung cấp)", "Table (bản ghi trùng cần hợp nhất)", "Table (dữ liệu đã chuẩn hóa)", "Table (bảng chính)", "Button (Import)", "Button (Kiểm tra chất lượng)", "Button (Chuẩn hóa)", "Button (Đồng bộ)"],
+      "interactions": ["User upload Excel template → kiểm tra chất lượng", "Chuẩn hóa dữ liệu vào TEMP_TAO_LAP_CSDL", "Thông báo 653 bản ghi trùng → user hợp nhất", "Đồng bộ vào bảng chính", "4.503 bản ghi từ 18 đơn vị"]
+    },
+    {
+      "id": "S-281",
+      "name": "Màn hình Quét hồ sơ và upload CSDL",
+      "description": "Quét và số hóa 1.121 trang hồ sơ từ 16 loại hồ sơ khác nhau (PDF 300dpi), upload vào CSDL QLHS → MinIO storage.",
+      "route": "/tich-hop/scan",
+      "components": ["File upload (PDF scan 300dpi)", "Combobox (loại hồ sơ)", "Textbox (số quyết định)", "Datepicker (ngày quyết định)", "Table (danh sách đã quét)", "Button (Upload)", "Display (file path MinIO)"],
+      "interactions": ["User scan hồ sơ PDF 300dpi → upload", "Điền metadata: loại hồ sơ, số quyết định, ngày", "Upload lên MinIO storage với path {TABLE}/{ID}/{OBJ_CODE}/{SEQ}/{FILENAME}", "Liên kết với bảng QLHS", "16 loại hồ sơ: công bố mở cảng, bến, cầu, luồng..."]
+    }
+  ]
+}

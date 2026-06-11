@@ -1,23 +1,41 @@
+# Dependencies
 node_modules/
-dist/
-.next/
-.turbo/
-.cache/
-build/
-.env
-.env.local
-coverage/
-*.log
-.DS_Store
+pnpm-lock.yaml
+package-lock.json
+
+# Python
+Python/
 __pycache__/
-.venv/
-target/
-docs/inputs/*.pdf
-docs/inputs/*.docx
+*.pyc
+
+# Temp files
+temp/
+*.temp
+*.tmp
+
+# Test results
+test-results/
+test-output/
+*.txt
+
+# IDE & Editor
+.cursor/
+.vscode/
+.biome
+CLAUDE.md
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Env secrets
+.env
+
+# Large documents (optional - commit if needed)
 *.pdf
 *.docx
-*.doc
-push_to_github.sh
-push_debug.sh
-check_github.sh
-test-results/
+*.xlsx
+*.xls
+
+# Slide state
+.slide-state.json

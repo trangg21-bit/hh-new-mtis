@@ -1,0 +1,44 @@
+features:
+  F-001:
+    module: M-001
+    name: Dang nhap he thong
+    path: docs/modules/M-001-auth-user-mgmt/_features/F-001-dang-nhap-he-thong
+    slug: dang-nhap-he-thong
+    status: proposed
+  F-002:
+    module: M-001
+    name: Dang ky tai khoan
+    path: docs/modules/M-001-auth-user-mgmt/_features/F-002-dang-ky-tai-khoan
+    slug: dang-ky-tai-khoan
+    status: proposed
+  F-003:
+    module: M-001
+    name: Quen mat khau
+    path: docs/modules/M-001-auth-user-mgmt/_features/F-003-quen-mat-khau
+    slug: quen-mat-khau
+    status: proposed
+  F-004:
+    module: M-001
+    name: Doi mat khau
+    path: docs/modules/M-001-auth-user-mgmt/_features/F-004-doi-mat-khau
+    slug: doi-mat-khau
+    status: proposed
+  F-005:
+    module: M-001
+    name: Dat lai mat khau
+    path: docs/modules/M-001-auth-user-mgmt/_features/F-005-dat-lai-mat-khau
+    slug: dat-lai-mat-khau
+    status: proposed
+  F-006:
+    module: M-001
+    name: Dang xuat he thong
+    path: docs/modules/M-001-auth-user-mgmt/_features/F-006-dang-xuat-he-thong
+    slug: dang-xuat-he-thong
+    status: proposed
+  F-007:
+    module: M-001
+    name: Thong tin ca nhan
+    path: docs/modules/M-001-auth-user-mgmt/_features/F-007-thong-tin-ca-nhan
+    slug: thong-tin-ca-nhan
+    status: proposed
+schema_version: "1.0"

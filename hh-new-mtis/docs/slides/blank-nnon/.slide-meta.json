@@ -1,0 +1,9 @@
+{
+  "templateId": "getting-started",
+  "source": "template",
+  "contentStatus": "ready",
+  "title": "MTIS — Hệ thống Quản lý Kết cấu Hạ tầng Giao thông Hàng hải",
+  "description": "Tổng quan dự án MTIS: 11 modules, 105 features, GIS/ENC, tích hợp LGSP/NDXP",
+  "installedAt": "2026-06-09T03:20:17.094Z",
+  "updatedAt": "2026-06-09T04:00:00.000Z"
+}

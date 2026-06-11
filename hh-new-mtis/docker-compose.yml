@@ -1,0 +1,18 @@
+services:
+  api:
+    build:
+      context: ./src/apps/api
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./src/apps/api/data:/app/data
+      - ./docs/ui:/app/public
+    environment:
+      - PORT=3000
+      - DB_PATH=/app/data/database.sqlite
+      - NODE_ENV=development
+      - ENABLE_E2E_TEST_HOOKS=true
+      - JWT_SECRET=${JWT_SECRET}
+      - TOTP_ENCRYPTION_KEY=${TOTP_ENCRYPTION_KEY}
+    restart: unless-stopped

@@ -1,0 +1,171 @@
+{
+  "actors": [
+    {
+      "role": "Quản trị hệ thống",
+      "slug": "system-admin",
+      "type": "internal",
+      "responsibilities": [
+        "Quản lý người dùng, phân quyền",
+        "Cấu hình hệ thống",
+        "Sao lưu, khôi phục",
+        "Giám sát nhật ký hệ thống"
+      ],
+      "entry_url": "/admin/dashboard",
+      "permissions_hint": "Full system access"
+    },
+    {
+      "role": "Lãnh đạo Cục",
+      "slug": "director",
+      "type": "internal",
+      "responsibilities": [
+        "Phê duyệt cập nhật thông số kỹ thuật",
+        "Phê duyệt báo cáo",
+        "Xem tổng quan toàn hệ thống"
+      ],
+      "entry_url": "/dashboard",
+      "permissions_hint": "All read + approve level 3"
+    },
+    {
+      "role": "Lãnh đạo Cảng vụ/Chi cục",
+      "slug": "port-authority-leader",
+      "type": "internal",
+      "responsibilities": [
+        "Phê duyệt cập nhật dữ liệu cấp Cảng vụ",
+        "Quản lý nhân sự cấp dưới"
+      ],
+      "entry_url": "/dashboard",
+      "permissions_hint": "All read + approve level 2"
+    },
+    {
+      "role": "Chuyên viên quản lý KCHT",
+      "slug": "infrastructure-officer",
+      "type": "internal",
+      "responsibilities": [
+        "Nhập, cập nhật thông số kỹ thuật KCHT",
+        "Quản lý hồ sơ KCHT",
+        "Đề xuất cập nhật"
+      ],
+      "entry_url": "/infrastructure",
+      "permissions_hint": "CRUD on infrastructure data"
+    },
+    {
+      "role": "Chuyên viên quản lý tài sản",
+      "slug": "asset-officer",
+      "type": "internal",
+      "responsibilities": [
+        "Quản lý tài sản KCHT (ghi tăng, hao mòn, thanh lý)",
+        "Kiểm kê tài sản",
+        "Báo cáo tài sản"
+      ],
+      "entry_url": "/assets",
+      "permissions_hint": "CRUD on asset data"
+    },
+    {
+      "role": "Chuyên viên vận hành, bảo trì",
+      "slug": "maintenance-officer",
+      "type": "internal",
+      "responsibilities": [
+        "Theo dõi kế hoạch vận hành, bảo trì",
+        "Quản lý sự cố",
+        "Cập nhật tình trạng hoạt động"
+      ],
+      "entry_url": "/operations",
+      "permissions_hint": "CRUD on operations/maintenance data"
+    },
+    {
+      "role": "Chuyên viên GIS",
+      "slug": "gis-officer",
+      "type": "internal",
+      "responsibilities": [
+        "Quản lý dữ liệu không gian KCHT trên bản đồ",
+        "Cập nhật đối tượng điểm/đường/vùng",
+        "Tích hợp hải đồ điện tử"
+      ],
+      "entry_url": "/gis/map",
+      "permissions_hint": "CRUD on spatial data"
+    },
+    {
+      "role": "Chuyên viên quản lý hải đồ",
+      "slug": "chart-officer",
+      "type": "internal",
+      "responsibilities": [
+        "Biên tập hải đồ điện tử (S-57/S-100)",
+        "Quản lý các mảnh hải đồ",
+        "Xuất bản hải đồ"
+      ],
+      "entry_url": "/charts",
+      "permissions_hint": "CRUD on chart data"
+    },
+    {
+      "role": "Chuyên viên tổng hợp",
+      "slug": "reporting-officer",
+      "type": "internal",
+      "responsibilities": [
+        "Tạo báo cáo thống kê",
+        "Xuất báo cáo PDF/Excel",
+        "Phân tích dữ liệu"
+      ],
+      "entry_url": "/reports",
+      "permissions_hint": "Read reports, export data"
+    },
+    {
+      "role": "Lãnh đạo",
+      "slug": "senior-leader",
+      "type": "internal",
+      "responsibilities": [
+        "Xem tổng quan, báo cáo",
+        "Phê duyệt các đề xuất"
+      ],
+      "entry_url": "/dashboard",
+      "permissions_hint": "Read-only + approve level 3"
+    },
+    {
+      "role": "Chuyên viên nghiệp vụ",
+      "slug": "business-officer",
+      "type": "internal",
+      "responsibilities": [
+        "Tra cứu thông tin KCHT",
+        "Xem báo cáo"
+      ],
+      "entry_url": "/search",
+      "permissions_hint": "Read-only"
+    },
+    {
+      "role": "Chuyên viên tích hợp",
+      "slug": "integration-officer",
+      "type": "internal",
+      "responsibilities": [
+        "Quản lý kết nối LGSP, NDXP",
+        "Giám sát đồng bộ dữ liệu"
+      ],
+      "entry_url": "/integration",
+      "permissions_hint": "Manage integration configs"
+    },
+    {
+      "role": "Cá nhân/tổ chức bên ngoài",
+      "slug": "external-user",
+      "type": "external",
+      "responsibilities": [
+        "Tra cứu thông tin KCHT qua Web API"
+      ],
+      "entry_url": "/api/public",
+      "permissions_hint": "Public API access"
+    },
+    {
+      "role": "Hệ thống",
+      "slug": "system",
+      "type": "system",
+      "responsibilities": [
+        "Tự động đồng bộ dữ liệu với LGSP/NDXP",
+        "Gửi thông báo, cảnh báo",
+        "Sao lưu định kỳ"
+      ],
+      "entry_url": "/system/internal",
+      "permissions_hint": "System-level operations"
+    }
+  ],
+  "_meta": {
+    "producer": "consulting-intelligence-extractor",
+    "mode": "from-doc"
+  }
+}

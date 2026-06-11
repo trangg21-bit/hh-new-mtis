@@ -1,0 +1,508 @@
+{
+  "_meta": {
+    "source_file": "1.TKCT-Cuc HH-KetCauHaTangGiaoThong 13.11.2024 ban in final (1).docx",
+    "module_id": "M08",
+    "module_name": "Reporting & Statistics (Báo cáo thống kê)",
+    "extracted_at": "2026-06-05T14:00:00+07:00",
+    "status": "complete",
+    "end_marker": "module-analysis-complete"
+  },
+  "stage_verdict": {
+    "status": "PASS",
+    "confidence": "HIGH",
+    "summary": "Module M08 — 172 reporting requirements extracted from TKCT Section VIII (BÁO CÁO THỐNG KÊ) and P1146-P1150. 6 report groups (common statistics, infrastructure indicators, measurement indicators, vessel/crew indicators, enterprise indicators, Circular 48/2017 reports). PDF/Excel export + detail drill-down are cross-cutting features across all reports.",
+    "total_business_rules": 12,
+    "total_features": 8,
+    "total_entities": 6,
+    "total_screens": 6,
+    "total_integrations": 3,
+    "source_coverage": "TKCT P1146-P1150 (overview) + Table 67 R1430-R1602 (172 requirement rows in Section VIII)"
+  },
+  "business_rules": [
+    {
+      "id": "BR-M08-001",
+      "description": "Báo cáo phải hỗ trợ tổng hợp thông tin theo nhiều điều kiện tìm kiếm khác nhau (thời gian, địa điểm, loại báo cáo, trạng thái)",
+      "type": "functional",
+      "severity": "high",
+      "source_quote": "Tổng hợp thông tin báo cáo theo nhiều điều kiện tìm kiếm khác nhau"
+    },
+    {
+      "id": "BR-M08-002",
+      "description": "Báo cáo phải hỗ trợ xem chi tiết từng thông tin trong báo cáo tổng hợp",
+      "type": "functional",
+      "severity": "high",
+      "source_quote": "Xem chi tiết thông tin báo cáo"
+    },
+    {
+      "id": "BR-M08-003",
+      "description": "Báo cáo phải hỗ trợ kết xuất định dạng PDF và Excel",
+      "type": "functional",
+      "severity": "high",
+      "source_quote": "Kết xuất báo cáo theo định dạng PDF/ Excel"
+    },
+    {
+      "id": "BR-M08-004",
+      "description": "Báo cáo thống kê chung (Mẫu số 02-06) và nhóm chỉ tiêu kết cấu hạ tầng (Biểu 01-N đến 10-N) chỉ có chức năng tổng hợp/xem/xuất (dữ liệu đầu ra), không có chức năng nhập liệu",
+      "type": "functional",
+      "severity": "medium",
+      "source_quote": "All report operations classified as 'Dữ liệu đầu ra' for Biểu 01-N through 10-N"
+    },
+    {
+      "id": "BR-M08-005",
+      "description": "Báo cáo nhóm chỉ tiêu đo lường (Biểu 11-T đến 15-T) và nhóm phương tiện/thuyền viên (Biểu 21-6T/N, 22-6T/N) yêu cầu chức năng nhập dữ liệu đầu vào trước khi tổng hợp/xem/xuất",
+      "type": "functional",
+      "severity": "high",
+      "source_quote": "Người dùng thực hiện nhập báo cáo (Dữ liệu đầu vào) for Biểu 11-T, 11B-T, 16-Q, 17-Q, 12-T, 13-T, 14-T, 15-T, 21-6T/N, 22-6T/N"
+    },
+    {
+      "id": "BR-M08-006",
+      "description": "Báo cáo thông tư 48/2017/TT-BGTVT (Biểu 06-N, 07-N, 28-T, 29-N, 33-N) yêu cầu nhập dữ liệu đầu vào và tuân thủ biểu mẫu theo quy định của Thông tư 48/2017/TT-BGTVT",
+      "type": "compliance",
+      "severity": "critical",
+      "source_quote": "Nhóm báo cáo thông tư 48/2017/TT-BGTVT — Biểu số 06-N, 07-N, 28-T, 29-N, 33-N"
+    },
+    {
+      "id": "BR-M08-007",
+      "description": "Báo cáo tăng giảm tài sản và báo cáo kê khai tài sản phải phản ánh đúng biến động tài sản KCHT hàng hải theo quy định kế toán và quản lý tài sản công",
+      "type": "compliance",
+      "severity": "high",
+      "source_quote": "Báo cáo thống kê tăng giảm tài sản; Mẫu số 02: Báo cáo kê khai tài sản kết cấu hạ tầng hàng hải"
+    },
+    {
+      "id": "BR-M08-008",
+      "description": "Báo cáo sản lượng cảng biển (Biểu 12-T, 13-T, 14-T, 15-T, 45-6T/N) phải tổng hợp đúng khối lượng hàng hóa, hành khách, lượt tàu thông qua cảng biển",
+      "type": "functional",
+      "severity": "high",
+      "source_quote": "Biểu 12-T: Khối lượng hàng hóa, hành khách thông qua cảng biển theo tháng; Biểu 13-T: Lượt tàu thuyền vào, rời cảng biển"
+    },
+    {
+      "id": "BR-M08-009",
+      "description": "Báo cáo thống kê tàu biển nước ngoài (Biểu 16-Q) và tàu biển Việt Nam vận tải quốc tế (Biểu 17-Q) phải phân biệt theo quốc tịch tàu",
+      "type": "functional",
+      "severity": "medium",
+      "source_quote": "Biểu 16-Q: Thống kê tàu biển nước ngoài đến, rời tại khu vực cảng biển; Biểu 17-Q: Thống kê tàu biển Việt Nam vận tải quốc tế tại khu vực cảng biển"
+    },
+    {
+      "id": "BR-M08-010",
+      "description": "Báo cáo thống kê thuyền viên, hoa tiêu (Biểu 21-6T/N) phải tổng hợp thông tin nhân sự hàng hải theo quy định",
+      "type": "functional",
+      "severity": "medium",
+      "source_quote": "Biểu 21-6T/N: Thống kê thuyền viên, hoa tiêu hàng hải"
+    },
+    {
+      "id": "BR-M08-011",
+      "description": "Báo cáo cơ sở đóng mới sửa chữa phá dỡ tàu biển (Biểu 31-N) và báo cáo tổng hợp hàng hóa (Biểu 45-6T/N) phải thuộc nhóm chỉ tiêu doanh nghiệp",
+      "type": "functional",
+      "severity": "low",
+      "source_quote": "VIII.5 Nhóm chỉ tiêu về doanh nghiệp: Biểu 31-N, Biểu 45-6T/N"
+    },
+    {
+      "id": "BR-M08-012",
+      "description": "Mẫu số 04 và Mẫu số 06 phải quản lý toàn bộ vòng đời xử lý tài sản KCHTGT hàng hải từ đề nghị đến phê duyệt",
+      "type": "functional",
+      "severity": "high",
+      "source_quote": "Mẫu số 04: báo cáo tình hình xử lý tài sản; Mẫu số 06: Tổng hợp danh mục TS KCHTGT hàng hải đề nghị xử lý"
+    }
+  ],
+  "features": [
+    {
+      "name": "Báo cáo thống kê chung (Common Statistics Reports)",
+      "description": "Nhóm 6 báo cáo thống kê tài sản: tăng giảm tài sản, kê khai tài sản (MS02), quản lý tài sản (MS03), xử lý tài sản (MS04), khai thác tài sản (MS05), danh mục TS đề nghị xử lý (MS06). Mỗi báo cáo hỗ trợ tổng hợp, xem chi tiết, xuất PDF/Excel.",
+      "type": "report",
+      "priority": "P0",
+      "actors": ["Lãnh đạo", "Chuyên viên"],
+      "entities": ["AssetReport"],
+      "key_fields": ["report_type", "report_period", "asset_code", "asset_name", "asset_status", "unit_name", "increase_amount", "decrease_amount", "processing_status"],
+      "validations": ["Chỉ tổng hợp/xem/xuất, không có nhập liệu", "Phải phản ánh đúng biến động theo kỳ báo cáo"],
+      "screens": ["/reports/asset-selection"],
+      "workflow": {
+        "transitions": ["Chọn loại báo cáo > Thiết lập điều kiện lọc (kỳ, đơn vị, loại tài sản) > Tổng hợp > Xem chi tiết/Xuất PDF/Excel"]
+      }
+    },
+    {
+      "name": "Báo cáo chỉ tiêu kết cấu hạ tầng (Infrastructure Indicator Reports)",
+      "description": "Nhóm 13 báo cáo: Biểu 01-N (năng lực bến/cầu cảng), 01B-N (năng lực cảng biển), 02-N (cầu cảng), 03-Q/N (luồng hàng hải), 04-6T/N (vùng hoa tiêu/quay trở/tránh bão), 04B-N (chuyển tải/neo đậu), 05-N (bến phao), 06-N (đèn biển), 07-6T/N & 07B-6T/N (phao tiêu), 08-N (VTS), 09-N (đài duyên hải), 10-N (đê kè). Tổng hợp theo Q/6T/N.",
+      "type": "report",
+      "priority": "P0",
+      "actors": ["Lãnh đạo", "Chuyên viên"],
+      "entities": ["InfrastructureReport"],
+      "key_fields": ["report_code", "report_period", "infrastructure_type", "location", "management_unit", "capacity_value", "quantity", "status"],
+      "validations": ["Kỳ báo cáo Q/6T/N", "Chỉ tổng hợp/xem/xuất, dữ liệu từ CSDL KCHT"],
+      "screens": ["/reports/infrastructure"],
+      "workflow": {
+        "transitions": ["Chọn biểu mẫu (01-N~10-N) > Nhập điều kiện lọc > Tổng hợp > Xem chi tiết/Xuất PDF/Excel"]
+      }
+    },
+    {
+      "name": "Báo cáo chỉ tiêu đo lường (Measurement Indicator Reports)",
+      "description": "Nhóm 8 báo cáo: Biểu 11-T (tàu biển ra vào cảng), 11B-T (phương tiện thủy nội địa), 16-Q (tàu nước ngoài), 17-Q (tàu VN vận tải quốc tế), 12-T (hàng hóa hành khách tháng), 13-T (lượt tàu), 14-T (hàng hóa đội tàu VN), 15-T (hàng hóa khu vực quản lý).",
+      "type": "report",
+      "priority": "P0",
+      "actors": ["Chuyên viên", "Người dùng tại Cảng", "Lãnh đạo"],
+      "entities": ["MeasurementReport"],
+      "key_fields": ["report_code", "report_period", "port_name", "vessel_name", "vessel_nationality", "cargo_weight", "passenger_count"],
+      "validations": ["Nhập dữ liệu trước khi tổng hợp", "Phân biệt VN/nước ngoài"],
+      "screens": ["/reports/data-entry", "/reports/dashboard"],
+      "workflow": {
+        "transitions": ["Nhập dữ liệu báo cáo > Lưu > Chọn kỳ > Tổng hợp > Xem chi tiết > Xuất PDF/Excel"]
+      }
+    },
+    {
+      "name": "Báo cáo phương tiện và thuyền viên (Vessel & Crew Reports)",
+      "description": "Nhóm 3 báo cáo: Biểu 21-6T/N (thuyền viên, hoa tiêu), 22-6T/N (tàu biển cờ VN), 23-N (tàu lai dắt). Hỗ trợ nhập + tổng hợp 6T/N + xem chi tiết + xuất PDF/Excel.",
+      "type": "report",
+      "priority": "P1",
+      "actors": ["Chuyên viên", "Người dùng tại Cảng"],
+      "entities": ["CrewReport"],
+      "key_fields": ["report_code", "report_period", "crew_count", "pilot_count", "vessel_flag"],
+      "validations": ["Phân loại thuyền viên theo chức danh", "Tàu VN phải có đăng ký quốc tịch"],
+      "screens": ["/reports/data-entry"],
+      "workflow": {
+        "transitions": ["Nhập dữ liệu > Tổng hợp 6T/N > Xem chi tiết > Xuất PDF/Excel"]
+      }
+    },
+    {
+      "name": "Báo cáo chỉ tiêu doanh nghiệp (Enterprise Indicator Reports)",
+      "description": "Nhóm 2 báo cáo: Biểu 31-N (cơ sở đóng mới/sửa chữa/phá dỡ tàu biển), Biểu 45-6T/N (tổng hợp hàng hóa qua cảng).",
+      "type": "report",
+      "priority": "P1",
+      "actors": ["Chuyên viên"],
+      "entities": ["EnterpriseReport"],
+      "key_fields": ["report_period", "company_name", "new_build_count", "repair_count", "dismantle_count", "total_cargo_volume"],
+      "validations": ["Phân loại đóng mới/sửa chữa/phá dỡ", "Báo cáo hàng hóa tổng hợp theo cảng"],
+      "screens": ["/reports/data-entry"],
+      "workflow": {
+        "transitions": ["Nhập dữ liệu > Tổng hợp năm > Xem chi tiết > Xuất PDF/Excel"]
+      }
+    },
+    {
+      "name": "Báo cáo thông tư 48/2017/TT-BGTVT (Circular 48 Reports)",
+      "description": "Nhóm 5 báo cáo: Biểu 06-N (năng lực bến/cầu cảng), 07-N (năng lực cảng biển, bến thủy nội địa), 28-T (hàng hóa tháng), 29-N (hàng hóa năm), 33-N (sản lượng dịch vụ vận tải). Tuân thủ biểu mẫu TT48.",
+      "type": "report",
+      "priority": "P0",
+      "actors": ["Chuyên viên", "Lãnh đạo"],
+      "entities": ["Circular48Report"],
+      "key_fields": ["report_code", "report_period", "port_name", "berth_name", "capacity_design", "actual_throughput"],
+      "validations": ["Tuân thủ biểu mẫu TT48/2017", "Nhập dữ liệu trước khi tổng hợp", "Định kỳ tháng/năm"],
+      "screens": ["/reports/data-entry", "/reports/dashboard"],
+      "workflow": {
+        "transitions": ["Chọn biểu mẫu TT48 > Nhập dữ liệu > Tổng hợp > Xem chi tiết > Xuất PDF/Excel theo format TT48"]
+      }
+    },
+    {
+      "name": "Xuất báo cáo PDF/Excel (Multi-format Export)",
+      "description": "Kết xuất báo cáo sang PDF (in ấn/lưu trữ) và Excel (phân tích số liệu). Áp dụng cho tất cả báo cáo.",
+      "type": "utility",
+      "priority": "P0",
+      "actors": ["Lãnh đạo", "Chuyên viên"],
+      "entities": ["ExportLog"],
+      "key_fields": ["export_format", "report_code", "exported_at", "exported_by"],
+      "validations": ["PDF giữ nguyên biểu mẫu", "Excel có cấu trúc bảng tính rõ ràng"],
+      "screens": ["/reports/export"],
+      "workflow": {
+        "transitions": ["Tổng hợp báo cáo > Chọn định dạng > Sinh tệp > Tải xuống"]
+      }
+    },
+    {
+      "name": "Lọc báo cáo đa điều kiện (Multi-condition Filtering)",
+      "description": "Tìm kiếm và lọc báo cáo theo nhiều tiêu chí kết hợp: kỳ báo cáo, loại báo cáo, đơn vị, địa điểm, trạng thái.",
+      "type": "utility",
+      "priority": "P0",
+      "actors": ["Lãnh đạo", "Chuyên viên", "Quản trị hệ thống"],
+      "entities": [],
+      "key_fields": ["filter_type", "date_from", "date_to", "unit_id", "location"],
+      "validations": ["Kết hợp nhiều điều kiện", "Tối thiểu lọc theo thời gian"],
+      "screens": ["/reports/filter"],
+      "workflow": {
+        "transitions": ["Chọn báo cáo > Thiết lập điều kiện > Tìm kiếm > Hiển thị kết quả > Xuất/Xem chi tiết"]
+      }
+    }
+  ],
+  "entities": [
+    {
+      "name": "AssetReport",
+      "key_fields": ["report_id", "report_code", "report_type", "report_period", "report_date", "unit_id", "asset_code", "asset_name", "asset_category", "beginning_balance", "increase_amount", "decrease_amount", "ending_balance", "status", "created_by", "created_at", "exported_at"],
+      "field_types": {
+        "report_id": "UUID",
+        "report_code": "string",
+        "report_type": "enum [tang_giam, ke_khai, quan_ly, xu_ly, khai_thac, de_nghi_xu_ly]",
+        "report_period": "enum [Q1, Q2, Q3, Q4, 6T1, 6T2, N]",
+        "report_date": "date",
+        "unit_id": "UUID",
+        "asset_code": "string",
+        "asset_name": "string",
+        "asset_category": "string",
+        "beginning_balance": "number",
+        "increase_amount": "number",
+        "decrease_amount": "number",
+        "ending_balance": "number",
+        "status": "enum [draft, completed, approved]",
+        "created_by": "UUID",
+        "created_at": "datetime",
+        "exported_at": "datetime"
+      },
+      "pii_fields": [],
+      "source": "TKCT VIII.1 — R1432-R1455"
+    },
+    {
+      "name": "InfrastructureReport",
+      "key_fields": ["report_id", "report_code", "report_form_code", "report_period", "infrastructure_type", "location", "management_unit", "quantity", "capacity_design", "capacity_actual", "length", "width", "depth", "area", "status", "last_maintenance"],
+      "field_types": {
+        "report_id": "UUID",
+        "report_code": "string",
+        "report_form_code": "enum [01-N, 01B-N, 02-N, 03-Q/N, 04-6T/N, 04B-N, 05-N, 06-N, 07-6T/N, 07B-6T/N, 08-N, 09-N, 10-N]",
+        "report_period": "enum [Q, 6T, N]",
+        "infrastructure_type": "string",
+        "location": "string",
+        "management_unit": "string",
+        "quantity": "integer",
+        "capacity_design": "number",
+        "capacity_actual": "number",
+        "length": "number",
+        "width": "number",
+        "depth": "number",
+        "area": "number",
+        "status": "enum [operational, maintenance, inactive]",
+        "last_maintenance": "date"
+      },
+      "pii_fields": [],
+      "source": "TKCT VIII.2 — R1456-R1507"
+    },
+    {
+      "name": "MeasurementReport",
+      "key_fields": ["report_id", "report_code", "report_form_code", "report_period", "port_name", "vessel_name", "vessel_type", "vessel_nationality", "vessel_dwt", "cargo_type", "cargo_weight", "passenger_count", "arrival_date", "departure_date", "data_entry_by"],
+      "field_types": {
+        "report_id": "UUID",
+        "report_code": "string",
+        "report_form_code": "enum [11-T, 11B-T, 16-Q, 17-Q, 12-T, 13-T, 14-T, 15-T]",
+        "report_period": "enum [T, Q, N]",
+        "port_name": "string",
+        "vessel_name": "string",
+        "vessel_type": "string",
+        "vessel_nationality": "string",
+        "vessel_dwt": "number",
+        "cargo_type": "string",
+        "cargo_weight": "number",
+        "passenger_count": "integer",
+        "arrival_date": "datetime",
+        "departure_date": "datetime",
+        "data_entry_by": "UUID"
+      },
+      "pii_fields": [],
+      "source": "TKCT VIII.3 — R1508-R1548"
+    },
+    {
+      "name": "CrewReport",
+      "key_fields": ["report_id", "report_code", "report_form_code", "report_period", "crew_count", "pilot_count", "vessel_name", "vessel_flag", "vessel_imo", "tug_name", "service_count"],
+      "field_types": {
+        "report_id": "UUID",
+        "report_code": "string",
+        "report_form_code": "enum [21-6T/N, 22-6T/N, 23-N]",
+        "report_period": "enum [6T, N]",
+        "crew_count": "integer",
+        "pilot_count": "integer",
+        "vessel_name": "string",
+        "vessel_flag": "string",
+        "vessel_imo": "string",
+        "tug_name": "string",
+        "service_count": "integer"
+      },
+      "pii_fields": [],
+      "source": "TKCT VIII.4 — R1549-R1564"
+    },
+    {
+      "name": "Circular48Report",
+      "key_fields": ["report_id", "report_code", "report_form_code", "report_period", "report_year", "port_name", "berth_name", "capacity_design", "capacity_actual", "cargo_volume", "service_type", "enterprise_name"],
+      "field_types": {
+        "report_id": "UUID",
+        "report_code": "string",
+        "report_form_code": "enum [06-N-TT48, 07-N-TT48, 28-T-TT48, 29-N-TT48, 33-N-TT48]",
+        "report_period": "enum [T, N]",
+        "report_year": "integer",
+        "port_name": "string",
+        "berth_name": "string",
+        "capacity_design": "number",
+        "capacity_actual": "number",
+        "cargo_volume": "number",
+        "service_type": "string",
+        "enterprise_name": "string"
+      },
+      "pii_fields": [],
+      "source": "TKCT VIII.6 — R1576-R1601"
+    },
+    {
+      "name": "EnterpriseReport",
+      "key_fields": ["report_id", "report_code", "report_form_code", "report_period", "company_name", "new_build_count", "repair_count", "dismantle_count", "total_cargo_volume"],
+      "field_types": {
+        "report_id": "UUID",
+        "report_code": "string",
+        "report_form_code": "enum [31-N, 45-6T/N]",
+        "report_period": "enum [6T, N]",
+        "company_name": "string",
+        "new_build_count": "integer",
+        "repair_count": "integer",
+        "dismantle_count": "integer",
+        "total_cargo_volume": "number"
+      },
+      "pii_fields": [],
+      "source": "TKCT VIII.5 — R1565-R1575"
+    }
+  ],
+  "screens": [
+    {
+      "path": "/reports/dashboard",
+      "title": "Bảng điều khiển báo cáo thống kê",
+      "type": "dashboard",
+      "visible_to_roles": ["Lãnh đạo", "Chuyên viên"],
+      "key_fields": ["danh mục báo cáo", "kỳ báo cáo", "điều kiện lọc", "kết quả tổng hợp"],
+      "actions": ["Xem danh sách", "Lọc theo kỳ", "Tổng hợp", "Xem chi tiết", "Xuất PDF", "Xuất Excel"],
+      "ocr_confidence": null
+    },
+    {
+      "path": "/reports/filter",
+      "title": "Lọc và tìm kiếm báo cáo",
+      "type": "filter",
+      "visible_to_roles": ["Lãnh đạo", "Chuyên viên"],
+      "key_fields": ["loại báo cáo", "từ ngày", "đến ngày", "đơn vị", "địa điểm", "trạng thái"],
+      "actions": ["Lọc kết hợp", "Tìm kiếm", "Đặt lại"],
+      "ocr_confidence": null
+    },
+    {
+      "path": "/reports/export",
+      "title": "Xuất báo cáo",
+      "type": "dialog",
+      "visible_to_roles": ["Lãnh đạo", "Chuyên viên"],
+      "key_fields": ["định dạng xuất", "tùy chọn"],
+      "actions": ["Xuất PDF", "Xuất Excel", "Hủy"],
+      "ocr_confidence": null
+    },
+    {
+      "path": "/reports/asset-selection",
+      "title": "Báo cáo thống kê chung và tài sản",
+      "type": "list",
+      "visible_to_roles": ["Lãnh đạo", "Chuyên viên"],
+      "key_fields": ["tên báo cáo", "kỳ", "đơn vị", "trạng thái"],
+      "actions": ["Chọn báo cáo", "Tổng hợp", "Xem chi tiết", "Xuất PDF", "Xuất Excel"],
+      "ocr_confidence": null
+    },
+    {
+      "path": "/reports/data-entry",
+      "title": "Nhập dữ liệu báo cáo",
+      "type": "form",
+      "visible_to_roles": ["Chuyên viên", "Người dùng tại Cảng"],
+      "key_fields": ["biểu mẫu", "kỳ báo cáo", "các trường dữ liệu"],
+      "actions": ["Nhập", "Lưu nháp", "Gửi", "Hủy"],
+      "ocr_confidence": null
+    },
+    {
+      "path": "/reports/infrastructure",
+      "title": "Báo cáo chỉ tiêu kết cấu hạ tầng",
+      "type": "list",
+      "visible_to_roles": ["Chuyên viên", "Lãnh đạo"],
+      "key_fields": ["biểu mẫu", "kỳ Q/6T/N", "địa điểm", "đơn vị quản lý"],
+      "actions": ["Chọn biểu", "Tổng hợp", "Xem chi tiết", "Xuất PDF", "Xuất Excel"],
+      "ocr_confidence": null
+    }
+  ],
+  "integrations": [
+    {
+      "name": "CSDL Kết cấu hạ tầng giao thông hàng hải",
+      "description": "Lấy dữ liệu tài sản, cảng biển, bến cảng, luồng hàng hải, đèn biển, phao tiêu, VTS, đê kè phục vụ báo cáo nhóm chỉ tiêu kết cấu hạ tầng (VIII.2)",
+      "type": "database",
+      "protocol": "MSSQL (nội bộ)",
+      "data_exchanged": ["infrastructure_asset", "port_info", "berth_info", "channel_info", "lighthouse_info", "buoy_info", "seawall_info", "vts_info"],
+      "security": "Truy cập qua tầng ứng dụng"
+    },
+    {
+      "name": "CSDL Sản lượng cảng biển",
+      "description": "Đồng bộ dữ liệu hàng hóa, hành khách, lượt tàu phục vụ báo cáo nhóm chỉ tiêu đo lường (VIII.3) và doanh nghiệp (VIII.5)",
+      "type": "database",
+      "protocol": "MSSQL / API",
+      "data_exchanged": ["cargo_volume", "passenger_count", "vessel_traffic_log", "vessel_arrival_departure"],
+      "security": "API token, mã hóa kênh truyền"
+    },
+    {
+      "name": "Trục LGSP Bộ GTVT",
+      "description": "Chia sẻ dữ liệu báo cáo thống kê định kỳ lên Bộ GTVT theo biểu mẫu tổng hợp KCHT và TT48/2017",
+      "type": "outbound",
+      "protocol": "API / LGSP",
+      "data_exchanged": ["infrastructure_summary", "port_summary", "berth_summary", "channel_summary", "circular48_report_data"],
+      "security": "Xác thực LGSP, mã hóa đầu cuối"
+    }
+  ],
+  "report_groups": [
+    {
+      "id": "VIII.1",
+      "name": "Báo cáo thống kê chung",
+      "reports": [
+        {"stt": "156", "code": "TS-BC-01", "name": "Báo cáo thống kê tăng giảm tài sản"},
+        {"stt": "158", "code": "MS-02", "name": "Mẫu số 02: Báo cáo kê khai tài sản KCHT hàng hải"},
+        {"stt": "159", "code": "MS-03", "name": "Mẫu số 03: Báo cáo tình hình quản lý tài sản KCHT hàng hải"},
+        {"stt": "160", "code": "MS-04", "name": "Mẫu số 04: Báo cáo tình hình xử lý tài sản KCHT hàng hải"},
+        {"stt": "161", "code": "MS-05", "name": "Mẫu số 05: Báo cáo tình hình khai thác tài sản KCHT hàng hải"},
+        {"stt": "162", "code": "MS-06", "name": "Mẫu số 06: Tổng hợp danh mục TS KCHTGT hàng hải đề nghị xử lý"}
+      ]
+    },
+    {
+      "id": "VIII.2",
+      "name": "Nhóm chỉ tiêu kết cấu hạ tầng",
+      "reports": [
+        {"stt": "163", "code": "01-N", "name": "Biểu 01-N: Năng lực thông qua bến cảng, cầu cảng"},
+        {"stt": "164", "code": "01B-N", "name": "Biểu 01B-N: Năng lực thông qua cảng biển"},
+        {"stt": "165", "code": "02-N", "name": "Biểu 02-N: Thống kê cầu cảng"},
+        {"stt": "166", "code": "03-Q/N", "name": "Biểu 03-Q/N: Thống kê luồng hàng hải"},
+        {"stt": "167", "code": "04-6T/N", "name": "Biểu 04-6T/N: Thống kê vùng đón trả hoa tiêu, vùng quay trở tàu, ga tránh tàu, khu neo tránh trú bão"},
+        {"stt": "168", "code": "04B-N", "name": "Biểu 04B-N: Thống kê khu chuyển tải, khu neo đậu tàu"},
+        {"stt": "169", "code": "05-N", "name": "Biểu 05-N: Thống kê bến phao, khu neo đậu"},
+        {"stt": "170", "code": "06-N", "name": "Biểu 06-N: Thống kê hệ thống đèn biển"},
+        {"stt": "171", "code": "07-6T/N", "name": "Biểu 07-6T/N: Thống kê hệ thống phao tiêu, báo hiệu trên luồng"},
+        {"stt": "172", "code": "07B-6T/N", "name": "Biểu 07B-6T/N: Thống kê phao tiêu báo hiệu trên luồng"},
+        {"stt": "173", "code": "08-N", "name": "Biểu 08-N: Thống kê hệ thống VTS"},
+        {"stt": "174", "code": "09-N", "name": "Biểu 09-N: Hệ thống các đài thông tin duyên hải"},
+        {"stt": "175", "code": "10-N", "name": "Biểu 10-N: Thống kê hệ thống đê, kè chắn sóng, chắn cát"}
+      ]
+    },
+    {
+      "id": "VIII.3",
+      "name": "Nhóm chỉ tiêu đo lường",
+      "reports": [
+        {"stt": "176", "code": "11-T", "name": "Biểu 11-T: Báo cáo chi tiết tàu biển ra vào cảng"},
+        {"stt": "177", "code": "11B-T", "name": "Biểu 11B-T: Báo cáo chi tiết phương tiện thủy nội địa ra vào cảng biển"},
+        {"stt": "178", "code": "16-Q", "name": "Biểu 16-Q: Thống kê tàu biển nước ngoài đến/rời cảng biển"},
+        {"stt": "179", "code": "17-Q", "name": "Biểu 17-Q: Thống kê tàu biển VN vận tải quốc tế tại cảng biển"},
+        {"stt": "180", "code": "12-T", "name": "Biểu 12-T: Khối lượng hàng hóa, hành khách qua cảng biển theo tháng"},
+        {"stt": "182", "code": "13-T", "name": "Biểu 13-T: Lượt tàu thuyền vào/rời cảng biển"},
+        {"stt": "183", "code": "14-T", "name": "Biểu 14-T: Hàng hóa, hành khách, lượt tàu bằng đội tàu VN"},
+        {"stt": "184", "code": "15-T", "name": "Biểu 15-T: Hàng hóa, hành khách qua cảng biển, bến cảng, khu chuyển tải trong khu vực quản lý"}
+      ]
+    },
+    {
+      "id": "VIII.4",
+      "name": "Nhóm chỉ tiêu phương tiện và thuyền viên",
+      "reports": [
+        {"stt": "185", "code": "21-6T/N", "name": "Biểu 21-6T/N: Thống kê thuyền viên, hoa tiêu hàng hải"},
+        {"stt": "186", "code": "22-6T/N", "name": "Biểu 22-6T/N: Thống kê tàu biển mang cờ quốc tịch VN"},
+        {"stt": "187", "code": "23-N", "name": "Biểu 23-N: Thống kê tàu thuyền hoạt động dịch vụ lai dắt"}
+      ]
+    },
+    {
+      "id": "VIII.5",
+      "name": "Nhóm chỉ tiêu về doanh nghiệp",
+      "reports": [
+        {"stt": "188", "code": "31-N", "name": "Biểu 31-N: Thống kê cơ sở đóng mới, sửa chữa, phá dỡ tàu biển"},
+        {"stt": "189", "code": "45-6T/N", "name": "Biểu 45-6T/N: Báo cáo tổng hợp hàng hóa thông qua cảng"}
+      ]
+    },
+    {
+      "id": "VIII.6",
+      "name": "Nhóm báo cáo thông tư 48/2017/TT-BGTVT",
+      "reports": [
+        {"stt": "190", "code": "06-N-TT48", "name": "Biểu số 06-N: Năng lực thông qua bến cảng, cầu cảng (TT48)"},
+        {"stt": "191", "code": "07-N-TT48", "name": "Biểu 07-N: Năng lực thông qua cảng biển, bến thủy nội địa (TT48)"},
+        {"stt": "192", "code": "28-T-TT48", "name": "Biểu 28-T: Khối lượng hàng hóa thông qua cảng (TT48)"},
+        {"stt": "193", "code": "29-N-TT48", "name": "Biểu 29-N: Khối lượng hàng hóa thông qua cảng (TT48)"},
+        {"stt": "194", "code": "33-N-TT48", "name": "Biểu 33-N: Sản lượng dịch vụ vận tải và doanh nghiệp (TT48)"}
+      ]
+    }
+  ]
+}

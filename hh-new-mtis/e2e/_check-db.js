@@ -1,0 +1,1 @@
+var D=require("better-sqlite3"); var db=new D("/app/data/database.sqlite"); var tables=db.prepare("SELECT count(*) c FROM sqlite_master WHERE type='table'").get(); console.log("Tables: "+tables.c); var users=db.prepare("SELECT username,status FROM users").all(); console.log("Users:"); users.forEach(function(r){console.log("  "+r.username+" -> status="+r.status)}); db.close();

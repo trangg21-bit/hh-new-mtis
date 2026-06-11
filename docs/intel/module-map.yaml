@@ -1,0 +1,6 @@
+modules:
+  M-001:
+    name: Quan ly xac thuc va nguoi dung
+    path: docs/modules/M-001-auth-user-mgmt
+    slug: auth-user-mgmt
+schema_version: "1.0"

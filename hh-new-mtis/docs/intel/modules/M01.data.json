@@ -1,0 +1,536 @@
+{
+  "_meta": {
+    "source_file": "1.TKCT-Cuc HH-KetCauHaTangGiaoThong 13.11.2024 ban in final (1).docx",
+    "module_id": "M01",
+    "module_name": "User Management (Quản lý người dùng)",
+    "extracted_at": "2026-06-05T12:00:00+07:00",
+    "status": "complete",
+    "end_marker": "module-analysis-complete"
+  },
+  "business_rules": [
+    {
+      "id": "BR-M01-001",
+      "description": "Mật khẩu phải được mã hóa ở phía client trước khi gửi qua môi trường mạng",
+      "type": "security",
+      "severity": "critical",
+      "source_quote": "Mật khẩu được mã hóa ở phía client"
+    },
+    {
+      "id": "BR-M01-002",
+      "description": "Server phải tạo salt ngẫu nhiên và hash mật khẩu đã mã hóa trước khi lưu vào CSDL",
+      "type": "security",
+      "severity": "critical",
+      "source_quote": "Server tạo salt ngẫu nhiên và hash mật khẩu đã mã hóa"
+    },
+    {
+      "id": "BR-M01-003",
+      "description": "Xác thực đa yếu tố (MFA) kết hợp mật khẩu thông thường và TOTP cho tất cả người dùng",
+      "type": "security",
+      "severity": "critical",
+      "source_quote": "Sử dụng xác thực đa yếu tố (MFA) kết hợp mật khẩu thông thường và TOTP"
+    },
+    {
+      "id": "BR-M01-004",
+      "description": "Lần đăng nhập đầu tiên bắt buộc thiết lập TOTP thông qua mã QR gửi về màn hình đăng nhập",
+      "type": "workflow",
+      "severity": "high",
+      "source_quote": "Hệ thống sẽ triển khai quy trình đặc biệt cho lần đăng nhập đầu tiên, cung cấp mã QR cho người dùng để thiết lập TOTP trên ứng dụng xác thực"
+    },
+    {
+      "id": "BR-M01-005",
+      "description": "Tài khoản phải được đánh dấu chưa thiết lập TOTP sau khi đăng ký cho đến khi hoàn tất thiết lập",
+      "type": "workflow",
+      "severity": "high",
+      "source_quote": "Đánh dấu tài khoản là 'chưa thiết lập TOTP'"
+    },
+    {
+      "id": "BR-M01-006",
+      "description": "Phân quyền ứng dụng kết hợp 3 cấp độ: theo chức năng, theo thao tác của từng chức năng, và theo dữ liệu",
+      "type": "authorization",
+      "severity": "critical",
+      "source_quote": "Cơ chế phân quyền ứng dụng là cơ chế kết hợp giữa phân quyền theo chức năng (người dùng nào được sử dụng chức năng nào), phân quyền theo từng thao tác của từng chức năng (...) và phân quyền theo dữ liệu (người dùng nào được phép khai thác, xử lý dữ liệu nào)"
+    },
+    {
+      "id": "BR-M01-007",
+      "description": "Tất cả các chức năng của ứng dụng đều yêu cầu đăng nhập trước khi truy cập",
+      "type": "security",
+      "severity": "critical",
+      "source_quote": "Tất cả các chức năng của ứng dụng đều yêu cầu đăng nhập trước khi truy cập"
+    },
+    {
+      "id": "BR-M01-008",
+      "description": "JWT token phải được lưu trữ an toàn (HttpOnly cookie) và tự động làm mới khi gần hết hạn",
+      "type": "security",
+      "severity": "high",
+      "source_quote": "Client lưu trữ JWT token an toàn (ví dụ: trong HttpOnly cookie)"
+    },
+    {
+      "id": "BR-M01-009",
+      "description": "Thông tin xác thực phải được lưu trữ có mã hóa sử dụng thuật toán hash SHA-256, SHA-512, SHA-3 hoặc tương đương",
+      "type": "security",
+      "severity": "critical",
+      "source_quote": "Có chức năng cho phép lưu trữ có mã hóa thông tin xác thực hệ thống: Thông tin xác thực được lưu trữ có mã hóa trên Phần mềm sử dụng thuật toán hash từ SHA-256, SHA-512, SHA-3 và các thuật toán tương đương"
+    },
+    {
+      "id": "BR-M01-010",
+      "description": "Có chức năng yêu cầu người dùng đặt mật khẩu mới khi đăng nhập lần đầu sử dụng mật khẩu mặc định",
+      "type": "security",
+      "severity": "high",
+      "source_quote": "Có chức năng yêu cầu người dùng đặt mật khẩu mới khi đăng nhập lần đầu sử dụng mật khẩu mặc định"
+    },
+    {
+      "id": "BR-M01-011",
+      "description": "Logout tự động khi người dùng không sử dụng trong một khoảng thời gian (timeout)",
+      "type": "security",
+      "severity": "medium",
+      "source_quote": "Khi không dùng phần mềm hệ thống cung cấp chức năng logout tự động khi người dùng không sử dụng trong một khoảng thời gian nào đó để tránh trường hợp người khác vào thay đổi thông tin"
+    },
+    {
+      "id": "BR-M01-012",
+      "description": "Lưu nhật ký toàn bộ quá trình truy cập hệ thống bao gồm đăng nhập, đăng xuất, quản lý tài khoản, thay đổi cấu hình",
+      "type": "audit",
+      "severity": "high",
+      "source_quote": "Tra cứu nhật ký hệ thống liên quan đến: nhật ký truy cập phần mềm, nhật ký đăng nhập khi quản trị phần mềm, nhật ký lỗi phát sinh trong quá trình hoạt động, nhật ký quản lý tài khoản, nhật ký thay đổi cấu hình phần mềm"
+    },
+    {
+      "id": "BR-M01-013",
+      "description": "Mã hóa thông tin nhạy cảm trong CSDL và tệp tin cấu hình hệ thống",
+      "type": "security",
+      "severity": "critical",
+      "source_quote": "Mã hóa các thông tin nhạy cảm trong cơ sở dữ liệu và các tệp tin cấu hình của hệ thống: đối với các thông tin nhạy cảm, cần mức độ bảo vệ cao, hệ thống sẽ sử dụng các thuật toán mã hóa phù hợp để che dấu thông tin"
+    },
+    {
+      "id": "BR-M01-014",
+      "description": "Quản trị hệ thống có quyền phê duyệt danh sách tài khoản đăng ký trước khi cấp quyền truy cập",
+      "type": "workflow",
+      "severity": "high",
+      "source_quote": "Phê duyệt danh sách tài khoản đăng ký"
+    }
+  ],
+  "features": [
+    {
+      "name": "Đăng ký tài khoản người dùng",
+      "description": "Cho phép người dùng chưa có tài khoản thực hiện đăng ký tài khoản qua môi trường web để khai thác dữ liệu. Người dùng nhập thông tin đăng ký (email, số điện thoại, mật khẩu), mật khẩu được mã hóa client-side và gửi lên server qua HTTPS, server tạo salt ngẫu nhiên, hash và lưu vào CSDL.",
+      "type": "CRUD",
+      "priority": "P0",
+      "actors": ["Cá nhân, tổ chức bên ngoài", "Người dùng tại Cảng"],
+      "entities": ["UserAccount", "UserRegistration"],
+      "key_fields": ["email", "phone_number", "password_hash", "password_salt", "totp_status"],
+      "validations": [
+        "Mật khẩu được mã hóa ở phía client",
+        "Thông tin gửi qua HTTPS",
+        "Server kiểm tra tính hợp lệ của email/số điện thoại"
+      ],
+      "screens": ["/register"],
+      "workflow": {
+        "transitions": [
+          "Nhập thông tin đăng ký > Mã hóa mật khẩu client > Gửi server > Tạo salt & hash > Lưu CSDL > Đánh dấu chưa thiết lập TOTP > Hoàn tất đăng ký"
+        ]
+      }
+    },
+    {
+      "name": "Đăng nhập và xác thực đa yếu tố (MFA)",
+      "description": "Hỗ trợ đăng nhập với MFA kết hợp mật khẩu và TOTP. Lần đầu yêu cầu thiết lập TOTP qua mã QR với Google Authenticator. Các lần tiếp theo yêu cầu nhập mã TOTP từ ứng dụng xác thực. Server tạo JWT token sau xác thực thành công.",
+      "type": "CRUD",
+      "priority": "P0",
+      "actors": ["Quản trị hệ thống", "Lãnh đạo", "Chuyên viên", "Cá nhân, tổ chức bên ngoài", "Người dùng tại Cảng"],
+      "entities": ["UserAccount", "AuthSession"],
+      "key_fields": ["email", "phone_number", "password_hash", "totp_secret", "jwt_token", "login_attempt"],
+      "validations": [
+        "Mật khẩu được mã hóa client-side trước khi gửi",
+        "Server xác thực thông tin đăng nhập",
+        "Server giải mã secret key và xác thực mã TOTP"
+      ],
+      "screens": ["/login", "/setup-totp"],
+      "workflow": {
+        "transitions": [
+          "Lần đầu: Nhập email/mật khẩu > Xác thực > Tạo secret key > Gửi mã QR > Nhập TOTP > Kích hoạt MFA > Tạo JWT",
+          "Lần tiếp theo: Nhập email/mật khẩu > Xác thực > Yêu cầu TOTP > Nhập TOTP > Xác thực > Tạo JWT"
+        ]
+      }
+    },
+    {
+      "name": "Đổi mật khẩu và lấy lại mật khẩu",
+      "description": "Cho phép người dùng đổi mật khẩu sau khi đăng nhập. Hỗ trợ chức năng quên mật khẩu (lấy lại mật khẩu), hệ thống gửi mật khẩu mới qua email đã đăng ký.",
+      "type": "CRUD",
+      "priority": "P1",
+      "actors": ["Quản trị hệ thống", "Lãnh đạo", "Chuyên viên", "Cá nhân, tổ chức bên ngoài", "Người dùng tại Cảng"],
+      "entities": ["UserAccount"],
+      "key_fields": ["email", "password_hash", "password_reset_token"],
+      "validations": [
+        "Mật khẩu cũ phải chính xác trước khi cho phép đổi",
+        "Email người dùng phải tồn tại trong hệ thống để gửi mật khẩu mới",
+        "Có chức năng yêu cầu người dùng đặt mật khẩu mới khi đăng nhập lần đầu sử dụng mật khẩu mặc định"
+      ],
+      "screens": ["/change-password", "/forgot-password"],
+      "workflow": {
+        "transitions": [
+          "Đổi mật khẩu: Xác thực mật khẩu cũ > Nhập mật khẩu mới > Mã hóa > Lưu CSDL",
+          "Lấy lại: Nhập email > Xác thực > Gửi mật khẩu mới qua email > Đăng nhập với mật khẩu tạm > Yêu cầu đổi mật khẩu"
+        ]
+      }
+    },
+    {
+      "name": "Quản lý nhóm người dùng",
+      "description": "Cho phép Quản trị hệ thống quản lý các nhóm người dùng: xem danh sách, tìm kiếm, thêm mới, sửa, khóa/mở nhóm người dùng. Hỗ trợ phân quyền cho nhóm và thêm người dùng vào nhóm.",
+      "type": "CRUD",
+      "priority": "P1",
+      "actors": ["Quản trị hệ thống"],
+      "entities": ["UserGroup", "GroupPermission"],
+      "key_fields": ["group_id", "group_name", "group_status", "permissions", "member_count"],
+      "validations": ["Tên nhóm không được trùng", "Nhóm đã khóa không thể thêm người dùng mới"],
+      "screens": ["/admin/user-groups", "/admin/user-groups/add", "/admin/user-groups/edit", "/admin/user-groups/permissions"],
+      "workflow": {
+        "transitions": [
+          "Danh sách nhóm > Thêm/Sửa > Nhập thông tin > Lưu",
+          "Phân quyền: Chọn nhóm > Chọn quyền > Gán quyền cho nhóm",
+          "Thêm người dùng: Chọn nhóm > Chọn người dùng > Thêm vào nhóm"
+        ]
+      }
+    },
+    {
+      "name": "Quản lý tài khoản Admin",
+      "description": "Cho phép Quản trị hệ thống quản lý tài khoản admin bao gồm: xem danh sách, tìm kiếm, tạo tài khoản trực tiếp, duyệt cấp tài khoản (phê duyệt tài khoản đăng ký), khóa/mở tài khoản, phân quyền tài khoản truy cập.",
+      "type": "CRUD",
+      "priority": "P0",
+      "actors": ["Quản trị hệ thống"],
+      "entities": ["AdminAccount", "AccountApproval"],
+      "key_fields": ["account_id", "username", "email", "role", "status", "permissions", "created_at", "approved_by"],
+      "validations": [
+        "Tài khoản mới tạo phải được duyệt trước khi kích hoạt",
+        "Tài khoản đã khóa không thể đăng nhập"
+      ],
+      "screens": ["/admin/accounts", "/admin/accounts/add", "/admin/accounts/approve", "/admin/accounts/permissions"],
+      "workflow": {
+        "transitions": [
+          "Tạo tài khoản > Duyệt cấp tài khoản > Phân quyền > Kích hoạt",
+          "Khóa tài khoản > Người dùng không thể đăng nhập",
+          "Mở khóa tài khoản > Khôi phục quyền truy cập"
+        ]
+      }
+    },
+    {
+      "name": "Quản lý đơn vị",
+      "description": "Cho phép Quản trị hệ thống quản lý thông tin các đơn vị sử dụng và khai thác thông tin trên hệ thống: xem danh sách, thêm mới, xóa, tìm kiếm, cập nhật thông tin đơn vị.",
+      "type": "CRUD",
+      "priority": "P1",
+      "actors": ["Quản trị hệ thống"],
+      "entities": ["Organization"],
+      "key_fields": ["org_id", "org_name", "org_code", "org_type", "address", "phone", "status"],
+      "validations": ["Mã đơn vị không được trùng", "Tên đơn vị là bắt buộc"],
+      "screens": ["/admin/organizations", "/admin/organizations/add", "/admin/organizations/edit"],
+      "workflow": {
+        "transitions": [
+          "Danh sách đơn vị > Thêm mới > Nhập thông tin > Lưu",
+          "Cập nhật thông tin đơn vị > Lưu thay đổi",
+          "Xóa đơn vị > Xác nhận xóa"
+        ]
+      }
+    },
+    {
+      "name": "Quản lý log truy cập",
+      "description": "Cho phép Quản trị hệ thống tra cứu và giám sát nhật ký hệ thống bao gồm: nhật ký truy cập phần mềm, đăng nhập, lỗi phát sinh, quản lý tài khoản, thay đổi cấu hình.",
+      "type": "Monitor",
+      "priority": "P1",
+      "actors": ["Quản trị hệ thống"],
+      "entities": ["AccessLog", "AuditLog"],
+      "key_fields": ["log_id", "timestamp", "log_type", "action", "actor", "severity", "description", "ip_address"],
+      "validations": ["Chỉ hiển thị thông báo lỗi được kiểm soát đến người dùng, không hiển thị lỗi bên trong hệ thống"],
+      "screens": ["/admin/logs", "/admin/logs/detail"],
+      "workflow": {
+        "transitions": [
+          "Xem danh sách log > Tìm kiếm theo từ khóa/thời gian > Xem chi tiết"
+        ]
+      }
+    },
+    {
+      "name": "Quản lý phiên làm việc (Session Management)",
+      "description": "Quản lý JWT token và phiên làm việc của người dùng. Token được lưu trong HttpOnly cookie, mỗi request đến API đều kèm JWT token, server xác thực trước khi xử lý. Tự động làm mới token khi gần hết hạn. Thiết lập giới hạn thời gian chờ (timeout) để đóng phiên khi không có yêu cầu từ người dùng.",
+      "type": "Config",
+      "priority": "P1",
+      "actors": ["Quản trị hệ thống", "Lãnh đạo", "Chuyên viên", "Cá nhân, tổ chức bên ngoài", "Người dùng tại Cảng"],
+      "entities": ["AuthSession", "JWTToken"],
+      "key_fields": ["session_id", "jwt_token", "refresh_token", "expires_at", "timeout_seconds", "last_activity"],
+      "validations": [
+        "Token hết hạn phải yêu cầu đăng nhập lại",
+        "Tự động logout sau thời gian timeout không hoạt động"
+      ],
+      "screens": [],
+      "workflow": {
+        "transitions": [
+          "Đăng nhập > Tạo JWT > Gửi client > Lưu HttpOnly cookie > Mỗi request xác thực token > Làm mới token > Hết hạn > Yêu cầu đăng nhập lại"
+        ]
+      }
+    },
+    {
+      "name": "Đăng xuất tài khoản",
+      "description": "Cho phép người dùng đăng xuất khỏi hệ thống. Hệ thống hủy phiên làm việc, xóa JWT token và ghi log đăng xuất.",
+      "type": "CRUD",
+      "priority": "P0",
+      "actors": ["Quản trị hệ thống", "Lãnh đạo", "Chuyên viên", "Cá nhân, tổ chức bên ngoài", "Người dùng tại Cảng"],
+      "entities": ["AuthSession", "AccessLog"],
+      "key_fields": ["session_id", "logout_timestamp"],
+      "validations": [],
+      "screens": [],
+      "workflow": {
+        "transitions": [
+          "Người dùng đăng xuất > Hủy session > Ghi log đăng xuất > Chuyển về màn hình đăng nhập"
+        ]
+      }
+    },
+    {
+      "name": "Phân quyền chức năng và dữ liệu",
+      "description": "Cơ chế phân quyền 3 cấp: (1) theo chức năng, (2) theo thao tác của từng chức năng, (3) theo dữ liệu. Sau khi đăng nhập, hệ thống truy vấn tất cả quyền và mã hóa dưới dạng token, kiểm tra quyền tại mỗi request.",
+      "type": "Config",
+      "priority": "P0",
+      "actors": ["Quản trị hệ thống"],
+      "entities": ["Permission", "Role", "FunctionPermission", "DataPermission"],
+      "key_fields": ["permission_id", "function_code", "action_type", "data_scope", "role_id", "user_id"],
+      "validations": [
+        "Tất cả các chức năng đều yêu cầu đăng nhập trước khi truy cập",
+        "Mỗi request phải được kiểm tra quyền trước khi xử lý",
+        "Kiểm tra quyền được thực hiện tại tất cả các lớp ứng dụng"
+      ],
+      "screens": ["/admin/permissions"],
+      "workflow": {
+        "transitions": [
+          "Đăng nhập > Truy vấn quyền > Mã hóa token > Mỗi request > Kiểm tra quyền chức năng > Kiểm tra quyền dữ liệu > Cho phép/Từ chối"
+        ]
+      }
+    }
+  ],
+  "entities": [
+    {
+      "name": "UserAccount",
+      "key_fields": ["user_id", "email", "phone_number", "password_hash", "password_salt", "totp_secret", "totp_status", "account_status", "created_at", "updated_at", "last_login"],
+      "field_types": {
+        "user_id": "UUID",
+        "email": "string",
+        "phone_number": "string",
+        "password_hash": "string (hashed)",
+        "password_salt": "string",
+        "totp_secret": "string (encrypted)",
+        "totp_status": "enum [chua_thiet_lap, da_thiet_lap]",
+        "account_status": "enum [pending, active, locked, disabled]",
+        "created_at": "datetime",
+        "updated_at": "datetime",
+        "last_login": "datetime"
+      },
+      "pii_fields": ["email", "phone_number", "password_hash"],
+      "source": "TKCT Part II Sec II - P824-P843, Phu luc 01"
+    },
+    {
+      "name": "UserGroup",
+      "key_fields": ["group_id", "group_name", "group_description", "group_status", "permissions", "created_at", "updated_at"],
+      "field_types": {
+        "group_id": "UUID",
+        "group_name": "string",
+        "group_description": "string",
+        "group_status": "enum [active, locked]",
+        "permissions": "json",
+        "created_at": "datetime",
+        "updated_at": "datetime"
+      },
+      "pii_fields": [],
+      "source": "Phu luc 01 - Muc I.2 Quan ly nhom nguoi dung"
+    },
+    {
+      "name": "Organization",
+      "key_fields": ["org_id", "org_name", "org_code", "org_type", "address", "phone", "status", "created_at", "updated_at"],
+      "field_types": {
+        "org_id": "UUID",
+        "org_name": "string",
+        "org_code": "string",
+        "org_type": "enum [Cuc, Cang vu, Chi cuc, Tong cong ty, Doanh nghiep]",
+        "address": "string",
+        "phone": "string",
+        "status": "enum [active, inactive]",
+        "created_at": "datetime",
+        "updated_at": "datetime"
+      },
+      "pii_fields": ["phone"],
+      "source": "Phu luc 01 - Muc II.3 Quan ly don vi, P1072"
+    },
+    {
+      "name": "AdminAccount",
+      "key_fields": ["account_id", "username", "email", "password_hash", "role", "permissions", "approval_status", "account_status", "created_by", "approved_by", "created_at", "updated_at"],
+      "field_types": {
+        "account_id": "UUID",
+        "username": "string",
+        "email": "string",
+        "password_hash": "string (hashed)",
+        "role": "string",
+        "permissions": "json",
+        "approval_status": "enum [pending, approved, rejected]",
+        "account_status": "enum [active, locked]",
+        "created_by": "UUID",
+        "approved_by": "UUID",
+        "created_at": "datetime",
+        "updated_at": "datetime"
+      },
+      "pii_fields": ["email", "password_hash"],
+      "source": "Phu luc 01 - Muc II.4 Quan ly tai khoan admin, P1076-P1080"
+    },
+    {
+      "name": "AccessLog",
+      "key_fields": ["log_id", "timestamp", "log_type", "action", "actor_id", "actor_name", "severity", "description", "ip_address", "session_id"],
+      "field_types": {
+        "log_id": "UUID",
+        "timestamp": "datetime",
+        "log_type": "enum [login, logout, account_management, config_change, error, system]",
+        "action": "string",
+        "actor_id": "UUID",
+        "actor_name": "string",
+        "severity": "enum [info, warning, error, critical]",
+        "description": "text",
+        "ip_address": "string",
+        "session_id": "string"
+      },
+      "pii_fields": ["ip_address"],
+      "source": "TKCT Part II Sec II - P1081-P1083, Phu luc 01 - Muc II.5"
+    },
+    {
+      "name": "AuthSession",
+      "key_fields": ["session_id", "user_id", "jwt_token", "refresh_token", "issued_at", "expires_at", "last_activity", "timeout_seconds", "ip_address", "user_agent"],
+      "field_types": {
+        "session_id": "UUID",
+        "user_id": "UUID",
+        "jwt_token": "string (JWT)",
+        "refresh_token": "string",
+        "issued_at": "datetime",
+        "expires_at": "datetime",
+        "last_activity": "datetime",
+        "timeout_seconds": "integer",
+        "ip_address": "string",
+        "user_agent": "string"
+      },
+      "pii_fields": ["ip_address"],
+      "source": "TKCT Part II Sec II - P854-P858"
+    },
+    {
+      "name": "Permission",
+      "key_fields": ["permission_id", "function_code", "function_name", "action_type", "data_scope", "description", "parent_permission_id"],
+      "field_types": {
+        "permission_id": "UUID",
+        "function_code": "string",
+        "function_name": "string",
+        "action_type": "enum [view, add, edit, delete, approve, export, import]",
+        "data_scope": "enum [all, unit_only, personal]",
+        "description": "string",
+        "parent_permission_id": "UUID (nullable)"
+      },
+      "pii_fields": [],
+      "source": "TKCT Part II Sec II - P866, P870"
+    }
+  ],
+  "screens": [
+    {
+      "path": "/register",
+      "title": "Đăng ký tài khoản",
+      "type": "form",
+      "visible_to_roles": ["Cá nhân, tổ chức bên ngoài", "Người dùng tại Cảng"],
+      "key_fields": ["email", "số điện thoại", "mật khẩu", "xác nhận mật khẩu"],
+      "actions": ["Đăng ký", "Quay lại đăng nhập"],
+      "ocr_confidence": null
+    },
+    {
+      "path": "/login",
+      "title": "Đăng nhập",
+      "type": "form",
+      "visible_to_roles": ["Quản trị hệ thống", "Lãnh đạo", "Chuyên viên", "Cá nhân, tổ chức bên ngoài", "Người dùng tại Cảng"],
+      "key_fields": ["email/số điện thoại", "mật khẩu"],
+      "actions": ["Đăng nhập", "Quên mật khẩu", "Đăng ký tài khoản"],
+      "ocr_confidence": null
+    },
+    {
+      "path": "/setup-totp",
+      "title": "Thiết lập xác thực hai yếu tố",
+      "type": "form",
+      "visible_to_roles": ["Quản trị hệ thống", "Lãnh đạo", "Chuyên viên", "Cá nhân, tổ chức bên ngoài", "Người dùng tại Cảng"],
+      "key_fields": ["mã QR", "mã TOTP từ ứng dụng Authenticator"],
+      "actions": ["Quét mã QR", "Nhập mã TOTP", "Xác nhận thiết lập"],
+      "ocr_confidence": null
+    },
+    {
+      "path": "/change-password",
+      "title": "Đổi mật khẩu",
+      "type": "form",
+      "visible_to_roles": ["Quản trị hệ thống", "Lãnh đạo", "Chuyên viên", "Cá nhân, tổ chức bên ngoài", "Người dùng tại Cảng"],
+      "key_fields": ["mật khẩu cũ", "mật khẩu mới", "xác nhận mật khẩu mới"],
+      "actions": ["Đổi mật khẩu", "Hủy"],
+      "ocr_confidence": null
+    },
+    {
+      "path": "/forgot-password",
+      "title": "Quên mật khẩu",
+      "type": "form",
+      "visible_to_roles": ["Cá nhân, tổ chức bên ngoài", "Người dùng tại Cảng"],
+      "key_fields": ["email"],
+      "actions": ["Gửi yêu cầu", "Quay lại đăng nhập"],
+      "ocr_confidence": null
+    },
+    {
+      "path": "/admin/user-groups",
+      "title": "Danh sách nhóm người dùng",
+      "type": "list",
+      "visible_to_roles": ["Quản trị hệ thống"],
+      "key_fields": ["tên nhóm", "trạng thái", "số lượng thành viên"],
+      "actions": ["Xem danh sách", "Tìm kiếm", "Thêm mới", "Sửa", "Khóa/Mở", "Phân quyền", "Thêm người dùng vào nhóm"],
+      "ocr_confidence": null
+    },
+    {
+      "path": "/admin/accounts",
+      "title": "Danh sách tài khoản Admin",
+      "type": "list",
+      "visible_to_roles": ["Quản trị hệ thống"],
+      "key_fields": ["tên tài khoản", "email", "vai trò", "trạng thái", "ngày tạo"],
+      "actions": ["Xem danh sách", "Tìm kiếm", "Tạo tài khoản", "Duyệt cấp tài khoản", "Khóa/Mở khóa", "Phân quyền"],
+      "ocr_confidence": null
+    },
+    {
+      "path": "/admin/accounts/permissions",
+      "title": "Phân quyền tài khoản",
+      "type": "form",
+      "visible_to_roles": ["Quản trị hệ thống"],
+      "key_fields": ["chức năng", "thao tác", "phạm vi dữ liệu"],
+      "actions": ["Gán quyền", "Lưu", "Hủy"],
+      "ocr_confidence": null
+    },
+    {
+      "path": "/admin/organizations",
+      "title": "Danh sách đơn vị",
+      "type": "list",
+      "visible_to_roles": ["Quản trị hệ thống"],
+      "key_fields": ["mã đơn vị", "tên đơn vị", "loại đơn vị", "trạng thái"],
+      "actions": ["Xem danh sách", "Tìm kiếm", "Thêm mới", "Cập nhật", "Xóa"],
+      "ocr_confidence": null
+    },
+    {
+      "path": "/admin/logs",
+      "title": "Nhật ký truy cập",
+      "type": "list",
+      "visible_to_roles": ["Quản trị hệ thống"],
+      "key_fields": ["thời gian", "loại nhật ký", "người thực hiện", "mô tả thao tác", "mức độ quan trọng"],
+      "actions": ["Xem danh sách", "Tìm kiếm", "Xem chi tiết"],
+      "ocr_confidence": null
+    }
+  ],
+  "integrations": [
+    {
+      "name": "Email Gateway",
+      "description": "Tích hợp dịch vụ email để gửi mật khẩu mới cho người dùng khi thực hiện chức năng lấy lại mật khẩu",
+      "type": "outbound",
+      "protocol": "SMTP/API",
+      "data_exchanged": ["email", "password_reset_link", "new_password"],
+      "security": "HTTPS, mã hóa nội dung email"
+    },
+    {
+      "name": "CSDL Người dùng dùng chung ngành Hàng hải",
+      "description": "CSDL người dùng và phân quyền được dùng chung trong ngành hàng hải, sử dụng MSSQL Server, lưu trữ thông tin người dùng và thông tin phân quyền",
+      "type": "database",
+      "protocol": "MSSQL",
+      "data_exchanged": ["user_info", "permissions", "roles"],
+      "security": "Truy cập qua ứng dụng, không cho người dùng truy cập trực tiếp CSDL"
+    }
+  ]
+}

@@ -1,0 +1,580 @@
+{
+  "_meta": {
+    "module_id": "M06",
+    "module_name": "Asset Management (Quản lý tài sản KCHTGTHH)",
+    "end_marker": "module-analysis-complete"
+  },
+  "features": [
+    {
+      "name": "Quản lý thông tin tài sản KCHT cảng biển",
+      "description": "Quản lý toàn bộ thông tin tài sản kết cấu hạ tầng cảng biển bao gồm thông tin chung, thông tin chi tiết, thông số kỹ thuật, hồ sơ tài sản theo đúng quy định của Nghị định 91/2015/NĐ-CP và Thông tư 67/2018/TT-BTC.",
+      "type": "functional",
+      "priority": "high",
+      "actors": [
+        "Chuyên viên Cục Hàng hải",
+        "Chuyên viên Cảng vụ"
+      ],
+      "business_rules_ids": [
+        "BR-M06-001",
+        "BR-M06-002",
+        "BR-M06-008"
+      ]
+    },
+    {
+      "name": "Quản lý tài sản KCHT bảo đảm an toàn hàng hải",
+      "description": "Quản lý thông tin tài sản kết cấu hạ tầng bảo đảm an toàn hàng hải (phao tiêu, báo hiệu, đèn biển, đê kè) do các Tổng công ty Bảo đảm an toàn hàng hải miền Bắc (VMS-N) và miền Nam (VMS-S) quản lý.",
+      "type": "functional",
+      "priority": "high",
+      "actors": [
+        "Chuyên viên VMS-N",
+        "Chuyên viên VMS-S"
+      ],
+      "business_rules_ids": [
+        "BR-M06-001",
+        "BR-M06-003"
+      ]
+    },
+    {
+      "name": "Quản lý tài sản KCHT mạng viễn thông hàng hải",
+      "description": "Quản lý thông tin tài sản kết cấu hạ tầng mạng viễn thông hàng hải do Công ty TNHH MTV Thông tin Điện tử Hàng hải Việt Nam (VISHIPEL) quản lý, bao gồm các thiết bị, trạm thông tin điện tử hàng hải.",
+      "type": "functional",
+      "priority": "high",
+      "actors": [
+        "Chuyên viên VISHIPEL"
+      ],
+      "business_rules_ids": [
+        "BR-M06-001",
+        "BR-M06-004"
+      ]
+    },
+    {
+      "name": "Quản lý tài sản cảng cạn",
+      "description": "Quản lý thông tin tài sản kết cấu hạ tầng cảng cạn (ICD) phục vụ hoạt động logistics và vận tải đa phương thức trong hệ thống cảng biển Việt Nam.",
+      "type": "functional",
+      "priority": "medium",
+      "actors": [
+        "Chuyên viên Cảng vụ",
+        "Chuyên viên Cục Hàng hải"
+      ],
+      "business_rules_ids": [
+        "BR-M06-001",
+        "BR-M06-002"
+      ]
+    },
+    {
+      "name": "Ghi tăng tài sản (Asset Addition)",
+      "description": "Chức năng tăng tài sản khi có tài sản phát sinh mới tại đơn vị, bao gồm tăng nguyên giá tài sản. Hỗ trợ nhập thông tin tài sản mới, khai báo mã loại KCHT, mã tài sản, barcode, loại tài sản, tình trạng, nhóm và phân nhóm tài sản.",
+      "type": "functional",
+      "priority": "high",
+      "actors": [
+        "Chuyên viên nghiệp vụ"
+      ],
+      "business_rules_ids": [
+        "BR-M06-005",
+        "BR-M06-006",
+        "BR-M06-007",
+        "BR-M06-009"
+      ]
+    },
+    {
+      "name": "Quản lý biến động tài sản",
+      "description": "Cập nhật thông tin biến động tài sản KCHT bao gồm: tăng nguyên giá tài sản, giảm nguyên giá tài sản, cập nhật thông tin biến động khác của tài sản. Hỗ trợ tự động cập nhật thông tin hao mòn lũy kế và giá trị còn lại.",
+      "type": "functional",
+      "priority": "high",
+      "actors": [
+        "Chuyên viên nghiệp vụ"
+      ],
+      "business_rules_ids": [
+        "BR-M06-010",
+        "BR-M06-011",
+        "BR-M06-012",
+        "BR-M06-013"
+      ]
+    },
+    {
+      "name": "Xử lý tài sản (Asset Disposal)",
+      "description": "Chức năng xử lý tài sản bao gồm các hình thức: Sử dụng tiếp, Thanh lý, Bán, Điều chuyển. Cho phép lập đề nghị xử lý tài sản, trình duyệt theo quy trình và ghi nhận kết quả xử lý.",
+      "type": "functional",
+      "priority": "high",
+      "actors": [
+        "Chuyên viên nghiệp vụ",
+        "Lãnh đạo đơn vị"
+      ],
+      "business_rules_ids": [
+        "BR-M06-014",
+        "BR-M06-015",
+        "BR-M06-016"
+      ]
+    },
+    {
+      "name": "Quản lý khai thác tài sản",
+      "description": "Cho phép cập nhật thông tin khai thác tài sản, theo dõi tình trạng vận hành, hiện trạng sử dụng của các tài sản KCHTGTHH. Ghi nhận các thông số khai thác thực tế và đánh giá hiệu quả sử dụng tài sản.",
+      "type": "functional",
+      "priority": "medium",
+      "actors": [
+        "Chuyên viên nghiệp vụ",
+        "Đơn vị vận hành"
+      ],
+      "business_rules_ids": [
+        "BR-M06-017",
+        "BR-M06-018"
+      ]
+    },
+    {
+      "name": "Tính hao mòn và khấu hao tài sản",
+      "description": "Tự động tính toán hao mòn và khấu hao tài sản theo tỷ lệ % quy định. Quản lý các thông tin: ngày tính khấu hao, số tháng tính khấu hao, khấu hao tháng, khấu hao lũy kế, ngày hết khấu hao, giá trị còn lại.",
+      "type": "functional",
+      "priority": "high",
+      "actors": [
+        "Chuyên viên nghiệp vụ"
+      ],
+      "business_rules_ids": [
+        "BR-M06-011",
+        "BR-M06-012",
+        "BR-M06-013"
+      ]
+    },
+    {
+      "name": "Kiểm kê tài sản",
+      "description": "Chức năng kiểm kê tài sản định kỳ theo quy định, cho phép đối chiếu số liệu thực tế với dữ liệu trên hệ thống, ghi nhận kết quả kiểm kê và xử lý chênh lệch (thừa/thiếu tài sản).",
+      "type": "functional",
+      "priority": "high",
+      "actors": [
+        "Chuyên viên nghiệp vụ",
+        "Ban kiểm kê"
+      ],
+      "business_rules_ids": [
+        "BR-M06-019",
+        "BR-M06-020",
+        "BR-M06-021"
+      ]
+    },
+    {
+      "name": "Xem lịch sử biến động tài sản",
+      "description": "Cho phép tra cứu và xem toàn bộ lịch sử biến động của tài sản theo thời gian, bao gồm các thay đổi về thông tin chung, thông tin chi tiết, nguyên giá, hao mòn, xử lý tài sản.",
+      "type": "functional",
+      "priority": "medium",
+      "actors": [
+        "Chuyên viên nghiệp vụ",
+        "Lãnh đạo",
+        "Thanh tra"
+      ],
+      "business_rules_ids": []
+    },
+    {
+      "name": "Quản lý thông tin KCHT trên nền bản đồ GIS",
+      "description": "Cho phép chuyên viên quản lý danh mục đối tượng điểm, đường, vùng thể hiện trên nền bản đồ GIS. Hỗ trợ thêm mới, xóa, cập nhật đối tượng KCHT; xem danh sách/chi tiết đối tượng trên bản đồ; cập nhật thông tin thuộc tính của đối tượng trên nền GIS.",
+      "type": "functional",
+      "priority": "medium",
+      "actors": [
+        "Chuyên viên quản lý KCHT",
+        "Chuyên viên GIS"
+      ],
+      "business_rules_ids": [
+        "BR-M06-022"
+      ]
+    },
+    {
+      "name": "Báo cáo thống kê tài sản",
+      "description": "Thực hiện các nhóm báo cáo liên quan đến tài sản KCHTGTHH: tổng hợp thông tin báo cáo theo nhiều điều kiện tìm kiếm, xem chi tiết thông tin báo cáo, kết xuất báo cáo theo định dạng PDF/Excel. Tuân thủ các mẫu báo cáo theo Nghị định 43/2018/NĐ-CP và Thông tư 67/2018/TT-BTC.",
+      "type": "functional",
+      "priority": "high",
+      "actors": [
+        "Lãnh đạo",
+        "Chuyên viên tổng hợp"
+      ],
+      "business_rules_ids": [
+        "BR-M06-018",
+        "BR-M06-020",
+        "BR-M06-023"
+      ]
+    },
+    {
+      "name": "Liên thông chia sẻ dữ liệu tài sản",
+      "description": "Tích hợp, tổng hợp dữ liệu từ các đơn vị chia sẻ dữ liệu KCHTGTHH (VMS-N, VMS-S, VISHIPEL). Chia sẻ dữ liệu tài sản lên CSDL nền tảng dùng chung của Bộ GTVT và liên thông với CSDL Quốc gia về tài sản công qua trục LGSP và NDXP.",
+      "type": "functional",
+      "priority": "high",
+      "actors": [
+        "Hệ thống",
+        "Chuyên viên tích hợp"
+      ],
+      "business_rules_ids": [
+        "BR-M06-024",
+        "BR-M06-025"
+      ]
+    }
+  ],
+  "business_rules": [
+    {
+      "id": "BR-M06-001",
+      "description": "Tài sản KCHTGTHH phải được quản lý theo đúng các quy định tại Nghị định số 43/2018/NĐ-CP của Chính phủ về quản lý, sử dụng và khai thác tài sản kết cấu hạ tầng hàng hải.",
+      "type": "regulatory",
+      "severity": "critical",
+      "source_quote": "Nghị định số 43/2018/NĐ-CP ngày 12/3/2018 của Chính phủ quy định việc quản lý, sử dụng và khai thác tài sản kết cấu hạ tầng hàng hải"
+    },
+    {
+      "id": "BR-M06-002",
+      "description": "Việc trao đổi và khai thác thông tin tài sản phải tuân thủ Thông tư số 67/2018/TT-BTC hướng dẫn quản lý, vận hành, trao đổi và khai thác thông tin trong Cơ sở dữ liệu quốc gia về tài sản công.",
+      "type": "regulatory",
+      "severity": "critical",
+      "source_quote": "Thông tư số 67/2018/TT-BTC ngày 06/8/2018 của Bộ trưởng Bộ Tài chính hướng dẫn việc quản lý, vận hành, trao đổi và khai thác thông tin trong cơ sở dữ liệu quốc gia về tài sản công"
+    },
+    {
+      "id": "BR-M06-003",
+      "description": "Ba đơn vị VMS-N, VMS-S và VISHIPEL là đầu mối quản lý và vận hành các hạng mục tài sản hàng hải riêng, hệ thống phải cung cấp cổng kết nối liên thông dữ liệu tới các đơn vị này để tiếp nhận nguồn thống nhất.",
+      "type": "architectural",
+      "severity": "high",
+      "source_quote": "Ba đơn vị là Tổng công ty Bảo đảm an toàn hàng hải miền Bắc (VMS-N), Tổng công ty Bảo đảm an toàn hàng hải miền Nam (VMS-S) và Công ty TNHH MTV Thông tin điện tử hàng hải Việt Nam (VISIPEL) là ba đơn vị đã và đang xây dựng phần mềm quản lý tài sản hàng hải riêng các hạng mục của các đơn vị được giao quản lý và vận hành"
+    },
+    {
+      "id": "BR-M06-004",
+      "description": "Nghiệp vụ quản lý tài sản kết cấu hàng hải được xây dựng theo vòng đời của các đối tượng từ lúc được giao quản lý vận hành, bảo trì, biến động tới các nghiệp vụ xử lý tài sản.",
+      "type": "business",
+      "severity": "high",
+      "source_quote": "Nghiệp vụ quản lý tài sản kết cấu hàng hải được xây dựng theo vòng đời của các đối tượng từ lúc được giao quản lý vận hành, bảo trì, biến động tới các nghiệp vụ xử lý tài sản"
+    },
+    {
+      "id": "BR-M06-005",
+      "description": "Tăng tài sản khi có tài sản phát sinh mới tại đơn vị, phải khai báo đầy đủ thông tin chung và thông tin chi tiết của tài sản.",
+      "type": "business",
+      "severity": "high",
+      "source_quote": "Tăng tài sản khi có tài sản phát sinh mới tại đơn vị"
+    },
+    {
+      "id": "BR-M06-006",
+      "description": "Mã tài sản KCHT phải tuân theo cấu trúc thống nhất: \"KCHT_các ký tự tiếp theo\" do đơn vị quản lý quy định.",
+      "type": "technical",
+      "severity": "high",
+      "source_quote": "Mã tài sản | Tổng công ty có quản lý theo mã tài sản, cấu trúc: 'KCHT_các ký tự tiếp theo'"
+    },
+    {
+      "id": "BR-M06-007",
+      "description": "Khi thêm/cập nhật thông tin tài sản, chuyên viên có thể lựa chọn Lưu tạm (bản nháp) hoặc Chuyển lãnh đạo (trình duyệt) tùy theo quy trình xét duyệt.",
+      "type": "business",
+      "severity": "medium",
+      "source_quote": "Cho phép chuyên viên lựa chọn Lưu tạm hoặc Chuyển lãnh đạo khi Thêm/ Cập nhật thông tin tài sản"
+    },
+    {
+      "id": "BR-M06-008",
+      "description": "Loại tài sản được phân loại theo danh mục: cảng biển, tài sản bảo đảm an toàn hàng hải, tài sản mạng viễn thông hàng hải, cảng cạn; phân nhóm tài sản theo KCHTGTHH.",
+      "type": "business",
+      "severity": "high",
+      "source_quote": "Loại tài sản (cảng biển, tài sản bảo đảm an toàn hàng hải,...) | Phân nhóm tài sản | Theo KCHTGTHH"
+    },
+    {
+      "id": "BR-M06-009",
+      "description": "Thông tin tài sản phải bao gồm các chỉ tiêu quản lý: cơ quan quản lý cấp trên, đối tượng được giao quản lý, tên tài sản, loại tài sản, địa chỉ, nguồn gốc, ngày kê khai, năm xây dựng, ngày sử dụng, diện tích, nguyên giá, tỷ lệ hao mòn, giá trị còn lại, hiện trạng, tình trạng và hồ sơ tài sản.",
+      "type": "regulatory",
+      "severity": "critical",
+      "source_quote": "Chỉ tiêu quản lý tài sản kết cấu hạ tầng hàng hải gồm: Cơ quan quản lý cấp trên, Đối tượng được giao quản lý tài sản, Tên tài sản, Loại tài sản, Địa chỉ, Nguồn gốc, Ngày kê khai tài sản, Năm xây dựng, Ngày sử dụng tài sản, Diện tích, Nguyên giá, Tỷ lệ hao mòn/Khấu hao, Giá trị còn lại, Hiện trạng sử dụng, Tình trạng tài sản, Hồ sơ tài sản"
+    },
+    {
+      "id": "BR-M06-010",
+      "description": "Thông tin chi tiết của tài sản chứa nhiều bản ghi thay đổi theo khoảng thời gian, bao gồm: ngày kê khai, nguyên giá (nguồn ngân sách, nguồn khác), tỷ lệ hao mòn, giá trị còn lại, đơn vị tính (VNĐ), số quyết định giao.",
+      "type": "business",
+      "severity": "medium",
+      "source_quote": "Thông tin chi tiết | Chứa nhiều bản ghi, thay đổi theo khoảng thời gian nào đó của tài sản | Nguyên giá (nguồn ngân sách, nguồn khác) | Tỷ lệ hao mòn/Khấu hao (%) | Giá trị còn lại"
+    },
+    {
+      "id": "BR-M06-011",
+      "description": "Hệ thống phải hỗ trợ tự động cập nhật thông tin hao mòn lũy kế và giá trị còn lại khi có biến động về nguyên giá hoặc thay đổi tỷ lệ hao mòn/khấu hao.",
+      "type": "technical",
+      "severity": "high",
+      "source_quote": "Hỗ trợ tự động cập nhật thông tin Hao mòn lũy kế, Giá trị còn lại"
+    },
+    {
+      "id": "BR-M06-012",
+      "description": "Khấu hao tài sản được quản lý theo tháng: ngày tính khấu hao, số tháng tính khấu hao, ngày hết khấu hao, khấu hao lũy kế, khấu hao tháng.",
+      "type": "business",
+      "severity": "high",
+      "source_quote": "Ngày tính khấu hao | Số tháng tính khấu hao | Ngày hết khấu hao | Khấu hao lũy kế | Khấu hao tháng"
+    },
+    {
+      "id": "BR-M06-013",
+      "description": "Nguyên giá tài sản được phân loại theo nguồn: nguồn ngân sách và nguồn khác. Diện tích tài sản được quản lý gồm diện tích đất và diện tích sàn sử dụng (m2) theo mẫu báo cáo số 02, 03 NĐ43/2018.",
+      "type": "regulatory",
+      "severity": "high",
+      "source_quote": "Diện tích (đất, sàn sử dụng: m2) | Thông tư 67/2018/TT-BTC Cục QL TS công có các thông tin này (phục vụ lên báo cáo mẫu số 02,03 ND43/2018)"
+    },
+    {
+      "id": "BR-M06-014",
+      "description": "Hình thức xử lý tài sản bao gồm: Sử dụng, Thanh lý, Bán, Điều chuyển. Mỗi hình thức xử lý phải có quy trình phê duyệt tương ứng.",
+      "type": "business",
+      "severity": "high",
+      "source_quote": "Hình thức xử lý tài sản | Bao gồm các hình thức: Sử dụng, Thanh lý, Bán, Điều chuyển"
+    },
+    {
+      "id": "BR-M06-015",
+      "description": "Khi có biến động về tài sản, đơn vị được giao thực hiện cập nhật thông tin về tài sản KCHTGTHH, xét duyệt và đưa vào hệ thống theo quy trình cập nhật thông tin biến động.",
+      "type": "business",
+      "severity": "high",
+      "source_quote": "Khi có biến động về tài sản, đơn vị được giao thực hiện cập nhật thông tin về tài sản KCHTGTHH, xét duyệt và đưa vào hệ thống"
+    },
+    {
+      "id": "BR-M06-016",
+      "description": "Sau khi tài sản KCHTGTHH được giao cho cơ quan quản lý nhà nước chuyên ngành về hàng hải, công trình phải được biên tập nội dung thông tin về tài sản, xét duyệt và đưa vào hệ thống.",
+      "type": "business",
+      "severity": "high",
+      "source_quote": "Sau khi tài sản kết cấu hạ tầng hàng hải được giao cho cơ quan quản lý nhà nước chuyên ngành về hàng hải thuộc Bộ Giao thông vận tải, công trình được đơn vị thực hiện biên tập nội dung thông tin về tài sản KCHTGTHH, xét duyệt và đưa vào hệ thống"
+    },
+    {
+      "id": "BR-M06-017",
+      "description": "Tài sản KCHTGTHH phải được quản lý và khai thác trên hai cơ sở dữ liệu: CSDL thuộc tính (thông tin quản lý nhà nước) và CSDL không gian (thông tin địa lý, tọa độ WGS84).",
+      "type": "architectural",
+      "severity": "high",
+      "source_quote": "Đối tượng quản lý trong CSDL kết cấu hạ tầng giao thông hàng hải được vận hành dựa trên 2 CSDL là CSDL thuộc tính và CSDL không gian"
+    },
+    {
+      "id": "BR-M06-018",
+      "description": "Các kết quả quản lý tài sản phải được báo cáo định kỳ theo các quy định của Bộ GTVT và của ngành hàng hải.",
+      "type": "regulatory",
+      "severity": "medium",
+      "source_quote": "Các kết quả được báo cáo định kỳ theo các quy định của Bộ GTVT và của ngành hàng hải"
+    },
+    {
+      "id": "BR-M06-019",
+      "description": "Quy trình cập nhật thông tin tài sản bao gồm hai bước: (1) Biên tập thông tin tài sản KCHTGT hàng hải sau khi được giao quản lý; (2) Cập nhật thông tin biến động tài sản khi có thay đổi.",
+      "type": "business",
+      "severity": "high",
+      "source_quote": "1. Biên tập thông tin tài sản KCHTGT hàng hải... 2. Cập nhật thông tin biến động tài sản kết cấu hạ tầng giao thông hàng hải"
+    },
+    {
+      "id": "BR-M06-020",
+      "description": "Báo cáo thống kê tài sản phải hỗ trợ tổng hợp theo nhiều điều kiện tìm kiếm khác nhau, xem chi tiết và kết xuất PDF/Excel.",
+      "type": "technical",
+      "severity": "medium",
+      "source_quote": "Tổng hợp thông tin báo cáo theo nhiều điều kiện tìm kiếm khác nhau | Xem chi tiết thông tin báo cáo | Kết xuất báo cáo theo định dạng PDF/ Excel"
+    },
+    {
+      "id": "BR-M06-021",
+      "description": "Hệ thống phải hỗ trợ kiểm tra tức thời tính hợp lệ của các giá trị nhập vào qua phương thức nhập trực tiếp hoặc qua tệp dữ liệu, và kiểm tra tính nhất quán, toàn vẹn của các trường dữ liệu ràng buộc.",
+      "type": "technical",
+      "severity": "medium",
+      "source_quote": "Hệ thống sẽ hỗ trợ kiểm tra tức thời tính hợp lệ của các giá trị nhập vào qua phương thức nhập trực tiếp hoặc qua tệp dữ liệu"
+    },
+    {
+      "id": "BR-M06-022",
+      "description": "Đối tượng KCHT trên nền bản đồ được quản lý theo ba loại: đối tượng điểm, đối tượng đường, đối tượng vùng; sử dụng hệ tọa độ WGS84.",
+      "type": "technical",
+      "severity": "medium",
+      "source_quote": "Phân hệ Quản lý thông tin KCHT trên nền bản đồ cho phép chuyên viên quản lý danh mục đối tượng điểm, đối tượng đường, đối tượng vùng được thể hiện trên nền bản đồ"
+    },
+    {
+      "id": "BR-M06-023",
+      "description": "Các chỉ tiêu báo cáo về tài sản KCHTGTHH của Bộ GTVT sẵn sàng chia sẻ cho các bên liên quan thông qua API chia sẻ dữ liệu, đồng bộ từ hệ thống lên CSDL dùng chung của Bộ GTVT và Bộ Tài chính.",
+      "type": "architectural",
+      "severity": "high",
+      "source_quote": "Các chỉ tiêu báo cáo về tài sản kết cấu hạ tầng hàng hải của Bộ GTVT sẵn sàng chia sẻ cho các bên liên quan theo quy định của pháp luật thông qua các API chia sẻ dữ liệu"
+    },
+    {
+      "id": "BR-M06-024",
+      "description": "Dữ liệu tài sản KCHTGTHH phải được đồng bộ lên CSDL nền tảng dùng chung của Bộ GTVT qua trục LGSP theo văn bản số 8294/BGTVT-TTCNTT ngày 30/08/2019.",
+      "type": "regulatory",
+      "severity": "critical",
+      "source_quote": "Dữ liệu của hệ thống thông tin quản lý KCHTGTHH được đồng bộ về CSDL nền tảng dùng chung của Bộ Giao thông vận tải thông qua trục LGSP"
+    },
+    {
+      "id": "BR-M06-025",
+      "description": "Dữ liệu tài sản phải được chia sẻ với CSDL Quốc gia về tài sản công thông qua trục NDXP, tuân thủ Thông tư số 67/2018/TT-BTC.",
+      "type": "regulatory",
+      "severity": "critical",
+      "source_quote": "Dữ liệu của hệ thống thông tin quản lý KCHTGTHH được chia sẻ với CSDL nền tảng dùng chung của Bộ Giao thông vận tải thông qua trục LGSP với, từ đó liên thông với Cơ sở dữ liệu Quốc gia về tài sản công thông qua trục NDXP"
+    }
+  ],
+  "entities": [
+    {
+      "name": "TaiSanKCHT",
+      "key-fields": [
+        "MaTaiSan",
+        "MaLoaiKCHT",
+        "TenTaiSan",
+        "Barcode"
+      ],
+      "source": "Phụ lục 06 - Bảng trường thông tin quản lý tài sản KCHTGTHH (VMS-N, VMS-S, VISHIPEL)"
+    },
+    {
+      "name": "ThongTinChiTietTaiSan",
+      "key-fields": [
+        "MaTaiSan",
+        "NgayKeKhai",
+        "NguyenGiaNganSach",
+        "NguyenGiaKhac",
+        "TyLeHaoMon",
+        "GiaTriConLai"
+      ],
+      "source": "Phụ lục 06 - Thông tin chi tiết tài sản (nhóm 2)"
+    },
+    {
+      "name": "KhauHaoTaiSan",
+      "key-fields": [
+        "MaTaiSan",
+        "NgayTinhKhauHao",
+        "SoThangKhauHao",
+        "KhauHaoThang",
+        "KhauHaoLuyKe",
+        "NgayHetKhauHao"
+      ],
+      "source": "Phụ lục 06 - Các trường thông tin khấu hao tài sản"
+    },
+    {
+      "name": "DonViQuanLy",
+      "key-fields": [
+        "MaDonVi",
+        "TenDonVi",
+        "CapDonVi",
+        "DonViCapTren"
+      ],
+      "source": "Phụ lục 06 - Đơn vị quản lý (VMS-N, VMS-S, VISHIPEL)"
+    },
+    {
+      "name": "LoaiKCHT",
+      "key-fields": [
+        "MaLoaiKCHT",
+        "TenLoaiKCHT",
+        "NhomKCHT",
+        "PhanNhomKCHT"
+      ],
+      "source": "Phụ lục 06 - Mã loại KCHT (cảng biển, bảo đảm AT, viễn thông, cảng cạn)"
+    },
+    {
+      "name": "BienDongTaiSan",
+      "key-fields": [
+        "MaTaiSan",
+        "MaBienDong",
+        "LoaiBienDong",
+        "NgayBienDong",
+        "GiaTriCu",
+        "GiaTriMoi"
+      ],
+      "source": "P[1125-1130] - Thông tin biến động tài sản KCHT"
+    },
+    {
+      "name": "XuLyTaiSan",
+      "key-fields": [
+        "MaTaiSan",
+        "MaDeNghi",
+        "HinhThucXuLy",
+        "NgayDeNghi",
+        "TrangThaiPheDuyet"
+      ],
+      "source": "P[1129] - Xử lý tài sản; Table[81] - Hình thức xử lý tài sản"
+    },
+    {
+      "name": "ToChucKhaiThac",
+      "key-fields": [
+        "MaToChuc",
+        "TenToChuc",
+        "LoaiToChuc",
+        "MaLienThong"
+      ],
+      "source": "P[706] - VMS-N, VMS-S, VISHIPEL; P[799] - API kết nối"
+    },
+    {
+      "name": "DoiTuongKCHTGIS",
+      "key-fields": [
+        "MaDoiTuong",
+        "LoaiDoiTuong",
+        "ToaDo",
+        "ThuocTinhKhacGian"
+      ],
+      "source": "P[1136-1145] - Phân hệ Quản lý thông tin KCHT trên nền bản đồ"
+    },
+    {
+      "name": "BaoCaoTaiSan",
+      "key-fields": [
+        "MaBaoCao",
+        "LoaiBaoCao",
+        "KyBaoCao",
+        "MauSoBaoCao",
+        "NoiDung"
+      ],
+      "source": "P[1146-1150] - Phân hệ Báo cáo thống kê; Thông tư 67/2018/TT-BTC"
+    }
+  ],
+  "screens": [
+    {
+      "id": "SCR-ASM-001",
+      "name": "Danh sách tài sản KCHTGTHH",
+      "source": "P[1124] - Phân hệ Quản lý tài sản KCHTGTHH - Danh sách tài sản"
+    },
+    {
+      "id": "SCR-ASM-002",
+      "name": "Thêm mới / Cập nhật thông tin tài sản",
+      "source": "P[1126-1130] - Tăng tài sản, Tăng nguyên giá, Giảm nguyên giá, Cập nhật biến động"
+    },
+    {
+      "id": "SCR-ASM-003",
+      "name": "Khai thác tài sản",
+      "source": "P[1132] - Khai thác tài sản: Cho phép cập nhật thông tin khai thác tài sản"
+    },
+    {
+      "id": "SCR-ASM-004",
+      "name": "Lịch sử biến động tài sản",
+      "source": "P[1133] - Xem lịch sự biến động tài sản"
+    },
+    {
+      "id": "SCR-ASM-005",
+      "name": "Kiểm kê tài sản",
+      "source": "P[1134] - Kiểm kê tài sản"
+    },
+    {
+      "id": "SCR-ASM-006",
+      "name": "Bản đồ KCHT",
+      "source": "P[1136-1145] - Quản lý thông tin KCHT trên nền bản đồ"
+    },
+    {
+      "id": "SCR-ASM-007",
+      "name": "Xử lý tài sản - Đề nghị xử lý",
+      "source": "P[1129][1808] - Xử lý tài sản, Quản lý đề nghị xử lý tài sản"
+    },
+    {
+      "id": "SCR-ASM-008",
+      "name": "Báo cáo thống kê tài sản",
+      "source": "P[1147-1150] - Báo cáo thống kê: tổng hợp, xem chi tiết, kết xuất PDF/Excel"
+    }
+  ],
+  "integrations": [
+    {
+      "name": "LGSP - Trục tích hợp dùng chung Bộ GTVT",
+      "direction": "bidirectional",
+      "protocol": "LGSP",
+      "description": "Đồng bộ dữ liệu tài sản KCHTGTHH lên CSDL nền tảng dùng chung của Bộ GTVT theo văn bản 8294/BGTVT-TTCNTT",
+      "source": "P[790-791]"
+    },
+    {
+      "name": "NDXP - Trục tích hợp Quốc gia",
+      "direction": "outbound",
+      "protocol": "NDXP",
+      "description": "Liên thông với CSDL Quốc gia về tài sản công theo Thông tư 67/2018/TT-BTC",
+      "source": "P[794-795]"
+    },
+    {
+      "name": "API VMS-N (Tổng công ty BĐATHH miền Bắc)",
+      "direction": "bidirectional",
+      "protocol": "API + VPN",
+      "description": "Kết nối liên thông dữ liệu tài sản từ hệ thống quản lý tài sản riêng của VMS-N",
+      "source": "P[706][799]"
+    },
+    {
+      "name": "API VMS-S (Tổng công ty BĐATHH miền Nam)",
+      "direction": "bidirectional",
+      "protocol": "API + VPN",
+      "description": "Kết nối liên thông dữ liệu tài sản từ hệ thống quản lý tài sản riêng của VMS-S",
+      "source": "P[706][799]"
+    },
+    {
+      "name": "API VISHIPEL (Công ty Thông tin Điện tử Hàng hải VN)",
+      "direction": "bidirectional",
+      "protocol": "API + VPN",
+      "description": "Kết nối liên thông dữ liệu tài sản mạng viễn thông hàng hải từ hệ thống của VISHIPEL",
+      "source": "P[706][799]"
+    },
+    {
+      "name": "Hệ thống Cảng vụ",
+      "direction": "bidirectional",
+      "protocol": "API",
+      "description": "Đồng bộ dữ liệu tài sản và thông tin khai thác với các Cảng vụ trực thuộc Cục Hàng hải",
+      "source": "P[802]"
+    }
+  ]
+}

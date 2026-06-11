@@ -1,0 +1,172 @@
+{
+  "actors": [
+    {
+      "slug": "system-admin",
+      "displayName": "Quản trị viên hệ thống",
+      "description": "Admin cấp cao của hệ thống, chịu trách nhiệm quản lý tài khoản admin, tạo khóa/mở khóa tài khoản, phân quyền truy cập, quản lý đơn vị tổ chức, cấu hình hệ thống, và quản lý log truy cập.",
+      "permissions": ["Quản lý đơn vị", "Quản lý tài khoản admin", "Quản lý log truy cập", "Phân quyền", "Khóa/mở khóa tài khoản", "Cấu hình hệ thống", "Quản lý biểu tượng bản đồ", "Quản lý kết nối liên thông"],
+      "documents": ["URD_raw.txt", "DD_raw.txt", "Survey_raw.txt", "tech-brief.json"]
+    },
+    {
+      "slug": "director",
+      "displayName": "Lãnh đạo Cục Hàng hải",
+      "description": "Lãnh đạo cấp Cục, thực hiện phê duyệt cấp cao nhất trong quy trình 3 cấp (Cảng vụ/Chi cục → Cục). Xem danh sách, xem chi tiết, phê duyệt/từ chối mọi loại đối tượng KCHTGTHH.",
+      "permissions": ["Phê duyệt cấp Cục", "Xem danh sách KCHT", "Xem chi tiết KCHT", "Xem báo cáo thống kê", "Xem trên bản đồ", "Phê duyệt tài sản"],
+      "documents": ["URD_raw.txt", "DD_raw.txt", "Survey_raw.txt", "tech-brief.json"]
+    },
+    {
+      "slug": "department-specialist",
+      "displayName": "Chuyên viên Cục",
+      "description": "Chuyên viên thuộc Cục Hàng hải, thực hiện xem xét thông tin đã được Cảng vụ phê duyệt, gửi đề xuất ý kiến cho lãnh đạo Cục. Quản lý và nhập liệu cho tất cả các loại đối tượng KCHTGTHH.",
+      "permissions": ["Xem xét dữ liệu", "Đề xuất phê duyệt", "Quản lý KCHT", "Nhập liệu", "Xem báo cáo", "Phê duyệt cấp Chi cục"],
+      "documents": ["URD_raw.txt", "DD_raw.txt", "Survey_raw.txt", "tech-brief.json"]
+    },
+    {
+      "slug": "port-authority-manager",
+      "displayName": "Lãnh đạo Cảng vụ/Chi cục",
+      "description": "Lãnh đạo Cảng vụ hoặc Chi cục Hàng hải, thực hiện phê duyệt cấp 2 trong quy trình 3 cấp. Xem danh sách, xem vị trí trên bản đồ, xem chi tiết, phê duyệt/từ chối thông tin.",
+      "permissions": ["Phê duyệt cấp Cảng vụ/Chi cục", "Xem danh sách KCHT", "Xem chi tiết KCHT", "Xem trên bản đồ", "Phê duyệt tài sản", "Từ chối phê duyệt"],
+      "documents": ["URD_raw.txt", "DD_raw.txt", "Survey_raw.txt", "tech-brief.json"]
+    },
+    {
+      "slug": "port-authority-specialist",
+      "displayName": "Chuyên viên Cảng vụ/Chi cục",
+      "description": "Chuyên viên Cảng vụ/Chi cục, thực hiện nhập liệu và gửi đề xuất phê duyệt. Sử dụng loại tài khoản chuyên viên Cảng vụ, được phân quyền phù hợp với vai trò.",
+      "permissions": ["Nhập liệu KCHT", "Gửi phê duyệt", "Xem danh sách của mình", "Xem chi tiết", "Xem lịch sử"],
+      "documents": ["URD_raw.txt", "DD_raw.txt", "Survey_raw.txt", "tech-brief.json"]
+    },
+    {
+      "slug": "enterprise-staff",
+      "displayName": "Nhân viên doanh nghiệp",
+      "description": "Nhân viên các đơn vị doanh nghiệp (cảng, cơ sở sửa chữa/đóng tàu...) nhập dữ liệu mà đơn vị trực tiếp quản lý, gửi đề xuất cho Cảng vụ xem xét phê duyệt.",
+      "permissions": ["Nhập liệu doanh nghiệp", "Gửi đề xuất Cảng vụ", "Xem danh sách của mình", "Xem chi tiết", "Nhận phản hồi phê duyệt"],
+      "documents": ["URD_raw.txt", "DD_raw.txt", "Survey_raw.txt", "tech-brief.json"]
+    },
+    {
+      "slug": "enterprise-manager",
+      "displayName": "Lãnh đạo doanh nghiệp",
+      "description": "Lãnh đạo doanh nghiệp cảng, phê duyệt thông tin từ đơn vị gửi lên trước khi chuyển lên Cảng vụ.",
+      "permissions": ["Phê duyệt doanh nghiệp", "Xem danh sách", "Xem chi tiết", "Từ chối phê duyệt doanh nghiệp"],
+      "documents": ["URD_raw.txt", "DD_raw.txt", "Survey_raw.txt", "tech-brief.json"]
+    },
+    {
+      "slug": "external-user",
+      "displayName": "Người dùng ngoài",
+      "description": "Người dùng không có quyền nhập liệu, chỉ có quyền tra cứu và xem thông tin KCHTGTHH đã được phê duyệt trên hệ thống.",
+      "permissions": ["Tra cứu KCHT", "Xem chi tiết", "Xem trên bản đồ", "Tải văn bản đính kèm", "In nội dung"],
+      "documents": ["URD_raw.txt", "DD_raw.txt", "Survey_raw.txt", "tech-brief.json"]
+    },
+    {
+      "slug": "system",
+      "displayName": "Hệ thống",
+      "description": "Tự động xử lý: gửi mật khẩu qua email, đồng bộ dữ liệu LGSP, ghi log truy cập, tự động chuyển trạng thái phê duyệt, gửi thông báo phản hồi.",
+      "permissions": ["Gửi email", "Đồng bộ LGSP", "Ghi log", "Xử lý workflow", "Tích hợp API"],
+      "documents": ["URD_raw.txt", "DD_raw.txt", "Survey_raw.txt", "tech-brief.json"]
+    },
+    {
+      "slug": "vmsn",
+      "displayName": "Tổng công ty BĐATHH miền Bắc",
+      "description": "Hệ thống bên ngoài - VMSN/VMS-N, cung cấp dữ liệu qua API + VPN Site-to-Site về đảm bảo an toàn hàng hải miền Bắc.",
+      "permissions": ["API integration", "VPN connection", "Data sync"],
+      "documents": ["DD_raw.txt", "tech-brief.json"]
+    },
+    {
+      "slug": "vmss",
+      "displayName": "Tổng công ty BĐATHH miền Nam",
+      "description": "Hệ thống bên ngoài - VMSS/VMS-S, cung cấp dữ liệu qua API + VPN Site-to-Site về đảm bảo an toàn hàng hải miền Nam.",
+      "permissions": ["API integration", "VPN connection", "Data sync"],
+      "documents": ["DD_raw.txt", "tech-brief.json"]
+    },
+    {
+      "slug": "vishipel",
+      "displayName": "Công ty VISHIPEL",
+      "description": "Công ty TNHH MTV Thông tin điện tử hàng hải Việt Nam, cung cấp dữ liệu qua API + VPN Site-to-Site.",
+      "permissions": ["API integration", "VPN connection", "Data sync"],
+      "documents": ["DD_raw.txt", "tech-brief.json"]
+    },
+    {
+      "slug": "port-enterprise",
+      "displayName": "Doanh nghiệp cảng",
+      "description": "Các doanh nghiệp cảng được cấp tài khoản phân quyền để nhập liệu và truy cập hệ thống.",
+      "permissions": ["API integration", "Data entry", "Account access"],
+      "documents": ["DD_raw.txt", "tech-brief.json"]
+    },
+    {
+      "slug": "ship-registration-system",
+      "displayName": "Hệ thống đăng ký tàu biển",
+      "description": "Hệ thống bên ngoài, tích hợp qua API để trao đổi dữ liệu đăng ký tàu biển.",
+      "permissions": ["API integration", "Ship data sync"],
+      "documents": ["DD_raw.txt", "tech-brief.json"]
+    },
+    {
+      "slug": "crew-management-system",
+      "displayName": "Hệ thống quản lý thuyền viên",
+      "description": "Hệ thống bên ngoài, tích hợp qua API để trao đổi dữ liệu thuyền viên, hoa tiêu hàng hải.",
+      "permissions": ["API integration", "Crew data sync"],
+      "documents": ["DD_raw.txt", "tech-brief.json"]
+    },
+    {
+      "slug": "public-user",
+      "displayName": "Công chúng",
+      "description": "Người dùng công cộng không đăng nhập, có thể tra cứu thông tin KCHTGTHH công khai.",
+      "permissions": ["Tra cứu công khai", "Xem thông tin cơ bản"],
+      "documents": ["URD_raw.txt", "DD_raw.txt"]
+    },
+    {
+      "slug": "finance-department",
+      "displayName": "Phòng Tài chính",
+      "description": "Phòng Tài chính Cục Hàng hải, tham gia vào quy trình quản lý tài sản và báo cáo tài chính.",
+      "permissions": ["Xem báo cáo tài chính", "Kiểm kê tài sản", "Xem B03/CCTT"],
+      "documents": ["Survey_raw.txt", "tech-brief.json"]
+    },
+    {
+      "slug": "science-technology-department",
+      "displayName": "Phòng Khoa học Công nghệ và Môi trường",
+      "description": "Phòng Khoa học Công nghệ và Môi trường Cục Hàng hải, tham gia quản lý thông số kỹ thuật.",
+      "permissions": ["Quản lý thông số kỹ thuật", "Xem báo cáo chuyên ngành"],
+      "documents": ["Survey_raw.txt"]
+    },
+    {
+      "slug": "transport-services-department",
+      "displayName": "Phòng Vận tải và Dịch vụ Hàng hải",
+      "description": "Phòng Vận tải và Dịch vụ Hàng hải Cục Hàng hải.",
+      "permissions": ["Xem báo cáo vận tải", "Quản lý chỉ tiêu vận tải"],
+      "documents": ["Survey_raw.txt"]
+    },
+    {
+      "slug": "infrastructure-department",
+      "displayName": "Phòng Kết cấu Hạ tầng Hàng hải",
+      "description": "Phòng Kết cấu Hạ tầng Hàng hải Cục Hàng hải, cung cấp dữ liệu cấu trúc cho hệ thống.",
+      "permissions": ["Cấp dữ liệu KCHT", "Xem báo cáo chuyên ngành"],
+      "documents": ["Survey_raw.txt", "tech-brief.json"]
+    },
+    {
+      "slug": "planning-investment-department",
+      "displayName": "Phòng Kế hoạch Đầu tư",
+      "description": "Phòng Kế hoạch Đầu tư Cục Hàng hải, tham gia quản lý quy hoạch.",
+      "permissions": ["Quản lý quy hoạch", "Xem quy hoạch bến cảng", "Cập nhật quy hoạch"],
+      "documents": ["Survey_raw.txt", "tech-brief.json"]
+    },
+    {
+      "slug": "ships-crew-department",
+      "displayName": "Phòng Tàu Biển và Thủy viên",
+      "description": "Phòng Tàu Biển và Thủy viên Cục Hàng hải.",
+      "permissions": ["Xem báo cáo tàu biển", "Xem báo cáo thuyền viên"],
+      "documents": ["Survey_raw.txt"]
+    },
+    {
+      "slug": "public-asset-management",
+      "displayName": "Cục Quản lý Tài sản công - Bộ Tài chính",
+      "description": "Cơ quan bên ngoài, tiếp nhận thông tin tài sản qua trục LGSP.",
+      "permissions": ["Nhận dữ liệu tài sản qua LGSP"],
+      "documents": ["DD_raw.txt", "tech-brief.json"]
+    },
+    {
+      "slug": "ministries-common-db",
+      "displayName": "CSDL dùng chung cấp Bộ GTVT",
+      "description": "Cơ sở dữ liệu dùng chung của Bộ GTVT, nhận chia sẻ dữ liệu qua trục LGSP.",
+      "permissions": ["Nhận dữ liệu chia sẻ", "Trục LGSP"],
+      "documents": ["DD_raw.txt", "tech-brief.json"]
+    }
+  ]
+}

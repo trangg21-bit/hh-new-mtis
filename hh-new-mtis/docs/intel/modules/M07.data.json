@@ -1,0 +1,371 @@
+{
+  "_meta": {
+    "module_id": "M07",
+    "module_name": "GIS/Map-based Infrastructure Management (Quản lý KCHT trên nền bản đồ)",
+    "end_marker": "module-analysis-complete"
+  },
+  "features": [
+    {
+      "name": "Quản lý danh mục đối tượng điểm",
+      "description": "Cho phép chuyên viên quản lý danh mục các đối tượng điểm trên nền bản đồ GIS, bao gồm thêm mới, xem danh sách, cập nhật thông tin và xóa đối tượng điểm. Đối tượng điểm bao gồm: đèn biển, phao tiêu, trạm radar, trạm AIS, trạm CCTV, trạm VHF, đài thông tin vệ tinh, bến phao, trụ sở cơ sở dịch vụ hàng hải.",
+      "type": "functional",
+      "priority": "high",
+      "actors": [
+        "Chuyên viên quản lý KCHT",
+        "Chuyên viên GIS"
+      ],
+      "business_rules_ids": [
+        "BR-M07-001",
+        "BR-M07-002",
+        "BR-M07-005",
+        "BR-M07-006"
+      ]
+    },
+    {
+      "name": "Quản lý danh mục đối tượng đường",
+      "description": "Cho phép chuyên viên quản lý danh mục các đối tượng đường trên nền bản đồ GIS, bao gồm thêm mới, xem danh sách, cập nhật thông tin và xóa đối tượng đường. Đối tượng đường bao gồm: luồng hàng hải, tuyến đê chắn sóng, kè hướng dòng, kè bảo vệ bờ, đường truyền dẫn tín hiệu.",
+      "type": "functional",
+      "priority": "high",
+      "actors": [
+        "Chuyên viên quản lý KCHT",
+        "Chuyên viên GIS"
+      ],
+      "business_rules_ids": [
+        "BR-M07-001",
+        "BR-M07-003",
+        "BR-M07-005",
+        "BR-M07-006"
+      ]
+    },
+    {
+      "name": "Quản lý danh mục đối tượng vùng",
+      "description": "Cho phép chuyên viên quản lý danh mục các đối tượng vùng trên nền bản đồ GIS, bao gồm thêm mới, xem danh sách, cập nhật thông tin và xóa đối tượng vùng. Đối tượng vùng bao gồm: khu neo đậu, khu tránh trú bão, khu chuyển tải, vùng nước cảng biển, vùng phủ sóng VTS/AIS.",
+      "type": "functional",
+      "priority": "high",
+      "actors": [
+        "Chuyên viên quản lý KCHT",
+        "Chuyên viên GIS"
+      ],
+      "business_rules_ids": [
+        "BR-M07-001",
+        "BR-M07-004",
+        "BR-M07-005",
+        "BR-M07-006"
+      ]
+    },
+    {
+      "name": "Quản lý thông tin KCHT trên bản đồ",
+      "description": "Cho phép người dùng thực hiện quản lý thông tin đối tượng kết cấu hạ tầng hàng hải bằng thao tác trực tiếp trên nền bản đồ GIS: xem vị trí, xem trước vị trí, cập nhật thông tin thuộc tính của đối tượng KCHT gắn với vị trí địa lý trên bản đồ. Hỗ trợ hiển thị tất cả các loại hình KCHT bao gồm cảng biển, bến cảng, cầu cảng, luồng hàng hải, đê kè, báo hiệu hàng hải, hệ thống VTS/AIS/CCTV/SCADA.",
+      "type": "functional",
+      "priority": "high",
+      "actors": [
+        "Chuyên viên quản lý KCHT",
+        "Lãnh đạo",
+        "Chuyên viên giám sát"
+      ],
+      "business_rules_ids": [
+        "BR-M07-001",
+        "BR-M07-005",
+        "BR-M07-007",
+        "BR-M07-008"
+      ]
+    },
+    {
+      "name": "Tra cứu thông tin KCHT trên bản đồ",
+      "description": "Cho phép người dùng tìm kiếm đối tượng kết cấu hạ tầng hàng hải theo nhiều tiêu chí khác nhau, hiển thị danh sách kết quả tìm kiếm trên bản đồ và xem chi tiết thông tin thuộc tính của từng đối tượng KCHT trực tiếp trên bản đồ GIS.",
+      "type": "functional",
+      "priority": "medium",
+      "actors": [
+        "Chuyên viên quản lý KCHT",
+        "Lãnh đạo",
+        "Chuyên viên tra cứu"
+      ],
+      "business_rules_ids": [
+        "BR-M07-005",
+        "BR-M07-008"
+      ]
+    },
+    {
+      "name": "Xem danh sách/chi tiết đối tượng KCHT trên bản đồ",
+      "description": "Cho phép chuyên viên xem danh sách các đối tượng KCHT trên nền bản đồ theo từng lớp dữ liệu, xem chi tiết thông tin của từng đối tượng bao gồm cả thông tin thuộc tính và thông tin không gian (vị trí tọa độ). Hỗ trợ phóng to/thu nhỏ và di chuyển trên bản đồ.",
+      "type": "functional",
+      "priority": "medium",
+      "actors": [
+        "Chuyên viên quản lý KCHT",
+        "Lãnh đạo"
+      ],
+      "business_rules_ids": [
+        "BR-M07-005",
+        "BR-M07-008"
+      ]
+    },
+    {
+      "name": "Quản lý biểu tượng trên bản đồ",
+      "description": "Cho phép quản trị hệ thống quản lý các biểu tượng (symbol) thể hiện các đối tượng KCHT trên nền bản đồ GIS, bao gồm thêm mới, cập nhật và xóa biểu tượng. Mỗi loại đối tượng KCHT được gán một biểu tượng riêng biệt để dễ dàng nhận diện trên bản đồ.",
+      "type": "functional",
+      "priority": "medium",
+      "actors": [
+        "Quản trị hệ thống"
+      ],
+      "business_rules_ids": [
+        "BR-M07-005"
+      ]
+    },
+    {
+      "name": "Tích hợp hải đồ điện tử (ENC)",
+      "description": "Cho phép tích hợp các mảnh hải đồ điện tử hiện có theo tiêu chuẩn S-57 và S-63 từ VMS-N và VMS-S vào hệ thống GIS để quản lý dữ liệu hải đồ cùng với các lớp dữ liệu GIS khác. Hỗ trợ chuyển đổi định dạng S-57 sang Shapefile/GeoPackage, chuẩn hóa hệ quy chiếu và hệ tọa độ WGS84, tổ chức dữ liệu thành các lớp logic, và phát triển công cụ cập nhật khi có thay đổi.",
+      "type": "functional",
+      "priority": "high",
+      "actors": [
+        "Chuyên viên GIS",
+        "Quản trị hệ thống"
+      ],
+      "business_rules_ids": [
+        "BR-M07-009",
+        "BR-M07-010",
+        "BR-M07-011"
+      ]
+    }
+  ],
+  "business_rules": [
+    {
+      "id": "BR-M07-001",
+      "description": "Đối tượng KCHT trên nền bản đồ được quản lý theo ba loại hình học: đối tượng điểm (Point), đối tượng đường (Line), đối tượng vùng (Polygon). Mỗi đối tượng phải được gán một loại hình học tương ứng với bản chất địa lý của nó.",
+      "type": "technical",
+      "severity": "critical",
+      "source_quote": "Phân hệ Quản lý thông tin KCHT trên nền bản đồ cho phép chuyên viên quản lý danh mục đối tượng điểm, đối tượng đường, đối tượng vùng được thể hiện trên nền bản đồ | P[1137]"
+    },
+    {
+      "id": "BR-M07-002",
+      "description": "Đối tượng điểm phải được quản lý với tọa độ địa lý (kinh độ, vĩ độ) theo hệ tọa độ WGS84. Thao tác thêm mới phải cho phép xác định vị trí điểm trên bản đồ, đồng thời nhập các thông tin thuộc tính của đối tượng điểm.",
+      "type": "technical",
+      "severity": "high",
+      "source_quote": "Thêm mới đối tượng điểm/ vùng/ đường | Xóa đối tượng điểm/ vùng/ đường | Cập nhật thông tin đối tượng điểm/ vùng/ đường | P[1140-1142] | Yêu cầu về hệ tọa độ thông tin địa lý: Sử dụng hệ tọa độ WGS84 | P[787]"
+    },
+    {
+      "id": "BR-M07-003",
+      "description": "Đối tượng đường phải được quản lý với tập hợp các điểm tọa độ (linestring) tạo thành đường trên bản đồ. Thao tác thêm mới đối tượng đường phải cho phép vẽ đường trực tiếp trên bản đồ và nhập thông tin thuộc tính tương ứng. Hỗ trợ cập nhật hình dạng đường khi có biến động.",
+      "type": "technical",
+      "severity": "high",
+      "source_quote": "Quản lý danh mục đối tượng đường | Người dùng thực hiện thêm mới đối tượng đường vào danh sách đối tượng đường | P[1412-1416], Table[67]"
+    },
+    {
+      "id": "BR-M07-004",
+      "description": "Đối tượng vùng phải được quản lý với tập hợp các điểm tọa độ khép kín (polygon) thể hiện diện tích trên bản đồ. Thao tác thêm mới đối tượng vùng phải cho phép vẽ vùng trực tiếp trên bản đồ và nhập thông tin thuộc tính. Hỗ trợ tính toán diện tích tự động dựa trên tọa độ địa lý.",
+      "type": "technical",
+      "severity": "high",
+      "source_quote": "Quản lý danh mục đối tượng vùng | Người dùng thực hiện thêm mới đối tượng vùng vào danh sách đối tượng vùng | P[1417-1421], Table[67]"
+    },
+    {
+      "id": "BR-M07-005",
+      "description": "Hệ thống GIS phải được tích hợp từ hai thành phần: CSDL thuộc tính (lưu trữ thông tin quản lý nhà nước của đối tượng) và CSDL không gian (lưu trữ thông tin địa lý, tọa độ của đối tượng KCHTGTHH). Hai CSDL này phải được đồng bộ và liên kết qua mã định danh thống nhất của từng đối tượng.",
+      "type": "architectural",
+      "severity": "critical",
+      "source_quote": "Đối tượng quản lý trong CSDL kết cấu hạ tầng giao thông hàng hải được vận hành dựa trên 2 CSDL là CSDL thuộc tính và CSDL không gian | P[701]"
+    },
+    {
+      "id": "BR-M07-006",
+      "description": "Mỗi thao tác CRUD (thêm/xem/cập nhật/xóa) đối với đối tượng điểm/đường/vùng phải được xác thực quyền truy cập. Chuyên viên được phân quyền tương ứng với đơn vị quản lý và loại hình đối tượng được giao quản lý.",
+      "type": "business",
+      "severity": "high",
+      "source_quote": "Người dùng thực hiện thêm mới đối tượng điểm... | Xoá đối tượng điểm... | Cập nhật thông tin đối tượng điểm... | Table[67] Row[1409-1411]"
+    },
+    {
+      "id": "BR-M07-007",
+      "description": "Xem trước vị trí đối tượng KCHT phải được thực hiện trước khi ghi nhận/lưu thông tin đối tượng vào hệ thống, cho phép người dùng kiểm tra và hiệu chỉnh vị trí địa lý trên bản đồ trước khi xác nhận lưu chính thức.",
+      "type": "business",
+      "severity": "medium",
+      "source_quote": "Xem trước vị trí KCHT trên bản đồ trước khi lưu thông tin | P[1100]"
+    },
+    {
+      "id": "BR-M07-008",
+      "description": "Tra cứu thông tin KCHT trên bản đồ phải hỗ trợ tìm kiếm theo nhiều tiêu chí như tên đối tượng, loại đối tượng, mã đối tượng, vị trí địa lý và hiển thị kết quả trên bản đồ dưới dạng danh sách kết hợp với đánh dấu vị trí. Khi người dùng chọn một đối tượng trong danh sách hoặc trên bản đồ, hệ thống phải hiển thị chi tiết thông tin của đối tượng đó.",
+      "type": "business",
+      "severity": "medium",
+      "source_quote": "Tra cứu thông tin kết cấu hạ tầng hàng hải trên bản đồ | Người dùng thực hiện tìm kiếm đối tượng kết cấu hạ tầng giao thông... | Table[67] Row[1422-1429]"
+    },
+    {
+      "id": "BR-M07-009",
+      "description": "Dữ liệu hải đồ điện tử ENC từ VMS-N và VMS-S phải được chuyển đổi từ định dạng S-57 sang định dạng tương thích với GIS (Shapefile hoặc GeoPackage), bảo toàn các thuộc tính và metadata quan trọng, sử dụng hệ tọa độ WGS84 chuẩn hóa.",
+      "type": "technical",
+      "severity": "high",
+      "source_quote": "Sử dụng công cụ chuyển đổi để chuyển dữ liệu S57 sang định dạng tương thích với GIS (ví dụ: Shapefile, GeoPackage) | Chuẩn hóa hệ quy chiếu và hệ tọa độ để phù hợp với GIS đích | P[1315-1317]"
+    },
+    {
+      "id": "BR-M07-010",
+      "description": "Dữ liệu hải đồ sau khi tích hợp phải được tổ chức thành các lớp logic (layer) như đường bờ, độ sâu, đèn biển, phao tiêu; thiết lập các mối quan hệ không gian giữa các đối tượng hải đồ và tích hợp với các lớp dữ liệu GIS khác (địa hình, khí tượng).",
+      "type": "technical",
+      "severity": "high",
+      "source_quote": "Tổ chức dữ liệu thành các lớp logic (ví dụ: đường bờ, độ sâu, đèn biển, v.v.) | Thiết lập các mối quan hệ không gian giữa các đối tượng hải đồ | Tích hợp dữ liệu hải đồ với các lớp dữ liệu GIS khác | P[1321-1325]"
+    },
+    {
+      "id": "BR-M07-011",
+      "description": "Các Tổng công ty Bảo đảm an toàn hàng hải (VMS-N, VMS-S) phải được cung cấp công cụ để cập nhật thông tin các mảnh hải đồ khi có sự thay đổi trong quá trình vận hành, đảm bảo dữ liệu hải đồ luôn được cập nhật mới nhất.",
+      "type": "business",
+      "severity": "high",
+      "source_quote": "Phát triển công cụ cho phép các Tổng công ty đảm bảo an toàn hàng hải miền Bắc/ miền Nam hoặc đơn vị khác cập nhật thông tin các mảnh hải đồ khi có sự thay đổi trong quá trình vận hành về sau | P[1328]"
+    }
+  ],
+  "entities": [
+    {
+      "name": "DoiTuongDiem",
+      "key-fields": [
+        "MaDoiTuong",
+        "TenDoiTuong",
+        "LoaiDoiTuong",
+        "KinhDo",
+        "ViDo",
+        "MaLoaiKCHT",
+        "MaBieuTuong"
+      ],
+      "source": "Table[67] Row[1407-1411] - Quản lý danh mục đối tượng điểm; P[1137-1142]"
+    },
+    {
+      "name": "DoiTuongDuong",
+      "key-fields": [
+        "MaDoiTuong",
+        "TenDoiTuong",
+        "LoaiDoiTuong",
+        "DinhDangDuong",
+        "MaLoaiKCHT",
+        "MaBieuTuong"
+      ],
+      "source": "Table[67] Row[1412-1416] - Quản lý danh mục đối tượng đường"
+    },
+    {
+      "name": "DoiTuongVung",
+      "key-fields": [
+        "MaDoiTuong",
+        "TenDoiTuong",
+        "LoaiDoiTuong",
+        "DinhDangVung",
+        "DienTich",
+        "MaLoaiKCHT",
+        "MaBieuTuong"
+      ],
+      "source": "Table[67] Row[1417-1421] - Quản lý danh mục đối tượng vùng"
+    },
+    {
+      "name": "PhanLopGIS",
+      "key-fields": [
+        "MaLop",
+        "TenLop",
+        "LoaiHinhHoc",
+        "MauSac",
+        "MaBieuTuong",
+        "ThuTuHienThi",
+        "TrangThaiHienThi"
+      ],
+      "source": "P[1321-1325] - Các lớp dữ liệu GIS logic (đường bờ, độ sâu, đèn biển, phao tiêu...)"
+    },
+    {
+      "name": "BieuTuongBanDo",
+      "key-fields": [
+        "MaBieuTuong",
+        "TenBieuTuong",
+        "LoaiDoiTuong",
+        "UrlHinhAnh",
+        "KichThuoc",
+        "MauSac"
+      ],
+      "source": "Table[54] Row[6] - Quản lý biểu tượng trên bản đồ; Table[67] Row[35]"
+    },
+    {
+      "name": "HaiDoDienTuENC",
+      "key-fields": [
+        "MaManhHD",
+        "TenManhHD",
+        "DinhDang",
+        "NhaSanXuat",
+        "HeToaDo",
+        "NgayCapNhat",
+        "DuongDanFile"
+      ],
+      "source": "P[1300-1328] - Tích hợp hải đồ điện tử; Chuẩn S-57/S-63"
+    },
+    {
+      "name": "CauHinhBanDo",
+      "key-fields": [
+        "MaCauHinh",
+        "TenCauHinh",
+        "LoaiBanDo",
+        "HeToaDo",
+        "MucZoomMacDinh",
+        "TamBanDoMacDinh"
+      ],
+      "source": "P[787] - Yêu cầu hệ tọa độ WGS84; P[716] - Kiến trúc bản đồ GIS"
+    }
+  ],
+  "screens": [
+    {
+      "id": "SCR-GIS-001",
+      "name": "Bản đồ GIS tổng thể",
+      "source": "P[1136-1137], P[716] - Phân hệ Quản lý thông tin KCHT trên nền bản đồ"
+    },
+    {
+      "id": "SCR-GIS-002",
+      "name": "Quản lý danh mục đối tượng điểm",
+      "source": "Table[67] Row[1407-1411] - Quản lý danh mục đối tượng điểm; P[1138-1142]"
+    },
+    {
+      "id": "SCR-GIS-003",
+      "name": "Quản lý danh mục đối tượng đường",
+      "source": "Table[67] Row[1412-1416] - Quản lý danh mục đối tượng đường"
+    },
+    {
+      "id": "SCR-GIS-004",
+      "name": "Quản lý danh mục đối tượng vùng",
+      "source": "Table[67] Row[1417-1421] - Quản lý danh mục đối tượng vùng"
+    },
+    {
+      "id": "SCR-GIS-005",
+      "name": "Quản lý thông tin KCHT trên bản đồ",
+      "source": "Table[67] Row[1422-1426] - Quản lý thông tin KCHT trên bản đồ; P[1144-1145]"
+    },
+    {
+      "id": "SCR-GIS-006",
+      "name": "Tra cứu thông tin KCHT trên bản đồ",
+      "source": "Table[67] Row[1426-1429] - Tra cứu thông tin KCHT trên bản đồ"
+    },
+    {
+      "id": "SCR-GIS-007",
+      "name": "Quản lý biểu tượng bản đồ",
+      "source": "Table[54] Row[6], Table[67] Row[35] - Quản lý biểu tượng trên bản đồ"
+    },
+    {
+      "id": "SCR-GIS-008",
+      "name": "Tích hợp hải đồ điện tử",
+      "source": "P[1300-1328] - Biên tập hải đồ điện tử, tích hợp S-57/S-63 vào hệ thống GIS"
+    }
+  ],
+  "integrations": [
+    {
+      "name": "Dịch vụ GIS Server",
+      "direction": "internal",
+      "protocol": "GIS Service (WMS/WFS)",
+      "description": "Dịch vụ bản đồ GIS thuộc Business Layer, cài đặt trên cụm máy chủ GIS, cung cấp các API dịch vụ bản đồ cho WebUI và các ứng dụng khác truy xuất dữ liệu không gian",
+      "source": "P[734] - Dịch vụ GIS: Dịch vụ bản đồ, là thành phần thuộc Business Layer. Cài đặt trên cụm máy chủ GIS."
+    },
+    {
+      "name": "Dữ liệu hải đồ ENC từ VMS-N",
+      "direction": "inbound",
+      "protocol": "S-57 / File-based",
+      "description": "Tích hợp các mảnh hải đồ điện tử S-57/S-63 từ Tổng công ty Bảo đảm an toàn hàng hải miền Bắc, chuyển đổi sang định dạng GIS và nhập vào hệ thống",
+      "source": "P[1300-1328] - Biên tập hải đồ điện tử; P[706] - VMS-N"
+    },
+    {
+      "name": "Dữ liệu hải đồ ENC từ VMS-S",
+      "direction": "inbound",
+      "protocol": "S-57 / File-based",
+      "description": "Tích hợp các mảnh hải đồ điện tử S-57/S-63 từ Tổng công ty Bảo đảm an toàn hàng hải miền Nam, chuyển đổi sang định dạng GIS và nhập vào hệ thống",
+      "source": "P[1300-1328] - Biên tập hải đồ điện tử; P[706] - VMS-S"
+    },
+    {
+      "name": "CSDL không gian (Spatial Database)",
+      "direction": "bidirectional",
+      "protocol": "SQL/PostGIS",
+      "description": "CSDL không gian lưu trữ thông tin địa lý của đối tượng KCHTGTHH, thể hiện mối liên hệ của các đối tượng trong ngành hàng hải với hệ sinh thái tổng thể ngành GTVT",
+      "source": "P[701] - CSDL không gian lưu trữ thông tin địa lý của đối tượng kết cấu hạ tầng"
+    }
+  ]
+}
