@@ -141,6 +141,98 @@ db.exec(`
   CREATE INDEX IF NOT EXISTS idx_login_log_username ON login_log(username);
   CREATE INDEX IF NOT EXISTS idx_login_log_logged_at ON login_log(logged_at);
   CREATE INDEX IF NOT EXISTS idx_login_log_status ON login_log(status);
+
+-- M02: System Administration tables
+
+CREATE TABLE IF NOT EXISTS unit_management (
+  id         INTEGER PRIMARY KEY AUTOINCREMENT,
+  name       TEXT    NOT NULL,
+  code       TEXT    UNIQUE NOT NULL,
+  parent_id  INTEGER REFERENCES unit_management(id) ON DELETE SET NULL,
+  type       TEXT    DEFAULT 'department',
+  status     INTEGER DEFAULT 1,
+  sort_order INTEGER DEFAULT 0,
+  created_at TEXT    DEFAULT (datetime('now','localtime')),
+  updated_at TEXT    DEFAULT (datetime('now','localtime'))
+);
+
+CREATE TABLE IF NOT EXISTS interconnect_config (
+  id            INTEGER PRIMARY KEY AUTOINCREMENT,
+  system_name   TEXT    NOT NULL,
+  system_code   TEXT    UNIQUE NOT NULL,
+  endpoint_url  TEXT    NOT NULL,
+  auth_type     TEXT    DEFAULT 'api_key',
+  auth_config   TEXT    DEFAULT '{}',
+  status        INTEGER DEFAULT 1,
+  last_sync_at  TEXT,
+  created_at    TEXT    DEFAULT (datetime('now','localtime')),
+  updated_at    TEXT    DEFAULT (datetime('now','localtime'))
+);
+
+CREATE TABLE IF NOT EXISTS approval_workflows (
+  id           INTEGER PRIMARY KEY AUTOINCREMENT,
+  name         TEXT    NOT NULL,
+  description  TEXT,
+  step1_actor  TEXT    NOT NULL,
+  step1_action TEXT    NOT NULL,
+  step2_actor  TEXT,
+  step2_action TEXT,
+  step3_actor  TEXT,
+  step3_action TEXT,
+  status       INTEGER DEFAULT 1,
+  created_at   TEXT    DEFAULT (datetime('now','localtime')),
+  updated_at   TEXT    DEFAULT (datetime('now','localtime'))
+);
+
+CREATE TABLE IF NOT EXISTS approval_requests (
+  id            INTEGER PRIMARY KEY AUTOINCREMENT,
+  workflow_id   INTEGER NOT NULL REFERENCES approval_workflows(id) ON DELETE CASCADE,
+  requester_id  INTEGER NOT NULL REFERENCES users(id),
+  title         TEXT    NOT NULL,
+  content       TEXT,
+  status        TEXT    DEFAULT 'pending',
+  current_step  INTEGER DEFAULT 1,
+  created_at    TEXT    DEFAULT (datetime('now','localtime')),
+  updated_at    TEXT    DEFAULT (datetime('now','localtime'))
+);
+
+CREATE TABLE IF NOT EXISTS approval_actions (
+  id            INTEGER PRIMARY KEY AUTOINCREMENT,
+  request_id    INTEGER NOT NULL REFERENCES approval_requests(id) ON DELETE CASCADE,
+  actor_id      INTEGER NOT NULL REFERENCES users(id),
+  action        TEXT    NOT NULL,
+  comment       TEXT,
+  created_at    TEXT    DEFAULT (datetime('now','localtime'))
+);
+
+CREATE TABLE IF NOT EXISTS system_config (
+  id          INTEGER PRIMARY KEY AUTOINCREMENT,
+  key         TEXT    UNIQUE NOT NULL,
+  value       TEXT    DEFAULT '',
+  description TEXT,
+  category    TEXT    DEFAULT 'general',
+  created_at  TEXT    DEFAULT (datetime('now','localtime')),
+  updated_at  TEXT    DEFAULT (datetime('now','localtime'))
+);
+
+CREATE TABLE IF NOT EXISTS audit_log (
+  id          INTEGER PRIMARY KEY AUTOINCREMENT,
+  user_id     INTEGER REFERENCES users(id),
+  action      TEXT    NOT NULL,
+  entity_type TEXT    NOT NULL,
+  entity_id   INTEGER,
+  details     TEXT    DEFAULT '{}',
+  ip_address  TEXT,
+  created_at  TEXT    DEFAULT (datetime('now','localtime'))
+);
+
+CREATE INDEX IF NOT EXISTS idx_audit_log_user_id ON audit_log(user_id);
+CREATE INDEX IF NOT EXISTS idx_audit_log_action ON audit_log(action);
+CREATE INDEX IF NOT EXISTS idx_audit_log_entity_type ON audit_log(entity_type);
+CREATE INDEX IF NOT EXISTS idx_audit_log_created_at ON audit_log(created_at);
+CREATE INDEX IF NOT EXISTS idx_unit_management_parent_id ON unit_management(parent_id);
+CREATE INDEX IF NOT EXISTS idx_approval_requests_status ON approval_requests(status);
+CREATE INDEX IF NOT EXISTS idx_approval_actions_request_id ON approval_actions(request_id);
 `);
 
 // ─── Seed data ───────────────────────────────────────────

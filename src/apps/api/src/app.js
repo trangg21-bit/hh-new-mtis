@@ -2,6 +2,7 @@
 const cors = require('cors');
 const helmet = require('helmet');
 const path = require('path');
+const fs = require('fs');
 const authMiddleware = require('./middleware/authMiddleware');
 const adminMiddleware = require('./middleware/adminMiddleware');
 const db = require('./db');
@@ -9,10 +10,25 @@ const { verifyPassword } = require('./services/passwordService');
 
 const JWT_SECRET = process.env.JWT_SECRET;
 
-// CRITICAL-01: JWT_SECRET must be set via env var â€” no default fallback
+// CRITICAL-01: JWT_SECRET must be set via env var — no default fallback
 if (!JWT_SECRET) {
   console.error('FATAL: JWT_SECRET environment variable is required. Set it before starting the server.');
   process.exit(1);
+}
+
+// DG-10: File-based logging — always write logs to file
+const LOG_DIR = path.join(__dirname, '..', 'logs');
+if (!fs.existsSync(LOG_DIR)) fs.mkdirSync(LOG_DIR, { recursive: true });
+const logFile = path.join(LOG_DIR, 'app.log');
+const errorLogFile = path.join(LOG_DIR, 'error.log');
+
+function writeLog(level, data) {
+  const line = JSON.stringify({ ts: new Date().toISOString(), level, ...data }) + '\n';
+  try { fs.appendFileSync(logFile, line); } catch {}
+}
+function writeError(level, data) {
+  const line = JSON.stringify({ ts: new Date().toISOString(), level, ...data }) + '\n';
+  try { fs.appendFileSync(errorLogFile, line); } catch {}
 }
 
 const app = express();
@@ -38,14 +54,18 @@ app.use((req, res, next) => {
   next();
 });
 
-// Request logging (structured JSON)
+// Request logging (structured JSON + file)
 app.use((req, res, next) => {
   const start = Date.now();
   res.on('finish', () => {
     const log = { ts: new Date().toISOString(), rid: req.id, method: req.method, path: req.originalUrl, status: res.statusCode, ms: Date.now() - start };
     // SRE-17: Log ALL requests (not just errors) for full observability
     console.log(JSON.stringify(log));
-    if (res.statusCode >= 400) console.warn(JSON.stringify({ ...log, level: 'warn' }));
+    writeLog('info', log);
+    if (res.statusCode >= 400) {
+      console.warn(JSON.stringify({ ...log, level: 'warn' }));
+      writeLog('warn', log);
+    }
   });
   next();
 });
@@ -113,6 +133,31 @@ app.use('/api/organizations', authMiddleware, function orgGuard(req, res, next) 
   }
   next();
 }, orgRouter);
+
+// M02 routes — System Administration
+// Units (F-M02-001)
+app.use('/api/units', authMiddleware, require('./routes/units'));
+
+// Interconnect Configs (F-M02-002)
+app.use('/api/interconnect-configs', authMiddleware, adminMiddleware, require('./routes/interconnect-configs'));
+
+// Admin Accounts (F-M02-003) — must be before /api/users
+app.use('/api/admin-accounts', authMiddleware, adminMiddleware, require('./routes/admin-accounts'));
+
+// Approval (F-M02-004)
+app.use('/api/approval', authMiddleware, require('./routes/approval'));
+
+// Audit Logs (F-M02-005)
+app.use('/api/audit-logs', authMiddleware, require('./routes/audit-logs'));
+
+// System Config (F-M02-006)
+app.use('/api/system-config', authMiddleware, adminMiddleware, require('./routes/system-config'));
+
+// Permission Policies (F-M02-007)
+app.use('/api/permission-policies', authMiddleware, adminMiddleware, require('./routes/permission-policies'));
+
+// Backup (F-M02-008)
+app.use('/api/backup', authMiddleware, adminMiddleware, require('./routes/backup'));
 
 // Admin stats â€” BE-1.3f dashboard
 app.get('/api/admin/stats', authMiddleware, adminMiddleware, (req, res) => {
@@ -265,9 +310,19 @@ app.get('*', (req, res) => {
   });
 });
 
-// Global error handlers
-process.on('uncaughtException', (err) => { console.error(JSON.stringify({ event: 'uncaughtException', error: err.message, stack: err.stack?.split('\n').slice(0,3) })); process.exit(1); });
-process.on('unhandledRejection', (reason) => { console.error(JSON.stringify({ event: 'unhandledRejection', error: reason?.message || String(reason) })); });
+// Global error handlers — always write to file before crash
+process.on('uncaughtException', (err) => {
+  const data = { event: 'uncaughtException', error: err.message, stack: err.stack?.split('\n').slice(0,5) };
+  console.error(JSON.stringify(data));
+  writeError('fatal', data);
+  // Give the error logger a chance to flush before exit
+  setTimeout(() => process.exit(1), 500);
+});
+process.on('unhandledRejection', (reason) => {
+  const data = { event: 'unhandledRejection', error: reason?.message || String(reason) };
+  console.error(JSON.stringify(data));
+  writeError('warn', data);
+});
 
 // DG-06: Periodic session cleanup cron
 setInterval(() => {
