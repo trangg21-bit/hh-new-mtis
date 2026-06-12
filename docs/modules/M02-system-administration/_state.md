@@ -4,15 +4,15 @@ module-slug: "system-administration"
 module-name: "System Administration"
 module-name-vn: "Quản trị hệ thống"
 purpose: "Quản trị hệ thống, cấu hình, giám sát"
-status: "in-progress"
-current-stage: "engineering-qa-engineer"
+status: "done"
+current-stage: "done"
 stages-queue: ["engineering-ui-ux-designer", "engineering-system-architect", "utility-security-auditor", "engineering-technical-lead", "engineering-backend-developer", "engineering-frontend-developer", "engineering-qa-engineer", "engineering-code-reviewer"]
 pipeline-type: "sdlc"
 output-mode: "lean"
 repo-type: "mono"
 feature-count: 8
-completed-stages: {"engineering-business-analyst": true, "engineering-system-architect": true, "engineering-technical-lead": true, "engineering-backend-developer": true}
-kpi: {"ba-pass": false, "qa-pass": false, "reviewer-approved": false}
+completed-stages: {"engineering-business-analyst": true, "engineering-system-architect": true, "engineering-technical-lead": true, "engineering-backend-developer": true, "engineering-qa-engineer": true, "engineering-code-reviewer": true}
+kpi: {"ba-pass": true, "qa-pass": true, "reviewer-approved": true}
 ---
 
 # Module M02: Quản trị hệ thống
