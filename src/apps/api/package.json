@@ -5,8 +5,9 @@
   "description": "MTIS Backend API — Express + SQLite",
   "main": "src/index.js",
   "scripts": {
-    "start": "node src/index.js",
-    "dev": "node --watch src/index.js"
+    "start": "node scripts/check-encoding.js && node src/index.js",
+    "dev": "node --watch src/index.js",
+    "check-encoding": "node scripts/check-encoding.js"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",

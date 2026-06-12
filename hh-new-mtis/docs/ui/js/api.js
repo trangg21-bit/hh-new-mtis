@@ -18,7 +18,7 @@ function getToken() {
  * Build headers with optional JWT bearer token
  */
 function buildHeaders(extra) {
-  const headers = { 'Content-Type': 'application/json', ...(extra || {}) };
+  const headers = { 'Content-Type': 'application/json; charset=utf-8', ...(extra || {}) };
   const token = getToken();
   if (token) headers['Authorization'] = 'Bearer ' + token;
   return headers;
@@ -31,7 +31,9 @@ async function handleResponse(res) {
   let data;
   const contentType = res.headers.get('content-type') || '';
   if (contentType.includes('application/json')) {
-    data = await res.json();
+    // Decode UTF-8 explicitly to prevent garbled Vietnamese text
+    const text = await res.text();
+    data = JSON.parse(text);
   } else {
     const text = await res.text();
     data = { error: text || 'Yêu cầu thất bại' };
@@ -46,7 +48,25 @@ async function handleResponse(res) {
       window.location.hash = '#login';
       throw new Error(data.error || 'Phiên đăng nhập hết hạn');
     }
-    const err = new Error(data.error || `Lỗi ${res.status}`);
+    // Decode UTF-8 error message — handle double-encoded Mojibake with TextDecoder
+    let errorMessage = data.error || `Lỗi ${res.status}`;
+    try {
+      // Attempt to fix mojibake: re-encode the garbled text back to UTF-8
+      const decoded = decodeURIComponent(escape(errorMessage));
+      if (decoded !== errorMessage) {
+        errorMessage = decoded;
+      } else {
+        // Try TextDecoder as fallback for UTF-8 garbled text
+        const bytes = new TextEncoder().encode(errorMessage);
+        const utf8Text = new TextDecoder('utf-8', { fatal: false }).decode(bytes);
+        if (utf8Text !== errorMessage) {
+          errorMessage = utf8Text;
+        }
+      }
+    } catch (e) {
+      // If decode fails, keep original
+    }
+    const err = new Error(errorMessage);
     err.status = res.status;
     err.data = data;
     throw err;

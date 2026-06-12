@@ -5,7 +5,7 @@
 
 const SCREEN_USERS = {
   _data: [], _page: 1, _total: 0,
-  _filters: { search: '', role: '', status: '', org_id: '' },
+  _filters: { search: '', role: '', status: '1', org_id: '', showDeleted: false },
 
   render() {
     return `
@@ -26,8 +26,8 @@ const SCREEN_USERS = {
             <div class="filter-group" style="flex:2;min-width:200px">
               <label class="filter-label" style="display:block;font-size:11px;color:var(--color-muted);margin-bottom:4px">Tìm kiếm</label>
               <div class="search-field" style="display:flex;align-items:center;border:1px solid var(--color-border-input);border-radius:var(--radius-input);background:var(--color-white);padding:0 10px">
-                <span style="color:var(--color-muted);font-size:14px">🔍</span>
-                <input type="text" class="form-control" id="user-search" placeholder="Username, email, họ tên..." style="border:none;padding:8px 8px" oninput="SCREEN_USERS.debouncedSearch()">
+                <span class="search-icon" aria-hidden="true"><span class="icon">${icons.iconSearch}</span></span>
+                <input type="text" class="form-control" id="user-search" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Username, email, họ tên..." style="border:none;padding:8px 8px 8px 34px" oninput="SCREEN_USERS.debouncedSearch()">
               </div>
             </div>
             <div class="filter-group" style="flex:1;min-width:140px">
@@ -43,11 +43,13 @@ const SCREEN_USERS = {
             <div class="filter-group" style="flex:1;min-width:120px">
               <label class="filter-label" style="display:block;font-size:11px;color:var(--color-muted);margin-bottom:4px">Trạng thái</label>
               <select class="form-control" id="user-status-filter" onchange="SCREEN_USERS.applyFilter()">
-                <option value="">Tất cả</option>
-                <option value="1">Hoạt động</option>
+                <option value="1" selected>Hoạt động</option>
                 <option value="2">Đã khóa</option>
-                <option value="0">Đã xóa</option>
               </select>
+            </div>
+            <div class="filter-group" style="display:flex;align-items:center;gap:6px;padding-bottom:2px">
+              <input type="checkbox" id="user-show-deleted" onchange="SCREEN_USERS.applyFilter()" style="cursor:pointer">
+              <label for="user-show-deleted" style="font-size:11px;color:var(--color-muted);cursor:pointer;margin:0">Hiển thị tài khoản đã xóa</label>
             </div>
             <div class="filter-group" style="flex:1;min-width:140px">
               <label class="filter-label" style="display:block;font-size:11px;color:var(--color-muted);margin-bottom:4px">Đơn vị</label>
@@ -57,8 +59,8 @@ const SCREEN_USERS = {
             </div>
             <div class="filter-group" style="display:flex;gap:8px;align-items:end;flex-shrink:0">
               <button class="btn btn-ghost" onclick="SCREEN_USERS.clearFilters()" title="Xóa bộ lọc">✕ Xóa lọc</button>
-              <button class="btn btn-ghost" onclick="SCREEN_USERS.exportExcel()" title="Xuất Excel">📥 Excel</button>
-              <button class="btn btn-primary" onclick="SCREEN_USERS.showCreateModal()">＋ Thêm</button>
+              <button class="btn btn-ghost" onclick="SCREEN_USERS.exportExcel()" title="Xuất Excel"><span class="icon">${icons.iconDownload}</span> Excel</button>
+              <button class="btn btn-primary" onclick="SCREEN_USERS.showCreateModal()"><span class="icon">${icons.iconAdd}</span> Thêm</button>
             </div>
           </div>
 
@@ -105,21 +107,31 @@ const SCREEN_USERS = {
     this._filters.role = document.getElementById('user-role-filter').value;
     this._filters.status = document.getElementById('user-status-filter').value;
     this._filters.org_id = document.getElementById('user-org-filter').value;
+    this._filters.showDeleted = document.getElementById('user-show-deleted').checked;
     this._page = 1; this.load();
   },
 
   clearFilters() {
     document.getElementById('user-search').value = '';
     document.getElementById('user-role-filter').value = '';
-    document.getElementById('user-status-filter').value = '';
+    document.getElementById('user-status-filter').value = '1';
     document.getElementById('user-org-filter').value = '';
-    this._filters = { search: '', role: '', status: '', org_id: '' };
+    document.getElementById('user-show-deleted').checked = false;
+    this._filters = { search: '', role: '', status: '1', org_id: '', showDeleted: false };
     this._page = 1; this.load();
   },
 
   afterRender() {
     this._loadOrgs();
     this.load();
+    this._loadOrgOptions();
+  },
+
+  async _loadOrgOptions() {
+    try {
+      const data = await apiGet('/api/organizations');
+      this._orgOptions = data.organizations || [];
+    } catch (e) { this._orgOptions = []; }
   },
 
   async _loadOrgs() {
@@ -133,7 +145,8 @@ const SCREEN_USERS = {
         items.forEach(o => {
           const opt = document.createElement('option');
           opt.value = o.id;
-          opt.textContent = (depth > 0 ? '└─ '.repeat(depth) : '') + o.name;
+          opt.textContent = o.name;
+          opt.className = depth > 0 ? 'org-indent-' + Math.min(depth, 5) : '';
           select.appendChild(opt);
           if (o.children && o.children.length) buildOptions(o.children, depth + 1);
         });
@@ -162,6 +175,7 @@ const SCREEN_USERS = {
         role: this._filters.role || undefined,
         status: this._filters.status || undefined,
         org_id: this._filters.org_id || undefined,
+        show_deleted: this._filters.showDeleted ? '1' : undefined,
       };
       const data = await apiGet('/api/users', params);
       this._data = data.users || [];
@@ -180,9 +194,9 @@ const SCREEN_USERS = {
             <td><span class="badge badge-blue">${esc(u.role)}</span></td>
             <td>${statusBadge(u.status)}</td>
             <td class="text-right action-cell">
-              <button class="btn btn-ghost btn-sm" title="Chỉnh sửa" onclick="SCREEN_USERS.showEditModal(${u.id})">✎</button>
-              <button class="btn btn-ghost btn-sm" title="${u.status === 2 ? 'Mở khóa' : 'Khóa'}" onclick="SCREEN_USERS.toggleLock(${u.id}, ${u.status})" ${u.status === 0 ? 'disabled' : ''}>${u.status === 2 ? '🔓' : '🔒'}</button>
-              <button class="btn btn-ghost btn-sm danger-action" title="Xóa" onclick="SCREEN_USERS.confirmDelete(${u.id})" ${u.status === 0 ? 'disabled' : ''}>🗑</button>
+              <button class="btn btn-ghost action-icon" title="Chỉnh sửa" onclick="SCREEN_USERS.showEditModal(${u.id})"><span class="icon">${icons.iconEdit}</span></button>
+              <button class="btn btn-ghost action-icon" title="${u.status === 2 ? 'Mở khóa' : 'Khóa'}" onclick="SCREEN_USERS.toggleLock(${u.id}, ${u.status})" ${u.status === 0 ? 'disabled' : ''}><span class="icon">${u.status === 2 ? icons.iconUnlock : icons.iconLock}</span></button>
+              <button class="btn btn-ghost action-icon danger-action" title="Xóa" onclick="SCREEN_USERS.confirmDelete(${u.id})" ${u.status === 0 ? 'disabled' : ''}><span class="icon">${icons.iconDelete}</span></button>
             </td>
           </tr>`).join('');
       }
@@ -230,6 +244,10 @@ const SCREEN_USERS = {
   /* ============================================================
      MODAL FORMS (Unified approach for ALL screens)
      ============================================================ */
+  showCreateModal() {
+    this._openUserModal(null, null);
+  },
+
   showEditModal(id) {
     const user = this._data.find(u => u.id === id);
     if (!user) return;
@@ -237,6 +255,9 @@ const SCREEN_USERS = {
   },
 
   _openUserModal(user, editId) {
+    // Ensure no stale overlay exists
+    const stale = document.querySelector('.modal-overlay');
+    if (stale) stale.remove();
     const isCreate = !user;
     const userId = isCreate ? '' : editId;
     const overlay = document.createElement('div');
@@ -254,21 +275,21 @@ const SCREEN_USERS = {
             <div class="grid-2">
               <div class="form-group">
                 <label>Tên đăng nhập <span class="text-danger">*</span></label>
-                <input type="text" class="form-control" id="user-username" value="${esc(user?.username || '')}" placeholder="username" required>
+                <input type="text" class="form-control" id="user-username" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" value="${esc(user?.username || '')}" placeholder="username" required>
               </div>
               <div class="form-group">
                 <label>Mật khẩu ${isCreate ? '<span class="text-danger">*</span>' : '(để trống nếu không đổi)'}</label>
-                <input type="password" class="form-control" id="user-password" placeholder="${isCreate ? 'Mật khẩu' : 'Để trống nếu không đổi'}">
+                <input type="password" class="form-control" id="user-password" autocomplete="new-password" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="${isCreate ? 'Mật khẩu' : 'Để trống nếu không đổi'}">
               </div>
             </div>
             <div class="grid-2">
               <div class="form-group">
                 <label>Họ tên <span class="text-danger">*</span></label>
-                <input type="text" class="form-control" id="user-fullname" value="${esc(user?.full_name || '')}" placeholder="Nguyễn Văn A" required>
+                <input type="text" class="form-control" id="user-fullname" autocomplete="name" autocorrect="off" autocapitalize="characters" spellcheck="false" value="${esc(user?.full_name || '')}" placeholder="Nguyễn Văn A" required>
               </div>
               <div class="form-group">
                 <label>Email <span class="text-danger">*</span></label>
-                <input type="email" class="form-control" id="user-email" value="${esc(user?.email || '')}" placeholder="email@example.com" required>
+                <input type="email" class="form-control" id="user-email" autocomplete="email" autocorrect="off" autocapitalize="off" spellcheck="false" value="${esc(user?.email || '')}" placeholder="email@example.com" required>
               </div>
             </div>
             <div class="grid-2">
@@ -281,6 +302,15 @@ const SCREEN_USERS = {
                   <option value="infrastructure-officer" ${user?.role === 'infrastructure-officer' ? 'selected' : ''}>Chuyên viên</option>
                 </select>
               </div>
+              <div class="form-group">
+                <label>Đơn vị</label>
+                <select class="form-control" id="user-org-unit">
+                  <option value="">— Chọn đơn vị —</option>
+                  ${this._orgOptions?.map(o => `<option value="${esc(o.name)}" ${user?.org_unit === o.name ? 'selected' : ''}>${esc(o.name)}</option>`).join('') || ''}
+                </select>
+              </div>
+            </div>
+            <div class="grid-2">
               <div class="form-group">
                 <label>Trạng thái</label>
                 <select class="form-control" id="user-status">
@@ -308,19 +338,29 @@ const SCREEN_USERS = {
     const role = document.getElementById('user-role').value;
     const status = parseInt(document.getElementById('user-status').value);
     const password = document.getElementById('user-password').value;
+    const orgUnit = document.getElementById('user-org-unit')?.value || '';
 
-    if (!username || !fullname || !email) return alert('⚠ Vui lòng điền đầy đủ thông tin!');
+    if (!username || !fullname || !email) return TOAST.warning('Vui lòng điền đầy đủ thông tin!');
+
+    const body = { username, full_name: fullname, email, password, role, status, org_unit: orgUnit || undefined };
 
     try {
       if (isCreate) {
-        if (!password) return alert('⚠ Vui lòng nhập mật khẩu!');
-        await apiPost('/api/users', { username, full_name: fullname, email, password, role, status });
+        if (!password) return TOAST.warning('Vui lòng nhập mật khẩu!');
+        await apiPost('/api/users', body);
       } else {
-        await apiPut(`/api/users/${userId}`, { username, full_name: fullname, email, role, status, password: password || undefined });
+        delete body.password;
+        if (password) body.password = password;
+        await apiPut(`/api/users/${userId}`, body);
       }
+      // Close overlay
+      const overlay = document.querySelector('.modal-overlay');
+      if (overlay) overlay.remove();
+      // Reload + toast
       await this.load();
+      TOAST.success(isCreate ? 'Tạo người dùng thành công!' : 'Cập nhật người dùng thành công!');
     } catch (e) {
-      alert('❌ Lỗi: ' + e.message);
+      TOAST.error('Lỗi: ' + e.message);
     }
   },
 
@@ -330,7 +370,8 @@ const SCREEN_USERS = {
     try {
       await apiPut(`/api/users/${id}/${status === 2 ? 'unlock' : 'lock'}`);
       await this.load();
-    } catch (e) { alert('❌ Lỗi: ' + e.message); }
+      TOAST.success(status === 2 ? 'Mở khóa thành công!' : 'Khóa tài khoản thành công!');
+    } catch (e) { TOAST.error('Lỗi: ' + e.message); }
   },
 
   async confirmDelete(id) {
@@ -338,6 +379,7 @@ const SCREEN_USERS = {
     try {
       await apiDelete(`/api/users/${id}`);
       await this.load();
-    } catch (e) { alert('❌ Lỗi: ' + e.message); }
+      TOAST.success('Xóa người dùng thành công!');
+    } catch (e) { TOAST.error('Lỗi: ' + e.message); }
   }
 };

@@ -26,8 +26,8 @@ const SCREEN_USERS = {
             <div class="filter-group" style="flex:2;min-width:200px">
               <label class="filter-label" style="display:block;font-size:11px;color:var(--color-muted);margin-bottom:4px">Tìm kiếm</label>
               <div class="search-field" style="display:flex;align-items:center;border:1px solid var(--color-border-input);border-radius:var(--radius-input);background:var(--color-white);padding:0 10px">
-                <span style="color:var(--color-muted);font-size:14px">🔍</span>
-                <input type="text" class="form-control" id="user-search" placeholder="Username, email, họ tên..." style="border:none;padding:8px 8px" oninput="SCREEN_USERS.debouncedSearch()">
+                <span class="search-icon" aria-hidden="true"><span class="icon">${icons.iconSearch}</span></span>
+                <input type="text" class="form-control" id="user-search" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Username, email, họ tên..." style="border:none;padding:8px 8px 8px 34px" oninput="SCREEN_USERS.debouncedSearch()">
               </div>
             </div>
             <div class="filter-group" style="flex:1;min-width:140px">
@@ -57,8 +57,8 @@ const SCREEN_USERS = {
             </div>
             <div class="filter-group" style="display:flex;gap:8px;align-items:end;flex-shrink:0">
               <button class="btn btn-ghost" onclick="SCREEN_USERS.clearFilters()" title="Xóa bộ lọc">✕ Xóa lọc</button>
-              <button class="btn btn-ghost" onclick="SCREEN_USERS.exportExcel()" title="Xuất Excel">📥 Excel</button>
-              <button class="btn btn-primary" onclick="SCREEN_USERS.showCreateModal()">＋ Thêm</button>
+              <button class="btn btn-ghost" onclick="SCREEN_USERS.exportExcel()" title="Xuất Excel"><span class="icon">${icons.iconDownload}</span> Excel</button>
+              <button class="btn btn-primary" onclick="SCREEN_USERS.showCreateModal()"><span class="icon">${icons.iconAdd}</span> Thêm</button>
             </div>
           </div>
 
@@ -133,7 +133,8 @@ const SCREEN_USERS = {
         items.forEach(o => {
           const opt = document.createElement('option');
           opt.value = o.id;
-          opt.textContent = (depth > 0 ? '└─ '.repeat(depth) : '') + o.name;
+          opt.textContent = o.name;
+          opt.className = depth > 0 ? 'org-indent-' + Math.min(depth, 5) : '';
           select.appendChild(opt);
           if (o.children && o.children.length) buildOptions(o.children, depth + 1);
         });
@@ -180,9 +181,9 @@ const SCREEN_USERS = {
             <td><span class="badge badge-blue">${esc(u.role)}</span></td>
             <td>${statusBadge(u.status)}</td>
             <td class="text-right action-cell">
-              <button class="btn btn-ghost btn-sm" title="Chỉnh sửa" onclick="SCREEN_USERS.showEditModal(${u.id})">✎</button>
-              <button class="btn btn-ghost btn-sm" title="${u.status === 2 ? 'Mở khóa' : 'Khóa'}" onclick="SCREEN_USERS.toggleLock(${u.id}, ${u.status})" ${u.status === 0 ? 'disabled' : ''}>${u.status === 2 ? '🔓' : '🔒'}</button>
-              <button class="btn btn-ghost btn-sm danger-action" title="Xóa" onclick="SCREEN_USERS.confirmDelete(${u.id})" ${u.status === 0 ? 'disabled' : ''}>🗑</button>
+              <button class="btn btn-ghost action-icon" title="Chỉnh sửa" onclick="SCREEN_USERS.showEditModal(${u.id})"><span class="icon">${icons.iconEdit}</span></button>
+              <button class="btn btn-ghost action-icon" title="${u.status === 2 ? 'Mở khóa' : 'Khóa'}" onclick="SCREEN_USERS.toggleLock(${u.id}, ${u.status})" ${u.status === 0 ? 'disabled' : ''}><span class="icon">${u.status === 2 ? icons.iconUnlock : icons.iconLock}</span></button>
+              <button class="btn btn-ghost action-icon danger-action" title="Xóa" onclick="SCREEN_USERS.confirmDelete(${u.id})" ${u.status === 0 ? 'disabled' : ''}><span class="icon">${icons.iconDelete}</span></button>
             </td>
           </tr>`).join('');
       }
@@ -196,7 +197,8 @@ const SCREEN_USERS = {
   },
 
   _renderPagination(container, totalPages) {
-    if (totalPages <= 1) { container.innerHTML = ''; return; }
+    // Hide pagination when total records ≤ 10 (single page with small dataset)
+    if (this._total <= 10) { container.innerHTML = ''; return; }
     const page = this._page;
     let html = `<button class="page-btn" onclick="SCREEN_USERS.goToPage(${page - 1})" ${page === 1 ? 'disabled' : ''}>‹ Trước</button>`;
     if (totalPages <= 7) {
@@ -229,6 +231,10 @@ const SCREEN_USERS = {
   /* ============================================================
      MODAL FORMS (Unified approach for ALL screens)
      ============================================================ */
+  showCreateModal() {
+    this._openUserModal(null, null);
+  },
+
   showEditModal(id) {
     const user = this._data.find(u => u.id === id);
     if (!user) return;
@@ -236,6 +242,9 @@ const SCREEN_USERS = {
   },
 
   _openUserModal(user, editId) {
+    // Ensure no stale overlay exists
+    const stale = document.querySelector('.modal-overlay');
+    if (stale) stale.remove();
     const isCreate = !user;
     const userId = isCreate ? '' : editId;
     const overlay = document.createElement('div');
@@ -253,21 +262,21 @@ const SCREEN_USERS = {
             <div class="grid-2">
               <div class="form-group">
                 <label>Tên đăng nhập <span class="text-danger">*</span></label>
-                <input type="text" class="form-control" id="user-username" value="${esc(user?.username || '')}" placeholder="username" required>
+                <input type="text" class="form-control" id="user-username" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" value="${esc(user?.username || '')}" placeholder="username" required>
               </div>
               <div class="form-group">
                 <label>Mật khẩu ${isCreate ? '<span class="text-danger">*</span>' : '(để trống nếu không đổi)'}</label>
-                <input type="password" class="form-control" id="user-password" placeholder="${isCreate ? 'Mật khẩu' : 'Để trống nếu không đổi'}">
+                <input type="password" class="form-control" id="user-password" autocomplete="new-password" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="${isCreate ? 'Mật khẩu' : 'Để trống nếu không đổi'}">
               </div>
             </div>
             <div class="grid-2">
               <div class="form-group">
                 <label>Họ tên <span class="text-danger">*</span></label>
-                <input type="text" class="form-control" id="user-fullname" value="${esc(user?.full_name || '')}" placeholder="Nguyễn Văn A" required>
+                <input type="text" class="form-control" id="user-fullname" autocomplete="name" autocorrect="off" autocapitalize="characters" spellcheck="false" value="${esc(user?.full_name || '')}" placeholder="Nguyễn Văn A" required>
               </div>
               <div class="form-group">
                 <label>Email <span class="text-danger">*</span></label>
-                <input type="email" class="form-control" id="user-email" value="${esc(user?.email || '')}" placeholder="email@example.com" required>
+                <input type="email" class="form-control" id="user-email" autocomplete="email" autocorrect="off" autocapitalize="off" spellcheck="false" value="${esc(user?.email || '')}" placeholder="email@example.com" required>
               </div>
             </div>
             <div class="grid-2">
@@ -308,18 +317,23 @@ const SCREEN_USERS = {
     const status = parseInt(document.getElementById('user-status').value);
     const password = document.getElementById('user-password').value;
 
-    if (!username || !fullname || !email) return alert('⚠ Vui lòng điền đầy đủ thông tin!');
+    if (!username || !fullname || !email) return TOAST.warning('Vui lòng điền đầy đủ thông tin!');
 
     try {
       if (isCreate) {
-        if (!password) return alert('⚠ Vui lòng nhập mật khẩu!');
+        if (!password) return TOAST.warning('Vui lòng nhập mật khẩu!');
         await apiPost('/api/users', { username, full_name: fullname, email, password, role, status });
       } else {
         await apiPut(`/api/users/${userId}`, { username, full_name: fullname, email, role, status, password: password || undefined });
       }
+      // Close overlay
+      const overlay = document.querySelector('.modal-overlay');
+      if (overlay) overlay.remove();
+      // Reload + toast
       await this.load();
+      TOAST.success(isCreate ? 'Tạo người dùng thành công!' : 'Cập nhật người dùng thành công!');
     } catch (e) {
-      alert('❌ Lỗi: ' + e.message);
+      TOAST.error('Lỗi: ' + e.message);
     }
   },
 
@@ -329,7 +343,8 @@ const SCREEN_USERS = {
     try {
       await apiPut(`/api/users/${id}/${status === 2 ? 'unlock' : 'lock'}`);
       await this.load();
-    } catch (e) { alert('❌ Lỗi: ' + e.message); }
+      TOAST.success(status === 2 ? 'Mở khóa thành công!' : 'Khóa tài khoản thành công!');
+    } catch (e) { TOAST.error('Lỗi: ' + e.message); }
   },
 
   async confirmDelete(id) {
@@ -337,6 +352,7 @@ const SCREEN_USERS = {
     try {
       await apiDelete(`/api/users/${id}`);
       await this.load();
-    } catch (e) { alert('❌ Lỗi: ' + e.message); }
+      TOAST.success('Xóa người dùng thành công!');
+    } catch (e) { TOAST.error('Lỗi: ' + e.message); }
   }
 };

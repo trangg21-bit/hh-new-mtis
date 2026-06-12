@@ -17,15 +17,12 @@ const SCREEN_REGISTER = {
         <div class="card" style="max-width:640px">
           <div class="card-header"><h3>Thông tin tài khoản</h3></div>
           <div class="card-body">
-            <div id="reg-error" class="alert alert-danger" style="display:none" role="alert"></div>
-            <div id="reg-success" class="alert alert-success" style="display:none" role="alert"></div>
-
             <form id="reg-form">
               <div class="grid-2">
                 <div class="form-group">
                   <label for="reg-fullname" class="required">Họ và tên</label>
                   <input type="text" id="reg-fullname" class="form-control" placeholder="Nguyễn Văn A"
-                         aria-required="true" autofocus>
+                         aria-required="true" autofocus autocomplete="off">
                 </div>
                 <div class="form-group">
                   <label for="reg-username" class="required">Tên đăng nhập</label>
@@ -37,11 +34,12 @@ const SCREEN_REGISTER = {
                 <div class="form-group">
                   <label for="reg-email">Email</label>
                   <input type="email" id="reg-email" class="form-control" placeholder="nguyen.van.a@example.com"
-                         autocomplete="email" maxlength="20">
+                         autocomplete="off" maxlength="20">
                 </div>
                 <div class="form-group">
                   <label for="reg-phone">Số điện thoại</label>
-                  <input type="text" id="reg-phone" class="form-control" placeholder="0912 345 678">
+                  <input type="text" id="reg-phone" class="form-control" placeholder="0912 345 678"
+                         autocomplete="off">
                 </div>
               </div>
               <div class="grid-2">
@@ -86,7 +84,7 @@ const SCREEN_REGISTER = {
               <div class="flex-between">
                 <a href="#users" class="btn btn-outline">← Quay lại</a>
                 <button type="submit" id="reg-btn" class="btn btn-primary">
-                  <span class="btn-icon">➕</span> Tạo tài khoản
+                  <span class="btn-icon"><span class="icon">${icons.iconAdd}</span></span> Tạo tài khoản
                 </button>
               </div>
             </form>
@@ -133,11 +131,6 @@ const SCREEN_REGISTER = {
     // Re-query elements each time to avoid stale refs
     const btn = document.getElementById('reg-btn');
     if (!btn || btn.disabled) return false;
-    const errEl = document.getElementById('reg-error');
-    const successEl = document.getElementById('reg-success');
-
-    errEl.style.display = 'none';
-    successEl.style.display = 'none';
 
     const fullName = document.getElementById('reg-fullname').value.trim();
     const username = document.getElementById('reg-username').value.trim();
@@ -149,19 +142,16 @@ const SCREEN_REGISTER = {
     const confirm = document.getElementById('reg-confirm').value;
 
     if (!fullName || !username) {
-      errEl.textContent = 'Vui lòng nhập họ tên và tên đăng nhập';
-      errEl.style.display = '';
+      TOAST.warning('Vui lòng nhập họ tên và tên đăng nhập');
       return false;
     }
     const pwErrors = validatePasswordStrength(password);
     if (pwErrors.length > 0) {
-      errEl.textContent = pwErrors.join('; ');
-      errEl.style.display = '';
+      TOAST.warning(pwErrors.join('; '));
       return false;
     }
     if (password !== confirm) {
-      errEl.textContent = 'Mật khẩu xác nhận không khớp';
-      errEl.style.display = '';
+      TOAST.warning('Mật khẩu xác nhận không khớp');
       return false;
     }
 
@@ -173,17 +163,15 @@ const SCREEN_REGISTER = {
         username, password, full_name: fullName, email: email || undefined,
         phone: phone || undefined, org_unit: orgUnit, role,
       });
-      errEl.style.display = 'none';
-      successEl.innerHTML = '<strong>✔</strong> Tạo tài khoản thành công! <a href="#users">Quay lại danh sách</a>';
-      successEl.style.display = 'block';
+      TOAST.success('Tạo tài khoản thành công!');
       document.getElementById('reg-form').reset();
+      setTimeout(() => { window.location.hash = '#users'; }, 1500);
     } catch (e) {
-      errEl.textContent = e.message || 'Không thể tạo tài khoản';
-      errEl.style.display = 'block';
+      TOAST.error(e.message || 'Không thể tạo tài khoản');
+    } finally {
+      btn.disabled = false;
+      btn.innerHTML = '<span class="btn-icon"><span class="icon">${icons.iconAdd}</span></span> Tạo tài khoản';
     }
-
-    btn.disabled = false;
-    btn.innerHTML = '<span class="btn-icon">➕</span> Tạo tài khoản';
     return false;
   },
 

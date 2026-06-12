@@ -1,15 +1,17 @@
-﻿const express = require('express');
+// -*- coding: utf-8 -*-
+const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
 const path = require('path');
 const authMiddleware = require('./middleware/authMiddleware');
 const adminMiddleware = require('./middleware/adminMiddleware');
+const enforceCharset = require('./middleware/enforce-charset');
 const db = require('./db');
 const { verifyPassword } = require('./services/passwordService');
 
 const JWT_SECRET = process.env.JWT_SECRET;
 
-// CRITICAL-01: JWT_SECRET must be set via env var â€” no default fallback
+// CRITICAL-01: JWT_SECRET must be set via env var — no default fallback
 if (!JWT_SECRET) {
   console.error('FATAL: JWT_SECRET environment variable is required. Set it before starting the server.');
   process.exit(1);
@@ -17,14 +19,14 @@ if (!JWT_SECRET) {
 
 const app = express();
 
-// â”€â”€â”€ Prometheus metrics (lightweight) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── Prometheus metrics (lightweight) ──────────────────────
 const metrics = {
   requests_total: 0,
   errors_4xx: 0,
   errors_5xx: 0,
 };
 
-// â”€â”€â”€ Metrics tracking middleware â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── Metrics tracking middleware ────────────────────────────
 app.use((req, _res, next) => {
   metrics.requests_total++;
   next();
@@ -50,14 +52,14 @@ app.use((req, res, next) => {
   next();
 });
 
-// Security headers â€” CSP disabled for SPA inline event handlers, HSTS for production
+// Security headers — CSP disabled for SPA inline event handlers, HSTS for production
 const helmetOpts = { contentSecurityPolicy: false };
 if (process.env.NODE_ENV === 'production') {
   helmetOpts.hsts = { maxAge: 31536000, includeSubDomains: true };
 }
 app.use(helmet(helmetOpts));
 
-// CORS â€” restrict to same-origin for production (HIGH-04)
+// CORS — restrict to same-origin for production (HIGH-04)
 app.use(cors({
   origin: process.env.CORS_ORIGIN || false,
   credentials: true,
@@ -68,6 +70,9 @@ app.use(cors({
 
 app.use(express.json({ limit: '1mb' }));
 
+// SEC-01: Force UTF-8 charset on all responses (prevents garbled Vietnamese text)
+app.use(enforceCharset());
+
 // SEC-20: Remove X-Powered-By header
 app.disable('x-powered-by');
 
@@ -76,10 +81,10 @@ app.use(express.static(path.join(__dirname, '..', 'public')));
 
 // API routes
 
-// Auth routes â€” rate limiter applied per-route inside auth.js
+// Auth routes — rate limiter applied per-route inside auth.js
 app.use('/api/auth', require('./routes/auth'));
 
-// User Groups â€” must be BEFORE /api/users to avoid route conflict
+// User Groups — must be BEFORE /api/users to avoid route conflict
 const groupsRouter = require('./routes/groups');
 app.use('/api/users/groups', authMiddleware, function groupsGuard(req, res, next) {
   if (['POST', 'PUT', 'DELETE'].includes(req.method)) {
@@ -88,7 +93,7 @@ app.use('/api/users/groups', authMiddleware, function groupsGuard(req, res, next
   next();
 }, groupsRouter);
 
-// Users â€” auth required; write operations admin-only (no bypass, except self-delete)
+// Users — auth required; write operations admin-only (no bypass, except self-delete)
 app.use('/api/users', authMiddleware, function userWriteGuard(req, res, next) {
   if (['POST', 'PUT', 'DELETE'].includes(req.method) && req.path !== '/self') {
     return adminMiddleware(req, res, next);
@@ -96,7 +101,7 @@ app.use('/api/users', authMiddleware, function userWriteGuard(req, res, next) {
   next();
 }, require('./routes/users'));
 
-// Permissions â€” GET allowed for all authenticated, PUT admin-only
+// Permissions — GET allowed for all authenticated, PUT admin-only
 const permissionsRouter = require('./routes/permissions');
 app.use('/api/permissions', authMiddleware, function permGuard(req, res, next) {
   if (req.method === 'PUT') {
@@ -105,7 +110,7 @@ app.use('/api/permissions', authMiddleware, function permGuard(req, res, next) {
   next();
 }, permissionsRouter);
 
-// Organizations â€” admin-only for mutations
+// Organizations — admin-only for mutations
 const orgRouter = require('./routes/organizations');
 app.use('/api/organizations', authMiddleware, function orgGuard(req, res, next) {
   if (['POST', 'PUT', 'DELETE'].includes(req.method)) {
@@ -114,7 +119,7 @@ app.use('/api/organizations', authMiddleware, function orgGuard(req, res, next) 
   next();
 }, orgRouter);
 
-// Admin stats â€” BE-1.3f dashboard
+// Admin stats — BE-1.3f dashboard
 app.get('/api/admin/stats', authMiddleware, adminMiddleware, (req, res) => {
   const totalUsers = db.prepare('SELECT COUNT(*) as c FROM users WHERE status != 0').get().c;
   const totalGroups = db.prepare('SELECT COUNT(*) as c FROM user_groups').get().c;
@@ -145,7 +150,7 @@ app.get('/api/admin/stats', authMiddleware, adminMiddleware, (req, res) => {
   });
 });
 
-// Admin reset DB â€” soft reset (E2E test helper, only when ENABLE_E2E_TEST_HOOKS=true)
+// Admin reset DB — soft reset (E2E test helper, only when ENABLE_E2E_TEST_HOOKS=true)
 // CR-V3-01: Password derived from env var, requires current admin password verification
 app.post('/api/admin/reset-db', authMiddleware, adminMiddleware, (req, res) => {
   if (process.env.ENABLE_E2E_TEST_HOOKS !== 'true') {
@@ -154,14 +159,14 @@ app.post('/api/admin/reset-db', authMiddleware, adminMiddleware, (req, res) => {
 
   const { password } = req.body;
   if (!password) {
-    return res.status(400).json({ error: 'Thiáº¿u máº­t kháº©u xÃ¡c nháº­n' });
+    return res.status(400).json({ error: 'Thiếu mật khẩu xác nhận' });
   }
 
   // CR-V3-01: Validate current admin password before proceeding
   const admin = db.prepare('SELECT * FROM users WHERE username = ?').get('admin');
-  if (!admin) return res.status(404).json({ error: 'KhÃ´ng tÃ¬m tháº¥y ngÆ°á»i dÃ¹ng admin' });
+  if (!admin) return res.status(404).json({ error: 'Không tìm thấy người dùng admin' });
   if (!verifyPassword(password, admin.password)) {
-    return res.status(400).json({ error: 'Máº­t kháº©u xÃ¡c nháº­n khÃ´ng Ä‘Ãºng' });
+    return res.status(400).json({ error: 'Mật khẩu xác nhận không đúng' });
   }
 
   const bcrypt = require('bcryptjs');
@@ -182,12 +187,12 @@ app.post('/api/admin/reset-db', authMiddleware, adminMiddleware, (req, res) => {
   db.prepare("UPDATE users SET password=?, status=1 WHERE username='chuyenviem1'").run(h);
   db.prepare("UPDATE users SET password=?, status=1 WHERE username='lanhdao'").run(h);
   // Re-seed orgs
-  db.prepare('INSERT INTO organizations (name, description) VALUES (?, ?)').run('Cá»¥c HÃ ng háº£i Viá»‡t Nam', 'CÆ¡ quan quáº£n lÃ½ nhÃ  nÆ°á»›c vá» hÃ ng háº£i');
-  db.prepare('INSERT INTO organizations (name, description, parent_id) VALUES (?, ?, ?)').run('Cáº£ng vá»¥ HÃ ng háº£i Háº£i PhÃ²ng', 'ÄÆ¡n vá»‹ trá»±c thuá»™c Cá»¥c', 1);
+  db.prepare('INSERT INTO organizations (name, description) VALUES (?, ?)').run('Cục Hàng hải Việt Nam', 'Cơ quan quản lý nhà nước về hàng hải');
+  db.prepare('INSERT INTO organizations (name, description, parent_id) VALUES (?, ?, ?)').run('Cảng vụ Hàng hải Hải Phòng', 'Đơn vị trực thuộc Cục', 1);
   // Re-seed groups
-  db.prepare('INSERT INTO user_groups (name, description) VALUES (?, ?)').run('Quáº£n trá»‹ há»‡ thá»‘ng', 'NhÃ³m quáº£n trá»‹ toÃ n há»‡ thá»‘ng');
-  db.prepare('INSERT INTO user_groups (name, description) VALUES (?, ?)').run('ChuyÃªn viÃªn KCHT', 'NhÃ¢n viÃªn quáº£n lÃ½ KCHT');
-  db.prepare('INSERT INTO user_groups (name, description) VALUES (?, ?)').run('LÃ£nh Ä‘áº¡o', 'Cáº¥p lÃ£nh Ä‘áº¡o phÃª duyá»‡t');
+  db.prepare('INSERT INTO user_groups (name, description) VALUES (?, ?)').run('Quản trị hệ thống', 'Nhóm quản trị toàn hệ thống');
+  db.prepare('INSERT INTO user_groups (name, description) VALUES (?, ?)').run('Chuyên viên KCHT', 'Nhân viên quản lý KCHT');
+  db.prepare('INSERT INTO user_groups (name, description) VALUES (?, ?)').run('Lãnh đạo', 'Cấp lãnh đạo phê duyệt');
   // Re-seed permissions
   db.prepare('INSERT INTO group_members (group_id, user_id) VALUES (?, ?)').run(1, 1);
   const fcs = ['user','group','permission','org','login_log','totp','session'];
@@ -226,12 +231,12 @@ app.get('/api/metrics', authMiddleware, (req, res) => {
   res.send(lines.join('\n') + '\n');
 });
 
-// Health check â€” shallow
+// Health check — shallow
 app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', time: new Date().toISOString() });
 });
 
-// Health check â€” DB check
+// Health check — DB check
 app.get('/api/health/db', (req, res) => {
   try {
     db.prepare('SELECT 1 as ok').get();
@@ -241,7 +246,7 @@ app.get('/api/health/db', (req, res) => {
   }
 });
 
-// Readiness check â€” deep (DB ping)
+// Readiness check — deep (DB ping)
 app.get('/api/ready', (req, res) => {
   try {
     db.prepare('SELECT 1 as ok').get();
@@ -251,7 +256,7 @@ app.get('/api/ready', (req, res) => {
   }
 });
 
-// SPA fallback â€” serve index.html for all non-API, non-static routes
+// SPA fallback — serve index.html for all non-API, non-static routes
 app.get('*', (req, res) => {
   if (req.path.startsWith('/api')) return res.status(404).json({ error: 'Not found' });
 

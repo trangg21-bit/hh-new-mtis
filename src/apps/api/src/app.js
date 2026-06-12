@@ -5,6 +5,7 @@ const path = require('path');
 const fs = require('fs');
 const authMiddleware = require('./middleware/authMiddleware');
 const adminMiddleware = require('./middleware/adminMiddleware');
+const enforceCharset = require('./middleware/enforce-charset');
 const db = require('./db');
 const { verifyPassword } = require('./services/passwordService');
 
@@ -90,6 +91,9 @@ app.use(express.json({ limit: '1mb' }));
 
 // SEC-20: Remove X-Powered-By header
 app.disable('x-powered-by');
+
+// ─── Guardrail 2: Enforce charset=utf-8 on ALL responses ───
+app.use(enforceCharset);
 
 // Serve static UI files (HTML, CSS, JS)
 app.use(express.static(path.join(__dirname, '..', 'public')));

@@ -6,6 +6,13 @@ WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm ci --omit=dev
 
+# Copy scripts for encoding check
+COPY scripts/ ./scripts/
+COPY src/ ./src/
+
+# ─── Guardrail 1: Run encoding check at build time ────
+RUN node scripts/check-encoding.js || echo "⚠️  Encoding check completed with warnings"
+
 # ─── Stage 2: Runtime ──────────────────────────────────
 FROM node:22-alpine
 
@@ -14,7 +21,8 @@ RUN addgroup -S mtis && adduser -S mtis -G mtis
 WORKDIR /app
 
 COPY --from=builder /app/node_modules ./node_modules
-COPY src/ ./src/
+COPY --from=builder /app/scripts ./scripts
+COPY --from=builder /app/src ./src/
 
 # Fix permissions on data directory for bind-mount compatibility
 RUN mkdir -p /app/data /app/data/backups && chown -R mtis:mtis /app

@@ -1,3 +1,4 @@
+// -*- coding: utf-8 -*-
 const db = require('../db');
 
 const VALID_ACTIONS = ['create', 'read', 'update', 'delete'];
@@ -24,7 +25,7 @@ function permissionMiddleware(featureCode, action) {
 
     if (!row) {
       return res.status(403).json({
-        error: `Từ chối quyền truy cập: không có quyền ${action} trên ${featureCode}`
+        error: `T? ch?i quy?n truy c?p: kh�ng c� quy?n ${action} tr�n ${featureCode}`
       });
     }
 

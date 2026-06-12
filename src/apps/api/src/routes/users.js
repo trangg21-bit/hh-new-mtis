@@ -99,7 +99,7 @@ router.post('/', (req, res) => {
   const validRoles = ['system-admin', 'ChuyÃªn viÃªn', 'LÃ£nh Ä‘áº¡o Cáº£ng vá»¥', 'infrastructure-officer', 'port-authority-leader', 'director'];
   if (!u || !p || !fn) return res.status(400).json({ error: 'Thiáº¿u trÆ°á»ng báº¯t buá»™c' });
   if (u.length > 10) return res.status(400).json({ error: 'TÃªn Ä‘Äƒng nháº­p tá»‘i Ä‘a 10 kÃ½ tá»±' });
-  if (e && e.length > 20) return res.status(400).json({ error: 'Email tá»‘i Ä‘a 20 kÃ½ tá»±' });
+  if (e && e.length > 254) return res.status(400).json({ error: 'Email tá»‘i Ä‘a 20 kÃ½ tá»±' });
   if (e && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e)) return res.status(400).json({ error: 'Email khÃ´ng há»£p lá»‡' });
   if (role && !validRoles.includes(role)) return res.status(400).json({ error: 'Role khÃ´ng há»£p lá»‡' });
   if (org_id && isNaN(Number(org_id))) return res.status(400).json({ error: 'org_id pháº£i lÃ  sá»‘' });

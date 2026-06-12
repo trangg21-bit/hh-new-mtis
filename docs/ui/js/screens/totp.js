@@ -35,7 +35,7 @@ const SCREEN_TOTP = {
   _idleHtml() {
     return `
       <div class="text-center" style="padding:40px 20px">
-        <div style="font-size:48px;margin-bottom:12px">🔐</div>
+        <div style="font-size:48px;margin-bottom:12px"><span class="icon" style="font-size:48px">${icons.iconTOTP}</span></div>
         <p style="font-size:var(--font-size-base);color:var(--color-body-text);margin-bottom:8px">
           Bảo vệ tài khoản của bạn với xác thực hai yếu tố
         </p>
@@ -43,7 +43,7 @@ const SCREEN_TOTP = {
           Sử dụng ứng dụng xác thực như Google Authenticator hoặc Microsoft Authenticator
         </p>
         <button id="btn-totp-setup" class="btn btn-primary" onclick="SCREEN_TOTP.setup()">
-          🔐 Kích hoạt 2FA
+          <span class="icon">${icons.iconTOTP}</span> Kích hoạt 2FA
         </button>
       </div>
     `;
@@ -91,17 +91,17 @@ const SCREEN_TOTP = {
   _enabledHtml() {
     return `
       <div class="text-center" style="padding:40px 20px">
-        <div style="font-size:48px;margin-bottom:12px">✅</div>
+        <div style="font-size:48px;margin-bottom:12px"><span class="icon" style="font-size:48px">${icons.iconSave}</span></div>
         <p style="font-size:var(--font-size-base);color:var(--color-body-text);margin-bottom:12px">
           Xác thực hai yếu tố
         </p>
         <div style="margin-bottom:24px">
           <span class="badge badge-green" style="font-size:var(--font-size-base);padding:4px 16px">
-            ✅ Đã kích hoạt
+            Đã kích hoạt
           </span>
         </div>
         <button id="btn-totp-disable" class="btn btn-danger" onclick="SCREEN_TOTP.disable()">
-          🔓 Vô hiệu hóa 2FA
+          <span class="icon">${icons.iconUnlock}</span> Vô hiệu hóa 2FA
         </button>
       </div>
     `;
@@ -193,7 +193,7 @@ const SCREEN_TOTP = {
   async disable() {
     this._hideAlert();
 
-    const password = prompt('Nhập mật khẩu để xác nhận vô hiệu hóa 2FA:');
+    const password = await this._promptPassword();
     if (!password) return;
 
     const btn = document.getElementById('btn-totp-disable');
@@ -212,12 +212,54 @@ const SCREEN_TOTP = {
         setTimeout(() => this._refreshBody(), 1200);
       } else {
         this._showAlert(res.message || 'Không thể vô hiệu hóa', 'error');
-        if (btn) { btn.disabled = false; btn.innerHTML = '🔓 Vô hiệu hóa 2FA'; }
+        if (btn) { btn.disabled = false; btn.innerHTML = '<span class="icon">' + icons.iconUnlock + '</span> Vô hiệu hóa 2FA'; }
       }
     } catch (e) {
       this._showAlert(e.message || 'Vô hiệu hóa thất bại', 'error');
-      if (btn) { btn.disabled = false; btn.innerHTML = '🔓 Vô hiệu hóa 2FA'; }
+      if (btn) { btn.disabled = false; btn.innerHTML = '<span class="icon">' + icons.iconUnlock + '</span> Vô hiệu hóa 2FA'; }
     }
+  },
+
+  _promptPassword() {
+    return new Promise((resolve) => {
+      const stale = document.querySelector('.modal-overlay');
+      if (stale) stale.remove();
+      const overlay = document.createElement('div');
+      overlay.className = 'modal-overlay';
+      overlay.onclick = (e) => { if (e.target === overlay) { overlay.remove(); resolve(null); } };
+
+      overlay.innerHTML = `
+        <div class="modal-card modal-sm">
+          <div class="modal-header">
+            <h3>Xác nhận vô hiệu hóa 2FA</h3>
+            <button class="modal-close" onclick="this.closest('.modal-overlay').remove(); PWD_RESOLVE(null);">✕</button>
+          </div>
+          <div class="modal-body">
+            <div class="form-group">
+              <label>Nhập mật khẩu</label>
+              <input type="password" class="form-control" id="pwd-input" placeholder="Mật khẩu" autofocus
+                    onkeydown="if(event.key==='Enter') PWD_RESOLVE(document.getElementById('pwd-input').value)">
+            </div>
+          </div>
+          <div class="modal-footer" style="display:flex;justify-content:flex-end;gap:8px;padding-top:12px;border-top:1px solid var(--color-border-light)">
+            <button class="btn btn-ghost" onclick="this.closest('.modal-overlay').remove(); PWD_RESOLVE(null);">Hủy</button>
+            <button class="btn btn-primary" id="pwd-submit">Xác nhận</button>
+          </div>
+        </div>`;
+
+      document.body.appendChild(overlay);
+      requestAnimationFrame(() => {
+        overlay.classList.add('modal-overlay--visible');
+        document.getElementById('pwd-input').focus();
+      });
+
+      window.PWD_RESOLVE = resolve;
+      document.getElementById('pwd-submit').addEventListener('click', () => {
+        const val = document.getElementById('pwd-input').value;
+        overlay.remove();
+        resolve(val);
+      });
+    });
   },
 
   _copySecret() {

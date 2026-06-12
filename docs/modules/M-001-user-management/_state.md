@@ -1,5 +1,10 @@
 ---
-module-id: "M01"
+current-stage: closed
+last-updated: 2026-06-12T02:52:19Z
+status: done
+---
+---
+module-id: "M-001"
 module-slug: "user-management"
 module-name: "User Management"
 module-name-vn: "Quản lý người dùng"

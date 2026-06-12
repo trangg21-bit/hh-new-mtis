@@ -1,3 +1,4 @@
+// -*- coding: utf-8 -*-
 const Database = require('better-sqlite3');
 const path = require('path');
 const bcrypt = require('bcryptjs');
@@ -9,7 +10,7 @@ const db = new Database(DB_PATH);
 db.pragma('journal_mode = WAL');
 db.pragma('foreign_keys = ON');
 
-// ─── Schema ──────────────────────────────────────────────
+// --- Schema ----------------------------------------------
 db.exec(`
   CREATE TABLE IF NOT EXISTS users (
     id          INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -18,8 +19,8 @@ db.exec(`
     full_name   TEXT    NOT NULL,
     email       TEXT,
     phone       TEXT,
-    org_unit    TEXT    DEFAULT 'Cảng vụ Hàng hải Hải Phòng',
-    role        TEXT    DEFAULT 'Chuyên viên',
+    org_unit    TEXT    DEFAULT 'C?ng v? H�ng h?i H?i Ph�ng',
+    role        TEXT    DEFAULT 'Chuy�n vi�n',
     status      INTEGER DEFAULT 1,
     created_at  TEXT    DEFAULT (datetime('now','localtime')),
     updated_at  TEXT    DEFAULT (datetime('now','localtime'))
@@ -114,19 +115,19 @@ db.exec(`
 try {
   db.exec('ALTER TABLE users ADD COLUMN org_id INTEGER REFERENCES organizations(id)');
 } catch (e) {
-  // Column already exists — ignore
+  // Column already exists � ignore
 }
 
 // Add TOTP columns to users if not exists (safe re-run)
 try {
   db.exec('ALTER TABLE users ADD COLUMN totp_secret TEXT');
 } catch (e) {
-  // Column already exists — ignore
+  // Column already exists � ignore
 }
 try {
   db.exec('ALTER TABLE users ADD COLUMN totp_enabled INTEGER DEFAULT 0');
 } catch (e) {
-  // Column already exists — ignore
+  // Column already exists � ignore
 }
 
 db.exec(`
@@ -143,58 +144,58 @@ db.exec(`
   CREATE INDEX IF NOT EXISTS idx_login_log_status ON login_log(status);
 `);
 
-// ─── Seed data ───────────────────────────────────────────
+// --- Seed data -------------------------------------------
 const count = db.prepare('SELECT COUNT(*) as c FROM users').get().c;
 if (count === 0) {
-  // A3-H01: In production, fail fast — never auto-seed with default passwords
+  // A3-H01: In production, fail fast � never auto-seed with default passwords
   if (process.env.NODE_ENV === 'production') {
     console.error(JSON.stringify({ event: 'fatal', msg: 'DB is empty in production. Seed data has been disabled for security. Create admin user manually then restart.' }));
     process.exit(1);
   }
 
-// Seed user_groups (if empty) — independent of users seed to avoid FK issues on re-runs
+// Seed user_groups (if empty) � independent of users seed to avoid FK issues on re-runs
 const ugCount = db.prepare('SELECT COUNT(*) as c FROM user_groups').get().c;
 if (ugCount === 0) {
-  db.prepare('INSERT INTO user_groups (name, description) VALUES (?, ?)').run('Quản trị hệ thống', 'Nhóm quản trị toàn hệ thống');
-  db.prepare('INSERT INTO user_groups (name, description) VALUES (?, ?)').run('Chuyên viên KCHT', 'Nhân viên quản lý KCHT');
-  db.prepare('INSERT INTO user_groups (name, description) VALUES (?, ?)').run('Lãnh đạo', 'Cấp lãnh đạo phê duyệt');
+  db.prepare('INSERT INTO user_groups (name, description) VALUES (?, ?)').run('Qu?n tr? h? th?ng', 'Nh�m qu?n tr? to�n h? th?ng');
+  db.prepare('INSERT INTO user_groups (name, description) VALUES (?, ?)').run('Chuy�n vi�n KCHT', 'Nh�n vi�n qu?n l� KCHT');
+  db.prepare('INSERT INTO user_groups (name, description) VALUES (?, ?)').run('L�nh d?o', 'C?p l�nh d?o ph� duy?t');
 }
 
 // Seed organizations (if empty)
 const orgCount = db.prepare('SELECT COUNT(*) as c FROM organizations').get().c;
 if (orgCount === 0) {
-  db.prepare('INSERT INTO organizations (name, description) VALUES (?, ?)').run('Cục Hàng hải Việt Nam', 'Cơ quan quản lý nhà nước về hàng hải');
-  db.prepare('INSERT INTO organizations (name, description, parent_id) VALUES (?, ?, ?)').run('Cảng vụ Hàng hải Hải Phòng', 'Đơn vị trực thuộc Cục', 1);
-  db.prepare('INSERT INTO organizations (name, description, parent_id) VALUES (?, ?, ?)').run('Cảng vụ Hàng hải Đà Nẵng', 'Đơn vị trực thuộc Cục', 1);
-  db.prepare('INSERT INTO organizations (name, description, parent_id) VALUES (?, ?, ?)').run('Phòng KCHT', 'Phòng KCHT trực thuộc Cảng vụ Hải Phòng', 2);
+  db.prepare('INSERT INTO organizations (name, description) VALUES (?, ?)').run('C?c H�ng h?i Vi?t Nam', 'Co quan qu?n l� nh� nu?c v? h�ng h?i');
+  db.prepare('INSERT INTO organizations (name, description, parent_id) VALUES (?, ?, ?)').run('C?ng v? H�ng h?i H?i Ph�ng', '�on v? tr?c thu?c C?c', 1);
+  db.prepare('INSERT INTO organizations (name, description, parent_id) VALUES (?, ?, ?)').run('C?ng v? H�ng h?i �� N?ng', '�on v? tr?c thu?c C?c', 1);
+  db.prepare('INSERT INTO organizations (name, description, parent_id) VALUES (?, ?, ?)').run('Ph�ng KCHT', 'Ph�ng KCHT tr?c thu?c C?ng v? H?i Ph�ng', 2);
 }
   const hash = bcrypt.hashSync('admin123', 10);
   db.prepare(`INSERT INTO users (username, password, full_name, email, phone, org_unit, role)
-    VALUES (?, ?, ?, ?, ?, ?, ?)`).run('admin', hash, 'Nguyễn Văn A', 'admin@mtis.vn', '0912345678', 'Cục Hàng hải Việt Nam', 'system-admin');
+    VALUES (?, ?, ?, ?, ?, ?, ?)`).run('admin', hash, 'Nguy?n Van A', 'admin@mtis.vn', '0912345678', 'C?c H�ng h?i Vi?t Nam', 'system-admin');
   db.prepare(`INSERT INTO users (username, password, full_name, email, phone, org_unit, role)
-    VALUES (?, ?, ?, ?, ?, ?, ?)`).run('chuyenviem1', hash, 'Trần Thị B', 'chuyenviem1@mtis.vn', '0987654321', 'Cảng vụ Hàng hải Hải Phòng', 'Chuyên viên');
+    VALUES (?, ?, ?, ?, ?, ?, ?)`).run('chuyenviem1', hash, 'Tr?n Th? B', 'chuyenviem1@mtis.vn', '0987654321', 'C?ng v? H�ng h?i H?i Ph�ng', 'Chuy�n vi�n');
   db.prepare(`INSERT INTO users (username, password, full_name, email, phone, org_unit, role)
-    VALUES (?, ?, ?, ?, ?, ?, ?)`).run('lanhdao', hash, 'Lê Văn C', 'lanhdao@mtis.vn', '0977112233', 'Cảng vụ Hàng hải Hải Phòng', 'Lãnh đạo Cảng vụ');
+    VALUES (?, ?, ?, ?, ?, ?, ?)`).run('lanhdao', hash, 'L� Van C', 'lanhdao@mtis.vn', '0977112233', 'C?ng v? H�ng h?i H?i Ph�ng', 'L�nh d?o C?ng v?');
 }
 
-// Seed user_groups (if empty) — independent of users seed to avoid FK issues on re-runs
+// Seed user_groups (if empty) � independent of users seed to avoid FK issues on re-runs
 const ugCount = db.prepare('SELECT COUNT(*) as c FROM user_groups').get().c;
 if (ugCount === 0) {
-  db.prepare('INSERT INTO user_groups (name, description) VALUES (?, ?)').run('Quản trị hệ thống', 'Nhóm quản trị toàn hệ thống');
-  db.prepare('INSERT INTO user_groups (name, description) VALUES (?, ?)').run('Chuyên viên KCHT', 'Nhân viên quản lý KCHT');
-  db.prepare('INSERT INTO user_groups (name, description) VALUES (?, ?)').run('Lãnh đạo', 'Cấp lãnh đạo phê duyệt');
+  db.prepare('INSERT INTO user_groups (name, description) VALUES (?, ?)').run('Qu?n tr? h? th?ng', 'Nh�m qu?n tr? to�n h? th?ng');
+  db.prepare('INSERT INTO user_groups (name, description) VALUES (?, ?)').run('Chuy�n vi�n KCHT', 'Nh�n vi�n qu?n l� KCHT');
+  db.prepare('INSERT INTO user_groups (name, description) VALUES (?, ?)').run('L�nh d?o', 'C?p l�nh d?o ph� duy?t');
 }
 
 // Seed organizations (if empty)
 const orgCount = db.prepare('SELECT COUNT(*) as c FROM organizations').get().c;
 if (orgCount === 0) {
-  db.prepare('INSERT INTO organizations (name, description) VALUES (?, ?)').run('Cục Hàng hải Việt Nam', 'Cơ quan quản lý nhà nước về hàng hải');
-  db.prepare('INSERT INTO organizations (name, description, parent_id) VALUES (?, ?, ?)').run('Cảng vụ Hàng hải Hải Phòng', 'Đơn vị trực thuộc Cục', 1);
-  db.prepare('INSERT INTO organizations (name, description, parent_id) VALUES (?, ?, ?)').run('Cảng vụ Hàng hải Đà Nẵng', 'Đơn vị trực thuộc Cục', 1);
-  db.prepare('INSERT INTO organizations (name, description, parent_id) VALUES (?, ?, ?)').run('Phòng KCHT', 'Phòng KCHT trực thuộc Cảng vụ Hải Phòng', 2);
+  db.prepare('INSERT INTO organizations (name, description) VALUES (?, ?)').run('C?c H�ng h?i Vi?t Nam', 'Co quan qu?n l� nh� nu?c v? h�ng h?i');
+  db.prepare('INSERT INTO organizations (name, description, parent_id) VALUES (?, ?, ?)').run('C?ng v? H�ng h?i H?i Ph�ng', '�on v? tr?c thu?c C?c', 1);
+  db.prepare('INSERT INTO organizations (name, description, parent_id) VALUES (?, ?, ?)').run('C?ng v? H�ng h?i �� N?ng', '�on v? tr?c thu?c C?c', 1);
+  db.prepare('INSERT INTO organizations (name, description, parent_id) VALUES (?, ?, ?)').run('Ph�ng KCHT', 'Ph�ng KCHT tr?c thu?c C?ng v? H?i Ph�ng', 2);
 }
 
-// Seed group_permissions (if empty) — independent of users/user_groups seed to avoid FK issues on re-runs
+// Seed group_permissions (if empty) � independent of users/user_groups seed to avoid FK issues on re-runs
 const gpCount = db.prepare('SELECT COUNT(*) as c FROM group_permissions').get().c;
 if (gpCount === 0) {
   // Admin group (id=1) gets full permissions on all M01 feature codes

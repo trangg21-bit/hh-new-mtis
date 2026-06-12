@@ -1,3 +1,4 @@
+// -*- coding: utf-8 -*-
 const registry = new Map();
 
 function getKey(identifier) {
@@ -47,10 +48,10 @@ function reset(identifier) {
   registry.delete(getKey(identifier));
 }
 
-// ─── Periodic cleanup (every 5 min) — prevent memory leak ──
+// --- Periodic cleanup (every 5 min) � prevent memory leak --
 setInterval(() => {
   const now = Date.now();
-  const maxWindow = 30 * 60 * 1000; // 30 min — longest window we track
+  const maxWindow = 30 * 60 * 1000; // 30 min � longest window we track
   const cutoff = now - maxWindow;
   for (const [key, entry] of registry) {
     entry.attempts = entry.attempts.filter(ts => ts > cutoff);

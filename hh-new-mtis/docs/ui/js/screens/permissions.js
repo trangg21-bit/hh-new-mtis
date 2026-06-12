@@ -72,14 +72,14 @@ const SCREEN_PERMISSIONS = {
 
           <div style="padding:0 24px 24px;max-height:600px;overflow-y:auto;border:1px solid var(--color-border);border-radius:6px;background:#fff">
             <div id="perms-tree-container" class="perms-tree-container">
-              <div class="text-center text-muted" style="padding:40px">⚠ Vui lòng chọn nhóm ở trên để phân quyền</div>
+              <div class="text-center text-muted" style="padding:40px">Vui lòng chọn nhóm ở trên để phân quyền</div>
             </div>
           </div>
 
           <!-- Footer Actions -->
           <div style="padding:16px 24px;display:flex;justify-content:flex-end;gap:12px;border-top:1px solid var(--color-border-light)">
-            <button class="btn btn-ghost" onclick="SCREEN_PERMISSIONS.resetForm()">↻ Làm mới</button>
-            <button class="btn btn-primary" onclick="SCREEN_PERMISSIONS.savePermissions()" id="perms-save-btn">💾 Lưu thay đổi</button>
+            <button class="btn btn-ghost" onclick="SCREEN_PERMISSIONS.resetForm()"><span class="icon">${icons.iconRefresh}</span> Làm mới</button>
+            <button class="btn btn-primary" onclick="SCREEN_PERMISSIONS.savePermissions()" id="perms-save-btn"><span class="icon">${icons.iconSave}</span> Lưu thay đổi</button>
           </div>
         </div>
       </div>
@@ -103,7 +103,7 @@ const SCREEN_PERMISSIONS = {
     const roleId = document.getElementById('perms-role-select').value;
     if (!roleId) {
       document.getElementById('perms-group-code').value = '';
-      document.getElementById('perms-tree-container').innerHTML = '<div class="text-center text-muted" style="padding:40px">⚠ Vui lòng chọn nhóm ở trên để phân quyền</div>';
+      document.getElementById('perms-tree-container').innerHTML = '<div class="text-center text-muted" style="padding:40px">Vui lòng chọn nhóm ở trên để phân quyền</div>';
       return;
     }
 
@@ -190,7 +190,7 @@ const SCREEN_PERMISSIONS = {
           <label class="perms-node-item" style="padding-left:${indent}px">
             <input type="checkbox" ${isChecked ? 'checked' : ''}
               ${hasChildren ? `data-parent="${node.id}" onchange="SCREEN_PERMISSIONS.toggleParent('${node.id}', this.checked)"` : `data-feature="${node.id}" onchange="SCREEN_PERMISSIONS.toggleFeature('${node.id}', this.checked)"`}>
-            <span class="perms-arrow" style="width:20px;display:inline-block;text-align:center;cursor:pointer">${hasChildren ? (isChecked ? '▼' : '▶') : '·'}</span>
+            <span class="perms-arrow" style="width:20px;display:inline-block;text-align:center;cursor:pointer">${hasChildren ? (isChecked ? `<span class="icon">${icons.iconArrowDown}</span>` : `<span class="icon">${icons.iconArrowRight}</span>`) : '·'}</span>
             <span class="perms-label" style="font-weight:${depth === 0 ? '700' : (depth === 1 ? '600' : '400')}">${esc(node.name)} <small style="color:var(--color-muted);font-weight:400">[${esc(node.code)}]</small></span>
           </label>
           ${hasChildren ? '<ul>' + this._renderNode(node.children, depth + 1) + '</ul>' : ''}
@@ -198,12 +198,6 @@ const SCREEN_PERMISSIONS = {
       `;
     });
     return html;
-  },
-
-  /* ---------- Tree Logic ---------- */
-  toggleParent(id, checked) {
-    this._recursiveCheck(id, checked);
-    this.renderTree();
   },
 
   /* ---------- Tree Logic ---------- */
@@ -257,6 +251,7 @@ const SCREEN_PERMISSIONS = {
 
   filterTree() {
     const keyword = document.getElementById('perms-search').value.toLowerCase();
+    if (!keyword) { this.renderTree(); return; }
     const filter = (nodes) => {
       return nodes.reduce((acc, node) => {
         const match = node.name.toLowerCase().includes(keyword);
@@ -267,12 +262,13 @@ const SCREEN_PERMISSIONS = {
         return acc;
       }, []);
     };
-
-    const filtered = filter(this._buildFeatureTree());
-    const origTree = this._featureTree;
-    this._featureTree = filtered;
-    this.renderTree();
-    this._featureTree = origTree;
+    const filtered = filter(this._featureTree);
+    const container = document.getElementById('perms-tree-container');
+    if (!container) return;
+    let html = '<ul class="perms-tree">';
+    html += this._renderNode(filtered, 0);
+    html += '</ul>';
+    container.innerHTML = html;
   },
 
   resetForm() {
@@ -281,12 +277,12 @@ const SCREEN_PERMISSIONS = {
     } else {
       document.getElementById('perms-role-select').value = '';
       document.getElementById('perms-group-code').value = '';
-      document.getElementById('perms-tree-container').innerHTML = '<div class="text-center text-muted" style="padding:40px">⚠ Vui lòng chọn nhóm ở trên để phân quyền</div>';
+      document.getElementById('perms-tree-container').innerHTML = '<div class="text-center text-muted" style="padding:40px">Vui lòng chọn nhóm ở trên để phân quyền</div>';
     }
   },
 
   async savePermissions() {
-    if (!this._currentRoleId) return alert('⚠ Vui lòng chọn nhóm để phân quyền!');
+    if (!this._currentRoleId) return TOAST.warning('Vui lòng chọn nhóm để phân quyền!');
 
     const btn = document.getElementById('perms-save-btn');
     btn.disabled = true; btn.textContent = 'Đang lưu...';
@@ -296,11 +292,11 @@ const SCREEN_PERMISSIONS = {
         group_id: this._currentRoleId,
         feature_ids: this._selectedFeatures
       });
-      alert('✅ Lưu phân quyền thành công!');
+      TOAST.success('Lưu phân quyền thành công!');
     } catch (e) {
-      alert('❌ Lỗi: ' + e.message);
+      TOAST.error('Lỗi: ' + e.message);
     } finally {
-      btn.disabled = false; btn.textContent = '💾 Lưu thay đổi';
+      btn.disabled = false; btn.innerHTML = '<span class="icon">' + icons.iconSave + '</span> Lưu thay đổi';
     }
   }
 };

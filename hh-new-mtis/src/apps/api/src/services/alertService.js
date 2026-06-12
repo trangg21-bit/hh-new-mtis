@@ -1,10 +1,11 @@
-// M01 — SRE Alerting Webhook Notifier
+// -*- coding: utf-8 -*-
+// M01 � SRE Alerting Webhook Notifier
 // services/alertService.js
 
 const crypto = require('crypto');
 
 const ALERT_WEBHOOK_URL = process.env.ALERT_WEBHOOK_URL;
-const ALERT_SILENCE_PERIOD = 5 * 60 * 1000; // 5 min — prevent alert storm
+const ALERT_SILENCE_PERIOD = 5 * 60 * 1000; // 5 min � prevent alert storm
 
 const _sentAlerts = new Map();
 
@@ -49,7 +50,7 @@ async function sendAlertWebhook(severity, title, message, details = {}) {
         type: 'header',
         text: {
           type: 'plain_text',
-          text: `🚨 ${severity.toUpperCase()}: ${title}`,
+          text: `?? ${severity.toUpperCase()}: ${title}`,
         }
       },
       {
@@ -64,11 +65,11 @@ async function sendAlertWebhook(severity, title, message, details = {}) {
         elements: [
           {
             type: 'plain_text',
-            text: `⏰ ${new Date().toISOString()} | 🔑 ${alertKey}`,
+            text: `? ${new Date().toISOString()} | ?? ${alertKey}`,
           },
           {
             type: 'plain_text',
-            text: `📊 Severity: ${severity}`,
+            text: `?? Severity: ${severity}`,
           }
         ]
       }

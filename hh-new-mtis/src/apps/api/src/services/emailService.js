@@ -1,6 +1,7 @@
+// -*- coding: utf-8 -*-
 const nodemailer = require('nodemailer');
 
-// ─── SMTP Transporter (lazy-init) ──────────────────────────
+// --- SMTP Transporter (lazy-init) --------------------------
 const _tr = { instance: null };
 function getTransporter() {
   if (_tr.instance) return _tr.instance;
@@ -16,10 +17,10 @@ function getTransporter() {
   return _tr.instance;
 }
 
-// ─── Internal: actually send ────────────────────────────────
+// --- Internal: actually send --------------------------------
 async function sendMail(to, subject, html) {
   if (!process.env.SMTP_HOST) {
-    // No SMTP configured — log only (dev/staging mode)
+    // No SMTP configured � log only (dev/staging mode)
     // A3-L02: Consistent masking across all log lines
     const masked = to.replace(/^(.).*(@.*)$/, '$1***$2');
     console.log(JSON.stringify({ event: 'email_stub', to: masked, subject, level: 'info' }));
@@ -33,16 +34,16 @@ async function sendMail(to, subject, html) {
   console.log(JSON.stringify({ event: 'email_sent', to: masked, subject, messageId: info.messageId, level: 'info' }));
 }
 
-// ─── Forgot Password ────────────────────────────────────────
+// --- Forgot Password ----------------------------------------
 async function sendForgotPasswordEmail(email, token) {
   const resetLink = `${process.env.APP_URL || 'http://localhost:3000'}/#reset-password/${token}`;
   await sendMail(
     email,
-    'Đặt lại mật khẩu MTIS',
-    `<p>Bạn đã yêu cầu đặt lại mật khẩu cho tài khoản MTIS.</p>
-     <p>Nhấn vào link bên dưới để đặt lại mật khẩu (có hiệu lực trong 15 phút):</p>
-     <p><a href="${resetLink}">Đặt lại mật khẩu</a></p>
-     <p>Nếu bạn không yêu cầu, vui lòng bỏ qua email này.</p>`
+    '�?t l?i m?t kh?u MTIS',
+    `<p>B?n d� y�u c?u d?t l?i m?t kh?u cho t�i kho?n MTIS.</p>
+     <p>Nh?n v�o link b�n du?i d? d?t l?i m?t kh?u (c� hi?u l?c trong 15 ph�t):</p>
+     <p><a href="${resetLink}">�?t l?i m?t kh?u</a></p>
+     <p>N?u b?n kh�ng y�u c?u, vui l�ng b? qua email n�y.</p>`
   );
 }
 

@@ -1,3 +1,4 @@
+// -*- coding: utf-8 -*-
 function requiredFields(body, fields) {
   const missing = [];
   for (const f of fields) {

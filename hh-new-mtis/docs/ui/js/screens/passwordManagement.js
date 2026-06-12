@@ -18,7 +18,6 @@ const SCREEN_PASSWORD = {
           <div class="card-header"><h3>Thay đổi mật khẩu</h3></div>
           <div class="card-body">
             <div id="pw-error" class="alert alert-danger" style="display:none" role="alert"></div>
-            <div id="pw-success" class="alert alert-success" style="display:none" role="alert"></div>
 
             <form id="pw-form" onsubmit="return SCREEN_PASSWORD.submit(event)">
               <div class="form-group">
@@ -46,7 +45,7 @@ const SCREEN_PASSWORD = {
                 Không trùng với 3 mật khẩu gần nhất.
               </div>
               <button type="submit" id="pw-btn" class="btn btn-primary">
-                <span class="btn-icon">🔑</span> Đổi mật khẩu
+                <span class="btn-icon"><span class="icon">${icons.iconSave}</span></span> Đổi mật khẩu
               </button>
             </form>
           </div>
@@ -90,26 +89,22 @@ const SCREEN_PASSWORD = {
   async submit(e) {
     e.preventDefault();
     const btn = document.getElementById('pw-btn');
-    const errEl = document.getElementById('pw-error');
-    const successEl = document.getElementById('pw-success');
     const oldPw = document.getElementById('pw-old').value;
     const newPw = document.getElementById('pw-new').value;
     const confirmPw = document.getElementById('pw-confirm').value;
 
-    errEl.style.display = 'none';
-    successEl.style.display = 'none';
-
-    if (!oldPw) { errEl.textContent = 'Vui lòng nhập mật khẩu cũ'; errEl.style.display = ''; return false; }
+    if (!oldPw) {
+      TOAST.warning('Vui lòng nhập mật khẩu cũ');
+      return false;
+    }
 
     const pwErrors = validatePasswordStrength(newPw);
     if (pwErrors.length > 0) {
-      errEl.textContent = pwErrors.join('; ');
-      errEl.style.display = '';
+      TOAST.warning(pwErrors.join('; '));
       return false;
     }
     if (newPw !== confirmPw) {
-      errEl.textContent = 'Mật khẩu xác nhận không khớp';
-      errEl.style.display = '';
+      TOAST.warning('Mật khẩu xác nhận không khớp');
       return false;
     }
 
@@ -117,20 +112,18 @@ const SCREEN_PASSWORD = {
     btn.innerHTML = '<span class="spinner"></span> Đang xử lý...';
 
     try {
-      const data = await apiPut('/api/auth/change-password', {
+      await apiPut('/api/auth/change-password', {
         old_password: oldPw,
         new_password: newPw,
       });
       document.getElementById('pw-form').reset();
-      successEl.innerHTML = '<strong>✔</strong> ' + (data.message || 'Đổi mật khẩu thành công');
-      successEl.style.display = '';
+      TOAST.success('Đổi mật khẩu thành công');
     } catch (e) {
-      errEl.textContent = e.message || 'Không thể đổi mật khẩu';
-      errEl.style.display = '';
+      TOAST.error(e.message || 'Không thể đổi mật khẩu');
+    } finally {
+      btn.disabled = false;
+      btn.innerHTML = '<span class="btn-icon"><span class="icon">${icons.iconSave}</span></span> Đổi mật khẩu';
     }
-
-    btn.disabled = false;
-    btn.innerHTML = '<span class="btn-icon">🔑</span> Đổi mật khẩu';
     return false;
   },
 

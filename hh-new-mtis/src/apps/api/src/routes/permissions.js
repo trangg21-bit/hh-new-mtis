@@ -1,3 +1,4 @@
+// -*- coding: utf-8 -*-
 const express = require('express');
 const db = require('../db');
 
@@ -26,19 +27,19 @@ function getCatalogFeatureCodes() {
   return _catalogCache;
 }
 
-// GET /api/permissions — returns full permission matrix (groups × features)
+// GET /api/permissions � returns full permission matrix (groups � features)
 router.get('/', (req, res) => {
   const groups = db.prepare('SELECT id, name FROM user_groups ORDER BY name').all();
   const featureCodes = getCatalogFeatureCodes();
   const rows = db.prepare('SELECT * FROM group_permissions ORDER BY group_id, feature_code').all();
 
-  // Build Map: "groupId|featureCode" → permission row (O(P))
+  // Build Map: "groupId|featureCode" ? permission row (O(P))
   const permMap = new Map();
   for (const r of rows) {
     permMap.set(`${r.group_id}|${r.feature_code}`, r);
   }
 
-  // Build matrix in O(F × G)
+  // Build matrix in O(F � G)
   const matrix = featureCodes.map(fc => {
     const row = { feature_code: fc };
     for (const g of groups) {
@@ -54,11 +55,11 @@ router.get('/', (req, res) => {
   res.json({ groups, matrix, feature_codes: featureCodes });
 });
 
-// PUT /api/permissions — batch update permission matrix
+// PUT /api/permissions � batch update permission matrix
 router.put('/', (req, res) => {
   const { permissions } = req.body;
   if (!Array.isArray(permissions)) {
-    return res.status(400).json({ error: 'permissions phải là mảng' });
+    return res.status(400).json({ error: 'permissions ph?i l� m?ng' });
   }
 
   const upsert = db.prepare(`
@@ -90,19 +91,19 @@ router.put('/', (req, res) => {
     res.json({ ok: true });
   } catch (e) {
     console.error(JSON.stringify({ event: 'error', route: 'PUT /api/permissions', error: e.message }));
-    res.status(500).json({ error: 'Lỗi máy chủ nội bộ' });
+    res.status(500).json({ error: 'L?i m�y ch? n?i b?' });
   }
 });
 
-// GET /api/permissions/check — check user permission for a feature+action (auth required)
+// GET /api/permissions/check � check user permission for a feature+action (auth required)
 const VALID_ACTIONS = ['create', 'read', 'update', 'delete'];
 router.get('/check', (req, res) => {
   const { feature, action } = req.query;
   if (!feature || !action) {
-    return res.status(400).json({ error: 'Thiếu feature hoặc action' });
+    return res.status(400).json({ error: 'Thi?u feature ho?c action' });
   }
   if (!VALID_ACTIONS.includes(action)) {
-    return res.status(400).json({ error: `action không hợp lệ. Dùng: ${VALID_ACTIONS.join(', ')}` });
+    return res.status(400).json({ error: `action kh�ng h?p l?. D�ng: ${VALID_ACTIONS.join(', ')}` });
   }
 
   const user = req.user;

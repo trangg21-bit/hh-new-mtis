@@ -1,8 +1,9 @@
+// -*- coding: utf-8 -*-
 const { generateSecret: otplibGenerateSecret, generateURI, verifySync } = require('otplib');
 const QRCode = require('qrcode');
 const crypto = require('crypto');
 
-const ISSUER = 'QL KCHT Hàng hải';
+const ISSUER = 'QL KCHT H�ng h?i';
 const ENC_KEY = (() => {
   const k = process.env.TOTP_ENCRYPTION_KEY;
   if (k) return crypto.createHash('sha256').update(k).digest();
@@ -45,7 +46,7 @@ function generateQrCode(username, secret) {
 
 function verifyToken(token, secret) {
   if (!secret) return false;
-  // RR-02: Fix type coercion — ensure both are strings before comparison
+  // RR-02: Fix type coercion � ensure both are strings before comparison
   const safeToken = String(token);
   const safeSecret = typeof secret === 'string' ? decrypt(secret) : secret;
   if (!safeSecret) return false;

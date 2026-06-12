@@ -31,98 +31,98 @@ function validatePasswordStrength(pw) {
 
 const SIDEBAR_MENU = [
   {
-    label: '🏠 Trang chủ',
+    label: icons.iconMonitor + ' Trang chủ',
     items: [
-      { id: 'dashboard', icon: '🏠', label: 'Tổng quan', hash: '#dashboard' }
+      { id: 'dashboard', icon: icons.iconMonitor, label: 'Tổng quan', hash: '#dashboard' }
     ],
     open: true
   },
   {
-    label: '👤 Quản lý người dùng',
+    label: icons.iconUsers + ' Quản lý người dùng',
     isParent: true,
     items: [
-      { id: 'users', icon: '👤', label: 'Danh sách người dùng', hash: '#users' },
-      { id: 'groups', icon: '👥', label: 'Nhóm người dùng', hash: '#groups' },
-      { id: 'permissions', icon: '🔐', label: 'Phân quyền', hash: '#permissions' },
-      { id: 'organizations', icon: '🏢', label: 'Đơn vị', hash: '#organizations' }
+      { id: 'users', icon: icons.iconUsers, label: 'Danh sách người dùng', hash: '#users' },
+      { id: 'groups', icon: icons.iconUsers, label: 'Nhóm người dùng', hash: '#groups' },
+      { id: 'permissions', icon: icons.iconLock, label: 'Phân quyền', hash: '#permissions' },
+      { id: 'organizations', icon: icons.iconOrg, label: 'Đơn vị', hash: '#organizations' }
     ],
     open: false
   },
   {
-    label: '📋 Nhật ký & Phiên',
+    label: icons.iconDoc + ' Nhật ký & Phiên',
     isParent: true,
     items: [
-      { id: 'login-log', icon: '📋', label: 'Nhật ký đăng nhập', hash: '#login-log' }
+      { id: 'login-log', icon: icons.iconDoc, label: 'Nhật ký đăng nhập', hash: '#login-log' }
     ],
     open: false
   },
   {
-    label: '⚙️ Quản trị hệ thống',
+    label: icons.iconWrench + ' Quản trị hệ thống',
     items: [
-      { id: 'dashboard', icon: '📊', label: 'Tổng quan', hash: '#dashboard' }
+      { id: 'dashboard', icon: icons.iconMonitor, label: 'Tổng quan', hash: '#dashboard' }
     ],
     open: false
   },
   {
-    label: '📐 Thông số kỹ thuật KCHT',
+    label: icons.iconRuler + ' Thông số kỹ thuật KCHT',
     items: [
-      { id: 'dashboard', icon: '📐', label: 'Thông số KCHT', hash: '#dashboard' }
+      { id: 'dashboard', icon: icons.iconRuler, label: 'Thông số KCHT', hash: '#dashboard' }
     ],
     open: false
   },
   {
-    label: '🔧 Vận hành bảo trì',
+    label: icons.iconWrench + ' Vận hành bảo trì',
     items: [
-      { id: 'dashboard', icon: '🔧', label: 'Vận hành & bảo trì', hash: '#dashboard' }
+      { id: 'dashboard', icon: icons.iconWrench, label: 'Vận hành & bảo trì', hash: '#dashboard' }
     ],
     open: false
   },
   {
-    label: '📋 Quy hoạch KCHT',
+    label: icons.iconDoc + ' Quy hoạch KCHT',
     items: [
-      { id: 'dashboard', icon: '📋', label: 'Quy hoạch', hash: '#dashboard' }
+      { id: 'dashboard', icon: icons.iconDoc, label: 'Quy hoạch', hash: '#dashboard' }
     ],
     open: false
   },
   {
-    label: '🏗️ Quản lý tài sản',
+    label: icons.iconHardHat + ' Quản lý tài sản',
     items: [
-      { id: 'dashboard', icon: '🏗️', label: 'Tài sản KCHT', hash: '#dashboard' }
+      { id: 'dashboard', icon: icons.iconHardHat, label: 'Tài sản KCHT', hash: '#dashboard' }
     ],
     open: false
   },
   {
-    label: '🗺️ Bản đồ GIS',
+    label: icons.iconMap + ' Bản đồ GIS',
     items: [
-      { id: 'dashboard', icon: '🗺️', label: 'Bản đồ GIS', hash: '#dashboard' }
+      { id: 'dashboard', icon: icons.iconMap, label: 'Bản đồ GIS', hash: '#dashboard' }
     ],
     open: false
   },
   {
-    label: '📊 Báo cáo thống kê',
+    label: icons.iconBarChart + ' Báo cáo thống kê',
     items: [
-      { id: 'dashboard', icon: '📊', label: 'Báo cáo', hash: '#dashboard' }
+      { id: 'dashboard', icon: icons.iconBarChart, label: 'Báo cáo', hash: '#dashboard' }
     ],
     open: false
   },
   {
-    label: '🔗 Liên thông dữ liệu',
+    label: icons.iconLink + ' Liên thông dữ liệu',
     items: [
-      { id: 'dashboard', icon: '🔗', label: 'Liên thông', hash: '#dashboard' }
+      { id: 'dashboard', icon: icons.iconLink, label: 'Liên thông', hash: '#dashboard' }
     ],
     open: false
   },
   {
-    label: '🧭 Biên tập hải đồ',
+    label: icons.iconCompass + ' Biên tập hải đồ',
     items: [
-      { id: 'dashboard', icon: '🧭', label: 'Hải đồ', hash: '#dashboard' }
+      { id: 'dashboard', icon: icons.iconCompass, label: 'Hải đồ', hash: '#dashboard' }
     ],
     open: false
   },
   {
-    label: '🗄️ Tạo lập CSDL',
+    label: icons.iconDatabase + ' Tạo lập CSDL',
     items: [
-      { id: 'dashboard', icon: '🗄️', label: 'Tạo lập CSDL KCHT', hash: '#dashboard' }
+      { id: 'dashboard', icon: icons.iconDatabase, label: 'Tạo lập CSDL KCHT', hash: '#dashboard' }
     ],
     open: false
   }
@@ -271,9 +271,9 @@ const ROUTER = {
                 ${initials}
               </div>
               <div class="dropdown-menu" id="dropdown-menu" style="display:none">
-                <a class="dropdown-item" href="#password">🔑 Đổi mật khẩu</a>
+                <a class="dropdown-item" href="#password"><span class="icon">${icons.iconLock}</span> Đổi mật khẩu</a>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item text-danger" href="#" onclick="ROUTER.logout()">🚪 Đăng xuất</a>
+                <a class="dropdown-item text-danger" href="#" onclick="ROUTER.logout()">Đăng xuất</a>
               </div>
             </div>
           </div>

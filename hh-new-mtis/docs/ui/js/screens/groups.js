@@ -23,7 +23,7 @@ const SCREEN_GROUPS = {
           <!-- Toolbar -->
           <div class="admin-toolbar" style="padding:16px 24px;justify-content:space-between">
             <div><h3 style="margin:0;font-size:1rem">Danh sách nhóm quyền</h3></div>
-            <button class="btn btn-primary" onclick="SCREEN_GROUPS.showCreateModal()">＋ Thêm nhóm</button>
+            <button class="btn btn-primary" onclick="SCREEN_GROUPS.showCreateModal()"><span class="icon">${icons.iconAdd}</span> Thêm nhóm</button>
           </div>
 
           <!-- Table -->
@@ -56,9 +56,9 @@ const SCREEN_GROUPS = {
             <td>${esc(g.description || '—')}</td>
             <td><span class="badge badge-blue">${g.member_count || 0}</span></td>
             <td class="text-right action-cell">
-              <button class="btn btn-ghost btn-sm" title="Chỉnh sửa" onclick="SCREEN_GROUPS.showEditModal(${g.id})">✎</button>
-              <button class="btn btn-ghost btn-sm" title="Thành viên" onclick="SCREEN_GROUPS.showMembersModal(${g.id})">👥</button>
-              <button class="btn btn-ghost btn-sm danger-action" title="Xóa" onclick="SCREEN_GROUPS.confirmDelete(${g.id})">🗑</button>
+              <button class="btn btn-ghost action-icon" title="Chỉnh sửa" onclick="SCREEN_GROUPS.showEditModal(${g.id})"><span class="icon">${icons.iconEdit}</span></button>
+              <button class="btn btn-ghost action-icon" title="Thành viên" onclick="SCREEN_GROUPS.showMembersModal(${g.id})"><span class="icon">${icons.iconUsers}</span></button>
+              <button class="btn btn-ghost action-icon danger-action" title="Xóa" onclick="SCREEN_GROUPS.confirmDelete(${g.id})"><span class="icon">${icons.iconDelete}</span></button>
             </td>
           </tr>`).join('');
       }
@@ -74,6 +74,9 @@ const SCREEN_GROUPS = {
   showEditModal(id) { const g = this._data.find(x => x.id === id); if (g) this._openFormModal(g); },
 
   _openFormModal(group) {
+    // Ensure no stale overlay exists
+    const stale = document.querySelector('.modal-overlay');
+    if (stale) stale.remove();
     const isCreate = !group;
     const overlay = document.createElement('div');
     overlay.className = 'modal-overlay';
@@ -89,7 +92,7 @@ const SCREEN_GROUPS = {
           <form id="group-form" onsubmit="return false">
             <div class="form-group">
               <label>Tên nhóm <span class="text-danger">*</span></label>
-              <input type="text" class="form-control" id="group-name" value="${esc(group?.name || '')}" placeholder="Nhập tên nhóm" required autofocus>
+              <input type="text" class="form-control" id="group-name" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" value="${esc(group?.name || '')}" placeholder="Nhập tên nhóm" required autofocus>
             </div>
             <div class="form-group">
               <label>Mô tả</label>
@@ -110,7 +113,7 @@ const SCREEN_GROUPS = {
   async saveForm(isCreate, editId) {
     const name = document.getElementById('group-name').value.trim();
     const desc = document.getElementById('group-desc').value.trim();
-    if (!name) return alert('⚠ Vui lòng nhập tên nhóm!');
+    if (!name) return TOAST.warning('Vui lòng nhập tên nhóm!');
 
     try {
       if (isCreate) {
@@ -118,8 +121,13 @@ const SCREEN_GROUPS = {
       } else {
         await apiPut(`/api/users/groups/${editId}`, { name, description: desc });
       }
+      // Close overlay
+      const overlay = document.querySelector('.modal-overlay');
+      if (overlay) overlay.remove();
+      // Reload + toast
       await this.load();
-    } catch (e) { alert('❌ Lỗi: ' + e.message); }
+      TOAST.success(isCreate ? 'Tạo nhóm thành công!' : 'Cập nhật nhóm thành công!');
+    } catch (e) { TOAST.error('Lỗi: ' + e.message); }
   },
 
   async confirmDelete(id) {
@@ -127,7 +135,8 @@ const SCREEN_GROUPS = {
     try {
       await apiDelete(`/api/users/groups/${id}`);
       await this.load();
-    } catch (e) { alert('❌ Lỗi: ' + e.message); }
+      TOAST.success('Xóa nhóm thành công!');
+    } catch (e) { TOAST.error('Lỗi: ' + e.message); }
   },
 
   async showMembersModal(groupId) {
@@ -186,7 +195,7 @@ const SCREEN_GROUPS = {
               <td>${i + 1}</td><td><strong>${esc(m.username)}</strong></td>
               <td>${esc(m.full_name || '—')}</td><td>${esc(m.email || '—')}</td>
               <td>${esc(m.role || '—')}</td>
-              <td><button class="btn btn-ghost btn-sm" onclick="SCREEN_GROUPS._removeMember(${groupId}, ${m.id})">🗑</button></td>
+              <td><button class="btn btn-ghost action-icon" onclick="SCREEN_GROUPS._removeMember(${groupId}, ${m.id})"><span class="icon">${icons.iconDelete}</span></button></td>
             </tr>`).join('');
         }
       } catch (e) {
@@ -203,7 +212,7 @@ const SCREEN_GROUPS = {
         await apiPost(`/api/users/groups/${groupId}/members`, { user_id: Number(userId) });
         sel.value = ''; document.getElementById('member-add-btn').disabled = true;
         await render();
-      } catch (e) { alert('❌ Lỗi: ' + e.message); }
+      } catch (e) { TOAST.error('Lỗi: ' + e.message); }
     });
   },
 
@@ -212,6 +221,7 @@ const SCREEN_GROUPS = {
     try {
       await apiDelete(`/api/users/groups/${groupId}/members/${userId}`);
       await this.load();
-    } catch (e) { alert('❌ Lỗi: ' + e.message); }
+      TOAST.success('Đã xóa thành viên khỏi nhóm!');
+    } catch (e) { TOAST.error('Lỗi: ' + e.message); }
   }
 };

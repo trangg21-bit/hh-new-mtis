@@ -23,7 +23,7 @@ const SCREEN_ORGANIZATIONS = {
 
           <div class="admin-toolbar" style="padding:16px 24px;justify-content:space-between">
             <div><h3 style="margin:0;font-size:1rem">Cây cấu trúc đơn vị</h3></div>
-            <button class="btn btn-primary" onclick="SCREEN_ORGANIZATIONS.showCreateModal()">＋ Thêm đơn vị</button>
+            <button class="btn btn-primary" onclick="SCREEN_ORGANIZATIONS.showCreateModal()"><span class="icon">${icons.iconAdd}</span> Thêm đơn vị</button>
           </div>
 
           <div id="org-tree-container" style="padding:24px;min-height:400px">
@@ -86,13 +86,13 @@ const SCREEN_ORGANIZATIONS = {
         <li style="margin:2px 0;position:relative">
           <div class="org-node" style="display:flex;align-items:center;gap:10px;padding:8px 12px;border-radius:6px;border:1px solid var(--color-border-light);background:#fff;transition:background 0.15s"
                onmouseover="this.style.background='#f9fafb'" onmouseout="this.style.background='#fff'">
-            <span style="flex-shrink:0;color:var(--color-muted);font-family:monospace;width:${depth * 20}px;text-align:right">${depth > 0 ? '└─' : ''}</span>
-            <span style="flex-shrink:0;color:var(--color-muted)">${hasChildren ? '📂' : '📁'}</span>
+            <span class="org-depth" style="flex-shrink:0;width:${depth * 20}px"></span>
+            <span style="flex-shrink:0;color:var(--color-muted)"><span class="icon">${hasChildren ? icons.iconFolder : icons.iconFolder}</span></span>
             <span style="flex:1;font-weight:500">${esc(n.name)}</span>
             ${n.description ? `<span style="font-size:var(--font-size-xs);color:var(--color-muted);margin-right:12px">${esc(n.description)}</span>` : ''}
             <div style="display:flex;gap:4px;flex-shrink:0">
-              <button class="btn btn-ghost btn-sm" title="Chỉnh sửa" onclick="SCREEN_ORGANIZATIONS.showEditModal(${n.id})">✎</button>
-              <button class="btn btn-ghost btn-sm" title="Xóa" onclick="SCREEN_ORGANIZATIONS.confirmDelete(${n.id})">🗑</button>
+              <button class="btn btn-ghost action-icon" title="Chỉnh sửa" onclick="SCREEN_ORGANIZATIONS.showEditModal(${n.id})"><span class="icon">${icons.iconEdit}</span></button>
+              <button class="btn btn-ghost action-icon" title="Xóa" onclick="SCREEN_ORGANIZATIONS.confirmDelete(${n.id})"><span class="icon">${icons.iconDelete}</span></button>
             </div>
           </div>
           ${hasChildren ? `<ul style="list-style:none;padding:0;margin:0">${this._renderNodes(n.children, depth + 1)}</ul>` : ''}
@@ -117,6 +117,10 @@ const SCREEN_ORGANIZATIONS = {
     const isCreate = !org;
     const orgsOptions = this._getOrgSelectOptions(org?.id);
 
+    // Clear stale overlay if exists
+    const stale = document.querySelector('.modal-overlay');
+    if (stale) stale.remove();
+
     const overlay = document.createElement('div');
     overlay.className = 'modal-overlay';
     overlay.onclick = (e) => { if (e.target === overlay) overlay.remove(); };
@@ -131,7 +135,7 @@ const SCREEN_ORGANIZATIONS = {
           <form id="org-form" onsubmit="return false">
             <div class="form-group">
               <label>Tên đơn vị <span class="text-danger">*</span></label>
-              <input type="text" class="form-control" id="org-name" value="${esc(org?.name || '')}" placeholder="Nhập tên đơn vị" required autofocus>
+              <input type="text" class="form-control" id="org-name" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" value="${esc(org?.name || '')}" placeholder="Nhập tên đơn vị" required autofocus>
             </div>
             <div class="form-group">
               <label>Mô tả</label>
@@ -161,7 +165,7 @@ const SCREEN_ORGANIZATIONS = {
     const render = (nodes, depth) => {
       return nodes.map(n => {
         if (n.id === excludeId) return '';
-        const prefix = depth === 0 ? '' : '└─ '.repeat(depth);
+        const prefix = depth === 0 ? '' : '  '.repeat(depth);
         let html = `<option value="${n.id}">${prefix}${esc(n.name)}</option>`;
         if (n.children.length) html += render(n.children, depth + 1);
         return html;
@@ -172,7 +176,7 @@ const SCREEN_ORGANIZATIONS = {
 
   async saveForm(isCreate, editId) {
     const name = document.getElementById('org-name').value.trim();
-    if (!name) return alert('⚠ Vui lòng nhập tên đơn vị!');
+    if (!name) return TOAST.warning('Vui lòng nhập tên đơn vị!');
 
     const desc = document.getElementById('org-desc').value.trim() || undefined;
     const parentId = document.getElementById('org-parent').value || undefined;
@@ -184,8 +188,11 @@ const SCREEN_ORGANIZATIONS = {
         await apiPut(`/api/organizations/${editId}`, { name, description: desc, parent_id: parentId });
       }
       await this.load();
+      const overlay = document.querySelector('.modal-overlay');
+      if (overlay) overlay.remove();
+      TOAST.success(isCreate ? 'Tạo đơn vị thành công!' : 'Cập nhật đơn vị thành công!');
     } catch (e) {
-      alert('❌ Lỗi: ' + e.message);
+      TOAST.error('Lỗi: ' + e.message);
     }
   },
 
@@ -195,8 +202,9 @@ const SCREEN_ORGANIZATIONS = {
     try {
       await apiDelete(`/api/organizations/${id}`);
       await this.load();
+      TOAST.success('Xóa đơn vị thành công!');
     } catch (e) {
-      alert('❌ Lỗi: ' + e.message);
+      TOAST.error('Lỗi: ' + e.message);
     }
   }
 };

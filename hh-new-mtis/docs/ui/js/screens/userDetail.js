@@ -21,7 +21,7 @@ const SCREEN_USER_DETAIL = {
       + '    <h2 class="page-title" style="margin-bottom:0">Chi tiết người dùng</h2>'
       + '    <div class="flex gap-2">'
       + '      <a href="#users" class="btn btn-outline btn-sm">← Quay lại</a>'
-      + '      <button class="btn btn-primary btn-sm" id="ud-edit-btn" onclick="SCREEN_USER_DETAIL.toggleEdit()">✎ Chỉnh sửa</button>'
+      + '      <button class="btn btn-primary btn-sm" id="ud-edit-btn" onclick="SCREEN_USER_DETAIL.toggleEdit()"><span class="icon">' + icons.iconEdit + '</span> Chỉnh sửa</button>'
       + '    </div>'
       + '  </div>'
       + ''
@@ -70,7 +70,7 @@ const SCREEN_USER_DETAIL = {
     var u = this._user;
     var body = document.getElementById('ud-body');
     var editBtn = document.getElementById('ud-edit-btn');
-    if (editBtn) editBtn.textContent = '✎ Chỉnh sửa';
+    if (editBtn) editBtn.innerHTML = '<span class="icon">' + icons.iconEdit + '</span> Chỉnh sửa';
 
     var statusText = u.status === 1 ? 'Đang hoạt động' : u.status === 2 ? 'Bị khóa' : 'Đã xóa';
     var statusBadgeClass = u.status === 1 ? 'badge-green' : u.status === 2 ? 'badge-red' : 'badge-gray';
@@ -108,17 +108,17 @@ const SCREEN_USER_DETAIL = {
       + '<form id="ud-form" onsubmit="return SCREEN_USER_DETAIL.save(event)">'
       + '<div class="grid-2">'
       + '  <div class="form-group"><label>Tên đăng nhập</label><input class="form-control" value="' + esc(u.username) + '" disabled style="background:#f9fafb"></div>'
-      + '  <div class="form-group"><label class="required">Họ tên</label><input class="form-control" id="ud-fullname" value="' + esc(u.full_name) + '" required></div>'
-      + '  <div class="form-group"><label>Email</label><input class="form-control" id="ud-email" type="email" value="' + esc(u.email || '') + '" placeholder="email@domain.com"></div>'
-      + '  <div class="form-group"><label>Số điện thoại</label><input class="form-control" id="ud-phone" value="' + esc(u.phone || '') + '" placeholder="0912 345 678"></div>'
-      + '  <div class="form-group"><label>Đơn vị</label><input class="form-control" id="ud-org" value="' + esc(u.org_unit || '') + '"></div>'
+      + '  <div class="form-group"><label class="required">Họ tên</label><input class="form-control" id="ud-fullname" autocomplete="name" autocorrect="off" autocapitalize="characters" spellcheck="false" value="' + esc(u.full_name) + '" required></div>'
+      + '  <div class="form-group"><label>Email</label><input class="form-control" id="ud-email" type="email" autocomplete="email" autocorrect="off" autocapitalize="off" spellcheck="false" value="' + esc(u.email || '') + '" placeholder="email@domain.com"></div>'
+      + '  <div class="form-group"><label>Số điện thoại</label><input class="form-control" id="ud-phone" autocomplete="tel" autocorrect="off" autocapitalize="off" spellcheck="false" value="' + esc(u.phone || '') + '" placeholder="0912 345 678"></div>'
+      + '  <div class="form-group"><label>Đơn vị</label><input class="form-control" id="ud-org" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" value="' + esc(u.org_unit || '') + '"></div>'
       + '  <div class="form-group"><label>Vai trò</label><input class="form-control" value="' + esc(u.role) + '" disabled style="background:#f9fafb"></div>'
       + '  <div class="form-group"><label>Trạng thái</label><div class="mt-2"><span class="badge ' + (u.status === 1 ? 'badge-green' : 'badge-red') + '">' + (u.status === 1 ? 'Đang hoạt động' : 'Bị khóa') + '</span></div></div>'
       + '  <div class="form-group"><label>Ngày tạo</label><input class="form-control" value="' + esc(u.created_at || '—') + '" disabled style="background:#f9fafb"></div>'
       + '</div>'
       + '<div class="flex gap-2 mt-4" style="justify-content:flex-end">'
       + '  <button type="button" class="btn btn-outline" onclick="SCREEN_USER_DETAIL.toggleEdit()">Hủy</button>'
-      + '  <button type="submit" id="ud-save-btn" class="btn btn-primary">💾 Lưu</button>'
+      + '  <button type="submit" id="ud-save-btn" class="btn btn-primary"><span class="icon">' + icons.iconSave + '</span> Lưu</button>'
       + '</div>'
       + '</form>';
   },
@@ -152,7 +152,7 @@ const SCREEN_USER_DETAIL = {
         org_unit: org_unit || undefined,
       });
       if (alertEl) {
-        alertEl.innerHTML = '✔ Đã lưu thay đổi';
+        alertEl.innerHTML = 'Đã lưu thay đổi';
         alertEl.style.display = '';
       }
       await this.load();
@@ -160,7 +160,7 @@ const SCREEN_USER_DETAIL = {
       if (errEl) { errEl.textContent = e.message || 'Không thể lưu thay đổi'; errEl.style.display = ''; }
     }
 
-    if (btn) { btn.disabled = false; btn.innerHTML = '💾 Lưu'; }
+    if (btn) { btn.disabled = false; btn.innerHTML = '<span class="icon">' + icons.iconSave + '</span> Lưu'; }
     return false;
   },
 };

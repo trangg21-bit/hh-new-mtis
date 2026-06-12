@@ -63,8 +63,8 @@ const SCREEN_SESSIONS = {
         const badge = s.is_current ? '<span class="badge badge-green">Hiện tại</span>' : '<span class="badge badge-gray">Khác</span>';
         const canRevoke = !s.is_current;
         const revokeBtn = canRevoke
-          ? `<button class="btn btn-ghost btn-sm" title="Thu hồi phiên" aria-label="Thu hồi phiên" onclick="SCREEN_SESSIONS.revoke('${s.id}')">🗑</button>`
-          : `<button class="btn btn-ghost btn-sm" disabled title="Không thể thu hồi phiên hiện tại" aria-label="Không thể thu hồi phiên hiện tại">🗑</button>`;
+          ? `<button class="btn btn-ghost action-icon" title="Thu hồi phiên" aria-label="Thu hồi phiên" onclick="SCREEN_SESSIONS.revoke('${s.id}')"><span class="icon">${icons.iconDelete}</span></button>`
+          : `<button class="btn btn-ghost action-icon" disabled title="Không thể thu hồi phiên hiện tại" aria-label="Không thể thu hồi phiên hiện tại"><span class="icon">${icons.iconDelete}</span></button>`;
         return `<tr>
           ${isAdmin ? `<td>${esc(s.user_id)}</td>` : ''}
           <td>${esc(s.device)}</td><td>${esc(s.ip)}</td><td>${esc(s.created_at)}</td><td>${esc(s.expires_at)}</td><td>${esc(s.last_active_at)}</td>
@@ -82,9 +82,9 @@ const SCREEN_SESSIONS = {
   async revoke(id) {
     if (!confirm('Bạn có chắc chắn muốn thu hồi phiên đăng nhập này?')) return;
     try {
-      const res = await apiDelete(`/api/auth/sessions/${id}`);
-      alert(res.message || 'Đã thu hồi phiên đăng nhập thành công');
+      await apiDelete(`/api/auth/sessions/${id}`);
+      TOAST.success('Đã thu hồi phiên đăng nhập!');
       await this.load();
-    } catch (e) { alert('Lỗi: ' + e.message); }
+    } catch (e) { TOAST.error('Lỗi: ' + e.message); }
   },
 };

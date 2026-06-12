@@ -1,7 +1,21 @@
 {
   "$schema": "https://ai-studio.etc.vn/schemas/intel-meta.json",
+  "artifacts": {
+    "docs/intel/catalog.json": {
+      "content_hash": "sha256:3103a59a5a9c592a4c556ed17d3d1dab2f834f8b2fccd33c25e21564ce6af5f2",
+      "last_modified": "2026-06-12T02:55:11Z",
+      "last_producer": "ai-kit/state-update-rebuild-catalog",
+      "version": 3
+    },
+    "docs/modules/M-001-user-management/module-brief.md": {
+      "content_hash": "sha256:58f46cf5f09a31a329bec6433b04a3c6eb89590bad5bedf98b4cbea97200ec7d",
+      "last_modified": "2026-06-12T03:11:44Z",
+      "last_producer": "ai-kit/state-update-rebuild-projection-module-brief",
+      "version": 7
+    }
+  },
   "name": "HH.New",
-  "workspacePath": "/Users/thuytrang/workspace/HH.New",
+  "services": [],
   "type": "mono",
-  "services": []
+  "workspacePath": "/Users/thuytrang/workspace/HH.New"
 }

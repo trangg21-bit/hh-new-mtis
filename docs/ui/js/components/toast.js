@@ -26,7 +26,7 @@ const TOAST = {
   _show(message, type, duration) {
     const container = this._ensureContainer();
     const id = 'toast-' + (++this._idCounter);
-    const icon = type === 'success' ? '✓' : type === 'error' ? '✗' : type === 'warning' ? '⚠' : 'ℹ';
+    const icon = type === 'success' ? icons.iconCheck : type === 'error' ? icons.iconAlert : type === 'warning' ? icons.iconAlert : icons.iconInfo;
 
     const toast = document.createElement('div');
     toast.id = id;

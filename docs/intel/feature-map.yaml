@@ -1,44 +1,62 @@
 features:
-  F-001:
+  F-M01-001:
     module: M-001
-    name: Dang nhap he thong
-    path: docs/modules/M-001-auth-user-mgmt/_features/F-001-dang-nhap-he-thong
-    slug: dang-nhap-he-thong
-    status: proposed
-  F-002:
+    name: User registration
+    path: docs/modules/M-001-user-management/_features/F-M01-001-user-registration
+    slug: user-registration
+    status: implemented
+  F-M01-002:
     module: M-001
-    name: Dang ky tai khoan
-    path: docs/modules/M-001-auth-user-mgmt/_features/F-002-dang-ky-tai-khoan
-    slug: dang-ky-tai-khoan
-    status: proposed
-  F-003:
+    name: User login
+    path: docs/modules/M-001-user-management/_features/F-M01-002-user-login
+    slug: user-login
+    status: implemented
+  F-M01-003:
     module: M-001
-    name: Quen mat khau
-    path: docs/modules/M-001-auth-user-mgmt/_features/F-003-quen-mat-khau
-    slug: quen-mat-khau
-    status: proposed
-  F-004:
+    name: Password management
+    path: docs/modules/M-001-user-management/_features/F-M01-003-password-management
+    slug: password-management
+    status: implemented
+  F-M01-004:
     module: M-001
-    name: Doi mat khau
-    path: docs/modules/M-001-auth-user-mgmt/_features/F-004-doi-mat-khau
-    slug: doi-mat-khau
-    status: proposed
-  F-005:
+    name: User group management
+    path: docs/modules/M-001-user-management/_features/F-M01-004-user-group-management
+    slug: user-group-management
+    status: implemented
+  F-M01-005:
     module: M-001
-    name: Dat lai mat khau
-    path: docs/modules/M-001-auth-user-mgmt/_features/F-005-dat-lai-mat-khau
-    slug: dat-lai-mat-khau
-    status: proposed
-  F-006:
+    name: Permission role management
+    path: docs/modules/M-001-user-management/_features/F-M01-005-permission-role-management
+    slug: permission-role-management
+    status: implemented
+  F-M01-006:
     module: M-001
-    name: Dang xuat he thong
-    path: docs/modules/M-001-auth-user-mgmt/_features/F-006-dang-xuat-he-thong
-    slug: dang-xuat-he-thong
-    status: proposed
-  F-007:
+    name: Audit user logins
+    path: docs/modules/M-001-user-management/_features/F-M01-006-audit-user-logins
+    slug: audit-user-logins
+    status: implemented
+  F-M01-007:
     module: M-001
-    name: Thong tin ca nhan
-    path: docs/modules/M-001-auth-user-mgmt/_features/F-007-thong-tin-ca-nhan
-    slug: thong-tin-ca-nhan
-    status: proposed
+    name: Organization management
+    path: docs/modules/M-001-user-management/_features/F-M01-007-organization-management
+    slug: organization-management
+    status: implemented
+  F-M01-008:
+    module: M-001
+    name: Account lock/unlock
+    path: docs/modules/M-001-user-management/_features/F-M01-008-account-lock-unlock
+    slug: account-lock-unlock
+    status: implemented
+  F-M01-009:
+    module: M-001
+    name: TOTP two-factor auth
+    path: docs/modules/M-001-user-management/_features/F-M01-009-totp-two-factor-auth
+    slug: totp-two-factor-auth
+    status: implemented
+  F-M01-010:
+    module: M-001
+    name: Multi session management
+    path: docs/modules/M-001-user-management/_features/F-M01-010-multi-session-management
+    slug: multi-session-management
+    status: implemented
 schema_version: "1.0"

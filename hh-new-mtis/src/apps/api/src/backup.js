@@ -1,3 +1,4 @@
+// -*- coding: utf-8 -*-
 /**
  * MTIS Database Backup Script
  * 
@@ -6,9 +7,9 @@
  *   0 */6 * * * node src/backup.js
  * 
  * Environment variables:
- *   DB_PATH      — path to database.sqlite (default: /app/data/database.sqlite)
- *   BACKUP_DIR   — backup destination (default: /app/data/backups)
- *   BACKUP_KEEP  — number of backups to retain (default: 28 = 7 days @ 4×/day)
+ *   DB_PATH      � path to database.sqlite (default: /app/data/database.sqlite)
+ *   BACKUP_DIR   � backup destination (default: /app/data/backups)
+ *   BACKUP_KEEP  � number of backups to retain (default: 28 = 7 days @ 4�/day)
  */
 const db = require('better-sqlite3');
 const path = require('path');

@@ -1,4 +1,5 @@
-﻿const express = require('express');
+// -*- coding: utf-8 -*-
+const express = require('express');
 const crypto = require('crypto');
 const rateLimit = require('express-rate-limit');
 const db = require('../db');
@@ -14,12 +15,12 @@ const { alertAccountLockout } = require('../services/alertService');
 
 const router = express.Router();
 
-// Rate limiters â€” disable for E2E tests
-const loginLimiter = rateLimit({ windowMs: 15 * 60 * 1000, max: process.env.ENABLE_E2E_TEST_HOOKS ? Infinity : 50, standardHeaders: true, legacyHeaders: false, message: { error: 'QuÃ¡ nhiá»u yÃªu cáº§u, vui lÃ²ng thá»­ láº¡i sau 15 phÃºt' } });
-const passwordChangeLimiter = rateLimit({ windowMs: 15 * 60 * 1000, max: process.env.ENABLE_E2E_TEST_HOOKS ? Infinity : 5, standardHeaders: true, legacyHeaders: false, message: { error: 'QuÃ¡ nhiá»u yÃªu cáº§u Ä‘á»•i máº­t kháº©u, thá»­ láº¡i sau 15 phÃºt' } });
-const passwordResetLimiter = rateLimit({ windowMs: 15 * 60 * 1000, max: process.env.ENABLE_E2E_TEST_HOOKS ? Infinity : 3, standardHeaders: true, legacyHeaders: false, message: { error: 'QuÃ¡ nhiá»u yÃªu cáº§u Ä‘áº·t láº¡i máº­t kháº©u, thá»­ láº¡i sau 15 phÃºt' } });
+// Rate limiters — disable for E2E tests
+const loginLimiter = rateLimit({ windowMs: 15 * 60 * 1000, max: process.env.ENABLE_E2E_TEST_HOOKS ? Infinity : 50, standardHeaders: true, legacyHeaders: false, message: { error: 'Quá nhiều yêu cầu, vui lòng thử lại sau 15 phút' } });
+const passwordChangeLimiter = rateLimit({ windowMs: 15 * 60 * 1000, max: process.env.ENABLE_E2E_TEST_HOOKS ? Infinity : 5, standardHeaders: true, legacyHeaders: false, message: { error: 'Quá nhiều yêu cầu đổi mật khẩu, thử lại sau 15 phút' } });
+const passwordResetLimiter = rateLimit({ windowMs: 15 * 60 * 1000, max: process.env.ENABLE_E2E_TEST_HOOKS ? Infinity : 3, standardHeaders: true, legacyHeaders: false, message: { error: 'Quá nhiều yêu cầu đặt lại mật khẩu, thử lại sau 15 phút' } });
 
-// â”€â”€â”€ POST /api/auth/reset-rate-limit (E2E test only) â”€â”€â”€
+// ─── POST /api/auth/reset-rate-limit (E2E test only) ───
 router.post('/reset-rate-limit', (req, res) => {
   if (process.env.ENABLE_E2E_TEST_HOOKS) {
     process.env.__RATE_LIMIT_RESET = 'true';
@@ -30,25 +31,25 @@ router.post('/reset-rate-limit', (req, res) => {
 
 
 
-// â”€â”€â”€ POST /api/auth/login â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── POST /api/auth/login ─────────────────────────────
 router.post('/login', loginLimiter, (req, res) => {
   const { username, password } = req.body;
   if (!username || !password) {
-    return res.status(400).json({ error: 'Thiáº¿u tÃªn Ä‘Äƒng nháº­p hoáº·c máº­t kháº©u' });
+    return res.status(400).json({ error: 'Thiếu tên đăng nhập hoặc mật khẩu' });
   }
 
   const user = db.prepare('SELECT * FROM users WHERE username = ?').get(username);
 
   if (!user) {
     db.prepare('INSERT INTO login_log (username, ip, device, status) VALUES (?, ?, ?, ?)').run(username, req.ip || '', req.headers['user-agent'] || '', 'failed');
-    return res.status(401).json({ error: 'Sai tÃªn Ä‘Äƒng nháº­p hoáº·c máº­t kháº©u' });
+    return res.status(401).json({ error: 'Sai tên đăng nhập hoặc mật khẩu' });
   }
 
   if (user.status === 2) {
-    return res.status(423).json({ error: 'TÃ i khoáº£n Ä‘Ã£ bá»‹ khÃ³a. Vui lÃ²ng liÃªn há»‡ quáº£n trá»‹ há»‡ thá»‘ng' });
+    return res.status(423).json({ error: 'Tài khoản đã bị khóa. Vui lòng liên hệ quản trị hệ thống' });
   }
   if (user.status === 0) {
-    return res.status(401).json({ error: 'TÃ i khoáº£n khÃ´ng tá»“n táº¡i hoáº·c Ä‘Ã£ bá»‹ vÃ´ hiá»‡u' });
+    return res.status(401).json({ error: 'Tài khoản không tồn tại hoặc đã bị vô hiệu' });
   }
 
   if (!verifyPassword(password, user.password)) {
@@ -63,10 +64,10 @@ router.post('/login', loginLimiter, (req, res) => {
       db.prepare('DELETE FROM sessions WHERE user_id = ?').run(user.id);
       // SRE-07: Alert on account lockout
       alertAccountLockout(username);
-      return res.status(423).json({ error: 'TÃ i khoáº£n Ä‘Ã£ bá»‹ khÃ³a do Ä‘Äƒng nháº­p sai quÃ¡ nhiá»u láº§n' });
+      return res.status(423).json({ error: 'Tài khoản đã bị khóa do đăng nhập sai quá nhiều lần' });
     }
 
-    return res.status(401).json({ error: 'Sai tÃªn Ä‘Äƒng nháº­p hoáº·c máº­t kháº©u' });
+    return res.status(401).json({ error: 'Sai tên đăng nhập hoặc mật khẩu' });
   }
 
   if (user.totp_enabled) {
@@ -125,14 +126,14 @@ router.post('/login', loginLimiter, (req, res) => {
   });
 });
 
-// â”€â”€â”€ GET /api/auth/me â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── GET /api/auth/me ─────────────────────────────────
 router.get('/me', authMiddleware, (req, res) => {
   const user = db.prepare(
     'SELECT id, username, full_name, email, phone, org_unit, role, org_id, totp_enabled, status FROM users WHERE id = ?'
   ).get(req.user.id);
-  if (!user) return res.status(404).json({ error: 'KhÃ´ng tÃ¬m tháº¥y ngÆ°á»i dÃ¹ng' });
-  if (user.status === 0) return res.status(401).json({ error: 'TÃ i khoáº£n khÃ´ng tá»“n táº¡i hoáº·c Ä‘Ã£ bá»‹ vÃ´ hiá»‡u' });
-  if (user.status === 2) return res.status(423).json({ error: 'TÃ i khoáº£n Ä‘Ã£ bá»‹ khÃ³a. Vui lÃ²ng liÃªn há»‡ quáº£n trá»‹ há»‡ thá»‘ng' });
+  if (!user) return res.status(404).json({ error: 'Không tìm thấy người dùng' });
+  if (user.status === 0) return res.status(401).json({ error: 'Tài khoản không tồn tại hoặc đã bị vô hiệu' });
+  if (user.status === 2) return res.status(423).json({ error: 'Tài khoản đã bị khóa. Vui lòng liên hệ quản trị hệ thống' });
 
   const permissions = user.role === 'system-admin'
     ? []
@@ -148,7 +149,7 @@ router.get('/me', authMiddleware, (req, res) => {
   res.json({ user, groups, permissions });
 });
 
-// â”€â”€â”€ POST /api/auth/logout â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── POST /api/auth/logout ────────────────────────────
 router.post('/logout', authMiddleware, (req, res) => {
   const jti = req.user.jti;
   if (jti) {
@@ -160,19 +161,19 @@ router.post('/logout', authMiddleware, (req, res) => {
   res.json({ success: true });
 });
 
-// â”€â”€â”€ PUT /api/auth/change-password â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── PUT /api/auth/change-password ─────────────────────
 // CR-V3-03: Adds login_log entry with status='password_changed' on success
 router.put('/change-password', authMiddleware, passwordChangeLimiter, (req, res) => {
   const { old_password, new_password } = req.body;
   if (!old_password || !new_password) {
-    return res.status(400).json({ error: 'Thiáº¿u máº­t kháº©u cÅ© hoáº·c máº­t kháº©u má»›i' });
+    return res.status(400).json({ error: 'Thiếu mật khẩu cũ hoặc mật khẩu mới' });
   }
 
   const user = db.prepare('SELECT * FROM users WHERE id = ?').get(req.user.id);
-  if (!user) return res.status(404).json({ error: 'KhÃ´ng tÃ¬m tháº¥y ngÆ°á»i dÃ¹ng' });
+  if (!user) return res.status(404).json({ error: 'Không tìm thấy người dùng' });
 
   if (!verifyPassword(old_password, user.password)) {
-    return res.status(400).json({ error: 'Máº­t kháº©u cÅ© khÃ´ng Ä‘Ãºng' });
+    return res.status(400).json({ error: 'Mật khẩu cũ không đúng' });
   }
 
   const pwErrors = validatePassword(new_password);
@@ -181,13 +182,13 @@ router.put('/change-password', authMiddleware, passwordChangeLimiter, (req, res)
   }
 
   if (old_password === new_password) {
-    return res.status(400).json({ error: 'Máº­t kháº©u má»›i pháº£i khÃ¡c máº­t kháº©u cÅ©' });
+    return res.status(400).json({ error: 'Mật khẩu mới phải khác mật khẩu cũ' });
   }
 
   const newHash = hashPassword(new_password);
 
   if (checkPasswordHistory(user.id, new_password, 3)) {
-    return res.status(400).json({ error: 'Máº­t kháº©u má»›i khÃ´ng Ä‘Æ°á»£c trÃ¹ng vá»›i 3 máº­t kháº©u gáº§n nháº¥t' });
+    return res.status(400).json({ error: 'Mật khẩu mới không được trùng với 3 mật khẩu gần nhất' });
   }
 
   db.prepare("UPDATE users SET password = ?, updated_at = datetime('now','localtime') WHERE id = ?")
@@ -198,28 +199,28 @@ router.put('/change-password', authMiddleware, passwordChangeLimiter, (req, res)
 
   db.prepare('DELETE FROM sessions WHERE user_id = ?').run(user.id);
 
-  // CR-V3-03: Audit log â€” record password change as a critical security event
+  // CR-V3-03: Audit log — record password change as a critical security event
   db.prepare('INSERT INTO login_log (username, ip, device, status) VALUES (?, ?, ?, ?)')
     .run(user.username, req.ip || '', req.headers['user-agent'] || '', 'password_changed');
 
-  res.json({ ok: true, message: 'Äá»•i máº­t kháº©u thÃ nh cÃ´ng' });
+  res.json({ ok: true, message: 'Đổi mật khẩu thành công' });
 });
 
-// â”€â”€â”€ POST /api/auth/forgot-password â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── POST /api/auth/forgot-password ────────────────────
 router.post('/forgot-password', loginLimiter, (req, res) => {
   const { email } = req.body;
-  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return res.status(400).json({ error: 'Email khÃ´ng há»£p lá»‡' });
+  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return res.status(400).json({ error: 'Email không hợp lệ' });
 
   const user = db.prepare('SELECT id, email FROM users WHERE email = ?').get(email);
   if (!user) {
-    return res.json({ ok: true, message: 'Náº¿u email tá»“n táº¡i, báº¡n sáº½ nháº­n Ä‘Æ°á»£c hÆ°á»›ng dáº«n Ä‘áº·t láº¡i máº­t kháº©u' });
+    return res.json({ ok: true, message: 'Nếu email tồn tại, bạn sẽ nhận được hướng dẫn đặt lại mật khẩu' });
   }
 
   const recentTokens = db.prepare(
     "SELECT COUNT(*) as c FROM reset_tokens WHERE user_id = ? AND created_at > datetime('now','-15 minutes','localtime')"
   ).get(user.id).c;
   if (recentTokens >= 3) {
-    return res.status(423).json({ error: 'QuÃ¡ nhiá»u yÃªu cáº§u, vui lÃ²ng thá»­ láº¡i sau 15 phÃºt' });
+    return res.status(423).json({ error: 'Quá nhiều yêu cầu, vui lòng thử lại sau 15 phút' });
   }
 
   const rawToken = crypto.randomBytes(32).toString('hex');
@@ -231,7 +232,7 @@ router.post('/forgot-password', loginLimiter, (req, res) => {
 
   sendForgotPasswordEmail(email, rawToken);
 
-  const response = { ok: true, message: 'Náº¿u email tá»“n táº¡i, báº¡n sáº½ nháº­n Ä‘Æ°á»£c hÆ°á»›ng dáº«n Ä‘áº·t láº¡i máº­t kháº©u' };
+  const response = { ok: true, message: 'Nếu email tồn tại, bạn sẽ nhận được hướng dẫn đặt lại mật khẩu' };
   if (process.env.ENABLE_E2E_TEST_HOOKS === 'true') {
     response._debug_raw_token = rawToken;
   }
@@ -240,7 +241,7 @@ router.post('/forgot-password', loginLimiter, (req, res) => {
 
 
 
-// â”€â”€â”€ GET /api/auth/login-log â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── GET /api/auth/login-log ──────────────────────────
 router.get('/login-log', authMiddleware, (req, res) => {
   const { from_date, to_date, username, status } = req.query;
   const { page, limit, offset } = parsePagination(req.query);
@@ -287,11 +288,11 @@ router.get('/login-log', authMiddleware, (req, res) => {
   res.json({ logs, total, page, limit });
 });
 
-// â”€â”€â”€ POST /api/auth/reset-password â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── POST /api/auth/reset-password ─────────────────────
 router.post('/reset-password', passwordResetLimiter, (req, res) => {
   const { token, new_password } = req.body;
   if (!token || !new_password) {
-    return res.status(400).json({ error: 'Thiáº¿u token hoáº·c máº­t kháº©u má»›i' });
+    return res.status(400).json({ error: 'Thiếu token hoặc mật khẩu mới' });
   }
 
   const pwErrors = validatePassword(new_password);
@@ -305,16 +306,16 @@ router.post('/reset-password', passwordResetLimiter, (req, res) => {
   ).get(hashedToken);
 
   if (!resetToken) {
-    return res.status(400).json({ error: 'Token khÃ´ng há»£p lá»‡ hoáº·c Ä‘Ã£ háº¿t háº¡n' });
+    return res.status(400).json({ error: 'Token không hợp lệ hoặc đã hết hạn' });
   }
 
   const user = db.prepare('SELECT * FROM users WHERE id = ?').get(resetToken.user_id);
-  if (!user) return res.status(404).json({ error: 'KhÃ´ng tÃ¬m tháº¥y ngÆ°á»i dÃ¹ng' });
+  if (!user) return res.status(404).json({ error: 'Không tìm thấy người dùng' });
 
   const newHash = hashPassword(new_password);
 
   if (checkPasswordHistory(user.id, new_password, 3)) {
-    return res.status(400).json({ error: 'Máº­t kháº©u má»›i khÃ´ng Ä‘Æ°á»£c trÃ¹ng vá»›i 3 máº­t kháº©u gáº§n nháº¥t' });
+    return res.status(400).json({ error: 'Mật khẩu mới không được trùng với 3 mật khẩu gần nhất' });
   }
 
   db.prepare("UPDATE users SET password = ?, updated_at = datetime('now','localtime') WHERE id = ?")
@@ -327,20 +328,20 @@ router.post('/reset-password', passwordResetLimiter, (req, res) => {
 
   db.prepare('DELETE FROM sessions WHERE user_id = ?').run(user.id);
 
-  res.json({ ok: true, message: 'Äáº·t láº¡i máº­t kháº©u thÃ nh cÃ´ng' });
+  res.json({ ok: true, message: 'Đặt lại mật khẩu thành công' });
 });
 
-// â”€â”€â”€ TOTP â€” F-M01-009 â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── TOTP — F-M01-009 ─────────────────────────────────────
 
-// POST /api/auth/totp/setup â€” generate TOTP secret + QR code (admin or self)
+// POST /api/auth/totp/setup — generate TOTP secret + QR code (admin or self)
 router.post('/totp/setup', authMiddleware, (req, res) => {
   const { userId } = req.body;
   if (req.user.role !== 'system-admin' && req.user.id !== userId) {
-    return res.status(403).json({ error: 'Tá»« chá»‘i quyá»n truy cáº­p' });
+    return res.status(403).json({ error: 'Từ chối quyền truy cập' });
   }
 
   const user = db.prepare('SELECT id, username FROM users WHERE id = ?').get(userId);
-  if (!user) return res.status(404).json({ error: 'KhÃ´ng tÃ¬m tháº¥y ngÆ°á»i dÃ¹ng' });
+  if (!user) return res.status(404).json({ error: 'Không tìm thấy người dùng' });
 
   const secret = generateSecret();
 
@@ -351,104 +352,104 @@ router.post('/totp/setup', authMiddleware, (req, res) => {
     // A3-M01: Do NOT return raw secret in API response
     res.json({ qrcode: dataUrl });
   }).catch(err => {
-    res.status(500).json({ error: 'KhÃ´ng thá»ƒ táº¡o mÃ£ QR' });
+    res.status(500).json({ error: 'Không thể tạo mã QR' });
   });
 });
 
-// POST /api/auth/totp/verify â€” verify 6-digit code to enable TOTP
+// POST /api/auth/totp/verify — verify 6-digit code to enable TOTP
 router.post('/totp/verify', authMiddleware, (req, res) => {
   const { userId, code } = req.body;
   if (!userId || !code) {
-    return res.status(400).json({ error: 'Thiáº¿u userId hoáº·c mÃ£ xÃ¡c thá»±c' });
+    return res.status(400).json({ error: 'Thiếu userId hoặc mã xác thực' });
   }
   if (req.user.role !== 'system-admin' && req.user.id !== userId) {
-    return res.status(403).json({ error: 'Tá»« chá»‘i quyá»n truy cáº­p' });
+    return res.status(403).json({ error: 'Từ chối quyền truy cập' });
   }
 
   if (!/^\d{6}$/.test(code)) {
-    return res.status(400).json({ error: 'MÃ£ xÃ¡c thá»±c pháº£i gá»“m 6 chá»¯ sá»‘' });
+    return res.status(400).json({ error: 'Mã xác thực phải gồm 6 chữ số' });
   }
 
   const user = db.prepare('SELECT id, totp_secret FROM users WHERE id = ?').get(userId);
-  if (!user) return res.status(404).json({ error: 'KhÃ´ng tÃ¬m tháº¥y ngÆ°á»i dÃ¹ng' });
-  if (!user.totp_secret) return res.status(400).json({ error: 'ChÆ°a thiáº¿t láº­p TOTP. Vui lÃ²ng táº¡o secret trÆ°á»›c' });
+  if (!user) return res.status(404).json({ error: 'Không tìm thấy người dùng' });
+  if (!user.totp_secret) return res.status(400).json({ error: 'Chưa thiết lập TOTP. Vui lòng tạo secret trước' });
 
   const isValid = verifyTotp(code, user.totp_secret);
   if (!isValid) {
-    return res.status(400).json({ error: 'MÃ£ xÃ¡c thá»±c khÃ´ng Ä‘Ãºng' });
+    return res.status(400).json({ error: 'Mã xác thực không đúng' });
   }
 
   db.prepare('UPDATE users SET totp_enabled = 1, updated_at = datetime(\'now\',\'localtime\') WHERE id = ?')
     .run(userId);
 
-  res.json({ ok: true, message: 'XÃ¡c thá»±c hai yáº¿u tá»‘ Ä‘Ã£ Ä‘Æ°á»£c kÃ­ch hoáº¡t' });
+  res.json({ ok: true, message: 'Xác thực hai yếu tố đã được kích hoạt' });
 });
 
-// POST /api/auth/totp/disable â€” disable TOTP (requires admin password confirmation)
+// POST /api/auth/totp/disable — disable TOTP (requires admin password confirmation)
 router.post('/totp/disable', authMiddleware, (req, res) => {
   const { userId, password } = req.body;
   if (!userId || !password) {
-    return res.status(400).json({ error: 'Thiáº¿u userId hoáº·c máº­t kháº©u xÃ¡c nháº­n' });
+    return res.status(400).json({ error: 'Thiếu userId hoặc mật khẩu xác nhận' });
   }
   if (req.user.role !== 'system-admin') {
-    return res.status(403).json({ error: 'Chá»‰ quáº£n trá»‹ há»‡ thá»‘ng má»›i cÃ³ thá»ƒ vÃ´ hiá»‡u hÃ³a TOTP' });
+    return res.status(403).json({ error: 'Chỉ quản trị hệ thống mới có thể vô hiệu hóa TOTP' });
   }
 
   const admin = db.prepare('SELECT * FROM users WHERE id = ?').get(req.user.id);
   if (!verifyPassword(password, admin.password)) {
-    return res.status(400).json({ error: 'Máº­t kháº©u xÃ¡c nháº­n khÃ´ng Ä‘Ãºng' });
+    return res.status(400).json({ error: 'Mật khẩu xác nhận không đúng' });
   }
 
   const user = db.prepare('SELECT id FROM users WHERE id = ?').get(userId);
-  if (!user) return res.status(404).json({ error: 'KhÃ´ng tÃ¬m tháº¥y ngÆ°á»i dÃ¹ng' });
+  if (!user) return res.status(404).json({ error: 'Không tìm thấy người dùng' });
 
   db.prepare("UPDATE users SET totp_enabled = 0, totp_secret = NULL, updated_at = datetime('now','localtime') WHERE id = ?")
     .run(userId);
 
-  res.json({ ok: true, message: 'ÄÃ£ vÃ´ hiá»‡u hÃ³a xÃ¡c thá»±c hai yáº¿u tá»‘' });
+  res.json({ ok: true, message: 'Đã vô hiệu hóa xác thực hai yếu tố' });
 });
 
-// â”€â”€â”€ TOTP Login Flow (step 2) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── TOTP Login Flow (step 2) ─────────────────────────────
 
-// POST /api/auth/totp/verify-login â€” verify TOTP code during login (public, rate-limited)
+// POST /api/auth/totp/verify-login — verify TOTP code during login (public, rate-limited)
 router.post('/totp/verify-login', loginLimiter, (req, res) => {
   const { temp_token, code } = req.body;
   if (!temp_token || !code) {
-    return res.status(400).json({ error: 'Thiáº¿u temp_token hoáº·c mÃ£ xÃ¡c thá»±c' });
+    return res.status(400).json({ error: 'Thiếu temp_token hoặc mã xác thực' });
   }
 
   if (!/^\d{6}$/.test(code)) {
-    return res.status(400).json({ error: 'MÃ£ xÃ¡c thá»±c pháº£i gá»“m 6 chá»¯ sá»‘' });
+    return res.status(400).json({ error: 'Mã xác thực phải gồm 6 chữ số' });
   }
 
   let payload;
   try {
     payload = verifyToken(temp_token);
   } catch {
-    return res.status(401).json({ error: 'PhiÃªn Ä‘Äƒng nháº­p háº¿t háº¡n. Vui lÃ²ng Ä‘Äƒng nháº­p láº¡i' });
+    return res.status(401).json({ error: 'Phiên đăng nhập hết hạn. Vui lòng đăng nhập lại' });
   }
 
   if (!payload.totp_pending) {
-    return res.status(400).json({ error: 'Token khÃ´ng há»£p lá»‡' });
+    return res.status(400).json({ error: 'Token không hợp lệ' });
   }
 
   const user = db.prepare('SELECT id, username, role, full_name, email, org_unit, totp_secret, totp_enabled FROM users WHERE id = ?').get(payload.id);
-  if (!user) return res.status(404).json({ error: 'KhÃ´ng tÃ¬m tháº¥y ngÆ°á»i dÃ¹ng' });
+  if (!user) return res.status(404).json({ error: 'Không tìm thấy người dùng' });
 
   if (!user.totp_enabled || !user.totp_secret) {
-    return res.status(400).json({ error: 'TOTP chÆ°a Ä‘Æ°á»£c kÃ­ch hoáº¡t cho tÃ i khoáº£n nÃ y' });
+    return res.status(400).json({ error: 'TOTP chưa được kích hoạt cho tài khoản này' });
   }
 
   // RR-02: Ensure user.id is Number (type coercion fix)
   const userId = Number(user.id);
   if (totpRateLimited(userId, 5, 5 * 60 * 1000)) {
-    return res.status(423).json({ error: 'QuÃ¡ nhiá»u láº§n thá»­ xÃ¡c thá»±c TOTP, vui lÃ²ng thá»­ láº¡i sau 5 phÃºt' });
+    return res.status(423).json({ error: 'Quá nhiều lần thử xác thực TOTP, vui lòng thử lại sau 5 phút' });
   }
 
   const isValid = verifyTotp(code, user.totp_secret);
   if (!isValid) {
     totpRecord(userId);
-    return res.status(400).json({ error: 'MÃ£ xÃ¡c thá»±c khÃ´ng Ä‘Ãºng' });
+    return res.status(400).json({ error: 'Mã xác thực không đúng' });
   }
 
   totpReset(userId);
@@ -474,7 +475,7 @@ router.post('/totp/verify-login', loginLimiter, (req, res) => {
     totpSessionTxn();
   } catch (err) {
     console.error(JSON.stringify({ event: 'error', route: 'TOTP verify-login', error: err.message }));
-    return res.status(500).json({ error: 'Lá»—i Ä‘Äƒng nháº­p, vui lÃ²ng thá»­ láº¡i' });
+    return res.status(500).json({ error: 'Lỗi đăng nhập, vui lòng thử lại' });
   }
 
   res.json({
@@ -490,9 +491,9 @@ router.post('/totp/verify-login', loginLimiter, (req, res) => {
   });
 });
 
-// â”€â”€â”€ Session Management â€” F-M01-010 â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── Session Management — F-M01-010 ────────────────────────
 
-// GET /api/auth/sessions â€” list active sessions
+// GET /api/auth/sessions — list active sessions
 router.get('/sessions', authMiddleware, (req, res) => {
   const isAdmin = req.user.role === 'system-admin';
 
@@ -522,25 +523,25 @@ router.get('/sessions', authMiddleware, (req, res) => {
   res.json({ sessions: result });
 });
 
-// DELETE /api/auth/sessions/:id â€” revoke a session
+// DELETE /api/auth/sessions/:id — revoke a session
 router.delete('/sessions/:id', authMiddleware, (req, res) => {
   const sessionId = Number(req.params.id);
   const isAdmin = req.user.role === 'system-admin';
 
   const session = db.prepare('SELECT * FROM sessions WHERE id = ?').get(sessionId);
-  if (!session) return res.status(404).json({ error: 'KhÃ´ng tÃ¬m tháº¥y phiÃªn Ä‘Äƒng nháº­p' });
+  if (!session) return res.status(404).json({ error: 'Không tìm thấy phiên đăng nhập' });
 
   if (!isAdmin && session.user_id !== req.user.id) {
-    return res.status(403).json({ error: 'Tá»« chá»‘i quyá»n truy cáº­p' });
+    return res.status(403).json({ error: 'Từ chối quyền truy cập' });
   }
 
   if (session.token_jti === req.user.jti) {
-    return res.status(400).json({ error: 'KhÃ´ng thá»ƒ xÃ³a phiÃªn Ä‘Äƒng nháº­p hiá»‡n táº¡i. Sá»­ dá»¥ng Ä‘Äƒng xuáº¥t thay tháº¿' });
+    return res.status(400).json({ error: 'Không thể xóa phiên đăng nhập hiện tại. Sử dụng đăng xuất thay thế' });
   }
 
   db.prepare('DELETE FROM sessions WHERE id = ?').run(sessionId);
 
-  res.json({ ok: true, message: 'ÄÃ£ xÃ³a phiÃªn Ä‘Äƒng nháº­p' });
+  res.json({ ok: true, message: 'Đã xóa phiên đăng nhập' });
 });
 
 module.exports = router;

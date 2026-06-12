@@ -1,3 +1,4 @@
+// -*- coding: utf-8 -*-
 const bcrypt = require('bcryptjs');
 const db = require('../db');
 

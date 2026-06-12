@@ -21,7 +21,6 @@ const SCREEN_RESET_PASSWORD = {
           <p class="login-subtitle">Nhập mật khẩu mới cho tài khoản của bạn</p>
 
           <div id="reset-error" class="alert alert-danger" style="display:none" role="alert" aria-live="polite"></div>
-          <div id="reset-success" class="alert alert-success" style="display:none" role="alert"></div>
 
           <form id="reset-form" onsubmit="return SCREEN_RESET_PASSWORD.submit(event)">
             <div class="form-group">
@@ -99,24 +98,17 @@ const SCREEN_RESET_PASSWORD = {
   async submit(e) {
     e.preventDefault();
     const btn = document.getElementById('reset-btn');
-    const errEl = document.getElementById('reset-error');
-    const successEl = document.getElementById('reset-success');
     const password = document.getElementById('reset-password').value;
     const confirm = document.getElementById('reset-confirm').value;
 
-    errEl.style.display = 'none';
-    successEl.style.display = 'none';
-
     const pwErrors = validatePasswordStrength(password);
     if (pwErrors.length > 0) {
-      errEl.textContent = pwErrors.join('; ');
-      errEl.style.display = '';
+      TOAST.warning(pwErrors.join('; '));
       return false;
     }
 
     if (password !== confirm) {
-      errEl.textContent = 'Mật khẩu xác nhận không khớp';
-      errEl.style.display = '';
+      TOAST.warning('Mật khẩu xác nhận không khớp');
       return false;
     }
 
@@ -124,16 +116,16 @@ const SCREEN_RESET_PASSWORD = {
     btn.innerHTML = '<span class="spinner"></span> Đang đặt lại...';
 
     try {
-      const data = await apiPost('/api/auth/reset-password', {
+      await apiPost('/api/auth/reset-password', {
         token: this._token,
         new_password: password,
       });
       document.getElementById('reset-form').style.display = 'none';
-      successEl.innerHTML = '<strong>✔</strong> Mật khẩu đã được đặt lại thành công. <a href="#login">Chuyển hướng đến đăng nhập...</a>';
-      successEl.style.display = '';
+      TOAST.success('Mật khẩu đã được đặt lại thành công.');
+      setTimeout(() => { window.location.hash = '#login'; }, 2000);
     } catch (e) {
-      errEl.textContent = e.message || 'Không thể đặt lại mật khẩu. Vui lòng thử lại.';
-      errEl.style.display = '';
+      TOAST.error('Không thể đặt lại mật khẩu. Vui lòng thử lại.');
+    } finally {
       btn.disabled = false;
       btn.textContent = 'ĐẶT LẠI MẬT KHẨU';
     }

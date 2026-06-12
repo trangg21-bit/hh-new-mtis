@@ -76,8 +76,11 @@
 }
 .toolbar-left, .toolbar-right { display: flex; align-items: center; gap: 10px; }
 .search-field { position: relative; min-width: 320px; }
-.search-field span { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--color-muted-light); }
-.search-field input { padding-left: 34px; width: 100%; }
+.search-field span { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); color: var(--color-muted-light); font-size: 14px; line-height: 1; z-index: 1; }
+.search-field input { padding-left: 32px; width: 100%; font-size: 13px; }
+
+/* ===== BUG FIX 4: Unit indent via CSS .org-depth class (not text emoji) ===== */
+.org-depth { display: inline-block; flex-shrink: 0; }
 .admin-toolbar select { width: 180px; }
 
 .enterprise-table-wrap { padding: 0 20px 6px; }
@@ -87,6 +90,16 @@
 .text-right { text-align: right !important; }
 .action-cell { white-space: nowrap; }
 .action-cell .btn { margin-left: 4px; }
+.action-icon {
+  font-size: 16px;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+}
 .danger-action { color: var(--color-danger); }
 .table-footer { padding: 0 20px 18px; }
 
@@ -143,6 +156,12 @@
 .org-tree .org-node { border: 1px solid transparent; }
 .org-tree .org-node:hover { border-color: var(--color-border); background: #f8fafc !important; }
 .org-tree .org-node-actions .btn { opacity: 0.82; }
+.org-tree .org-indent { display: inline-block; }
+.org-indent.org-indent--level-1 { padding-left: 20px; }
+.org-indent.org-indent--level-2 { padding-left: 40px; }
+.org-indent.org-indent--level-3 { padding-left: 60px; }
+.org-indent.org-indent--level-4 { padding-left: 80px; }
+.org-indent.org-indent--level-5 { padding-left: 100px; }
 .org-inline-form { box-shadow: 0 8px 20px rgba(15, 23, 42, 0.05); }
 
 /* ===== USER DETAIL SCREEN ===== */
@@ -287,10 +306,17 @@
 }
 
 .toast-icon {
-  font-size: var(--font-size-lg);
   flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   width: 20px;
-  text-align: center;
+  height: 20px;
+}
+
+.toast-icon svg {
+  width: 20px;
+  height: 20px;
 }
 
 .toast-success {

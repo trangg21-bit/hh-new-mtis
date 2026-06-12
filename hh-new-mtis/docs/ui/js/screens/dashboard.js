@@ -3,17 +3,17 @@
    ================================================================ */
 
 const SYSTEM_MODULES = [
-  { id: 'M01', name: 'User Management', name_vn: 'Quản lý người dùng', desc: 'Đăng ký, đăng nhập, phân quyền, bảo mật', status: 'active', icon: '👤', hash: '#users', features: 10 },
-  { id: 'M02', name: 'System Administration', name_vn: 'Quản trị hệ thống', desc: 'Quản lý đơn vị, cấu hình, phê duyệt, backup', status: 'planned', icon: '⚙️', hash: '#dashboard', features: 8 },
-  { id: 'M03', name: 'Technical Parameters', name_vn: 'Thông số kỹ thuật KCHT', desc: 'Cảng, bến, luồng, phao, đèn biển, đê chắn sóng', status: 'planned', icon: '📐', hash: '#dashboard', features: 26 },
-  { id: 'M04', name: 'Operations & Maintenance', name_vn: 'Vận hành bảo trì', desc: 'Kế hoạch vận hành, bảo trì, sự cố, báo cáo', status: 'planned', icon: '🔧', hash: '#dashboard', features: 8 },
-  { id: 'M05', name: 'Planning Management', name_vn: 'Quy hoạch KCHT', desc: 'Quy hoạch bến cảng, năng lực thông qua', status: 'planned', icon: '📋', hash: '#dashboard', features: 3 },
-  { id: 'M06', name: 'Asset Management', name_vn: 'Quản lý tài sản KCHT', desc: 'Tài sản cố định, khấu hao, thanh lý, kiểm kê', status: 'planned', icon: '🏗️', hash: '#dashboard', features: 14 },
-  { id: 'M07', name: 'GIS/Map', name_vn: 'Bản đồ GIS KCHT', desc: 'Đối tượng điểm, đường, vùng trên bản đồ', status: 'planned', icon: '🗺️', hash: '#dashboard', features: 8 },
-  { id: 'M08', name: 'Reporting', name_vn: 'Báo cáo thống kê', desc: 'Báo cáo tài sản, thông số, sản lượng, an toàn', status: 'planned', icon: '📊', hash: '#dashboard', features: 8 },
-  { id: 'M09', name: 'Data Interconnection', name_vn: 'Liên thông dữ liệu', desc: 'Đồng bộ LGSP, NDXP, Web API, CSDL Bộ GTVT', status: 'planned', icon: '🔗', hash: '#dashboard', features: 6 },
-  { id: 'M10', name: 'Nautical Chart', name_vn: 'Biên tập hải đồ', desc: 'Import ENC S-57/S-63, biên tập, xuất bản hải đồ', status: 'planned', icon: '🧭', hash: '#dashboard', features: 10 },
-  { id: 'M11', name: 'Database Creation', name_vn: 'Tạo lập CSDL KCHT', desc: 'Số hóa dữ liệu, nhập liệu, đồng bộ CSDL MTIS', status: 'planned', icon: '🗄️', hash: '#dashboard', features: 4 }
+  { id: 'M01', name: 'User Management', name_vn: 'Quản lý người dùng', desc: 'Đăng ký, đăng nhập, phân quyền, bảo mật', status: 'active', icon: icons.iconUsers, hash: '#users', features: 10 },
+  { id: 'M02', name: 'System Administration', name_vn: 'Quản trị hệ thống', desc: 'Quản lý đơn vị, cấu hình, phê duyệt, backup', status: 'planned', icon: icons.iconWrench, hash: '#dashboard', features: 8 },
+  { id: 'M03', name: 'Technical Parameters', name_vn: 'Thông số kỹ thuật KCHT', desc: 'Cảng, bến, luồng, phao, đèn biển, đê chắn sóng', status: 'planned', icon: icons.iconRuler, hash: '#dashboard', features: 26 },
+  { id: 'M04', name: 'Operations & Maintenance', name_vn: 'Vận hành bảo trì', desc: 'Kế hoạch vận hành, bảo trì, sự cố, báo cáo', status: 'planned', icon: icons.iconWrench, hash: '#dashboard', features: 8 },
+  { id: 'M05', name: 'Planning Management', name_vn: 'Quy hoạch KCHT', desc: 'Quy hoạch bến cảng, năng lực thông qua', status: 'planned', icon: icons.iconDoc, hash: '#dashboard', features: 3 },
+  { id: 'M06', name: 'Asset Management', name_vn: 'Quản lý tài sản KCHT', desc: 'Tài sản cố định, khấu hao, thanh lý, kiểm kê', status: 'planned', icon: icons.iconHardHat, hash: '#dashboard', features: 14 },
+  { id: 'M07', name: 'GIS/Map', name_vn: 'Bản đồ GIS KCHT', desc: 'Đối tượng điểm, đường, vùng trên bản đồ', status: 'planned', icon: icons.iconMap, hash: '#dashboard', features: 8 },
+  { id: 'M08', name: 'Reporting', name_vn: 'Báo cáo thống kê', desc: 'Báo cáo tài sản, thông số, sản lượng, an toàn', status: 'planned', icon: icons.iconBarChart, hash: '#dashboard', features: 8 },
+  { id: 'M09', name: 'Data Interconnection', name_vn: 'Liên thông dữ liệu', desc: 'Đồng bộ LGSP, NDXP, Web API, CSDL Bộ GTVT', status: 'planned', icon: icons.iconLink, hash: '#dashboard', features: 6 },
+  { id: 'M10', name: 'Nautical Chart', name_vn: 'Biên tập hải đồ', desc: 'Import ENC S-57/S-63, biên tập, xuất bản hải đồ', status: 'planned', icon: icons.iconCompass, hash: '#dashboard', features: 10 },
+  { id: 'M11', name: 'Database Creation', name_vn: 'Tạo lập CSDL KCHT', desc: 'Số hóa dữ liệu, nhập liệu, đồng bộ CSDL MTIS', status: 'planned', icon: icons.iconDatabase, hash: '#dashboard', features: 4 }
 ];
 
 const SCREEN_DASHBOARD = {
@@ -89,12 +89,12 @@ const SCREEN_DASHBOARD = {
         <div class="dashboard-section">
           <h2 class="section-title">Thao tác nhanh</h2>
           <div class="quick-actions">
-            <a href="#users" class="quick-action-btn">👤 Người dùng</a>
-            <a href="#groups" class="quick-action-btn">👥 Nhóm</a>
-            <a href="#permissions" class="quick-action-btn">🔐 Phân quyền</a>
-            <a href="#login-log" class="quick-action-btn">📋 Nhật ký</a>
-            <a href="#organizations" class="quick-action-btn">🏢 Đơn vị</a>
-            <a href="#sessions" class="quick-action-btn">🖥 Phiên</a>
+            <a href="#users" class="quick-action-btn"><span class="icon">${icons.iconUsers}</span> Người dùng</a>
+            <a href="#groups" class="quick-action-btn"><span class="icon">${icons.iconUsers}</span> Nhóm</a>
+            <a href="#permissions" class="quick-action-btn"><span class="icon">${icons.iconTOTP}</span> Phân quyền</a>
+            <a href="#login-log" class="quick-action-btn"><span class="icon">${icons.iconDoc}</span> Nhật ký</a>
+            <a href="#organizations" class="quick-action-btn"><span class="icon">${icons.iconOrg}</span> Đơn vị</a>
+            <a href="#sessions" class="quick-action-btn"><span class="icon">${icons.iconMonitor}</span> Phiên</a>
           </div>
         </div>
       </div>

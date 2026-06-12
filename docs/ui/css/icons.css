@@ -1,0 +1,55 @@
+/**
+ * SVG Icons — shared class for all icon SVGs
+ * Apply to any <svg> element or <span> wrapper.
+ */
+
+.icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  color: inherit; /* inherits from parent for stroke="currentColor" */
+}
+
+/* ── Sizes ───────────────────────────────────────────────────────── */
+
+.icon-xs {
+  width: 12px;
+  height: 12px;
+}
+
+.icon-sm {
+  width: 14px;
+  height: 14px;
+}
+
+.icon-md {
+  width: 16px;
+  height: 16px;
+}
+
+.icon-lg {
+  width: 20px;
+  height: 20px;
+}
+
+.icon-xl {
+  width: 24px;
+  height: 24px;
+}
+
+/* ── Variants ────────────────────────────────────────────────────── */
+
+.icon-muted {
+  opacity: 0.5;
+}
+
+.icon-animated {
+  transition: transform 0.15s ease;
+}
+
+.icon-animated:hover {
+  transform: scale(1.15);
+}

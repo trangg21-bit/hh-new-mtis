@@ -3,6 +3,7 @@ const db = require('./db');
 const PORT = process.env.PORT || 3000;
 
 const server = app.listen(PORT, () => {
+  console.log('Content-Type: application/json; charset=utf-8');
   console.log(JSON.stringify({ event: 'started', port: PORT, env: process.env.NODE_ENV || 'development' }));
 });
 
