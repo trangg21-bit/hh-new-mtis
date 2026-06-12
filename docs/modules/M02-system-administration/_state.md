@@ -10,7 +10,7 @@ stages-queue: ["engineering-ui-ux-designer", "engineering-system-architect", "ut
 pipeline-type: "sdlc"
 output-mode: "lean"
 repo-type: "mono"
-feature-count: 0
+feature-count: 8
 completed-stages: {}
 kpi: {"ba-pass": false, "qa-pass": false, "reviewer-approved": false}
 ---
@@ -22,4 +22,11 @@ Quản trị hệ thống, cấu hình, giám sát
 
 ## Features
 
-<!-- Features will be added by /new-feature or manually -->
+- F-M02-001: Unit Management
+- F-M02-002: Interconnect Configuration
+- F-M02-003: Admin Account Management
+- F-M02-004: Approval Management
+- F-M02-005: Audit Log Viewer
+- F-M02-006: System Configuration
+- F-M02-007: Permission Policy
+- F-M02-008: Backup and Restore
