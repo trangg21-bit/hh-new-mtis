@@ -190,15 +190,16 @@ const SCREEN_PERMISSIONS = {
     nodes.forEach(node => {
       const hasChildren = node.children && node.children.length > 0;
       const isChecked = this._selectedFeatures.includes(node.id);
-      const indent = depth * 24;
+      const fontWeight = depth === 0 ? '700' : (depth === 1 ? '600' : '400');
+      const arrowIcon = hasChildren ? `<span class="icon">${icons.iconArrowRight}</span>` : '';
 
       html += `
         <li class="perms-node">
-          <label class="perms-node-item" style="padding-left:${indent}px">
+          <label class="perms-node-item">
             <input type="checkbox" ${isChecked ? 'checked' : ''}
               ${hasChildren ? `data-parent="${node.id}" onchange="SCREEN_PERMISSIONS.toggleParent('${node.id}', this.checked)"` : `data-feature="${node.id}" onchange="SCREEN_PERMISSIONS.toggleFeature('${node.id}', this.checked)"`}>
-            <span class="perms-arrow" style="width:20px;display:inline-block;text-align:center;cursor:pointer">${hasChildren ? (isChecked ? `<span class="icon">${icons.iconArrowDown}</span>` : `<span class="icon">${icons.iconArrowRight}</span>`) : '·'}</span>
-            <span class="perms-label" style="font-weight:${depth === 0 ? '700' : (depth === 1 ? '600' : '400')}">${esc(node.name)} <small style="color:var(--color-muted);font-weight:400">[${esc(node.code)}]</small></span>
+            <span class="perms-arrow">${arrowIcon}</span>
+            <span class="perms-label" style="font-weight:${fontWeight}">${esc(node.name)} <small>[${esc(node.code)}]</small></span>
           </label>
           ${hasChildren ? '<ul>' + this._renderNode(node.children, depth + 1) + '</ul>' : ''}
         </li>
