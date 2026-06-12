@@ -19,8 +19,8 @@ db.exec(`
     full_name   TEXT    NOT NULL,
     email       TEXT,
     phone       TEXT,
-    org_unit    TEXT    DEFAULT 'C?ng v? H�ng h?i H?i Ph�ng',
-    role        TEXT    DEFAULT 'Chuy�n vi�n',
+    org_unit    TEXT    DEFAULT 'Công vụ Hàng hải Hải Phòng',
+    role        TEXT    DEFAULT 'Chuyên viên',
     status      INTEGER DEFAULT 1,
     created_at  TEXT    DEFAULT (datetime('now','localtime')),
     updated_at  TEXT    DEFAULT (datetime('now','localtime'))

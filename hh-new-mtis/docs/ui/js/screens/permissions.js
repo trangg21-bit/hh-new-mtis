@@ -93,6 +93,13 @@ const SCREEN_PERMISSIONS = {
       const data = await apiGet('/api/permissions');
       this._groups = data.groups || [];
       this._featureTree = data.feature_tree || this._buildFeatureTree();
+      
+      // Re-render dropdown sau khi load groups
+      const select = document.getElementById('perms-role-select');
+      if (select && this._groups.length > 0) {
+        select.innerHTML = '<option value="">— Chọn nhóm —</option>' + 
+          this._groups.map(g => `<option value="${g.id}">${esc(g.name)}</option>`).join('');
+      }
     } catch (e) {
       console.error('Load permissions failed', e);
       this._featureTree = this._buildFeatureTree();

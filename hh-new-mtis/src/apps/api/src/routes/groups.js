@@ -16,16 +16,16 @@ router.get('/', (req, res) => {
 // POST /api/users/groups � create group
 router.post('/', (req, res) => {
   const { name, description } = req.body;
-  if (!name) return res.status(400).json({ error: 'Thi?u t�n nh�m' });
+  if (!name) return res.status(400).json({ error: 'Thiếu tên nhóm' });
   try {
     const info = db.prepare('INSERT INTO user_groups (name, description) VALUES (?, ?)').run(name, description);
     res.status(201).json({ id: info.lastInsertRowid });
   } catch(e) {
     console.error(JSON.stringify({ event: 'error', route: 'POST /api/users/groups', error: e?.message }));
     // RR-04: Don't swallow error � log it
-    if (e.message.includes('UNIQUE')) return res.status(409).json({ error: 'T�n nh�m d� t?n t?i' });
+    if (e.message.includes('UNIQUE')) return res.status(409).json({ error: 'Tên nhóm đã tồn tại' });
     console.error(JSON.stringify({ event: 'error', route: 'PUT /api/users/groups/:id', error: e?.message }));
-    res.status(500).json({ error: 'L?i m�y ch? n?i b?' });
+    res.status(500).json({ error: 'Lỗi máy chủ nội bộ' });
   }
 });
 
@@ -34,7 +34,7 @@ router.delete('/:id', (req, res) => {
   const groupId = req.params.id;
   const memberCount = db.prepare('SELECT COUNT(*) as c FROM group_members WHERE group_id = ?').get(groupId).c;
   if (memberCount > 0) {
-    return res.status(400).json({ error: 'Kh�ng th? x�a nh�m c� th�nh vi�n. Vui l�ng x�a th�nh vi�n tru?c.' });
+    return res.status(400).json({ error: 'Không thể xóa nhóm có thành viên. Vui lòng xóa thành viên trước.' });
   }
   db.prepare('DELETE FROM user_groups WHERE id = ?').run(groupId);
   res.json({ ok: true });
@@ -48,9 +48,9 @@ router.put('/:id', (req, res) => {
     db.prepare("UPDATE user_groups SET name = ?, description = ? WHERE id = ?").run(name, description, req.params.id);
     res.json({ ok: true });
   } catch (e) {
-    if (e.message.includes('UNIQUE')) return res.status(409).json({ error: 'T�n nh�m d� t?n t?i' });
+    if (e.message.includes('UNIQUE')) return res.status(409).json({ error: 'Tên nhóm đã tồn tại' });
     console.error(JSON.stringify({ event: 'error', route: 'PUT /api/users/groups/:id', error: e?.message }));
-    res.status(500).json({ error: 'L?i m�y ch? n?i b?' });
+    res.status(500).json({ error: 'Lỗi máy chủ nội bộ' });
   }
 });
 
