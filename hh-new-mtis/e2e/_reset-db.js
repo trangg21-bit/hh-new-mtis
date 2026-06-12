@@ -34,8 +34,8 @@ var tmpPath = path.join(require('os').tmpdir(), 'reset-m01.js');
 fs.writeFileSync(tmpPath, scriptLines, 'utf8');
 
 try {
-  execSync('docker cp "' + tmpPath + '" hh-new-mtis-api-1:/app/reset-m01.js', { stdio: 'pipe', timeout: 10000 });
-  execSync('docker exec hh-new-mtis-api-1 node /app/reset-m01.js', { stdio: 'pipe', timeout: 30000 });
+  execSync('docker cp "' + tmpPath + '" hhnew-api-1:/app/reset-m01.js', { stdio: 'pipe', timeout: 10000 });
+  execSync('docker exec hhnew-api-1 node /app/reset-m01.js', { stdio: 'pipe', timeout: 30000 });
   console.log('Reset complete');
 } finally {
   try { fs.unlinkSync(tmpPath); } catch(e) {}

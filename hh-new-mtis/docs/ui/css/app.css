@@ -16,6 +16,13 @@
   z-index: 1;
 }
 
+/* ===== SIDEBAR z-index fix — ensure sidebar stays below main-content ===== */
+/* Sidebar z-index must be lower than main-wrapper (z-index: 50) to prevent
+   the sidebar from shadowing 'Users' / 'Groups' links in the main area */
+.sidebar {
+  z-index: 1 !important;
+}
+
 .login-card {
   background: var(--color-white);
   border-radius: 12px;

@@ -219,7 +219,7 @@ router.post('/forgot-password', loginLimiter, (req, res) => {
     "SELECT COUNT(*) as c FROM reset_tokens WHERE user_id = ? AND created_at > datetime('now','-15 minutes','localtime')"
   ).get(user.id).c;
   if (recentTokens >= 3) {
-    return res.status(429).json({ error: 'QuÃ¡ nhiá»u yÃªu cáº§u, vui lÃ²ng thá»­ láº¡i sau 15 phÃºt' });
+    return res.status(423).json({ error: 'QuÃ¡ nhiá»u yÃªu cáº§u, vui lÃ²ng thá»­ láº¡i sau 15 phÃºt' });
   }
 
   const rawToken = crypto.randomBytes(32).toString('hex');
@@ -442,7 +442,7 @@ router.post('/totp/verify-login', loginLimiter, (req, res) => {
   // RR-02: Ensure user.id is Number (type coercion fix)
   const userId = Number(user.id);
   if (totpRateLimited(userId, 5, 5 * 60 * 1000)) {
-    return res.status(429).json({ error: 'QuÃ¡ nhiá»u láº§n thá»­ xÃ¡c thá»±c TOTP, vui lÃ²ng thá»­ láº¡i sau 5 phÃºt' });
+    return res.status(423).json({ error: 'QuÃ¡ nhiá»u láº§n thá»­ xÃ¡c thá»±c TOTP, vui lÃ²ng thá»­ láº¡i sau 5 phÃºt' });
   }
 
   const isValid = verifyTotp(code, user.totp_secret);

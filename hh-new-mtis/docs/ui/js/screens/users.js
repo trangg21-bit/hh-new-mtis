@@ -196,7 +196,8 @@ const SCREEN_USERS = {
   },
 
   _renderPagination(container, totalPages) {
-    if (totalPages <= 1) { container.innerHTML = ''; return; }
+    // Hide pagination when total records ≤ 10 (single page with small dataset)
+    if (this._total <= 10) { container.innerHTML = ''; return; }
     const page = this._page;
     let html = `<button class="page-btn" onclick="SCREEN_USERS.goToPage(${page - 1})" ${page === 1 ? 'disabled' : ''}>‹ Trước</button>`;
     if (totalPages <= 7) {

@@ -12,10 +12,10 @@ module.exports = async function globalSetup() {
   try {
     // Delete DB file and restart container for fresh state
     try {
-      execSync('docker exec hh-new-mtis-api-1 sh -c "rm -f /app/data/database.sqlite /app/data/database.sqlite-wal /app/data/database.sqlite-shm"', { stdio: 'pipe', timeout: 5000 });
+      execSync('docker exec hhnew-api-1 sh -c "rm -f /app/data/database.sqlite /app/data/database.sqlite-wal /app/data/database.sqlite-shm"', { stdio: 'pipe', timeout: 5000 });
     } catch(e) { /* DB might not exist */ }
     
-    execSync('docker restart hh-new-mtis-api-1', { stdio: 'pipe', timeout: 30000 });
+    execSync('docker restart hhnew-api-1', { stdio: 'pipe', timeout: 30000 });
     console.log('[Global Setup] Container restarted, waiting for API...');
     
     // Wait for healthy

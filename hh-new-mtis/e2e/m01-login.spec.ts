@@ -22,7 +22,7 @@ async function loginNonAdmin(page: import('@playwright/test').Page, username = C
 // ─── Login ────────────────────────────────────────────────
 
 test.describe('Login', () => {
-  test.describe.configure({ mode: 'parallel' });
+  test.describe.configure({ mode: 'serial' });
 
   test('TC-L-01: Login valid → 200 + token', async ({ page }) => {
     const res = await page.request.post(`${BASE}/api/auth/login`, {
@@ -115,7 +115,7 @@ test.describe('Login', () => {
 // ─── Change Password ──────────────────────────────────────
 
 test.describe('Change Password', () => {
-  test.describe.configure({ mode: 'parallel' });
+  test.describe.configure({ mode: 'serial' });
 
   test('TC-L-11: Change password valid → 200', async ({ page }) => {
     await loginAdmin(page);
@@ -180,7 +180,7 @@ test.describe('Change Password', () => {
 // ─── Lock/Unlock ──────────────────────────────────────────
 
 test.describe('Lock/Unlock', () => {
-  test.describe.configure({ mode: 'parallel' });
+  test.describe.configure({ mode: 'serial' });
 
   test('TC-L-18: Account lock → blocked', async ({ page }) => {
     await loginAdmin(page);

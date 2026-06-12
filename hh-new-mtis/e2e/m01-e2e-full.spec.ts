@@ -165,7 +165,7 @@ test.describe('M01 E2E — Part 2: Password', () => {
     // Reset DB to clear password changes from previous tests
     const { execSync } = require('child_process');
     try {
-      execSync('docker exec hh-new-mtis-api-1 node /app/reset-db.js', { stdio: 'pipe', timeout: 20000 });
+      execSync('docker exec hhnew-api-1 node /app/reset-db.js', { stdio: 'pipe', timeout: 20000 });
     } catch (_) {}
   });
 
@@ -207,7 +207,7 @@ test.describe('M01 E2E — Part 3: Remaining', () => {
   test.beforeAll(async () => {
     const { execSync } = require('child_process');
     try {
-      execSync('docker exec hh-new-mtis-api-1 node /app/reset-db.js', { stdio: 'pipe', timeout: 20000 });
+      execSync('docker exec hhnew-api-1 node /app/reset-db.js', { stdio: 'pipe', timeout: 20000 });
     } catch (_) {}
   });
   test('12 — Reset password with invalid token shows error', async ({ page }) => {

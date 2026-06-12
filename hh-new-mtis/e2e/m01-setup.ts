@@ -40,7 +40,10 @@ export async function apiLogin(page, username, password) {
     data: { username, password },
   });
   const data = await response.json();
+  // Navigate first so localStorage is accessible on the correct origin
   await page.goto(BASE);
+  // Wait for SPA to load before setting token
+  await page.waitForLoadState('domcontentloaded');
   await page.evaluate((token) => localStorage.setItem('mtis_token', token), data.token);
   return data.token;
 }
@@ -82,15 +85,6 @@ export async function apiCall(page, method, path, body = null) {
 }
 
 /**
- * Navigate to SPA screen by hash.
- */
-export async function navigateToScreen(page, hash) {
-  await page.goto(`${BASE}${hash}`);
-  // Wait for content to render
-  await page.waitForTimeout(500);
-}
-
-/**
  * Create a random username for unique test records.
  * Format: tcYYMMDD_HHMMSS_XXXX
  */
@@ -102,10 +96,14 @@ export function randomUsername() {
 }
 
 /**
- * Wait for element with custom timeout.
+ * Navigate to SPA screen by hash — changes hash ONLY (no page reload, preserves localStorage).
  */
-export async function waitForElement(page, selector, timeout = 5000) {
-  await page.waitForSelector(selector, { timeout });
+export async function navigateToScreen(page, hash) {
+  if (!hash.startsWith('#')) hash = '#' + hash;
+  // Just change the hash — preserves localStorage token
+  await page.evaluate((h) => { window.location.hash = h; }, hash);
+  // Wait for SPA router to process the hashchange
+  await page.waitForTimeout(500);
 }
 
 /**

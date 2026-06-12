@@ -1,7 +1,7 @@
 // M01 — CommonTC Validate Tests (Sheet 2)
 // Field validation: Textbox, Email, Password, Number, Date, IP, Checkbox, Combo, Radio
 import { test, expect } from '@playwright/test';
-import { apiCall, randomUsername, randomEmail, randomFullName, expectError, navigateTo, expectSuccess, apiLogin, BASE } from './m01-setup';
+import { apiCall, randomUsername, apiLogin, navigateToScreen, assertErrorVisible, BASE } from './m01-setup';
 
 const CRED = {
   admin: { username: 'admin', password: 'admin123' },
@@ -18,7 +18,7 @@ test.describe('Textbox', () => {
 
   test('TC-V-01: Textbox default value = empty', async ({ page }) => {
     await apiLogin(page, CRED.admin.username, CRED.admin.password);
-    await navigateTo(page, '#register');
+    await navigateToScreen(page, '#register');
     await page.waitForSelector('#reg-username', { timeout: 5000 });
     const usernameVal = await page.locator('#reg-username').inputValue();
     const fullnameVal = await page.locator('#reg-fullname').inputValue();
@@ -29,8 +29,8 @@ test.describe('Textbox', () => {
   });
 
   test('TC-V-02: Textbox required field — empty shows error', async ({ page }) => {
-    await loginAdmin(page);
-    await navigateTo(page, '#register');
+    await apiLogin(page, CRED.admin.username, CRED.admin.password);
+    await navigateToScreen(page, '#register');
     await page.waitForSelector('#reg-username', { timeout: 5000 });
     // Leave username empty, fill others
     await page.fill('#reg-fullname', 'Test User');
@@ -53,8 +53,8 @@ test.describe('Password', () => {
   test.describe.configure({ mode: 'serial' });
 
   test('TC-V-61: Password strength — 8+ chars with upper, lower, digit, special', async ({ page }) => {
-    await loginAdmin(page);
-    await navigateTo(page, '#register');
+    await apiLogin(page, CRED.admin.username, CRED.admin.password);
+    await navigateToScreen(page, '#register');
     const u = randomUsername('pw-strength');
     // Weak password — only lowercase + digit
     await page.fill('#reg-username', u);
@@ -65,11 +65,12 @@ test.describe('Password', () => {
     await page.selectOption('#reg-role', 'infrastructure-officer');
     await page.click('#reg-btn');
     await page.waitForTimeout(1500);
-    await expectError(page, '#reg-error');
+    const errVisible = await page.locator('#reg-error').isVisible().catch(() => false);
+    expect(errVisible).toBeTruthy();
   });
 
   test('TC-V-61b: Password meets all strength requirements', async ({ page }) => {
-    await loginAdmin(page);
+    await apiLogin(page, CRED.admin.username, CRED.admin.password);
     const u = randomUsername('pw-good');
     const res = await apiCall(page, 'POST', '/api/users', {
       username: u, password: 'Str0ng@Pass', full_name: 'Good Password', email: 'good@x.vn', role: 'infrastructure-officer'
@@ -78,8 +79,8 @@ test.describe('Password', () => {
   });
 
   test('TC-V-62: Password masking (shows asterisks)', async ({ page }) => {
-    await loginAdmin(page);
-    await navigateTo(page, '#register');
+    await apiLogin(page, CRED.admin.username, CRED.admin.password);
+    await navigateToScreen(page, '#register');
     const u = randomUsername('mask');
     await page.fill('#reg-username', u);
     await page.fill('#reg-fullname', 'Mask Test');
@@ -94,8 +95,8 @@ test.describe('Password', () => {
   });
 
   test('TC-V-63: Password > maxlength (30 chars) — blocked', async ({ page }) => {
-    await loginAdmin(page);
-    await navigateTo(page, '#register');
+    await apiLogin(page, CRED.admin.username, CRED.admin.password);
+    await navigateToScreen(page, '#register');
     const u = randomUsername('pw-long');
     const longPw = 'A'.repeat(40) + '1!a';
     await page.fill('#reg-username', u);
@@ -114,8 +115,8 @@ test.describe('Password', () => {
   });
 
   test('TC-V-64: Password < minlength (6 chars) — error', async ({ page }) => {
-    await loginAdmin(page);
-    await navigateTo(page, '#register');
+    await apiLogin(page, CRED.admin.username, CRED.admin.password);
+    await navigateToScreen(page, '#register');
     const u = randomUsername('pw-short');
     await page.fill('#reg-username', u);
     await page.fill('#reg-fullname', 'Short Password');
@@ -125,11 +126,12 @@ test.describe('Password', () => {
     await page.selectOption('#reg-role', 'infrastructure-officer');
     await page.click('#reg-btn');
     await page.waitForTimeout(1500);
-    await expectError(page, '#reg-error');
+    const errVisible = await page.locator('#reg-error').isVisible().catch(() => false);
+    expect(errVisible).toBeTruthy();
   });
 
   test('TC-V-65: Password allows numbers', async ({ page }) => {
-    await loginAdmin(page);
+    await apiLogin(page, CRED.admin.username, CRED.admin.password);
     const u = randomUsername('pw-num');
     const res = await apiCall(page, 'POST', '/api/users', {
       username: u, password: 'Test1234!', full_name: 'Numbers in PW',
@@ -139,7 +141,7 @@ test.describe('Password', () => {
   });
 
   test('TC-V-66: Password allows special chars', async ({ page }) => {
-    await loginAdmin(page);
+    await apiLogin(page, CRED.admin.username, CRED.admin.password);
     const u = randomUsername('pw-spec');
     const res = await apiCall(page, 'POST', '/api/users', {
       username: u, password: 'P@ssw0rd!#$%', full_name: 'Special in PW',
@@ -155,8 +157,8 @@ test.describe('Combo/Select', () => {
   test.describe.configure({ mode: 'serial' });
 
   test('TC-V-33: Combo default value', async ({ page }) => {
-    await loginAdmin(page);
-    await navigateTo(page, '#register');
+    await apiLogin(page, CRED.admin.username, CRED.admin.password);
+    await navigateToScreen(page, '#register');
     await page.waitForSelector('#reg-role', { timeout: 5000 });
     const selected = await page.locator('#reg-role').inputValue();
     // Default may be empty string or first option — either is acceptable
@@ -164,8 +166,8 @@ test.describe('Combo/Select', () => {
   });
 
   test('TC-V-34: Combo options sorted alphabetically', async ({ page }) => {
-    await loginAdmin(page);
-    await navigateTo(page, '#register');
+    await apiLogin(page, CRED.admin.username, CRED.admin.password);
+    await navigateToScreen(page, '#register');
     const options = await page.locator('#reg-role option').allTextContents();
     // Filter out placeholder option for sorting
     const nonPlaceholder = options.filter(o => o !== 'Chọn vai trò');
@@ -174,7 +176,7 @@ test.describe('Combo/Select', () => {
   });
 
   test('TC-V-35: Combo selection saved correctly', async ({ page }) => {
-    await loginAdmin(page);
+    await apiLogin(page, CRED.admin.username, CRED.admin.password);
     const u = randomUsername('combo');
     const res = await apiCall(page, 'POST', '/api/users', {
       username: u, password: 'Test@123', full_name: 'Combo Test',
@@ -190,8 +192,8 @@ test.describe('Checkbox', () => {
   test.describe.configure({ mode: 'serial' });
 
   test('TC-V-36: Checkbox default state', async ({ page }) => {
-    await loginAdmin(page);
-    await navigateTo(page, '#users');
+    await apiLogin(page, CRED.admin.username, CRED.admin.password);
+    await navigateToScreen(page, '#users');
     // User list should have checkboxes for each row
     const checkboxes = page.locator('input[type="checkbox"]');
     const count = await checkboxes.count();
@@ -200,8 +202,8 @@ test.describe('Checkbox', () => {
   });
 
   test('TC-V-37: Checkbox toggle', async ({ page }) => {
-    await loginAdmin(page);
-    await navigateTo(page, '#users');
+    await apiLogin(page, CRED.admin.username, CRED.admin.password);
+    await navigateToScreen(page, '#users');
     const checkboxes = page.locator('input[type="checkbox"]');
     const count = await checkboxes.count();
     if (count > 0) {
@@ -222,7 +224,7 @@ test.describe('Date', () => {
 
   test('TC-V-57: Date field required — empty shows error', async ({ page }) => {
     // Use API to create user (date fields not on this form)
-    await loginAdmin(page);
+    await apiLogin(page, CRED.admin.username, CRED.admin.password);
     const u = randomUsername('date-empty');
     const res = await apiCall(page, 'POST', '/api/users', {
       username: u, password: 'Test@123', full_name: 'Date Test',
@@ -239,7 +241,7 @@ test.describe('IP Address', () => {
 
   test('TC-V-67: IP format valid', async ({ page }) => {
     // API-level test — IP validation is on the server
-    await loginAdmin(page);
+    await apiLogin(page, CRED.admin.username, CRED.admin.password);
     const res = await apiCall(page, 'GET', '/api/users?page=1&limit=5');
     expect(res.status).toBe(200);
     expect(Array.isArray(res.data.users)).toBeTruthy();
@@ -252,8 +254,8 @@ test.describe('Textarea/Notes', () => {
   test.describe.configure({ mode: 'serial' });
 
   test('TC-V-08: Textarea default = empty', async ({ page }) => {
-    await loginAdmin(page);
-    await navigateTo(page, '#register');
+    await apiLogin(page, CRED.admin.username, CRED.admin.password);
+    await navigateToScreen(page, '#register');
     // M01 registration form may not have textarea — verify form exists
     const usernameExists = await page.locator('#reg-username').isVisible();
     expect(usernameExists).toBe(true);
@@ -261,7 +263,7 @@ test.describe('Textarea/Notes', () => {
 
   test('TC-V-14: Textarea multi-line support', async ({ page }) => {
     // Multi-line test via API (backend should accept multi-line in name/email)
-    await loginAdmin(page);
+    await apiLogin(page, CRED.admin.username, CRED.admin.password);
     const u = randomUsername('multiline');
     await page.goto(BASE + '#register');
     await page.waitForSelector('#reg-username', { timeout: 5000 });
@@ -287,7 +289,7 @@ test.describe('Number/Phone', () => {
 
   test('TC-V-15: Number field — input digits', async ({ page }) => {
     // Use API (M01 registration form does not have dedicated number field)
-    await loginAdmin(page);
+    await apiLogin(page, CRED.admin.username, CRED.admin.password);
     const u = randomUsername('num');
     const res = await apiCall(page, 'POST', '/api/users', {
       username: u, password: 'Test@123', full_name: 'Number Test',
@@ -297,8 +299,8 @@ test.describe('Number/Phone', () => {
   });
 
   test('TC-V-20: Number field rejects letters', async ({ page }) => {
-    await loginAdmin(page);
-    await navigateTo(page, '#register');
+    await apiLogin(page, CRED.admin.username, CRED.admin.password);
+    await navigateToScreen(page, '#register');
     const u = randomUsername('num-letters');
     await page.fill('#reg-username', u);
     await page.fill('#reg-fullname', 'Abc123');

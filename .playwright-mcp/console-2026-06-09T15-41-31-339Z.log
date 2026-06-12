@@ -1,0 +1,9 @@
+[     166ms] [VERBOSE] [DOM] Password field is not contained in a form: (More info: https://goo.gl/9p2vKq) @ http://localhost:3000/login.html:0
+[   11734ms] ReferenceError: Chart is not defined
+    at http://localhost:3000/dashboard.html:379:3
+    at http://localhost:3000/dashboard.html:421:3
+[   19410ms] [VERBOSE] [DOM] Password field is not contained in a form: (More info: https://goo.gl/9p2vKq) %o @ http://localhost:3000/M01-user-management.html:0
+[   19410ms] [VERBOSE] [DOM] Password field is not contained in a form: (More info: https://goo.gl/9p2vKq) %o @ http://localhost:3000/M01-user-management.html:0
+[   19410ms] [VERBOSE] [DOM] Password field is not contained in a form: (More info: https://goo.gl/9p2vKq) %o @ http://localhost:3000/M01-user-management.html:0
+[   19410ms] [VERBOSE] [DOM] Password field is not contained in a form: (More info: https://goo.gl/9p2vKq) %o @ http://localhost:3000/M01-user-management.html:0
+[   19410ms] [VERBOSE] [DOM] Password field is not contained in a form: (More info: https://goo.gl/9p2vKq) %o @ http://localhost:3000/M01-user-management.html:0
