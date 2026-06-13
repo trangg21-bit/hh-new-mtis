@@ -6,6 +6,7 @@
 const SCREEN_USERS = {
   _data: [], _page: 1, _total: 0,
   _filters: { search: '', role: '', status: '', org_id: '' },
+  _units: [],
 
   render() {
     return `
@@ -118,35 +119,24 @@ const SCREEN_USERS = {
   },
 
   afterRender() {
-    this._loadOrgs();
+    this._loadUnits();
     this.load();
   },
 
-  async _loadOrgs() {
+  async _loadUnits() {
     try {
-      const data = await apiGet('/api/organizations');
-      const orgs = data.organizations || [];
-      const select = document.getElementById('user-org-filter');
-      if (!select) return;
-      // Build tree options
-      const buildOptions = (items, depth) => {
-        items.forEach(o => {
+      const data = await apiGet('/api/units');
+      this._units = data.units || [];
+      // Populate filter dropdown
+      const filterSelect = document.getElementById('user-org-filter');
+      if (filterSelect) {
+        this._units.forEach(u => {
           const opt = document.createElement('option');
-          opt.value = o.id;
-          opt.textContent = o.name;
-          opt.className = depth > 0 ? 'org-indent-' + Math.min(depth, 5) : '';
-          select.appendChild(opt);
-          if (o.children && o.children.length) buildOptions(o.children, depth + 1);
+          opt.value = u.name;
+          opt.textContent = u.name;
+          filterSelect.appendChild(opt);
         });
-      };
-      const map = {};
-      const roots = [];
-      orgs.forEach(o => { map[o.id] = { ...o, children: [] }; });
-      orgs.forEach(o => {
-        if (o.parent_id && map[o.parent_id]) map[o.parent_id].children.push(map[o.id]);
-        else roots.push(map[o.id]);
-      });
-      buildOptions(roots, 0);
+      }
     } catch (e) { /* silent */ }
   },
 
@@ -251,6 +241,11 @@ const SCREEN_USERS = {
     overlay.className = 'modal-overlay';
     overlay.onclick = (e) => { if (e.target === overlay) overlay.remove(); };
 
+    // Build unit options for dropdown
+    const unitOptions = this._units.map(u => 
+      `<option value="${esc(u.name)}" ${user?.org_unit === u.name ? 'selected' : ''}>${esc(u.name)}</option>`
+    ).join('');
+
     overlay.innerHTML = `
       <div class="modal-card modal-lg">
         <div class="modal-header">
@@ -297,6 +292,13 @@ const SCREEN_USERS = {
                 </select>
               </div>
             </div>
+            <div class="form-group">
+              <label>Đơn vị</label>
+              <select class="form-control" id="user-org-unit">
+                <option value="">— Chọn đơn vị —</option>
+                ${unitOptions}
+              </select>
+            </div>
           </form>
         </div>
         <div class="modal-footer" style="display:flex;justify-content:flex-end;gap:8px;padding-top:12px;border-top:1px solid var(--color-border-light)">
@@ -316,15 +318,20 @@ const SCREEN_USERS = {
     const role = document.getElementById('user-role').value;
     const status = parseInt(document.getElementById('user-status').value);
     const password = document.getElementById('user-password').value;
+    const org_unit = document.getElementById('user-org-unit').value.trim();
 
     if (!username || !fullname || !email) return TOAST.warning('Vui lòng điền đầy đủ thông tin!');
 
     try {
+      const body = { username, full_name: fullname, email, role, status, org_unit: org_unit || null };
+      if (password) body.password = password;
+      else delete body.password;
+
       if (isCreate) {
         if (!password) return TOAST.warning('Vui lòng nhập mật khẩu!');
-        await apiPost('/api/users', { username, full_name: fullname, email, password, role, status });
+        await apiPost('/api/users', body);
       } else {
-        await apiPut(`/api/users/${userId}`, { username, full_name: fullname, email, role, status, password: password || undefined });
+        await apiPut(`/api/users/${userId}`, body);
       }
       // Close overlay
       const overlay = document.querySelector('.modal-overlay');
