@@ -81,6 +81,22 @@
 
 /* ===== BUG FIX 4: Unit indent via CSS .org-depth class (not text emoji) ===== */
 .org-depth { display: inline-block; flex-shrink: 0; }
+/* ===== SEARCH FIELD ===== */
+#user-search {
+  position: relative;
+  padding-left: 32px !important;
+}
+#user-search::before {
+  content: '🔍';
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 14px;
+  color: var(--color-muted-light);
+  z-index: 1;
+  pointer-events: none;
+}
 .admin-toolbar select { width: 180px; }
 
 .enterprise-table-wrap { padding: 0 20px 6px; }
@@ -389,216 +405,4 @@
   }
 }
 
-/* ================================================================
-   MTIS System Dashboard — Home page styles (NO KPI CARDS)
-   ================================================================ */
 
-.dashboard-hero {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 32px;
-  margin-bottom: 32px;
-  padding: 24px;
-  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-hover) 100%);
-  color: var(--color-white);
-  border-radius: var(--radius-card);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
-}
-
-.hero-left h1 {
-  margin: 0 0 4px;
-  font-size: var(--font-size-2xl);
-  font-weight: 700;
-  color: var(--color-white);
-}
-
-.hero-subtitle {
-  margin: 0 0 8px;
-  font-size: var(--font-size-sm);
-  opacity: 0.85;
-  color: var(--color-white);
-}
-
-.hero-welcome {
-  margin: 0;
-  font-size: var(--font-size-base);
-  color: var(--color-white);
-}
-
-.quick-stats {
-  display: flex;
-  gap: 24px;
-  flex-wrap: wrap;
-}
-
-.quick-stat {
-  text-align: center;
-  padding: 12px 20px;
-  background: rgba(255, 255, 255, 0.15);
-  border-radius: var(--radius-btn);
-  backdrop-filter: blur(4px);
-}
-
-.quick-stat-value {
-  display: block;
-  font-size: var(--font-size-2xl);
-  font-weight: 700;
-  color: var(--color-white);
-}
-
-.quick-stat-label {
-  font-size: var(--font-size-xs);
-  color: rgba(255, 255, 255, 0.85);
-}
-
-.dashboard-section {
-  margin-bottom: 32px;
-}
-
-.section-title {
-  margin: 0 0 16px;
-  font-size: var(--font-size-xl);
-  font-weight: 700;
-  color: var(--color-body-text);
-  border-bottom: 2px solid var(--color-primary);
-  padding-bottom: 8px;
-}
-
-.module-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 16px;
-}
-
-.module-card {
-  display: flex;
-  align-items: flex-start;
-  gap: 16px;
-  padding: 16px;
-  background: var(--color-white);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-card);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-  transition: var(--transition-fast);
-}
-
-.module-card.active {
-  border-left: 4px solid var(--color-success);
-}
-
-.module-card:hover {
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
-  transform: translateY(-2px);
-}
-
-.module-icon {
-  font-size: 32px;
-  flex-shrink: 0;
-}
-
-.module-info {
-  flex: 1;
-  min-width: 0;
-}
-
-.module-name {
-  font-size: var(--font-size-base);
-  font-weight: 600;
-  color: var(--color-body-text);
-  margin-bottom: 4px;
-}
-
-.module-id {
-  color: var(--color-muted);
-  font-size: var(--font-size-xs);
-  font-weight: 400;
-}
-
-.module-desc {
-  font-size: var(--font-size-sm);
-  color: var(--color-muted);
-  margin-bottom: 8px;
-  line-height: 1.4;
-}
-
-.module-meta {
-  display: flex;
-  gap: 12px;
-  align-items: center;
-}
-
-.module-features {
-  font-size: var(--font-size-xs);
-  color: var(--color-muted);
-}
-
-.module-status {
-  font-size: var(--font-size-xs);
-  font-weight: 600;
-}
-
-.module-link {
-  font-size: var(--font-size-sm);
-  color: var(--color-primary);
-  text-decoration: none;
-  white-space: nowrap;
-  flex-shrink: 0;
-}
-
-.module-link:hover {
-  text-decoration: underline;
-}
-
-.module-coming {
-  font-size: var(--font-size-xs);
-  color: var(--color-muted-light);
-  white-space: nowrap;
-  flex-shrink: 0;
-}
-
-.quick-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-}
-
-.quick-action-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 10px 16px;
-  background: var(--color-white);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-btn);
-  color: var(--color-body-text);
-  text-decoration: none;
-  font-size: var(--font-size-sm);
-  transition: var(--transition-fast);
-}
-
-.quick-action-btn:hover {
-  background: var(--color-ghost-hover);
-  border-color: var(--color-primary);
-  color: var(--color-primary);
-}
-
-@media (max-width: 768px) {
-  .dashboard-hero {
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 16px;
-  }
-
-  .quick-stats {
-    justify-content: flex-start;
-  }
-
-  .module-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .quick-actions {
-    flex-direction: column;
-  }
-}

@@ -269,6 +269,17 @@ if (orgCount === 0) {
     VALUES (?, ?, ?, ?, ?, ?, ?)`).run('lanhdao', hash, 'Lê Văn C', 'lanhdao@mtis.vn', '0977112233', 'Cảng vụ Hàng hải Hải Phòng', 'Lãnh đạo Cảng vụ');
 }
 
+// Seed unit_management (if empty)
+const unitCount = db.prepare('SELECT COUNT(*) as c FROM unit_management').get().c;
+if (unitCount === 0) {
+  db.prepare('INSERT INTO unit_management (name, code, type, sort_order) VALUES (?, ?, ?, ?)').run("Cục Hàng hải Việt Nam", "HHVN", "ministry", 1);
+  db.prepare('INSERT INTO unit_management (name, code, parent_id, type, sort_order) VALUES (?, ?, ?, ?, ?)').run("Cảng vụ Hàng hải Hải Phòng", "CVHP", 1, "department", 2);
+  db.prepare('INSERT INTO unit_management (name, code, parent_id, type, sort_order) VALUES (?, ?, ?, ?, ?)').run("Cảng vụ Hàng hải Đà Nẵng", "CVDN", 1, "department", 3);
+  db.prepare('INSERT INTO unit_management (name, code, parent_id, type, sort_order) VALUES (?, ?, ?, ?, ?)').run("Cảng vụ Hàng hải TP Hồ Chí Minh", "CVHCM", 1, "department", 4);
+  db.prepare('INSERT INTO unit_management (name, code, parent_id, type, sort_order) VALUES (?, ?, ?, ?, ?)').run("Phòng KCHT Hải Phòng", "PKHP", 2, "sub-department", 5);
+  db.prepare('INSERT INTO unit_management (name, code, parent_id, type, sort_order) VALUES (?, ?, ?, ?, ?)').run("Ban Quản lý luồng", "BQL", 1, "sub-department", 6);
+}
+
 // Seed user_groups (if empty) — independent of users seed to avoid FK issues on re-runs
 const ugCount = db.prepare('SELECT COUNT(*) as c FROM user_groups').get().c;
 if (ugCount === 0) {

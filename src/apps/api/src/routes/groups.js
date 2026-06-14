@@ -3,6 +3,27 @@ const db = require('../db');
 
 const router = express.Router();
 
+// Default feature codes for new group permission matrix
+const DEFAULT_FEATURE_CODES = ['user', 'group', 'permission', 'org', 'login_log', 'totp', 'session'];
+
+function createDefaultPermissions(groupId) {
+  const insert = db.prepare(`
+    INSERT INTO group_permissions (group_id, feature_code, can_create, can_read, can_update, can_delete, updated_at)
+    VALUES (?, ?, 0, 0, 0, 0, datetime('now','localtime'))
+  `);
+  const upsertMany = db.transaction((items) => {
+    for (const item of items) {
+      insert.run(item.group_id, item.feature_code);
+    }
+  });
+  try {
+    const records = DEFAULT_FEATURE_CODES.map(fc => ({ group_id: groupId, feature_code: fc }));
+    upsertMany(records);
+  } catch (e) {
+    console.error(JSON.stringify({ event: 'error', route: 'createDefaultPermissions', error: e.message }));
+  }
+}
+
 // GET /api/users/groups — list all groups with member count
 router.get('/', (req, res) => {
   const groups = db.prepare(`
@@ -18,12 +39,18 @@ router.post('/', (req, res) => {
   if (!name) return res.status(400).json({ error: 'Thiếu tên nhóm' });
   try {
     const info = db.prepare('INSERT INTO user_groups (name, description) VALUES (?, ?)').run(name, description);
-    res.status(201).json({ id: info.lastInsertRowid });
+    const newGroupId = Number(info.lastInsertRowid);
+    // Create default permission matrix (all features, all actions = 0)
+    // Wrap in its own transaction — group creation must succeed even if default perms fail
+    try {
+      createDefaultPermissions(newGroupId);
+    } catch (permErr) {
+      console.error(JSON.stringify({ event: 'warn', route: 'POST /api/users/groups', msg: 'Default permissions failed, group still created', error: permErr.message }));
+    }
+    res.status(201).json({ id: newGroupId });
   } catch(e) {
     console.error(JSON.stringify({ event: 'error', route: 'POST /api/users/groups', error: e?.message }));
-    // RR-04: Don't swallow error — log it
     if (e.message.includes('UNIQUE')) return res.status(409).json({ error: 'Tên nhóm đã tồn tại' });
-    console.error(JSON.stringify({ event: 'error', route: 'PUT /api/users/groups/:id', error: e?.message }));
     res.status(500).json({ error: 'Lỗi máy chủ nội bộ' });
   }
 });
@@ -61,7 +88,7 @@ router.get('/:id/members', (req, res) => {
     FROM group_members gm
     JOIN users u ON gm.user_id = u.id
     WHERE gm.group_id = ?
-    ORDER BY u.full_name
+    ORDER BY gm.id DESC
   `).all(groupId);
   res.json({ members });
 });

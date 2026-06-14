@@ -12,7 +12,8 @@ services:
       - PORT=3000
       - DB_PATH=/app/data/database.sqlite
       - NODE_ENV=development
+      - CORS_ORIGIN=http://localhost:3000
       - ENABLE_E2E_TEST_HOOKS=true
-      - JWT_SECRET=${JWT_SECRET}
-      - TOTP_ENCRYPTION_KEY=${TOTP_ENCRYPTION_KEY}
+      - JWT_SECRET=dev-jwt-secret-change-in-production-2026
+      - TOTP_ENCRYPTION_KEY=dev-totp-key-change-in-production-2026
     restart: unless-stopped

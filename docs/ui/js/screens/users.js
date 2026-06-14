@@ -120,23 +120,53 @@ const SCREEN_USERS = {
 
   afterRender() {
     this._loadUnits();
+    this._loadOrgs();
     this.load();
   },
 
+  // Load units for dropdown in create/edit modal
   async _loadUnits() {
     try {
       const data = await apiGet('/api/units');
       this._units = data.units || [];
-      // Populate filter dropdown
-      const filterSelect = document.getElementById('user-org-filter');
-      if (filterSelect) {
-        this._units.forEach(u => {
-          const opt = document.createElement('option');
-          opt.value = u.name;
-          opt.textContent = u.name;
-          filterSelect.appendChild(opt);
-        });
+    } catch (e) {
+      console.error('Failed to load units, falling back to orgs:', e);
+      // Fallback: load from organizations endpoint
+      try {
+        const orgData = await apiGet('/api/organizations');
+        this._units = (orgData.organizations || []).map(o => ({ name: o.name }));
+      } catch (e2) {
+        console.error('Failed to load orgs:', e2);
+        this._units = [];
       }
+    }
+  },
+
+  async _loadOrgs() {
+    try {
+      const data = await apiGet('/api/organizations');
+      const orgs = data.organizations || [];
+      const select = document.getElementById('user-org-filter');
+      if (!select) return;
+      // Build tree options
+      const buildOptions = (items, depth) => {
+        items.forEach(o => {
+          const opt = document.createElement('option');
+          opt.value = o.id;
+          opt.textContent = o.name;
+          opt.className = depth > 0 ? 'org-indent-' + Math.min(depth, 5) : '';
+          select.appendChild(opt);
+          if (o.children && o.children.length) buildOptions(o.children, depth + 1);
+        });
+      };
+      const map = {};
+      const roots = [];
+      orgs.forEach(o => { map[o.id] = { ...o, children: [] }; });
+      orgs.forEach(o => {
+        if (o.parent_id && map[o.parent_id]) map[o.parent_id].children.push(map[o.id]);
+        else roots.push(map[o.id]);
+      });
+      buildOptions(roots, 0);
     } catch (e) { /* silent */ }
   },
 
@@ -237,14 +267,15 @@ const SCREEN_USERS = {
     if (stale) stale.remove();
     const isCreate = !user;
     const userId = isCreate ? '' : editId;
-    const overlay = document.createElement('div');
-    overlay.className = 'modal-overlay';
-    overlay.onclick = (e) => { if (e.target === overlay) overlay.remove(); };
 
     // Build unit options for dropdown
     const unitOptions = this._units.map(u => 
       `<option value="${esc(u.name)}" ${user?.org_unit === u.name ? 'selected' : ''}>${esc(u.name)}</option>`
     ).join('');
+
+    const overlay = document.createElement('div');
+    overlay.className = 'modal-overlay';
+    overlay.onclick = (e) => { if (e.target === overlay) overlay.remove(); };
 
     overlay.innerHTML = `
       <div class="modal-card modal-lg">
@@ -323,15 +354,27 @@ const SCREEN_USERS = {
     if (!username || !fullname || !email) return TOAST.warning('Vui lòng điền đầy đủ thông tin!');
 
     try {
-      const body = { username, full_name: fullname, email, role, status, org_unit: org_unit || null };
-      if (password) body.password = password;
-      else delete body.password;
-
       if (isCreate) {
         if (!password) return TOAST.warning('Vui lòng nhập mật khẩu!');
-        await apiPost('/api/users', body);
+        await apiPost('/api/users', { 
+          username, 
+          full_name: fullname, 
+          email, 
+          password, 
+          role, 
+          status,
+          org_unit: org_unit || null 
+        });
       } else {
-        await apiPut(`/api/users/${userId}`, body);
+        await apiPut(`/api/users/${userId}`, { 
+          username, 
+          full_name: fullname, 
+          email, 
+          role, 
+          status, 
+          password: password || undefined,
+          org_unit: org_unit || null 
+        });
       }
       // Close overlay
       const overlay = document.querySelector('.modal-overlay');

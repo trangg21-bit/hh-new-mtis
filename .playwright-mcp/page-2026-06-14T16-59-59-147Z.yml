@@ -1,0 +1,380 @@
+- generic [ref=e1]:
+  - link "Bỏ qua điều hướng" [ref=e2] [cursor=pointer]:
+    - /url: "#main-content"
+  - generic [ref=e3]:
+    - navigation "Menu chính" [ref=e592]:
+      - img "Cục Hàng hải Việt Nam" [ref=e594]
+      - navigation [ref=e595]:
+        - generic [ref=e596]:
+          - generic [ref=e598] [cursor=pointer]:
+            - img [ref=e599]
+            - text: Trang chủ
+          - link "Tổng quan" [ref=e602] [cursor=pointer]:
+            - /url: "#dashboard"
+            - img [ref=e604]
+            - generic [ref=e606]: Tổng quan
+        - generic [ref=e607]:
+          - generic [ref=e608] [cursor=pointer]:
+            - generic [ref=e609]:
+              - img [ref=e610]
+              - text: Quản lý người dùng
+            - generic [ref=e614]: ▼
+          - generic:
+            - link "Danh sách người dùng" [ref=e615] [cursor=pointer]:
+              - /url: "#users"
+              - img [ref=e617]
+              - generic [ref=e621]: Danh sách người dùng
+            - link "Nhóm người dùng" [ref=e622] [cursor=pointer]:
+              - /url: "#groups"
+              - img [ref=e624]
+              - generic [ref=e628]: Nhóm người dùng
+            - link "Phân quyền" [ref=e629] [cursor=pointer]:
+              - /url: "#permissions"
+              - img [ref=e631]
+              - generic [ref=e634]: Phân quyền
+            - link "Đơn vị" [ref=e635] [cursor=pointer]:
+              - /url: "#organizations"
+              - img [ref=e637]
+              - generic [ref=e642]: Đơn vị
+        - generic [ref=e643]:
+          - generic [ref=e645] [cursor=pointer]:
+            - img [ref=e646]
+            - text: Nhật ký & Phiên
+          - link "Nhật ký đăng nhập" [ref=e649] [cursor=pointer]:
+            - /url: "#login-log"
+            - img [ref=e651]
+            - generic [ref=e654]: Nhật ký đăng nhập
+        - generic [ref=e655]:
+          - generic [ref=e657] [cursor=pointer]:
+            - img [ref=e658]
+            - text: Quản trị hệ thống
+          - link "Tổng quan" [ref=e660] [cursor=pointer]:
+            - /url: "#dashboard"
+            - img [ref=e662]
+            - generic [ref=e664]: Tổng quan
+        - generic [ref=e665]:
+          - generic [ref=e667] [cursor=pointer]:
+            - img [ref=e668]
+            - text: Thông số kỹ thuật KCHT
+          - link "Thông số KCHT" [ref=e673] [cursor=pointer]:
+            - /url: "#dashboard"
+            - img [ref=e675]
+            - generic [ref=e680]: Thông số KCHT
+        - generic [ref=e681]:
+          - generic [ref=e683] [cursor=pointer]:
+            - img [ref=e684]
+            - text: Vận hành bảo trì
+          - link "Vận hành & bảo trì" [ref=e686] [cursor=pointer]:
+            - /url: "#dashboard"
+            - img [ref=e688]
+            - generic [ref=e690]: Vận hành & bảo trì
+        - generic [ref=e691]:
+          - generic [ref=e693] [cursor=pointer]:
+            - img [ref=e694]
+            - text: Quy hoạch KCHT
+          - link "Quy hoạch" [ref=e697] [cursor=pointer]:
+            - /url: "#dashboard"
+            - img [ref=e699]
+            - generic [ref=e702]: Quy hoạch
+        - generic [ref=e703]:
+          - generic [ref=e705] [cursor=pointer]:
+            - img [ref=e706]
+            - text: Quản lý tài sản
+          - link "Tài sản KCHT" [ref=e709] [cursor=pointer]:
+            - /url: "#dashboard"
+            - img [ref=e711]
+            - generic [ref=e714]: Tài sản KCHT
+        - generic [ref=e715]:
+          - generic [ref=e717] [cursor=pointer]:
+            - img [ref=e718]
+            - text: Bản đồ GIS
+          - link "Bản đồ GIS" [ref=e721] [cursor=pointer]:
+            - /url: "#dashboard"
+            - img [ref=e723]
+            - generic [ref=e726]: Bản đồ GIS
+        - generic [ref=e727]:
+          - generic [ref=e729] [cursor=pointer]:
+            - img [ref=e730]
+            - text: Báo cáo thống kê
+          - link "Báo cáo" [ref=e731] [cursor=pointer]:
+            - /url: "#dashboard"
+            - img [ref=e733]
+            - generic [ref=e734]: Báo cáo
+        - generic [ref=e735]:
+          - generic [ref=e737] [cursor=pointer]:
+            - img [ref=e738]
+            - text: Liên thông dữ liệu
+          - link "Liên thông" [ref=e741] [cursor=pointer]:
+            - /url: "#dashboard"
+            - img [ref=e743]
+            - generic [ref=e746]: Liên thông
+        - generic [ref=e747]:
+          - generic [ref=e749] [cursor=pointer]:
+            - img [ref=e750]
+            - text: Biên tập hải đồ
+          - link "Hải đồ" [ref=e753] [cursor=pointer]:
+            - /url: "#dashboard"
+            - img [ref=e755]
+            - generic [ref=e758]: Hải đồ
+        - generic [ref=e759]:
+          - generic [ref=e761] [cursor=pointer]:
+            - img [ref=e762]
+            - text: Tạo lập CSDL
+          - link "Tạo lập CSDL KCHT" [ref=e766] [cursor=pointer]:
+            - /url: "#dashboard"
+            - img [ref=e768]
+            - generic [ref=e772]: Tạo lập CSDL KCHT
+      - generic [ref=e773]: Cục Hàng hải Việt Nam
+    - generic [ref=e774]:
+      - banner [ref=e775]:
+        - generic [ref=e776]:
+          - strong [ref=e777]: HỆ THỐNG THÔNG TIN QUẢN LÝ KẾT CẤU HẠ TẦNG GIAO THÔNG HÀNG HẢI
+          - generic [ref=e778]: Cục Hàng hải Việt Nam
+        - generic [ref=e780] [cursor=pointer]:
+          - generic [ref=e781]: Nguyễn Văn A
+          - generic [ref=e782]: system-admin
+          - button "Menu người dùng" [ref=e783]: "N"
+      - generic [ref=e786]:
+        - generic [ref=e787]:
+          - generic [ref=e788]:
+            - link "Tổng quan" [ref=e789] [cursor=pointer]:
+              - /url: "#dashboard"
+            - generic [ref=e790]: /
+            - generic [ref=e791]: Nhóm người dùng
+          - heading "Nhóm người dùng" [level=1] [ref=e792]
+        - separator [ref=e793]
+        - generic [ref=e794]:
+          - heading "Danh sách nhóm quyền" [level=3] [ref=e796]
+          - button "Thêm nhóm" [ref=e797] [cursor=pointer]:
+            - img [ref=e799]
+            - text: Thêm nhóm
+        - table [ref=e801]:
+          - rowgroup [ref=e802]:
+            - row "STT Tên nhóm Mô tả Người dùng Thao tác" [ref=e803]:
+              - columnheader "STT" [ref=e804]
+              - columnheader "Tên nhóm" [ref=e805]
+              - columnheader "Mô tả" [ref=e806]
+              - columnheader "Người dùng" [ref=e807]
+              - columnheader "Thao tác" [ref=e808]
+          - rowgroup [ref=e809]:
+            - 'row "1 3 ID: 10 — 10" [ref=e810]':
+              - cell "1" [ref=e811]
+              - 'cell "3 ID: 10" [ref=e812]':
+                - strong [ref=e813]: "3"
+                - generic [ref=e814]: "ID: 10"
+              - cell "—" [ref=e815]
+              - cell "10" [ref=e816]:
+                - generic [ref=e817]: "10"
+              - cell [ref=e818]:
+                - button "Chỉnh sửa" [ref=e819] [cursor=pointer]:
+                  - img [ref=e821]
+                - button "Người dùng" [ref=e824] [cursor=pointer]:
+                  - img [ref=e826]
+                - button "Xóa" [ref=e830] [cursor=pointer]:
+                  - img [ref=e832]
+            - 'row "2 B ID: 5 — 3" [ref=e835]':
+              - cell "2" [ref=e836]
+              - 'cell "B ID: 5" [ref=e837]':
+                - strong [ref=e838]: B
+                - generic [ref=e839]: "ID: 5"
+              - cell "—" [ref=e840]
+              - cell "3" [ref=e841]:
+                - generic [ref=e842]: "3"
+              - cell [ref=e843]:
+                - button "Chỉnh sửa" [ref=e844] [cursor=pointer]:
+                  - img [ref=e846]
+                - button "Người dùng" [ref=e849] [cursor=pointer]:
+                  - img [ref=e851]
+                - button "Xóa" [ref=e855] [cursor=pointer]:
+                  - img [ref=e857]
+            - 'row "3 C ID: 8 — 1" [ref=e860]':
+              - cell "3" [ref=e861]
+              - 'cell "C ID: 8" [ref=e862]':
+                - strong [ref=e863]: C
+                - generic [ref=e864]: "ID: 8"
+              - cell "—" [ref=e865]
+              - cell "1" [ref=e866]:
+                - generic [ref=e867]: "1"
+              - cell [ref=e868]:
+                - button "Chỉnh sửa" [ref=e869] [cursor=pointer]:
+                  - img [ref=e871]
+                - button "Người dùng" [ref=e874] [cursor=pointer]:
+                  - img [ref=e876]
+                - button "Xóa" [ref=e880] [cursor=pointer]:
+                  - img [ref=e882]
+            - 'row "4 CT ID: 9 — 2" [ref=e885]':
+              - cell "4" [ref=e886]
+              - 'cell "CT ID: 9" [ref=e887]':
+                - strong [ref=e888]: CT
+                - generic [ref=e889]: "ID: 9"
+              - cell "—" [ref=e890]
+              - cell "2" [ref=e891]:
+                - generic [ref=e892]: "2"
+              - cell [ref=e893]:
+                - button "Chỉnh sửa" [ref=e894] [cursor=pointer]:
+                  - img [ref=e896]
+                - button "Người dùng" [ref=e899] [cursor=pointer]:
+                  - img [ref=e901]
+                - button "Xóa" [ref=e905] [cursor=pointer]:
+                  - img [ref=e907]
+            - 'row "5 CTM2 ID: 15 — 1" [ref=e910]':
+              - cell "5" [ref=e911]
+              - 'cell "CTM2 ID: 15" [ref=e912]':
+                - strong [ref=e913]: CTM2
+                - generic [ref=e914]: "ID: 15"
+              - cell "—" [ref=e915]
+              - cell "1" [ref=e916]:
+                - generic [ref=e917]: "1"
+              - cell [ref=e918]:
+                - button "Chỉnh sửa" [ref=e919] [cursor=pointer]:
+                  - img [ref=e921]
+                - button "Người dùng" [ref=e924] [cursor=pointer]:
+                  - img [ref=e926]
+                - button "Xóa" [ref=e930] [cursor=pointer]:
+                  - img [ref=e932]
+            - 'row "6 Chuyên viên KCHT ID: 2 Nhân viên quản lý KCHT 1" [ref=e935]':
+              - cell "6" [ref=e936]
+              - 'cell "Chuyên viên KCHT ID: 2" [ref=e937]':
+                - strong [ref=e938]: Chuyên viên KCHT
+                - generic [ref=e939]: "ID: 2"
+              - cell "Nhân viên quản lý KCHT" [ref=e940]
+              - cell "1" [ref=e941]:
+                - generic [ref=e942]: "1"
+              - cell [ref=e943]:
+                - button "Chỉnh sửa" [ref=e944] [cursor=pointer]:
+                  - img [ref=e946]
+                - button "Người dùng" [ref=e949] [cursor=pointer]:
+                  - img [ref=e951]
+                - button "Xóa" [ref=e955] [cursor=pointer]:
+                  - img [ref=e957]
+            - 'row "7 Nhóm B ID: 6 — 0" [ref=e960]':
+              - cell "7" [ref=e961]
+              - 'cell "Nhóm B ID: 6" [ref=e962]':
+                - strong [ref=e963]: Nhóm B
+                - generic [ref=e964]: "ID: 6"
+              - cell "—" [ref=e965]
+              - cell "0" [ref=e966]:
+                - generic [ref=e967]: "0"
+              - cell [ref=e968]:
+                - button "Chỉnh sửa" [ref=e969] [cursor=pointer]:
+                  - img [ref=e971]
+                - button "Người dùng" [ref=e974] [cursor=pointer]:
+                  - img [ref=e976]
+                - button "Xóa" [ref=e980] [cursor=pointer]:
+                  - img [ref=e982]
+            - 'row "8 Nhóm Y ID: 11 — 2" [ref=e985]':
+              - cell "8" [ref=e986]
+              - 'cell "Nhóm Y ID: 11" [ref=e987]':
+                - strong [ref=e988]: Nhóm Y
+                - generic [ref=e989]: "ID: 11"
+              - cell "—" [ref=e990]
+              - cell "2" [ref=e991]:
+                - generic [ref=e992]: "2"
+              - cell [ref=e993]:
+                - button "Chỉnh sửa" [ref=e994] [cursor=pointer]:
+                  - img [ref=e996]
+                - button "Người dùng" [ref=e999] [cursor=pointer]:
+                  - img [ref=e1001]
+                - button "Xóa" [ref=e1005] [cursor=pointer]:
+                  - img [ref=e1007]
+            - 'row "9 Nhóm. C ID: 12 — 2" [ref=e1010]':
+              - cell "9" [ref=e1011]
+              - 'cell "Nhóm. C ID: 12" [ref=e1012]':
+                - strong [ref=e1013]: Nhóm. C
+                - generic [ref=e1014]: "ID: 12"
+              - cell "—" [ref=e1015]
+              - cell "2" [ref=e1016]:
+                - generic [ref=e1017]: "2"
+              - cell [ref=e1018]:
+                - button "Chỉnh sửa" [ref=e1019] [cursor=pointer]:
+                  - img [ref=e1021]
+                - button "Người dùng" [ref=e1024] [cursor=pointer]:
+                  - img [ref=e1026]
+                - button "Xóa" [ref=e1030] [cursor=pointer]:
+                  - img [ref=e1032]
+            - 'row "10 Quản trị hệ thống ID: 1 Nhóm quản trị toàn hệ thống 0" [ref=e1035]':
+              - cell "10" [ref=e1036]
+              - 'cell "Quản trị hệ thống ID: 1" [ref=e1037]':
+                - strong [ref=e1038]: Quản trị hệ thống
+                - generic [ref=e1039]: "ID: 1"
+              - cell "Nhóm quản trị toàn hệ thống" [ref=e1040]
+              - cell "0" [ref=e1041]:
+                - generic [ref=e1042]: "0"
+              - cell [ref=e1043]:
+                - button "Chỉnh sửa" [ref=e1044] [cursor=pointer]:
+                  - img [ref=e1046]
+                - button "Người dùng" [ref=e1049] [cursor=pointer]:
+                  - img [ref=e1051]
+                - button "Xóa" [ref=e1055] [cursor=pointer]:
+                  - img [ref=e1057]
+            - 'row "11 Y ID: 13 — 2" [ref=e1060]':
+              - cell "11" [ref=e1061]
+              - 'cell "Y ID: 13" [ref=e1062]':
+                - strong [ref=e1063]: "Y"
+                - generic [ref=e1064]: "ID: 13"
+              - cell "—" [ref=e1065]
+              - cell "2" [ref=e1066]:
+                - generic [ref=e1067]: "2"
+              - cell [ref=e1068]:
+                - button "Chỉnh sửa" [ref=e1069] [cursor=pointer]:
+                  - img [ref=e1071]
+                - button "Người dùng" [ref=e1074] [cursor=pointer]:
+                  - img [ref=e1076]
+                - button "Xóa" [ref=e1080] [cursor=pointer]:
+                  - img [ref=e1082]
+            - 'row "12 YC ID: 14 — 2" [ref=e1085]':
+              - cell "12" [ref=e1086]
+              - 'cell "YC ID: 14" [ref=e1087]':
+                - strong [ref=e1088]: YC
+                - generic [ref=e1089]: "ID: 14"
+              - cell "—" [ref=e1090]
+              - cell "2" [ref=e1091]:
+                - generic [ref=e1092]: "2"
+              - cell [ref=e1093]:
+                - button "Chỉnh sửa" [ref=e1094] [cursor=pointer]:
+                  - img [ref=e1096]
+                - button "Người dùng" [ref=e1099] [cursor=pointer]:
+                  - img [ref=e1101]
+                - button "Xóa" [ref=e1105] [cursor=pointer]:
+                  - img [ref=e1107]
+            - 'row "13 YCN ID: 16 — 0" [ref=e1110]':
+              - cell "13" [ref=e1111]
+              - 'cell "YCN ID: 16" [ref=e1112]':
+                - strong [ref=e1113]: YCN
+                - generic [ref=e1114]: "ID: 16"
+              - cell "—" [ref=e1115]
+              - cell "0" [ref=e1116]:
+                - generic [ref=e1117]: "0"
+              - cell [ref=e1118]:
+                - button "Chỉnh sửa" [ref=e1119] [cursor=pointer]:
+                  - img [ref=e1121]
+                - button "Người dùng" [ref=e1124] [cursor=pointer]:
+                  - img [ref=e1126]
+                - button "Xóa" [ref=e1130] [cursor=pointer]:
+                  - img [ref=e1132]
+      - contentinfo [ref=e1135]: Hệ thống QL KCHT Hàng hải — Cục Hàng hải Việt Nam
+  - generic [ref=e1137]:
+    - generic [ref=e1138]:
+      - heading "Thêm người dùng — nhóm Quản trị hệ thống" [level=3] [ref=e1139]
+      - button "✕" [ref=e1140] [cursor=pointer]
+    - generic [ref=e1141]:
+      - generic [ref=e1142]:
+        - generic [ref=e1143]:
+          - generic [ref=e1144]: 🔍
+          - generic [ref=e1165]:
+            - text: Nguyễn Văn A
+            - button "Bỏ chọn Nguyễn Văn A" [ref=e1166] [cursor=pointer]: ×
+          - textbox "Tìm kiếm họ tên, username, email..." [active] [ref=e1145]
+        - button "Thêm người dùng đã chọn vào nhóm" [ref=e1146] [cursor=pointer]: Thêm vào nhóm
+      - table [ref=e1147]:
+        - rowgroup [ref=e1148]:
+          - row "ID Username Họ tên Email Vai trò Thao tác" [ref=e1149]:
+            - columnheader "ID" [ref=e1150]
+            - columnheader "Username" [ref=e1151]
+            - columnheader "Họ tên" [ref=e1152]
+            - columnheader "Email" [ref=e1153]
+            - columnheader "Vai trò" [ref=e1154]
+            - columnheader "Thao tác" [ref=e1155]
+        - rowgroup [ref=e1156]:
+          - row "Chưa có người dùng nào" [ref=e1157]:
+            - cell "Chưa có người dùng nào" [ref=e1158]

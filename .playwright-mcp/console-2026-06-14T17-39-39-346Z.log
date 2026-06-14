@@ -1,0 +1,12 @@
+[       7ms] [ERROR] Error: <path> attribute d: Expected number, "…2a4 4 0 0 0-4-4Ha". @ http://localhost:3000/js/app.js:198
+[       7ms] [ERROR] Error: <path> attribute d: Expected number, "…2a4 4 0 0 0-4-4Ha". @ http://localhost:3000/js/app.js:198
+[       7ms] [ERROR] Error: <path> attribute d: Expected number, "…2a4 4 0 0 0-4-4Ha". @ http://localhost:3000/js/app.js:198
+[       8ms] [ERROR] Error: <path> attribute d: Expected number, "…2a4 4 0 0 0-4-4Ha". @ http://localhost:3000/js/app.js:199
+[       8ms] [ERROR] Error: <path> attribute d: Expected number, "…2a4 4 0 0 0-4-4Ha". @ http://localhost:3000/js/app.js:199
+[       8ms] [ERROR] Error: <path> attribute d: Expected number, "…2a4 4 0 0 0-4-4Ha". @ http://localhost:3000/js/app.js:199
+[       8ms] [ERROR] Error: <path> attribute d: Expected number, "…2a4 4 0 0 0-4-4Ha". @ http://localhost:3000/js/app.js:199
+[ 1563867ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:3000/api/auth/login-log?limit=5&status=success:0
+[ 1563867ms] [ERROR] Dashboard activity load failed: TypeError: Failed to fetch
+    at apiGet (http://localhost:3000/js/api.js:70:21)
+    at Object.loadActivity (http://localhost:3000/js/screens/dashboard.js:332:26)
+    at http://localhost:3000/js/screens/dashboard.js:256:53 @ http://localhost:3000/js/screens/dashboard.js:379

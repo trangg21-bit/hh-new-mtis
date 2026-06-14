@@ -1,0 +1,376 @@
+- generic [active] [ref=e1]:
+  - link "Bỏ qua điều hướng" [ref=e2] [cursor=pointer]:
+    - /url: "#main-content"
+  - generic [ref=e3]:
+    - navigation "Menu chính" [ref=e602]:
+      - img "Cục Hàng hải Việt Nam" [ref=e604]
+      - navigation [ref=e605]:
+        - generic [ref=e606]:
+          - generic [ref=e608] [cursor=pointer]:
+            - img [ref=e609]
+            - text: Trang chủ
+          - link "Tổng quan" [ref=e612] [cursor=pointer]:
+            - /url: "#dashboard"
+            - img [ref=e614]
+            - generic [ref=e616]: Tổng quan
+        - generic [ref=e617]:
+          - generic [ref=e618] [cursor=pointer]:
+            - generic [ref=e619]:
+              - img [ref=e620]
+              - text: Quản lý người dùng
+            - generic [ref=e624]: ▼
+          - generic:
+            - link "Danh sách người dùng" [ref=e625] [cursor=pointer]:
+              - /url: "#users"
+              - img [ref=e627]
+              - generic [ref=e631]: Danh sách người dùng
+            - link "Nhóm người dùng" [ref=e632] [cursor=pointer]:
+              - /url: "#groups"
+              - img [ref=e634]
+              - generic [ref=e638]: Nhóm người dùng
+            - link "Phân quyền" [ref=e639] [cursor=pointer]:
+              - /url: "#permissions"
+              - img [ref=e641]
+              - generic [ref=e644]: Phân quyền
+            - link "Đơn vị" [ref=e645] [cursor=pointer]:
+              - /url: "#organizations"
+              - img [ref=e647]
+              - generic [ref=e652]: Đơn vị
+        - generic [ref=e653]:
+          - generic [ref=e655] [cursor=pointer]:
+            - img [ref=e656]
+            - text: Nhật ký & Phiên
+          - link "Nhật ký đăng nhập" [ref=e659] [cursor=pointer]:
+            - /url: "#login-log"
+            - img [ref=e661]
+            - generic [ref=e664]: Nhật ký đăng nhập
+        - generic [ref=e665]:
+          - generic [ref=e667] [cursor=pointer]:
+            - img [ref=e668]
+            - text: Quản trị hệ thống
+          - link "Tổng quan" [ref=e670] [cursor=pointer]:
+            - /url: "#dashboard"
+            - img [ref=e672]
+            - generic [ref=e674]: Tổng quan
+        - generic [ref=e675]:
+          - generic [ref=e677] [cursor=pointer]:
+            - img [ref=e678]
+            - text: Thông số kỹ thuật KCHT
+          - link "Thông số KCHT" [ref=e683] [cursor=pointer]:
+            - /url: "#dashboard"
+            - img [ref=e685]
+            - generic [ref=e690]: Thông số KCHT
+        - generic [ref=e691]:
+          - generic [ref=e693] [cursor=pointer]:
+            - img [ref=e694]
+            - text: Vận hành bảo trì
+          - link "Vận hành & bảo trì" [ref=e696] [cursor=pointer]:
+            - /url: "#dashboard"
+            - img [ref=e698]
+            - generic [ref=e700]: Vận hành & bảo trì
+        - generic [ref=e701]:
+          - generic [ref=e703] [cursor=pointer]:
+            - img [ref=e704]
+            - text: Quy hoạch KCHT
+          - link "Quy hoạch" [ref=e707] [cursor=pointer]:
+            - /url: "#dashboard"
+            - img [ref=e709]
+            - generic [ref=e712]: Quy hoạch
+        - generic [ref=e713]:
+          - generic [ref=e715] [cursor=pointer]:
+            - img [ref=e716]
+            - text: Quản lý tài sản
+          - link "Tài sản KCHT" [ref=e719] [cursor=pointer]:
+            - /url: "#dashboard"
+            - img [ref=e721]
+            - generic [ref=e724]: Tài sản KCHT
+        - generic [ref=e725]:
+          - generic [ref=e727] [cursor=pointer]:
+            - img [ref=e728]
+            - text: Bản đồ GIS
+          - link "Bản đồ GIS" [ref=e731] [cursor=pointer]:
+            - /url: "#dashboard"
+            - img [ref=e733]
+            - generic [ref=e736]: Bản đồ GIS
+        - generic [ref=e737]:
+          - generic [ref=e739] [cursor=pointer]:
+            - img [ref=e740]
+            - text: Báo cáo thống kê
+          - link "Báo cáo" [ref=e741] [cursor=pointer]:
+            - /url: "#dashboard"
+            - img [ref=e743]
+            - generic [ref=e744]: Báo cáo
+        - generic [ref=e745]:
+          - generic [ref=e747] [cursor=pointer]:
+            - img [ref=e748]
+            - text: Liên thông dữ liệu
+          - link "Liên thông" [ref=e751] [cursor=pointer]:
+            - /url: "#dashboard"
+            - img [ref=e753]
+            - generic [ref=e756]: Liên thông
+        - generic [ref=e757]:
+          - generic [ref=e759] [cursor=pointer]:
+            - img [ref=e760]
+            - text: Biên tập hải đồ
+          - link "Hải đồ" [ref=e763] [cursor=pointer]:
+            - /url: "#dashboard"
+            - img [ref=e765]
+            - generic [ref=e768]: Hải đồ
+        - generic [ref=e769]:
+          - generic [ref=e771] [cursor=pointer]:
+            - img [ref=e772]
+            - text: Tạo lập CSDL
+          - link "Tạo lập CSDL KCHT" [ref=e776] [cursor=pointer]:
+            - /url: "#dashboard"
+            - img [ref=e778]
+            - generic [ref=e782]: Tạo lập CSDL KCHT
+      - generic [ref=e783]: Cục Hàng hải Việt Nam
+    - generic [ref=e784]:
+      - banner [ref=e785]:
+        - generic [ref=e786]:
+          - strong [ref=e787]: HỆ THỐNG THÔNG TIN QUẢN LÝ KẾT CẤU HẠ TẦNG GIAO THÔNG HÀNG HẢI
+          - generic [ref=e788]: Cục Hàng hải Việt Nam
+        - generic [ref=e790] [cursor=pointer]:
+          - generic [ref=e791]: Nguyễn Văn A
+          - generic [ref=e792]: system-admin
+          - button "Menu người dùng" [ref=e793]: "N"
+      - generic [ref=e795]:
+        - generic [ref=e797]:
+          - generic [ref=e798]:
+            - heading "Hệ thống Quản lý KCHT Giao thông Hàng hải" [level=1] [ref=e799]:
+              - img [ref=e801]
+              - text: Hệ thống Quản lý KCHT Giao thông Hàng hải
+            - paragraph [ref=e803]: Cục Hàng hải Việt Nam
+            - paragraph [ref=e804]:
+              - text: Chào buổi sáng,
+              - strong [ref=e805]: Nguyễn Văn A
+          - generic [ref=e806]:
+            - generic [ref=e807]:
+              - generic [ref=e808]: Thứ hai, 15/06/2026
+              - generic [ref=e809]: 01:06:56
+            - generic [ref=e810]:
+              - generic [ref=e811]:
+                - generic [ref=e812]: "5"
+                - generic [ref=e813]: Người dùng
+              - generic [ref=e814]:
+                - generic [ref=e815]: "5"
+                - generic [ref=e816]: Phiên
+        - generic [ref=e817]:
+          - 'status "Tổng người dùng: 5" [ref=e818]':
+            - img [ref=e820]
+            - generic [ref=e824]:
+              - generic [ref=e825]: Tổng người dùng
+              - generic [ref=e826]: "5"
+              - generic [ref=e827]: Tất cả tài khoản
+          - 'status "Phiên đang hoạt động: 5" [ref=e828]':
+            - img [ref=e830]
+            - generic [ref=e832]:
+              - generic [ref=e833]: Phiên đang hoạt động
+              - generic [ref=e834]: "5"
+              - generic [ref=e835]: Đang đăng nhập
+          - 'status "Tài khoản bị khóa: 2" [ref=e836]':
+            - img [ref=e838]
+            - generic [ref=e841]:
+              - generic [ref=e842]: Tài khoản bị khóa
+              - generic [ref=e843]: "2"
+              - generic [ref=e844]: Cần xử lý
+          - 'status "Tổng số module: 11" [ref=e845]':
+            - img [ref=e847]
+            - generic [ref=e849]:
+              - generic [ref=e850]: Tổng số module
+              - generic [ref=e851]: "11"
+              - generic [ref=e852]: M01–M11
+          - 'status "Module đang chạy: 1" [ref=e853]':
+            - img [ref=e855]
+            - generic [ref=e858]:
+              - generic [ref=e859]: Module đang chạy
+              - generic [ref=e860]: "1"
+              - generic [ref=e861]: Hoạt động
+          - 'status "Yêu cầu chờ: 0" [ref=e862]':
+            - img [ref=e864]
+            - generic [ref=e866]:
+              - generic [ref=e867]: Yêu cầu chờ
+              - generic [ref=e868]: "0"
+              - generic [ref=e869]: Đang chờ duyệt
+        - generic [ref=e870]:
+          - generic [ref=e871]:
+            - generic [ref=e872]:
+              - heading "Lộ trình module" [level=2] [ref=e874]:
+                - img [ref=e876]
+                - text: Lộ trình module
+              - generic [ref=e878]:
+                - 'region "Module M01: Quản lý người dùng" [ref=e879] [cursor=pointer]':
+                  - generic [ref=e880]:
+                    - img [ref=e882]
+                    - generic [ref=e887]: Quản lý người dùng M01
+                  - generic [ref=e888]: Đăng ký, đăng nhập, phân quyền, bảo mật
+                  - generic [ref=e889]:
+                    - generic [ref=e890]: Đang hoạt động
+                    - generic [ref=e892]: 10 tính năng
+                  - link "Mở →" [ref=e893]:
+                    - /url: "#users"
+                - 'region "Module M02: Quản trị hệ thống" [ref=e894]':
+                  - generic [ref=e895]:
+                    - img [ref=e897]
+                    - generic [ref=e900]: Quản trị hệ thống M02
+                  - generic [ref=e901]: Quản lý đơn vị, cấu hình, phê duyệt, backup
+                  - generic [ref=e902]:
+                    - generic [ref=e903]: Chưa triển khai
+                    - generic [ref=e905]: 8 tính năng
+                - 'region "Module M03: Thông số kỹ thuật KCHT" [ref=e906]':
+                  - generic [ref=e907]:
+                    - img [ref=e909]
+                    - generic [ref=e915]: Thông số kỹ thuật KCHT M03
+                  - generic [ref=e916]: Cảng, bến, luồng, phao, đèn biển, đê chắn sóng
+                  - generic [ref=e917]:
+                    - generic [ref=e918]: Chưa triển khai
+                    - generic [ref=e920]: 26 tính năng
+                - 'region "Module M04: Vận hành bảo trì" [ref=e921]':
+                  - generic [ref=e922]:
+                    - img [ref=e924]
+                    - generic [ref=e927]: Vận hành bảo trì M04
+                  - generic [ref=e928]: Kế hoạch vận hành, bảo trì, sự cố, báo cáo
+                  - generic [ref=e929]:
+                    - generic [ref=e930]: Chưa triển khai
+                    - generic [ref=e932]: 8 tính năng
+                - 'region "Module M05: Quy hoạch KCHT" [ref=e933]':
+                  - generic [ref=e934]:
+                    - img [ref=e936]
+                    - generic [ref=e940]: Quy hoạch KCHT M05
+                  - generic [ref=e941]: Quy hoạch bến cảng, năng lực thông qua
+                  - generic [ref=e942]:
+                    - generic [ref=e943]: Chưa triển khai
+                    - generic [ref=e945]: 3 tính năng
+                - 'region "Module M06: Quản lý tài sản KCHT" [ref=e946]':
+                  - generic [ref=e947]:
+                    - img [ref=e949]
+                    - generic [ref=e953]: Quản lý tài sản KCHT M06
+                  - generic [ref=e954]: Tài sản cố định, khấu hao, thanh lý, kiểm kê
+                  - generic [ref=e955]:
+                    - generic [ref=e956]: Chưa triển khai
+                    - generic [ref=e958]: 14 tính năng
+                - 'region "Module M07: Bản đồ GIS KCHT" [ref=e959]':
+                  - generic [ref=e960]:
+                    - img [ref=e962]
+                    - generic [ref=e966]: Bản đồ GIS KCHT M07
+                  - generic [ref=e967]: Đối tượng điểm, đường, vùng trên bản đồ
+                  - generic [ref=e968]:
+                    - generic [ref=e969]: Chưa triển khai
+                    - generic [ref=e971]: 8 tính năng
+                - 'region "Module M08: Báo cáo thống kê" [ref=e972]':
+                  - generic [ref=e973]:
+                    - img [ref=e975]
+                    - generic [ref=e977]: Báo cáo thống kê M08
+                  - generic [ref=e978]: Báo cáo tài sản, thông số, sản lượng, an toàn
+                  - generic [ref=e979]:
+                    - generic [ref=e980]: Chưa triển khai
+                    - generic [ref=e982]: 8 tính năng
+                - 'region "Module M09: Liên thông dữ liệu" [ref=e983]':
+                  - generic [ref=e984]:
+                    - img [ref=e986]
+                    - generic [ref=e990]: Liên thông dữ liệu M09
+                  - generic [ref=e991]: Đồng bộ LGSP, NDXP, Web API, CSDL Bộ GTVT
+                  - generic [ref=e992]:
+                    - generic [ref=e993]: Chưa triển khai
+                    - generic [ref=e995]: 6 tính năng
+                - 'region "Module M10: Biên tập hải đồ" [ref=e996]':
+                  - generic [ref=e997]:
+                    - img [ref=e999]
+                    - generic [ref=e1003]: Biên tập hải đồ M10
+                  - generic [ref=e1004]: Import ENC S-57/S-63, biên tập, xuất bản hải đồ
+                  - generic [ref=e1005]:
+                    - generic [ref=e1006]: Chưa triển khai
+                    - generic [ref=e1008]: 10 tính năng
+                - 'region "Module M11: Tạo lập CSDL KCHT" [ref=e1009]':
+                  - generic [ref=e1010]:
+                    - img [ref=e1012]
+                    - generic [ref=e1017]: Tạo lập CSDL KCHT M11
+                  - generic [ref=e1018]: Số hóa dữ liệu, nhập liệu, đồng bộ CSDL MTIS
+                  - generic [ref=e1019]:
+                    - generic [ref=e1020]: Chưa triển khai
+                    - generic [ref=e1022]: 4 tính năng
+            - generic [ref=e1023]:
+              - heading "Truy cập nhanh" [level=2] [ref=e1024]:
+                - img [ref=e1026]
+                - text: Truy cập nhanh
+              - generic [ref=e1029]:
+                - button "Người dùng" [ref=e1030] [cursor=pointer]:
+                  - img [ref=e1032]
+                  - generic [ref=e1036]: Người dùng
+                - button "Nhóm" [ref=e1037] [cursor=pointer]:
+                  - img [ref=e1039]
+                  - generic [ref=e1043]: Nhóm
+                - button "Phân quyền" [ref=e1044] [cursor=pointer]:
+                  - img [ref=e1046]
+                  - generic [ref=e1049]: Phân quyền
+                - button "Nhật ký" [ref=e1050] [cursor=pointer]:
+                  - img [ref=e1052]
+                  - generic [ref=e1055]: Nhật ký
+                - button "Đơn vị" [ref=e1056] [cursor=pointer]:
+                  - img [ref=e1058]
+                  - generic [ref=e1063]: Đơn vị
+                - button "Phiên" [ref=e1064] [cursor=pointer]:
+                  - img [ref=e1066]
+                  - generic [ref=e1068]: Phiên
+                - button "Đổi mật khẩu" [ref=e1069] [cursor=pointer]:
+                  - img [ref=e1071]
+                  - generic [ref=e1074]: Đổi mật khẩu
+                - button "Báo cáo" [ref=e1075] [cursor=pointer]:
+                  - img [ref=e1077]
+                  - generic [ref=e1078]: Báo cáo
+            - generic [ref=e1079]:
+              - heading "Hoạt động gần đây" [level=2] [ref=e1080]:
+                - img [ref=e1082]
+                - text: Hoạt động gần đây
+              - generic [ref=e1087]:
+                - img [ref=e1089]
+                - paragraph [ref=e1092]: Đang tải...
+          - generic [ref=e1094]:
+            - generic [ref=e1095]:
+              - img [ref=e1097]
+              - text: Thông tin hệ thống
+            - generic [ref=e1099]:
+              - generic [ref=e1100]: Phiên bản
+              - generic [ref=e1101]: v2.0.0
+            - separator [ref=e1102]
+            - generic [ref=e1103]:
+              - generic [ref=e1104]: Ngày cập nhật
+              - generic [ref=e1105]: 13/06/2026
+            - separator [ref=e1106]
+            - generic [ref=e1107]:
+              - generic [ref=e1108]: Frontend
+              - generic [ref=e1109]: SPA (Vanilla JS)
+            - separator [ref=e1110]
+            - generic [ref=e1111]:
+              - generic [ref=e1112]: Modules
+              - generic [ref=e1113]: 1/11 active
+            - separator [ref=e1114]
+            - generic [ref=e1115]:
+              - generic [ref=e1116]: Backend API
+              - generic [ref=e1117]: 🟢 Online
+      - contentinfo [ref=e1118]: Hệ thống QL KCHT Hàng hải — Cục Hàng hải Việt Nam
+  - generic [ref=e522]:
+    - generic [ref=e523]:
+      - heading "Thêm người dùng — nhóm 3" [level=3] [ref=e524]
+      - button "✕" [ref=e525] [cursor=pointer]
+    - generic [ref=e526]:
+      - generic [ref=e527]:
+        - generic [ref=e528]:
+          - generic [ref=e529]: 🔍
+          - generic [ref=e531]:
+            - text: user_11
+            - button "Bỏ chọn user_11" [ref=e532] [cursor=pointer]: ×
+          - textbox "Tìm kiếm họ tên, username, email..." [ref=e533]
+        - button "Thêm người dùng đã chọn vào nhóm" [ref=e534] [cursor=pointer]: Thêm vào nhóm
+      - table [ref=e535]:
+        - rowgroup [ref=e536]:
+          - row "ID Username Họ tên Email Vai trò Thao tác" [ref=e537]:
+            - columnheader "ID" [ref=e538]
+            - columnheader "Username" [ref=e539]
+            - columnheader "Họ tên" [ref=e540]
+            - columnheader "Email" [ref=e541]
+            - columnheader "Vai trò" [ref=e542]
+            - columnheader "Thao tác" [ref=e543]
+        - rowgroup [ref=e544]:
+          - row "Chưa có người dùng nào" [ref=e545]:
+            - cell "Chưa có người dùng nào" [ref=e546]

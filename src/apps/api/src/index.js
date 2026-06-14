@@ -1,3 +1,15 @@
+// Load .env manually (no dotenv dependency)
+try {
+  const fs = require('fs'), path = require('path');
+  const envPath = path.join(__dirname, '..', '.env');
+  if (fs.existsSync(envPath)) {
+    fs.readFileSync(envPath, 'utf8').split('\n').forEach(line => {
+      const m = line.match(/^\s*([\w._-]+)\s*=\s*(.*?)\s*$/);
+      if (m && !process.env[m[1]]) process.env[m[1]] = m[2].replace(/^["']|["']$/g, '');
+    });
+  }
+} catch (e) { /* silent */ }
+
 const app = require('./app');
 const db = require('./db');
 const PORT = process.env.PORT || 3000;

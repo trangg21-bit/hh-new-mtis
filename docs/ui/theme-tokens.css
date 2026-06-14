@@ -12,6 +12,8 @@
   --color-primary-light: #eff8ff;
   --color-primary-light-end: #e0f2fe;
   --color-primary-ring: rgba(33, 83, 170, 0.12);
+  --color-primary-mid: #2563eb;
+  --color-lighter: #60a5fa;
 
   /* Neutrals */
   --color-body-bg: #f4f4f5;

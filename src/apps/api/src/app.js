@@ -1,4 +1,4 @@
-﻿const express = require('express');
+const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
 const path = require('path');
@@ -243,6 +243,8 @@ app.post('/api/admin/reset-db', authMiddleware, adminMiddleware, (req, res) => {
   const igp = db.prepare('INSERT INTO group_permissions (group_id, feature_code, can_create, can_read, can_update, can_delete) VALUES (?, ?, ?, ?, ?, ?)');
   fcs.forEach(fc => igp.run(1, fc, 1, 1, 1, 1));
   igp.run(3, 'login_log', 0, 1, 0, 0);
+  // Default permissions for group 2 (Chuyên viên) — all = 0
+  fcs.forEach(fc => igp.run(2, fc, 0, 0, 0, 0));
   db.exec('PRAGMA foreign_keys = ON');
   console.log('E2E reset-db completed');
   res.json({ ok: true });

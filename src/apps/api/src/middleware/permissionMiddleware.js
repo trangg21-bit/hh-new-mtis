@@ -53,10 +53,11 @@ function getUserPermissions(userId) {
         can_delete: 0
       };
     }
-    merged[r.feature_code].can_create = merged[r.feature_code].can_create || r.can_create;
-    merged[r.feature_code].can_read = merged[r.feature_code].can_read || r.can_read;
-    merged[r.feature_code].can_update = merged[r.feature_code].can_update || r.can_update;
-    merged[r.feature_code].can_delete = merged[r.feature_code].can_delete || r.can_delete;
+    // Use Math.max for proper union across multiple groups (union of permissions)
+    merged[r.feature_code].can_create = Math.max(merged[r.feature_code].can_create, r.can_create);
+    merged[r.feature_code].can_read = Math.max(merged[r.feature_code].can_read, r.can_read);
+    merged[r.feature_code].can_update = Math.max(merged[r.feature_code].can_update, r.can_update);
+    merged[r.feature_code].can_delete = Math.max(merged[r.feature_code].can_delete, r.can_delete);
   }
 
   return Object.values(merged);

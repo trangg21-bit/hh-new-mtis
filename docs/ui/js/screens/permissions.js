@@ -104,12 +104,19 @@ const SCREEN_PERMISSIONS = {
     if (!roleId) {
       document.getElementById('perms-group-code').value = '';
       document.getElementById('perms-tree-container').innerHTML = '<div class="text-center text-muted" style="padding:40px">Vui lòng chọn nhóm ở trên để phân quyền</div>';
+      this._selectedFeatures = [];
+      this._lastFilterKeyword = '';
+      if (document.getElementById('perms-search')) document.getElementById('perms-search').value = '';
       return;
     }
 
     this._currentRoleId = Number(roleId);
     const group = this._groups.find(g => g.id === Number(roleId));
     if (group) document.getElementById('perms-group-code').value = group.name.split(' ')[0] || 'GROUP_' + group.id;
+
+    // Clear search filter when role changes
+    this._lastFilterKeyword = '';
+    if (document.getElementById('perms-search')) document.getElementById('perms-search').value = '';
 
     // Load existing permissions for this role
     apiGet(`/api/permissions/role/${roleId}`).then(permData => {
@@ -168,14 +175,29 @@ const SCREEN_PERMISSIONS = {
   },
 
   /* ---------- Tree Rendering ---------- */
-  renderTree() {
+  renderTree(filterKeyword) {
     const container = document.getElementById('perms-tree-container');
     if (!container) return;
 
+    // If a filter keyword is provided, apply it
+    const keyword = (typeof filterKeyword === 'string') ? filterKeyword : (document.getElementById('perms-search')?.value || '').toLowerCase();
+    const nodesToRender = (keyword && keyword.length > 0) ? this._filterTreeNodes(this._featureTree, keyword) : this._featureTree;
+
     let html = '<ul class="perms-tree">';
-    html += this._renderNode(this._featureTree, 0);
+    html += this._renderNode(nodesToRender, 0);
     html += '</ul>';
     container.innerHTML = html;
+  },
+
+  _filterTreeNodes(nodes, keyword) {
+    return nodes.reduce((acc, node) => {
+      const match = node.name.toLowerCase().includes(keyword) || node.code.toLowerCase().includes(keyword);
+      const filteredChildren = node.children ? this._filterTreeNodes(node.children, keyword) : [];
+      if (match || filteredChildren.length > 0) {
+        acc.push({ ...node, children: filteredChildren });
+      }
+      return acc;
+    }, []);
   },
 
   _renderNode(nodes, depth) {
@@ -203,13 +225,13 @@ const SCREEN_PERMISSIONS = {
   /* ---------- Tree Logic ---------- */
   toggleParent(id, checked) {
     this._recursiveCheck(id, checked);
-    this.renderTree();
+    this.renderTree(this._lastFilterKeyword);
   },
 
   toggleFeature(id, checked) {
     this._updateSelection(id, checked);
     this._syncParent(id);
-    this.renderTree();
+    this.renderTree(this._lastFilterKeyword);
   },
 
   _recursiveCheck(id, checked) {
@@ -227,18 +249,26 @@ const SCREEN_PERMISSIONS = {
   },
 
   _syncParent(childId) {
-    const find = (nodes, parentId) => {
+    // Find parent by searching the tree, then move up recursively
+    const syncUp = (nodes) => {
       for (const node of nodes) {
-        if (node.children && node.children.some(c => c.id === childId)) {
-          const allChecked = node.children.every(c => this._selectedFeatures.includes(c.id));
-          this._updateSelection(node.id, allChecked);
-          find(nodes, node.id);
-          return;
+        if (node.children) {
+          // Check if direct child matches
+          if (node.children.some(c => c.id === childId)) {
+            // Found parent — sync its checked state
+            const allChecked = node.children.every(c => this._selectedFeatures.includes(c.id));
+            this._updateSelection(node.id, allChecked);
+            // Recurse up: the parent becomes the "child" to check
+            return syncUp(nodes);
+          }
+          // Not a direct parent — search deeper
+          const found = syncUp(node.children);
+          if (found) return true;
         }
-        if (node.children) find(node.children, childId);
       }
+      return false;
     };
-    find(this._featureTree, childId);
+    syncUp(this._featureTree);
   },
 
   _updateSelection(id, checked) {
@@ -250,25 +280,10 @@ const SCREEN_PERMISSIONS = {
   },
 
   filterTree() {
-    const keyword = document.getElementById('perms-search').value.toLowerCase();
-    if (!keyword) { this.renderTree(); return; }
-    const filter = (nodes) => {
-      return nodes.reduce((acc, node) => {
-        const match = node.name.toLowerCase().includes(keyword);
-        const filtered = node.children ? filter(node.children) : [];
-        if (match || filtered.length > 0) {
-          acc.push({ ...node, children: filtered });
-        }
-        return acc;
-      }, []);
-    };
-    const filtered = filter(this._featureTree);
-    const container = document.getElementById('perms-tree-container');
-    if (!container) return;
-    let html = '<ul class="perms-tree">';
-    html += this._renderNode(filtered, 0);
-    html += '</ul>';
-    container.innerHTML = html;
+    const input = document.getElementById('perms-search');
+    const keyword = input ? input.value.toLowerCase() : '';
+    this._lastFilterKeyword = keyword;
+    this.renderTree(keyword);
   },
 
   resetForm() {
@@ -278,6 +293,9 @@ const SCREEN_PERMISSIONS = {
       document.getElementById('perms-role-select').value = '';
       document.getElementById('perms-group-code').value = '';
       document.getElementById('perms-tree-container').innerHTML = '<div class="text-center text-muted" style="padding:40px">Vui lòng chọn nhóm ở trên để phân quyền</div>';
+      this._selectedFeatures = [];
+      this._lastFilterKeyword = '';
+      if (document.getElementById('perms-search')) document.getElementById('perms-search').value = '';
     }
   },
 

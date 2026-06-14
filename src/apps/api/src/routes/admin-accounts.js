@@ -23,7 +23,7 @@ router.post('/', (req, res) => {
   const hash = bcrypt.hashSync(password, 10);
   const info = db.prepare(
     'INSERT INTO users (username, password, full_name, email, phone, role, org_unit) VALUES (?, ?, ?, ?, ?, ?, ?)'
-  ).run(username, hash, full_name, email, phone, role || 'Chuyên viên', org_unit);
+  ).run(username, hash, full_name, email, phone, role || 'infrastructure-officer', org_unit);
   console.log(JSON.stringify({ event: 'created', entity: 'admin_account', id: info.lastInsertRowid }));
   res.status(201).json({ id: info.lastInsertRowid });
 });

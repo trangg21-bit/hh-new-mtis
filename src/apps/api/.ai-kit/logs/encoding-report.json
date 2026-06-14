@@ -1,0 +1,267 @@
+{
+  "timestamp": "2026-06-13T16:58:31.506Z",
+  "workspace": "/Users/thuytrang/workspace/HH.New/src/apps/api",
+  "scanDirectories": [
+    "src"
+  ],
+  "files": [
+    {
+      "file": "src/app.js",
+      "encoding": "utf-8",
+      "bom": false,
+      "issues": [],
+      "isCorrupt": false,
+      "sizeBytes": 15451,
+      "fixed": false
+    },
+    {
+      "file": "src/backup.js",
+      "encoding": "utf-8",
+      "bom": false,
+      "issues": [],
+      "isCorrupt": false,
+      "sizeBytes": 1767,
+      "fixed": false
+    },
+    {
+      "file": "src/db.js",
+      "encoding": "utf-8",
+      "bom": false,
+      "issues": [],
+      "isCorrupt": false,
+      "sizeBytes": 15079,
+      "fixed": false
+    },
+    {
+      "file": "src/index.js",
+      "encoding": "utf-8",
+      "bom": false,
+      "issues": [],
+      "isCorrupt": false,
+      "sizeBytes": 1744,
+      "fixed": false
+    },
+    {
+      "file": "src/middleware/adminMiddleware.js",
+      "encoding": "utf-8",
+      "bom": false,
+      "issues": [],
+      "isCorrupt": false,
+      "sizeBytes": 247,
+      "fixed": false
+    },
+    {
+      "file": "src/middleware/authMiddleware.js",
+      "encoding": "utf-8",
+      "bom": false,
+      "issues": [],
+      "isCorrupt": false,
+      "sizeBytes": 949,
+      "fixed": false
+    },
+    {
+      "file": "src/middleware/enforce-charset.js",
+      "encoding": "utf-8",
+      "bom": false,
+      "issues": [],
+      "isCorrupt": false,
+      "sizeBytes": 2066,
+      "fixed": false
+    },
+    {
+      "file": "src/middleware/permissionMiddleware.js",
+      "encoding": "utf-8",
+      "bom": false,
+      "issues": [],
+      "isCorrupt": false,
+      "sizeBytes": 2145,
+      "fixed": false
+    },
+    {
+      "file": "src/routes/admin-accounts.js",
+      "encoding": "utf-8",
+      "bom": false,
+      "issues": [],
+      "isCorrupt": false,
+      "sizeBytes": 3878,
+      "fixed": false
+    },
+    {
+      "file": "src/routes/approval.js",
+      "encoding": "utf-8",
+      "bom": false,
+      "issues": [],
+      "isCorrupt": false,
+      "sizeBytes": 3952,
+      "fixed": false
+    },
+    {
+      "file": "src/routes/audit-logs.js",
+      "encoding": "utf-8",
+      "bom": false,
+      "issues": [],
+      "isCorrupt": false,
+      "sizeBytes": 1361,
+      "fixed": false
+    },
+    {
+      "file": "src/routes/auth.js",
+      "encoding": "utf-8",
+      "bom": false,
+      "issues": [],
+      "isCorrupt": false,
+      "sizeBytes": 25479,
+      "fixed": false
+    },
+    {
+      "file": "src/routes/backup.js",
+      "encoding": "utf-8",
+      "bom": false,
+      "issues": [],
+      "isCorrupt": false,
+      "sizeBytes": 2218,
+      "fixed": false
+    },
+    {
+      "file": "src/routes/groups.js",
+      "encoding": "utf-8",
+      "bom": false,
+      "issues": [],
+      "isCorrupt": false,
+      "sizeBytes": 4959,
+      "fixed": false
+    },
+    {
+      "file": "src/routes/interconnect-configs.js",
+      "encoding": "utf-8",
+      "bom": false,
+      "issues": [],
+      "isCorrupt": false,
+      "sizeBytes": 3987,
+      "fixed": false
+    },
+    {
+      "file": "src/routes/organizations.js",
+      "encoding": "utf-8",
+      "bom": false,
+      "issues": [],
+      "isCorrupt": false,
+      "sizeBytes": 3837,
+      "fixed": false
+    },
+    {
+      "file": "src/routes/permission-policies.js",
+      "encoding": "utf-8",
+      "bom": false,
+      "issues": [],
+      "isCorrupt": false,
+      "sizeBytes": 1685,
+      "fixed": false
+    },
+    {
+      "file": "src/routes/permissions.js",
+      "encoding": "utf-8",
+      "bom": false,
+      "issues": [],
+      "isCorrupt": false,
+      "sizeBytes": 8161,
+      "fixed": false
+    },
+    {
+      "file": "src/routes/system-config.js",
+      "encoding": "utf-8",
+      "bom": false,
+      "issues": [],
+      "isCorrupt": false,
+      "sizeBytes": 2314,
+      "fixed": false
+    },
+    {
+      "file": "src/routes/units.js",
+      "encoding": "utf-8",
+      "bom": false,
+      "issues": [],
+      "isCorrupt": false,
+      "sizeBytes": 4669,
+      "fixed": false
+    },
+    {
+      "file": "src/routes/users.js",
+      "encoding": "utf-8",
+      "bom": false,
+      "issues": [],
+      "isCorrupt": false,
+      "sizeBytes": 11654,
+      "fixed": false
+    },
+    {
+      "file": "src/services/alertService.js",
+      "encoding": "utf-8",
+      "bom": false,
+      "issues": [],
+      "isCorrupt": false,
+      "sizeBytes": 3276,
+      "fixed": false
+    },
+    {
+      "file": "src/services/emailService.js",
+      "encoding": "utf-8",
+      "bom": false,
+      "issues": [],
+      "isCorrupt": false,
+      "sizeBytes": 2279,
+      "fixed": false
+    },
+    {
+      "file": "src/services/passwordService.js",
+      "encoding": "utf-8",
+      "bom": false,
+      "issues": [],
+      "isCorrupt": false,
+      "sizeBytes": 2566,
+      "fixed": false
+    },
+    {
+      "file": "src/services/rateLimiter.js",
+      "encoding": "utf-8",
+      "bom": false,
+      "issues": [],
+      "isCorrupt": false,
+      "sizeBytes": 1615,
+      "fixed": false
+    },
+    {
+      "file": "src/services/totpService.js",
+      "encoding": "utf-8",
+      "bom": false,
+      "issues": [],
+      "isCorrupt": false,
+      "sizeBytes": 2191,
+      "fixed": false
+    },
+    {
+      "file": "src/utils/jwt.js",
+      "encoding": "utf-8",
+      "bom": false,
+      "issues": [],
+      "isCorrupt": false,
+      "sizeBytes": 585,
+      "fixed": false
+    },
+    {
+      "file": "src/utils/validation.js",
+      "encoding": "utf-8",
+      "bom": false,
+      "issues": [],
+      "isCorrupt": false,
+      "sizeBytes": 871,
+      "fixed": false
+    }
+  ],
+  "summary": {
+    "total": 28,
+    "valid": 28,
+    "fixed": 0,
+    "errors": 0
+  }
+}

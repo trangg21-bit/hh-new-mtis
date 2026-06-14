@@ -26,6 +26,25 @@ function getCatalogFeatureCodes() {
   return _catalogCache;
 }
 
+// Default permission matrix for a new group: all features, all actions = 0
+function createDefaultPermissions(groupId, featureCodes) {
+  const insert = db.prepare(`
+    INSERT INTO group_permissions (group_id, feature_code, can_create, can_read, can_update, can_delete, updated_at)
+    VALUES (?, ?, 0, 0, 0, 0, datetime('now','localtime'))
+  `);
+  const upsertMany = db.transaction((items) => {
+    for (const item of items) {
+      insert.run(item.group_id, item.feature_code);
+    }
+  });
+  try {
+    const records = featureCodes.map(fc => ({ group_id: groupId, feature_code: fc }));
+    upsertMany(records);
+  } catch (e) {
+    console.error(JSON.stringify({ event: 'error', route: 'createDefaultPermissions', error: e.message }));
+  }
+}
+
 // GET /api/permissions — returns full permission matrix (groups × features)
 router.get('/', (req, res) => {
   const groups = db.prepare('SELECT id, name FROM user_groups ORDER BY name').all();
@@ -54,12 +73,36 @@ router.get('/', (req, res) => {
   res.json({ groups, matrix, feature_codes: featureCodes });
 });
 
-// PUT /api/permissions — batch update permission matrix
-router.put('/', (req, res) => {
-  const { permissions } = req.body;
-  if (!Array.isArray(permissions)) {
-    return res.status(400).json({ error: 'permissions phải là mảng' });
+// GET /api/permissions/role/:roleId — return feature_ids already assigned to a group
+router.get('/role/:roleId', (req, res) => {
+  const roleId = Number(req.params.roleId);
+  if (!roleId || isNaN(roleId)) {
+    return res.status(400).json({ error: 'roleId không hợp lệ' });
   }
+
+  const groupExists = db.prepare('SELECT id, name FROM user_groups WHERE id = ?').get(roleId);
+  if (!groupExists) {
+    return res.status(404).json({ error: 'Nhóm không tồn tại' });
+  }
+
+  const rows = db.prepare(`
+    SELECT gp.feature_code
+    FROM group_permissions gp
+    WHERE gp.group_id = ? AND (gp.can_create = 1 OR gp.can_read = 1 OR gp.can_update = 1 OR gp.can_delete = 1)
+    ORDER BY gp.feature_code
+  `).all(roleId);
+
+  const feature_ids = rows.map(r => r.feature_code);
+
+  res.json({ group: groupExists, feature_ids });
+});
+
+// PUT /api/permissions — batch update permission matrix
+// Supports two request body formats:
+//   (a) Legacy: { permissions: [{group_id, feature_code, can_create, can_read, can_update, can_delete}, ...] }
+//   (b) New:    { group_id, feature_ids: ['user', 'group', ...] } — auto-sets all actions = 1
+router.put('/', (req, res) => {
+  const body = req.body;
 
   const upsert = db.prepare(`
     INSERT INTO group_permissions (group_id, feature_code, can_create, can_read, can_update, can_delete, updated_at)
@@ -70,28 +113,70 @@ router.put('/', (req, res) => {
       updated_at = excluded.updated_at
   `);
 
-  const txn = db.transaction((items) => {
-    for (const p of items) {
-      const bit = (v) => v === true || v === 1 || v === '1' ? 1 : 0;
-      upsert.run(
-        Number(p.group_id),
-        String(p.feature_code),
-        bit(p.can_create),
-        bit(p.can_read),
-        bit(p.can_update),
-        bit(p.can_delete)
-      );
-    }
-  });
+  // Format (b): { group_id, feature_ids } — frontend tree-view format
+  if (body.group_id != null && Array.isArray(body.feature_ids)) {
+    const groupId = Number(body.group_id);
+    const featureIds = body.feature_ids;
 
-  try {
-    txn(permissions);
-    _catalogCache = null; // invalidate cache on permission change
-    res.json({ ok: true });
-  } catch (e) {
-    console.error(JSON.stringify({ event: 'error', route: 'PUT /api/permissions', error: e.message }));
-    res.status(500).json({ error: 'Lỗi máy chủ nội bộ' });
+    if (isNaN(groupId)) {
+      return res.status(400).json({ error: 'group_id không hợp lệ' });
+    }
+
+    const groupExists = db.prepare('SELECT id FROM user_groups WHERE id = ?').get(groupId);
+    if (!groupExists) {
+      return res.status(404).json({ error: 'Nhóm không tồn tại' });
+    }
+
+    const bit = 1; // auto-map all actions = 1 for each feature
+    const txn = db.transaction((items) => {
+      for (const fc of items) {
+        upsert.run(groupId, fc, bit, bit, bit, bit);
+      }
+    });
+
+    try {
+      txn(featureIds);
+      _catalogCache = null;
+      console.log(JSON.stringify({ event: 'updated', route: 'PUT /api/permissions', format: 'new', group_id: groupId, feature_count: featureIds.length }));
+      res.json({ ok: true });
+    } catch (e) {
+      console.error(JSON.stringify({ event: 'error', route: 'PUT /api/permissions', format: 'new', error: e.message }));
+      res.status(500).json({ error: 'Lỗi máy chủ nội bộ' });
+    }
+    return;
   }
+
+  // Format (a): { permissions: [...] } — legacy backend matrix format
+  if (Array.isArray(body.permissions)) {
+    const permissions = body.permissions;
+
+    const txn = db.transaction((items) => {
+      for (const p of items) {
+        const bit = (v) => v === true || v === 1 || v === '1' ? 1 : 0;
+        upsert.run(
+          Number(p.group_id),
+          String(p.feature_code),
+          bit(p.can_create),
+          bit(p.can_read),
+          bit(p.can_update),
+          bit(p.can_delete)
+        );
+      }
+    });
+
+    try {
+      txn(permissions);
+      _catalogCache = null; // invalidate cache on permission change
+      console.log(JSON.stringify({ event: 'updated', route: 'PUT /api/permissions', format: 'legacy', count: permissions.length }));
+      res.json({ ok: true });
+    } catch (e) {
+      console.error(JSON.stringify({ event: 'error', route: 'PUT /api/permissions', format: 'legacy', error: e.message }));
+      res.status(500).json({ error: 'Lỗi máy chủ nội bộ' });
+    }
+    return;
+  }
+
+  return res.status(400).json({ error: 'Thiếu định dạng request. Dùng { group_id, feature_ids } hoặc { permissions: [...] }' });
 });
 
 // GET /api/permissions/check — check user permission for a feature+action (auth required)

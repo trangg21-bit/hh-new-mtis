@@ -209,6 +209,12 @@ const ROUTER = {
       // Use small delay to ensure DOM is ready
       setTimeout(() => route.screen.afterRender(), 0);
     }
+
+    // Cleanup hook for previous screen
+    if (this._currentScreen && this._currentScreen.destroy) {
+      this._currentScreen.destroy();
+    }
+    this._currentScreen = route.screen;
   },
 
   _renderShell() {

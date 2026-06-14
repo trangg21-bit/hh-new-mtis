@@ -1,4 +1,4 @@
-﻿const express = require('express');
+const express = require('express');
 const crypto = require('crypto');
 const rateLimit = require('express-rate-limit');
 const db = require('../db');

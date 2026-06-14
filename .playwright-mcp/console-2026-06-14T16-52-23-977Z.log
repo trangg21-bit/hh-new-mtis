@@ -1,0 +1,45 @@
+[      49ms] [INFO] Autofocus processing was blocked because a document already has a focused element. @ http://localhost:3000/#login:0
+[   32707ms] [ERROR] Error: <path> attribute d: Expected number, "…2a4 4 0 0 0-4-4Ha". @ http://localhost:3000/js/app.js:198
+[   32707ms] [ERROR] Error: <path> attribute d: Expected number, "…2a4 4 0 0 0-4-4Ha". @ http://localhost:3000/js/app.js:198
+[   32707ms] [ERROR] Error: <path> attribute d: Expected number, "…2a4 4 0 0 0-4-4Ha". @ http://localhost:3000/js/app.js:198
+[   32707ms] [ERROR] Error: <path> attribute d: Expected number, "…2a4 4 0 0 0-4-4Ha". @ http://localhost:3000/js/app.js:199
+[   32708ms] [ERROR] Error: <path> attribute d: Expected number, "…2a4 4 0 0 0-4-4Ha". @ http://localhost:3000/js/app.js:199
+[   32708ms] [ERROR] Error: <path> attribute d: Expected number, "…2a4 4 0 0 0-4-4Ha". @ http://localhost:3000/js/app.js:199
+[   32708ms] [ERROR] Error: <path> attribute d: Expected number, "…2a4 4 0 0 0-4-4Ha". @ http://localhost:3000/js/app.js:199
+[  310963ms] [ERROR] Error: <path> attribute d: Expected number, "…2a4 4 0 0 0-4-4Ha". @ http://localhost:3000/js/app.js:198
+[  310963ms] [ERROR] Error: <path> attribute d: Expected number, "…2a4 4 0 0 0-4-4Ha". @ http://localhost:3000/js/app.js:198
+[  310963ms] [ERROR] Error: <path> attribute d: Expected number, "…2a4 4 0 0 0-4-4Ha". @ http://localhost:3000/js/app.js:198
+[  310976ms] [ERROR] Error: <path> attribute d: Expected number, "…2a4 4 0 0 0-4-4Ha". @ http://localhost:3000/js/screens/groups.js:52
+[  310976ms] [ERROR] Error: <path> attribute d: Expected number, "…2a4 4 0 0 0-4-4Ha". @ http://localhost:3000/js/screens/groups.js:52
+[  310976ms] [ERROR] Error: <path> attribute d: Expected number, "…2a4 4 0 0 0-4-4Ha". @ http://localhost:3000/js/screens/groups.js:52
+[  310976ms] [ERROR] Error: <path> attribute d: Expected number, "…2a4 4 0 0 0-4-4Ha". @ http://localhost:3000/js/screens/groups.js:52
+[  310976ms] [ERROR] Error: <path> attribute d: Expected number, "…2a4 4 0 0 0-4-4Ha". @ http://localhost:3000/js/screens/groups.js:52
+[  310976ms] [ERROR] Error: <path> attribute d: Expected number, "…2a4 4 0 0 0-4-4Ha". @ http://localhost:3000/js/screens/groups.js:52
+[  310976ms] [ERROR] Error: <path> attribute d: Expected number, "…2a4 4 0 0 0-4-4Ha". @ http://localhost:3000/js/screens/groups.js:52
+[  310976ms] [ERROR] Error: <path> attribute d: Expected number, "…2a4 4 0 0 0-4-4Ha". @ http://localhost:3000/js/screens/groups.js:52
+[  310976ms] [ERROR] Error: <path> attribute d: Expected number, "…2a4 4 0 0 0-4-4Ha". @ http://localhost:3000/js/screens/groups.js:52
+[  310976ms] [ERROR] Error: <path> attribute d: Expected number, "…2a4 4 0 0 0-4-4Ha". @ http://localhost:3000/js/screens/groups.js:52
+[  310976ms] [ERROR] Error: <path> attribute d: Expected number, "…2a4 4 0 0 0-4-4Ha". @ http://localhost:3000/js/screens/groups.js:52
+[  310976ms] [ERROR] Error: <path> attribute d: Expected number, "…2a4 4 0 0 0-4-4Ha". @ http://localhost:3000/js/screens/groups.js:52
+[  310976ms] [ERROR] Error: <path> attribute d: Expected number, "…2a4 4 0 0 0-4-4Ha". @ http://localhost:3000/js/screens/groups.js:52
+[  372254ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/api/users/groups/1/members:0
+[  599685ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/api/users/groups/1/members:0
+[  599688ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/api/users/groups/1/members:0
+[ 2682879ms] [ERROR] Error: <path> attribute d: Expected number, "…2a4 4 0 0 0-4-4Ha". @ http://localhost:3000/js/app.js:198
+[ 2682879ms] [ERROR] Error: <path> attribute d: Expected number, "…2a4 4 0 0 0-4-4Ha". @ http://localhost:3000/js/app.js:198
+[ 2682880ms] [ERROR] Error: <path> attribute d: Expected number, "…2a4 4 0 0 0-4-4Ha". @ http://localhost:3000/js/app.js:198
+[ 2682885ms] [ERROR] Error: <path> attribute d: Expected number, "…2a4 4 0 0 0-4-4Ha". @ http://localhost:3000/js/screens/groups.js:52
+[ 2682885ms] [ERROR] Error: <path> attribute d: Expected number, "…2a4 4 0 0 0-4-4Ha". @ http://localhost:3000/js/screens/groups.js:52
+[ 2682885ms] [ERROR] Error: <path> attribute d: Expected number, "…2a4 4 0 0 0-4-4Ha". @ http://localhost:3000/js/screens/groups.js:52
+[ 2682885ms] [ERROR] Error: <path> attribute d: Expected number, "…2a4 4 0 0 0-4-4Ha". @ http://localhost:3000/js/screens/groups.js:52
+[ 2682885ms] [ERROR] Error: <path> attribute d: Expected number, "…2a4 4 0 0 0-4-4Ha". @ http://localhost:3000/js/screens/groups.js:52
+[ 2682885ms] [ERROR] Error: <path> attribute d: Expected number, "…2a4 4 0 0 0-4-4Ha". @ http://localhost:3000/js/screens/groups.js:52
+[ 2682885ms] [ERROR] Error: <path> attribute d: Expected number, "…2a4 4 0 0 0-4-4Ha". @ http://localhost:3000/js/screens/groups.js:52
+[ 2682885ms] [ERROR] Error: <path> attribute d: Expected number, "…2a4 4 0 0 0-4-4Ha". @ http://localhost:3000/js/screens/groups.js:52
+[ 2682885ms] [ERROR] Error: <path> attribute d: Expected number, "…2a4 4 0 0 0-4-4Ha". @ http://localhost:3000/js/screens/groups.js:52
+[ 2682885ms] [ERROR] Error: <path> attribute d: Expected number, "…2a4 4 0 0 0-4-4Ha". @ http://localhost:3000/js/screens/groups.js:52
+[ 2682885ms] [ERROR] Error: <path> attribute d: Expected number, "…2a4 4 0 0 0-4-4Ha". @ http://localhost:3000/js/screens/groups.js:52
+[ 2682885ms] [ERROR] Error: <path> attribute d: Expected number, "…2a4 4 0 0 0-4-4Ha". @ http://localhost:3000/js/screens/groups.js:52
+[ 2682885ms] [ERROR] Error: <path> attribute d: Expected number, "…2a4 4 0 0 0-4-4Ha". @ http://localhost:3000/js/screens/groups.js:52
+[ 2684930ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/api/users/groups/10/members:0
+[ 2688522ms] [ERROR] Failed to load resource: the server responded with a status of 409 (Conflict) @ http://localhost:3000/api/users/groups/10/members:0
